@@ -56,8 +56,12 @@ parse_file (const char *filename, FILE *f)
       string_t *str =
 	string_t_canonical_from_str_len (line_buffer, nread, errloc);
 
+      char *s;
+      size_t n;
+      str_len_from_string_t (str, &s, &n);
       printf ("%06zu ", line_no);
-      fwrite (line_buffer, nread, sizeof (char), stdout);
+      fwrite (s, n, sizeof (char), stdout);
+      free (s);
 
       string_t_free (str);
       nread = getline (&line_buffer, &line_buffer_size, f);

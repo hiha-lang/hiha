@@ -141,6 +141,20 @@ string_t_canonicalize (const string_t *src,
   return result;
 }
 
+void
+str_len_from_string_t (const string_t *src, char **s, size_t *n)
+{
+  *s = u32_conv_to_encoding (locale_charset (),
+			     iconveh_replacement_character, src->s,
+			     src->n, NULL, NULL, n);
+  int err_number = errno;
+  if (*s == NULL)
+    {
+      error (exit_failure, err_number, "%s %d", _("error number"),
+	     err_number);
+    }
+}
+
 /*
   local variables:
   mode: c

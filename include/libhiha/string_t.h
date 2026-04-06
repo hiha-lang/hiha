@@ -77,6 +77,8 @@ string_t *string_t_from_str_len (const char *src, size_t srclen,
 string_t *string_t_canonicalize (const string_t *src,
 				 error_location_reporter_t errloc);
 
+void str_len_from_string_t (const string_t *src, char **s, size_t *n);
+
 /*
   local variables:
   mode: c

@@ -48,50 +48,96 @@ AC_DEFUN([gl_EARLY],
   # Code from module array-mergesort:
   # Code from module assert-h:
   # Code from module attribute:
+  # Code from module basename-lgpl:
   # Code from module bool:
   # Code from module c-ctype:
   # Code from module c-strcasecmp:
   # Code from module c-strcaseeq:
   # Code from module c99:
+  # Code from module calloc-gnu:
+  # Code from module calloc-posix:
+  # Code from module cloexec:
+  # Code from module close:
+  # Code from module double-slash-root:
+  # Code from module dup2:
+  # Code from module errno-h:
+  # Code from module error:
+  # Code from module error-h:
+  # Code from module exitfail:
   # Code from module extensions:
   # This is actually already done in the pre-early phase.
   # AC_REQUIRE([gl_USE_SYSTEM_EXTENSIONS])
   # Code from module extensions-aix:
   AC_REQUIRE([gl_USE_AIX_EXTENSIONS])
   # Code from module extern-inline:
+  # Code from module fcntl:
   # Code from module fcntl-h:
+  # Code from module fd-hook:
+  # Code from module filename:
   # Code from module free-posix:
+  # Code from module fseterr:
+  # Code from module fstat:
   # Code from module gen-header:
+  # Code from module getdelim:
+  # Code from module getdtablesize:
+  # Code from module getline:
+  # Code from module getprogname:
+  # Code from module gettext-h:
+  # Code from module gnulib-i18n:
   # Code from module gperf:
   # Code from module havelib:
+  # Code from module ialloc:
   # Code from module iconv:
   # Code from module iconv-h:
   # Code from module iconv_open:
   # Code from module idx:
   # Code from module include_next:
   # Code from module inline:
+  # Code from module intprops:
   # Code from module inttypes-h-incomplete:
+  # Code from module largefile:
+  AC_REQUIRE([AC_SYS_LARGEFILE])
   # Code from module limits-h:
   # Code from module localcharset:
+  # Code from module locale-h:
+  # Code from module lstat:
+  # Code from module malloc-gnu:
+  # Code from module malloc-posix:
   # Code from module malloca:
   # Code from module memcmp2:
+  # Code from module minmax:
+  # Code from module msvc-inval:
+  # Code from module msvc-nothrow:
   # Code from module multiarch:
+  # Code from module open:
+  # Code from module pathmax:
+  # Code from module progname:
+  # Code from module realloc-posix:
+  # Code from module reallocarray:
   # Code from module snippet/_Noreturn:
   # Code from module snippet/arg-nonnull:
   # Code from module snippet/c++defs:
   # Code from module snippet/warn-on-use:
   # Code from module ssize_t:
+  # Code from module stat:
+  # Code from module stat-time:
   # Code from module std-gnu11:
   # Code from module stdckdint-h:
   # Code from module stddef-h:
   # Code from module stdint-h:
+  # Code from module stdio-h:
+  gl_STDIO_H_EARLY
   # Code from module stdlib-h:
+  # Code from module strerror:
+  # Code from module strerror-override:
   # Code from module striconveh:
   # Code from module striconveha:
   # Code from module string-h:
   # Code from module stringeq:
+  # Code from module sys_stat-h:
   # Code from module sys_types-h:
   AC_REQUIRE([AC_USE_SYSTEM_EXTENSIONS])
+  # Code from module time-h:
   # Code from module unicase/base:
   # Code from module unicase/cased:
   # Code from module unicase/empty-prefix-context:
@@ -114,9 +160,11 @@ AC_DEFUN([gl_EARLY],
   # Code from module unictype/property-soft-dotted:
   # Code from module uninorm/base:
   # Code from module uninorm/canonical-decomposition:
+  # Code from module uninorm/composition:
   # Code from module uninorm/decompose-internal:
   # Code from module uninorm/decomposing-form:
   # Code from module uninorm/decomposition-table:
+  # Code from module uninorm/nfc:
   # Code from module uninorm/nfd:
   # Code from module uninorm/u32-normalize:
   # Code from module unistd-h:
@@ -136,7 +184,10 @@ AC_DEFUN([gl_EARLY],
   # Code from module unistr/u8-to-u32:
   # Code from module unistr/u8-uctomb:
   # Code from module unitypes-h:
+  # Code from module vararrays:
   # Code from module wchar-h:
+  # Code from module xalloc:
+  # Code from module xalloc-die:
   # Code from module xalloc-oversized:
 ])
 
@@ -167,7 +218,47 @@ AC_DEFUN([gl_INIT],
   gl_CONDITIONAL_HEADER([assert.h])
   AC_PROG_MKDIR_P
   gl_C_BOOL
+  gl_FUNC_CALLOC_GNU
+  if test $REPLACE_CALLOC_FOR_CALLOC_GNU = 1; then
+    AC_LIBOBJ([calloc])
+  fi
+  gl_STDLIB_MODULE_INDICATOR([calloc-gnu])
+  gl_FUNC_CALLOC_POSIX
+  if test $REPLACE_CALLOC_FOR_CALLOC_POSIX = 1; then
+    AC_LIBOBJ([calloc])
+  fi
+  gl_STDLIB_MODULE_INDICATOR([calloc-posix])
+  gl_MODULE_INDICATOR_FOR_TESTS([cloexec])
+  gl_FUNC_CLOSE
+  gl_CONDITIONAL([GL_COND_OBJ_CLOSE], [test $REPLACE_CLOSE = 1])
+  gl_UNISTD_MODULE_INDICATOR([close])
+  gl_MODULE_INDICATOR([close])
+  gl_DOUBLE_SLASH_ROOT
+  gl_FUNC_DUP2
+  gl_CONDITIONAL([GL_COND_OBJ_DUP2], [test $REPLACE_DUP2 = 1])
+  AM_COND_IF([GL_COND_OBJ_DUP2], [
+    gl_PREREQ_DUP2
+  ])
+  gl_UNISTD_MODULE_INDICATOR([dup2])
+  gl_HEADER_ERRNO_H
+  gl_CONDITIONAL_HEADER([errno.h])
+  AC_PROG_MKDIR_P
+  AC_REQUIRE([gl_ERROR_H])
+  gl_ERROR
+  gl_CONDITIONAL([GL_COND_OBJ_ERROR], [test $COMPILE_ERROR_C = 1])
+  AM_COND_IF([GL_COND_OBJ_ERROR], [
+    gl_PREREQ_ERROR
+  ])
+  m4_ifdef([AM_XGETTEXT_OPTION],
+    [AM_][XGETTEXT_OPTION([--flag=error:3:c-format])
+     AM_][XGETTEXT_OPTION([--flag=error_at_line:5:c-format])])
+  gl_ERROR_H
+  AC_PROG_MKDIR_P
   AC_REQUIRE([gl_EXTERN_INLINE])
+  gl_FUNC_FCNTL
+  gl_CONDITIONAL([GL_COND_OBJ_FCNTL],
+                 [test $HAVE_FCNTL = 0 || test $REPLACE_FCNTL = 1])
+  gl_FCNTL_MODULE_INDICATOR([fcntl])
   gl_FCNTL_H
   gl_FCNTL_H_REQUIRE_DEFAULTS
   AC_PROG_MKDIR_P
@@ -177,6 +268,50 @@ AC_DEFUN([gl_INIT],
     gl_PREREQ_FREE
   ])
   gl_STDLIB_MODULE_INDICATOR([free-posix])
+  gl_FUNC_FSETERR
+  gl_CONDITIONAL([GL_COND_OBJ_FSETERR], [test $ac_cv_func___fseterr = no])
+  gl_FUNC_FSTAT
+  gl_CONDITIONAL([GL_COND_OBJ_FSTAT], [test $REPLACE_FSTAT = 1])
+  AM_COND_IF([GL_COND_OBJ_FSTAT], [
+    case "$host_os" in
+      mingw* | windows*)
+        AC_LIBOBJ([stat-w32])
+        ;;
+    esac
+    gl_PREREQ_FSTAT
+  ])
+  gl_SYS_STAT_MODULE_INDICATOR([fstat])
+  gl_MODULE_INDICATOR([fstat])
+  gl_FUNC_GETDELIM
+  gl_CONDITIONAL([GL_COND_OBJ_GETDELIM],
+                 [test $HAVE_GETDELIM = 0 || test $REPLACE_GETDELIM = 1])
+  AM_COND_IF([GL_COND_OBJ_GETDELIM], [
+    gl_PREREQ_GETDELIM
+  ])
+  gl_STDIO_MODULE_INDICATOR([getdelim])
+  gl_FUNC_GETDTABLESIZE
+  gl_CONDITIONAL([GL_COND_OBJ_GETDTABLESIZE],
+                 [test $HAVE_GETDTABLESIZE = 0 || test $REPLACE_GETDTABLESIZE = 1])
+  AM_COND_IF([GL_COND_OBJ_GETDTABLESIZE], [
+    gl_PREREQ_GETDTABLESIZE
+  ])
+  gl_UNISTD_MODULE_INDICATOR([getdtablesize])
+  gl_FUNC_GETLINE
+  gl_CONDITIONAL([GL_COND_OBJ_GETLINE], [test $REPLACE_GETLINE = 1])
+  AM_COND_IF([GL_COND_OBJ_GETLINE], [
+    gl_PREREQ_GETLINE
+  ])
+  gl_STDIO_MODULE_INDICATOR([getline])
+  AC_REQUIRE([AC_CANONICAL_HOST])
+  gl_FUNC_GETPROGNAME
+  gl_CONDITIONAL([GL_COND_OBJ_GETPROGNAME],
+                 [test $HAVE_GETPROGNAME = 0 || test $REPLACE_GETPROGNAME = 1])
+  AM_COND_IF([GL_COND_OBJ_GETPROGNAME], [
+    gl_PREREQ_GETPROGNAME
+  ])
+  gl_STDLIB_MODULE_INDICATOR([getprogname])
+  gl_GETTEXT_H
+  GNULIB_I18N
   AC_DEFUN([gl_HAVE_MODULE_HAVELIB])
   AM_ICONV
   m4_ifdef([gl_ICONV_MODULE_INDICATOR],
@@ -194,6 +329,7 @@ AC_DEFUN([gl_INIT],
   gl_INTTYPES_INCOMPLETE
   gl_INTTYPES_H_REQUIRE_DEFAULTS
   AC_PROG_MKDIR_P
+  AC_REQUIRE([gl_LARGEFILE])
   gl_LIMITS_H
   gl_CONDITIONAL_HEADER([limits.h])
   AC_PROG_MKDIR_P
@@ -201,9 +337,73 @@ AC_DEFUN([gl_INIT],
   dnl For backward compatibility. Some packages still use this.
   LOCALCHARSET_TESTS_ENVIRONMENT=
   AC_SUBST([LOCALCHARSET_TESTS_ENVIRONMENT])
+  gl_LOCALE_H
+  gl_LOCALE_H_REQUIRE_DEFAULTS
+  AC_PROG_MKDIR_P
+  gl_FUNC_LSTAT
+  gl_CONDITIONAL([GL_COND_OBJ_LSTAT], [test $REPLACE_LSTAT = 1])
+  AM_COND_IF([GL_COND_OBJ_LSTAT], [
+    gl_PREREQ_LSTAT
+  ])
+  gl_SYS_STAT_MODULE_INDICATOR([lstat])
+  gl_MODULE_INDICATOR([lstat])
+  gl_FUNC_MALLOC_GNU
+  if test $REPLACE_MALLOC_FOR_MALLOC_GNU = 1; then
+    AC_LIBOBJ([malloc])
+  fi
+  gl_STDLIB_MODULE_INDICATOR([malloc-gnu])
+  AC_REQUIRE([gl_FUNC_MALLOC_POSIX])
+  if test $REPLACE_MALLOC_FOR_MALLOC_POSIX = 1; then
+    AC_LIBOBJ([malloc])
+  fi
+  gl_STDLIB_MODULE_INDICATOR([malloc-posix])
   gl_MALLOCA
+  gl_MINMAX
+  AC_REQUIRE([gl_MSVC_INVAL])
+  gl_CONDITIONAL([GL_COND_OBJ_MSVC_INVAL],
+                 [test $HAVE_MSVC_INVALID_PARAMETER_HANDLER = 1])
+  AC_REQUIRE([gl_MSVC_NOTHROW])
+  gl_CONDITIONAL([GL_COND_OBJ_MSVC_NOTHROW],
+                 [test $HAVE_MSVC_INVALID_PARAMETER_HANDLER = 1])
+  gl_MODULE_INDICATOR([msvc-nothrow])
   gl_MULTIARCH
+  gl_FUNC_OPEN
+  gl_CONDITIONAL([GL_COND_OBJ_OPEN], [test $REPLACE_OPEN = 1])
+  AM_COND_IF([GL_COND_OBJ_OPEN], [
+    gl_PREREQ_OPEN
+  ])
+  gl_FCNTL_MODULE_INDICATOR([open])
+  gl_PATHMAX
+  AC_CHECK_DECLS([program_invocation_name], [], [], [#include <errno.h>])
+  AC_CHECK_DECLS([program_invocation_short_name], [], [], [#include <errno.h>])
+  gl_FUNC_REALLOC_POSIX
+  gl_FUNC_REALLOC_0_NONNULL
+  gl_CONDITIONAL([GL_COND_OBJ_REALLOC_POSIX],
+                 [test $REPLACE_REALLOC_FOR_REALLOC_POSIX != 0])
+  gl_STDLIB_MODULE_INDICATOR([realloc-posix])
+  gl_FUNC_REALLOCARRAY
+  gl_CONDITIONAL([GL_COND_OBJ_REALLOCARRAY],
+                 [test $HAVE_REALLOCARRAY = 0 || test $REPLACE_REALLOCARRAY = 1])
+  AM_COND_IF([GL_COND_OBJ_REALLOCARRAY], [
+    gl_PREREQ_REALLOCARRAY
+  ])
+  gl_MODULE_INDICATOR([reallocarray])
+  gl_STDLIB_MODULE_INDICATOR([reallocarray])
   gt_TYPE_SSIZE_T
+  gl_FUNC_STAT
+  gl_CONDITIONAL([GL_COND_OBJ_STAT], [test $REPLACE_STAT = 1])
+  AM_COND_IF([GL_COND_OBJ_STAT], [
+    case "$host_os" in
+      mingw* | windows*)
+        AC_LIBOBJ([stat-w32])
+        ;;
+    esac
+    gl_PREREQ_STAT
+  ])
+  gl_SYS_STAT_MODULE_INDICATOR([stat])
+  gl_MODULE_INDICATOR([stat])
+  gl_STAT_TIME
+  gl_STAT_BIRTHTIME
   gl_STDCKDINT_H
   gl_CONDITIONAL_HEADER([stdckdint.h])
   AC_PROG_MKDIR_P
@@ -216,9 +416,60 @@ AC_DEFUN([gl_INIT],
   dnl Because of gl_REPLACE_LIMITS_H:
   gl_CONDITIONAL_HEADER([limits.h])
   AC_PROG_MKDIR_P
+  gl_STDIO_H
+  gl_STDIO_H_REQUIRE_DEFAULTS
+  AC_PROG_MKDIR_P
+  USES_MSVCRT=0
+  case "$host_os" in
+    mingw* | windows*)
+      AC_EGREP_CPP([Special], [
+  #ifndef _UCRT
+   Special
+  #endif
+        ],
+        [USES_MSVCRT=1])
+      ;;
+  esac
+  gl_CONDITIONAL([GL_COND_OBJ_STDIO_CONSOLESAFE], [test $USES_MSVCRT = 1])
+  gl_CONDITIONAL([GL_COND_OBJ_STDIO_READ], [test $REPLACE_STDIO_READ_FUNCS = 1])
+  gl_CONDITIONAL([GL_COND_OBJ_STDIO_WRITE], [test $REPLACE_STDIO_WRITE_FUNCS = 1])
+  dnl No need to create extra modules for these functions. Everyone who uses
+  dnl <stdio.h> likely needs them.
+  gl_STDIO_MODULE_INDICATOR([fscanf])
+  gl_MODULE_INDICATOR([fscanf])
+  gl_STDIO_MODULE_INDICATOR([scanf])
+  gl_MODULE_INDICATOR([scanf])
+  gl_STDIO_MODULE_INDICATOR([fgetc])
+  gl_STDIO_MODULE_INDICATOR([getc])
+  gl_STDIO_MODULE_INDICATOR([getchar])
+  gl_STDIO_MODULE_INDICATOR([fgets])
+  gl_STDIO_MODULE_INDICATOR([fread])
+  dnl No need to create extra modules for these functions. Everyone who uses
+  dnl <stdio.h> likely needs them.
+  gl_STDIO_MODULE_INDICATOR([fprintf])
+  gl_STDIO_MODULE_INDICATOR([printf])
+  gl_STDIO_MODULE_INDICATOR([vfprintf])
+  gl_STDIO_MODULE_INDICATOR([vprintf])
+  gl_STDIO_MODULE_INDICATOR([fputc])
+  gl_STDIO_MODULE_INDICATOR([putc])
+  gl_STDIO_MODULE_INDICATOR([putchar])
+  gl_STDIO_MODULE_INDICATOR([fputs])
+  gl_STDIO_MODULE_INDICATOR([puts])
+  gl_STDIO_MODULE_INDICATOR([fwrite])
   gl_STDLIB_H
   gl_STDLIB_H_REQUIRE_DEFAULTS
   AC_PROG_MKDIR_P
+  gl_FUNC_STRERROR
+  gl_CONDITIONAL([GL_COND_OBJ_STRERROR], [test $REPLACE_STRERROR = 1])
+  gl_MODULE_INDICATOR([strerror])
+  gl_STRING_MODULE_INDICATOR([strerror])
+  AC_REQUIRE([gl_HEADER_ERRNO_H])
+  AC_REQUIRE([gl_FUNC_STRERROR_0])
+  gl_CONDITIONAL([GL_COND_OBJ_STRERROR_OVERRIDE],
+                 [test -n "$ERRNO_H" || test $REPLACE_STRERROR_0 = 1])
+  AM_COND_IF([GL_COND_OBJ_STRERROR_OVERRIDE], [
+    gl_PREREQ_SYS_H_WINSOCK2
+  ])
   if test $gl_cond_libtool = false; then
     gl_ltlibdeps="$gl_ltlibdeps $LTLIBICONV"
     gl_libdeps="$gl_libdeps $LIBICONV"
@@ -229,8 +480,14 @@ AC_DEFUN([gl_INIT],
   gl_FUNC_STREQ
   gl_FUNC_MEMEQ
   gl_STRING_MODULE_INDICATOR([stringeq])
+  gl_SYS_STAT_H
+  gl_SYS_STAT_H_REQUIRE_DEFAULTS
+  AC_PROG_MKDIR_P
   gl_SYS_TYPES_H
   gl_SYS_TYPES_H_REQUIRE_DEFAULTS
+  AC_PROG_MKDIR_P
+  gl_TIME_H
+  gl_TIME_H_REQUIRE_DEFAULTS
   AC_PROG_MKDIR_P
   gl_LIBUNISTRING_LIBHEADER([1.2], [unicase.h])
   gl_UNICASE_H
@@ -266,8 +523,11 @@ AC_DEFUN([gl_INIT],
   gl_UNINORM_H_REQUIRE_DEFAULTS
   AC_PROG_MKDIR_P
   gl_LIBUNISTRING_MODULE([1.4], [uninorm/canonical-decomposition])
+  gl_LIBUNISTRING_MODULE([1.3], [uninorm/composition])
   gl_LIBUNISTRING_MODULE([0.9.11], [uninorm/decomposing-form])
   AC_REQUIRE([AC_C_INLINE])
+  gl_UNINORM_H_REQUIRE_DEFAULTS
+  gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [uninorm/nfc])
   gl_UNINORM_H_REQUIRE_DEFAULTS
   gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [uninorm/nfd])
   gl_MODULE_INDICATOR_FOR_TESTS([uninorm/u32-normalize])
@@ -300,9 +560,13 @@ AC_DEFUN([gl_INIT],
   gl_LIBUNISTRING_LIBHEADER([0.9.11], [unitypes.h])
   AC_PROG_MKDIR_P
   gl_UNITYPES_H
+  AC_C_VARARRAYS
   gl_WCHAR_H
   gl_WCHAR_H_REQUIRE_DEFAULTS
   AC_PROG_MKDIR_P
+  gl_XALLOC
+  gl_MODULE_INDICATOR([xalloc])
+  gl_MODULE_INDICATOR([xalloc-die])
   # End of code from modules
   m4_ifval(gl_LIBSOURCES_LIST, [
     m4_syscmd([test ! -d ]m4_defn([gl_LIBSOURCES_DIR])[ ||
@@ -500,14 +764,41 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/array-mergesort.h
   lib/assert.in.h
   lib/attribute.h
+  lib/basename-lgpl.c
+  lib/basename-lgpl.h
   lib/c++defs.h
   lib/c-ctype.c
   lib/c-ctype.h
   lib/c-strcase.h
   lib/c-strcasecmp.c
   lib/c-strcaseeq.h
+  lib/calloc.c
+  lib/cloexec.c
+  lib/cloexec.h
+  lib/close.c
+  lib/dup2.c
+  lib/errno.in.h
+  lib/error.c
+  lib/error.in.h
+  lib/exitfail.c
+  lib/exitfail.h
+  lib/fcntl.c
   lib/fcntl.in.h
+  lib/fd-hook.c
+  lib/fd-hook.h
+  lib/filename.h
   lib/free.c
+  lib/fseterr.c
+  lib/fseterr.h
+  lib/fstat.c
+  lib/getdelim.c
+  lib/getdtablesize.c
+  lib/getline.c
+  lib/getprogname.c
+  lib/getprogname.h
+  lib/gettext.h
+  lib/ialloc.c
+  lib/ialloc.h
   lib/iconv.c
   lib/iconv.in.h
   lib/iconv_close.c
@@ -519,26 +810,56 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/iconveh.h
   lib/idx.h
   lib/intprops-internal.h
+  lib/intprops.h
   lib/inttypes.in.h
   lib/limits.in.h
   lib/localcharset.c
   lib/localcharset.h
+  lib/locale.in.h
+  lib/lstat.c
+  lib/malloc.c
   lib/malloca.c
   lib/malloca.h
   lib/memcmp2.c
   lib/memcmp2.h
+  lib/minmax.h
+  lib/msvc-inval.c
+  lib/msvc-inval.h
+  lib/msvc-nothrow.c
+  lib/msvc-nothrow.h
+  lib/open.c
+  lib/pathmax.h
+  lib/progname.c
+  lib/progname.h
+  lib/realloc.c
+  lib/reallocarray.c
+  lib/stat-time.c
+  lib/stat-time.h
+  lib/stat-w32.c
+  lib/stat-w32.h
+  lib/stat.c
   lib/stdckdint.in.h
   lib/stddef.in.h
   lib/stdint.in.h
+  lib/stdio-consolesafe.c
+  lib/stdio-impl.h
+  lib/stdio-read.c
+  lib/stdio-write.c
+  lib/stdio.in.h
   lib/stdlib.c
   lib/stdlib.in.h
+  lib/strerror-override.c
+  lib/strerror-override.h
+  lib/strerror.c
   lib/striconveh.c
   lib/striconveh.h
   lib/striconveha.c
   lib/striconveha.h
   lib/string.c
   lib/string.in.h
+  lib/sys_stat.in.h
   lib/sys_types.in.h
+  lib/time.in.h
   lib/unicase.in.h
   lib/unicase/cased.c
   lib/unicase/cased.h
@@ -581,6 +902,9 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/unictype/pr_soft_dotted.h
   lib/uninorm.in.h
   lib/uninorm/canonical-decomposition.c
+  lib/uninorm/composition-table-bounds.h
+  lib/uninorm/composition-table.gperf
+  lib/uninorm/composition.c
   lib/uninorm/decompose-internal.c
   lib/uninorm/decompose-internal.h
   lib/uninorm/decomposing-form.c
@@ -588,6 +912,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/uninorm/decomposition-table.h
   lib/uninorm/decomposition-table1.h
   lib/uninorm/decomposition-table2.h
+  lib/uninorm/nfc.c
   lib/uninorm/nfd.c
   lib/uninorm/normalize-internal.h
   lib/uninorm/u-normalize-internal.h
@@ -617,20 +942,40 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/verify.h
   lib/warn-on-use.h
   lib/wchar.in.h
+  lib/xalloc-die.c
   lib/xalloc-oversized.h
+  lib/xalloc.h
+  lib/xmalloc.c
   m4/00gnulib.m4
   m4/absolute-header.m4
   m4/alloca.m4
   m4/assert_h.m4
+  m4/build-to-host.m4
   m4/c-bool.m4
+  m4/calloc.m4
+  m4/close.m4
   m4/codeset.m4
+  m4/double-slash-root.m4
+  m4/dup2.m4
+  m4/errno_h.m4
+  m4/error.m4
+  m4/error_h.m4
   m4/extensions-aix.m4
   m4/extensions.m4
   m4/extern-inline.m4
   m4/fcntl-o.m4
+  m4/fcntl.m4
   m4/fcntl_h.m4
   m4/free.m4
+  m4/fseterr.m4
+  m4/fstat.m4
+  m4/getdelim.m4
+  m4/getdtablesize.m4
+  m4/getline.m4
+  m4/getprogname.m4
+  m4/gettext_h.m4
   m4/gnulib-common.m4
+  m4/gnulib-i18n.m4
   m4/host-cpu-c-abi.m4
   m4/iconv.m4
   m4/iconv_h.m4
@@ -638,6 +983,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/include_next.m4
   m4/inline.m4
   m4/inttypes.m4
+  m4/largefile.m4
   m4/lib-ld.m4
   m4/lib-link.m4
   m4/lib-prefix.m4
@@ -645,28 +991,50 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/limits-h.m4
   m4/localcharset.m4
   m4/locale-en.m4
+  m4/locale_h.m4
+  m4/lstat.m4
   m4/malloc.m4
   m4/malloca.m4
+  m4/minmax.m4
+  m4/mode_t.m4
+  m4/msvc-inval.m4
+  m4/msvc-nothrow.m4
   m4/multiarch.m4
+  m4/musl.m4
   m4/off64_t.m4
   m4/off_t.m4
+  m4/open-cloexec.m4
+  m4/open-slash.m4
+  m4/open.m4
+  m4/pathmax.m4
   m4/pid_t.m4
+  m4/realloc.m4
+  m4/reallocarray.m4
   m4/ssize_t.m4
+  m4/stat-time.m4
+  m4/stat.m4
   m4/std-gnu11.m4
   m4/stdckdint_h.m4
   m4/stddef_h.m4
   m4/stdint.m4
+  m4/stdio_h.m4
   m4/stdlib_h.m4
+  m4/strerror.m4
   m4/string_h.m4
   m4/stringeq.m4
+  m4/sys_socket_h.m4
+  m4/sys_stat_h.m4
   m4/sys_types_h.m4
+  m4/time_h.m4
   m4/unicase_h.m4
   m4/unictype_h.m4
   m4/uninorm_h.m4
   m4/unistd_h.m4
   m4/unitypes_h.m4
+  m4/vararrays.m4
   m4/warn-on-use.m4
   m4/wchar_h.m4
   m4/wint_t.m4
+  m4/xalloc.m4
   m4/zzgnulib.m4
 ])

@@ -28,8 +28,160 @@
 /* Define to 1 if using 'alloca.c'. */
 #undef C_ALLOCA
 
+/* Define to 1 if // is a file system root distinct from /. */
+#undef DOUBLE_SLASH_IS_DISTINCT_ROOT
+
+/* Define this to 1 if F_DUPFD behavior does not match POSIX */
+#undef FCNTL_DUPFD_BUGGY
+
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module close shall be considered present. */
+#undef GNULIB_CLOSE
+
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module fscanf shall be considered present. */
+#undef GNULIB_FSCANF
+
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module fstat shall be considered present. */
+#undef GNULIB_FSTAT
+
+/* Define to the directory where to find the localizations of the translation
+   domain 'gnulib', as a C string. */
+#undef GNULIB_LOCALEDIR
+
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module lstat shall be considered present. */
+#undef GNULIB_LSTAT
+
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module msvc-nothrow shall be considered present. */
+#undef GNULIB_MSVC_NOTHROW
+
+/* Define to 1 if printf and friends should be labeled with attribute
+   "__gnu_printf__" instead of "__printf__" */
+#undef GNULIB_PRINTF_ATTRIBUTE_FLAVOR_GNU
+
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module reallocarray shall be considered present. */
+#undef GNULIB_REALLOCARRAY
+
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module scanf shall be considered present. */
+#undef GNULIB_SCANF
+
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module stat shall be considered present. */
+#undef GNULIB_STAT
+
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module strerror shall be considered present. */
+#undef GNULIB_STRERROR
+
+/* Define to 1 when the gnulib module calloc-gnu should be tested. */
+#undef GNULIB_TEST_CALLOC_GNU
+
+/* Define to 1 when the gnulib module calloc-posix should be tested. */
+#undef GNULIB_TEST_CALLOC_POSIX
+
+/* Define to 1 when the gnulib module cloexec should be tested. */
+#undef GNULIB_TEST_CLOEXEC
+
+/* Define to 1 when the gnulib module close should be tested. */
+#undef GNULIB_TEST_CLOSE
+
+/* Define to 1 when the gnulib module dup2 should be tested. */
+#undef GNULIB_TEST_DUP2
+
+/* Define to 1 when the gnulib module fcntl should be tested. */
+#undef GNULIB_TEST_FCNTL
+
+/* Define to 1 when the gnulib module fgetc should be tested. */
+#undef GNULIB_TEST_FGETC
+
+/* Define to 1 when the gnulib module fgets should be tested. */
+#undef GNULIB_TEST_FGETS
+
+/* Define to 1 when the gnulib module fprintf should be tested. */
+#undef GNULIB_TEST_FPRINTF
+
+/* Define to 1 when the gnulib module fputc should be tested. */
+#undef GNULIB_TEST_FPUTC
+
+/* Define to 1 when the gnulib module fputs should be tested. */
+#undef GNULIB_TEST_FPUTS
+
+/* Define to 1 when the gnulib module fread should be tested. */
+#undef GNULIB_TEST_FREAD
+
 /* Define to 1 when the gnulib module free-posix should be tested. */
 #undef GNULIB_TEST_FREE_POSIX
+
+/* Define to 1 when the gnulib module fscanf should be tested. */
+#undef GNULIB_TEST_FSCANF
+
+/* Define to 1 when the gnulib module fstat should be tested. */
+#undef GNULIB_TEST_FSTAT
+
+/* Define to 1 when the gnulib module fwrite should be tested. */
+#undef GNULIB_TEST_FWRITE
+
+/* Define to 1 when the gnulib module getc should be tested. */
+#undef GNULIB_TEST_GETC
+
+/* Define to 1 when the gnulib module getchar should be tested. */
+#undef GNULIB_TEST_GETCHAR
+
+/* Define to 1 when the gnulib module getdelim should be tested. */
+#undef GNULIB_TEST_GETDELIM
+
+/* Define to 1 when the gnulib module getdtablesize should be tested. */
+#undef GNULIB_TEST_GETDTABLESIZE
+
+/* Define to 1 when the gnulib module getline should be tested. */
+#undef GNULIB_TEST_GETLINE
+
+/* Define to 1 when the gnulib module getprogname should be tested. */
+#undef GNULIB_TEST_GETPROGNAME
+
+/* Define to 1 when the gnulib module lstat should be tested. */
+#undef GNULIB_TEST_LSTAT
+
+/* Define to 1 when the gnulib module malloc-gnu should be tested. */
+#undef GNULIB_TEST_MALLOC_GNU
+
+/* Define to 1 when the gnulib module malloc-posix should be tested. */
+#undef GNULIB_TEST_MALLOC_POSIX
+
+/* Define to 1 when the gnulib module open should be tested. */
+#undef GNULIB_TEST_OPEN
+
+/* Define to 1 when the gnulib module printf should be tested. */
+#undef GNULIB_TEST_PRINTF
+
+/* Define to 1 when the gnulib module putc should be tested. */
+#undef GNULIB_TEST_PUTC
+
+/* Define to 1 when the gnulib module putchar should be tested. */
+#undef GNULIB_TEST_PUTCHAR
+
+/* Define to 1 when the gnulib module puts should be tested. */
+#undef GNULIB_TEST_PUTS
+
+/* Define to 1 when the gnulib module reallocarray should be tested. */
+#undef GNULIB_TEST_REALLOCARRAY
+
+/* Define to 1 when the gnulib module realloc-posix should be tested. */
+#undef GNULIB_TEST_REALLOC_POSIX
+
+/* Define to 1 when the gnulib module scanf should be tested. */
+#undef GNULIB_TEST_SCANF
+
+/* Define to 1 when the gnulib module stat should be tested. */
+#undef GNULIB_TEST_STAT
+
+/* Define to 1 when the gnulib module strerror should be tested. */
+#undef GNULIB_TEST_STRERROR
 
 /* Define to 1 when the gnulib module stringeq should be tested. */
 #undef GNULIB_TEST_STRINGEQ
@@ -37,6 +189,12 @@
 /* Define to 1 when the gnulib module uninorm/u32-normalize should be tested.
    */
 #undef GNULIB_TEST_UNINORM_U32_NORMALIZE
+
+/* Define to 1 when the gnulib module vfprintf should be tested. */
+#undef GNULIB_TEST_VFPRINTF
+
+/* Define to 1 when the gnulib module vprintf should be tested. */
+#undef GNULIB_TEST_VPRINTF
 
 /* Define to a C preprocessor expression that evaluates to 1 or 0, depending
    whether the gnulib module unistr/u32-mbtouc-unsafe shall be considered
@@ -64,6 +222,14 @@
    whether the gnulib module unistr/u8-uctomb shall be considered present. */
 #undef GNULIB_UNISTR_U8_UCTOMB
 
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module xalloc shall be considered present. */
+#undef GNULIB_XALLOC
+
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module xalloc-die shall be considered present. */
+#undef GNULIB_XALLOC_DIE
+
 /* Define to 1 if you have 'alloca' after including <alloca.h>, a header that
    may be supplied by this distribution. */
 #undef HAVE_ALLOCA
@@ -80,6 +246,9 @@
 /* Define to 1 if the static_assert keyword works. */
 #undef HAVE_C_STATIC_ASSERT
 
+/* Define to 1 if C supports variable-length arrays. */
+#undef HAVE_C_VARARRAYS
+
 /* Define to 1 if you have the declaration of 'ecvt', and to 0 if you don't.
    */
 #undef HAVE_DECL_ECVT
@@ -87,6 +256,10 @@
 /* Define to 1 if you have the declaration of 'execvpe', and to 0 if you
    don't. */
 #undef HAVE_DECL_EXECVPE
+
+/* Define to 1 if you have the declaration of 'fcloseall', and to 0 if you
+   don't. */
+#undef HAVE_DECL_FCLOSEALL
 
 /* Define to 1 if you have the declaration of 'fcvt', and to 0 if you don't.
    */
@@ -96,23 +269,93 @@
    */
 #undef HAVE_DECL_GCVT
 
+/* Define to 1 if you have the declaration of 'getc_unlocked', and to 0 if you
+   don't. */
+#undef HAVE_DECL_GETC_UNLOCKED
+
+/* Define to 1 if you have the declaration of 'getdelim', and to 0 if you
+   don't. */
+#undef HAVE_DECL_GETDELIM
+
+/* Define to 1 if you have the declaration of 'getdtablesize', and to 0 if you
+   don't. */
+#undef HAVE_DECL_GETDTABLESIZE
+
+/* Define to 1 if you have the declaration of 'getline', and to 0 if you
+   don't. */
+#undef HAVE_DECL_GETLINE
+
+/* Define to 1 if you have the declaration of 'getw', and to 0 if you don't.
+   */
+#undef HAVE_DECL_GETW
+
 /* Define to 1 if you have the declaration of 'memeq', and to 0 if you don't.
    */
 #undef HAVE_DECL_MEMEQ
+
+/* Define to 1 if you have the declaration of 'program_invocation_name', and
+   to 0 if you don't. */
+#undef HAVE_DECL_PROGRAM_INVOCATION_NAME
+
+/* Define to 1 if you have the declaration of 'program_invocation_short_name',
+   and to 0 if you don't. */
+#undef HAVE_DECL_PROGRAM_INVOCATION_SHORT_NAME
+
+/* Define to 1 if you have the declaration of 'putw', and to 0 if you don't.
+   */
+#undef HAVE_DECL_PUTW
 
 /* Define to 1 if you have the declaration of 'streq', and to 0 if you don't.
    */
 #undef HAVE_DECL_STREQ
 
+/* Define to 1 if you have the declaration of 'strerror_r', and to 0 if you
+   don't. */
+#undef HAVE_DECL_STRERROR_R
+
 /* Define to 1 if you have the declaration of 'wcsdup', and to 0 if you don't.
    */
 #undef HAVE_DECL_WCSDUP
 
+/* Define to 1 if you have the declaration of '__argv', and to 0 if you don't.
+   */
+#undef HAVE_DECL___ARGV
+
+/* Define to 1 if you have the `error' function. */
+#undef HAVE_ERROR
+
+/* Define to 1 if you have the <error.h> header file. */
+#undef HAVE_ERROR_H
+
+/* Define to 1 if you have the 'fcntl' function. */
+#undef HAVE_FCNTL
+
 /* Define to 1 if you have the <features.h> header file. */
 #undef HAVE_FEATURES_H
 
+/* Define to 1 if you have the 'flockfile' function. */
+#undef HAVE_FLOCKFILE
+
 /* Define if the 'free' function is guaranteed to preserve errno. */
 #undef HAVE_FREE_POSIX
+
+/* Define to 1 if you have the 'funlockfile' function. */
+#undef HAVE_FUNLOCKFILE
+
+/* Define to 1 if you have the `getdelim' function. */
+#undef HAVE_GETDELIM
+
+/* Define to 1 if you have the 'getdtablesize' function. */
+#undef HAVE_GETDTABLESIZE
+
+/* Define to 1 if you have the 'getexecname' function. */
+#undef HAVE_GETEXECNAME
+
+/* Define to 1 if you have the `getline' function. */
+#undef HAVE_GETLINE
+
+/* Define to 1 if you have the `getprogname' function. */
+#undef HAVE_GETPROGNAME
 
 /* Define if you have the iconv() function and it works. */
 #undef HAVE_ICONV
@@ -137,6 +380,9 @@
 /* Define to 1 if the system has the type 'long long int'. */
 #undef HAVE_LONG_LONG_INT
 
+/* Define to 1 if you have the 'lstat' function. */
+#undef HAVE_LSTAT
+
 /* Define to 1 if malloc (0) returns nonnull. */
 #undef HAVE_MALLOC_0_NONNULL
 
@@ -149,6 +395,28 @@
 
 /* Define to 1 if you have the <minix/config.h> header file. */
 #undef HAVE_MINIX_CONFIG_H
+
+/* Define to 1 if <limits.h> defines the MIN and MAX macros. */
+#undef HAVE_MINMAX_IN_LIMITS_H
+
+/* Define to 1 if <sys/param.h> defines the MIN and MAX macros. */
+#undef HAVE_MINMAX_IN_SYS_PARAM_H
+
+/* Define to 1 on MSVC platforms that have the "invalid parameter handler"
+   concept. */
+#undef HAVE_MSVC_INVALID_PARAMETER_HANDLER
+
+/* Define to 1 if you have the `reallocarray' function. */
+#undef HAVE_REALLOCARRAY
+
+/* Define to 1 if realloc (..., 0) returns nonnull. */
+#undef HAVE_REALLOC_0_NONNULL
+
+/* Define to 1 if you have the <sdkddkver.h> header file. */
+#undef HAVE_SDKDDKVER_H
+
+/* Define to 1 if you have the 'setdtablesize' function. */
+#undef HAVE_SETDTABLESIZE
 
 /* Define to 1 if 'sig_atomic_t' is a signed integer type. */
 #undef HAVE_SIGNED_SIG_ATOMIC_T
@@ -174,11 +442,35 @@
 /* Define to 1 if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
 
+/* Define if you have 'strerror_r'. */
+#undef HAVE_STRERROR_R
+
 /* Define to 1 if you have the <strings.h> header file. */
 #undef HAVE_STRINGS_H
 
 /* Define to 1 if you have the <string.h> header file. */
 #undef HAVE_STRING_H
+
+/* Define to 1 if 'st_atimensec' is a member of 'struct stat'. */
+#undef HAVE_STRUCT_STAT_ST_ATIMENSEC
+
+/* Define to 1 if 'st_atimespec.tv_nsec' is a member of 'struct stat'. */
+#undef HAVE_STRUCT_STAT_ST_ATIMESPEC_TV_NSEC
+
+/* Define to 1 if 'st_atim.st__tim.tv_nsec' is a member of 'struct stat'. */
+#undef HAVE_STRUCT_STAT_ST_ATIM_ST__TIM_TV_NSEC
+
+/* Define to 1 if 'st_atim.tv_nsec' is a member of 'struct stat'. */
+#undef HAVE_STRUCT_STAT_ST_ATIM_TV_NSEC
+
+/* Define to 1 if 'st_birthtimensec' is a member of 'struct stat'. */
+#undef HAVE_STRUCT_STAT_ST_BIRTHTIMENSEC
+
+/* Define to 1 if 'st_birthtimespec.tv_nsec' is a member of 'struct stat'. */
+#undef HAVE_STRUCT_STAT_ST_BIRTHTIMESPEC_TV_NSEC
+
+/* Define to 1 if 'st_birthtim.tv_nsec' is a member of 'struct stat'. */
+#undef HAVE_STRUCT_STAT_ST_BIRTHTIM_TV_NSEC
 
 /* Define to 1 if you have the 'symlink' function. */
 #undef HAVE_SYMLINK
@@ -189,8 +481,17 @@
 /* Define to 1 if you have the <sys/inttypes.h> header file. */
 #undef HAVE_SYS_INTTYPES_H
 
+/* Define to 1 if you have the <sys/param.h> header file. */
+#undef HAVE_SYS_PARAM_H
+
+/* Define to 1 if you have the <sys/socket.h> header file. */
+#undef HAVE_SYS_SOCKET_H
+
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/time.h> header file. */
+#undef HAVE_SYS_TIME_H
 
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
@@ -204,8 +505,17 @@
 /* Define to 1 if the system has the type 'unsigned long long int'. */
 #undef HAVE_UNSIGNED_LONG_LONG_INT
 
+/* Define if you have a global __progname variable */
+#undef HAVE_VAR___PROGNAME
+
 /* Define to 1 if you have the <wchar.h> header file. */
 #undef HAVE_WCHAR_H
+
+/* Define to 1 if <locale.h> defines the _locale_t type. */
+#undef HAVE_WINDOWS_LOCALE_T
+
+/* Define to 1 if you have the <winsock2.h> header file. */
+#undef HAVE_WINSOCK2_H
 
 /* Define if you have the 'wint_t' type. */
 #undef HAVE_WINT_T
@@ -218,6 +528,15 @@
 
 /* Define to 1 if O_NOFOLLOW works, 0 otherwise. */
 #undef HAVE_WORKING_O_NOFOLLOW
+
+/* Define to 1 if you have the <xlocale.h> header file. */
+#undef HAVE_XLOCALE_H
+
+/* Define to 1 if you have the '_set_invalid_parameter_handler' function. */
+#undef HAVE__SET_INVALID_PARAMETER_HANDLER
+
+/* Define to 1 if you have the `__fseterr' function. */
+#undef HAVE___FSETERR
 
 /* Define to 1 if ctype.h defines __header_inline. */
 #undef HAVE___HEADER_INLINE
@@ -338,8 +657,27 @@
    implementation. */
 #undef ICONV_FLAVOR
 
+/* Define to 1 if 'lstat' dereferences a symlink specified with a trailing
+   slash. */
+#undef LSTAT_FOLLOWS_SLASHED_SYMLINK
+
+/* Use GNU style printf and scanf.  */
+#ifndef __USE_MINGW_ANSI_STDIO
+# undef __USE_MINGW_ANSI_STDIO
+#endif
+
+
+/* Define to 1 on musl libc. */
+#undef MUSL_LIBC
+
+/* Define to 1 if realloc should abort upon undefined behaviour. */
+#undef NEED_SANITIZED_REALLOC
+
 /* Define to 1 if your C compiler doesn't accept -c and -o together. */
 #undef NO_MINUS_C_MINUS_O
+
+/* Define to 1 if open() fails to recognize a trailing slash. */
+#undef OPEN_TRAILING_SLASH_BUG
 
 /* Name of package */
 #undef PACKAGE
@@ -362,9 +700,20 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
+/* Define to the type that is the result of default argument promotions of
+   type mode_t. */
+#undef PROMOTED_MODE_T
+
 /* Define to l, ll, u, ul, ull, etc., as suitable for constants of type
    'ptrdiff_t'. */
 #undef PTRDIFF_T_SUFFIX
+
+/* Define to 1 if stat needs help when passed a file name with a trailing
+   slash */
+#undef REPLACE_FUNC_STAT_FILE
+
+/* Define to 1 if strerror(0) does not return a message implying success. */
+#undef REPLACE_STRERROR_0
 
 /* Define to l, ll, u, ul, ull, etc., as suitable for constants of type
    'sig_atomic_t'. */
@@ -382,10 +731,20 @@
 	STACK_DIRECTION = 0 => direction of growth unknown */
 #undef STACK_DIRECTION
 
+/* Define to 1 if the 'S_IS*' macros in <sys/stat.h> do not work properly. */
+#undef STAT_MACROS_BROKEN
+
 /* Define to 1 if all of the C89 standard headers exist (not just the ones
    required in a freestanding environment). This macro is provided for
    backward compatibility; new code need not use it. */
 #undef STDC_HEADERS
+
+/* Define to 1 if strerror_r returns char *. */
+#undef STRERROR_R_CHAR_P
+
+/* Define to 1 if the type of the st_atim member of a struct stat is struct
+   timespec. */
+#undef TYPEOF_STRUCT_STAT_ST_ATIM_IS_STRUCT_TIMESPEC
 
 /* Define to enable the declarations of ISO C 23 Annex K types and functions.  */
 #if !(defined __STDC_WANT_LIB_EXT1__ && __STDC_WANT_LIB_EXT1__)
@@ -497,6 +856,9 @@
    'wint_t'. */
 #undef WINT_T_SUFFIX
 
+/* Number of bits in a file offset, on hosts where this is settable. */
+#undef _FILE_OFFSET_BITS
+
 /* True if the compiler says it groks GNU C version MAJOR.MINOR.
     Except that
       - clang groks GNU C 4.2, even on Windows, where it does not define
@@ -520,6 +882,12 @@
 
 /* Define to enable the declarations of ISO C 11 types and functions. */
 #undef _ISOC11_SOURCE
+
+/* Define to 1 on platforms where this makes off_t a 64-bit type. */
+#undef _LARGE_FILES
+
+/* Define to 1 on Solaris. */
+#undef _LCONV_C99
 
 /* Define so that AIX headers are more compatible with GNU/Linux. */
 #undef _LINUX_SOURCE_COMPAT
@@ -552,14 +920,24 @@
 #endif
 
 
+/* Number of bits in time_t, on hosts where this is settable. */
+#undef _TIME_BITS
+
 /* For standard stat data types on VMS. */
 #undef _USE_STD_STAT
+
+/* Define to 1 on platforms where this makes time_t a 64-bit type. */
+#undef __MINGW_USE_VC2005_COMPAT
 
 /* Define to 1 if the system <stdint.h> predates C++11. */
 #undef __STDC_CONSTANT_MACROS
 
 /* Define to 1 if the system <stdint.h> predates C++11. */
 #undef __STDC_LIMIT_MACROS
+
+/* Define to 1 if C does not support variable-length arrays, and if the
+   compiler does not already define this. */
+#undef __STDC_NO_VLA__
 
 /* The _GL_ASYNC_SAFE marker should be attached to functions that are
    signal handlers (for signals other than SIGABRT, SIGPIPE) or can be
@@ -1437,6 +1815,9 @@
 /* Define to 'int' if <sys/types.h> does not define. */
 #undef mode_t
 
+/* Define to the type of st_nlink in struct stat, or a supertype. */
+#undef nlink_t
+
 /* Define as a signed integer type capable of holding a process identifier. */
 #undef pid_t
 
@@ -1528,5 +1909,14 @@
 
 #if defined __GNUC__ && __GNUC__ >= 15 && !defined __clang__
 # pragma GCC diagnostic pop
+#endif
+
+
+
+/* The text domainname for Gnulib messages.  Ordinarily this is "gnulib",
+   but packages that do their own translations of Gnulib can use something
+   different by defining GNULIB_TEXT_DOMAIN in their config.h file.  */
+#ifndef GNULIB_TEXT_DOMAIN
+# define GNULIB_TEXT_DOMAIN/**/"gnulib"
 #endif
 

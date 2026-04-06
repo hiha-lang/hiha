@@ -19,7 +19,7 @@
 AC_PREREQ([2.72])
 AC_INIT([hiha],[0.0.0])
 
-AC_CONFIG_SRCDIR([src/parse_expression.c])
+AC_CONFIG_SRCDIR([src/hiha/hiha.c])
 
 AC_CONFIG_HEADERS([config.h])
 #AC_CONFIG_TESTDIR([tests])
@@ -46,9 +46,20 @@ AC_PROG_SED
 AC_PROG_GREP
 AC_PROG_FGREP
 AC_PROG_EGREP
+
 CHEM_GNU_C_FLAGS([__c_compiler_flags],[-std=gnu23])
 CFLAGS="${CFLAGS}${CFLAGS+ }${__c_compiler_flags}"
-gl_INIT
+
+CHEM_PATH_PROGS_CACHED_AND_PRECIOUS([INDENT],
+  [GNU indent],[indent],
+  [
+    if LC_ALL=C LANG=C ${ac_path_INDENT} --version 2>&1 | \
+      LC_ALL=C LANG=C ${GREP} -e '^GNU indent' \
+               2> /dev/null > /dev/null; then
+      ac_cv_path_INDENT="${ac_path_INDENT}"
+      ac_path_INDENT_found=:
+    fi
+  ])
 
 # CHEM_PROG_GNU_M4
 # if test -z "${GNU_M4}"; then
@@ -56,6 +67,9 @@ gl_INIT
 # fi
 
 # CHEM_UNIQUE_ID([UNIQUE_ID])
+
+gl_INIT
+
 
 # You can use ‘@GNU@’ to make GNU Make constructs unbothersome to
 # Automake. (Often you can use ‘$(eval ...)’ instead, but @GNU@ is

@@ -37,22 +37,32 @@
 #  --no-conditional-dependencies \
 #  --no-libtool \
 #  --macro-prefix=gl \
-#  iconv \
+#  error \
+#  exitfail \
+#  getline \
+#  progname \
 #  unicase/u32-casecoll \
 #  uniconv/u32-casecoll \
 #  uniconv/u32-conv-from-enc \
 #  uniconv/u32-conv-to-enc \
-#  unistr/u32-check
+#  uninorm/nfc \
+#  unistr/u32-check \
+#  xalloc
 
 # Specification in the form of a few gnulib-tool.m4 macro invocations:
 gl_LOCAL_DIR([])
 gl_MODULES([
-  iconv
+  error
+  exitfail
+  getline
+  progname
   unicase/u32-casecoll
   uniconv/u32-casecoll
   uniconv/u32-conv-from-enc
   uniconv/u32-conv-to-enc
+  uninorm/nfc
   unistr/u32-check
+  xalloc
 ])
 gl_AVOID([])
 gl_SOURCE_BASE([lib])

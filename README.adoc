@@ -1,2 +1,12 @@
 = image:hiha-90x150.jpg[] hiha: an “orthogonal” programming language
 
+I really, really do not like overcomplication, and so here will be
+hiha, an “orthogonal” language with no formal report and just a Pratt
+parser.
+
+This compiler is a work in progress. Coding began 6 April 2026.
+
+Do not expect development speed. The programmer is medically retired
+and disabled.
+
+

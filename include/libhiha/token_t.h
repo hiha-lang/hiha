@@ -25,6 +25,7 @@ struct token
 {
   string_t token_kind;
   string_t token_value;
+  text_location_t loc;
 };
 
 typedef struct token *token_t;

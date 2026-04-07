@@ -51,11 +51,12 @@ parse_file (const char *filename, FILE *f, parser_data_t parser_data)
     {
       line_no += 1;
 
-      // FIXME: Set up an error location reporter.
-      error_location_reporter_t errloc = NULL;
-
+      text_location_t loc = XMALLOC (struct text_location);
+      loc->filename = make_string_t (filename);
+      loc->line_no = line_no;
+      loc->code_point_no = 0;
       string_t str =
-	string_t_canonical_from_str_len (line_buffer, nread, errloc);
+	string_t_canonical_from_str_len (line_buffer, nread, loc);
 
       char *s;
       size_t n;
@@ -64,6 +65,7 @@ parse_file (const char *filename, FILE *f, parser_data_t parser_data)
       fwrite (s, n, sizeof (char), stdout);
       free (s);
 
+      text_location_t_free (loc);
       string_t_free (str);
       nread = getline (&line_buffer, &line_buffer_size, f);
     }

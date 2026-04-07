@@ -47,8 +47,25 @@ string_t_cmp (const string_t str1, const string_t str2)
 }
 
 string_t
+make_string_t (const char *src)
+{
+  return string_t_from_str_len (src, strlen (src), NULL);
+}
+
+char *
+make_str_nul (const string_t str)
+{
+  char *s;
+  size_t n;
+  str_len_from_string_t (str, &s, &n);
+  s = xrealloc (s, n + 1);
+  s[n] = '\0';
+  return s;
+}
+
+string_t
 string_t_from_str_len (const char *src, size_t srclen,
-		       error_location_reporter_t errloc)
+		       text_location_t loc)
 {
   size_t n;
   uint32_t *u32 = u32_conv_from_encoding (locale_charset (),
@@ -58,18 +75,9 @@ string_t_from_str_len (const char *src, size_t srclen,
   int err_number = errno;
   if (u32 == NULL)
     {
-      if (errloc != NULL)
-	errloc->func (errloc);
-      switch (err_number)
-	{
-	case ENOMEM:
-	  error (exit_failure, 0, "%s", _("memory exhausted"));
-	case EILSEQ:
-	  error (exit_failure, 0, "%s", _("unconvertible character"));
-	default:
-	  error (exit_failure, err_number, "%s %d", _("error number"),
-		 err_number);
-	}
+      char *locstr = text_location_string (loc);
+      error (exit_failure, err_number, "%s", locstr);
+      abort ();
     }
   string_t result = XMALLOC (struct string);
   result->s = u32;
@@ -78,8 +86,7 @@ string_t_from_str_len (const char *src, size_t srclen,
 }
 
 string_t
-string_t_canonicalize (const string_t src,
-		       error_location_reporter_t errloc)
+string_t_canonicalize (const string_t src, text_location_t loc)
 {
   size_t n;
   uint32_t *u32 = u32_normalize (UNINORM_NFC, src->s, src->n,
@@ -87,10 +94,9 @@ string_t_canonicalize (const string_t src,
   int err_number = errno;
   if (u32 == NULL)
     {
-      if (errloc != NULL)
-	errloc->func (errloc);
-      error (exit_failure, err_number, "%s %d", _("error number"),
-	     err_number);
+      char *locstr = text_location_string (loc);
+      error (exit_failure, err_number, "%s", locstr);
+      abort ();
     }
   string_t result = XMALLOC (struct string);
   result->s = u32;
@@ -100,10 +106,10 @@ string_t_canonicalize (const string_t src,
 
 string_t
 string_t_canonical_from_str_len (const char *src, size_t srclen,
-				 error_location_reporter_t errloc)
+				 text_location_t loc)
 {
-  string_t str1 = string_t_from_str_len (src, srclen, errloc);
-  string_t str = string_t_canonicalize (str1, errloc);
+  string_t str1 = string_t_from_str_len (src, srclen, loc);
+  string_t str = string_t_canonicalize (str1, loc);
   string_t_free (str1);
   return str;
 }
@@ -117,9 +123,48 @@ str_len_from_string_t (const string_t src, char **s, size_t *n)
   int err_number = errno;
   if (*s == NULL)
     {
-      error (exit_failure, err_number, "%s %d", _("error number"),
-	     err_number);
+      error (exit_failure, err_number, "");
+      abort ();
     }
+}
+
+void
+text_location_t_free (text_location_t loc)
+{
+  if (loc != NULL)
+    {
+      string_t_free (loc->filename);
+      free (loc);
+    }
+}
+
+char *
+text_location_string (text_location_t loc)
+{
+  char *fn;
+  if (loc == NULL || loc->filename == NULL)
+    fn = xstrdup (_("〈no·filename〉"));
+  else
+    fn = make_str_nul (loc->filename);
+  size_t fn_len = strlen (fn);
+
+  char *ln;
+  if (loc == NULL || loc->line_no == 0)
+    ln = xstrdup ("");
+  else
+    {
+      ln = XCALLOC (100, char);
+      snprintf (ln, 100, _(", line %zu"), loc->line_no);
+    }
+  size_t ln_len = strlen (ln);
+
+  char *s = XCALLOC (fn_len + ln_len + 1, char);
+  memcpy (s, fn, fn_len * sizeof (char));
+  free (fn);
+  memcpy (s + (fn_len * sizeof (char)), ln, ln_len * sizeof (char));
+  free (ln);
+
+  return s;
 }
 
 /*

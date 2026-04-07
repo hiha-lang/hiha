@@ -37,6 +37,7 @@
 #  exitfail \
 #  getline \
 #  progname \
+#  snprintf-gnu \
 #  unicase/u32-casecoll \
 #  uniconv/u32-casecoll \
 #  uniconv/u32-conv-from-enc \
@@ -194,6 +195,116 @@ EXTRA_DIST += c-strcase.h
 EXTRA_DIST += c-strcaseeq.h
 
 ## end   gnulib module c-strcaseeq
+
+## begin gnulib module c32isalnum
+
+libgnu_a_SOURCES += c32isalnum.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32isalnum
+
+## begin gnulib module c32isalpha
+
+libgnu_a_SOURCES += c32isalpha.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32isalpha
+
+## begin gnulib module c32isblank
+
+libgnu_a_SOURCES += c32isblank.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32isblank
+
+## begin gnulib module c32iscntrl
+
+libgnu_a_SOURCES += c32iscntrl.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32iscntrl
+
+## begin gnulib module c32isdigit
+
+libgnu_a_SOURCES += c32isdigit.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32isdigit
+
+## begin gnulib module c32isgraph
+
+libgnu_a_SOURCES += c32isgraph.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32isgraph
+
+## begin gnulib module c32islower
+
+libgnu_a_SOURCES += c32islower.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32islower
+
+## begin gnulib module c32isprint
+
+libgnu_a_SOURCES += c32isprint.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32isprint
+
+## begin gnulib module c32ispunct
+
+libgnu_a_SOURCES += c32ispunct.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32ispunct
+
+## begin gnulib module c32isspace
+
+libgnu_a_SOURCES += c32isspace.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32isspace
+
+## begin gnulib module c32isupper
+
+libgnu_a_SOURCES += c32isupper.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32isupper
+
+## begin gnulib module c32isxdigit
+
+libgnu_a_SOURCES += c32isxdigit.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32isxdigit
+
+## begin gnulib module c32tolower
+
+libgnu_a_SOURCES += c32tolower.c
+
+EXTRA_DIST += c32to-impl.h
+
+## end   gnulib module c32tolower
+
+## begin gnulib module c32width
+
+libgnu_a_SOURCES += c32width.c
+
+## end   gnulib module c32width
 
 ## begin gnulib module calloc-gnu
 
@@ -363,6 +474,47 @@ EXTRA_DIST += filename.h
 
 ## end   gnulib module filename
 
+## begin gnulib module float-h
+
+BUILT_SOURCES += $(FLOAT_H)
+
+# We need the following in order to create <float.h> when the system
+# doesn't have one that works with the given compiler.
+if GL_GENERATE_FLOAT_H
+float.h: float.in.h $(top_builddir)/config.status
+	$(gl_V_at)$(SED_HEADER_STDOUT) \
+	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+	      -e 's|@''NEXT_FLOAT_H''@|$(NEXT_FLOAT_H)|g' \
+	      -e 's|@''REPLACE_ITOLD''@|$(REPLACE_ITOLD)|g' \
+	      $(srcdir)/float.in.h > $@-t
+	$(AM_V_at)mv $@-t $@
+else
+float.h: $(top_builddir)/config.status
+	rm -f $@
+endif
+MOSTLYCLEANFILES += float.h float.h-t
+
+if GL_COND_OBJ_FLOAT
+libgnu_a_SOURCES += float.c
+endif
+if GL_COND_OBJ_ITOLD
+libgnu_a_SOURCES += itold.c
+endif
+
+EXTRA_DIST += float.in.h
+
+## end   gnulib module float-h
+
+## begin gnulib module fpucw
+
+
+EXTRA_DIST += fpucw.h
+
+## end   gnulib module fpucw
+
 ## begin gnulib module free-posix
 
 if GL_COND_OBJ_FREE
@@ -370,6 +522,24 @@ libgnu_a_SOURCES += free.c
 endif
 
 ## end   gnulib module free-posix
+
+## begin gnulib module frexp-nolibm
+
+
+EXTRA_DIST += frexp.c
+
+EXTRA_libgnu_a_SOURCES += frexp.c
+
+## end   gnulib module frexp-nolibm
+
+## begin gnulib module frexpl-nolibm
+
+
+EXTRA_DIST += frexp.c frexpl.c
+
+EXTRA_libgnu_a_SOURCES += frexp.c frexpl.c
+
+## end   gnulib module frexpl-nolibm
 
 ## begin gnulib module fseterr
 
@@ -461,6 +631,14 @@ V_GPERF_ = $(V_GPERF_@AM_DEFAULT_V@)
 V_GPERF_0 = @echo "  GPERF   " $@;
 
 ## end   gnulib module gperf
+
+## begin gnulib module hard-locale
+
+libgnu_a_SOURCES += hard-locale.c
+
+EXTRA_DIST += hard-locale.h
+
+## end   gnulib module hard-locale
 
 ## begin gnulib module havelib
 
@@ -612,6 +790,65 @@ EXTRA_DIST += inttypes.in.h
 
 ## end   gnulib module inttypes-h-incomplete
 
+## begin gnulib module isnand-nolibm
+
+
+EXTRA_DIST += float+.h isnan.c isnand-nolibm.h isnand.c
+
+EXTRA_libgnu_a_SOURCES += isnan.c isnand.c
+
+## end   gnulib module isnand-nolibm
+
+## begin gnulib module isnanf-nolibm
+
+
+EXTRA_DIST += float+.h isnan.c isnanf-nolibm.h isnanf.c
+
+EXTRA_libgnu_a_SOURCES += isnan.c isnanf.c
+
+## end   gnulib module isnanf-nolibm
+
+## begin gnulib module isnanl-nolibm
+
+
+EXTRA_DIST += float+.h isnan.c isnanl-nolibm.h isnanl.c
+
+EXTRA_libgnu_a_SOURCES += isnan.c isnanl.c
+
+## end   gnulib module isnanl-nolibm
+
+## begin gnulib module iswblank
+
+if GL_COND_OBJ_ISWBLANK
+libgnu_a_SOURCES += iswblank.c
+endif
+
+## end   gnulib module iswblank
+
+## begin gnulib module iswdigit
+
+if GL_COND_OBJ_ISWDIGIT
+libgnu_a_SOURCES += iswdigit.c
+endif
+
+## end   gnulib module iswdigit
+
+## begin gnulib module iswpunct
+
+if GL_COND_OBJ_ISWPUNCT
+libgnu_a_SOURCES += iswpunct.c
+endif
+
+## end   gnulib module iswpunct
+
+## begin gnulib module iswxdigit
+
+if GL_COND_OBJ_ISWXDIGIT
+libgnu_a_SOURCES += iswxdigit.c
+endif
+
+## end   gnulib module iswxdigit
+
 ## begin gnulib module limits-h
 
 BUILT_SOURCES += $(LIMITS_H)
@@ -694,6 +931,14 @@ EXTRA_DIST += locale.in.h
 
 ## end   gnulib module locale-h
 
+## begin gnulib module localeconv
+
+if GL_COND_OBJ_LOCALECONV
+libgnu_a_SOURCES += localeconv.c
+endif
+
+## end   gnulib module localeconv
+
 ## begin gnulib module lstat
 
 if GL_COND_OBJ_LSTAT
@@ -727,6 +972,431 @@ libgnu_a_SOURCES += malloca.c
 EXTRA_DIST += malloca.h
 
 ## end   gnulib module malloca
+
+## begin gnulib module math-h
+
+BUILT_SOURCES += math.h
+libgnu_a_SOURCES += math.c
+
+# We need the following in order to create <math.h> when the system
+# doesn't have one that works with the given compiler.
+math.h: math.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
+	$(gl_V_at)$(SED_HEADER_STDOUT) \
+	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+	      -e 's|@''INCLUDE_NEXT_AS_FIRST_DIRECTIVE''@|$(INCLUDE_NEXT_AS_FIRST_DIRECTIVE)|g' \
+	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+	      -e 's|@''NEXT_AS_FIRST_DIRECTIVE_MATH_H''@|$(NEXT_AS_FIRST_DIRECTIVE_MATH_H)|g' \
+	      -e 's/@''GNULIB_ACOSF''@/$(GL_GNULIB_ACOSF)/g' \
+	      -e 's/@''GNULIB_ACOSL''@/$(GL_GNULIB_ACOSL)/g' \
+	      -e 's/@''GNULIB_ASINF''@/$(GL_GNULIB_ASINF)/g' \
+	      -e 's/@''GNULIB_ASINL''@/$(GL_GNULIB_ASINL)/g' \
+	      -e 's/@''GNULIB_ATANF''@/$(GL_GNULIB_ATANF)/g' \
+	      -e 's/@''GNULIB_ATANL''@/$(GL_GNULIB_ATANL)/g' \
+	      -e 's/@''GNULIB_ATAN2F''@/$(GL_GNULIB_ATAN2F)/g' \
+	      -e 's/@''GNULIB_CBRT''@/$(GL_GNULIB_CBRT)/g' \
+	      -e 's/@''GNULIB_CBRTF''@/$(GL_GNULIB_CBRTF)/g' \
+	      -e 's/@''GNULIB_CBRTL''@/$(GL_GNULIB_CBRTL)/g' \
+	      -e 's/@''GNULIB_CEIL''@/$(GL_GNULIB_CEIL)/g' \
+	      -e 's/@''GNULIB_CEILF''@/$(GL_GNULIB_CEILF)/g' \
+	      -e 's/@''GNULIB_CEILL''@/$(GL_GNULIB_CEILL)/g' \
+	      -e 's/@''GNULIB_COPYSIGN''@/$(GL_GNULIB_COPYSIGN)/g' \
+	      -e 's/@''GNULIB_COPYSIGNF''@/$(GL_GNULIB_COPYSIGNF)/g' \
+	      -e 's/@''GNULIB_COPYSIGNL''@/$(GL_GNULIB_COPYSIGNL)/g' \
+	      -e 's/@''GNULIB_COSF''@/$(GL_GNULIB_COSF)/g' \
+	      -e 's/@''GNULIB_COSL''@/$(GL_GNULIB_COSL)/g' \
+	      -e 's/@''GNULIB_COSHF''@/$(GL_GNULIB_COSHF)/g' \
+	      -e 's/@''GNULIB_EXPF''@/$(GL_GNULIB_EXPF)/g' \
+	      -e 's/@''GNULIB_EXPL''@/$(GL_GNULIB_EXPL)/g' \
+	      -e 's/@''GNULIB_EXP2''@/$(GL_GNULIB_EXP2)/g' \
+	      -e 's/@''GNULIB_EXP2F''@/$(GL_GNULIB_EXP2F)/g' \
+	      -e 's/@''GNULIB_EXP2L''@/$(GL_GNULIB_EXP2L)/g' \
+	      -e 's/@''GNULIB_EXPM1''@/$(GL_GNULIB_EXPM1)/g' \
+	      -e 's/@''GNULIB_EXPM1F''@/$(GL_GNULIB_EXPM1F)/g' \
+	      -e 's/@''GNULIB_EXPM1L''@/$(GL_GNULIB_EXPM1L)/g' \
+	      -e 's/@''GNULIB_FABSF''@/$(GL_GNULIB_FABSF)/g' \
+	      -e 's/@''GNULIB_FABSL''@/$(GL_GNULIB_FABSL)/g' \
+	      -e 's/@''GNULIB_FLOOR''@/$(GL_GNULIB_FLOOR)/g' \
+	      -e 's/@''GNULIB_FLOORF''@/$(GL_GNULIB_FLOORF)/g' \
+	      -e 's/@''GNULIB_FLOORL''@/$(GL_GNULIB_FLOORL)/g' \
+	      -e 's/@''GNULIB_FMA''@/$(GL_GNULIB_FMA)/g' \
+	      -e 's/@''GNULIB_FMAF''@/$(GL_GNULIB_FMAF)/g' \
+	      -e 's/@''GNULIB_FMAL''@/$(GL_GNULIB_FMAL)/g' \
+	      -e 's/@''GNULIB_FMOD''@/$(GL_GNULIB_FMOD)/g' \
+	      -e 's/@''GNULIB_FMODF''@/$(GL_GNULIB_FMODF)/g' \
+	      -e 's/@''GNULIB_FMODL''@/$(GL_GNULIB_FMODL)/g' \
+	      -e 's/@''GNULIB_FREXPF''@/$(GL_GNULIB_FREXPF)/g' \
+	      -e 's/@''GNULIB_FREXP''@/$(GL_GNULIB_FREXP)/g' \
+	      -e 's/@''GNULIB_FREXPL''@/$(GL_GNULIB_FREXPL)/g' \
+	      -e 's/@''GNULIB_GETPAYLOAD''@/$(GL_GNULIB_GETPAYLOAD)/g' \
+	      -e 's/@''GNULIB_GETPAYLOADF''@/$(GL_GNULIB_GETPAYLOADF)/g' \
+	      -e 's/@''GNULIB_GETPAYLOADL''@/$(GL_GNULIB_GETPAYLOADL)/g' \
+	      -e 's/@''GNULIB_HYPOT''@/$(GL_GNULIB_HYPOT)/g' \
+	      -e 's/@''GNULIB_HYPOTF''@/$(GL_GNULIB_HYPOTF)/g' \
+	      -e 's/@''GNULIB_HYPOTL''@/$(GL_GNULIB_HYPOTL)/g' \
+	      < $(srcdir)/math.in.h > $@-t1
+	$(AM_V_at)sed \
+	      -e 's/@''GNULIB_ILOGB''@/$(GL_GNULIB_ILOGB)/g' \
+	      -e 's/@''GNULIB_ILOGBF''@/$(GL_GNULIB_ILOGBF)/g' \
+	      -e 's/@''GNULIB_ILOGBL''@/$(GL_GNULIB_ILOGBL)/g' \
+	      -e 's/@''GNULIB_ISFINITE''@/$(GL_GNULIB_ISFINITE)/g' \
+	      -e 's/@''GNULIB_ISINF''@/$(GL_GNULIB_ISINF)/g' \
+	      -e 's/@''GNULIB_ISNAN''@/$(GL_GNULIB_ISNAN)/g' \
+	      -e 's/@''GNULIB_ISNANF''@/$(GL_GNULIB_ISNANF)/g' \
+	      -e 's/@''GNULIB_ISNAND''@/$(GL_GNULIB_ISNAND)/g' \
+	      -e 's/@''GNULIB_ISNANL''@/$(GL_GNULIB_ISNANL)/g' \
+	      -e 's/@''GNULIB_LDEXP''@/$(GL_GNULIB_LDEXP)/g' \
+	      -e 's/@''GNULIB_LDEXPF''@/$(GL_GNULIB_LDEXPF)/g' \
+	      -e 's/@''GNULIB_LDEXPL''@/$(GL_GNULIB_LDEXPL)/g' \
+	      -e 's/@''GNULIB_LOG''@/$(GL_GNULIB_LOG)/g' \
+	      -e 's/@''GNULIB_LOGF''@/$(GL_GNULIB_LOGF)/g' \
+	      -e 's/@''GNULIB_LOGL''@/$(GL_GNULIB_LOGL)/g' \
+	      -e 's/@''GNULIB_LOG10''@/$(GL_GNULIB_LOG10)/g' \
+	      -e 's/@''GNULIB_LOG10F''@/$(GL_GNULIB_LOG10F)/g' \
+	      -e 's/@''GNULIB_LOG10L''@/$(GL_GNULIB_LOG10L)/g' \
+	      -e 's/@''GNULIB_LOG1P''@/$(GL_GNULIB_LOG1P)/g' \
+	      -e 's/@''GNULIB_LOG1PF''@/$(GL_GNULIB_LOG1PF)/g' \
+	      -e 's/@''GNULIB_LOG1PL''@/$(GL_GNULIB_LOG1PL)/g' \
+	      -e 's/@''GNULIB_LOG2''@/$(GL_GNULIB_LOG2)/g' \
+	      -e 's/@''GNULIB_LOG2F''@/$(GL_GNULIB_LOG2F)/g' \
+	      -e 's/@''GNULIB_LOG2L''@/$(GL_GNULIB_LOG2L)/g' \
+	      -e 's/@''GNULIB_LOGB''@/$(GL_GNULIB_LOGB)/g' \
+	      -e 's/@''GNULIB_LOGBF''@/$(GL_GNULIB_LOGBF)/g' \
+	      -e 's/@''GNULIB_LOGBL''@/$(GL_GNULIB_LOGBL)/g' \
+	      -e 's/@''GNULIB_LOGP1''@/$(GL_GNULIB_LOGP1)/g' \
+	      -e 's/@''GNULIB_LOGP1F''@/$(GL_GNULIB_LOGP1F)/g' \
+	      -e 's/@''GNULIB_LOGP1L''@/$(GL_GNULIB_LOGP1L)/g' \
+	      -e 's/@''GNULIB_MODF''@/$(GL_GNULIB_MODF)/g' \
+	      -e 's/@''GNULIB_MODFF''@/$(GL_GNULIB_MODFF)/g' \
+	      -e 's/@''GNULIB_MODFL''@/$(GL_GNULIB_MODFL)/g' \
+	      -e 's/@''GNULIB_POWF''@/$(GL_GNULIB_POWF)/g' \
+	      -e 's/@''GNULIB_REMAINDER''@/$(GL_GNULIB_REMAINDER)/g' \
+	      -e 's/@''GNULIB_REMAINDERF''@/$(GL_GNULIB_REMAINDERF)/g' \
+	      -e 's/@''GNULIB_REMAINDERL''@/$(GL_GNULIB_REMAINDERL)/g' \
+	      -e 's/@''GNULIB_RINT''@/$(GL_GNULIB_RINT)/g' \
+	      -e 's/@''GNULIB_RINTF''@/$(GL_GNULIB_RINTF)/g' \
+	      -e 's/@''GNULIB_RINTL''@/$(GL_GNULIB_RINTL)/g' \
+	      -e 's/@''GNULIB_ROUND''@/$(GL_GNULIB_ROUND)/g' \
+	      -e 's/@''GNULIB_ROUNDF''@/$(GL_GNULIB_ROUNDF)/g' \
+	      -e 's/@''GNULIB_ROUNDL''@/$(GL_GNULIB_ROUNDL)/g' \
+	      -e 's/@''GNULIB_SETPAYLOAD''@/$(GL_GNULIB_SETPAYLOAD)/g' \
+	      -e 's/@''GNULIB_SETPAYLOADF''@/$(GL_GNULIB_SETPAYLOADF)/g' \
+	      -e 's/@''GNULIB_SETPAYLOADL''@/$(GL_GNULIB_SETPAYLOADL)/g' \
+	      -e 's/@''GNULIB_SETPAYLOADSIG''@/$(GL_GNULIB_SETPAYLOADSIG)/g' \
+	      -e 's/@''GNULIB_SETPAYLOADSIGF''@/$(GL_GNULIB_SETPAYLOADSIGF)/g' \
+	      -e 's/@''GNULIB_SETPAYLOADSIGL''@/$(GL_GNULIB_SETPAYLOADSIGL)/g' \
+	      -e 's/@''GNULIB_SIGNBIT''@/$(GL_GNULIB_SIGNBIT)/g' \
+	      -e 's/@''GNULIB_SINF''@/$(GL_GNULIB_SINF)/g' \
+	      -e 's/@''GNULIB_SINL''@/$(GL_GNULIB_SINL)/g' \
+	      -e 's/@''GNULIB_SINHF''@/$(GL_GNULIB_SINHF)/g' \
+	      -e 's/@''GNULIB_SQRTF''@/$(GL_GNULIB_SQRTF)/g' \
+	      -e 's/@''GNULIB_SQRTL''@/$(GL_GNULIB_SQRTL)/g' \
+	      -e 's/@''GNULIB_TANF''@/$(GL_GNULIB_TANF)/g' \
+	      -e 's/@''GNULIB_TANL''@/$(GL_GNULIB_TANL)/g' \
+	      -e 's/@''GNULIB_TANHF''@/$(GL_GNULIB_TANHF)/g' \
+	      -e 's/@''GNULIB_TRUNC''@/$(GL_GNULIB_TRUNC)/g' \
+	      -e 's/@''GNULIB_TRUNCF''@/$(GL_GNULIB_TRUNCF)/g' \
+	      -e 's/@''GNULIB_TRUNCL''@/$(GL_GNULIB_TRUNCL)/g' \
+	      -e 's/@''GNULIB_TOTALORDER''@/$(GL_GNULIB_TOTALORDER)/g' \
+	      -e 's/@''GNULIB_TOTALORDERF''@/$(GL_GNULIB_TOTALORDERF)/g' \
+	      -e 's/@''GNULIB_TOTALORDERL''@/$(GL_GNULIB_TOTALORDERL)/g' \
+	      -e 's/@''GNULIB_TOTALORDERMAG''@/$(GL_GNULIB_TOTALORDERMAG)/g' \
+	      -e 's/@''GNULIB_TOTALORDERMAGF''@/$(GL_GNULIB_TOTALORDERMAGF)/g' \
+	      -e 's/@''GNULIB_TOTALORDERMAGL''@/$(GL_GNULIB_TOTALORDERMAGL)/g' \
+	      -e 's/@''GNULIB_MDA_J0''@/$(GL_GNULIB_MDA_J0)/g' \
+	      -e 's/@''GNULIB_MDA_J1''@/$(GL_GNULIB_MDA_J1)/g' \
+	      -e 's/@''GNULIB_MDA_JN''@/$(GL_GNULIB_MDA_JN)/g' \
+	      -e 's/@''GNULIB_MDA_Y0''@/$(GL_GNULIB_MDA_Y0)/g' \
+	      -e 's/@''GNULIB_MDA_Y1''@/$(GL_GNULIB_MDA_Y1)/g' \
+	      -e 's/@''GNULIB_MDA_YN''@/$(GL_GNULIB_MDA_YN)/g' \
+	      < $@-t1 > $@-t2
+	$(AM_V_at)sed \
+	      -e 's|@''HAVE_ACOSF''@|$(HAVE_ACOSF)|g' \
+	      -e 's|@''HAVE_ACOSL''@|$(HAVE_ACOSL)|g' \
+	      -e 's|@''HAVE_ASINF''@|$(HAVE_ASINF)|g' \
+	      -e 's|@''HAVE_ASINL''@|$(HAVE_ASINL)|g' \
+	      -e 's|@''HAVE_ATANF''@|$(HAVE_ATANF)|g' \
+	      -e 's|@''HAVE_ATANL''@|$(HAVE_ATANL)|g' \
+	      -e 's|@''HAVE_ATAN2F''@|$(HAVE_ATAN2F)|g' \
+	      -e 's|@''HAVE_CBRT''@|$(HAVE_CBRT)|g' \
+	      -e 's|@''HAVE_CBRTF''@|$(HAVE_CBRTF)|g' \
+	      -e 's|@''HAVE_CBRTL''@|$(HAVE_CBRTL)|g' \
+	      -e 's|@''HAVE_COPYSIGN''@|$(HAVE_COPYSIGN)|g' \
+	      -e 's|@''HAVE_COPYSIGNF''@|$(HAVE_COPYSIGNF)|g' \
+	      -e 's|@''HAVE_COPYSIGNL''@|$(HAVE_COPYSIGNL)|g' \
+	      -e 's|@''HAVE_COSF''@|$(HAVE_COSF)|g' \
+	      -e 's|@''HAVE_COSL''@|$(HAVE_COSL)|g' \
+	      -e 's|@''HAVE_COSHF''@|$(HAVE_COSHF)|g' \
+	      -e 's|@''HAVE_EXPF''@|$(HAVE_EXPF)|g' \
+	      -e 's|@''HAVE_EXPL''@|$(HAVE_EXPL)|g' \
+	      -e 's|@''HAVE_EXP2''@|$(HAVE_EXP2)|g' \
+	      -e 's|@''HAVE_EXP2F''@|$(HAVE_EXP2F)|g' \
+	      -e 's|@''HAVE_EXP2L''@|$(HAVE_EXP2L)|g' \
+	      -e 's|@''HAVE_EXPM1''@|$(HAVE_EXPM1)|g' \
+	      -e 's|@''HAVE_EXPM1F''@|$(HAVE_EXPM1F)|g' \
+	      -e 's|@''HAVE_EXPM1L''@|$(HAVE_EXPM1L)|g' \
+	      -e 's|@''HAVE_FABSF''@|$(HAVE_FABSF)|g' \
+	      -e 's|@''HAVE_FABSL''@|$(HAVE_FABSL)|g' \
+	      -e 's|@''HAVE_FMA''@|$(HAVE_FMA)|g' \
+	      -e 's|@''HAVE_FMAF''@|$(HAVE_FMAF)|g' \
+	      -e 's|@''HAVE_FMAL''@|$(HAVE_FMAL)|g' \
+	      -e 's|@''HAVE_FMODF''@|$(HAVE_FMODF)|g' \
+	      -e 's|@''HAVE_FMODL''@|$(HAVE_FMODL)|g' \
+	      -e 's|@''HAVE_FREXPF''@|$(HAVE_FREXPF)|g' \
+	      -e 's|@''HAVE_GETPAYLOAD''@|$(HAVE_GETPAYLOAD)|g' \
+	      -e 's|@''HAVE_GETPAYLOADF''@|$(HAVE_GETPAYLOADF)|g' \
+	      -e 's|@''HAVE_GETPAYLOADL''@|$(HAVE_GETPAYLOADL)|g' \
+	      -e 's|@''HAVE_HYPOTF''@|$(HAVE_HYPOTF)|g' \
+	      -e 's|@''HAVE_HYPOTL''@|$(HAVE_HYPOTL)|g' \
+	      -e 's|@''HAVE_ILOGB''@|$(HAVE_ILOGB)|g' \
+	      -e 's|@''HAVE_ILOGBF''@|$(HAVE_ILOGBF)|g' \
+	      -e 's|@''HAVE_ILOGBL''@|$(HAVE_ILOGBL)|g' \
+	      -e 's|@''HAVE_ISNANF''@|$(HAVE_ISNANF)|g' \
+	      -e 's|@''HAVE_ISNAND''@|$(HAVE_ISNAND)|g' \
+	      -e 's|@''HAVE_ISNANL''@|$(HAVE_ISNANL)|g' \
+	      -e 's|@''HAVE_LDEXPF''@|$(HAVE_LDEXPF)|g' \
+	      -e 's|@''HAVE_LOGF''@|$(HAVE_LOGF)|g' \
+	      -e 's|@''HAVE_LOGL''@|$(HAVE_LOGL)|g' \
+	      -e 's|@''HAVE_LOG10F''@|$(HAVE_LOG10F)|g' \
+	      -e 's|@''HAVE_LOG10L''@|$(HAVE_LOG10L)|g' \
+	      -e 's|@''HAVE_LOG1P''@|$(HAVE_LOG1P)|g' \
+	      -e 's|@''HAVE_LOG1PF''@|$(HAVE_LOG1PF)|g' \
+	      -e 's|@''HAVE_LOG1PL''@|$(HAVE_LOG1PL)|g' \
+	      -e 's|@''HAVE_LOG2''@|$(HAVE_LOG2)|g' \
+	      -e 's|@''HAVE_LOG2F''@|$(HAVE_LOG2F)|g' \
+	      -e 's|@''HAVE_LOG2L''@|$(HAVE_LOG2L)|g' \
+	      -e 's|@''HAVE_LOGBF''@|$(HAVE_LOGBF)|g' \
+	      -e 's|@''HAVE_LOGBL''@|$(HAVE_LOGBL)|g' \
+	      -e 's|@''HAVE_LOGP1''@|$(HAVE_LOGP1)|g' \
+	      -e 's|@''HAVE_LOGP1F''@|$(HAVE_LOGP1F)|g' \
+	      -e 's|@''HAVE_LOGP1L''@|$(HAVE_LOGP1L)|g' \
+	      -e 's|@''HAVE_MODFF''@|$(HAVE_MODFF)|g' \
+	      -e 's|@''HAVE_MODFL''@|$(HAVE_MODFL)|g' \
+	      -e 's|@''HAVE_POWF''@|$(HAVE_POWF)|g' \
+	      -e 's|@''HAVE_REMAINDER''@|$(HAVE_REMAINDER)|g' \
+	      -e 's|@''HAVE_REMAINDERF''@|$(HAVE_REMAINDERF)|g' \
+	      -e 's|@''HAVE_REMAINDERL''@|$(HAVE_REMAINDERL)|g' \
+	      -e 's|@''HAVE_RINT''@|$(HAVE_RINT)|g' \
+	      -e 's|@''HAVE_RINTF''@|$(HAVE_RINTF)|g' \
+	      -e 's|@''HAVE_RINTL''@|$(HAVE_RINTL)|g' \
+	      -e 's|@''HAVE_ROUND''@|$(HAVE_ROUND)|g' \
+	      -e 's|@''HAVE_ROUNDF''@|$(HAVE_ROUNDF)|g' \
+	      -e 's|@''HAVE_ROUNDL''@|$(HAVE_ROUNDL)|g' \
+	      -e 's|@''HAVE_SETPAYLOAD''@|$(HAVE_SETPAYLOAD)|g' \
+	      -e 's|@''HAVE_SETPAYLOADF''@|$(HAVE_SETPAYLOADF)|g' \
+	      -e 's|@''HAVE_SETPAYLOADL''@|$(HAVE_SETPAYLOADL)|g' \
+	      -e 's|@''HAVE_SETPAYLOADSIG''@|$(HAVE_SETPAYLOADSIG)|g' \
+	      -e 's|@''HAVE_SETPAYLOADSIGF''@|$(HAVE_SETPAYLOADSIGF)|g' \
+	      -e 's|@''HAVE_SETPAYLOADSIGL''@|$(HAVE_SETPAYLOADSIGL)|g' \
+	      -e 's|@''HAVE_SINF''@|$(HAVE_SINF)|g' \
+	      -e 's|@''HAVE_SINL''@|$(HAVE_SINL)|g' \
+	      -e 's|@''HAVE_SINHF''@|$(HAVE_SINHF)|g' \
+	      -e 's|@''HAVE_SQRTF''@|$(HAVE_SQRTF)|g' \
+	      -e 's|@''HAVE_SQRTL''@|$(HAVE_SQRTL)|g' \
+	      -e 's|@''HAVE_TANF''@|$(HAVE_TANF)|g' \
+	      -e 's|@''HAVE_TANL''@|$(HAVE_TANL)|g' \
+	      -e 's|@''HAVE_TANHF''@|$(HAVE_TANHF)|g' \
+	      -e 's|@''HAVE_TOTALORDER''@|$(HAVE_TOTALORDER)|g' \
+	      -e 's|@''HAVE_TOTALORDERF''@|$(HAVE_TOTALORDERF)|g' \
+	      -e 's|@''HAVE_TOTALORDERL''@|$(HAVE_TOTALORDERL)|g' \
+	      -e 's|@''HAVE_TOTALORDERMAG''@|$(HAVE_TOTALORDERMAG)|g' \
+	      -e 's|@''HAVE_TOTALORDERMAGF''@|$(HAVE_TOTALORDERMAGF)|g' \
+	      -e 's|@''HAVE_TOTALORDERMAGL''@|$(HAVE_TOTALORDERMAGL)|g' \
+	      < $@-t2 > $@-t3
+	$(AM_V_at)sed \
+	      -e 's|@''HAVE_DECL_ACOSL''@|$(HAVE_DECL_ACOSL)|g' \
+	      -e 's|@''HAVE_DECL_ASINL''@|$(HAVE_DECL_ASINL)|g' \
+	      -e 's|@''HAVE_DECL_ATANL''@|$(HAVE_DECL_ATANL)|g' \
+	      -e 's|@''HAVE_DECL_CEILF''@|$(HAVE_DECL_CEILF)|g' \
+	      -e 's|@''HAVE_DECL_CEILL''@|$(HAVE_DECL_CEILL)|g' \
+	      -e 's|@''HAVE_DECL_COSL''@|$(HAVE_DECL_COSL)|g' \
+	      -e 's|@''HAVE_DECL_EXPL''@|$(HAVE_DECL_EXPL)|g' \
+	      -e 's|@''HAVE_DECL_FLOORF''@|$(HAVE_DECL_FLOORF)|g' \
+	      -e 's|@''HAVE_DECL_FLOORL''@|$(HAVE_DECL_FLOORL)|g' \
+	      -e 's|@''HAVE_DECL_FREXPL''@|$(HAVE_DECL_FREXPL)|g' \
+	      -e 's|@''HAVE_DECL_LDEXPL''@|$(HAVE_DECL_LDEXPL)|g' \
+	      -e 's|@''HAVE_DECL_LOGL''@|$(HAVE_DECL_LOGL)|g' \
+	      -e 's|@''HAVE_DECL_LOG10L''@|$(HAVE_DECL_LOG10L)|g' \
+	      -e 's|@''HAVE_DECL_LOGB''@|$(HAVE_DECL_LOGB)|g' \
+	      -e 's|@''HAVE_DECL_SINL''@|$(HAVE_DECL_SINL)|g' \
+	      -e 's|@''HAVE_DECL_SQRTL''@|$(HAVE_DECL_SQRTL)|g' \
+	      -e 's|@''HAVE_DECL_TANL''@|$(HAVE_DECL_TANL)|g' \
+	      -e 's|@''HAVE_DECL_TRUNC''@|$(HAVE_DECL_TRUNC)|g' \
+	      -e 's|@''HAVE_DECL_TRUNCF''@|$(HAVE_DECL_TRUNCF)|g' \
+	      -e 's|@''HAVE_DECL_TRUNCL''@|$(HAVE_DECL_TRUNCL)|g' \
+	      < $@-t3 > $@-t4
+	$(AM_V_at)sed \
+	      -e 's|@''REPLACE_ACOSF''@|$(REPLACE_ACOSF)|g' \
+	      -e 's|@''REPLACE_ASINF''@|$(REPLACE_ASINF)|g' \
+	      -e 's|@''REPLACE_ATANF''@|$(REPLACE_ATANF)|g' \
+	      -e 's|@''REPLACE_ATAN2F''@|$(REPLACE_ATAN2F)|g' \
+	      -e 's|@''REPLACE_CBRTF''@|$(REPLACE_CBRTF)|g' \
+	      -e 's|@''REPLACE_CBRTL''@|$(REPLACE_CBRTL)|g' \
+	      -e 's|@''REPLACE_CEIL''@|$(REPLACE_CEIL)|g' \
+	      -e 's|@''REPLACE_CEILF''@|$(REPLACE_CEILF)|g' \
+	      -e 's|@''REPLACE_CEILL''@|$(REPLACE_CEILL)|g' \
+	      -e 's|@''REPLACE_COSF''@|$(REPLACE_COSF)|g' \
+	      -e 's|@''REPLACE_COSHF''@|$(REPLACE_COSHF)|g' \
+	      -e 's|@''REPLACE_EXPF''@|$(REPLACE_EXPF)|g' \
+	      -e 's|@''REPLACE_EXPL''@|$(REPLACE_EXPL)|g' \
+	      -e 's|@''REPLACE_EXPM1''@|$(REPLACE_EXPM1)|g' \
+	      -e 's|@''REPLACE_EXPM1F''@|$(REPLACE_EXPM1F)|g' \
+	      -e 's|@''REPLACE_EXPM1L''@|$(REPLACE_EXPM1L)|g' \
+	      -e 's|@''REPLACE_EXP2''@|$(REPLACE_EXP2)|g' \
+	      -e 's|@''REPLACE_EXP2L''@|$(REPLACE_EXP2L)|g' \
+	      -e 's|@''REPLACE_FABSL''@|$(REPLACE_FABSL)|g' \
+	      -e 's|@''REPLACE_FLOOR''@|$(REPLACE_FLOOR)|g' \
+	      -e 's|@''REPLACE_FLOORF''@|$(REPLACE_FLOORF)|g' \
+	      -e 's|@''REPLACE_FLOORL''@|$(REPLACE_FLOORL)|g' \
+	      -e 's|@''REPLACE_FMA''@|$(REPLACE_FMA)|g' \
+	      -e 's|@''REPLACE_FMAF''@|$(REPLACE_FMAF)|g' \
+	      -e 's|@''REPLACE_FMAL''@|$(REPLACE_FMAL)|g' \
+	      -e 's|@''REPLACE_FMOD''@|$(REPLACE_FMOD)|g' \
+	      -e 's|@''REPLACE_FMODF''@|$(REPLACE_FMODF)|g' \
+	      -e 's|@''REPLACE_FMODL''@|$(REPLACE_FMODL)|g' \
+	      -e 's|@''REPLACE_FREXPF''@|$(REPLACE_FREXPF)|g' \
+	      -e 's|@''REPLACE_FREXP''@|$(REPLACE_FREXP)|g' \
+	      -e 's|@''REPLACE_FREXPL''@|$(REPLACE_FREXPL)|g' \
+	      -e 's|@''REPLACE_GETPAYLOAD''@|$(REPLACE_GETPAYLOAD)|g' \
+	      -e 's|@''REPLACE_GETPAYLOADF''@|$(REPLACE_GETPAYLOADF)|g' \
+	      -e 's|@''REPLACE_GETPAYLOADL''@|$(REPLACE_GETPAYLOADL)|g' \
+	      -e 's|@''REPLACE_HUGE_VAL''@|$(REPLACE_HUGE_VAL)|g' \
+	      -e 's|@''REPLACE_HYPOT''@|$(REPLACE_HYPOT)|g' \
+	      -e 's|@''REPLACE_HYPOTF''@|$(REPLACE_HYPOTF)|g' \
+	      -e 's|@''REPLACE_HYPOTL''@|$(REPLACE_HYPOTL)|g' \
+	      -e 's|@''REPLACE_ILOGB''@|$(REPLACE_ILOGB)|g' \
+	      -e 's|@''REPLACE_ILOGBF''@|$(REPLACE_ILOGBF)|g' \
+	      -e 's|@''REPLACE_ILOGBL''@|$(REPLACE_ILOGBL)|g' \
+	      -e 's|@''REPLACE_ISFINITE''@|$(REPLACE_ISFINITE)|g' \
+	      -e 's|@''REPLACE_ISINF''@|$(REPLACE_ISINF)|g' \
+	      -e 's|@''REPLACE_ISNAN''@|$(REPLACE_ISNAN)|g' \
+	      -e 's|@''REPLACE_ITOLD''@|$(REPLACE_ITOLD)|g' \
+	      < $@-t4 > $@-t5
+	$(AM_V_at)sed \
+	      -e 's|@''REPLACE_LDEXP''@|$(REPLACE_LDEXP)|g' \
+	      -e 's|@''REPLACE_LDEXPL''@|$(REPLACE_LDEXPL)|g' \
+	      -e 's|@''REPLACE_LOG''@|$(REPLACE_LOG)|g' \
+	      -e 's|@''REPLACE_LOGF''@|$(REPLACE_LOGF)|g' \
+	      -e 's|@''REPLACE_LOGL''@|$(REPLACE_LOGL)|g' \
+	      -e 's|@''REPLACE_LOG10''@|$(REPLACE_LOG10)|g' \
+	      -e 's|@''REPLACE_LOG10F''@|$(REPLACE_LOG10F)|g' \
+	      -e 's|@''REPLACE_LOG10L''@|$(REPLACE_LOG10L)|g' \
+	      -e 's|@''REPLACE_LOG1P''@|$(REPLACE_LOG1P)|g' \
+	      -e 's|@''REPLACE_LOG1PF''@|$(REPLACE_LOG1PF)|g' \
+	      -e 's|@''REPLACE_LOG1PL''@|$(REPLACE_LOG1PL)|g' \
+	      -e 's|@''REPLACE_LOG2''@|$(REPLACE_LOG2)|g' \
+	      -e 's|@''REPLACE_LOG2F''@|$(REPLACE_LOG2F)|g' \
+	      -e 's|@''REPLACE_LOG2L''@|$(REPLACE_LOG2L)|g' \
+	      -e 's|@''REPLACE_LOGB''@|$(REPLACE_LOGB)|g' \
+	      -e 's|@''REPLACE_LOGBF''@|$(REPLACE_LOGBF)|g' \
+	      -e 's|@''REPLACE_LOGBL''@|$(REPLACE_LOGBL)|g' \
+	      -e 's|@''REPLACE_MODF''@|$(REPLACE_MODF)|g' \
+	      -e 's|@''REPLACE_MODFF''@|$(REPLACE_MODFF)|g' \
+	      -e 's|@''REPLACE_MODFL''@|$(REPLACE_MODFL)|g' \
+	      -e 's|@''REPLACE_NAN''@|$(REPLACE_NAN)|g' \
+	      -e 's|@''REPLACE_REMAINDER''@|$(REPLACE_REMAINDER)|g' \
+	      -e 's|@''REPLACE_REMAINDERF''@|$(REPLACE_REMAINDERF)|g' \
+	      -e 's|@''REPLACE_REMAINDERL''@|$(REPLACE_REMAINDERL)|g' \
+	      -e 's|@''REPLACE_RINTL''@|$(REPLACE_RINTL)|g' \
+	      -e 's|@''REPLACE_ROUND''@|$(REPLACE_ROUND)|g' \
+	      -e 's|@''REPLACE_ROUNDF''@|$(REPLACE_ROUNDF)|g' \
+	      -e 's|@''REPLACE_ROUNDL''@|$(REPLACE_ROUNDL)|g' \
+	      -e 's|@''REPLACE_SIGNBIT''@|$(REPLACE_SIGNBIT)|g' \
+	      -e 's|@''REPLACE_SIGNBIT_USING_BUILTINS''@|$(REPLACE_SIGNBIT_USING_BUILTINS)|g' \
+	      -e 's|@''REPLACE_SINF''@|$(REPLACE_SINF)|g' \
+	      -e 's|@''REPLACE_SINHF''@|$(REPLACE_SINHF)|g' \
+	      -e 's|@''REPLACE_SQRTF''@|$(REPLACE_SQRTF)|g' \
+	      -e 's|@''REPLACE_SQRTL''@|$(REPLACE_SQRTL)|g' \
+	      -e 's|@''REPLACE_TANF''@|$(REPLACE_TANF)|g' \
+	      -e 's|@''REPLACE_TANHF''@|$(REPLACE_TANHF)|g' \
+	      -e 's|@''REPLACE_TOTALORDER''@|$(REPLACE_TOTALORDER)|g' \
+	      -e 's|@''REPLACE_TOTALORDERF''@|$(REPLACE_TOTALORDERF)|g' \
+	      -e 's|@''REPLACE_TOTALORDERL''@|$(REPLACE_TOTALORDERL)|g' \
+	      -e 's|@''REPLACE_TOTALORDERMAG''@|$(REPLACE_TOTALORDERMAG)|g' \
+	      -e 's|@''REPLACE_TOTALORDERMAGF''@|$(REPLACE_TOTALORDERMAGF)|g' \
+	      -e 's|@''REPLACE_TOTALORDERMAGL''@|$(REPLACE_TOTALORDERMAGL)|g' \
+	      -e 's|@''REPLACE_TRUNC''@|$(REPLACE_TRUNC)|g' \
+	      -e 's|@''REPLACE_TRUNCF''@|$(REPLACE_TRUNCF)|g' \
+	      -e 's|@''REPLACE_TRUNCL''@|$(REPLACE_TRUNCL)|g' \
+	      -e '/definitions of _GL_FUNCDECL_RPL/r $(CXXDEFS_H)' \
+	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
+	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
+	      < $@-t5 > $@-t6
+	$(AM_V_at)rm -f $@-t1 $@-t2 $@-t3 $@-t4 $@-t5
+	$(AM_V_at)mv $@-t6 $@
+MOSTLYCLEANFILES += math.h math.h-t1 math.h-t2 math.h-t3 math.h-t4 math.h-t5 math.h-t6
+
+EXTRA_DIST += math.in.h
+
+## end   gnulib module math-h
+
+## begin gnulib module mbchar
+
+libgnu_a_SOURCES += mbchar.c
+
+EXTRA_DIST += mbchar.h
+
+## end   gnulib module mbchar
+
+## begin gnulib module mbiterf
+
+libgnu_a_SOURCES += mbiterf.h mbiterf.c
+
+## end   gnulib module mbiterf
+
+## begin gnulib module mbrtoc32
+
+if GL_COND_OBJ_MBRTOC32
+libgnu_a_SOURCES += mbrtoc32.c
+endif
+
+EXTRA_DIST += lc-charset-dispatch.c lc-charset-dispatch.h mbrtowc-impl-utf8.h mbrtowc-impl.h mbtowc-lock.c mbtowc-lock.h windows-initguard.h
+
+EXTRA_libgnu_a_SOURCES += lc-charset-dispatch.c mbtowc-lock.c
+
+## end   gnulib module mbrtoc32
+
+## begin gnulib module mbrtowc
+
+if GL_COND_OBJ_MBRTOWC
+libgnu_a_SOURCES += mbrtowc.c
+endif
+
+EXTRA_DIST += lc-charset-dispatch.c lc-charset-dispatch.h mbrtowc-impl-utf8.h mbrtowc-impl.h mbtowc-lock.c mbtowc-lock.h windows-initguard.h
+
+EXTRA_libgnu_a_SOURCES += lc-charset-dispatch.c mbtowc-lock.c
+
+## end   gnulib module mbrtowc
+
+## begin gnulib module mbsinit
+
+if GL_COND_OBJ_MBSINIT
+libgnu_a_SOURCES += mbsinit.c
+endif
+
+## end   gnulib module mbsinit
+
+## begin gnulib module mbsnlen
+
+libgnu_a_SOURCES += mbsnlen.c
+
+## end   gnulib module mbsnlen
+
+## begin gnulib module mbszero
+
+libgnu_a_SOURCES += mbszero.c
+
+## end   gnulib module mbszero
+
+## begin gnulib module memchr
+
+if GL_COND_OBJ_MEMCHR
+libgnu_a_SOURCES += memchr.c
+endif
+
+EXTRA_DIST += memchr.valgrind
+
+## end   gnulib module memchr
 
 ## begin gnulib module memcmp2
 
@@ -783,6 +1453,24 @@ EXTRA_DIST += pathmax.h
 
 ## end   gnulib module pathmax
 
+## begin gnulib module printf-frexp
+
+libgnu_a_SOURCES += printf-frexp.c
+
+EXTRA_DIST += printf-frexp.h
+
+## end   gnulib module printf-frexp
+
+## begin gnulib module printf-frexpl
+
+libgnu_a_SOURCES += printf-frexpl.c
+
+EXTRA_DIST += printf-frexp.c printf-frexpl.h
+
+EXTRA_libgnu_a_SOURCES += printf-frexp.c
+
+## end   gnulib module printf-frexpl
+
 ## begin gnulib module progname
 
 libgnu_a_SOURCES += progname.h progname.c
@@ -804,6 +1492,41 @@ libgnu_a_SOURCES += reallocarray.c
 endif
 
 ## end   gnulib module reallocarray
+
+## begin gnulib module setlocale-null
+
+libgnu_a_SOURCES += setlocale_null.c
+if GL_COND_OBJ_SETLOCALE_LOCK
+libgnu_a_SOURCES += setlocale-lock.c
+endif
+
+EXTRA_DIST += setlocale_null.h windows-initguard.h
+
+## end   gnulib module setlocale-null
+
+## begin gnulib module setlocale-null-unlocked
+
+libgnu_a_SOURCES += setlocale_null-unlocked.c
+
+EXTRA_DIST += setlocale_null.h
+
+## end   gnulib module setlocale-null-unlocked
+
+## begin gnulib module signbit
+
+if GL_COND_OBJ_SIGNBIT3
+libgnu_a_SOURCES += signbitf.c signbitd.c signbitl.c
+endif
+
+EXTRA_DIST += float+.h
+
+## end   gnulib module signbit
+
+## begin gnulib module size_max
+
+libgnu_a_SOURCES += size_max.h
+
+## end   gnulib module size_max
 
 ## begin gnulib module snippet/_Noreturn
 
@@ -852,6 +1575,15 @@ WARN_ON_USE_H=$(srcdir)/warn-on-use.h
 EXTRA_DIST += warn-on-use.h
 
 ## end   gnulib module snippet/warn-on-use
+
+## begin gnulib module snprintf
+
+
+EXTRA_DIST += snprintf.c
+
+EXTRA_libgnu_a_SOURCES += snprintf.c
+
+## end   gnulib module snprintf
 
 ## begin gnulib module stat
 
@@ -1317,6 +2049,13 @@ EXTRA_DIST += stdlib.in.h
 
 ## end   gnulib module stdlib-h
 
+## begin gnulib module streq
+
+
+EXTRA_DIST += streq.h
+
+## end   gnulib module streq
+
 ## begin gnulib module strerror
 
 if GL_COND_OBJ_STRERROR
@@ -1651,6 +2390,87 @@ EXTRA_DIST += time.in.h
 
 ## end   gnulib module time-h
 
+## begin gnulib module uchar-h
+
+BUILT_SOURCES += uchar.h
+
+uchar.h: uchar.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
+	$(gl_V_at)$(SED_HEADER_STDOUT) \
+	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+	      -e 's/@''HAVE_UCHAR_H''@/$(HAVE_UCHAR_H)/g' \
+	      -e 's/@''CXX_HAVE_UCHAR_H''@/$(CXX_HAVE_UCHAR_H)/g' \
+	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+	      -e 's|@''NEXT_UCHAR_H''@|$(NEXT_UCHAR_H)|g' \
+	      -e 's|@''CXX_HAS_CHAR8_TYPE''@|$(CXX_HAS_CHAR8_TYPE)|g' \
+	      -e 's|@''CXX_HAS_UCHAR_TYPES''@|$(CXX_HAS_UCHAR_TYPES)|g' \
+	      -e 's|@''SMALL_WCHAR_T''@|$(SMALL_WCHAR_T)|g' \
+	      -e 's|@''GNULIBHEADERS_OVERRIDE_CHAR8_T''@|$(GNULIBHEADERS_OVERRIDE_CHAR8_T)|g' \
+	      -e 's|@''GNULIBHEADERS_OVERRIDE_CHAR16_T''@|$(GNULIBHEADERS_OVERRIDE_CHAR16_T)|g' \
+	      -e 's|@''GNULIBHEADERS_OVERRIDE_CHAR32_T''@|$(GNULIBHEADERS_OVERRIDE_CHAR32_T)|g' \
+	      -e 's/@''GNULIB_BTOC32''@/$(GL_GNULIB_BTOC32)/g' \
+	      -e 's/@''GNULIB_BTOWC''@/$(GL_GNULIB_BTOWC)/g' \
+	      -e 's/@''GNULIB_C32ISALNUM''@/$(GL_GNULIB_C32ISALNUM)/g' \
+	      -e 's/@''GNULIB_C32ISALPHA''@/$(GL_GNULIB_C32ISALPHA)/g' \
+	      -e 's/@''GNULIB_C32ISBLANK''@/$(GL_GNULIB_C32ISBLANK)/g' \
+	      -e 's/@''GNULIB_C32ISCNTRL''@/$(GL_GNULIB_C32ISCNTRL)/g' \
+	      -e 's/@''GNULIB_C32ISDIGIT''@/$(GL_GNULIB_C32ISDIGIT)/g' \
+	      -e 's/@''GNULIB_C32ISGRAPH''@/$(GL_GNULIB_C32ISGRAPH)/g' \
+	      -e 's/@''GNULIB_C32ISLOWER''@/$(GL_GNULIB_C32ISLOWER)/g' \
+	      -e 's/@''GNULIB_C32ISPRINT''@/$(GL_GNULIB_C32ISPRINT)/g' \
+	      -e 's/@''GNULIB_C32ISPUNCT''@/$(GL_GNULIB_C32ISPUNCT)/g' \
+	      -e 's/@''GNULIB_C32ISSPACE''@/$(GL_GNULIB_C32ISSPACE)/g' \
+	      -e 's/@''GNULIB_C32ISUPPER''@/$(GL_GNULIB_C32ISUPPER)/g' \
+	      -e 's/@''GNULIB_C32ISXDIGIT''@/$(GL_GNULIB_C32ISXDIGIT)/g' \
+	      -e 's/@''GNULIB_C32TOLOWER''@/$(GL_GNULIB_C32TOLOWER)/g' \
+	      -e 's/@''GNULIB_C32TOUPPER''@/$(GL_GNULIB_C32TOUPPER)/g' \
+	      -e 's/@''GNULIB_C32WIDTH''@/$(GL_GNULIB_C32WIDTH)/g' \
+	      -e 's/@''GNULIB_C32RTOMB''@/$(GL_GNULIB_C32RTOMB)/g' \
+	      -e 's/@''GNULIB_C32SNRTOMBS''@/$(GL_GNULIB_C32SNRTOMBS)/g' \
+	      -e 's/@''GNULIB_C32SRTOMBS''@/$(GL_GNULIB_C32SRTOMBS)/g' \
+	      -e 's/@''GNULIB_C32STOMBS''@/$(GL_GNULIB_C32STOMBS)/g' \
+	      -e 's/@''GNULIB_C32SWIDTH''@/$(GL_GNULIB_C32SWIDTH)/g' \
+	      -e 's/@''GNULIB_C32TOB''@/$(GL_GNULIB_C32TOB)/g' \
+	      -e 's/@''GNULIB_C32_APPLY_MAPPING''@/$(GL_GNULIB_C32_APPLY_MAPPING)/g' \
+	      -e 's/@''GNULIB_C32_APPLY_TYPE_TEST''@/$(GL_GNULIB_C32_APPLY_TYPE_TEST)/g' \
+	      -e 's/@''GNULIB_C32_GET_MAPPING''@/$(GL_GNULIB_C32_GET_MAPPING)/g' \
+	      -e 's/@''GNULIB_C32_GET_TYPE_TEST''@/$(GL_GNULIB_C32_GET_TYPE_TEST)/g' \
+	      -e 's/@''GNULIB_ISWCTYPE''@/$(GL_GNULIB_ISWCTYPE)/g' \
+	      -e 's/@''GNULIB_ISWDIGIT''@/$(GL_GNULIB_ISWDIGIT)/g' \
+	      -e 's/@''GNULIB_ISWXDIGIT''@/$(GL_GNULIB_ISWXDIGIT)/g' \
+	      -e 's/@''GNULIB_MBRTOC16''@/$(GL_GNULIB_MBRTOC16)/g' \
+	      -e 's/@''GNULIB_MBRTOC32''@/$(GL_GNULIB_MBRTOC32)/g' \
+	      -e 's/@''GNULIB_MBSNRTOC32S''@/$(GL_GNULIB_MBSNRTOC32S)/g' \
+	      -e 's/@''GNULIB_MBSNRTOWCS''@/$(GL_GNULIB_MBSNRTOWCS)/g' \
+	      -e 's/@''GNULIB_MBSRTOC32S''@/$(GL_GNULIB_MBSRTOC32S)/g' \
+	      -e 's/@''GNULIB_MBSRTOWCS''@/$(GL_GNULIB_MBSRTOWCS)/g' \
+	      -e 's/@''GNULIB_MBSTOC32S''@/$(GL_GNULIB_MBSTOC32S)/g' \
+	      -e 's/@''GNULIB_TOWCTRANS''@/$(GL_GNULIB_TOWCTRANS)/g' \
+	      -e 's/@''GNULIB_WCSNRTOMBS''@/$(GL_GNULIB_WCSNRTOMBS)/g' \
+	      -e 's/@''GNULIB_WCSRTOMBS''@/$(GL_GNULIB_WCSRTOMBS)/g' \
+	      -e 's/@''GNULIB_WCSWIDTH''@/$(GL_GNULIB_WCSWIDTH)/g' \
+	      -e 's/@''GNULIB_WCTOB''@/$(GL_GNULIB_WCTOB)/g' \
+	      -e 's/@''GNULIB_WCTRANS''@/$(GL_GNULIB_WCTRANS)/g' \
+	      -e 's/@''GNULIB_WCTYPE''@/$(GL_GNULIB_WCTYPE)/g' \
+	      -e 's/@''GNULIB_WCWIDTH''@/$(GL_GNULIB_WCWIDTH)/g' \
+	      -e 's|@''HAVE_C32RTOMB''@|$(HAVE_C32RTOMB)|g' \
+	      -e 's|@''HAVE_MBRTOC16''@|$(HAVE_MBRTOC16)|g' \
+	      -e 's|@''HAVE_MBRTOC32''@|$(HAVE_MBRTOC32)|g' \
+	      -e 's|@''REPLACE_C32RTOMB''@|$(REPLACE_C32RTOMB)|g' \
+	      -e 's|@''REPLACE_MBRTOC16''@|$(REPLACE_MBRTOC16)|g' \
+	      -e 's|@''REPLACE_MBRTOC32''@|$(REPLACE_MBRTOC32)|g' \
+	      -e '/definitions of _GL_FUNCDECL_RPL/r $(CXXDEFS_H)' \
+	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
+	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
+	      $(srcdir)/uchar.in.h > $@-t
+	$(AM_V_at)mv $@-t $@
+MOSTLYCLEANFILES += uchar.h uchar.h-t
+
+EXTRA_DIST += uchar.in.h
+
+## end   gnulib module uchar-h
+
 ## begin gnulib module unicase/base
 
 BUILT_SOURCES += $(LIBUNISTRING_UNICASE_H)
@@ -1737,6 +2557,16 @@ libgnu_a_SOURCES += unicase/tocasefold.c
 EXTRA_DIST += unicase/casefold.h unicase/simple-mapping.h unicase/tocasefold.h
 
 ## end   gnulib module unicase/tocasefold
+
+## begin gnulib module unicase/tolower
+
+if LIBUNISTRING_COMPILE_UNICASE_TOLOWER
+libgnu_a_SOURCES += unicase/tolower.c
+endif
+
+EXTRA_DIST += unicase/simple-mapping.h unicase/tolower.h
+
+## end   gnulib module unicase/tolower
 
 ## begin gnulib module unicase/u32-casecoll
 
@@ -2002,6 +2832,126 @@ endif
 EXTRA_DIST += unictype/combiningclass.h
 
 ## end   gnulib module unictype/combining-class
+
+## begin gnulib module unictype/ctype-alnum
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_ALNUM
+libgnu_a_SOURCES += unictype/ctype_alnum.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_alnum.h
+
+## end   gnulib module unictype/ctype-alnum
+
+## begin gnulib module unictype/ctype-alpha
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_ALPHA
+libgnu_a_SOURCES += unictype/ctype_alpha.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_alpha.h
+
+## end   gnulib module unictype/ctype-alpha
+
+## begin gnulib module unictype/ctype-blank
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_BLANK
+libgnu_a_SOURCES += unictype/ctype_blank.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_blank.h
+
+## end   gnulib module unictype/ctype-blank
+
+## begin gnulib module unictype/ctype-cntrl
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_CNTRL
+libgnu_a_SOURCES += unictype/ctype_cntrl.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_cntrl.h
+
+## end   gnulib module unictype/ctype-cntrl
+
+## begin gnulib module unictype/ctype-digit
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_DIGIT
+libgnu_a_SOURCES += unictype/ctype_digit.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_digit.h
+
+## end   gnulib module unictype/ctype-digit
+
+## begin gnulib module unictype/ctype-graph
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_GRAPH
+libgnu_a_SOURCES += unictype/ctype_graph.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_graph.h
+
+## end   gnulib module unictype/ctype-graph
+
+## begin gnulib module unictype/ctype-lower
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_LOWER
+libgnu_a_SOURCES += unictype/ctype_lower.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_lower.h
+
+## end   gnulib module unictype/ctype-lower
+
+## begin gnulib module unictype/ctype-print
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_PRINT
+libgnu_a_SOURCES += unictype/ctype_print.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_print.h
+
+## end   gnulib module unictype/ctype-print
+
+## begin gnulib module unictype/ctype-punct
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_PUNCT
+libgnu_a_SOURCES += unictype/ctype_punct.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_punct.h
+
+## end   gnulib module unictype/ctype-punct
+
+## begin gnulib module unictype/ctype-space
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_SPACE
+libgnu_a_SOURCES += unictype/ctype_space.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_space.h
+
+## end   gnulib module unictype/ctype-space
+
+## begin gnulib module unictype/ctype-upper
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_UPPER
+libgnu_a_SOURCES += unictype/ctype_upper.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_upper.h
+
+## end   gnulib module unictype/ctype-upper
+
+## begin gnulib module unictype/ctype-xdigit
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_XDIGIT
+libgnu_a_SOURCES += unictype/ctype_xdigit.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_xdigit.h
+
+## end   gnulib module unictype/ctype-xdigit
 
 ## begin gnulib module unictype/property-soft-dotted
 
@@ -2496,6 +3446,44 @@ EXTRA_DIST += unitypes.in.h
 
 ## end   gnulib module unitypes-h
 
+## begin gnulib module uniwidth/base
+
+BUILT_SOURCES += $(LIBUNISTRING_UNIWIDTH_H)
+
+uniwidth.h: uniwidth.in.h
+	$(gl_V_at)$(SED_HEADER_TO_AT_t) $(srcdir)/uniwidth.in.h
+	$(AM_V_at)mv $@-t $@
+MOSTLYCLEANFILES += uniwidth.h uniwidth.h-t
+
+EXTRA_DIST += localcharset.h uniwidth.in.h
+
+## end   gnulib module uniwidth/base
+
+## begin gnulib module uniwidth/width
+
+if LIBUNISTRING_COMPILE_UNIWIDTH_WIDTH
+libgnu_a_SOURCES += uniwidth/width.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h uniwidth/cjk.h uniwidth/width0.h uniwidth/width2.h
+
+## end   gnulib module uniwidth/width
+
+## begin gnulib module vasnprintf
+
+
+EXTRA_DIST += asnprintf.c float+.h printf-args.c printf-args.h printf-parse.c printf-parse.h vasnprintf.c vasnprintf.h
+
+EXTRA_libgnu_a_SOURCES += asnprintf.c printf-args.c printf-parse.c vasnprintf.c
+
+## end   gnulib module vasnprintf
+
+## begin gnulib module vsnzprintf
+
+libgnu_a_SOURCES += vsnzprintf.c
+
+## end   gnulib module vsnzprintf
+
 ## begin gnulib module wchar-h
 
 BUILT_SOURCES += wchar.h
@@ -2639,6 +3627,63 @@ EXTRA_DIST += wchar.in.h
 
 ## end   gnulib module wchar-h
 
+## begin gnulib module wctype-h
+
+BUILT_SOURCES += wctype.h
+libgnu_a_SOURCES += wctype-h.c
+
+# We need the following in order to create <wctype.h> when the system
+# doesn't have one that works with the given compiler.
+wctype.h: wctype.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
+	$(gl_V_at)$(SED_HEADER_STDOUT) \
+	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+	      -e 's/@''HAVE_WCTYPE_H''@/$(HAVE_WCTYPE_H)/g' \
+	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+	      -e 's|@''NEXT_WCTYPE_H''@|$(NEXT_WCTYPE_H)|g' \
+	      -e 's/@''HAVE_CRTDEFS_H''@/$(HAVE_CRTDEFS_H)/g' \
+	      -e 's/@''GNULIBHEADERS_OVERRIDE_WINT_T''@/$(GNULIBHEADERS_OVERRIDE_WINT_T)/g' \
+	      -e 's/@''GNULIB_ISWBLANK''@/$(GL_GNULIB_ISWBLANK)/g' \
+	      -e 's/@''GNULIB_ISWDIGIT''@/$(GL_GNULIB_ISWDIGIT)/g' \
+	      -e 's/@''GNULIB_ISWPUNCT''@/$(GL_GNULIB_ISWPUNCT)/g' \
+	      -e 's/@''GNULIB_ISWXDIGIT''@/$(GL_GNULIB_ISWXDIGIT)/g' \
+	      -e 's/@''GNULIB_WCTYPE''@/$(GL_GNULIB_WCTYPE)/g' \
+	      -e 's/@''GNULIB_ISWCTYPE''@/$(GL_GNULIB_ISWCTYPE)/g' \
+	      -e 's/@''GNULIB_WCTRANS''@/$(GL_GNULIB_WCTRANS)/g' \
+	      -e 's/@''GNULIB_TOWCTRANS''@/$(GL_GNULIB_TOWCTRANS)/g' \
+	      -e 's/@''HAVE_ISWBLANK''@/$(HAVE_ISWBLANK)/g' \
+	      -e 's/@''HAVE_ISWCNTRL''@/$(HAVE_ISWCNTRL)/g' \
+	      -e 's/@''HAVE_WCTYPE_T''@/$(HAVE_WCTYPE_T)/g' \
+	      -e 's/@''HAVE_WCTRANS_T''@/$(HAVE_WCTRANS_T)/g' \
+	      -e 's/@''HAVE_WINT_T''@/$(HAVE_WINT_T)/g' \
+	      -e 's/@''REPLACE_ISWBLANK''@/$(REPLACE_ISWBLANK)/g' \
+	      -e 's/@''REPLACE_ISWDIGIT''@/$(REPLACE_ISWDIGIT)/g' \
+	      -e 's/@''REPLACE_ISWPUNCT''@/$(REPLACE_ISWPUNCT)/g' \
+	      -e 's/@''REPLACE_ISWXDIGIT''@/$(REPLACE_ISWXDIGIT)/g' \
+	      -e 's/@''REPLACE_ISWCNTRL''@/$(REPLACE_ISWCNTRL)/g' \
+	      -e 's/@''REPLACE_TOWLOWER''@/$(REPLACE_TOWLOWER)/g' \
+	      -e 's/@''REPLACE_WCTRANS''@/$(REPLACE_WCTRANS)/g' \
+	      -e 's/@''REPLACE_WCTYPE''@/$(REPLACE_WCTYPE)/g' \
+	      -e '/definitions of _GL_FUNCDECL_RPL/r $(CXXDEFS_H)' \
+	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
+	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
+	      $(srcdir)/wctype.in.h > $@-t
+	$(AM_V_at)mv $@-t $@
+MOSTLYCLEANFILES += wctype.h wctype.h-t
+
+EXTRA_DIST += wctype.in.h
+
+## end   gnulib module wctype-h
+
+## begin gnulib module wcwidth
+
+if GL_COND_OBJ_WCWIDTH
+libgnu_a_SOURCES += wcwidth.c
+endif
+
+## end   gnulib module wcwidth
+
 ## begin gnulib module xalloc
 
 libgnu_a_SOURCES += xmalloc.c
@@ -2667,6 +3712,12 @@ EXTRA_DIST += xalloc-oversized.h
 libgnu_a_SOURCES += gl_xomap.h gl_xomap.c
 
 ## end   gnulib module xomap
+
+## begin gnulib module xsize
+
+libgnu_a_SOURCES += xsize.h xsize.c
+
+## end   gnulib module xsize
 
 
 mostlyclean-local: mostlyclean-generic

@@ -66,9 +66,13 @@ hiha_SOURCES =
 
 hiha_LDADD += libhiha.a
 hiha_LDADD += lib/libgnu.a
-hiha_LDADD += $(LIBUNISTRING)
-hiha_LDADD += $(LIBINTL)
+hiha_LDADD += $(HARD_LOCALE_LIB)
+hiha_LDADD += $(LIBC32CONV)
 hiha_LDADD += $(LIBICONV)
+hiha_LDADD += $(LIBINTL)
+hiha_LDADD += $(LIBUNISTRING)
+hiha_LDADD += $(MBRTOWC_LIB)
+hiha_LDADD += $(SETLOCALE_NULL_LIB)
 
 hiha_CFLAGS += $(BASICCFLAGS)
 
@@ -105,7 +109,7 @@ indent:
 	$(INDENT) -l72 \
 		-Tstring_t \
 		-Ttoken_t \
-		-Terror_location_reporter_t \
+		-Ttext_location_t \
 		$(addprefix $(top_srcdir)/, \
 			$(filter %.c %.h,$(libhiha_a_SOURCES))) \
 		$(addprefix $(top_srcdir)/, \

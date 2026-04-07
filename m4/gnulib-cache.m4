@@ -42,6 +42,7 @@
 #  exitfail \
 #  getline \
 #  progname \
+#  snprintf-gnu \
 #  unicase/u32-casecoll \
 #  uniconv/u32-casecoll \
 #  uniconv/u32-conv-from-enc \
@@ -60,6 +61,7 @@ gl_MODULES([
   exitfail
   getline
   progname
+  snprintf-gnu
   unicase/u32-casecoll
   uniconv/u32-casecoll
   uniconv/u32-conv-from-enc

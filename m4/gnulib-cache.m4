@@ -37,6 +37,7 @@
 #  --no-conditional-dependencies \
 #  --no-libtool \
 #  --macro-prefix=gl \
+#  avltree-omap \
 #  error \
 #  exitfail \
 #  getline \
@@ -47,11 +48,14 @@
 #  uniconv/u32-conv-to-enc \
 #  uninorm/nfc \
 #  unistr/u32-check \
-#  xalloc
+#  unistr/u32-cmp2 \
+#  xalloc \
+#  xomap
 
 # Specification in the form of a few gnulib-tool.m4 macro invocations:
 gl_LOCAL_DIR([])
 gl_MODULES([
+  avltree-omap
   error
   exitfail
   getline
@@ -62,7 +66,9 @@ gl_MODULES([
   uniconv/u32-conv-to-enc
   uninorm/nfc
   unistr/u32-check
+  unistr/u32-cmp2
   xalloc
+  xomap
 ])
 gl_AVOID([])
 gl_SOURCE_BASE([lib])

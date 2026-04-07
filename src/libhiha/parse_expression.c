@@ -20,22 +20,117 @@
 */
 
 #include <config.h>
+#include <gl_avltree_omap.h>
+#include <gl_xomap.h>
+#include <libhiha/string_t.h>
 #include <libhiha/parse_expression.h>
 
+// Change this if using gettext.
+#define _(msgid) msgid
+
+struct parser_data
+{
+  gl_omap_t nud;
+  gl_omap_t led;
+  gl_omap_t lbp;
+};
+typedef struct parser_data *parser_data_t;
+
+void
+parse_tree_t_free (parse_tree_t node)
+{
+  if (node != NULL)
+    {
+      for (size_t i = 0; i != node->nchildren; i += 1)
+	parse_tree_t_free (node->children[i]);
+      token_t_free (node->token);
+      free (node->children);
+      free (node);
+    }
+}
+
+static int
+compare_strings (const void *s1, const void *s2)
+{
+  const string_t str1 = (const string_t) s1;
+  const string_t str2 = (const string_t) s2;
+  return string_t_cmp (str1, str2);
+}
+
+static void
+free_string (const void *s)
+{
+  string_t str = (string_t) s;
+  string_t_free (str);
+}
+
+static void
+free_binding_power (const void *bp)
+{
+  _Decimal32 *x = (_Decimal32 *) bp;
+  free (x);
+};
+
+parser_data_t
+initialize_parser_data (void)
+{
+  parser_data_t data = XMALLOC (struct parser_data);
+  data->nud =
+    gl_omap_create_empty (GL_AVLTREE_OMAP, compare_strings, free_string,
+			  NULL);
+  data->led =
+    gl_omap_create_empty (GL_AVLTREE_OMAP, compare_strings, free_string,
+			  NULL);
+  data->lbp =
+    gl_omap_create_empty (GL_AVLTREE_OMAP, compare_strings, free_string,
+			  free_binding_power);
+  return data;
+}
+
+void
+parser_data_t_free (parser_data_t data)
+{
+  if (data != NULL)
+    {
+      gl_omap_free (data->nud);
+      gl_omap_free (data->led);
+      gl_omap_free (data->lbp);
+    }
+}
+
+void
+add_nud_entry (parser_data_t data, string_t token_kind,
+	       nud_entry_handler_t handler)
+{
+  gl_omap_put (data->nud, token_kind, handler);
+}
+
+void
+add_led_entry (parser_data_t data, string_t token_kind,
+	       led_entry_handler_t handler)
+{
+  gl_omap_put (data->led, token_kind, handler);
+}
+
+void
+add_lbp_entry (parser_data_t data, string_t token_kind,
+	       _Decimal32 binding_power)
+{
+  _Decimal32 *bp = XMALLOC (_Decimal32);
+  *bp = binding_power;
+  gl_omap_put (data->lbp, token_kind, bp);
+}
 
 /*
-  # Pratt parsing for Icon.
-#
-# FIXME: Document this and make it available to the Icon and Unicon
-# communities. Maybe make a class version.
-#
-# FIXME: Make an Object Icon version and add it to the distribution. Maybe
-# make a class version.
-#
+parse_tree_t
+parse_expression (xxxxxxx get_token,
+                  parser_data_t data,
+                  _Decimal32 min_power)
+{
+}
+*/
 
-record token_record(token_kind, token_value)
-record pratt_parser_tables(nud, led, lbp)
-
+/*
 procedure parse_expression(get_token, tables, min_power)
    local tok, lhs
 
@@ -52,6 +147,14 @@ procedure parse_expression(get_token, tables, min_power)
 end
 
 */
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  TOK_INTEGER,
+  TOK_IDENTIFIER,
+  TOK_PLUS,
+  TOK_MINUS,
+  TOK_TIMES,
+  TOK_DIVIDE
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 /*
   local variables:

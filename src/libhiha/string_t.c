@@ -30,66 +30,23 @@
 // Change this if using gettext.
 #define _(msgid) msgid
 
-//const uint32_t *
-//string_t_check (const string_t *str)
-//{
-//  return u32_check (str->s, str->n);
-//}
+void
+string_t_free (string_t str)
+{
+  if (str != NULL)
+    {
+      free (str->s);
+      free (str);
+    }
+}
 
 int
-string_t_casecoll (const string_t *str1, const string_t *str2,
-		   const char *iso639_language, uninorm_t nf,
-		   int *resultp)
+string_t_cmp (const string_t str1, const string_t str2)
 {
-  return u32_casecoll (str1->s, str1->n, str2->s, str2->n,
-		       iso639_language, nf, resultp);
+  return u32_cmp2 (str1->s, str1->n, str2->s, str2->n);
 }
 
-//uint32_t *
-//string_t_normalize (uninorm_t nf, const string_t *src, string_t *result)
-//{
-//  return u32_normalize (nf, src->s, src->n, result->s, &result->n);
-//}
-//
-//uint32_t *
-//string_t_conv_from_encoding (const char *fromcode,
-//                           enum iconv_ilseq_handler handler,
-//                           const char *src, size_t srclen,
-//                           size_t *offsets, string_t *result)
-//{
-//  return u32_conv_from_encoding (fromcode, handler, src, srclen,
-//                               offsets, result->s, &result->n);
-//}
-//
-//char *
-//string_t_conv_to_encoding (const char *tocode,
-//                         enum iconv_ilseq_handler handler,
-//                         const string_t *src,
-//                         size_t *offsets, char *resultbuf,
-//                         size_t *lengthp)
-//{
-//  return u32_conv_to_encoding (tocode, handler, src->s, src->n, offsets,
-//                             resultbuf, lengthp);
-//}
-
-void
-string_t_free (string_t *str)
-{
-  free (str->s);
-  free (str);
-}
-
-string_t *
-string_t_canonical_from_str_len (const char *src, size_t srclen,
-				 error_location_reporter_t errloc)
-{
-  string_t *str1 = string_t_from_str_len (src, srclen, errloc);
-  string_t *str = string_t_canonicalize (str1, errloc);
-  string_t_free (str1);
-  return str;
-}
-
-string_t *
+string_t
 string_t_from_str_len (const char *src, size_t srclen,
 		       error_location_reporter_t errloc)
 {
@@ -114,14 +71,14 @@ string_t_from_str_len (const char *src, size_t srclen,
 		 err_number);
 	}
     }
-  string_t *result = XMALLOC (string_t);
+  string_t result = XMALLOC (struct string);
   result->s = u32;
   result->n = n;
   return result;
 }
 
-string_t *
-string_t_canonicalize (const string_t *src,
+string_t
+string_t_canonicalize (const string_t src,
 		       error_location_reporter_t errloc)
 {
   size_t n;
@@ -135,14 +92,24 @@ string_t_canonicalize (const string_t *src,
       error (exit_failure, err_number, "%s %d", _("error number"),
 	     err_number);
     }
-  string_t *result = XMALLOC (string_t);
+  string_t result = XMALLOC (struct string);
   result->s = u32;
   result->n = n;
   return result;
 }
 
+string_t
+string_t_canonical_from_str_len (const char *src, size_t srclen,
+				 error_location_reporter_t errloc)
+{
+  string_t str1 = string_t_from_str_len (src, srclen, errloc);
+  string_t str = string_t_canonicalize (str1, errloc);
+  string_t_free (str1);
+  return str;
+}
+
 void
-str_len_from_string_t (const string_t *src, char **s, size_t *n)
+str_len_from_string_t (const string_t src, char **s, size_t *n)
 {
   *s = u32_conv_to_encoding (locale_charset (),
 			     iconveh_replacement_character, src->s,

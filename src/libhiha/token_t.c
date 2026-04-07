@@ -19,17 +19,22 @@
 
 */
 
-#include <libhiha/string_t.h>
+#include <config.h>
+#include <libhiha/token_t.h>
 
-struct token
+// Change this if using gettext.
+#define _(msgid) msgid
+
+void
+token_t_free (token_t tok)
 {
-  string_t token_kind;
-  string_t token_value;
-};
-
-typedef struct token *token_t;
-
-void token_t_free (token_t);
+  if (tok != NULL)
+    {
+      string_t_free (tok->token_kind);
+      string_t_free (tok->token_value);
+    }
+  free (tok);
+}
 
 /*
   local variables:

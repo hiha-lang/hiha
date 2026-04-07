@@ -805,6 +805,10 @@ LIBUNISTRING_COMPILE_UNISTR_U32_MBLEN_FALSE
 LIBUNISTRING_COMPILE_UNISTR_U32_MBLEN_TRUE
 LIBUNISTRING_COMPILE_UNISTR_U32_CPY_FALSE
 LIBUNISTRING_COMPILE_UNISTR_U32_CPY_TRUE
+LIBUNISTRING_COMPILE_UNISTR_U32_CMP2_FALSE
+LIBUNISTRING_COMPILE_UNISTR_U32_CMP2_TRUE
+LIBUNISTRING_COMPILE_UNISTR_U32_CMP_FALSE
+LIBUNISTRING_COMPILE_UNISTR_U32_CMP_TRUE
 LIBUNISTRING_COMPILE_UNISTR_U32_CHECK_FALSE
 LIBUNISTRING_COMPILE_UNISTR_U32_CHECK_TRUE
 LIBUNISTRING_UNISTR_H
@@ -8375,6 +8379,7 @@ fi
   # Code from module array-mergesort:
   # Code from module assert-h:
   # Code from module attribute:
+  # Code from module avltree-omap:
   # Code from module basename-lgpl:
   # Code from module bool:
   # Code from module c-ctype:
@@ -8436,6 +8441,7 @@ fi
   # Code from module msvc-inval:
   # Code from module msvc-nothrow:
   # Code from module multiarch:
+  # Code from module omap:
   # Code from module open:
   # Code from module pathmax:
   # Code from module progname:
@@ -8501,6 +8507,8 @@ fi
   # Code from module unistd-h:
   # Code from module unistr/base:
   # Code from module unistr/u32-check:
+  # Code from module unistr/u32-cmp:
+  # Code from module unistr/u32-cmp2:
   # Code from module unistr/u32-cpy:
   # Code from module unistr/u32-mblen:
   # Code from module unistr/u32-mbtouc-unsafe:
@@ -8520,6 +8528,7 @@ fi
   # Code from module xalloc:
   # Code from module xalloc-die:
   # Code from module xalloc-oversized:
+  # Code from module xomap:
 
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
@@ -24261,6 +24270,76 @@ fi
 
        }
   }; then
+  LIBUNISTRING_COMPILE_UNISTR_U32_CMP_TRUE=
+  LIBUNISTRING_COMPILE_UNISTR_U32_CMP_FALSE='#'
+else
+  LIBUNISTRING_COMPILE_UNISTR_U32_CMP_TRUE='#'
+  LIBUNISTRING_COMPILE_UNISTR_U32_CMP_FALSE=
+fi
+:
+    if test -z "${LIBUNISTRING_COMPILE_UNISTR_U32_CMP_TRUE}" && test -z "${LIBUNISTRING_COMPILE_UNISTR_U32_CMP_FALSE}"; then
+    LIBUNISTRING_COMPILE_UNISTR_U32_CMP_TRUE='#'
+    LIBUNISTRING_COMPILE_UNISTR_U32_CMP_FALSE='#'
+  fi
+
+
+
+
+
+     if  { test "$HAVE_LIBUNISTRING" != yes \
+    || {
+
+
+
+            test $LIBUNISTRING_VERSION_MAJOR -lt 0 \
+            || { test $LIBUNISTRING_VERSION_MAJOR -eq 0 \
+                 && { test $LIBUNISTRING_VERSION_MINOR -lt 9 \
+                      || { test $LIBUNISTRING_VERSION_MINOR -eq 9 \
+                           && test $LIBUNISTRING_VERSION_SUBMINOR -lt 0
+                         }
+                    }
+               }
+
+
+
+
+       }
+  }; then
+  LIBUNISTRING_COMPILE_UNISTR_U32_CMP2_TRUE=
+  LIBUNISTRING_COMPILE_UNISTR_U32_CMP2_FALSE='#'
+else
+  LIBUNISTRING_COMPILE_UNISTR_U32_CMP2_TRUE='#'
+  LIBUNISTRING_COMPILE_UNISTR_U32_CMP2_FALSE=
+fi
+:
+    if test -z "${LIBUNISTRING_COMPILE_UNISTR_U32_CMP2_TRUE}" && test -z "${LIBUNISTRING_COMPILE_UNISTR_U32_CMP2_FALSE}"; then
+    LIBUNISTRING_COMPILE_UNISTR_U32_CMP2_TRUE='#'
+    LIBUNISTRING_COMPILE_UNISTR_U32_CMP2_FALSE='#'
+  fi
+
+
+
+
+
+     if  { test "$HAVE_LIBUNISTRING" != yes \
+    || {
+
+
+
+            test $LIBUNISTRING_VERSION_MAJOR -lt 0 \
+            || { test $LIBUNISTRING_VERSION_MAJOR -eq 0 \
+                 && { test $LIBUNISTRING_VERSION_MINOR -lt 9 \
+                      || { test $LIBUNISTRING_VERSION_MINOR -eq 9 \
+                           && test $LIBUNISTRING_VERSION_SUBMINOR -lt 0
+                         }
+                    }
+               }
+
+
+
+
+       }
+  }; then
   LIBUNISTRING_COMPILE_UNISTR_U32_CPY_TRUE=
   LIBUNISTRING_COMPILE_UNISTR_U32_CPY_FALSE='#'
 else
@@ -24909,6 +24988,25 @@ printf "%s\n" "#define GNULIB_XALLOC_DIE 1" >>confdefs.h
   LIBGNU_LTLIBDEPS="$gl_ltlibdeps"
 
 
+
+ac_fn_c_check_type "$LINENO" "_Decimal32" "ac_cv_type__Decimal32" "$ac_includes_default"
+if test "x$ac_cv_type__Decimal32" = xyes
+then :
+
+else case e in #(
+  e)
+  # We use decimal numbers for binding powers. There is no point
+  # catering to clang, which I make a point of keeping off my system
+  # to avoid having it fill up with ever-changing, bloated LLVMs. I
+  # would sooner implement my own BCD fixed point, given all we need
+  # is binary comparisons—and you can confuse the kiddies by
+  # reëncoding a source code string into EBCDIC to get the BCD.
+  # Floating point might be slightly better, however, because what
+  # constitutes a huge value is more obvious.
+  as_fn_error $? "_Decimal32 type not found. If you are using clang, consider GCC instead." "$LINENO" 5
+ ;;
+esac
+fi
 
 
 # You can use ‘@GNU@’ to make GNU Make constructs unbothersome to

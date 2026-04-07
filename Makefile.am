@@ -95,13 +95,14 @@ libhiha_a_SOURCES += include/libhiha/token_t.h
 libhiha_a_SOURCES += include/libhiha/parse_expression.h
 
 libhiha_a_SOURCES += src/libhiha/string_t.c
+libhiha_a_SOURCES += src/libhiha/token_t.c
 libhiha_a_SOURCES += src/libhiha/parse_expression.c
 
 #---------------------------------------------------------------------
 
 .PHONY: indent
 indent:
-	$(call v,RUN)$(INDENT) -l72 \
+	$(INDENT) -l72 \
 		-Tstring_t \
 		-Ttoken_t \
 		-Terror_location_reporter_t \

@@ -48,6 +48,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module array-mergesort:
   # Code from module assert-h:
   # Code from module attribute:
+  # Code from module avltree-omap:
   # Code from module basename-lgpl:
   # Code from module bool:
   # Code from module c-ctype:
@@ -109,6 +110,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module msvc-inval:
   # Code from module msvc-nothrow:
   # Code from module multiarch:
+  # Code from module omap:
   # Code from module open:
   # Code from module pathmax:
   # Code from module progname:
@@ -170,6 +172,8 @@ AC_DEFUN([gl_EARLY],
   # Code from module unistd-h:
   # Code from module unistr/base:
   # Code from module unistr/u32-check:
+  # Code from module unistr/u32-cmp:
+  # Code from module unistr/u32-cmp2:
   # Code from module unistr/u32-cpy:
   # Code from module unistr/u32-mblen:
   # Code from module unistr/u32-mbtouc-unsafe:
@@ -189,6 +193,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module xalloc:
   # Code from module xalloc-die:
   # Code from module xalloc-oversized:
+  # Code from module xomap:
 ])
 
 # This macro should be invoked from ./configure.ac, in the section
@@ -538,6 +543,8 @@ AC_DEFUN([gl_INIT],
   gl_LIBUNISTRING_LIBHEADER([1.2], [unistr.h])
   AC_PROG_MKDIR_P
   gl_LIBUNISTRING_MODULE([0.9], [unistr/u32-check])
+  gl_LIBUNISTRING_MODULE([0.9], [unistr/u32-cmp])
+  gl_LIBUNISTRING_MODULE([0.9], [unistr/u32-cmp2])
   gl_LIBUNISTRING_MODULE([0.9], [unistr/u32-cpy])
   gl_LIBUNISTRING_MODULE([0.9], [unistr/u32-mblen])
   gl_MODULE_INDICATOR([unistr/u32-mbtouc-unsafe])
@@ -797,6 +804,14 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/getprogname.c
   lib/getprogname.h
   lib/gettext.h
+  lib/gl_anytree_omap.h
+  lib/gl_avltree_omap.c
+  lib/gl_avltree_omap.h
+  lib/gl_avltree_ordered.h
+  lib/gl_omap.c
+  lib/gl_omap.h
+  lib/gl_xomap.c
+  lib/gl_xomap.h
   lib/ialloc.c
   lib/ialloc.h
   lib/iconv.c
@@ -920,8 +935,11 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/unistd.c
   lib/unistd.in.h
   lib/unistr.in.h
+  lib/unistr/u-cmp2.h
   lib/unistr/u-cpy.h
   lib/unistr/u32-check.c
+  lib/unistr/u32-cmp.c
+  lib/unistr/u32-cmp2.c
   lib/unistr/u32-cpy.c
   lib/unistr/u32-mblen.c
   lib/unistr/u32-mbtouc-unsafe.c

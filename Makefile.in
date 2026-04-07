@@ -191,6 +191,7 @@ libhiha_a_RANLIB = $(RANLIB)
 libhiha_a_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
 am_libhiha_a_OBJECTS = src/libhiha/libhiha_a-string_t.$(OBJEXT) \
+	src/libhiha/libhiha_a-token_t.$(OBJEXT) \
 	src/libhiha/libhiha_a-parse_expression.$(OBJEXT)
 libhiha_a_OBJECTS = $(am_libhiha_a_OBJECTS)
 am_hiha_OBJECTS = src/hiha/hiha-hiha.$(OBJEXT)
@@ -215,7 +216,8 @@ depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = src/hiha/$(DEPDIR)/hiha-hiha.Po \
 	src/libhiha/$(DEPDIR)/libhiha_a-parse_expression.Po \
-	src/libhiha/$(DEPDIR)/libhiha_a-string_t.Po
+	src/libhiha/$(DEPDIR)/libhiha_a-string_t.Po \
+	src/libhiha/$(DEPDIR)/libhiha_a-token_t.Po
 am__mv = mv -f
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -1556,7 +1558,8 @@ libhiha_a_CFLAGS = $(BASICCFLAGS)
 libhiha_a_DEPENDENCIES = config.h
 libhiha_a_SOURCES = include/libhiha/string_t.h \
 	include/libhiha/token_t.h include/libhiha/parse_expression.h \
-	src/libhiha/string_t.c src/libhiha/parse_expression.c
+	src/libhiha/string_t.c src/libhiha/token_t.c \
+	src/libhiha/parse_expression.c
 all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -1663,6 +1666,8 @@ src/libhiha/$(DEPDIR)/$(am__dirstamp):
 	@: >>src/libhiha/$(DEPDIR)/$(am__dirstamp)
 src/libhiha/libhiha_a-string_t.$(OBJEXT): src/libhiha/$(am__dirstamp) \
 	src/libhiha/$(DEPDIR)/$(am__dirstamp)
+src/libhiha/libhiha_a-token_t.$(OBJEXT): src/libhiha/$(am__dirstamp) \
+	src/libhiha/$(DEPDIR)/$(am__dirstamp)
 src/libhiha/libhiha_a-parse_expression.$(OBJEXT):  \
 	src/libhiha/$(am__dirstamp) \
 	src/libhiha/$(DEPDIR)/$(am__dirstamp)
@@ -1695,6 +1700,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/hiha/$(DEPDIR)/hiha-hiha.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_a-parse_expression.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_a-string_t.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_a-token_t.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -1731,6 +1737,20 @@ src/libhiha/libhiha_a-string_t.obj: src/libhiha/string_t.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/libhiha/string_t.c' object='src/libhiha/libhiha_a-string_t.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_a_CFLAGS) $(CFLAGS) -c -o src/libhiha/libhiha_a-string_t.obj `if test -f 'src/libhiha/string_t.c'; then $(CYGPATH_W) 'src/libhiha/string_t.c'; else $(CYGPATH_W) '$(srcdir)/src/libhiha/string_t.c'; fi`
+
+src/libhiha/libhiha_a-token_t.o: src/libhiha/token_t.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_a_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_a-token_t.o -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_a-token_t.Tpo -c -o src/libhiha/libhiha_a-token_t.o `test -f 'src/libhiha/token_t.c' || echo '$(srcdir)/'`src/libhiha/token_t.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/libhiha/$(DEPDIR)/libhiha_a-token_t.Tpo src/libhiha/$(DEPDIR)/libhiha_a-token_t.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/libhiha/token_t.c' object='src/libhiha/libhiha_a-token_t.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_a_CFLAGS) $(CFLAGS) -c -o src/libhiha/libhiha_a-token_t.o `test -f 'src/libhiha/token_t.c' || echo '$(srcdir)/'`src/libhiha/token_t.c
+
+src/libhiha/libhiha_a-token_t.obj: src/libhiha/token_t.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_a_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_a-token_t.obj -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_a-token_t.Tpo -c -o src/libhiha/libhiha_a-token_t.obj `if test -f 'src/libhiha/token_t.c'; then $(CYGPATH_W) 'src/libhiha/token_t.c'; else $(CYGPATH_W) '$(srcdir)/src/libhiha/token_t.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/libhiha/$(DEPDIR)/libhiha_a-token_t.Tpo src/libhiha/$(DEPDIR)/libhiha_a-token_t.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/libhiha/token_t.c' object='src/libhiha/libhiha_a-token_t.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_a_CFLAGS) $(CFLAGS) -c -o src/libhiha/libhiha_a-token_t.obj `if test -f 'src/libhiha/token_t.c'; then $(CYGPATH_W) 'src/libhiha/token_t.c'; else $(CYGPATH_W) '$(srcdir)/src/libhiha/token_t.c'; fi`
 
 src/libhiha/libhiha_a-parse_expression.o: src/libhiha/parse_expression.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_a_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_a-parse_expression.o -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_a-parse_expression.Tpo -c -o src/libhiha/libhiha_a-parse_expression.o `test -f 'src/libhiha/parse_expression.c' || echo '$(srcdir)/'`src/libhiha/parse_expression.c
@@ -2126,6 +2146,7 @@ distclean: distclean-recursive
 	-rm -f src/hiha/$(DEPDIR)/hiha-hiha.Po
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_a-parse_expression.Po
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_a-string_t.Po
+	-rm -f src/libhiha/$(DEPDIR)/libhiha_a-token_t.Po
 	-rm -f GNUmakefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -2176,6 +2197,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/hiha/$(DEPDIR)/hiha-hiha.Po
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_a-parse_expression.Po
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_a-string_t.Po
+	-rm -f src/libhiha/$(DEPDIR)/libhiha_a-token_t.Po
 	-rm -f GNUmakefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -2226,7 +2248,7 @@ uninstall-am: uninstall-binPROGRAMS
 
 .PHONY: indent
 indent:
-	$(call v,RUN)$(INDENT) -l72 \
+	$(INDENT) -l72 \
 		-Tstring_t \
 		-Ttoken_t \
 		-Terror_location_reporter_t \

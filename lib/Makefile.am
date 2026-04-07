@@ -32,6 +32,7 @@
 #  --no-conditional-dependencies \
 #  --no-libtool \
 #  --macro-prefix=gl \
+#  avltree-omap \
 #  error \
 #  exitfail \
 #  getline \
@@ -42,7 +43,9 @@
 #  uniconv/u32-conv-to-enc \
 #  uninorm/nfc \
 #  unistr/u32-check \
-#  xalloc
+#  unistr/u32-cmp2 \
+#  xalloc \
+#  xomap
 
 AUTOMAKE_OPTIONS = 1.14 gnits subdir-objects
 
@@ -156,6 +159,12 @@ EXTRA_DIST += assert.in.h verify.h
 EXTRA_DIST += attribute.h
 
 ## end   gnulib module attribute
+
+## begin gnulib module avltree-omap
+
+libgnu_a_SOURCES += gl_avltree_omap.h gl_avltree_omap.c gl_avltree_ordered.h gl_anytree_omap.h
+
+## end   gnulib module avltree-omap
 
 ## begin gnulib module basename-lgpl
 
@@ -752,6 +761,12 @@ endif
 EXTRA_DIST += msvc-nothrow.h
 
 ## end   gnulib module msvc-nothrow
+
+## begin gnulib module omap
+
+libgnu_a_SOURCES += gl_omap.h gl_omap.c
+
+## end   gnulib module omap
 
 ## begin gnulib module open
 
@@ -2344,6 +2359,24 @@ endif
 
 ## end   gnulib module unistr/u32-check
 
+## begin gnulib module unistr/u32-cmp
+
+if LIBUNISTRING_COMPILE_UNISTR_U32_CMP
+libgnu_a_SOURCES += unistr/u32-cmp.c
+endif
+
+## end   gnulib module unistr/u32-cmp
+
+## begin gnulib module unistr/u32-cmp2
+
+if LIBUNISTRING_COMPILE_UNISTR_U32_CMP2
+libgnu_a_SOURCES += unistr/u32-cmp2.c
+endif
+
+EXTRA_DIST += unistr/u-cmp2.h
+
+## end   gnulib module unistr/u32-cmp2
+
 ## begin gnulib module unistr/u32-cpy
 
 if LIBUNISTRING_COMPILE_UNISTR_U32_CPY
@@ -2628,6 +2661,12 @@ EXTRA_DIST += xalloc.h
 EXTRA_DIST += xalloc-oversized.h
 
 ## end   gnulib module xalloc-oversized
+
+## begin gnulib module xomap
+
+libgnu_a_SOURCES += gl_xomap.h gl_xomap.c
+
+## end   gnulib module xomap
 
 
 mostlyclean-local: mostlyclean-generic

@@ -26,6 +26,7 @@
 #include <exitfail.h>
 #include <xalloc.h>
 #include <libhiha/string_t.h>
+#include <libhiha/parse_expression.h>
 
 char *line_buffer = NULL;
 size_t line_buffer_size = 0;
@@ -41,7 +42,7 @@ initialize_line_buffer (void)
 }
 
 static void
-parse_file (const char *filename, FILE *f)
+parse_file (const char *filename, FILE *f, parser_data_t parser_data)
 {
   initialize_line_buffer ();
   size_t line_no = 0;
@@ -53,7 +54,7 @@ parse_file (const char *filename, FILE *f)
       // FIXME: Set up an error location reporter.
       error_location_reporter_t errloc = NULL;
 
-      string_t *str =
+      string_t str =
 	string_t_canonical_from_str_len (line_buffer, nread, errloc);
 
       char *s;
@@ -83,6 +84,7 @@ main (int argc, char **argv)
 {
   set_program_name (argv[0]);
   check_usage (argc, argv);
+  parser_data_t parser_data = initialize_parser_data ();
   for (int i = 1; i != argc; i += 1)
     {
       FILE *f = fopen (argv[i], "r");
@@ -92,9 +94,10 @@ main (int argc, char **argv)
 		  program_name, argv[i]);
 	  exit (exit_failure);
 	}
-      parse_file (argv[i], f);
+      parse_file (argv[i], f, parser_data);
       fclose (f);
     }
+  parser_data_t_free (parser_data);
   exit (EXIT_SUCCESS);
 }
 

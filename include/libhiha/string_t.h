@@ -35,7 +35,7 @@ typedef struct string *string_t;
 
 struct text_location
 {
-  string_t filename;
+  const char* filename;         /* Do not free this. */
 
   /* If either line_no or code_point_no is zero, it means that field
      should be ignored. */

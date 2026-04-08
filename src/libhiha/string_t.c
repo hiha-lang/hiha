@@ -131,38 +131,29 @@ str_len_from_string_t (const string_t src, char **s, size_t *n)
 void
 text_location_t_free (text_location_t loc)
 {
-  if (loc != NULL)
-    {
-      string_t_free (loc->filename);
-      free (loc);
-    }
+  free (loc);
 }
 
 char *
 text_location_string (text_location_t loc)
 {
-  char *fn;
+  const char *fn;
   if (loc == NULL || loc->filename == NULL)
-    fn = xstrdup (_("〈no·filename〉"));
+    fn = _("〈no·filename〉");
   else
-    fn = make_str_nul (loc->filename);
+    fn = loc->filename;
   size_t fn_len = strlen (fn);
 
-  char *ln;
+  char ln[100];
   if (loc == NULL || loc->line_no == 0)
-    ln = xstrdup ("");
+    ln[0] = '\0';
   else
-    {
-      ln = XCALLOC (100, char);
-      snprintf (ln, 100, _(", line %zu"), loc->line_no);
-    }
+    snprintf (ln, 100, _(", line %zu"), loc->line_no);
   size_t ln_len = strlen (ln);
 
   char *s = XCALLOC (fn_len + ln_len + 1, char);
   memcpy (s, fn, fn_len * sizeof (char));
-  free (fn);
   memcpy (s + (fn_len * sizeof (char)), ln, ln_len * sizeof (char));
-  free (ln);
 
   return s;
 }

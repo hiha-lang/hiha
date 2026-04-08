@@ -52,7 +52,7 @@ parse_file (const char *filename, FILE *f, parser_data_t parser_data)
       line_no += 1;
 
       text_location_t loc = XMALLOC (struct text_location);
-      loc->filename = make_string_t (filename);
+      loc->filename = filename;
       loc->line_no = line_no;
       loc->code_point_no = 0;
       string_t str =

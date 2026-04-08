@@ -32,6 +32,7 @@ token_t_free (token_t tok)
     {
       string_t_free (tok->token_kind);
       string_t_free (tok->token_value);
+      text_location_t_free (tok->loc);
     }
   free (tok);
 }

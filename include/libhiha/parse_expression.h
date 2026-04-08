@@ -55,7 +55,7 @@ void add_led_entry (parser_data_t data, string_t token_kind,
 
 /* Add a left binding power to the Pratt parsing. */
 void add_lbp_entry (parser_data_t data, string_t token_kind,
-		    _Decimal32 binding_power);
+		    double binding_power);
 
 /*
   local variables:

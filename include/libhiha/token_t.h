@@ -27,8 +27,19 @@ struct token
   string_t token_value;
   text_location_t loc;
 };
-
 typedef struct token *token_t;
+
+struct token_getter;
+typedef struct token_getter *token_getter_t;
+struct token_getter
+{
+  void (*get_token) (token_getter_t this_struct,
+                     token_t *tok, const char **error_message);
+  void (*free) (token_getter_t this_struct);
+};
+
+struct token_getter_from_file;
+typedef struct token_getter_from_file *token_getter_from_file_t;
 
 void token_t_free (token_t);
 

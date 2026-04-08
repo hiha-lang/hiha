@@ -197,8 +197,8 @@ libhiha_a_OBJECTS = $(am_libhiha_a_OBJECTS)
 am_hiha_OBJECTS = src/hiha/hiha-hiha.$(OBJEXT)
 hiha_OBJECTS = $(am_hiha_OBJECTS)
 am__DEPENDENCIES_1 =
-hiha_LINK = $(CCLD) $(hiha_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
-	-o $@
+hiha_LINK = $(CCLD) $(hiha_CFLAGS) $(CFLAGS) $(hiha_LDFLAGS) \
+	$(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -1546,6 +1546,7 @@ AM_CPPFLAGS =
 AM_CFLAGS = 
 BASICCFLAGS = -I $(builddir) -I $(builddir)/include -I $(builddir)/lib \
 	-I $(srcdir) -I $(srcdir)/include -I $(srcdir)/lib
+hiha_LDFLAGS = -lm
 hiha_LDADD = libhiha.a lib/libgnu.a $(HARD_LOCALE_LIB) $(LIBC32CONV) \
 	$(LIBICONV) $(LIBINTL) $(LIBUNISTRING) $(MBRTOWC_LIB) \
 	$(SETLOCALE_NULL_LIB)
@@ -2250,9 +2251,11 @@ uninstall-am: uninstall-binPROGRAMS
 .PHONY: indent
 indent:
 	$(INDENT) -l72 \
+		-Tbinding_power_t \
 		-Tstring_t \
 		-Ttoken_t \
 		-Ttext_location_t \
+		-Ttoken_getter_from_file_t \
 		$(addprefix $(top_srcdir)/, \
 			$(filter %.c %.h,$(libhiha_a_SOURCES))) \
 		$(addprefix $(top_srcdir)/, \

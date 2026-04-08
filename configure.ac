@@ -70,18 +70,6 @@ CHEM_PATH_PROGS_CACHED_AND_PRECIOUS([INDENT],
 
 gl_INIT
 
-AC_CHECK_TYPE([_Decimal32],[],[
-  # We use decimal numbers for binding powers. There is no point
-  # catering to clang, which I make a point of keeping off my system
-  # to avoid having it fill up with ever-changing, bloated LLVMs. I
-  # would sooner implement my own BCD fixed point, given all we need
-  # is binary comparisons—and you can confuse the kiddies by
-  # reëncoding a source code string into EBCDIC to get the BCD.
-  # Floating point might be slightly better, however, because what
-  # constitutes a huge value is more obvious.
-  AC_MSG_ERROR([_Decimal32 type not found. If you are using clang, consider GCC instead.])
-])
-
 # You can use ‘@GNU@’ to make GNU Make constructs unbothersome to
 # Automake. (Often you can use ‘$(eval ...)’ instead, but @GNU@ is
 # more straightforward.)

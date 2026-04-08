@@ -20,6 +20,8 @@
 */
 
 #include <config.h>
+#include <inttypes.h>
+#include <math.h>
 #include <gl_avltree_omap.h>
 #include <gl_xomap.h>
 #include <libhiha/string_t.h>
@@ -35,6 +37,25 @@ struct parser_data
   gl_omap_t lbp;
 };
 typedef struct parser_data *parser_data_t;
+
+typedef long int binding_power_t;
+
+static binding_power_t
+make_binding_power_t (double bp)
+{
+  /* There are six decimal digits available for binding powers. */
+
+  binding_power_t result;
+
+  bp = rint (bp * 1.0e6);
+  if (bp <= LONG_MIN)
+    result = LONG_MIN;
+  else if (LONG_MAX <= bp)
+    result = LONG_MAX;
+  else
+    result = lrint (bp);
+  return result;
+}
 
 void
 parse_tree_t_free (parse_tree_t node)
@@ -67,7 +88,7 @@ free_string (const void *s)
 static void
 free_binding_power (const void *bp)
 {
-  _Decimal32 *x = (_Decimal32 *) bp;
+  binding_power_t *x = (binding_power_t *) bp;
   free (x);
 };
 
@@ -114,10 +135,10 @@ add_led_entry (parser_data_t data, string_t token_kind,
 
 void
 add_lbp_entry (parser_data_t data, string_t token_kind,
-	       _Decimal32 binding_power)
+	       double binding_power)
 {
-  _Decimal32 *bp = XMALLOC (_Decimal32);
-  *bp = binding_power;
+  binding_power_t *bp = XMALLOC (binding_power_t);
+  *bp = make_binding_power_t (binding_power);
   gl_omap_put (data->lbp, token_kind, bp);
 }
 
@@ -125,7 +146,7 @@ add_lbp_entry (parser_data_t data, string_t token_kind,
 parse_tree_t
 parse_expression (xxxxxxx get_token,
                   parser_data_t data,
-                  _Decimal32 min_power)
+                  double min_power)
 {
 }
 */

@@ -59,10 +59,13 @@ BASICCFLAGS += -I $(srcdir)/lib
 
 bin_PROGRAMS = hiha
 
+hiha_LDFLAGS =
 hiha_LDADD =
 hiha_CFLAGS =
 hiha_DEPENDENCIES =
 hiha_SOURCES =
+
+hiha_LDFLAGS += -lm
 
 hiha_LDADD += libhiha.a
 hiha_LDADD += lib/libgnu.a
@@ -107,9 +110,11 @@ libhiha_a_SOURCES += src/libhiha/parse_expression.c
 .PHONY: indent
 indent:
 	$(INDENT) -l72 \
+		-Tbinding_power_t \
 		-Tstring_t \
 		-Ttoken_t \
 		-Ttext_location_t \
+		-Ttoken_getter_from_file_t \
 		$(addprefix $(top_srcdir)/, \
 			$(filter %.c %.h,$(libhiha_a_SOURCES))) \
 		$(addprefix $(top_srcdir)/, \

@@ -77,6 +77,9 @@ string_t_from_str_len (const char *src, size_t srclen,
     {
       char *locstr = text_location_string (loc);
       error (exit_failure, err_number, "%s", locstr);
+      /* It is idiom to call abort(3) after error(exit_failure,...),
+         to obtain the [[noreturn]] qualifier of abort(3). The
+         abort(3) is actually never reached. */
       abort ();
     }
   string_t result = XMALLOC (struct string);

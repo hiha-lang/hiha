@@ -35,7 +35,7 @@
 #  --tests-base=tests \
 #  --aux-dir=build-aux \
 #  --no-conditional-dependencies \
-#  --no-libtool \
+#  --libtool \
 #  --macro-prefix=gl \
 #  avltree-list \
 #  avltree-omap \
@@ -82,6 +82,7 @@ gl_DOC_BASE([doc])
 gl_TESTS_BASE([tests])
 gl_LIB([libgnu])
 gl_MAKEFILE_NAME([])
+gl_LIBTOOL
 gl_MACRO_PREFIX([gl])
 gl_PO_DOMAIN([])
 gl_WITNESS_C_MACRO([])

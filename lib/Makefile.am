@@ -30,7 +30,7 @@
 #  --tests-base=tests \
 #  --aux-dir=build-aux \
 #  --no-conditional-dependencies \
-#  --no-libtool \
+#  --libtool \
 #  --macro-prefix=gl \
 #  avltree-list \
 #  avltree-omap \
@@ -70,13 +70,18 @@ MAINTAINERCLEANFILES =
 AM_CPPFLAGS =
 AM_CFLAGS =
 
-noinst_LIBRARIES += libgnu.a
+noinst_LTLIBRARIES += libgnu.la
 
-libgnu_a_SOURCES =
-libgnu_a_CFLAGS = $(AM_CFLAGS) $(GL_CFLAG_GNULIB_WARNINGS) $(GL_CFLAG_ALLOW_WARNINGS)
-libgnu_a_LIBADD = $(gl_libgnu_LIBOBJS)
-libgnu_a_DEPENDENCIES = $(gl_libgnu_LIBOBJS)
-EXTRA_libgnu_a_SOURCES =
+libgnu_la_SOURCES =
+libgnu_la_CFLAGS = $(AM_CFLAGS) $(GL_CFLAG_GNULIB_WARNINGS) $(GL_CFLAG_ALLOW_WARNINGS)
+libgnu_la_LIBADD = $(gl_libgnu_LTLIBOBJS)
+libgnu_la_DEPENDENCIES = $(gl_libgnu_LTLIBOBJS)
+EXTRA_libgnu_la_SOURCES =
+libgnu_la_LDFLAGS = $(AM_LDFLAGS)
+libgnu_la_LDFLAGS += -no-undefined
+libgnu_la_LDFLAGS += $(LTLIBICONV)
+libgnu_la_LDFLAGS += $(LTLIBINTL)
+libgnu_la_LDFLAGS += $(LTLIBUNISTRING)
 
 ## begin gnulib module absolute-header
 
@@ -111,7 +116,7 @@ EXTRA_DIST += alloca.in.h
 
 ## begin gnulib module amemxfrm
 
-libgnu_a_SOURCES += amemxfrm.c
+libgnu_la_SOURCES += amemxfrm.c
 
 EXTRA_DIST += amemxfrm.h
 
@@ -164,19 +169,19 @@ EXTRA_DIST += attribute.h
 
 ## begin gnulib module avltree-list
 
-libgnu_a_SOURCES += gl_avltree_list.h gl_avltree_list.c gl_anyavltree_list1.h gl_anyavltree_list2.h gl_anytree_list1.h gl_anytree_list2.h
+libgnu_la_SOURCES += gl_avltree_list.h gl_avltree_list.c gl_anyavltree_list1.h gl_anyavltree_list2.h gl_anytree_list1.h gl_anytree_list2.h
 
 ## end   gnulib module avltree-list
 
 ## begin gnulib module avltree-omap
 
-libgnu_a_SOURCES += gl_avltree_omap.h gl_avltree_omap.c gl_avltree_ordered.h gl_anytree_omap.h
+libgnu_la_SOURCES += gl_avltree_omap.h gl_avltree_omap.c gl_avltree_ordered.h gl_anytree_omap.h
 
 ## end   gnulib module avltree-omap
 
 ## begin gnulib module basename-lgpl
 
-libgnu_a_SOURCES += basename-lgpl.c
+libgnu_la_SOURCES += basename-lgpl.c
 
 EXTRA_DIST += basename-lgpl.h
 
@@ -184,13 +189,13 @@ EXTRA_DIST += basename-lgpl.h
 
 ## begin gnulib module c-ctype
 
-libgnu_a_SOURCES += c-ctype.h c-ctype.c
+libgnu_la_SOURCES += c-ctype.h c-ctype.c
 
 ## end   gnulib module c-ctype
 
 ## begin gnulib module c-strcasecmp
 
-libgnu_a_SOURCES += c-strcasecmp.c
+libgnu_la_SOURCES += c-strcasecmp.c
 
 EXTRA_DIST += c-strcase.h
 
@@ -208,7 +213,7 @@ EXTRA_DIST += c-strcaseeq.h
 
 EXTRA_DIST += calloc.c
 
-EXTRA_libgnu_a_SOURCES += calloc.c
+EXTRA_libgnu_la_SOURCES += calloc.c
 
 ## end   gnulib module calloc-gnu
 
@@ -217,13 +222,13 @@ EXTRA_libgnu_a_SOURCES += calloc.c
 
 EXTRA_DIST += calloc.c
 
-EXTRA_libgnu_a_SOURCES += calloc.c
+EXTRA_libgnu_la_SOURCES += calloc.c
 
 ## end   gnulib module calloc-posix
 
 ## begin gnulib module cloexec
 
-libgnu_a_SOURCES += cloexec.c
+libgnu_la_SOURCES += cloexec.c
 
 EXTRA_DIST += cloexec.h
 
@@ -232,7 +237,7 @@ EXTRA_DIST += cloexec.h
 ## begin gnulib module close
 
 if GL_COND_OBJ_CLOSE
-libgnu_a_SOURCES += close.c
+libgnu_la_SOURCES += close.c
 endif
 
 ## end   gnulib module close
@@ -240,7 +245,7 @@ endif
 ## begin gnulib module dup2
 
 if GL_COND_OBJ_DUP2
-libgnu_a_SOURCES += dup2.c
+libgnu_la_SOURCES += dup2.c
 endif
 
 ## end   gnulib module dup2
@@ -274,7 +279,7 @@ EXTRA_DIST += errno.in.h
 ## begin gnulib module error
 
 if GL_COND_OBJ_ERROR
-libgnu_a_SOURCES += error.c
+libgnu_la_SOURCES += error.c
 endif
 
 ## end   gnulib module error
@@ -305,7 +310,7 @@ EXTRA_DIST += error.in.h
 
 ## begin gnulib module exitfail
 
-libgnu_a_SOURCES += exitfail.c
+libgnu_la_SOURCES += exitfail.c
 
 EXTRA_DIST += exitfail.h
 
@@ -314,7 +319,7 @@ EXTRA_DIST += exitfail.h
 ## begin gnulib module fcntl
 
 if GL_COND_OBJ_FCNTL
-libgnu_a_SOURCES += fcntl.c
+libgnu_la_SOURCES += fcntl.c
 endif
 
 ## end   gnulib module fcntl
@@ -358,7 +363,7 @@ EXTRA_DIST += fcntl.in.h
 
 ## begin gnulib module fd-hook
 
-libgnu_a_SOURCES += fd-hook.c
+libgnu_la_SOURCES += fd-hook.c
 
 EXTRA_DIST += fd-hook.h
 
@@ -374,7 +379,7 @@ EXTRA_DIST += filename.h
 ## begin gnulib module free-posix
 
 if GL_COND_OBJ_FREE
-libgnu_a_SOURCES += free.c
+libgnu_la_SOURCES += free.c
 endif
 
 ## end   gnulib module free-posix
@@ -382,7 +387,7 @@ endif
 ## begin gnulib module fseterr
 
 if GL_COND_OBJ_FSETERR
-libgnu_a_SOURCES += fseterr.c
+libgnu_la_SOURCES += fseterr.c
 endif
 
 EXTRA_DIST += fseterr.h stdio-impl.h
@@ -392,12 +397,12 @@ EXTRA_DIST += fseterr.h stdio-impl.h
 ## begin gnulib module fstat
 
 if GL_COND_OBJ_FSTAT
-libgnu_a_SOURCES += fstat.c
+libgnu_la_SOURCES += fstat.c
 endif
 
 EXTRA_DIST += stat-w32.c stat-w32.h
 
-EXTRA_libgnu_a_SOURCES += stat-w32.c
+EXTRA_libgnu_la_SOURCES += stat-w32.c
 
 ## end   gnulib module fstat
 
@@ -424,7 +429,7 @@ gl_V_at = $(AM_V_GEN)
 ## begin gnulib module getdelim
 
 if GL_COND_OBJ_GETDELIM
-libgnu_a_SOURCES += getdelim.c
+libgnu_la_SOURCES += getdelim.c
 endif
 
 ## end   gnulib module getdelim
@@ -432,7 +437,7 @@ endif
 ## begin gnulib module getdtablesize
 
 if GL_COND_OBJ_GETDTABLESIZE
-libgnu_a_SOURCES += getdtablesize.c
+libgnu_la_SOURCES += getdtablesize.c
 endif
 
 ## end   gnulib module getdtablesize
@@ -440,7 +445,7 @@ endif
 ## begin gnulib module getline
 
 if GL_COND_OBJ_GETLINE
-libgnu_a_SOURCES += getline.c
+libgnu_la_SOURCES += getline.c
 endif
 
 ## end   gnulib module getline
@@ -448,7 +453,7 @@ endif
 ## begin gnulib module getprogname
 
 if GL_COND_OBJ_GETPROGNAME
-libgnu_a_SOURCES += getprogname.c
+libgnu_la_SOURCES += getprogname.c
 endif
 
 EXTRA_DIST += getprogname.h
@@ -457,7 +462,7 @@ EXTRA_DIST += getprogname.h
 
 ## begin gnulib module gettext-h
 
-libgnu_a_SOURCES += gettext.h
+libgnu_la_SOURCES += gettext.h
 
 ## end   gnulib module gettext-h
 
@@ -479,7 +484,7 @@ EXTRA_DIST += $(top_srcdir)/build-aux/config.rpath
 
 ## begin gnulib module ialloc
 
-libgnu_a_SOURCES += ialloc.c
+libgnu_la_SOURCES += ialloc.c
 
 EXTRA_DIST += ialloc.h
 
@@ -522,10 +527,10 @@ EXTRA_DIST += iconv.in.h
 ## begin gnulib module iconv_open
 
 if GL_COND_OBJ_ICONV_OPEN
-libgnu_a_SOURCES += iconv_open.c
+libgnu_la_SOURCES += iconv_open.c
 endif
 if GL_COND_OBJ_ICONV
-libgnu_a_SOURCES += iconv.c iconv_close.c
+libgnu_la_SOURCES += iconv.c iconv_close.c
 endif
 
 $(srcdir)/iconv_open-aix.h: $(srcdir)/iconv_open-aix.gperf
@@ -566,7 +571,7 @@ EXTRA_DIST += iconv_open-aix.gperf iconv_open-hpux.gperf iconv_open-solaris.gper
 
 ## begin gnulib module idx
 
-libgnu_a_SOURCES += idx.h
+libgnu_la_SOURCES += idx.h
 
 ## end   gnulib module idx
 
@@ -648,13 +653,13 @@ EXTRA_DIST += limits.in.h
 
 ## begin gnulib module list
 
-libgnu_a_SOURCES += gl_list.h gl_list.c
+libgnu_la_SOURCES += gl_list.h gl_list.c
 
 ## end   gnulib module list
 
 ## begin gnulib module localcharset
 
-libgnu_a_SOURCES += localcharset.c
+libgnu_la_SOURCES += localcharset.c
 
 EXTRA_DIST += localcharset.h
 
@@ -711,7 +716,7 @@ EXTRA_DIST += locale.in.h
 ## begin gnulib module lstat
 
 if GL_COND_OBJ_LSTAT
-libgnu_a_SOURCES += lstat.c
+libgnu_la_SOURCES += lstat.c
 endif
 
 ## end   gnulib module lstat
@@ -721,7 +726,7 @@ endif
 
 EXTRA_DIST += malloc.c
 
-EXTRA_libgnu_a_SOURCES += malloc.c
+EXTRA_libgnu_la_SOURCES += malloc.c
 
 ## end   gnulib module malloc-gnu
 
@@ -730,13 +735,13 @@ EXTRA_libgnu_a_SOURCES += malloc.c
 
 EXTRA_DIST += malloc.c
 
-EXTRA_libgnu_a_SOURCES += malloc.c
+EXTRA_libgnu_la_SOURCES += malloc.c
 
 ## end   gnulib module malloc-posix
 
 ## begin gnulib module malloca
 
-libgnu_a_SOURCES += malloca.c
+libgnu_la_SOURCES += malloca.c
 
 EXTRA_DIST += malloca.h
 
@@ -744,7 +749,7 @@ EXTRA_DIST += malloca.h
 
 ## begin gnulib module memcmp2
 
-libgnu_a_SOURCES += memcmp2.c
+libgnu_la_SOURCES += memcmp2.c
 
 EXTRA_DIST += memcmp2.h
 
@@ -752,14 +757,14 @@ EXTRA_DIST += memcmp2.h
 
 ## begin gnulib module minmax
 
-libgnu_a_SOURCES += minmax.h
+libgnu_la_SOURCES += minmax.h
 
 ## end   gnulib module minmax
 
 ## begin gnulib module msvc-inval
 
 if GL_COND_OBJ_MSVC_INVAL
-libgnu_a_SOURCES += msvc-inval.c
+libgnu_la_SOURCES += msvc-inval.c
 endif
 
 EXTRA_DIST += msvc-inval.h
@@ -769,7 +774,7 @@ EXTRA_DIST += msvc-inval.h
 ## begin gnulib module msvc-nothrow
 
 if GL_COND_OBJ_MSVC_NOTHROW
-libgnu_a_SOURCES += msvc-nothrow.c
+libgnu_la_SOURCES += msvc-nothrow.c
 endif
 
 EXTRA_DIST += msvc-nothrow.h
@@ -778,14 +783,14 @@ EXTRA_DIST += msvc-nothrow.h
 
 ## begin gnulib module omap
 
-libgnu_a_SOURCES += gl_omap.h gl_omap.c
+libgnu_la_SOURCES += gl_omap.h gl_omap.c
 
 ## end   gnulib module omap
 
 ## begin gnulib module open
 
 if GL_COND_OBJ_OPEN
-libgnu_a_SOURCES += open.c
+libgnu_la_SOURCES += open.c
 endif
 
 ## end   gnulib module open
@@ -799,14 +804,14 @@ EXTRA_DIST += pathmax.h
 
 ## begin gnulib module progname
 
-libgnu_a_SOURCES += progname.h progname.c
+libgnu_la_SOURCES += progname.h progname.c
 
 ## end   gnulib module progname
 
 ## begin gnulib module realloc-posix
 
 if GL_COND_OBJ_REALLOC_POSIX
-libgnu_a_SOURCES += realloc.c
+libgnu_la_SOURCES += realloc.c
 endif
 
 ## end   gnulib module realloc-posix
@@ -814,7 +819,7 @@ endif
 ## begin gnulib module reallocarray
 
 if GL_COND_OBJ_REALLOCARRAY
-libgnu_a_SOURCES += reallocarray.c
+libgnu_la_SOURCES += reallocarray.c
 endif
 
 ## end   gnulib module reallocarray
@@ -870,18 +875,18 @@ EXTRA_DIST += warn-on-use.h
 ## begin gnulib module stat
 
 if GL_COND_OBJ_STAT
-libgnu_a_SOURCES += stat.c
+libgnu_la_SOURCES += stat.c
 endif
 
 EXTRA_DIST += stat-w32.c stat-w32.h
 
-EXTRA_libgnu_a_SOURCES += stat-w32.c
+EXTRA_libgnu_la_SOURCES += stat-w32.c
 
 ## end   gnulib module stat
 
 ## begin gnulib module stat-time
 
-libgnu_a_SOURCES += stat-time.c
+libgnu_la_SOURCES += stat-time.c
 
 EXTRA_DIST += stat-time.h
 
@@ -1147,13 +1152,13 @@ stdio.h: stdio.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) 
 MOSTLYCLEANFILES += stdio.h stdio.h-t1 stdio.h-t2 stdio.h-t3
 
 if GL_COND_OBJ_STDIO_CONSOLESAFE
-libgnu_a_SOURCES += stdio-consolesafe.c
+libgnu_la_SOURCES += stdio-consolesafe.c
 endif
 if GL_COND_OBJ_STDIO_READ
-libgnu_a_SOURCES += stdio-read.c
+libgnu_la_SOURCES += stdio-read.c
 endif
 if GL_COND_OBJ_STDIO_WRITE
-libgnu_a_SOURCES += stdio-write.c
+libgnu_la_SOURCES += stdio-write.c
 endif
 
 EXTRA_DIST += stdio.in.h
@@ -1163,7 +1168,7 @@ EXTRA_DIST += stdio.in.h
 ## begin gnulib module stdlib-h
 
 BUILT_SOURCES += stdlib.h
-libgnu_a_SOURCES += stdlib.c
+libgnu_la_SOURCES += stdlib.c
 
 stdlib.h: stdlib.in.h $(top_builddir)/config.status $(CXXDEFS_H) \
   $(_NORETURN_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
@@ -1334,7 +1339,7 @@ EXTRA_DIST += stdlib.in.h
 ## begin gnulib module strerror
 
 if GL_COND_OBJ_STRERROR
-libgnu_a_SOURCES += strerror.c
+libgnu_la_SOURCES += strerror.c
 endif
 
 ## end   gnulib module strerror
@@ -1342,7 +1347,7 @@ endif
 ## begin gnulib module strerror-override
 
 if GL_COND_OBJ_STRERROR_OVERRIDE
-libgnu_a_SOURCES += strerror-override.c
+libgnu_la_SOURCES += strerror-override.c
 endif
 
 EXTRA_DIST += strerror-override.h
@@ -1351,7 +1356,8 @@ EXTRA_DIST += strerror-override.h
 
 ## begin gnulib module striconveh
 
-libgnu_a_SOURCES += striconveh.h striconveh.c
+libgnu_la_SOURCES += striconveh.h striconveh.c
+libgnu_la_LDFLAGS += $(LTLIBICONV)
 
 EXTRA_DIST += iconveh.h
 
@@ -1359,7 +1365,7 @@ EXTRA_DIST += iconveh.h
 
 ## begin gnulib module striconveha
 
-libgnu_a_SOURCES += striconveha.h striconveha.c
+libgnu_la_SOURCES += striconveha.h striconveha.c
 
 ## end   gnulib module striconveha
 
@@ -1494,7 +1500,7 @@ EXTRA_DIST += string.in.h
 
 ## begin gnulib module stringeq
 
-libgnu_a_SOURCES += string.c
+libgnu_la_SOURCES += string.c
 
 ## end   gnulib module stringeq
 
@@ -1684,7 +1690,7 @@ EXTRA_DIST += unicase.in.h
 
 ## begin gnulib module unicase/cased
 
-libgnu_a_SOURCES += unicase/cased.c
+libgnu_la_SOURCES += unicase/cased.c
 
 EXTRA_DIST += unicase/cased.h unicase/caseprop.h unictype/bitmap.h
 
@@ -1693,7 +1699,7 @@ EXTRA_DIST += unicase/cased.h unicase/caseprop.h unictype/bitmap.h
 ## begin gnulib module unicase/empty-prefix-context
 
 if LIBUNISTRING_COMPILE_UNICASE_EMPTY_PREFIX_CONTEXT
-libgnu_a_SOURCES += unicase/empty-prefix-context.c
+libgnu_la_SOURCES += unicase/empty-prefix-context.c
 endif
 
 ## end   gnulib module unicase/empty-prefix-context
@@ -1701,14 +1707,14 @@ endif
 ## begin gnulib module unicase/empty-suffix-context
 
 if LIBUNISTRING_COMPILE_UNICASE_EMPTY_SUFFIX_CONTEXT
-libgnu_a_SOURCES += unicase/empty-suffix-context.c
+libgnu_la_SOURCES += unicase/empty-suffix-context.c
 endif
 
 ## end   gnulib module unicase/empty-suffix-context
 
 ## begin gnulib module unicase/ignorable
 
-libgnu_a_SOURCES += unicase/ignorable.c
+libgnu_la_SOURCES += unicase/ignorable.c
 
 EXTRA_DIST += unicase/caseprop.h unicase/ignorable.h unictype/bitmap.h
 
@@ -1716,7 +1722,7 @@ EXTRA_DIST += unicase/caseprop.h unicase/ignorable.h unictype/bitmap.h
 
 ## begin gnulib module unicase/special-casing
 
-libgnu_a_SOURCES += unicase/special-casing.c
+libgnu_la_SOURCES += unicase/special-casing.c
 
 $(srcdir)/unicase/special-casing-table.h: $(srcdir)/unicase/special-casing-table.gperf
 	$(V_GPERF)$(GPERF) -m 10 $(srcdir)/unicase/special-casing-table.gperf > $(srcdir)/unicase/special-casing-table.h-t1 \
@@ -1746,7 +1752,7 @@ EXTRA_DIST += unicase/special-casing-table.gperf unicase/special-casing.in.h
 
 ## begin gnulib module unicase/tocasefold
 
-libgnu_a_SOURCES += unicase/tocasefold.c
+libgnu_la_SOURCES += unicase/tocasefold.c
 
 EXTRA_DIST += unicase/casefold.h unicase/simple-mapping.h unicase/tocasefold.h
 
@@ -1755,7 +1761,7 @@ EXTRA_DIST += unicase/casefold.h unicase/simple-mapping.h unicase/tocasefold.h
 ## begin gnulib module unicase/u32-casecoll
 
 if LIBUNISTRING_COMPILE_UNICASE_U32_CASECOLL
-libgnu_a_SOURCES += unicase/u32-casecoll.c
+libgnu_la_SOURCES += unicase/u32-casecoll.c
 endif
 
 EXTRA_DIST += unicase/u-casecoll.h
@@ -1765,7 +1771,7 @@ EXTRA_DIST += unicase/u-casecoll.h
 ## begin gnulib module unicase/u32-casefold
 
 if LIBUNISTRING_COMPILE_UNICASE_U32_CASEFOLD
-libgnu_a_SOURCES += unicase/u32-casefold.c
+libgnu_la_SOURCES += unicase/u32-casefold.c
 endif
 
 EXTRA_DIST += unicase/u-casefold.h
@@ -1774,7 +1780,7 @@ EXTRA_DIST += unicase/u-casefold.h
 
 ## begin gnulib module unicase/u32-casemap
 
-libgnu_a_SOURCES += unicase/u32-casemap.c
+libgnu_la_SOURCES += unicase/u32-casemap.c
 
 EXTRA_DIST += unicase/context.h unicase/u-casemap.h unicase/unicasemap.h
 
@@ -1783,7 +1789,7 @@ EXTRA_DIST += unicase/context.h unicase/u-casemap.h unicase/unicasemap.h
 ## begin gnulib module unicase/u32-casexfrm
 
 if LIBUNISTRING_COMPILE_UNICASE_U32_CASEXFRM
-libgnu_a_SOURCES += unicase/u32-casexfrm.c
+libgnu_la_SOURCES += unicase/u32-casexfrm.c
 endif
 
 EXTRA_DIST += unicase/u-casexfrm.h
@@ -1793,7 +1799,7 @@ EXTRA_DIST += unicase/u-casexfrm.h
 ## begin gnulib module unicase/u32-ct-casefold
 
 if LIBUNISTRING_COMPILE_UNICASE_U32_CT_CASEFOLD
-libgnu_a_SOURCES += unicase/u32-ct-casefold.c
+libgnu_la_SOURCES += unicase/u32-ct-casefold.c
 endif
 
 EXTRA_DIST += unicase/u-ct-casefold.h
@@ -1816,7 +1822,7 @@ EXTRA_DIST += iconveh.h localcharset.h striconveha.h uniconv.in.h
 ## begin gnulib module uniconv/u32-conv-from-enc
 
 if LIBUNISTRING_COMPILE_UNICONV_U32_CONV_FROM_ENC
-libgnu_a_SOURCES += uniconv/u32-conv-from-enc.c
+libgnu_la_SOURCES += uniconv/u32-conv-from-enc.c
 endif
 
 EXTRA_DIST += uniconv/u-conv-from-enc.h
@@ -1826,7 +1832,7 @@ EXTRA_DIST += uniconv/u-conv-from-enc.h
 ## begin gnulib module uniconv/u32-conv-to-enc
 
 if LIBUNISTRING_COMPILE_UNICONV_U32_CONV_TO_ENC
-libgnu_a_SOURCES += uniconv/u32-conv-to-enc.c
+libgnu_la_SOURCES += uniconv/u32-conv-to-enc.c
 endif
 
 EXTRA_DIST += uniconv/u-conv-to-enc.h
@@ -1836,7 +1842,7 @@ EXTRA_DIST += uniconv/u-conv-to-enc.h
 ## begin gnulib module uniconv/u8-conv-from-enc
 
 if LIBUNISTRING_COMPILE_UNICONV_U8_CONV_FROM_ENC
-libgnu_a_SOURCES += uniconv/u8-conv-from-enc.c
+libgnu_la_SOURCES += uniconv/u8-conv-from-enc.c
 endif
 
 ## end   gnulib module uniconv/u8-conv-from-enc
@@ -1844,7 +1850,7 @@ endif
 ## begin gnulib module uniconv/u8-conv-to-enc
 
 if LIBUNISTRING_COMPILE_UNICONV_U8_CONV_TO_ENC
-libgnu_a_SOURCES += uniconv/u8-conv-to-enc.c
+libgnu_la_SOURCES += uniconv/u8-conv-to-enc.c
 endif
 
 ## end   gnulib module uniconv/u8-conv-to-enc
@@ -2010,7 +2016,7 @@ EXTRA_DIST += unictype.in.h
 ## begin gnulib module unictype/combining-class
 
 if LIBUNISTRING_COMPILE_UNICTYPE_COMBINING_CLASS
-libgnu_a_SOURCES += unictype/combiningclass.c
+libgnu_la_SOURCES += unictype/combiningclass.c
 endif
 
 EXTRA_DIST += unictype/combiningclass.h
@@ -2020,7 +2026,7 @@ EXTRA_DIST += unictype/combiningclass.h
 ## begin gnulib module unictype/property-soft-dotted
 
 if LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_SOFT_DOTTED
-libgnu_a_SOURCES += unictype/pr_soft_dotted.c
+libgnu_la_SOURCES += unictype/pr_soft_dotted.c
 endif
 
 EXTRA_DIST += unictype/bitmap.h unictype/pr_soft_dotted.h
@@ -2049,7 +2055,7 @@ EXTRA_DIST += uninorm.in.h
 ## begin gnulib module uninorm/canonical-decomposition
 
 if LIBUNISTRING_COMPILE_UNINORM_CANONICAL_DECOMPOSITION
-libgnu_a_SOURCES += uninorm/canonical-decomposition.c
+libgnu_la_SOURCES += uninorm/canonical-decomposition.c
 endif
 
 ## end   gnulib module uninorm/canonical-decomposition
@@ -2057,7 +2063,7 @@ endif
 ## begin gnulib module uninorm/composition
 
 if LIBUNISTRING_COMPILE_UNINORM_COMPOSITION
-libgnu_a_SOURCES += uninorm/composition.c
+libgnu_la_SOURCES += uninorm/composition.c
 endif
 
 $(srcdir)/uninorm/composition-table.h: $(srcdir)/uninorm/composition-table.gperf
@@ -2078,7 +2084,7 @@ EXTRA_DIST += uninorm/composition-table-bounds.h uninorm/composition-table.gperf
 
 ## begin gnulib module uninorm/decompose-internal
 
-libgnu_a_SOURCES += uninorm/decompose-internal.c
+libgnu_la_SOURCES += uninorm/decompose-internal.c
 
 EXTRA_DIST += uninorm/decompose-internal.h
 
@@ -2087,7 +2093,7 @@ EXTRA_DIST += uninorm/decompose-internal.h
 ## begin gnulib module uninorm/decomposing-form
 
 if LIBUNISTRING_COMPILE_UNINORM_DECOMPOSING_FORM
-libgnu_a_SOURCES += uninorm/decomposing-form.c
+libgnu_la_SOURCES += uninorm/decomposing-form.c
 endif
 
 EXTRA_DIST += uninorm/normalize-internal.h
@@ -2096,7 +2102,7 @@ EXTRA_DIST += uninorm/normalize-internal.h
 
 ## begin gnulib module uninorm/decomposition-table
 
-libgnu_a_SOURCES += uninorm/decomposition-table.c
+libgnu_la_SOURCES += uninorm/decomposition-table.c
 
 EXTRA_DIST += uninorm/decomposition-table.h uninorm/decomposition-table1.h uninorm/decomposition-table2.h
 
@@ -2105,7 +2111,7 @@ EXTRA_DIST += uninorm/decomposition-table.h uninorm/decomposition-table1.h unino
 ## begin gnulib module uninorm/nfc
 
 if LIBUNISTRING_COMPILE_UNINORM_NFC
-libgnu_a_SOURCES += uninorm/nfc.c
+libgnu_la_SOURCES += uninorm/nfc.c
 endif
 
 EXTRA_DIST += uninorm/normalize-internal.h
@@ -2115,7 +2121,7 @@ EXTRA_DIST += uninorm/normalize-internal.h
 ## begin gnulib module uninorm/nfd
 
 if LIBUNISTRING_COMPILE_UNINORM_NFD
-libgnu_a_SOURCES += uninorm/nfd.c
+libgnu_la_SOURCES += uninorm/nfd.c
 endif
 
 EXTRA_DIST += uninorm/normalize-internal.h
@@ -2125,7 +2131,7 @@ EXTRA_DIST += uninorm/normalize-internal.h
 ## begin gnulib module uninorm/u32-normalize
 
 if LIBUNISTRING_COMPILE_UNINORM_U32_NORMALIZE
-libgnu_a_SOURCES += uninorm/u32-normalize.c
+libgnu_la_SOURCES += uninorm/u32-normalize.c
 endif
 
 EXTRA_DIST += uninorm/normalize-internal.h uninorm/u-normalize-internal.h
@@ -2135,7 +2141,7 @@ EXTRA_DIST += uninorm/normalize-internal.h uninorm/u-normalize-internal.h
 ## begin gnulib module unistd-h
 
 BUILT_SOURCES += unistd.h
-libgnu_a_SOURCES += unistd.c
+libgnu_la_SOURCES += unistd.c
 
 # We need the following in order to create an empty placeholder for
 # <unistd.h> when the system doesn't have one.
@@ -2368,7 +2374,7 @@ EXTRA_DIST += unistr.in.h
 ## begin gnulib module unistr/u32-check
 
 if LIBUNISTRING_COMPILE_UNISTR_U32_CHECK
-libgnu_a_SOURCES += unistr/u32-check.c
+libgnu_la_SOURCES += unistr/u32-check.c
 endif
 
 ## end   gnulib module unistr/u32-check
@@ -2376,7 +2382,7 @@ endif
 ## begin gnulib module unistr/u32-cmp
 
 if LIBUNISTRING_COMPILE_UNISTR_U32_CMP
-libgnu_a_SOURCES += unistr/u32-cmp.c
+libgnu_la_SOURCES += unistr/u32-cmp.c
 endif
 
 ## end   gnulib module unistr/u32-cmp
@@ -2384,7 +2390,7 @@ endif
 ## begin gnulib module unistr/u32-cmp2
 
 if LIBUNISTRING_COMPILE_UNISTR_U32_CMP2
-libgnu_a_SOURCES += unistr/u32-cmp2.c
+libgnu_la_SOURCES += unistr/u32-cmp2.c
 endif
 
 EXTRA_DIST += unistr/u-cmp2.h
@@ -2394,7 +2400,7 @@ EXTRA_DIST += unistr/u-cmp2.h
 ## begin gnulib module unistr/u32-cpy
 
 if LIBUNISTRING_COMPILE_UNISTR_U32_CPY
-libgnu_a_SOURCES += unistr/u32-cpy.c
+libgnu_la_SOURCES += unistr/u32-cpy.c
 endif
 
 EXTRA_DIST += unistr/u-cpy.h
@@ -2404,7 +2410,7 @@ EXTRA_DIST += unistr/u-cpy.h
 ## begin gnulib module unistr/u32-mblen
 
 if LIBUNISTRING_COMPILE_UNISTR_U32_MBLEN
-libgnu_a_SOURCES += unistr/u32-mblen.c
+libgnu_la_SOURCES += unistr/u32-mblen.c
 endif
 
 ## end   gnulib module unistr/u32-mblen
@@ -2412,7 +2418,7 @@ endif
 ## begin gnulib module unistr/u32-mbtouc-unsafe
 
 if LIBUNISTRING_COMPILE_UNISTR_U32_MBTOUC_UNSAFE
-libgnu_a_SOURCES += unistr/u32-mbtouc-unsafe.c
+libgnu_la_SOURCES += unistr/u32-mbtouc-unsafe.c
 endif
 
 ## end   gnulib module unistr/u32-mbtouc-unsafe
@@ -2420,7 +2426,7 @@ endif
 ## begin gnulib module unistr/u32-to-u8
 
 if LIBUNISTRING_COMPILE_UNISTR_U32_TO_U8
-libgnu_a_SOURCES += unistr/u32-to-u8.c
+libgnu_la_SOURCES += unistr/u32-to-u8.c
 endif
 
 ## end   gnulib module unistr/u32-to-u8
@@ -2428,7 +2434,7 @@ endif
 ## begin gnulib module unistr/u32-uctomb
 
 if LIBUNISTRING_COMPILE_UNISTR_U32_UCTOMB
-libgnu_a_SOURCES += unistr/u32-uctomb.c
+libgnu_la_SOURCES += unistr/u32-uctomb.c
 endif
 
 ## end   gnulib module unistr/u32-uctomb
@@ -2436,7 +2442,7 @@ endif
 ## begin gnulib module unistr/u8-check
 
 if LIBUNISTRING_COMPILE_UNISTR_U8_CHECK
-libgnu_a_SOURCES += unistr/u8-check.c
+libgnu_la_SOURCES += unistr/u8-check.c
 endif
 
 ## end   gnulib module unistr/u8-check
@@ -2444,7 +2450,7 @@ endif
 ## begin gnulib module unistr/u8-mblen
 
 if LIBUNISTRING_COMPILE_UNISTR_U8_MBLEN
-libgnu_a_SOURCES += unistr/u8-mblen.c
+libgnu_la_SOURCES += unistr/u8-mblen.c
 endif
 
 ## end   gnulib module unistr/u8-mblen
@@ -2452,7 +2458,7 @@ endif
 ## begin gnulib module unistr/u8-mbtouc
 
 if LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC
-libgnu_a_SOURCES += unistr/u8-mbtouc.c unistr/u8-mbtouc-aux.c
+libgnu_la_SOURCES += unistr/u8-mbtouc.c unistr/u8-mbtouc-aux.c
 endif
 
 ## end   gnulib module unistr/u8-mbtouc
@@ -2460,7 +2466,7 @@ endif
 ## begin gnulib module unistr/u8-mbtouc-unsafe
 
 if LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC_UNSAFE
-libgnu_a_SOURCES += unistr/u8-mbtouc-unsafe.c unistr/u8-mbtouc-unsafe-aux.c
+libgnu_la_SOURCES += unistr/u8-mbtouc-unsafe.c unistr/u8-mbtouc-unsafe-aux.c
 endif
 
 ## end   gnulib module unistr/u8-mbtouc-unsafe
@@ -2468,7 +2474,7 @@ endif
 ## begin gnulib module unistr/u8-mbtoucr
 
 if LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUCR
-libgnu_a_SOURCES += unistr/u8-mbtoucr.c
+libgnu_la_SOURCES += unistr/u8-mbtoucr.c
 endif
 
 ## end   gnulib module unistr/u8-mbtoucr
@@ -2476,7 +2482,7 @@ endif
 ## begin gnulib module unistr/u8-prev
 
 if LIBUNISTRING_COMPILE_UNISTR_U8_PREV
-libgnu_a_SOURCES += unistr/u8-prev.c
+libgnu_la_SOURCES += unistr/u8-prev.c
 endif
 
 ## end   gnulib module unistr/u8-prev
@@ -2484,7 +2490,7 @@ endif
 ## begin gnulib module unistr/u8-to-u32
 
 if LIBUNISTRING_COMPILE_UNISTR_U8_TO_U32
-libgnu_a_SOURCES += unistr/u8-to-u32.c
+libgnu_la_SOURCES += unistr/u8-to-u32.c
 endif
 
 ## end   gnulib module unistr/u8-to-u32
@@ -2492,7 +2498,7 @@ endif
 ## begin gnulib module unistr/u8-uctomb
 
 if LIBUNISTRING_COMPILE_UNISTR_U8_UCTOMB
-libgnu_a_SOURCES += unistr/u8-uctomb.c unistr/u8-uctomb-aux.c
+libgnu_la_SOURCES += unistr/u8-uctomb.c unistr/u8-uctomb-aux.c
 endif
 
 ## end   gnulib module unistr/u8-uctomb
@@ -2655,7 +2661,7 @@ EXTRA_DIST += wchar.in.h
 
 ## begin gnulib module xalloc
 
-libgnu_a_SOURCES += xmalloc.c
+libgnu_la_SOURCES += xmalloc.c
 
 EXTRA_DIST += xalloc.h
 
@@ -2663,7 +2669,7 @@ EXTRA_DIST += xalloc.h
 
 ## begin gnulib module xalloc-die
 
-libgnu_a_SOURCES += xalloc-die.c
+libgnu_la_SOURCES += xalloc-die.c
 
 EXTRA_DIST += xalloc.h
 
@@ -2678,13 +2684,13 @@ EXTRA_DIST += xalloc-oversized.h
 
 ## begin gnulib module xlist
 
-libgnu_a_SOURCES += gl_xlist.h gl_xlist.c
+libgnu_la_SOURCES += gl_xlist.h gl_xlist.c
 
 ## end   gnulib module xlist
 
 ## begin gnulib module xomap
 
-libgnu_a_SOURCES += gl_xomap.h gl_xomap.c
+libgnu_la_SOURCES += gl_xomap.h gl_xomap.c
 
 ## end   gnulib module xomap
 

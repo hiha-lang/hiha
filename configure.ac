@@ -34,6 +34,9 @@ AM_INIT_AUTOMAKE([tar-pax no-dist-gzip dist-xz])
 AM_SILENT_RULES([yes])
 AM_MAINTAINER_MODE
 
+LT_PREREQ([2.5.4])
+LT_INIT([pic-only,dlopen])
+
 AC_PROG_CC
 gl_EARLY
 AC_PROG_CC_C_O
@@ -47,7 +50,10 @@ AC_PROG_GREP
 AC_PROG_FGREP
 AC_PROG_EGREP
 
-CHEM_GNU_C_FLAGS([__c_compiler_flags],[-std=gnu23])
+CHEM_GNU_C_FLAGS([__c_compiler_flags],[
+  -std=gnu23
+  -fvisibility=hidden
+])
 CFLAGS="${CFLAGS}${CFLAGS+ }${__c_compiler_flags}"
 
 CHEM_PATH_PROGS_CACHED_AND_PRECIOUS([INDENT],

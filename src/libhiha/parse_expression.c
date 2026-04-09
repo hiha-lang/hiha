@@ -30,6 +30,8 @@
 // Change this if using gettext.
 #define _(msgid) msgid
 
+#define VISIBLE [[gnu::visibility ("default")]]
+
 struct parser_data
 {
   gl_omap_t nud;
@@ -57,7 +59,7 @@ make_binding_power_t (double bp)
   return result;
 }
 
-void
+VISIBLE void
 parse_tree_t_free (parse_tree_t node)
 {
   if (node != NULL)
@@ -92,7 +94,7 @@ free_binding_power (const void *bp)
   free (x);
 };
 
-parser_data_t
+VISIBLE parser_data_t
 initialize_parser_data (void)
 {
   parser_data_t data = XMALLOC (struct parser_data);
@@ -108,7 +110,7 @@ initialize_parser_data (void)
   return data;
 }
 
-void
+VISIBLE void
 parser_data_t_free (parser_data_t data)
 {
   if (data != NULL)
@@ -119,21 +121,21 @@ parser_data_t_free (parser_data_t data)
     }
 }
 
-void
+VISIBLE void
 add_nud_entry (parser_data_t data, string_t token_kind,
 	       nud_entry_handler_t handler)
 {
   gl_omap_put (data->nud, token_kind, handler);
 }
 
-void
+VISIBLE void
 add_led_entry (parser_data_t data, string_t token_kind,
 	       led_entry_handler_t handler)
 {
   gl_omap_put (data->led, token_kind, handler);
 }
 
-void
+VISIBLE void
 add_lbp_entry (parser_data_t data, string_t token_kind,
 	       double binding_power)
 {

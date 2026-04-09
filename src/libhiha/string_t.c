@@ -30,7 +30,9 @@
 // Change this if using gettext.
 #define _(msgid) msgid
 
-void
+#define VISIBLE [[gnu::visibility ("default")]]
+
+VISIBLE void
 string_t_free (string_t str)
 {
   if (str != NULL)
@@ -40,19 +42,19 @@ string_t_free (string_t str)
     }
 }
 
-int
+VISIBLE int
 string_t_cmp (const string_t str1, const string_t str2)
 {
   return u32_cmp2 (str1->s, str1->n, str2->s, str2->n);
 }
 
-string_t
+VISIBLE string_t
 make_string_t (const char *src)
 {
   return string_t_from_str_len (src, strlen (src), NULL);
 }
 
-char *
+VISIBLE char *
 make_str_nul (const string_t str)
 {
   char *s;
@@ -63,7 +65,7 @@ make_str_nul (const string_t str)
   return s;
 }
 
-string_t
+VISIBLE string_t
 string_t_from_str_len (const char *src, size_t srclen,
 		       text_location_t loc)
 {
@@ -88,7 +90,7 @@ string_t_from_str_len (const char *src, size_t srclen,
   return result;
 }
 
-string_t
+VISIBLE string_t
 string_t_canonicalize (const string_t src, text_location_t loc)
 {
   size_t n;
@@ -107,7 +109,7 @@ string_t_canonicalize (const string_t src, text_location_t loc)
   return result;
 }
 
-string_t
+VISIBLE string_t
 string_t_canonical_from_str_len (const char *src, size_t srclen,
 				 text_location_t loc)
 {
@@ -117,7 +119,7 @@ string_t_canonical_from_str_len (const char *src, size_t srclen,
   return str;
 }
 
-void
+VISIBLE void
 str_len_from_string_t (const string_t src, char **s, size_t *n)
 {
   *s = u32_conv_to_encoding (locale_charset (),
@@ -131,13 +133,13 @@ str_len_from_string_t (const string_t src, char **s, size_t *n)
     }
 }
 
-void
+VISIBLE void
 text_location_t_free (text_location_t loc)
 {
   free (loc);
 }
 
-char *
+VISIBLE char *
 text_location_string (text_location_t loc)
 {
   const char *fn;

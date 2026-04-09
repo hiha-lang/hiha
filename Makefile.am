@@ -65,55 +65,60 @@ hiha_CFLAGS =
 hiha_DEPENDENCIES =
 hiha_SOURCES =
 
-hiha_LDFLAGS += -lm
-
-hiha_LDADD += libhiha.a
-hiha_LDADD += lib/libgnu.a
-hiha_LDADD += $(HARD_LOCALE_LIB)
-hiha_LDADD += $(LIBC32CONV)
-hiha_LDADD += $(LIBICONV)
-hiha_LDADD += $(LIBINTL)
-hiha_LDADD += $(LIBUNISTRING)
-hiha_LDADD += $(MBRTOWC_LIB)
-hiha_LDADD += $(SETLOCALE_NULL_LIB)
+hiha_LDADD += libhiha.la
+hiha_LDADD += lib/libgnu.la
+hiha_LDADD += $(LTLIBICONV)
+hiha_LDADD += $(LTLIBINTL)
+hiha_LDADD += $(LTLIBUNISTRING)
 
 hiha_CFLAGS += $(BASICCFLAGS)
 
 hiha_DEPENDENCIES += config.h
-hiha_DEPENDENCIES += libhiha.a
-hiha_DEPENDENCIES += lib/libgnu.a
+hiha_DEPENDENCIES += libhiha.la
+hiha_DEPENDENCIES += lib/libgnu.la
 
 hiha_SOURCES += src/hiha/hiha.c
 
 #---------------------------------------------------------------------
 
-noinst_LIBRARIES = libhiha.a
+lib_LTLIBRARIES = libhiha.la
 
-libhiha_a_CFLAGS =
-libhiha_a_DEPENDENCIES =
-libhiha_a_SOURCES =
+libhiha_la_LIBADD =
+libhiha_la_LDFLAGS =
+libhiha_la_CFLAGS =
+libhiha_la_DEPENDENCIES =
+libhiha_la_SOURCES =
 
-libhiha_a_CFLAGS += $(BASICCFLAGS)
+libhiha_la_LIBADD += lib/libgnu.la
 
-libhiha_a_DEPENDENCIES += config.h
+libhiha_la_LDFLAGS += $(LTLIBICONV)
+libhiha_la_LDFLAGS += $(LTLIBINTL)
+libhiha_la_LDFLAGS += $(LTLIBUNISTRING)
+libhiha_la_LDFLAGS += -lm
 
-libhiha_a_SOURCES += include/libhiha/string_t.h
-libhiha_a_SOURCES += include/libhiha/token_t.h
-libhiha_a_SOURCES += include/libhiha/parse_expression.h
+libhiha_la_CFLAGS += $(BASICCFLAGS)
 
-libhiha_a_SOURCES += src/libhiha/string_t.c
-libhiha_a_SOURCES += src/libhiha/token_t.c
-libhiha_a_SOURCES += src/libhiha/parse_expression.c
+libhiha_la_DEPENDENCIES += config.h
+
+libhiha_la_SOURCES += include/libhiha/string_t.h
+libhiha_la_SOURCES += include/libhiha/token_t.h
+libhiha_la_SOURCES += include/libhiha/parse_expression.h
+
+libhiha_la_SOURCES += src/libhiha/string_t.c
+libhiha_la_SOURCES += src/libhiha/token_t.c
+libhiha_la_SOURCES += src/libhiha/parse_expression.c
 
 #---------------------------------------------------------------------
 
 .PHONY: indent
 indent:
 	$(INDENT) -l72 \
+		-TFILE \
 		-Tbinding_power_t \
 		-Tstring_t \
 		-Ttoken_t \
 		-Ttext_location_t \
+		-Ttoken_getter_t \
 		-Ttoken_getter_from_file_t \
 		$(addprefix $(top_srcdir)/, \
 			$(filter %.c %.h,$(libhiha_a_SOURCES))) \

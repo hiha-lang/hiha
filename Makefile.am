@@ -121,7 +121,7 @@ indent:
 		-Ttoken_getter_t \
 		-Ttoken_getter_from_file_t \
 		$(addprefix $(top_srcdir)/, \
-			$(filter %.c %.h,$(libhiha_a_SOURCES))) \
+			$(filter %.c %.h,$(libhiha_la_SOURCES))) \
 		$(addprefix $(top_srcdir)/, \
 			$(filter %.c %.h,$(hiha_SOURCES)))
 

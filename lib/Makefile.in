@@ -51,6 +51,7 @@
 #  error \
 #  exitfail \
 #  getline \
+#  getopt-gnu \
 #  progname \
 #  unicase/u32-casecoll \
 #  uniconv/u32-casecoll \
@@ -59,6 +60,7 @@
 #  uninorm/nfc \
 #  unistr/u32-check \
 #  unistr/u32-cmp2 \
+#  version-etc \
 #  xalloc \
 #  xlist \
 #  xomap
@@ -152,55 +154,56 @@ host_triplet = @host@
 @GL_COND_OBJ_GETDELIM_TRUE@am__append_8 = getdelim.c
 @GL_COND_OBJ_GETDTABLESIZE_TRUE@am__append_9 = getdtablesize.c
 @GL_COND_OBJ_GETLINE_TRUE@am__append_10 = getline.c
-@GL_COND_OBJ_GETPROGNAME_TRUE@am__append_11 = getprogname.c
-@GL_COND_OBJ_ICONV_OPEN_TRUE@am__append_12 = iconv_open.c
-@GL_COND_OBJ_ICONV_TRUE@am__append_13 = iconv.c iconv_close.c
-@GL_COND_OBJ_LSTAT_TRUE@am__append_14 = lstat.c
-@GL_COND_OBJ_MSVC_INVAL_TRUE@am__append_15 = msvc-inval.c
-@GL_COND_OBJ_MSVC_NOTHROW_TRUE@am__append_16 = msvc-nothrow.c
-@GL_COND_OBJ_OPEN_TRUE@am__append_17 = open.c
-@GL_COND_OBJ_REALLOC_POSIX_TRUE@am__append_18 = realloc.c
-@GL_COND_OBJ_REALLOCARRAY_TRUE@am__append_19 = reallocarray.c
-@GL_COND_OBJ_STAT_TRUE@am__append_20 = stat.c
-@GL_COND_OBJ_STDIO_CONSOLESAFE_TRUE@am__append_21 = stdio-consolesafe.c
-@GL_COND_OBJ_STDIO_READ_TRUE@am__append_22 = stdio-read.c
-@GL_COND_OBJ_STDIO_WRITE_TRUE@am__append_23 = stdio-write.c
-@GL_COND_OBJ_STRERROR_TRUE@am__append_24 = strerror.c
-@GL_COND_OBJ_STRERROR_OVERRIDE_TRUE@am__append_25 = strerror-override.c
-@LIBUNISTRING_COMPILE_UNICASE_EMPTY_PREFIX_CONTEXT_TRUE@am__append_26 = unicase/empty-prefix-context.c
-@LIBUNISTRING_COMPILE_UNICASE_EMPTY_SUFFIX_CONTEXT_TRUE@am__append_27 = unicase/empty-suffix-context.c
-@LIBUNISTRING_COMPILE_UNICASE_U32_CASECOLL_TRUE@am__append_28 = unicase/u32-casecoll.c
-@LIBUNISTRING_COMPILE_UNICASE_U32_CASEFOLD_TRUE@am__append_29 = unicase/u32-casefold.c
-@LIBUNISTRING_COMPILE_UNICASE_U32_CASEXFRM_TRUE@am__append_30 = unicase/u32-casexfrm.c
-@LIBUNISTRING_COMPILE_UNICASE_U32_CT_CASEFOLD_TRUE@am__append_31 = unicase/u32-ct-casefold.c
-@LIBUNISTRING_COMPILE_UNICONV_U32_CONV_FROM_ENC_TRUE@am__append_32 = uniconv/u32-conv-from-enc.c
-@LIBUNISTRING_COMPILE_UNICONV_U32_CONV_TO_ENC_TRUE@am__append_33 = uniconv/u32-conv-to-enc.c
-@LIBUNISTRING_COMPILE_UNICONV_U8_CONV_FROM_ENC_TRUE@am__append_34 = uniconv/u8-conv-from-enc.c
-@LIBUNISTRING_COMPILE_UNICONV_U8_CONV_TO_ENC_TRUE@am__append_35 = uniconv/u8-conv-to-enc.c
-@LIBUNISTRING_COMPILE_UNICTYPE_COMBINING_CLASS_TRUE@am__append_36 = unictype/combiningclass.c
-@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_SOFT_DOTTED_TRUE@am__append_37 = unictype/pr_soft_dotted.c
-@LIBUNISTRING_COMPILE_UNINORM_CANONICAL_DECOMPOSITION_TRUE@am__append_38 = uninorm/canonical-decomposition.c
-@LIBUNISTRING_COMPILE_UNINORM_COMPOSITION_TRUE@am__append_39 = uninorm/composition.c
-@LIBUNISTRING_COMPILE_UNINORM_DECOMPOSING_FORM_TRUE@am__append_40 = uninorm/decomposing-form.c
-@LIBUNISTRING_COMPILE_UNINORM_NFC_TRUE@am__append_41 = uninorm/nfc.c
-@LIBUNISTRING_COMPILE_UNINORM_NFD_TRUE@am__append_42 = uninorm/nfd.c
-@LIBUNISTRING_COMPILE_UNINORM_U32_NORMALIZE_TRUE@am__append_43 = uninorm/u32-normalize.c
-@LIBUNISTRING_COMPILE_UNISTR_U32_CHECK_TRUE@am__append_44 = unistr/u32-check.c
-@LIBUNISTRING_COMPILE_UNISTR_U32_CMP_TRUE@am__append_45 = unistr/u32-cmp.c
-@LIBUNISTRING_COMPILE_UNISTR_U32_CMP2_TRUE@am__append_46 = unistr/u32-cmp2.c
-@LIBUNISTRING_COMPILE_UNISTR_U32_CPY_TRUE@am__append_47 = unistr/u32-cpy.c
-@LIBUNISTRING_COMPILE_UNISTR_U32_MBLEN_TRUE@am__append_48 = unistr/u32-mblen.c
-@LIBUNISTRING_COMPILE_UNISTR_U32_MBTOUC_UNSAFE_TRUE@am__append_49 = unistr/u32-mbtouc-unsafe.c
-@LIBUNISTRING_COMPILE_UNISTR_U32_TO_U8_TRUE@am__append_50 = unistr/u32-to-u8.c
-@LIBUNISTRING_COMPILE_UNISTR_U32_UCTOMB_TRUE@am__append_51 = unistr/u32-uctomb.c
-@LIBUNISTRING_COMPILE_UNISTR_U8_CHECK_TRUE@am__append_52 = unistr/u8-check.c
-@LIBUNISTRING_COMPILE_UNISTR_U8_MBLEN_TRUE@am__append_53 = unistr/u8-mblen.c
-@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC_TRUE@am__append_54 = unistr/u8-mbtouc.c unistr/u8-mbtouc-aux.c
-@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC_UNSAFE_TRUE@am__append_55 = unistr/u8-mbtouc-unsafe.c unistr/u8-mbtouc-unsafe-aux.c
-@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUCR_TRUE@am__append_56 = unistr/u8-mbtoucr.c
-@LIBUNISTRING_COMPILE_UNISTR_U8_PREV_TRUE@am__append_57 = unistr/u8-prev.c
-@LIBUNISTRING_COMPILE_UNISTR_U8_TO_U32_TRUE@am__append_58 = unistr/u8-to-u32.c
-@LIBUNISTRING_COMPILE_UNISTR_U8_UCTOMB_TRUE@am__append_59 = unistr/u8-uctomb.c unistr/u8-uctomb-aux.c
+@GL_COND_OBJ_GETOPT_TRUE@am__append_11 = getopt.c getopt1.c
+@GL_COND_OBJ_GETPROGNAME_TRUE@am__append_12 = getprogname.c
+@GL_COND_OBJ_ICONV_OPEN_TRUE@am__append_13 = iconv_open.c
+@GL_COND_OBJ_ICONV_TRUE@am__append_14 = iconv.c iconv_close.c
+@GL_COND_OBJ_LSTAT_TRUE@am__append_15 = lstat.c
+@GL_COND_OBJ_MSVC_INVAL_TRUE@am__append_16 = msvc-inval.c
+@GL_COND_OBJ_MSVC_NOTHROW_TRUE@am__append_17 = msvc-nothrow.c
+@GL_COND_OBJ_OPEN_TRUE@am__append_18 = open.c
+@GL_COND_OBJ_REALLOC_POSIX_TRUE@am__append_19 = realloc.c
+@GL_COND_OBJ_REALLOCARRAY_TRUE@am__append_20 = reallocarray.c
+@GL_COND_OBJ_STAT_TRUE@am__append_21 = stat.c
+@GL_COND_OBJ_STDIO_CONSOLESAFE_TRUE@am__append_22 = stdio-consolesafe.c
+@GL_COND_OBJ_STDIO_READ_TRUE@am__append_23 = stdio-read.c
+@GL_COND_OBJ_STDIO_WRITE_TRUE@am__append_24 = stdio-write.c
+@GL_COND_OBJ_STRERROR_TRUE@am__append_25 = strerror.c
+@GL_COND_OBJ_STRERROR_OVERRIDE_TRUE@am__append_26 = strerror-override.c
+@LIBUNISTRING_COMPILE_UNICASE_EMPTY_PREFIX_CONTEXT_TRUE@am__append_27 = unicase/empty-prefix-context.c
+@LIBUNISTRING_COMPILE_UNICASE_EMPTY_SUFFIX_CONTEXT_TRUE@am__append_28 = unicase/empty-suffix-context.c
+@LIBUNISTRING_COMPILE_UNICASE_U32_CASECOLL_TRUE@am__append_29 = unicase/u32-casecoll.c
+@LIBUNISTRING_COMPILE_UNICASE_U32_CASEFOLD_TRUE@am__append_30 = unicase/u32-casefold.c
+@LIBUNISTRING_COMPILE_UNICASE_U32_CASEXFRM_TRUE@am__append_31 = unicase/u32-casexfrm.c
+@LIBUNISTRING_COMPILE_UNICASE_U32_CT_CASEFOLD_TRUE@am__append_32 = unicase/u32-ct-casefold.c
+@LIBUNISTRING_COMPILE_UNICONV_U32_CONV_FROM_ENC_TRUE@am__append_33 = uniconv/u32-conv-from-enc.c
+@LIBUNISTRING_COMPILE_UNICONV_U32_CONV_TO_ENC_TRUE@am__append_34 = uniconv/u32-conv-to-enc.c
+@LIBUNISTRING_COMPILE_UNICONV_U8_CONV_FROM_ENC_TRUE@am__append_35 = uniconv/u8-conv-from-enc.c
+@LIBUNISTRING_COMPILE_UNICONV_U8_CONV_TO_ENC_TRUE@am__append_36 = uniconv/u8-conv-to-enc.c
+@LIBUNISTRING_COMPILE_UNICTYPE_COMBINING_CLASS_TRUE@am__append_37 = unictype/combiningclass.c
+@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_SOFT_DOTTED_TRUE@am__append_38 = unictype/pr_soft_dotted.c
+@LIBUNISTRING_COMPILE_UNINORM_CANONICAL_DECOMPOSITION_TRUE@am__append_39 = uninorm/canonical-decomposition.c
+@LIBUNISTRING_COMPILE_UNINORM_COMPOSITION_TRUE@am__append_40 = uninorm/composition.c
+@LIBUNISTRING_COMPILE_UNINORM_DECOMPOSING_FORM_TRUE@am__append_41 = uninorm/decomposing-form.c
+@LIBUNISTRING_COMPILE_UNINORM_NFC_TRUE@am__append_42 = uninorm/nfc.c
+@LIBUNISTRING_COMPILE_UNINORM_NFD_TRUE@am__append_43 = uninorm/nfd.c
+@LIBUNISTRING_COMPILE_UNINORM_U32_NORMALIZE_TRUE@am__append_44 = uninorm/u32-normalize.c
+@LIBUNISTRING_COMPILE_UNISTR_U32_CHECK_TRUE@am__append_45 = unistr/u32-check.c
+@LIBUNISTRING_COMPILE_UNISTR_U32_CMP_TRUE@am__append_46 = unistr/u32-cmp.c
+@LIBUNISTRING_COMPILE_UNISTR_U32_CMP2_TRUE@am__append_47 = unistr/u32-cmp2.c
+@LIBUNISTRING_COMPILE_UNISTR_U32_CPY_TRUE@am__append_48 = unistr/u32-cpy.c
+@LIBUNISTRING_COMPILE_UNISTR_U32_MBLEN_TRUE@am__append_49 = unistr/u32-mblen.c
+@LIBUNISTRING_COMPILE_UNISTR_U32_MBTOUC_UNSAFE_TRUE@am__append_50 = unistr/u32-mbtouc-unsafe.c
+@LIBUNISTRING_COMPILE_UNISTR_U32_TO_U8_TRUE@am__append_51 = unistr/u32-to-u8.c
+@LIBUNISTRING_COMPILE_UNISTR_U32_UCTOMB_TRUE@am__append_52 = unistr/u32-uctomb.c
+@LIBUNISTRING_COMPILE_UNISTR_U8_CHECK_TRUE@am__append_53 = unistr/u8-check.c
+@LIBUNISTRING_COMPILE_UNISTR_U8_MBLEN_TRUE@am__append_54 = unistr/u8-mblen.c
+@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC_TRUE@am__append_55 = unistr/u8-mbtouc.c unistr/u8-mbtouc-aux.c
+@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC_UNSAFE_TRUE@am__append_56 = unistr/u8-mbtouc-unsafe.c unistr/u8-mbtouc-unsafe-aux.c
+@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUCR_TRUE@am__append_57 = unistr/u8-mbtoucr.c
+@LIBUNISTRING_COMPILE_UNISTR_U8_PREV_TRUE@am__append_58 = unistr/u8-prev.c
+@LIBUNISTRING_COMPILE_UNISTR_U8_TO_U32_TRUE@am__append_59 = unistr/u8-to-u32.c
+@LIBUNISTRING_COMPILE_UNISTR_U8_UCTOMB_TRUE@am__append_60 = unistr/u8-uctomb.c unistr/u8-uctomb-aux.c
 subdir = lib
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
@@ -224,7 +227,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/free.m4 $(top_srcdir)/m4/fseterr.m4 \
 	$(top_srcdir)/m4/fstat.m4 $(top_srcdir)/m4/getdelim.m4 \
 	$(top_srcdir)/m4/getdtablesize.m4 $(top_srcdir)/m4/getline.m4 \
-	$(top_srcdir)/m4/getprogname.m4 $(top_srcdir)/m4/gettext_h.m4 \
+	$(top_srcdir)/m4/getopt.m4 $(top_srcdir)/m4/getprogname.m4 \
+	$(top_srcdir)/m4/gettext_h.m4 \
 	$(top_srcdir)/m4/gnulib-common.m4 \
 	$(top_srcdir)/m4/gnulib-comp.m4 \
 	$(top_srcdir)/m4/gnulib-i18n.m4 \
@@ -243,21 +247,25 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/malloca.m4 $(top_srcdir)/m4/minmax.m4 \
 	$(top_srcdir)/m4/mode_t.m4 $(top_srcdir)/m4/msvc-inval.m4 \
 	$(top_srcdir)/m4/msvc-nothrow.m4 $(top_srcdir)/m4/multiarch.m4 \
-	$(top_srcdir)/m4/musl.m4 $(top_srcdir)/m4/off64_t.m4 \
-	$(top_srcdir)/m4/off_t.m4 $(top_srcdir)/m4/open-cloexec.m4 \
+	$(top_srcdir)/m4/musl.m4 $(top_srcdir)/m4/nocrash.m4 \
+	$(top_srcdir)/m4/off64_t.m4 $(top_srcdir)/m4/off_t.m4 \
+	$(top_srcdir)/m4/open-cloexec.m4 \
 	$(top_srcdir)/m4/open-slash.m4 $(top_srcdir)/m4/open.m4 \
-	$(top_srcdir)/m4/pathmax.m4 $(top_srcdir)/m4/realloc.m4 \
-	$(top_srcdir)/m4/reallocarray.m4 $(top_srcdir)/m4/ssize_t.m4 \
-	$(top_srcdir)/m4/stat-time.m4 $(top_srcdir)/m4/stat.m4 \
+	$(top_srcdir)/m4/pathmax.m4 $(top_srcdir)/m4/pkg.m4 \
+	$(top_srcdir)/m4/realloc.m4 $(top_srcdir)/m4/reallocarray.m4 \
+	$(top_srcdir)/m4/ssize_t.m4 $(top_srcdir)/m4/stat-time.m4 \
+	$(top_srcdir)/m4/stat.m4 $(top_srcdir)/m4/stdarg.m4 \
 	$(top_srcdir)/m4/stdckdint_h.m4 $(top_srcdir)/m4/stddef_h.m4 \
 	$(top_srcdir)/m4/stdint.m4 $(top_srcdir)/m4/stdio_h.m4 \
 	$(top_srcdir)/m4/stdlib_h.m4 $(top_srcdir)/m4/strerror.m4 \
 	$(top_srcdir)/m4/string_h.m4 $(top_srcdir)/m4/stringeq.m4 \
+	$(top_srcdir)/m4/sys_cdefs_h.m4 \
 	$(top_srcdir)/m4/sys_socket_h.m4 \
 	$(top_srcdir)/m4/sys_stat_h.m4 $(top_srcdir)/m4/sys_types_h.m4 \
 	$(top_srcdir)/m4/time_h.m4 $(top_srcdir)/m4/unicase_h.m4 \
 	$(top_srcdir)/m4/unictype_h.m4 $(top_srcdir)/m4/uninorm_h.m4 \
 	$(top_srcdir)/m4/unistd_h.m4 $(top_srcdir)/m4/unitypes_h.m4 \
+	$(top_srcdir)/m4/version-etc.m4 \
 	$(top_srcdir)/m4/warn-on-use.m4 $(top_srcdir)/m4/wchar_h.m4 \
 	$(top_srcdir)/m4/wint_t.m4 $(top_srcdir)/m4/xalloc.m4 \
 	$(top_srcdir)/m4/zzgnulib.m4 $(top_srcdir)/configure.ac
@@ -279,34 +287,35 @@ am__libgnu_la_SOURCES_DIST = amemxfrm.c gl_avltree_list.h \
 	basename-lgpl.c c-ctype.h c-ctype.c c-strcasecmp.c cloexec.c \
 	close.c dup2.c error.c exitfail.c fcntl.c fd-hook.c free.c \
 	fseterr.c fstat.c getdelim.c getdtablesize.c getline.c \
-	getprogname.c gettext.h ialloc.c iconv_open.c iconv.c \
-	iconv_close.c idx.h gl_list.h gl_list.c localcharset.c lstat.c \
-	malloca.c memcmp2.c minmax.h msvc-inval.c msvc-nothrow.c \
-	gl_omap.h gl_omap.c open.c progname.h progname.c realloc.c \
-	reallocarray.c stat.c stat-time.c stdio-consolesafe.c \
-	stdio-read.c stdio-write.c stdlib.c strerror.c \
-	strerror-override.c striconveh.h striconveh.c striconveha.h \
-	striconveha.c string.c unicase/cased.c \
-	unicase/empty-prefix-context.c unicase/empty-suffix-context.c \
-	unicase/ignorable.c unicase/special-casing.c \
-	unicase/tocasefold.c unicase/u32-casecoll.c \
-	unicase/u32-casefold.c unicase/u32-casemap.c \
-	unicase/u32-casexfrm.c unicase/u32-ct-casefold.c \
-	uniconv/u32-conv-from-enc.c uniconv/u32-conv-to-enc.c \
-	uniconv/u8-conv-from-enc.c uniconv/u8-conv-to-enc.c \
-	unictype/combiningclass.c unictype/pr_soft_dotted.c \
-	uninorm/canonical-decomposition.c uninorm/composition.c \
-	uninorm/decompose-internal.c uninorm/decomposing-form.c \
-	uninorm/decomposition-table.c uninorm/nfc.c uninorm/nfd.c \
-	uninorm/u32-normalize.c unistd.c unistr/u32-check.c \
-	unistr/u32-cmp.c unistr/u32-cmp2.c unistr/u32-cpy.c \
-	unistr/u32-mblen.c unistr/u32-mbtouc-unsafe.c \
+	getopt.c getopt1.c getprogname.c gettext.h ialloc.c \
+	iconv_open.c iconv.c iconv_close.c idx.h gl_list.h gl_list.c \
+	localcharset.c lstat.c malloca.c memcmp2.c minmax.h \
+	msvc-inval.c msvc-nothrow.c gl_omap.h gl_omap.c open.c \
+	progname.h progname.c realloc.c reallocarray.c stat.c \
+	stat-time.c stdio-consolesafe.c stdio-read.c stdio-write.c \
+	stdlib.c strerror.c strerror-override.c striconveh.h \
+	striconveh.c striconveha.h striconveha.c string.c \
+	unicase/cased.c unicase/empty-prefix-context.c \
+	unicase/empty-suffix-context.c unicase/ignorable.c \
+	unicase/special-casing.c unicase/tocasefold.c \
+	unicase/u32-casecoll.c unicase/u32-casefold.c \
+	unicase/u32-casemap.c unicase/u32-casexfrm.c \
+	unicase/u32-ct-casefold.c uniconv/u32-conv-from-enc.c \
+	uniconv/u32-conv-to-enc.c uniconv/u8-conv-from-enc.c \
+	uniconv/u8-conv-to-enc.c unictype/combiningclass.c \
+	unictype/pr_soft_dotted.c uninorm/canonical-decomposition.c \
+	uninorm/composition.c uninorm/decompose-internal.c \
+	uninorm/decomposing-form.c uninorm/decomposition-table.c \
+	uninorm/nfc.c uninorm/nfd.c uninorm/u32-normalize.c unistd.c \
+	unistr/u32-check.c unistr/u32-cmp.c unistr/u32-cmp2.c \
+	unistr/u32-cpy.c unistr/u32-mblen.c unistr/u32-mbtouc-unsafe.c \
 	unistr/u32-to-u8.c unistr/u32-uctomb.c unistr/u8-check.c \
 	unistr/u8-mblen.c unistr/u8-mbtouc.c unistr/u8-mbtouc-aux.c \
 	unistr/u8-mbtouc-unsafe.c unistr/u8-mbtouc-unsafe-aux.c \
 	unistr/u8-mbtoucr.c unistr/u8-prev.c unistr/u8-to-u32.c \
-	unistr/u8-uctomb.c unistr/u8-uctomb-aux.c xmalloc.c \
-	xalloc-die.c gl_xlist.h gl_xlist.c gl_xomap.h gl_xomap.c
+	unistr/u8-uctomb.c unistr/u8-uctomb-aux.c version-etc.h \
+	version-etc.c xmalloc.c xalloc-die.c gl_xlist.h gl_xlist.c \
+	gl_xomap.h gl_xomap.c
 @GL_COND_OBJ_CLOSE_TRUE@am__objects_1 = libgnu_la-close.lo
 @GL_COND_OBJ_DUP2_TRUE@am__objects_2 = libgnu_la-dup2.lo
 @GL_COND_OBJ_ERROR_TRUE@am__objects_3 = libgnu_la-error.lo
@@ -318,63 +327,65 @@ am__libgnu_la_SOURCES_DIST = amemxfrm.c gl_avltree_list.h \
 @GL_COND_OBJ_GETDTABLESIZE_TRUE@am__objects_9 =  \
 @GL_COND_OBJ_GETDTABLESIZE_TRUE@	libgnu_la-getdtablesize.lo
 @GL_COND_OBJ_GETLINE_TRUE@am__objects_10 = libgnu_la-getline.lo
-@GL_COND_OBJ_GETPROGNAME_TRUE@am__objects_11 =  \
+@GL_COND_OBJ_GETOPT_TRUE@am__objects_11 = libgnu_la-getopt.lo \
+@GL_COND_OBJ_GETOPT_TRUE@	libgnu_la-getopt1.lo
+@GL_COND_OBJ_GETPROGNAME_TRUE@am__objects_12 =  \
 @GL_COND_OBJ_GETPROGNAME_TRUE@	libgnu_la-getprogname.lo
-@GL_COND_OBJ_ICONV_OPEN_TRUE@am__objects_12 = libgnu_la-iconv_open.lo
-@GL_COND_OBJ_ICONV_TRUE@am__objects_13 = libgnu_la-iconv.lo \
+@GL_COND_OBJ_ICONV_OPEN_TRUE@am__objects_13 = libgnu_la-iconv_open.lo
+@GL_COND_OBJ_ICONV_TRUE@am__objects_14 = libgnu_la-iconv.lo \
 @GL_COND_OBJ_ICONV_TRUE@	libgnu_la-iconv_close.lo
-@GL_COND_OBJ_LSTAT_TRUE@am__objects_14 = libgnu_la-lstat.lo
-@GL_COND_OBJ_MSVC_INVAL_TRUE@am__objects_15 = libgnu_la-msvc-inval.lo
-@GL_COND_OBJ_MSVC_NOTHROW_TRUE@am__objects_16 =  \
+@GL_COND_OBJ_LSTAT_TRUE@am__objects_15 = libgnu_la-lstat.lo
+@GL_COND_OBJ_MSVC_INVAL_TRUE@am__objects_16 = libgnu_la-msvc-inval.lo
+@GL_COND_OBJ_MSVC_NOTHROW_TRUE@am__objects_17 =  \
 @GL_COND_OBJ_MSVC_NOTHROW_TRUE@	libgnu_la-msvc-nothrow.lo
-@GL_COND_OBJ_OPEN_TRUE@am__objects_17 = libgnu_la-open.lo
-@GL_COND_OBJ_REALLOC_POSIX_TRUE@am__objects_18 = libgnu_la-realloc.lo
-@GL_COND_OBJ_REALLOCARRAY_TRUE@am__objects_19 =  \
+@GL_COND_OBJ_OPEN_TRUE@am__objects_18 = libgnu_la-open.lo
+@GL_COND_OBJ_REALLOC_POSIX_TRUE@am__objects_19 = libgnu_la-realloc.lo
+@GL_COND_OBJ_REALLOCARRAY_TRUE@am__objects_20 =  \
 @GL_COND_OBJ_REALLOCARRAY_TRUE@	libgnu_la-reallocarray.lo
-@GL_COND_OBJ_STAT_TRUE@am__objects_20 = libgnu_la-stat.lo
-@GL_COND_OBJ_STDIO_CONSOLESAFE_TRUE@am__objects_21 = libgnu_la-stdio-consolesafe.lo
-@GL_COND_OBJ_STDIO_READ_TRUE@am__objects_22 = libgnu_la-stdio-read.lo
-@GL_COND_OBJ_STDIO_WRITE_TRUE@am__objects_23 =  \
+@GL_COND_OBJ_STAT_TRUE@am__objects_21 = libgnu_la-stat.lo
+@GL_COND_OBJ_STDIO_CONSOLESAFE_TRUE@am__objects_22 = libgnu_la-stdio-consolesafe.lo
+@GL_COND_OBJ_STDIO_READ_TRUE@am__objects_23 = libgnu_la-stdio-read.lo
+@GL_COND_OBJ_STDIO_WRITE_TRUE@am__objects_24 =  \
 @GL_COND_OBJ_STDIO_WRITE_TRUE@	libgnu_la-stdio-write.lo
-@GL_COND_OBJ_STRERROR_TRUE@am__objects_24 = libgnu_la-strerror.lo
-@GL_COND_OBJ_STRERROR_OVERRIDE_TRUE@am__objects_25 = libgnu_la-strerror-override.lo
+@GL_COND_OBJ_STRERROR_TRUE@am__objects_25 = libgnu_la-strerror.lo
+@GL_COND_OBJ_STRERROR_OVERRIDE_TRUE@am__objects_26 = libgnu_la-strerror-override.lo
 am__dirstamp = $(am__leading_dot)dirstamp
-@LIBUNISTRING_COMPILE_UNICASE_EMPTY_PREFIX_CONTEXT_TRUE@am__objects_26 = unicase/libgnu_la-empty-prefix-context.lo
-@LIBUNISTRING_COMPILE_UNICASE_EMPTY_SUFFIX_CONTEXT_TRUE@am__objects_27 = unicase/libgnu_la-empty-suffix-context.lo
-@LIBUNISTRING_COMPILE_UNICASE_U32_CASECOLL_TRUE@am__objects_28 = unicase/libgnu_la-u32-casecoll.lo
-@LIBUNISTRING_COMPILE_UNICASE_U32_CASEFOLD_TRUE@am__objects_29 = unicase/libgnu_la-u32-casefold.lo
-@LIBUNISTRING_COMPILE_UNICASE_U32_CASEXFRM_TRUE@am__objects_30 = unicase/libgnu_la-u32-casexfrm.lo
-@LIBUNISTRING_COMPILE_UNICASE_U32_CT_CASEFOLD_TRUE@am__objects_31 = unicase/libgnu_la-u32-ct-casefold.lo
-@LIBUNISTRING_COMPILE_UNICONV_U32_CONV_FROM_ENC_TRUE@am__objects_32 = uniconv/libgnu_la-u32-conv-from-enc.lo
-@LIBUNISTRING_COMPILE_UNICONV_U32_CONV_TO_ENC_TRUE@am__objects_33 = uniconv/libgnu_la-u32-conv-to-enc.lo
-@LIBUNISTRING_COMPILE_UNICONV_U8_CONV_FROM_ENC_TRUE@am__objects_34 = uniconv/libgnu_la-u8-conv-from-enc.lo
-@LIBUNISTRING_COMPILE_UNICONV_U8_CONV_TO_ENC_TRUE@am__objects_35 = uniconv/libgnu_la-u8-conv-to-enc.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_COMBINING_CLASS_TRUE@am__objects_36 = unictype/libgnu_la-combiningclass.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_SOFT_DOTTED_TRUE@am__objects_37 = unictype/libgnu_la-pr_soft_dotted.lo
-@LIBUNISTRING_COMPILE_UNINORM_CANONICAL_DECOMPOSITION_TRUE@am__objects_38 = uninorm/libgnu_la-canonical-decomposition.lo
-@LIBUNISTRING_COMPILE_UNINORM_COMPOSITION_TRUE@am__objects_39 = uninorm/libgnu_la-composition.lo
-@LIBUNISTRING_COMPILE_UNINORM_DECOMPOSING_FORM_TRUE@am__objects_40 = uninorm/libgnu_la-decomposing-form.lo
-@LIBUNISTRING_COMPILE_UNINORM_NFC_TRUE@am__objects_41 = uninorm/libgnu_la-nfc.lo
-@LIBUNISTRING_COMPILE_UNINORM_NFD_TRUE@am__objects_42 = uninorm/libgnu_la-nfd.lo
-@LIBUNISTRING_COMPILE_UNINORM_U32_NORMALIZE_TRUE@am__objects_43 = uninorm/libgnu_la-u32-normalize.lo
-@LIBUNISTRING_COMPILE_UNISTR_U32_CHECK_TRUE@am__objects_44 = unistr/libgnu_la-u32-check.lo
-@LIBUNISTRING_COMPILE_UNISTR_U32_CMP_TRUE@am__objects_45 = unistr/libgnu_la-u32-cmp.lo
-@LIBUNISTRING_COMPILE_UNISTR_U32_CMP2_TRUE@am__objects_46 = unistr/libgnu_la-u32-cmp2.lo
-@LIBUNISTRING_COMPILE_UNISTR_U32_CPY_TRUE@am__objects_47 = unistr/libgnu_la-u32-cpy.lo
-@LIBUNISTRING_COMPILE_UNISTR_U32_MBLEN_TRUE@am__objects_48 = unistr/libgnu_la-u32-mblen.lo
-@LIBUNISTRING_COMPILE_UNISTR_U32_MBTOUC_UNSAFE_TRUE@am__objects_49 = unistr/libgnu_la-u32-mbtouc-unsafe.lo
-@LIBUNISTRING_COMPILE_UNISTR_U32_TO_U8_TRUE@am__objects_50 = unistr/libgnu_la-u32-to-u8.lo
-@LIBUNISTRING_COMPILE_UNISTR_U32_UCTOMB_TRUE@am__objects_51 = unistr/libgnu_la-u32-uctomb.lo
-@LIBUNISTRING_COMPILE_UNISTR_U8_CHECK_TRUE@am__objects_52 = unistr/libgnu_la-u8-check.lo
-@LIBUNISTRING_COMPILE_UNISTR_U8_MBLEN_TRUE@am__objects_53 = unistr/libgnu_la-u8-mblen.lo
-@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC_TRUE@am__objects_54 = unistr/libgnu_la-u8-mbtouc.lo \
+@LIBUNISTRING_COMPILE_UNICASE_EMPTY_PREFIX_CONTEXT_TRUE@am__objects_27 = unicase/libgnu_la-empty-prefix-context.lo
+@LIBUNISTRING_COMPILE_UNICASE_EMPTY_SUFFIX_CONTEXT_TRUE@am__objects_28 = unicase/libgnu_la-empty-suffix-context.lo
+@LIBUNISTRING_COMPILE_UNICASE_U32_CASECOLL_TRUE@am__objects_29 = unicase/libgnu_la-u32-casecoll.lo
+@LIBUNISTRING_COMPILE_UNICASE_U32_CASEFOLD_TRUE@am__objects_30 = unicase/libgnu_la-u32-casefold.lo
+@LIBUNISTRING_COMPILE_UNICASE_U32_CASEXFRM_TRUE@am__objects_31 = unicase/libgnu_la-u32-casexfrm.lo
+@LIBUNISTRING_COMPILE_UNICASE_U32_CT_CASEFOLD_TRUE@am__objects_32 = unicase/libgnu_la-u32-ct-casefold.lo
+@LIBUNISTRING_COMPILE_UNICONV_U32_CONV_FROM_ENC_TRUE@am__objects_33 = uniconv/libgnu_la-u32-conv-from-enc.lo
+@LIBUNISTRING_COMPILE_UNICONV_U32_CONV_TO_ENC_TRUE@am__objects_34 = uniconv/libgnu_la-u32-conv-to-enc.lo
+@LIBUNISTRING_COMPILE_UNICONV_U8_CONV_FROM_ENC_TRUE@am__objects_35 = uniconv/libgnu_la-u8-conv-from-enc.lo
+@LIBUNISTRING_COMPILE_UNICONV_U8_CONV_TO_ENC_TRUE@am__objects_36 = uniconv/libgnu_la-u8-conv-to-enc.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_COMBINING_CLASS_TRUE@am__objects_37 = unictype/libgnu_la-combiningclass.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_SOFT_DOTTED_TRUE@am__objects_38 = unictype/libgnu_la-pr_soft_dotted.lo
+@LIBUNISTRING_COMPILE_UNINORM_CANONICAL_DECOMPOSITION_TRUE@am__objects_39 = uninorm/libgnu_la-canonical-decomposition.lo
+@LIBUNISTRING_COMPILE_UNINORM_COMPOSITION_TRUE@am__objects_40 = uninorm/libgnu_la-composition.lo
+@LIBUNISTRING_COMPILE_UNINORM_DECOMPOSING_FORM_TRUE@am__objects_41 = uninorm/libgnu_la-decomposing-form.lo
+@LIBUNISTRING_COMPILE_UNINORM_NFC_TRUE@am__objects_42 = uninorm/libgnu_la-nfc.lo
+@LIBUNISTRING_COMPILE_UNINORM_NFD_TRUE@am__objects_43 = uninorm/libgnu_la-nfd.lo
+@LIBUNISTRING_COMPILE_UNINORM_U32_NORMALIZE_TRUE@am__objects_44 = uninorm/libgnu_la-u32-normalize.lo
+@LIBUNISTRING_COMPILE_UNISTR_U32_CHECK_TRUE@am__objects_45 = unistr/libgnu_la-u32-check.lo
+@LIBUNISTRING_COMPILE_UNISTR_U32_CMP_TRUE@am__objects_46 = unistr/libgnu_la-u32-cmp.lo
+@LIBUNISTRING_COMPILE_UNISTR_U32_CMP2_TRUE@am__objects_47 = unistr/libgnu_la-u32-cmp2.lo
+@LIBUNISTRING_COMPILE_UNISTR_U32_CPY_TRUE@am__objects_48 = unistr/libgnu_la-u32-cpy.lo
+@LIBUNISTRING_COMPILE_UNISTR_U32_MBLEN_TRUE@am__objects_49 = unistr/libgnu_la-u32-mblen.lo
+@LIBUNISTRING_COMPILE_UNISTR_U32_MBTOUC_UNSAFE_TRUE@am__objects_50 = unistr/libgnu_la-u32-mbtouc-unsafe.lo
+@LIBUNISTRING_COMPILE_UNISTR_U32_TO_U8_TRUE@am__objects_51 = unistr/libgnu_la-u32-to-u8.lo
+@LIBUNISTRING_COMPILE_UNISTR_U32_UCTOMB_TRUE@am__objects_52 = unistr/libgnu_la-u32-uctomb.lo
+@LIBUNISTRING_COMPILE_UNISTR_U8_CHECK_TRUE@am__objects_53 = unistr/libgnu_la-u8-check.lo
+@LIBUNISTRING_COMPILE_UNISTR_U8_MBLEN_TRUE@am__objects_54 = unistr/libgnu_la-u8-mblen.lo
+@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC_TRUE@am__objects_55 = unistr/libgnu_la-u8-mbtouc.lo \
 @LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC_TRUE@	unistr/libgnu_la-u8-mbtouc-aux.lo
-@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC_UNSAFE_TRUE@am__objects_55 = unistr/libgnu_la-u8-mbtouc-unsafe.lo \
+@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC_UNSAFE_TRUE@am__objects_56 = unistr/libgnu_la-u8-mbtouc-unsafe.lo \
 @LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC_UNSAFE_TRUE@	unistr/libgnu_la-u8-mbtouc-unsafe-aux.lo
-@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUCR_TRUE@am__objects_56 = unistr/libgnu_la-u8-mbtoucr.lo
-@LIBUNISTRING_COMPILE_UNISTR_U8_PREV_TRUE@am__objects_57 = unistr/libgnu_la-u8-prev.lo
-@LIBUNISTRING_COMPILE_UNISTR_U8_TO_U32_TRUE@am__objects_58 = unistr/libgnu_la-u8-to-u32.lo
-@LIBUNISTRING_COMPILE_UNISTR_U8_UCTOMB_TRUE@am__objects_59 = unistr/libgnu_la-u8-uctomb.lo \
+@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUCR_TRUE@am__objects_57 = unistr/libgnu_la-u8-mbtoucr.lo
+@LIBUNISTRING_COMPILE_UNISTR_U8_PREV_TRUE@am__objects_58 = unistr/libgnu_la-u8-prev.lo
+@LIBUNISTRING_COMPILE_UNISTR_U8_TO_U32_TRUE@am__objects_59 = unistr/libgnu_la-u8-to-u32.lo
+@LIBUNISTRING_COMPILE_UNISTR_U8_UCTOMB_TRUE@am__objects_60 = unistr/libgnu_la-u8-uctomb.lo \
 @LIBUNISTRING_COMPILE_UNISTR_U8_UCTOMB_TRUE@	unistr/libgnu_la-u8-uctomb-aux.lo
 am_libgnu_la_OBJECTS = libgnu_la-amemxfrm.lo \
 	libgnu_la-gl_avltree_list.lo libgnu_la-gl_avltree_omap.lo \
@@ -384,35 +395,35 @@ am_libgnu_la_OBJECTS = libgnu_la-amemxfrm.lo \
 	libgnu_la-exitfail.lo $(am__objects_4) libgnu_la-fd-hook.lo \
 	$(am__objects_5) $(am__objects_6) $(am__objects_7) \
 	$(am__objects_8) $(am__objects_9) $(am__objects_10) \
-	$(am__objects_11) libgnu_la-ialloc.lo $(am__objects_12) \
-	$(am__objects_13) libgnu_la-gl_list.lo \
-	libgnu_la-localcharset.lo $(am__objects_14) \
-	libgnu_la-malloca.lo libgnu_la-memcmp2.lo $(am__objects_15) \
-	$(am__objects_16) libgnu_la-gl_omap.lo $(am__objects_17) \
-	libgnu_la-progname.lo $(am__objects_18) $(am__objects_19) \
-	$(am__objects_20) libgnu_la-stat-time.lo $(am__objects_21) \
-	$(am__objects_22) $(am__objects_23) libgnu_la-stdlib.lo \
-	$(am__objects_24) $(am__objects_25) libgnu_la-striconveh.lo \
+	$(am__objects_11) $(am__objects_12) libgnu_la-ialloc.lo \
+	$(am__objects_13) $(am__objects_14) libgnu_la-gl_list.lo \
+	libgnu_la-localcharset.lo $(am__objects_15) \
+	libgnu_la-malloca.lo libgnu_la-memcmp2.lo $(am__objects_16) \
+	$(am__objects_17) libgnu_la-gl_omap.lo $(am__objects_18) \
+	libgnu_la-progname.lo $(am__objects_19) $(am__objects_20) \
+	$(am__objects_21) libgnu_la-stat-time.lo $(am__objects_22) \
+	$(am__objects_23) $(am__objects_24) libgnu_la-stdlib.lo \
+	$(am__objects_25) $(am__objects_26) libgnu_la-striconveh.lo \
 	libgnu_la-striconveha.lo libgnu_la-string.lo \
-	unicase/libgnu_la-cased.lo $(am__objects_26) $(am__objects_27) \
+	unicase/libgnu_la-cased.lo $(am__objects_27) $(am__objects_28) \
 	unicase/libgnu_la-ignorable.lo \
 	unicase/libgnu_la-special-casing.lo \
-	unicase/libgnu_la-tocasefold.lo $(am__objects_28) \
-	$(am__objects_29) unicase/libgnu_la-u32-casemap.lo \
-	$(am__objects_30) $(am__objects_31) $(am__objects_32) \
-	$(am__objects_33) $(am__objects_34) $(am__objects_35) \
-	$(am__objects_36) $(am__objects_37) $(am__objects_38) \
-	$(am__objects_39) uninorm/libgnu_la-decompose-internal.lo \
-	$(am__objects_40) uninorm/libgnu_la-decomposition-table.lo \
-	$(am__objects_41) $(am__objects_42) $(am__objects_43) \
-	libgnu_la-unistd.lo $(am__objects_44) $(am__objects_45) \
-	$(am__objects_46) $(am__objects_47) $(am__objects_48) \
-	$(am__objects_49) $(am__objects_50) $(am__objects_51) \
-	$(am__objects_52) $(am__objects_53) $(am__objects_54) \
-	$(am__objects_55) $(am__objects_56) $(am__objects_57) \
-	$(am__objects_58) $(am__objects_59) libgnu_la-xmalloc.lo \
-	libgnu_la-xalloc-die.lo libgnu_la-gl_xlist.lo \
-	libgnu_la-gl_xomap.lo
+	unicase/libgnu_la-tocasefold.lo $(am__objects_29) \
+	$(am__objects_30) unicase/libgnu_la-u32-casemap.lo \
+	$(am__objects_31) $(am__objects_32) $(am__objects_33) \
+	$(am__objects_34) $(am__objects_35) $(am__objects_36) \
+	$(am__objects_37) $(am__objects_38) $(am__objects_39) \
+	$(am__objects_40) uninorm/libgnu_la-decompose-internal.lo \
+	$(am__objects_41) uninorm/libgnu_la-decomposition-table.lo \
+	$(am__objects_42) $(am__objects_43) $(am__objects_44) \
+	libgnu_la-unistd.lo $(am__objects_45) $(am__objects_46) \
+	$(am__objects_47) $(am__objects_48) $(am__objects_49) \
+	$(am__objects_50) $(am__objects_51) $(am__objects_52) \
+	$(am__objects_53) $(am__objects_54) $(am__objects_55) \
+	$(am__objects_56) $(am__objects_57) $(am__objects_58) \
+	$(am__objects_59) $(am__objects_60) libgnu_la-version-etc.lo \
+	libgnu_la-xmalloc.lo libgnu_la-xalloc-die.lo \
+	libgnu_la-gl_xlist.lo libgnu_la-gl_xomap.lo
 libgnu_la_OBJECTS = $(am_libgnu_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -453,6 +464,8 @@ am__depfiles_remade = ./$(DEPDIR)/libgnu_la-amemxfrm.Plo \
 	./$(DEPDIR)/libgnu_la-getdelim.Plo \
 	./$(DEPDIR)/libgnu_la-getdtablesize.Plo \
 	./$(DEPDIR)/libgnu_la-getline.Plo \
+	./$(DEPDIR)/libgnu_la-getopt.Plo \
+	./$(DEPDIR)/libgnu_la-getopt1.Plo \
 	./$(DEPDIR)/libgnu_la-getprogname.Plo \
 	./$(DEPDIR)/libgnu_la-gl_avltree_list.Plo \
 	./$(DEPDIR)/libgnu_la-gl_avltree_omap.Plo \
@@ -488,6 +501,7 @@ am__depfiles_remade = ./$(DEPDIR)/libgnu_la-amemxfrm.Plo \
 	./$(DEPDIR)/libgnu_la-striconveha.Plo \
 	./$(DEPDIR)/libgnu_la-string.Plo \
 	./$(DEPDIR)/libgnu_la-unistd.Plo \
+	./$(DEPDIR)/libgnu_la-version-etc.Plo \
 	./$(DEPDIR)/libgnu_la-xalloc-die.Plo \
 	./$(DEPDIR)/libgnu_la-xmalloc.Plo \
 	unicase/$(DEPDIR)/libgnu_la-cased.Plo \
@@ -693,6 +707,8 @@ ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
 FILECMD = @FILECMD@
+GETOPT_CDEFS_H = @GETOPT_CDEFS_H@
+GETOPT_H = @GETOPT_H@
 GL_CFLAG_ALLOW_WARNINGS = @GL_CFLAG_ALLOW_WARNINGS@
 GL_CFLAG_GNULIB_WARNINGS = @GL_CFLAG_GNULIB_WARNINGS@
 GL_GNULIB_ABORT_DEBUG = @GL_GNULIB_ABORT_DEBUG@
@@ -1297,6 +1313,7 @@ HAVE_GETGROUPS = @HAVE_GETGROUPS@
 HAVE_GETHOSTNAME = @HAVE_GETHOSTNAME@
 HAVE_GETLOCALENAME_L = @HAVE_GETLOCALENAME_L@
 HAVE_GETLOGIN = @HAVE_GETLOGIN@
+HAVE_GETOPT_H = @HAVE_GETOPT_H@
 HAVE_GETPAGESIZE = @HAVE_GETPAGESIZE@
 HAVE_GETPASS = @HAVE_GETPASS@
 HAVE_GETPROGNAME = @HAVE_GETPROGNAME@
@@ -1394,6 +1411,7 @@ HAVE_STRVERSCMP = @HAVE_STRVERSCMP@
 HAVE_SYMLINK = @HAVE_SYMLINK@
 HAVE_SYMLINKAT = @HAVE_SYMLINKAT@
 HAVE_SYS_BITYPES_H = @HAVE_SYS_BITYPES_H@
+HAVE_SYS_CDEFS_H = @HAVE_SYS_CDEFS_H@
 HAVE_SYS_INTTYPES_H = @HAVE_SYS_INTTYPES_H@
 HAVE_SYS_LOADAVG_H = @HAVE_SYS_LOADAVG_H@
 HAVE_SYS_PARAM_H = @HAVE_SYS_PARAM_H@
@@ -1470,6 +1488,8 @@ LDFLAGS = @LDFLAGS@
 LIBICONV = @LIBICONV@
 LIBINTL = @LIBINTL@
 LIBOBJS = @LIBOBJS@
+LIBPCRE2_32_CFLAGS = @LIBPCRE2_32_CFLAGS@
+LIBPCRE2_32_LIBS = @LIBPCRE2_32_LIBS@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
 LIBUNISTRING_UNICASE_H = @LIBUNISTRING_UNICASE_H@
@@ -1497,10 +1517,12 @@ NEXT_AS_FIRST_DIRECTIVE_ASSERT_H = @NEXT_AS_FIRST_DIRECTIVE_ASSERT_H@
 NEXT_AS_FIRST_DIRECTIVE_ERRNO_H = @NEXT_AS_FIRST_DIRECTIVE_ERRNO_H@
 NEXT_AS_FIRST_DIRECTIVE_ERROR_H = @NEXT_AS_FIRST_DIRECTIVE_ERROR_H@
 NEXT_AS_FIRST_DIRECTIVE_FCNTL_H = @NEXT_AS_FIRST_DIRECTIVE_FCNTL_H@
+NEXT_AS_FIRST_DIRECTIVE_GETOPT_H = @NEXT_AS_FIRST_DIRECTIVE_GETOPT_H@
 NEXT_AS_FIRST_DIRECTIVE_ICONV_H = @NEXT_AS_FIRST_DIRECTIVE_ICONV_H@
 NEXT_AS_FIRST_DIRECTIVE_INTTYPES_H = @NEXT_AS_FIRST_DIRECTIVE_INTTYPES_H@
 NEXT_AS_FIRST_DIRECTIVE_LIMITS_H = @NEXT_AS_FIRST_DIRECTIVE_LIMITS_H@
 NEXT_AS_FIRST_DIRECTIVE_LOCALE_H = @NEXT_AS_FIRST_DIRECTIVE_LOCALE_H@
+NEXT_AS_FIRST_DIRECTIVE_STDARG_H = @NEXT_AS_FIRST_DIRECTIVE_STDARG_H@
 NEXT_AS_FIRST_DIRECTIVE_STDCKDINT_H = @NEXT_AS_FIRST_DIRECTIVE_STDCKDINT_H@
 NEXT_AS_FIRST_DIRECTIVE_STDDEF_H = @NEXT_AS_FIRST_DIRECTIVE_STDDEF_H@
 NEXT_AS_FIRST_DIRECTIVE_STDINT_H = @NEXT_AS_FIRST_DIRECTIVE_STDINT_H@
@@ -1515,10 +1537,12 @@ NEXT_AS_FIRST_DIRECTIVE_WCHAR_H = @NEXT_AS_FIRST_DIRECTIVE_WCHAR_H@
 NEXT_ERRNO_H = @NEXT_ERRNO_H@
 NEXT_ERROR_H = @NEXT_ERROR_H@
 NEXT_FCNTL_H = @NEXT_FCNTL_H@
+NEXT_GETOPT_H = @NEXT_GETOPT_H@
 NEXT_ICONV_H = @NEXT_ICONV_H@
 NEXT_INTTYPES_H = @NEXT_INTTYPES_H@
 NEXT_LIMITS_H = @NEXT_LIMITS_H@
 NEXT_LOCALE_H = @NEXT_LOCALE_H@
+NEXT_STDARG_H = @NEXT_STDARG_H@
 NEXT_STDCKDINT_H = @NEXT_STDCKDINT_H@
 NEXT_STDDEF_H = @NEXT_STDDEF_H@
 NEXT_STDINT_H = @NEXT_STDINT_H@
@@ -1545,6 +1569,9 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+PKG_CONFIG = @PKG_CONFIG@
+PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
+PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 PRAGMA_COLUMNS = @PRAGMA_COLUMNS@
 PRAGMA_SYSTEM_HEADER = @PRAGMA_SYSTEM_HEADER@
 PRIPTR_PREFIX = @PRIPTR_PREFIX@
@@ -1773,6 +1800,7 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 SIG_ATOMIC_T_SUFFIX = @SIG_ATOMIC_T_SUFFIX@
 SIZE_T_SUFFIX = @SIZE_T_SUFFIX@
+STDARG_H = @STDARG_H@
 STDCKDINT_H = @STDCKDINT_H@
 STDDEF_H = @STDDEF_H@
 STDDEF_NOT_IDEMPOTENT = @STDDEF_NOT_IDEMPOTENT@
@@ -1876,7 +1904,9 @@ EXTRA_DIST = alloca.in.h amemxfrm.h array-mergesort.h assert.in.h \
 	verify.h attribute.h basename-lgpl.h c-strcase.h c-strcaseeq.h \
 	calloc.c calloc.c cloexec.h errno.in.h error.in.h exitfail.h \
 	fcntl.in.h fd-hook.h filename.h fseterr.h stdio-impl.h \
-	stat-w32.c stat-w32.h getprogname.h \
+	stat-w32.c stat-w32.h getopt-cdefs.in.h getopt-core.h \
+	getopt-ext.h getopt-pfx-core.h getopt-pfx-ext.h getopt.in.h \
+	getopt_int.h getprogname.h \
 	$(top_srcdir)/build-aux/config.rpath ialloc.h iconv.in.h \
 	iconv_open-aix.h iconv_open-hpux.h iconv_open-solaris.h \
 	iconv_open-zos.h iconv_open-aix.gperf iconv_open-hpux.gperf \
@@ -1885,12 +1915,13 @@ EXTRA_DIST = alloca.in.h amemxfrm.h array-mergesort.h assert.in.h \
 	localcharset.h locale.in.h malloc.c malloc.c malloca.h \
 	memcmp2.h msvc-inval.h msvc-nothrow.h pathmax.h _Noreturn.h \
 	arg-nonnull.h c++defs.h warn-on-use.h stat-w32.c stat-w32.h \
-	stat-time.h intprops-internal.h stdckdint.in.h stddef.in.h \
-	stdint.in.h stdio.in.h stdlib.in.h strerror-override.h \
-	iconveh.h string.in.h sys_stat.in.h sys_types.in.h time.in.h \
-	unicase.in.h unicase/cased.h unicase/caseprop.h \
-	unictype/bitmap.h unicase/caseprop.h unicase/ignorable.h \
-	unictype/bitmap.h unicase/special-casing-table.h \
+	stat-time.h stdarg.in.h intprops-internal.h stdckdint.in.h \
+	stddef.in.h stdint.in.h stdio.in.h stdlib.in.h \
+	strerror-override.h iconveh.h string.in.h sys_stat.in.h \
+	sys_types.in.h time.in.h unicase.in.h unicase/cased.h \
+	unicase/caseprop.h unictype/bitmap.h unicase/caseprop.h \
+	unicase/ignorable.h unictype/bitmap.h \
+	unicase/special-casing-table.h \
 	unicase/special-casing-table.gperf unicase/special-casing.in.h \
 	unicase/casefold.h unicase/simple-mapping.h \
 	unicase/tocasefold.h unicase/u-casecoll.h unicase/u-casefold.h \
@@ -1909,28 +1940,29 @@ EXTRA_DIST = alloca.in.h amemxfrm.h array-mergesort.h assert.in.h \
 	unistd.in.h unistr.in.h unistr/u-cmp2.h unistr/u-cpy.h \
 	unitypes.in.h wchar.in.h xalloc.h xalloc.h xalloc-oversized.h
 BUILT_SOURCES = $(ALLOCA_H) $(ASSERT_H) $(ERRNO_H) error.h fcntl.h \
-	$(ICONV_H) iconv_open-aix.h iconv_open-hpux.h \
-	iconv_open-solaris.h iconv_open-zos.h inttypes.h $(LIMITS_H) \
-	locale.h $(STDCKDINT_H) $(STDDEF_H) $(STDINT_H) stdio.h \
-	stdlib.h string.h sys/stat.h sys/types.h time.h \
-	$(LIBUNISTRING_UNICASE_H) unicase/special-casing-table.h \
-	unicase/special-casing.h $(LIBUNISTRING_UNICONV_H) \
-	$(LIBUNISTRING_UNICTYPE_H) $(LIBUNISTRING_UNINORM_H) \
-	uninorm/composition-table.h unistd.h $(LIBUNISTRING_UNISTR_H) \
-	$(LIBUNISTRING_UNITYPES_H) wchar.h
+	$(GETOPT_H) $(GETOPT_CDEFS_H) $(ICONV_H) iconv_open-aix.h \
+	iconv_open-hpux.h iconv_open-solaris.h iconv_open-zos.h \
+	inttypes.h $(LIMITS_H) locale.h $(STDARG_H) $(STDCKDINT_H) \
+	$(STDDEF_H) $(STDINT_H) stdio.h stdlib.h string.h sys/stat.h \
+	sys/types.h time.h $(LIBUNISTRING_UNICASE_H) \
+	unicase/special-casing-table.h unicase/special-casing.h \
+	$(LIBUNISTRING_UNICONV_H) $(LIBUNISTRING_UNICTYPE_H) \
+	$(LIBUNISTRING_UNINORM_H) uninorm/composition-table.h unistd.h \
+	$(LIBUNISTRING_UNISTR_H) $(LIBUNISTRING_UNITYPES_H) wchar.h
 SUFFIXES = 
 MOSTLYCLEANFILES = core *.stackdump alloca.h alloca.h-t assert.h \
 	assert.h-t errno.h errno.h-t error.h error.h-t fcntl.h \
-	fcntl.h-t iconv.h iconv.h-t iconv_open-aix.h-t1 \
-	iconv_open-aix.h-t2 iconv_open-hpux.h-t1 iconv_open-hpux.h-t2 \
+	fcntl.h-t getopt.h getopt.h-t getopt-cdefs.h getopt-cdefs.h-t \
+	iconv.h iconv.h-t iconv_open-aix.h-t1 iconv_open-aix.h-t2 \
+	iconv_open-hpux.h-t1 iconv_open-hpux.h-t2 \
 	iconv_open-solaris.h-t1 iconv_open-solaris.h-t2 \
 	iconv_open-zos.h-t1 iconv_open-zos.h-t2 inttypes.h \
-	inttypes.h-t limits.h limits.h-t locale.h locale.h-t \
-	stdckdint.h stdckdint.h-t stddef.h stddef.h-t stdint.h \
-	stdint.h-t stdio.h stdio.h-t1 stdio.h-t2 stdio.h-t3 stdlib.h \
-	stdlib.h-t1 stdlib.h-t2 stdlib.h-t3 string.h string.h-t1 \
-	string.h-t2 sys/stat.h sys/stat.h-t sys/types.h sys/types.h-t \
-	time.h time.h-t unicase.h unicase.h-t \
+	inttypes.h-t limits.h limits.h-t locale.h locale.h-t stdarg.h \
+	stdarg.h-t stdckdint.h stdckdint.h-t stddef.h stddef.h-t \
+	stdint.h stdint.h-t stdio.h stdio.h-t1 stdio.h-t2 stdio.h-t3 \
+	stdlib.h stdlib.h-t1 stdlib.h-t2 stdlib.h-t3 string.h \
+	string.h-t1 string.h-t2 sys/stat.h sys/stat.h-t sys/types.h \
+	sys/types.h-t time.h time.h-t unicase.h unicase.h-t \
 	unicase/special-casing-table.h-t1 \
 	unicase/special-casing-table.h-t2 unicase/special-casing.h \
 	unicase/special-casing.h-t uniconv.h uniconv.h-t unictype.h \
@@ -1957,30 +1989,30 @@ libgnu_la_SOURCES = amemxfrm.c gl_avltree_list.h gl_avltree_list.c \
 	$(am__append_2) $(am__append_3) exitfail.c $(am__append_4) \
 	fd-hook.c $(am__append_5) $(am__append_6) $(am__append_7) \
 	$(am__append_8) $(am__append_9) $(am__append_10) \
-	$(am__append_11) gettext.h ialloc.c $(am__append_12) \
-	$(am__append_13) idx.h gl_list.h gl_list.c localcharset.c \
-	$(am__append_14) malloca.c memcmp2.c minmax.h $(am__append_15) \
-	$(am__append_16) gl_omap.h gl_omap.c $(am__append_17) \
-	progname.h progname.c $(am__append_18) $(am__append_19) \
-	$(am__append_20) stat-time.c $(am__append_21) $(am__append_22) \
-	$(am__append_23) stdlib.c $(am__append_24) $(am__append_25) \
-	striconveh.h striconveh.c striconveha.h striconveha.c string.c \
-	unicase/cased.c $(am__append_26) $(am__append_27) \
-	unicase/ignorable.c unicase/special-casing.c \
-	unicase/tocasefold.c $(am__append_28) $(am__append_29) \
-	unicase/u32-casemap.c $(am__append_30) $(am__append_31) \
-	$(am__append_32) $(am__append_33) $(am__append_34) \
-	$(am__append_35) $(am__append_36) $(am__append_37) \
-	$(am__append_38) $(am__append_39) uninorm/decompose-internal.c \
-	$(am__append_40) uninorm/decomposition-table.c \
-	$(am__append_41) $(am__append_42) $(am__append_43) unistd.c \
-	$(am__append_44) $(am__append_45) $(am__append_46) \
-	$(am__append_47) $(am__append_48) $(am__append_49) \
-	$(am__append_50) $(am__append_51) $(am__append_52) \
-	$(am__append_53) $(am__append_54) $(am__append_55) \
-	$(am__append_56) $(am__append_57) $(am__append_58) \
-	$(am__append_59) xmalloc.c xalloc-die.c gl_xlist.h gl_xlist.c \
-	gl_xomap.h gl_xomap.c
+	$(am__append_11) $(am__append_12) gettext.h ialloc.c \
+	$(am__append_13) $(am__append_14) idx.h gl_list.h gl_list.c \
+	localcharset.c $(am__append_15) malloca.c memcmp2.c minmax.h \
+	$(am__append_16) $(am__append_17) gl_omap.h gl_omap.c \
+	$(am__append_18) progname.h progname.c $(am__append_19) \
+	$(am__append_20) $(am__append_21) stat-time.c $(am__append_22) \
+	$(am__append_23) $(am__append_24) stdlib.c $(am__append_25) \
+	$(am__append_26) striconveh.h striconveh.c striconveha.h \
+	striconveha.c string.c unicase/cased.c $(am__append_27) \
+	$(am__append_28) unicase/ignorable.c unicase/special-casing.c \
+	unicase/tocasefold.c $(am__append_29) $(am__append_30) \
+	unicase/u32-casemap.c $(am__append_31) $(am__append_32) \
+	$(am__append_33) $(am__append_34) $(am__append_35) \
+	$(am__append_36) $(am__append_37) $(am__append_38) \
+	$(am__append_39) $(am__append_40) uninorm/decompose-internal.c \
+	$(am__append_41) uninorm/decomposition-table.c \
+	$(am__append_42) $(am__append_43) $(am__append_44) unistd.c \
+	$(am__append_45) $(am__append_46) $(am__append_47) \
+	$(am__append_48) $(am__append_49) $(am__append_50) \
+	$(am__append_51) $(am__append_52) $(am__append_53) \
+	$(am__append_54) $(am__append_55) $(am__append_56) \
+	$(am__append_57) $(am__append_58) $(am__append_59) \
+	$(am__append_60) version-etc.h version-etc.c xmalloc.c \
+	xalloc-die.c gl_xlist.h gl_xlist.c gl_xomap.h gl_xomap.c
 libgnu_la_CFLAGS = $(AM_CFLAGS) $(GL_CFLAG_GNULIB_WARNINGS) $(GL_CFLAG_ALLOW_WARNINGS)
 libgnu_la_LIBADD = $(gl_libgnu_LTLIBOBJS)
 libgnu_la_DEPENDENCIES = $(gl_libgnu_LTLIBOBJS)
@@ -2235,6 +2267,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-getdelim.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-getdtablesize.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-getline.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-getopt.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-getopt1.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-getprogname.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-gl_avltree_list.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-gl_avltree_omap.Plo@am__quote@ # am--include-marker
@@ -2270,6 +2304,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-striconveha.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-string.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-unistd.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-version-etc.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-xalloc-die.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-xmalloc.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unicase/$(DEPDIR)/libgnu_la-cased.Plo@am__quote@ # am--include-marker
@@ -2479,6 +2514,20 @@ libgnu_la-getline.lo: getline.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='getline.c' object='libgnu_la-getline.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -c -o libgnu_la-getline.lo `test -f 'getline.c' || echo '$(srcdir)/'`getline.c
+
+libgnu_la-getopt.lo: getopt.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -MT libgnu_la-getopt.lo -MD -MP -MF $(DEPDIR)/libgnu_la-getopt.Tpo -c -o libgnu_la-getopt.lo `test -f 'getopt.c' || echo '$(srcdir)/'`getopt.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgnu_la-getopt.Tpo $(DEPDIR)/libgnu_la-getopt.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='getopt.c' object='libgnu_la-getopt.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -c -o libgnu_la-getopt.lo `test -f 'getopt.c' || echo '$(srcdir)/'`getopt.c
+
+libgnu_la-getopt1.lo: getopt1.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -MT libgnu_la-getopt1.lo -MD -MP -MF $(DEPDIR)/libgnu_la-getopt1.Tpo -c -o libgnu_la-getopt1.lo `test -f 'getopt1.c' || echo '$(srcdir)/'`getopt1.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgnu_la-getopt1.Tpo $(DEPDIR)/libgnu_la-getopt1.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='getopt1.c' object='libgnu_la-getopt1.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -c -o libgnu_la-getopt1.lo `test -f 'getopt1.c' || echo '$(srcdir)/'`getopt1.c
 
 libgnu_la-getprogname.lo: getprogname.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -MT libgnu_la-getprogname.lo -MD -MP -MF $(DEPDIR)/libgnu_la-getprogname.Tpo -c -o libgnu_la-getprogname.lo `test -f 'getprogname.c' || echo '$(srcdir)/'`getprogname.c
@@ -2991,6 +3040,13 @@ unistr/libgnu_la-u8-uctomb-aux.lo: unistr/u8-uctomb-aux.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -c -o unistr/libgnu_la-u8-uctomb-aux.lo `test -f 'unistr/u8-uctomb-aux.c' || echo '$(srcdir)/'`unistr/u8-uctomb-aux.c
 
+libgnu_la-version-etc.lo: version-etc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -MT libgnu_la-version-etc.lo -MD -MP -MF $(DEPDIR)/libgnu_la-version-etc.Tpo -c -o libgnu_la-version-etc.lo `test -f 'version-etc.c' || echo '$(srcdir)/'`version-etc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgnu_la-version-etc.Tpo $(DEPDIR)/libgnu_la-version-etc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='version-etc.c' object='libgnu_la-version-etc.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -c -o libgnu_la-version-etc.lo `test -f 'version-etc.c' || echo '$(srcdir)/'`version-etc.c
+
 libgnu_la-xmalloc.lo: xmalloc.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -MT libgnu_la-xmalloc.lo -MD -MP -MF $(DEPDIR)/libgnu_la-xmalloc.Tpo -c -o libgnu_la-xmalloc.lo `test -f 'xmalloc.c' || echo '$(srcdir)/'`xmalloc.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgnu_la-xmalloc.Tpo $(DEPDIR)/libgnu_la-xmalloc.Plo
@@ -3309,6 +3365,8 @@ distclean: distclean-recursive
 	-rm -f ./$(DEPDIR)/libgnu_la-getdelim.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-getdtablesize.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-getline.Plo
+	-rm -f ./$(DEPDIR)/libgnu_la-getopt.Plo
+	-rm -f ./$(DEPDIR)/libgnu_la-getopt1.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-getprogname.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-gl_avltree_list.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-gl_avltree_omap.Plo
@@ -3344,6 +3402,7 @@ distclean: distclean-recursive
 	-rm -f ./$(DEPDIR)/libgnu_la-striconveha.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-string.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-unistd.Plo
+	-rm -f ./$(DEPDIR)/libgnu_la-version-etc.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-xalloc-die.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-xmalloc.Plo
 	-rm -f unicase/$(DEPDIR)/libgnu_la-cased.Plo
@@ -3453,6 +3512,8 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f ./$(DEPDIR)/libgnu_la-getdelim.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-getdtablesize.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-getline.Plo
+	-rm -f ./$(DEPDIR)/libgnu_la-getopt.Plo
+	-rm -f ./$(DEPDIR)/libgnu_la-getopt1.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-getprogname.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-gl_avltree_list.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-gl_avltree_omap.Plo
@@ -3488,6 +3549,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f ./$(DEPDIR)/libgnu_la-striconveha.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-string.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-unistd.Plo
+	-rm -f ./$(DEPDIR)/libgnu_la-version-etc.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-xalloc-die.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-xmalloc.Plo
 	-rm -f unicase/$(DEPDIR)/libgnu_la-cased.Plo
@@ -3662,6 +3724,30 @@ fcntl.h: fcntl.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) 
 	      $(srcdir)/fcntl.in.h > $@-t
 	$(AM_V_at)mv $@-t $@
 
+# We need the following in order to create <getopt.h> when the system
+# doesn't have one that works with the given compiler.
+@GL_GENERATE_GETOPT_H_TRUE@getopt.h: getopt.in.h $(top_builddir)/config.status $(ARG_NONNULL_H)
+@GL_GENERATE_GETOPT_H_TRUE@	$(gl_V_at)$(SED_HEADER_STDOUT) \
+@GL_GENERATE_GETOPT_H_TRUE@	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+@GL_GENERATE_GETOPT_H_TRUE@	      -e 's|@''HAVE_GETOPT_H''@|$(HAVE_GETOPT_H)|g' \
+@GL_GENERATE_GETOPT_H_TRUE@	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+@GL_GENERATE_GETOPT_H_TRUE@	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+@GL_GENERATE_GETOPT_H_TRUE@	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+@GL_GENERATE_GETOPT_H_TRUE@	      -e 's|@''NEXT_GETOPT_H''@|$(NEXT_GETOPT_H)|g' \
+@GL_GENERATE_GETOPT_H_TRUE@	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
+@GL_GENERATE_GETOPT_H_TRUE@	      $(srcdir)/getopt.in.h > $@-t
+@GL_GENERATE_GETOPT_H_TRUE@	$(AM_V_at)mv $@-t $@
+@GL_GENERATE_GETOPT_H_FALSE@getopt.h: $(top_builddir)/config.status
+@GL_GENERATE_GETOPT_H_FALSE@	rm -f $@
+
+@GL_GENERATE_GETOPT_CDEFS_H_TRUE@getopt-cdefs.h: getopt-cdefs.in.h $(top_builddir)/config.status
+@GL_GENERATE_GETOPT_CDEFS_H_TRUE@	$(AM_V_GEN)$(SED_HEADER_STDOUT) \
+@GL_GENERATE_GETOPT_CDEFS_H_TRUE@	  -e 's|@''HAVE_SYS_CDEFS_H''@|$(HAVE_SYS_CDEFS_H)|g' \
+@GL_GENERATE_GETOPT_CDEFS_H_TRUE@	  $(srcdir)/getopt-cdefs.in.h > $@-t
+@GL_GENERATE_GETOPT_CDEFS_H_TRUE@	$(AM_V_at)mv $@-t $@
+@GL_GENERATE_GETOPT_CDEFS_H_FALSE@getopt-cdefs.h: $(top_builddir)/config.status
+@GL_GENERATE_GETOPT_CDEFS_H_FALSE@	rm -f $@
+
 # We need the following in order to create <iconv.h> when the system
 # doesn't have one that works with the given compiler.
 @GL_GENERATE_ICONV_H_TRUE@iconv.h: iconv.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
@@ -3795,6 +3881,20 @@ locale.h: locale.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
 	      $(srcdir)/locale.in.h > $@-t
 	$(AM_V_at)mv $@-t $@
+
+# We need the following in order to create <stdarg.h> when the system
+# doesn't have one that works with the given compiler.
+@GL_GENERATE_STDARG_H_TRUE@stdarg.h: stdarg.in.h $(top_builddir)/config.status
+@GL_GENERATE_STDARG_H_TRUE@	$(gl_V_at)$(SED_HEADER_STDOUT) \
+@GL_GENERATE_STDARG_H_TRUE@	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+@GL_GENERATE_STDARG_H_TRUE@	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+@GL_GENERATE_STDARG_H_TRUE@	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+@GL_GENERATE_STDARG_H_TRUE@	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+@GL_GENERATE_STDARG_H_TRUE@	      -e 's|@''NEXT_STDARG_H''@|$(NEXT_STDARG_H)|g' \
+@GL_GENERATE_STDARG_H_TRUE@	      $(srcdir)/stdarg.in.h > $@-t
+@GL_GENERATE_STDARG_H_TRUE@	$(AM_V_at)mv $@-t $@
+@GL_GENERATE_STDARG_H_FALSE@stdarg.h: $(top_builddir)/config.status
+@GL_GENERATE_STDARG_H_FALSE@	rm -f $@
 
 # We need the following in order to create <stdckdint.h> when the system
 # doesn't have one that works with the given compiler.

@@ -83,6 +83,8 @@ AC_DEFUN([gl_EARLY],
   # Code from module getdelim:
   # Code from module getdtablesize:
   # Code from module getline:
+  # Code from module getopt-gnu:
+  # Code from module getopt-posix:
   # Code from module getprogname:
   # Code from module gettext-h:
   # Code from module gnulib-i18n:
@@ -112,6 +114,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module msvc-inval:
   # Code from module msvc-nothrow:
   # Code from module multiarch:
+  # Code from module nocrash:
   # Code from module omap:
   # Code from module open:
   # Code from module pathmax:
@@ -126,6 +129,10 @@ AC_DEFUN([gl_EARLY],
   # Code from module stat:
   # Code from module stat-time:
   # Code from module std-gnu11:
+  # Code from module stdarg-h:
+  dnl Some compilers (e.g., AIX 5.3 cc) need to be in c99 mode
+  dnl for the builtin va_copy to work.  gl_PROG_CC_C99 arranges for this.
+  gl_PROG_CC_C99
   # Code from module stdckdint-h:
   # Code from module stddef-h:
   # Code from module stdint-h:
@@ -191,6 +198,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module unistr/u8-uctomb:
   # Code from module unitypes-h:
   # Code from module vararrays:
+  # Code from module version-etc:
   # Code from module wchar-h:
   # Code from module xalloc:
   # Code from module xalloc-die:
@@ -308,6 +316,22 @@ AC_DEFUN([gl_INIT],
     gl_PREREQ_GETLINE
   ])
   gl_STDIO_MODULE_INDICATOR([getline])
+  gl_FUNC_GETOPT_GNU
+  dnl Because of the way gl_FUNC_GETOPT_GNU is implemented (the gl_getopt_required
+  dnl mechanism), there is no need to do any AC_LIBOBJ or AC_SUBST here; they are
+  dnl done in the getopt-posix module.
+  gl_FUNC_GETOPT_POSIX
+  gl_CONDITIONAL_HEADER([getopt.h])
+  gl_CONDITIONAL_HEADER([getopt-cdefs.h])
+  AC_PROG_MKDIR_P
+  gl_CONDITIONAL([GL_COND_OBJ_GETOPT], [test $REPLACE_GETOPT = 1])
+  AM_COND_IF([GL_COND_OBJ_GETOPT], [
+    dnl Define the substituted variable GNULIB_UNISTD_H_GETOPT to 1.
+    gl_UNISTD_H_REQUIRE_DEFAULTS
+    gl_MODULE_INDICATOR_INIT_VARIABLE([GNULIB_UNISTD_H_GETOPT], [1])
+  ])
+  gl_UNISTD_MODULE_INDICATOR([getopt-posix])
+  gl_MUSL_LIBC
   AC_REQUIRE([AC_CANONICAL_HOST])
   gl_FUNC_GETPROGNAME
   gl_CONDITIONAL([GL_COND_OBJ_GETPROGNAME],
@@ -410,6 +434,9 @@ AC_DEFUN([gl_INIT],
   gl_MODULE_INDICATOR([stat])
   gl_STAT_TIME
   gl_STAT_BIRTHTIME
+  gl_STDARG_H
+  gl_CONDITIONAL_HEADER([stdarg.h])
+  AC_PROG_MKDIR_P
   gl_STDCKDINT_H
   gl_CONDITIONAL_HEADER([stdckdint.h])
   AC_PROG_MKDIR_P
@@ -569,6 +596,7 @@ AC_DEFUN([gl_INIT],
   AC_PROG_MKDIR_P
   gl_UNITYPES_H
   AC_C_VARARRAYS
+  gl_VERSION_ETC
   gl_WCHAR_H
   gl_WCHAR_H_REQUIRE_DEFAULTS
   AC_PROG_MKDIR_P
@@ -798,6 +826,15 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/getdelim.c
   lib/getdtablesize.c
   lib/getline.c
+  lib/getopt-cdefs.in.h
+  lib/getopt-core.h
+  lib/getopt-ext.h
+  lib/getopt-pfx-core.h
+  lib/getopt-pfx-ext.h
+  lib/getopt.c
+  lib/getopt.in.h
+  lib/getopt1.c
+  lib/getopt_int.h
   lib/getprogname.c
   lib/getprogname.h
   lib/gettext.h
@@ -860,6 +897,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/stat-w32.c
   lib/stat-w32.h
   lib/stat.c
+  lib/stdarg.in.h
   lib/stdckdint.in.h
   lib/stddef.in.h
   lib/stdint.in.h
@@ -965,6 +1003,8 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/unistr/u8-uctomb.c
   lib/unitypes.in.h
   lib/verify.h
+  lib/version-etc.c
+  lib/version-etc.h
   lib/warn-on-use.h
   lib/wchar.in.h
   lib/xalloc-die.c
@@ -997,6 +1037,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/getdelim.m4
   m4/getdtablesize.m4
   m4/getline.m4
+  m4/getopt.m4
   m4/getprogname.m4
   m4/gettext_h.m4
   m4/gnulib-common.m4
@@ -1026,6 +1067,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/msvc-nothrow.m4
   m4/multiarch.m4
   m4/musl.m4
+  m4/nocrash.m4
   m4/off64_t.m4
   m4/off_t.m4
   m4/open-cloexec.m4
@@ -1039,6 +1081,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/stat-time.m4
   m4/stat.m4
   m4/std-gnu11.m4
+  m4/stdarg.m4
   m4/stdckdint_h.m4
   m4/stddef_h.m4
   m4/stdint.m4
@@ -1047,6 +1090,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/strerror.m4
   m4/string_h.m4
   m4/stringeq.m4
+  m4/sys_cdefs_h.m4
   m4/sys_socket_h.m4
   m4/sys_stat_h.m4
   m4/sys_types_h.m4
@@ -1057,6 +1101,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/unistd_h.m4
   m4/unitypes_h.m4
   m4/vararrays.m4
+  m4/version-etc.m4
   m4/warn-on-use.m4
   m4/wchar_h.m4
   m4/wint_t.m4

@@ -141,6 +141,9 @@
 /* Define to 1 when the gnulib module getline should be tested. */
 #undef GNULIB_TEST_GETLINE
 
+/* Define to 1 when the gnulib module getopt-posix should be tested. */
+#undef GNULIB_TEST_GETOPT_POSIX
+
 /* Define to 1 when the gnulib module getprogname should be tested. */
 #undef GNULIB_TEST_GETPROGNAME
 
@@ -356,6 +359,12 @@
 
 /* Define to 1 if you have the `getline' function. */
 #undef HAVE_GETLINE
+
+/* Define to 1 if you have the <getopt.h> header file. */
+#undef HAVE_GETOPT_H
+
+/* Define to 1 if you have the 'getopt_long_only' function. */
+#undef HAVE_GETOPT_LONG_ONLY
 
 /* Define to 1 if you have the `getprogname' function. */
 #undef HAVE_GETPROGNAME
@@ -694,6 +703,15 @@
 /* Define to the full name of this package. */
 #undef PACKAGE_NAME
 
+/* String identifying the packager of this software */
+#undef PACKAGE_PACKAGER
+
+/* Packager info for bug reports (URL/e-mail/...) */
+#undef PACKAGE_PACKAGER_BUG_REPORTS
+
+/* Packager-specific version information */
+#undef PACKAGE_PACKAGER_VERSION
+
 /* Define to the full name and version of this package. */
 #undef PACKAGE_STRING
 
@@ -931,6 +949,10 @@
 
 /* For standard stat data types on VMS. */
 #undef _USE_STD_STAT
+
+/* Define to rpl_ if the getopt replacement functions and variables should be
+   used. */
+#undef __GETOPT_PREFIX
 
 /* Define to 1 on platforms where this makes time_t a 64-bit type. */
 #undef __MINGW_USE_VC2005_COMPAT
@@ -1786,6 +1808,9 @@
 #endif
 
 
+/* A replacement for va_copy, if needed.  */
+#define gl_va_copy(a,b) ((a) = (b))
+
 /* Define to '__inline__' or '__inline' if that's what the C compiler
    calls it, or to nothing if 'inline' is not supported under any name.  */
 #ifndef __cplusplus
@@ -1863,6 +1888,9 @@
 #  define _UC_RESTRICT
 # endif
 
+
+/* Define as a macro for copying va_list variables. */
+#undef va_copy
 
 #if !(defined __cplusplus \
       ? 1 \

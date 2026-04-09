@@ -22,11 +22,34 @@
 #include <config.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 #include <progname.h>
 #include <exitfail.h>
 #include <xalloc.h>
+#include <getopt.h>
+#include <version-etc.h>
 #include <libhiha/string_t.h>
 #include <libhiha/parse_expression.h>
+
+// Change this if using gettext.
+#define _(msgid) msgid
+
+#define VISIBLE [[gnu::visibility ("default")]]
+#define NORETURN [[noreturn]]
+#define MAYBE_UNUSED [[maybe_unused]]
+
+#define GETOPT_HELP_CHAR (CHAR_MIN - 2)
+#define GETOPT_VERSION_CHAR (CHAR_MIN - 3)
+
+VISIBLE const char version_etc_copyright[] =
+  "Copyright %s %d Barry Schwartz";
+
+#define COMMAND_NAME "hiha"
+
+static const char *authors[] = {
+  "Barry Schwartz",
+  NULL
+};
 
 char *line_buffer = NULL;
 size_t line_buffer_size = 0;
@@ -71,13 +94,76 @@ parse_file (const char *filename, FILE *f, parser_data_t parser_data)
     }
 }
 
-void
-check_usage (int argc, char **argv[[maybe_unused]])
+static void
+print_version (void)
+{
+  version_etc_ar (stdout, COMMAND_NAME,
+		  "an “orthogonal” programming language",
+		  PACKAGE_VERSION, authors);
+}
+
+NORETURN static void
+print_version_and_exit (void)
+{
+  print_version ();
+  exit (exit_failure);
+}
+
+static void
+print_usage (void)
+{
+  fputs (_("Usage: "), stdout);
+  fputs (program_name, stdout);
+  fputs (_(" [OPTION] SRC.hiha...\n"), stdout);
+  fputs ("\n", stdout);
+  fputs (_("      --help        display this help and exit\n"), stdout);
+  fputs (_("      --version     output version information and exit\n"),
+	 stdout);
+}
+
+NORETURN static void
+print_usage_and_exit (void)
+{
+  print_usage ();
+  exit (exit_failure);
+}
+
+static void
+check_usage (int argc, MAYBE_UNUSED char **argv)
 {
   if (argc < 2)
+    print_usage_and_exit ();
+}
+
+static struct option const long_opts[] = {
+  {"help", no_argument, NULL, GETOPT_HELP_CHAR},
+  {"version", no_argument, NULL, GETOPT_VERSION_CHAR},
+  {NULL, 0, NULL, 0}
+};
+
+static int
+getopt_for_this_program (int argc, char **argv)
+{
+  return getopt_long (argc, argv, "", long_opts, NULL);
+}
+
+static void
+get_options (int argc, char **argv,
+	     void *OPTIONS /* FIXME: RETURN AN OPTIONS RECORD */ )
+{
+  int c = getopt_for_this_program (argc, argv);
+  while (c != -1)
     {
-      printf ("Usage: %s src1.hiha src2.hiha ...\n", program_name);
-      exit (exit_failure);
+      switch (c)
+	{
+	case GETOPT_VERSION_CHAR:
+	  print_version_and_exit ();
+
+	case GETOPT_HELP_CHAR:
+	default:
+	  print_usage_and_exit ();
+	}
+      c = getopt_for_this_program (argc, argv);
     }
 }
 
@@ -85,6 +171,9 @@ int
 main (int argc, char **argv)
 {
   set_program_name (argv[0]);
+  get_options (argc, argv, NULL);
+  argc -= optind - 1;
+  argv += optind - 1;
   check_usage (argc, argv);
   parser_data_t parser_data = initialize_parser_data ();
   for (int i = 1; i != argc; i += 1)

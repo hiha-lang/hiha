@@ -42,6 +42,7 @@
 #  error \
 #  exitfail \
 #  getline \
+#  getopt-gnu \
 #  progname \
 #  unicase/u32-casecoll \
 #  uniconv/u32-casecoll \
@@ -50,6 +51,7 @@
 #  uninorm/nfc \
 #  unistr/u32-check \
 #  unistr/u32-cmp2 \
+#  version-etc \
 #  xalloc \
 #  xlist \
 #  xomap
@@ -62,6 +64,7 @@ gl_MODULES([
   error
   exitfail
   getline
+  getopt-gnu
   progname
   unicase/u32-casecoll
   uniconv/u32-casecoll
@@ -70,6 +73,7 @@ gl_MODULES([
   uninorm/nfc
   unistr/u32-check
   unistr/u32-cmp2
+  version-etc
   xalloc
   xlist
   xomap

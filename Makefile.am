@@ -65,6 +65,8 @@ hiha_CFLAGS =
 hiha_DEPENDENCIES =
 hiha_SOURCES =
 
+hiha_LDFLAGS += -export-dynamic
+
 hiha_LDADD += libhiha.la
 hiha_LDADD += lib/libgnu.la
 hiha_LDADD += $(LTLIBICONV)
@@ -94,7 +96,8 @@ libhiha_la_LIBADD += lib/libgnu.la
 libhiha_la_LDFLAGS += $(LTLIBICONV)
 libhiha_la_LDFLAGS += $(LTLIBINTL)
 libhiha_la_LDFLAGS += $(LTLIBUNISTRING)
-libhiha_la_LDFLAGS += -lm
+libhiha_la_LDFLAGS += -lm -ldl
+libhiha_la_LDFLAGS += -export-dynamic
 
 libhiha_la_CFLAGS += $(BASICCFLAGS)
 

@@ -1592,7 +1592,7 @@ AM_CPPFLAGS =
 AM_CFLAGS = 
 BASICCFLAGS = -I $(builddir) -I $(builddir)/include -I $(builddir)/lib \
 	-I $(srcdir) -I $(srcdir)/include -I $(srcdir)/lib
-hiha_LDFLAGS = 
+hiha_LDFLAGS = -export-dynamic
 hiha_LDADD = libhiha.la lib/libgnu.la $(LTLIBICONV) $(LTLIBINTL) \
 	$(LTLIBUNISTRING)
 hiha_CFLAGS = $(BASICCFLAGS)
@@ -1602,7 +1602,8 @@ hiha_SOURCES = src/hiha/hiha.c
 #---------------------------------------------------------------------
 lib_LTLIBRARIES = libhiha.la
 libhiha_la_LIBADD = lib/libgnu.la
-libhiha_la_LDFLAGS = $(LTLIBICONV) $(LTLIBINTL) $(LTLIBUNISTRING) -lm
+libhiha_la_LDFLAGS = $(LTLIBICONV) $(LTLIBINTL) $(LTLIBUNISTRING) -lm \
+	-ldl -export-dynamic
 libhiha_la_CFLAGS = $(BASICCFLAGS)
 libhiha_la_DEPENDENCIES = config.h
 libhiha_la_SOURCES = include/libhiha/string_t.h \

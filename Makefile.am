@@ -27,6 +27,15 @@ AUTOMAKE_OPTIONS += subdir-objects
 
 @GNU@ include $(top_srcdir)/silent-rules.mk
 
+pkg_gc_includedir = $(pkgincludedir)/gc
+pkg_libhiha_includedir = $(pkgincludedir)/libhiha
+
+bin_PROGRAMS =
+lib_LTLIBRARIES =
+pkginclude_HEADERS =
+pkg_gc_include_HEADERS =
+pkg_libhiha_include_HEADERS =
+
 CLEANFILES =
 DISTCLEANFILES =
 EXTRA_DIST =
@@ -47,12 +56,13 @@ DISTCLEANFILES += Makefile
 DISTCLEANFILES += GNUmakefile
 
 BASICCFLAGS =
-BASICCFLAGS += -I $(builddir)
-BASICCFLAGS += -I $(builddir)/include
-BASICCFLAGS += -I $(builddir)/lib
-BASICCFLAGS += -I $(srcdir)
-BASICCFLAGS += -I $(srcdir)/include
-BASICCFLAGS += -I $(srcdir)/lib
+BASICCFLAGS += -I $(abs_top_builddir)
+BASICCFLAGS += -I $(abs_top_builddir)/include
+BASICCFLAGS += -I $(abs_top_builddir)/lib
+BASICCFLAGS += -I $(abs_top_srcdir)
+BASICCFLAGS += -I $(abs_top_srcdir)/include
+BASICCFLAGS += -I $(abs_top_srcdir)/lib
+BASICCFLAGS += -I $(abs_top_srcdir)/$(GCVERS)/include
 
 #---------------------------------------------------------------------
 
@@ -89,6 +99,7 @@ $(GCVERS)/libhiha-gc.la:
 	    --enable-redirect-malloc \
 	    --enable-shared \
 	    --enable-static \
+	    --disable-threads \
 	    CFLAGS="$(CFLAGS) -I. -I$(abs_top_srcdir)/$(GCVERS) $(VISIBLE_CFLAGS)" && \
 	  $(SED) -e 's/libgc/libhiha-gc/g' \
 	         -e 's/libcord/libhiha-cord/g' \
@@ -112,9 +123,37 @@ install-exec-local::
 uninstall-local::
 	$(MAKE) $(MAKEFILE) -C $(GCVERS) uninstall-libLTLIBRARIES
 
+include/gc.h: Makefile.am
+	$(call v,GEN)mkdir -p $(@D) && \
+	rm -f $(@) && \
+	echo '/* This file is installed for backward compatibility. */' > $(@) && \
+	echo '#include <gc/gc.h>' >> $(@)
+
+CLEANFILES += include/gc.h
+
+pkginclude_HEADERS += include/gc.h
+pkg_gc_include_HEADERS += $(top_srcdir)/$(GCVERS)/include/cord.h
+pkg_gc_include_HEADERS += $(top_srcdir)/$(GCVERS)/include/cord_pos.h
+pkg_gc_include_HEADERS += $(top_srcdir)/$(GCVERS)/include/ec.h
+pkg_gc_include_HEADERS += $(top_srcdir)/$(GCVERS)/include/gc_allocator.h
+pkg_gc_include_HEADERS += $(top_srcdir)/$(GCVERS)/include/gc_backptr.h
+pkg_gc_include_HEADERS += $(top_srcdir)/$(GCVERS)/include/gc_config_macros.h
+pkg_gc_include_HEADERS += $(top_srcdir)/$(GCVERS)/include/gc_cpp.h
+pkg_gc_include_HEADERS += $(top_srcdir)/$(GCVERS)/include/gc_disclaim.h
+pkg_gc_include_HEADERS += $(top_srcdir)/$(GCVERS)/include/gc_gcj.h
+pkg_gc_include_HEADERS += $(top_srcdir)/$(GCVERS)/include/gc.h
+pkg_gc_include_HEADERS += $(top_srcdir)/$(GCVERS)/include/gc_inline.h
+pkg_gc_include_HEADERS += $(top_srcdir)/$(GCVERS)/include/gc_mark.h
+pkg_gc_include_HEADERS += $(top_srcdir)/$(GCVERS)/include/gc_pthread_redirects.h
+pkg_gc_include_HEADERS += $(top_srcdir)/$(GCVERS)/include/gc_tiny_fl.h
+pkg_gc_include_HEADERS += $(top_srcdir)/$(GCVERS)/include/gc_typed.h
+pkg_gc_include_HEADERS += $(top_srcdir)/$(GCVERS)/include/gc_version.h
+pkg_gc_include_HEADERS += $(top_srcdir)/$(GCVERS)/include/javaxfc.h
+pkg_gc_include_HEADERS += $(top_srcdir)/$(GCVERS)/include/leak_detector.h
+
 #---------------------------------------------------------------------
 
-bin_PROGRAMS = hiha
+bin_PROGRAMS += hiha
 
 hiha_LDFLAGS =
 hiha_LDADD =
@@ -142,7 +181,7 @@ hiha_SOURCES += src/hiha/hiha.c
 
 #---------------------------------------------------------------------
 
-lib_LTLIBRARIES = libhiha.la
+lib_LTLIBRARIES += libhiha.la
 
 libhiha_la_LIBADD =
 libhiha_la_LDFLAGS =
@@ -164,15 +203,17 @@ libhiha_la_CFLAGS += $(CFLAGS)
 
 libhiha_la_DEPENDENCIES += config.h
 
-libhiha_la_SOURCES += include/libhiha/string_t.h
-libhiha_la_SOURCES += include/libhiha/token_t.h
-libhiha_la_SOURCES += include/libhiha/parse_expression.h
-#libhiha_la_SOURCES += include/libhiha/malloc_replacement.h
+libhiha_HDRS =
+libhiha_HDRS += include/libhiha/string_t.h
+libhiha_HDRS += include/libhiha/token_t.h
+libhiha_HDRS += include/libhiha/parse_expression.h
 
+pkg_libhiha_include_HEADERS += $(libhiha_HDRS)
+
+libhiha_la_SOURCES += $(libhiha_HDRS)
 libhiha_la_SOURCES += src/libhiha/string_t.c
 libhiha_la_SOURCES += src/libhiha/token_t.c
 libhiha_la_SOURCES += src/libhiha/parse_expression.c
-#libhiha_la_SOURCES += src/libhiha/malloc_replacement.c
 
 #---------------------------------------------------------------------
 

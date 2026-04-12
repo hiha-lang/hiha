@@ -23,9 +23,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <error.h>
+#include <xalloc.h>
 #include <exitfail.h>
-#include <gl_avltree_list.h>
-#include <gl_xlist.h>
 #include <libhiha/token_t.h>
 
 // Change this if using gettext.
@@ -43,42 +42,15 @@ struct token_getter_from_file
   const char *filename;
   FILE *f;
   char *buf;
-  size_t nbuf;
-  gl_list_t lines;
+  size_t nbuf;			/* The size of the buf. */
+  size_t n;			/* How many are in the buf. */
   size_t line_no;		/* Starting at one. */
-  size_t i_line;		/* Zero-based. */
   size_t i_code_point;		/* Zero-based. */
   bool eof_reached;
 };
 
 static void get_token_from_file (token_getter_t, token_t *tok,
 				 const char **error_message);
-
-VISIBLE token_getter_from_file_t
-make_token_getter_from_file_t (const char *filename, FILE *f)
-{
-  token_getter_from_file_t getter =
-    XMALLOC (struct token_getter_from_file);
-
-  getter->get_token = &get_token_from_file;
-
-  getter->filename = filename;
-  getter->f = f;
-
-  getter->nbuf = 1000;
-  getter->buf = XNMALLOC (getter->nbuf, char);
-
-  getter->lines =
-    gl_list_create_empty (GL_AVLTREE_LIST, NULL, NULL, NULL,
-			  false);
-  getter->line_no = 0;
-  getter->i_line = 0;
-  getter->i_code_point = 0;
-
-  getter->eof_reached = false;
-
-  return getter;
-}
 
 static token_t
 make_token_t (string_t token_kind, string_t token_value,
@@ -95,28 +67,41 @@ make_token_t (string_t token_kind, string_t token_value,
   return tok;
 }
 
-static bool
-lines_need_refilling (token_getter_from_file_t g)
+VISIBLE token_getter_from_file_t
+make_token_getter_from_file_t (const char *filename, FILE *f)
 {
-  return (!g->eof_reached && gl_list_size (g->lines) <= g->i_line);
+  token_getter_from_file_t getter =
+    XMALLOC (struct token_getter_from_file);
+
+  getter->get_token = &get_token_from_file;
+
+  getter->filename = filename;
+  getter->f = f;
+
+  getter->nbuf = 1000;
+  getter->buf = XNMALLOC (getter->nbuf, char);
+
+  getter->n = 0;
+  getter->line_no = 0;
+  getter->i_code_point = 0;
+
+  getter->eof_reached = false;
+
+  return getter;
 }
 
 static void
-get_more_lines_if_necessary (token_getter_from_file_t g)
+fill_line_if_necessary (token_getter_from_file_t g)
 {
-  text_location_t loc = XMALLOC (struct text_location);
-  while (lines_need_refilling (g))
+  if (!g->eof_reached && g->i_code_point == g->n)
     {
       ssize_t nread = getline (&g->buf, &g->nbuf, g->f);
       g->eof_reached = (nread == -1);
       if (!g->eof_reached)
 	{
-	  loc->filename = g->filename;
-	  loc->line_no = g->line_no + g->i_line;
-	  loc->code_point_no = 0;
-	  string_t str =
-	    string_t_canonical_from_str_len (g->buf, nread, loc);
-	  gl_list_add_last (g->lines, str);
+	  g->n = nread;
+	  g->line_no += 1;
+	  g->i_code_point = 0;
 	}
     }
 }
@@ -126,20 +111,33 @@ get_token_from_file (token_getter_t getter, token_t *tok,
 		     const char **error_message)
 {
   token_getter_from_file_t g = (token_getter_from_file_t) getter;
-
-  *tok = NULL;
   *error_message = NULL;
-
-  get_more_lines_if_necessary (g);
+  fill_line_if_necessary (g);
   if (g->eof_reached)
-    *tok = make_token_t (make_string_t ("EOF"),
-			 make_string_t ("EOF"),
-			 g->filename, g->line_no + g->i_line,
-			 g->i_code_point + 1);
+    *tok =
+      make_token_t (copy_string_t (string_t_EOF),
+		    copy_string_t (string_t_EOF), g->filename,
+		    g->line_no, g->i_code_point + 1);
   else
     {
-      /// FIXME
+      string_t str = XMALLOC (struct string);
+      str->s = XNMALLOC (1, uint32_t);
+      str->s[0] = g->buf[g->i_code_point];
+      str->n = 1;
+      *tok = make_token_t (copy_string_t (string_t_CODE_POINT), str,
+			   g->filename, g->line_no,
+			   g->i_code_point + 1);
+      g->i_code_point += 1;
     }
+}
+
+VISIBLE void
+print_token_t (const token_t tok, FILE *f)
+{
+  const char *separator = "  ";
+  print_string_t (tok->token_kind, f);
+  fputs (separator, f);
+  print_string_t (tok->token_value, f);
 }
 
 /*

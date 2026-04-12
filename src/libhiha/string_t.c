@@ -32,6 +32,9 @@
 
 #define VISIBLE [[gnu::visibility ("default")]]
 
+VISIBLE string_t string_t_EOF;
+VISIBLE string_t string_t_CODE_POINT;
+
 VISIBLE int
 string_t_cmp (const string_t str1, const string_t str2)
 {
@@ -42,6 +45,17 @@ VISIBLE string_t
 make_string_t (const char *src)
 {
   return string_t_canonical_from_str_len (src, strlen (src), NULL);
+}
+
+VISIBLE string_t
+copy_string_t (const string_t str)
+{
+  string_t s = XMALLOC (struct string);
+  s->n = str->n;
+  s->s = XNMALLOC (s->n, uint32_t);
+  memcpy (s->s, ((const struct string *) str)->s,
+	  s->n * sizeof (uint32_t));
+  return s;
 }
 
 VISIBLE char *
@@ -145,6 +159,14 @@ text_location_string (text_location_t loc)
   memcpy (s + (fn_len * sizeof (char)), ln, ln_len * sizeof (char));
 
   return s;
+}
+
+VISIBLE void print_string_t (const string_t str, FILE *f)
+{
+  char *s;
+  size_t n;
+  str_len_from_string_t (str, &s, &n);
+  fwrite (s, sizeof (char), n, f);
 }
 
 /*

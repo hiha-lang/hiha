@@ -22,6 +22,7 @@
 #ifndef __LIBHAHA__STRING_T_H__INCLUDED__
 #define __LIBHAHA__STRING_T_H__INCLUDED__
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <unistr.h>
@@ -47,9 +48,14 @@ struct text_location
 };
 typedef struct text_location *text_location_t;
 
+/* Some string constants. */
+extern string_t string_t_EOF;	/* “EOF” */
+extern string_t string_t_CODE_POINT;	/* “CODE_POINT” */
+
 int string_t_cmp (const string_t str1, const string_t str2);
 
 string_t make_string_t (const char *src);
+string_t copy_string_t (const string_t str);
 char *make_str_nul (const string_t str);
 
 string_t string_t_from_str_len (const char *src, size_t srclen,
@@ -63,6 +69,8 @@ string_t string_t_canonical_from_str_len (const char *src,
 void str_len_from_string_t (const string_t src, char **s, size_t *n);
 
 char *text_location_string (text_location_t);
+
+void print_string_t (const string_t str, FILE *f);
 
 #endif /* __LIBHAHA__STRING_T_H__INCLUDED__ */
 

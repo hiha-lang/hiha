@@ -33,6 +33,7 @@
 #
 
 
+
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -109,8 +110,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-EXTRA_PROGRAMS =
 bin_PROGRAMS = hiha$(EXEEXT)
+EXTRA_PROGRAMS =
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
@@ -178,14 +179,19 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(top_srcdir)/configure \
-	$(am__configure_deps) $(am__DIST_COMMON)
+	$(am__configure_deps) $(pkg_gc_include_HEADERS) \
+	$(pkg_libhiha_include_HEADERS) $(pkginclude_HEADERS) \
+	$(am__DIST_COMMON)
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libdir)"
+am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libdir)" \
+	"$(DESTDIR)$(pkg_gc_includedir)" \
+	"$(DESTDIR)$(pkg_libhiha_includedir)" \
+	"$(DESTDIR)$(pkgincludedir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -214,8 +220,10 @@ am__uninstall_files_from_dir = { \
        $(am__cd) "$$dir" && echo $$files | $(am__xargs_n) 40 $(am__rm_f); }; \
   }
 LTLIBRARIES = $(lib_LTLIBRARIES)
+am__objects_1 =
 am__dirstamp = $(am__leading_dot)dirstamp
-am_libhiha_la_OBJECTS = src/libhiha/libhiha_la-string_t.lo \
+am_libhiha_la_OBJECTS = $(am__objects_1) \
+	src/libhiha/libhiha_la-string_t.lo \
 	src/libhiha/libhiha_la-token_t.lo \
 	src/libhiha/libhiha_la-parse_expression.lo
 libhiha_la_OBJECTS = $(am_libhiha_la_OBJECTS)
@@ -285,6 +293,8 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+HEADERS = $(pkg_gc_include_HEADERS) $(pkg_libhiha_include_HEADERS) \
+	$(pkginclude_HEADERS)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
   distclean-recursive maintainer-clean-recursive
 am__recursive_targets = \
@@ -1596,7 +1606,32 @@ top_srcdir = @top_srcdir@
 SUBDIRS = lib . # tests
 ACLOCAL_AMFLAGS = -I m4 --install
 AUTOMAKE_OPTIONS = subdir-objects
-CLEANFILES = 
+pkg_gc_includedir = $(pkgincludedir)/gc
+pkg_libhiha_includedir = $(pkgincludedir)/libhiha
+
+#---------------------------------------------------------------------
+lib_LTLIBRARIES = libhiha.la
+pkginclude_HEADERS = include/gc.h
+pkg_gc_include_HEADERS = $(top_srcdir)/$(GCVERS)/include/cord.h \
+	$(top_srcdir)/$(GCVERS)/include/cord_pos.h \
+	$(top_srcdir)/$(GCVERS)/include/ec.h \
+	$(top_srcdir)/$(GCVERS)/include/gc_allocator.h \
+	$(top_srcdir)/$(GCVERS)/include/gc_backptr.h \
+	$(top_srcdir)/$(GCVERS)/include/gc_config_macros.h \
+	$(top_srcdir)/$(GCVERS)/include/gc_cpp.h \
+	$(top_srcdir)/$(GCVERS)/include/gc_disclaim.h \
+	$(top_srcdir)/$(GCVERS)/include/gc_gcj.h \
+	$(top_srcdir)/$(GCVERS)/include/gc.h \
+	$(top_srcdir)/$(GCVERS)/include/gc_inline.h \
+	$(top_srcdir)/$(GCVERS)/include/gc_mark.h \
+	$(top_srcdir)/$(GCVERS)/include/gc_pthread_redirects.h \
+	$(top_srcdir)/$(GCVERS)/include/gc_tiny_fl.h \
+	$(top_srcdir)/$(GCVERS)/include/gc_typed.h \
+	$(top_srcdir)/$(GCVERS)/include/gc_version.h \
+	$(top_srcdir)/$(GCVERS)/include/javaxfc.h \
+	$(top_srcdir)/$(GCVERS)/include/leak_detector.h
+pkg_libhiha_include_HEADERS = $(libhiha_HDRS)
+CLEANFILES = include/gc.h
 DISTCLEANFILES = Makefile GNUmakefile
 EXTRA_DIST = m4/gnulib-cache.m4 silent-rules.mk COPYING README.adoc \
 	INSTALL AUTHORS
@@ -1604,8 +1639,10 @@ EXTRA_SCRIPTS =
 BUILT_SOURCES = $(GCVERS)/libhiha-gc.la
 AM_CPPFLAGS = 
 AM_CFLAGS = 
-BASICCFLAGS = -I $(builddir) -I $(builddir)/include -I $(builddir)/lib \
-	-I $(srcdir) -I $(srcdir)/include -I $(srcdir)/lib
+BASICCFLAGS = -I $(abs_top_builddir) -I $(abs_top_builddir)/include -I \
+	$(abs_top_builddir)/lib -I $(abs_top_srcdir) -I \
+	$(abs_top_srcdir)/include -I $(abs_top_srcdir)/lib -I \
+	$(abs_top_srcdir)/$(GCVERS)/include
 
 #---------------------------------------------------------------------
 GCVERS = gc-8.2.12
@@ -1615,19 +1652,15 @@ hiha_LDADD = libhiha.la $(GCVERS)/libhiha-gc.la lib/libgnu.la \
 hiha_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
 hiha_DEPENDENCIES = config.h libhiha.la lib/libgnu.la
 hiha_SOURCES = src/hiha/hiha.c
-
-#---------------------------------------------------------------------
-lib_LTLIBRARIES = libhiha.la
 libhiha_la_LIBADD = lib/libgnu.la
 libhiha_la_LDFLAGS = $(LIBS) $(LTLIBICONV) $(LTLIBINTL) \
 	$(LTLIBUNISTRING) -lm -ldl -export-dynamic
 libhiha_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
 libhiha_la_DEPENDENCIES = config.h
-#libhiha_la_SOURCES += include/libhiha/malloc_replacement.h
-libhiha_la_SOURCES = include/libhiha/string_t.h \
-	include/libhiha/token_t.h include/libhiha/parse_expression.h \
-	src/libhiha/string_t.c src/libhiha/token_t.c \
-	src/libhiha/parse_expression.c
+libhiha_la_SOURCES = $(libhiha_HDRS) src/libhiha/string_t.c \
+	src/libhiha/token_t.c src/libhiha/parse_expression.c
+libhiha_HDRS = include/libhiha/string_t.h include/libhiha/token_t.h \
+	include/libhiha/parse_expression.h
 all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -1875,6 +1908,69 @@ clean-libtool:
 
 distclean-libtool:
 	-rm -f libtool config.lt
+install-pkg_gc_includeHEADERS: $(pkg_gc_include_HEADERS)
+	@$(NORMAL_INSTALL)
+	@list='$(pkg_gc_include_HEADERS)'; test -n "$(pkg_gc_includedir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(pkg_gc_includedir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(pkg_gc_includedir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(pkg_gc_includedir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(pkg_gc_includedir)" || exit $$?; \
+	done
+
+uninstall-pkg_gc_includeHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(pkg_gc_include_HEADERS)'; test -n "$(pkg_gc_includedir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(pkg_gc_includedir)'; $(am__uninstall_files_from_dir)
+install-pkg_libhiha_includeHEADERS: $(pkg_libhiha_include_HEADERS)
+	@$(NORMAL_INSTALL)
+	@list='$(pkg_libhiha_include_HEADERS)'; test -n "$(pkg_libhiha_includedir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(pkg_libhiha_includedir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(pkg_libhiha_includedir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(pkg_libhiha_includedir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(pkg_libhiha_includedir)" || exit $$?; \
+	done
+
+uninstall-pkg_libhiha_includeHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(pkg_libhiha_include_HEADERS)'; test -n "$(pkg_libhiha_includedir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(pkg_libhiha_includedir)'; $(am__uninstall_files_from_dir)
+install-pkgincludeHEADERS: $(pkginclude_HEADERS)
+	@$(NORMAL_INSTALL)
+	@list='$(pkginclude_HEADERS)'; test -n "$(pkgincludedir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(pkgincludedir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(pkgincludedir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(pkgincludedir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(pkgincludedir)" || exit $$?; \
+	done
+
+uninstall-pkgincludeHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(pkginclude_HEADERS)'; test -n "$(pkgincludedir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(pkgincludedir)'; $(am__uninstall_files_from_dir)
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run 'make' without going through this Makefile.
@@ -2187,14 +2283,14 @@ distcleancheck: distclean
 check-am: all-am
 check: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) check-recursive
-all-am: GNUmakefile $(PROGRAMS) $(LTLIBRARIES) config.h
+all-am: GNUmakefile $(PROGRAMS) $(LTLIBRARIES) $(HEADERS) config.h
 install-EXTRAPROGRAMS: install-libLTLIBRARIES
 
 install-binPROGRAMS: install-libLTLIBRARIES
 
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libdir)"; do \
+	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkg_gc_includedir)" "$(DESTDIR)$(pkg_libhiha_includedir)" "$(DESTDIR)$(pkgincludedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: $(BUILT_SOURCES)
@@ -2263,7 +2359,8 @@ info: info-recursive
 
 info-am:
 
-install-data-am:
+install-data-am: install-pkg_gc_includeHEADERS \
+	install-pkg_libhiha_includeHEADERS install-pkgincludeHEADERS
 
 install-dvi: install-dvi-recursive
 
@@ -2316,7 +2413,9 @@ ps: ps-recursive
 ps-am:
 
 uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
-	uninstall-local
+	uninstall-local uninstall-pkg_gc_includeHEADERS \
+	uninstall-pkg_libhiha_includeHEADERS \
+	uninstall-pkgincludeHEADERS
 
 .MAKE: $(am__recursive_targets) all check install install-am \
 	install-exec install-strip
@@ -2336,12 +2435,17 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
 	install-exec-am install-exec-local install-html \
 	install-html-am install-info install-info-am \
 	install-libLTLIBRARIES install-man install-pdf install-pdf-am \
+	install-pkg_gc_includeHEADERS \
+	install-pkg_libhiha_includeHEADERS install-pkgincludeHEADERS \
 	install-ps install-ps-am install-strip installcheck \
 	installcheck-am installdirs installdirs-am maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool mostlyclean-local pdf \
 	pdf-am ps ps-am tags tags-am uninstall uninstall-am \
-	uninstall-binPROGRAMS uninstall-libLTLIBRARIES uninstall-local
+	uninstall-binPROGRAMS uninstall-libLTLIBRARIES uninstall-local \
+	uninstall-pkg_gc_includeHEADERS \
+	uninstall-pkg_libhiha_includeHEADERS \
+	uninstall-pkgincludeHEADERS
 
 .PRECIOUS: GNUmakefile
 
@@ -2379,6 +2483,7 @@ $(GCVERS)/libhiha-gc.la:
 	    --enable-redirect-malloc \
 	    --enable-shared \
 	    --enable-static \
+	    --disable-threads \
 	    CFLAGS="$(CFLAGS) -I. -I$(abs_top_srcdir)/$(GCVERS) $(VISIBLE_CFLAGS)" && \
 	  $(SED) -e 's/libgc/libhiha-gc/g' \
 	         -e 's/libcord/libhiha-cord/g' \
@@ -2401,7 +2506,12 @@ install-exec-local::
 
 uninstall-local::
 	$(MAKE) $(MAKEFILE) -C $(GCVERS) uninstall-libLTLIBRARIES
-#libhiha_la_SOURCES += src/libhiha/malloc_replacement.c
+
+include/gc.h: Makefile.am
+	$(call v,GEN)mkdir -p $(@D) && \
+	rm -f $(@) && \
+	echo '/* This file is installed for backward compatibility. */' > $(@) && \
+	echo '#include <gc/gc.h>' >> $(@)
 
 #---------------------------------------------------------------------
 

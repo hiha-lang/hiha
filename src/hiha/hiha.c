@@ -28,7 +28,11 @@
 #include <xalloc.h>
 #include <getopt.h>
 #include <version-etc.h>
+#include <gc/gc.h>
+#include <gl_avltree_list.h>
+#include <gl_xlist.h>
 #include <libhiha/string_t.h>
+#include <libhiha/token_t.h>
 #include <libhiha/parse_expression.h>
 
 // Change this if using gettext.
@@ -40,6 +44,13 @@
 
 #define GETOPT_HELP_CHAR (CHAR_MIN - 2)
 #define GETOPT_VERSION_CHAR (CHAR_MIN - 3)
+#define GETOPT_PLUGIN_CHAR (CHAR_MAX + 1)
+
+struct hiha_options
+{
+  gl_list_t plugins;
+};
+typedef struct hiha_options *hiha_options_t;
 
 VISIBLE const char version_etc_copyright[] =
   "Copyright %s %d Barry Schwartz";
@@ -67,28 +78,44 @@ initialize_line_buffer (void)
 static void
 parse_file (const char *filename, FILE *f, parser_data_t parser_data)
 {
-  initialize_line_buffer ();
-  size_t line_no = 0;
-  ssize_t nread = getline (&line_buffer, &line_buffer_size, f);
-  while (nread != -1)
+  token_t tok;
+  const char *error_message;
+
+  token_getter_from_file_t g =
+    make_token_getter_from_file_t (filename, f);
+  token_getter_t getter = (token_getter_t) g;
+
+  (getter->get_token) (getter, &tok, &error_message);
+  while (!error_message && string_t_cmp (tok->token_kind, string_t_EOF))
     {
-      line_no += 1;
-
-      text_location_t loc = XMALLOC (struct text_location);
-      loc->filename = filename;
-      loc->line_no = line_no;
-      loc->code_point_no = 0;
-      string_t str =
-	string_t_canonical_from_str_len (line_buffer, nread, loc);
-
-      char *s;
-      size_t n;
-      str_len_from_string_t (str, &s, &n);
-      printf ("%06zu ", line_no);
-      fwrite (s, n, sizeof (char), stdout);
-
-      nread = getline (&line_buffer, &line_buffer_size, f);
+      print_token_t (tok, stdout);
+      fputs ("\n", stdout);
+      (getter->get_token) (getter, &tok, &error_message);
     }
+  /*
+     initialize_line_buffer ();
+     size_t line_no = 0;
+     ssize_t nread = getline (&line_buffer, &line_buffer_size, f);
+     while (nread != -1)
+     {
+     line_no += 1;
+
+     text_location_t loc = XMALLOC (struct text_location);
+     loc->filename = filename;
+     loc->line_no = line_no;
+     loc->code_point_no = 0;
+     string_t str =
+     string_t_canonical_from_str_len (line_buffer, nread, loc);
+
+     char *s;
+     size_t n;
+     str_len_from_string_t (str, &s, &n);
+     printf ("%06zu ", line_no);
+     fwrite (s, n, sizeof (char), stdout);
+
+     nread = getline (&line_buffer, &line_buffer_size, f);
+     }
+   */
 }
 
 static void
@@ -121,6 +148,7 @@ print_usage (void)
   usage_puts (_("Do something not yet implemented "
 		"with hiha source FILES...\n"));
   usage_puts ("\n");
+  usage_puts (_("      --plugin=PLUGIN     load the plugin\n"));
   usage_puts (_("      --help        display this help and exit\n"));
   usage_puts (_("      --version     "
 		"output version information and exit\n"));
@@ -144,10 +172,18 @@ check_usage (int argc, MAYBE_UNUSED char **argv)
 }
 
 static struct option const long_opts[] = {
+  {"plugin", required_argument, NULL, GETOPT_PLUGIN_CHAR},
   {"help", no_argument, NULL, GETOPT_HELP_CHAR},
   {"version", no_argument, NULL, GETOPT_VERSION_CHAR},
   {NULL, 0, NULL, 0}
 };
+
+static void
+string_t_consts_initialize (void)
+{
+  string_t_EOF = make_string_t ("EOF");
+  string_t_CODE_POINT = make_string_t ("CODE_POINT");
+}
 
 static int
 getopt_for_this_program (int argc, char **argv)
@@ -156,14 +192,21 @@ getopt_for_this_program (int argc, char **argv)
 }
 
 static void
-get_options (int argc, char **argv,
-	     void *OPTIONS /* FIXME: RETURN AN OPTIONS RECORD */ )
+get_options (int argc, char **argv, hiha_options_t *opts)
 {
+  *opts = XMALLOC (struct hiha_options);
+  (*opts)->plugins = gl_list_create_empty (GL_AVLTREE_LIST, NULL, NULL,
+					   NULL, true);
+
   int c = getopt_for_this_program (argc, argv);
   while (c != -1)
     {
       switch (c)
 	{
+	case GETOPT_PLUGIN_CHAR:
+	  gl_list_add_last ((*opts)->plugins, xstrdup (optarg));
+	  break;
+
 	case GETOPT_VERSION_CHAR:
 	  print_version_then_exit ();
 
@@ -178,9 +221,12 @@ get_options (int argc, char **argv,
 int
 main (int argc, char **argv)
 {
+  GC_INIT ();
   set_program_name (argv[0]);
+  string_t_consts_initialize ();
 
-  get_options (argc, argv, NULL);
+  hiha_options_t opts;
+  get_options (argc, argv, &opts);
   argc -= optind - 1;
   argv += optind - 1;
 

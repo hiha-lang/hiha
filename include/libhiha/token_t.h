@@ -47,6 +47,8 @@ typedef struct token_getter_from_file *token_getter_from_file_t;
 token_getter_from_file_t
 make_token_getter_from_file_t (const char *filename, FILE *f);
 
+void print_token_t (const token_t tok, FILE *f);
+
 #endif /* __LIBHAHA__TOKEN_T_H__INCLUDED__ */
 
 /*

@@ -86,10 +86,7 @@ parse_file (const char *filename, FILE *f, parser_data_t parser_data)
       str_len_from_string_t (str, &s, &n);
       printf ("%06zu ", line_no);
       fwrite (s, n, sizeof (char), stdout);
-      free (s);
 
-      text_location_t_free (loc);
-      string_t_free (str);
       nread = getline (&line_buffer, &line_buffer_size, f);
     }
 }
@@ -202,7 +199,6 @@ main (int argc, char **argv)
       parse_file (argv[i], f, parser_data);
       fclose (f);
     }
-  parser_data_t_free (parser_data);
   exit (EXIT_SUCCESS);
 }
 

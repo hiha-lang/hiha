@@ -47,7 +47,6 @@ struct text_location
 };
 typedef struct text_location *text_location_t;
 
-void string_t_free (string_t str);
 int string_t_cmp (const string_t str1, const string_t str2);
 
 string_t make_string_t (const char *src);
@@ -63,7 +62,6 @@ string_t string_t_canonical_from_str_len (const char *src,
 
 void str_len_from_string_t (const string_t src, char **s, size_t *n);
 
-void text_location_t_free (text_location_t);
 char *text_location_string (text_location_t);
 
 #endif /* __LIBHAHA__STRING_T_H__INCLUDED__ */

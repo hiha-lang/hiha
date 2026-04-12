@@ -40,7 +40,6 @@ struct token_getter_from_file
 
   void (*get_token) (token_getter_t this_struct,
 		     token_t *tok, const char **error_message);
-  void (*free) (token_getter_t this_struct);
 
   const char *filename;
   FILE *f;
@@ -53,28 +52,8 @@ struct token_getter_from_file
   bool eof_reached;
 };
 
-VISIBLE void
-token_t_free (token_t tok)
-{
-  if (tok != NULL)
-    {
-      string_t_free (tok->token_kind);
-      string_t_free (tok->token_value);
-      text_location_t_free (tok->loc);
-    }
-  free (tok);
-}
-
-static void
-free_string (const void *s)
-{
-  string_t str = (string_t) s;
-  string_t_free (str);
-}
-
 static void get_token_from_file (token_getter_t, token_t *tok,
 				 const char **error_message);
-static void token_getter_from_file_t_free (token_getter_t);
 
 VISIBLE token_getter_from_file_t
 make_token_getter_from_file_t (const char *filename, FILE *f)
@@ -83,7 +62,6 @@ make_token_getter_from_file_t (const char *filename, FILE *f)
     XMALLOC (struct token_getter_from_file);
 
   getter->get_token = &get_token_from_file;
-  getter->free = &token_getter_from_file_t_free;
 
   getter->filename = filename;
   getter->f = f;
@@ -92,7 +70,7 @@ make_token_getter_from_file_t (const char *filename, FILE *f)
   getter->buf = XNMALLOC (getter->nbuf, char);
 
   getter->lines =
-    gl_list_create_empty (GL_AVLTREE_LIST, NULL, NULL, free_string,
+    gl_list_create_empty (GL_AVLTREE_LIST, NULL, NULL, NULL,
 			  false);
   getter->line_no = 0;
   getter->i_line = 0;
@@ -101,18 +79,6 @@ make_token_getter_from_file_t (const char *filename, FILE *f)
   getter->eof_reached = false;
 
   return getter;
-}
-
-static void
-token_getter_from_file_t_free (token_getter_t getter)
-{
-  if (getter != NULL)
-    {
-      token_getter_from_file_t g = (token_getter_from_file_t) getter;
-      free (g->buf);
-      gl_list_free (g->lines);
-      free (g);
-    }
 }
 
 static token_t
@@ -154,7 +120,6 @@ get_more_lines_if_necessary (token_getter_from_file_t g)
 	  gl_list_add_last (g->lines, str);
 	}
     }
-  text_location_t_free (loc);
 }
 
 static void
@@ -205,7 +170,6 @@ match_whitespace (const string_t subject, const char *filename,
   else
     *tok = make_token_t (make_string_t ("WHITESPACE"), match,
 			 filename, line_no, i_code_point + 1);
-  string_t_free (pattern);
 }
 
 static void
@@ -239,7 +203,6 @@ get_token_from_file (token_getter_t getter, token_t *tok,
 	       _("regular expression compilation failed"));
       //      int pcre2_match(const pcre2_code *code, PCRE2_SPTR subject, PCRE2_SIZE length, g->i_code_point, PCRE2_ANCHORED, pcre2_match_data *match_data, NULL);
       pcre2_code_free (re);
-      string_t_free (pattern);
     }
 }
 

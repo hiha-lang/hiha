@@ -59,19 +59,6 @@ make_binding_power_t (double bp)
   return result;
 }
 
-VISIBLE void
-parse_tree_t_free (parse_tree_t node)
-{
-  if (node != NULL)
-    {
-      for (size_t i = 0; i != node->nchildren; i += 1)
-	parse_tree_t_free (node->children[i]);
-      token_t_free (node->token);
-      free (node->children);
-      free (node);
-    }
-}
-
 static int
 compare_strings (const void *s1, const void *s2)
 {
@@ -80,45 +67,17 @@ compare_strings (const void *s1, const void *s2)
   return string_t_cmp (str1, str2);
 }
 
-static void
-free_string (const void *s)
-{
-  string_t str = (string_t) s;
-  string_t_free (str);
-}
-
-static void
-free_binding_power (const void *bp)
-{
-  binding_power_t *x = (binding_power_t *) bp;
-  free (x);
-};
-
 VISIBLE parser_data_t
 initialize_parser_data (void)
 {
   parser_data_t data = XMALLOC (struct parser_data);
   data->nud =
-    gl_omap_create_empty (GL_AVLTREE_OMAP, compare_strings, free_string,
-			  NULL);
+    gl_omap_create_empty (GL_AVLTREE_OMAP, compare_strings, NULL, NULL);
   data->led =
-    gl_omap_create_empty (GL_AVLTREE_OMAP, compare_strings, free_string,
-			  NULL);
+    gl_omap_create_empty (GL_AVLTREE_OMAP, compare_strings, NULL, NULL);
   data->lbp =
-    gl_omap_create_empty (GL_AVLTREE_OMAP, compare_strings, free_string,
-			  free_binding_power);
+    gl_omap_create_empty (GL_AVLTREE_OMAP, compare_strings, NULL, NULL);
   return data;
-}
-
-VISIBLE void
-parser_data_t_free (parser_data_t data)
-{
-  if (data != NULL)
-    {
-      gl_omap_free (data->nud);
-      gl_omap_free (data->led);
-      gl_omap_free (data->lbp);
-    }
 }
 
 VISIBLE void

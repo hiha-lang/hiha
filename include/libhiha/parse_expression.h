@@ -36,10 +36,7 @@ typedef struct parse_tree *parse_tree_t;
 struct parser_data;
 typedef struct parser_data *parser_data_t;
 
-void parse_tree_t_free (parse_tree_t);
-
 parser_data_t initialize_parser_data (void);
-void parser_data_t_free (parser_data_t);
 
 typedef parse_tree_t nud_entry_handler (parser_data_t, token_t);
 typedef nud_entry_handler *nud_entry_handler_t;

@@ -32,16 +32,6 @@
 
 #define VISIBLE [[gnu::visibility ("default")]]
 
-VISIBLE void
-string_t_free (string_t str)
-{
-  if (str != NULL)
-    {
-      free (str->s);
-      free (str);
-    }
-}
-
 VISIBLE int
 string_t_cmp (const string_t str1, const string_t str2)
 {
@@ -116,7 +106,6 @@ string_t_canonical_from_str_len (const char *src, size_t srclen,
 {
   string_t str1 = string_t_from_str_len (src, srclen, loc);
   string_t str = string_t_canonicalize (str1, loc);
-  string_t_free (str1);
   return str;
 }
 
@@ -132,12 +121,6 @@ str_len_from_string_t (const string_t src, char **s, size_t *n)
       error (exit_failure, err_number, "");
       abort ();
     }
-}
-
-VISIBLE void
-text_location_t_free (text_location_t loc)
-{
-  free (loc);
 }
 
 VISIBLE char *

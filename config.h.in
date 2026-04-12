@@ -156,6 +156,9 @@
 /* Define to 1 when the gnulib module malloc-posix should be tested. */
 #undef GNULIB_TEST_MALLOC_POSIX
 
+/* Define to 1 when the gnulib module memchr should be tested. */
+#undef GNULIB_TEST_MEMCHR
+
 /* Define to 1 when the gnulib module open should be tested. */
 #undef GNULIB_TEST_OPEN
 
@@ -239,6 +242,9 @@
 
 /* Define to 1 if <alloca.h> works. */
 #undef HAVE_ALLOCA_H
+
+/* Define to 1 if you have the <bp-sym.h> header file. */
+#undef HAVE_BP_SYM_H
 
 /* Define to 1 if you have the <crtdefs.h> header file. */
 #undef HAVE_CRTDEFS_H
@@ -414,6 +420,9 @@
 /* Define to 1 if <sys/param.h> defines the MIN and MAX macros. */
 #undef HAVE_MINMAX_IN_SYS_PARAM_H
 
+/* Define to 1 if you have the 'mprotect' function. */
+#undef HAVE_MPROTECT
+
 /* Define to 1 on MSVC platforms that have the "invalid parameter handler"
    concept. */
 #undef HAVE_MSVC_INVALID_PARAMETER_HANDLER
@@ -492,6 +501,9 @@
 
 /* Define to 1 if you have the <sys/inttypes.h> header file. */
 #undef HAVE_SYS_INTTYPES_H
+
+/* Define to 1 if you have the <sys/mman.h> header file. */
+#undef HAVE_SYS_MMAN_H
 
 /* Define to 1 if you have the <sys/param.h> header file. */
 #undef HAVE_SYS_PARAM_H
@@ -675,6 +687,9 @@
 
 /* Define to the sub-directory where libtool stores uninstalled libraries. */
 #undef LT_OBJDIR
+
+/* Define to a substitute value for mmap()'s MAP_ANONYMOUS flag. */
+#undef MAP_ANONYMOUS
 
 /* Use GNU style printf and scanf.  */
 #ifndef __USE_MINGW_ANSI_STDIO

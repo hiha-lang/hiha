@@ -50,6 +50,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module attribute:
   # Code from module avltree-list:
   # Code from module avltree-omap:
+  # Code from module base64:
   # Code from module basename-lgpl:
   # Code from module bool:
   # Code from module c-ctype:
@@ -109,6 +110,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module malloc-gnu:
   # Code from module malloc-posix:
   # Code from module malloca:
+  # Code from module memchr:
   # Code from module memcmp2:
   # Code from module minmax:
   # Code from module msvc-inval:
@@ -231,6 +233,7 @@ AC_DEFUN([gl_INIT],
   gl_ASSERT_H
   gl_CONDITIONAL_HEADER([assert.h])
   AC_PROG_MKDIR_P
+  gl_FUNC_BASE64
   gl_C_BOOL
   gl_FUNC_CALLOC_GNU
   if test $REPLACE_CALLOC_FOR_CALLOC_GNU = 1; then
@@ -388,6 +391,12 @@ AC_DEFUN([gl_INIT],
   fi
   gl_STDLIB_MODULE_INDICATOR([malloc-posix])
   gl_MALLOCA
+  gl_FUNC_MEMCHR
+  gl_CONDITIONAL([GL_COND_OBJ_MEMCHR], [test $REPLACE_MEMCHR = 1])
+  AM_COND_IF([GL_COND_OBJ_MEMCHR], [
+    gl_PREREQ_MEMCHR
+  ])
+  gl_STRING_MODULE_INDICATOR([memchr])
   gl_MINMAX
   AC_REQUIRE([gl_MSVC_INVAL])
   gl_CONDITIONAL([GL_COND_OBJ_MSVC_INVAL],
@@ -796,6 +805,8 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/array-mergesort.h
   lib/assert.in.h
   lib/attribute.h
+  lib/base64.c
+  lib/base64.h
   lib/basename-lgpl.c
   lib/basename-lgpl.h
   lib/c++defs.h
@@ -879,6 +890,8 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/malloc.c
   lib/malloca.c
   lib/malloca.h
+  lib/memchr.c
+  lib/memchr.valgrind
   lib/memcmp2.c
   lib/memcmp2.h
   lib/minmax.h
@@ -1015,6 +1028,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/absolute-header.m4
   m4/alloca.m4
   m4/assert_h.m4
+  m4/base64.m4
   m4/build-to-host.m4
   m4/c-bool.m4
   m4/calloc.m4
@@ -1061,7 +1075,9 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/lstat.m4
   m4/malloc.m4
   m4/malloca.m4
+  m4/memchr.m4
   m4/minmax.m4
+  m4/mmap-anon.m4
   m4/mode_t.m4
   m4/msvc-inval.m4
   m4/msvc-nothrow.m4

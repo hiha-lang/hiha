@@ -34,6 +34,7 @@
 #  --macro-prefix=gl \
 #  avltree-list \
 #  avltree-omap \
+#  base64 \
 #  error \
 #  exitfail \
 #  getline \
@@ -180,6 +181,12 @@ libgnu_la_SOURCES += gl_avltree_list.h gl_avltree_list.c gl_anyavltree_list1.h g
 libgnu_la_SOURCES += gl_avltree_omap.h gl_avltree_omap.c gl_avltree_ordered.h gl_anytree_omap.h
 
 ## end   gnulib module avltree-omap
+
+## begin gnulib module base64
+
+libgnu_la_SOURCES += base64.h base64.c
+
+## end   gnulib module base64
 
 ## begin gnulib module basename-lgpl
 
@@ -792,6 +799,16 @@ libgnu_la_SOURCES += malloca.c
 EXTRA_DIST += malloca.h
 
 ## end   gnulib module malloca
+
+## begin gnulib module memchr
+
+if GL_COND_OBJ_MEMCHR
+libgnu_la_SOURCES += memchr.c
+endif
+
+EXTRA_DIST += memchr.valgrind
+
+## end   gnulib module memchr
 
 ## begin gnulib module memcmp2
 

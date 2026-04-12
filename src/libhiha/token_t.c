@@ -22,9 +22,12 @@
 #include <config.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdatomic.h>
 #include <error.h>
 #include <xalloc.h>
 #include <exitfail.h>
+#include <gl_avltree_list.h>
+#include <gl_xlist.h>
 #include <libhiha/token_t.h>
 
 // Change this if using gettext.
@@ -134,10 +137,81 @@ get_token_from_file (token_getter_t getter, token_t *tok,
 VISIBLE void
 print_token_t (const token_t tok, FILE *f)
 {
+  // FIXME: Is this of any use?
+  //
+  // FIXME: Is this of any use?
+  //
+  // FIXME: Is this of any use?
+  //
+  // FIXME: Is this of any use?
+  //
+  // FIXME: Is this of any use?
+  //
   const char *separator = "  ";
   print_string_t (tok->token_kind, f);
   fputs (separator, f);
   print_string_t (tok->token_value, f);
+}
+
+static bool
+str_equal (const void *s1, const void *s2)
+{
+  return (0 == strcmp ((const char *) s1, (const char *) s2));
+}
+
+static atomic_bool _serialized_filenames_initialized = false;
+static atomic_flag _serialized_filenames_spinlock = ATOMIC_FLAG_INIT;
+static gl_list_t _serialized_filenames = NULL;
+
+static gl_list_t
+serialized_filenames (void)
+{
+  /* Double-checked spinlock. We are prepared in case in the future
+     this code is used in a threaded implementation.
+
+     FIXME: really I should put this stuff in macros. (I did long ago
+     put it in ATS templates, though possibly using atomic_ops instead
+     of stdatomic.h) */
+
+  bool initialized =
+    atomic_load_explicit (&_serialized_filenames_initialized,
+			  memory_order_acquire);
+  if (!initialized)
+    {
+      bool was_already_set;
+      do
+	{
+	  was_already_set =
+	    atomic_flag_test_and_set_explicit
+	    (&_serialized_filenames_spinlock, memory_order_acquire);
+	}
+      while (was_already_set);
+
+      initialized =
+	atomic_load_explicit (&_serialized_filenames_initialized,
+			      memory_order_relaxed);
+      if (!initialized)
+	{
+	  gl_list_t lst =
+	    gl_list_create_empty (GL_AVLTREE_LIST, str_equal, NULL,
+				  NULL, false);
+	  /* The NULL filename will be entry 0. */
+	  gl_list_add_last (lst, NULL);
+
+	  atomic_store_explicit (&_serialized_filenames_initialized,
+				 true, memory_order_release);
+	}
+
+      atomic_flag_clear_explicit (&_serialized_filenames_spinlock,
+				  memory_order_release);
+    }
+  return _serialized_filenames;
+}
+
+VISIBLE void
+serialize_token_t (const token_t tok, FILE *f)
+{
+  gl_list_t fnames = serialized_filenames ();
 }
 
 /*

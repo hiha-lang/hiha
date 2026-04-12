@@ -119,8 +119,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/assert_h.m4 \
 	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_gnu_make.m4 \
-	$(top_srcdir)/m4/build-to-host.m4 $(top_srcdir)/m4/c-bool.m4 \
-	$(top_srcdir)/m4/calloc.m4 \
+	$(top_srcdir)/m4/base64.m4 $(top_srcdir)/m4/build-to-host.m4 \
+	$(top_srcdir)/m4/c-bool.m4 $(top_srcdir)/m4/calloc.m4 \
 	$(top_srcdir)/m4/chem_compiler_flags.m4 \
 	$(top_srcdir)/m4/chem_config_makefiles.m4 \
 	$(top_srcdir)/m4/chem_path_progs_cached_and_precious.m4 \
@@ -152,7 +152,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/lstat.m4 $(top_srcdir)/m4/ltoptions.m4 \
 	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
 	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/m4/malloc.m4 \
-	$(top_srcdir)/m4/malloca.m4 $(top_srcdir)/m4/minmax.m4 \
+	$(top_srcdir)/m4/malloca.m4 $(top_srcdir)/m4/memchr.m4 \
+	$(top_srcdir)/m4/minmax.m4 $(top_srcdir)/m4/mmap-anon.m4 \
 	$(top_srcdir)/m4/mode_t.m4 $(top_srcdir)/m4/msvc-inval.m4 \
 	$(top_srcdir)/m4/msvc-nothrow.m4 $(top_srcdir)/m4/multiarch.m4 \
 	$(top_srcdir)/m4/musl.m4 $(top_srcdir)/m4/nocrash.m4 \
@@ -1605,7 +1606,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = lib . # tests
 ACLOCAL_AMFLAGS = -I m4 --install
-AUTOMAKE_OPTIONS = subdir-objects
+AUTOMAKE_OPTIONS = subdir-objects -Wno-portability
 pkg_gc_includedir = $(pkgincludedir)/gc
 pkg_libhiha_includedir = $(pkgincludedir)/libhiha
 

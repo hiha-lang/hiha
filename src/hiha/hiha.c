@@ -92,30 +92,11 @@ parse_file (const char *filename, FILE *f, parser_data_t parser_data)
       fputs ("\n", stdout);
       (getter->get_token) (getter, &tok, &error_message);
     }
-  /*
-     initialize_line_buffer ();
-     size_t line_no = 0;
-     ssize_t nread = getline (&line_buffer, &line_buffer_size, f);
-     while (nread != -1)
-     {
-     line_no += 1;
-
-     text_location_t loc = XMALLOC (struct text_location);
-     loc->filename = filename;
-     loc->line_no = line_no;
-     loc->code_point_no = 0;
-     string_t str =
-     string_t_canonical_from_str_len (line_buffer, nread, loc);
-
-     char *s;
-     size_t n;
-     str_len_from_string_t (str, &s, &n);
-     printf ("%06zu ", line_no);
-     fwrite (s, n, sizeof (char), stdout);
-
-     nread = getline (&line_buffer, &line_buffer_size, f);
-     }
-   */
+  if (!error_message)
+    {
+      print_token_t (tok, stdout);
+      fputs ("\n", stdout);
+    }
 }
 
 static void

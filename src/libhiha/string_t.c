@@ -161,7 +161,8 @@ text_location_string (text_location_t loc)
   return s;
 }
 
-VISIBLE void print_string_t (const string_t str, FILE *f)
+VISIBLE void
+print_string_t (const string_t str, FILE *f)
 {
   char *s;
   size_t n;

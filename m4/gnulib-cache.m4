@@ -39,6 +39,7 @@
 #  --macro-prefix=gl \
 #  avltree-list \
 #  avltree-omap \
+#  base64 \
 #  error \
 #  exitfail \
 #  getline \
@@ -61,6 +62,7 @@ gl_LOCAL_DIR([])
 gl_MODULES([
   avltree-list
   avltree-omap
+  base64
   error
   exitfail
   getline

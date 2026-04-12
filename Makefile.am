@@ -24,6 +24,7 @@ ACLOCAL_AMFLAGS = -I m4 --install
 
 AUTOMAKE_OPTIONS =
 AUTOMAKE_OPTIONS += subdir-objects
+AUTOMAKE_OPTIONS += -Wno-portability
 
 @GNU@ include $(top_srcdir)/silent-rules.mk
 

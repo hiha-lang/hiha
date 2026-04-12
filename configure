@@ -1900,6 +1900,7 @@ ALLOCA
 GL_COND_LIBTOOL_FALSE
 GL_COND_LIBTOOL_TRUE
 INDENT
+VISIBLE_CFLAGS
 PKG_CONFIG_LIBDIR
 PKG_CONFIG_PATH
 PKG_CONFIG
@@ -18209,6 +18210,115 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
    fi
 }
 CFLAGS="${CFLAGS}${CFLAGS+ }${__c_compiler_flags}"
+
+{ :;
+   if test x"${GCC}" = xyes; then
+      ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+      { :;
+   { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether the C compiler accepts -fPIC" >&5
+printf %s "checking whether the C compiler accepts -fPIC... " >&6; }
+if test ${ax_cv_check_cflags___fPIC+y}
+then :
+  printf %s "(cached) " >&6
+else case e in #(
+  e)
+  ax_check_save_flags=$CFLAGS
+  if test x"$GCC" = xyes ; then
+    add_gnu_werror="-Werror"
+  fi
+  CFLAGS="$CFLAGS  -fPIC $add_gnu_werror"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main (void)
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"
+then :
+  ax_cv_check_cflags___fPIC=yes
+else case e in #(
+  e) ax_cv_check_cflags___fPIC=no ;;
+esac
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
+  CFLAGS=$ax_check_save_flags ;;
+esac
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags___fPIC" >&5
+printf "%s\n" "$ax_cv_check_cflags___fPIC" >&6; }
+if test "x$ax_cv_check_cflags___fPIC" = xyes
+then :
+  __visible_flags="${__visible_flags} -fPIC"
+else case e in #(
+  e) : ;;
+esac
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether the C compiler accepts -fvisibility=default" >&5
+printf %s "checking whether the C compiler accepts -fvisibility=default... " >&6; }
+if test ${ax_cv_check_cflags___fvisibility_default+y}
+then :
+  printf %s "(cached) " >&6
+else case e in #(
+  e)
+  ax_check_save_flags=$CFLAGS
+  if test x"$GCC" = xyes ; then
+    add_gnu_werror="-Werror"
+  fi
+  CFLAGS="$CFLAGS  -fvisibility=default $add_gnu_werror"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main (void)
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"
+then :
+  ax_cv_check_cflags___fvisibility_default=yes
+else case e in #(
+  e) ax_cv_check_cflags___fvisibility_default=no ;;
+esac
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
+  CFLAGS=$ax_check_save_flags ;;
+esac
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags___fvisibility_default" >&5
+printf "%s\n" "$ax_cv_check_cflags___fvisibility_default" >&6; }
+if test "x$ax_cv_check_cflags___fvisibility_default" = xyes
+then :
+  __visible_flags="${__visible_flags} -fvisibility=default"
+else case e in #(
+  e) : ;;
+esac
+fi
+
+}
+
+      ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+   fi
+}
+VISIBLE_CFLAGS="${__visible_flags}"
+
 
 { :;
 
@@ -35222,6 +35332,14 @@ else
 printf "%s\n" "yes" >&6; }
 
 fi
+CFLAGS="${CFLAGS}${CFLAGS+ }${LIBPCRE2_32_CFLAGS}"
+LIBS="${LIBS}${LIBS+ }${LIBPCRE2_32_LIBS}"
+
+#PKG_CHECK_MODULES([BDW_GC],[bdw-gc],,[
+#  AC_MSG_ERROR([The BDW garbage collector is needed. See https://github.com/bdwgc])
+#])
+#CFLAGS="${CFLAGS}${CFLAGS+ }${BDW_GC_CFLAGS}"
+#LIBS="${LIBS}${LIBS+ }${BDW_GC_LIBS}"
 
 # You can use ‘@GNU@’ to make GNU Make constructs unbothersome to
 # Automake. (Often you can use ‘$(eval ...)’ instead, but @GNU@ is
@@ -35383,6 +35501,10 @@ printf "%s\n" "$as_me: WARNING: Please consider installing and using GNU Make:
 
 }
 #CHEM_CONFIG_MAKEFILES([tests/Makefile],[tests/GNUmakefile])
+
+
+printf "%s\n" "#define PCRE2_CODE_UNIT_WIDTH 32" >>confdefs.h
+
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure

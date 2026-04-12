@@ -724,6 +724,9 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
+/* Code unit width for PCRE2. */
+#undef PCRE2_CODE_UNIT_WIDTH
+
 /* Define to the type that is the result of default argument promotions of
    type mode_t. */
 #undef PROMOTED_MODE_T

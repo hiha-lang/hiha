@@ -51,7 +51,7 @@ string_t_cmp (const string_t str1, const string_t str2)
 VISIBLE string_t
 make_string_t (const char *src)
 {
-  return string_t_from_str_len (src, strlen (src), NULL);
+  return string_t_canonical_from_str_len (src, strlen (src), NULL);
 }
 
 VISIBLE char *
@@ -60,9 +60,10 @@ make_str_nul (const string_t str)
   char *s;
   size_t n;
   str_len_from_string_t (str, &s, &n);
-  s = xrealloc (s, n + 1);
-  s[n] = '\0';
-  return s;
+  char *t = XNMALLOC (n + 1, char);
+  memcpy (t, s, n * sizeof (char));
+  t[n] = '\0';
+  return t;
 }
 
 VISIBLE string_t

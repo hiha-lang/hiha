@@ -19,6 +19,9 @@
 
 */
 
+#ifndef __LIBHAHA__TOKEN_T_H__INCLUDED__
+#define __LIBHAHA__TOKEN_T_H__INCLUDED__
+
 #include <stdio.h>
 #include <libhiha/string_t.h>
 
@@ -46,6 +49,8 @@ void token_t_free (token_t);
 
 token_getter_from_file_t
 make_token_getter_from_file_t (const char *filename, FILE *f);
+
+#endif /* __LIBHAHA__TOKEN_T_H__INCLUDED__ */
 
 /*
   local variables:

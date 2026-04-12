@@ -19,6 +19,9 @@
 
 */
 
+#ifndef __LIBHAHA__PARSE_EXPRESSION_H__INCLUDED__
+#define __LIBHAHA__PARSE_EXPRESSION_H__INCLUDED__
+
 #include <libhiha/string_t.h>
 #include <libhiha/token_t.h>
 
@@ -56,6 +59,8 @@ void add_led_entry (parser_data_t data, string_t token_kind,
 /* Add a left binding power to the Pratt parsing. */
 void add_lbp_entry (parser_data_t data, string_t token_kind,
 		    double binding_power);
+
+#endif /* __LIBHAHA__PARSE_EXPRESSION_H__INCLUDED__ */
 
 /*
   local variables:

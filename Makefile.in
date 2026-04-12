@@ -1522,6 +1522,7 @@ UNISTD_H_HAVE_SYS_RANDOM_H = @UNISTD_H_HAVE_SYS_RANDOM_H@
 UNISTD_H_HAVE_WINSOCK2_H = @UNISTD_H_HAVE_WINSOCK2_H@
 UNISTD_H_HAVE_WINSOCK2_H_AND_USE_SOCKETS = @UNISTD_H_HAVE_WINSOCK2_H_AND_USE_SOCKETS@
 VERSION = @VERSION@
+VISIBLE_CFLAGS = @VISIBLE_CFLAGS@
 WCHAR_T_SUFFIX = @WCHAR_T_SUFFIX@
 WINDOWS_64_BIT_OFF_T = @WINDOWS_64_BIT_OFF_T@
 WINDOWS_64_BIT_ST_SIZE = @WINDOWS_64_BIT_ST_SIZE@
@@ -1606,25 +1607,29 @@ DISTCLEANFILES = Makefile GNUmakefile
 EXTRA_DIST = m4/gnulib-cache.m4 silent-rules.mk COPYING README.adoc \
 	INSTALL AUTHORS
 EXTRA_SCRIPTS = 
-BUILT_SOURCES = 
+BUILT_SOURCES = $(GCVERS)/libhiha-gc.la
 AM_CPPFLAGS = 
 AM_CFLAGS = 
 BASICCFLAGS = -I $(builddir) -I $(builddir)/include -I $(builddir)/lib \
 	-I $(srcdir) -I $(srcdir)/include -I $(srcdir)/lib
+
+#---------------------------------------------------------------------
+GCVERS = gc-8.2.12
 hiha_LDFLAGS = -export-dynamic
-hiha_LDADD = libhiha.la lib/libgnu.la $(LTLIBICONV) $(LTLIBINTL) \
-	$(LTLIBUNISTRING)
-hiha_CFLAGS = $(BASICCFLAGS)
+hiha_LDADD = libhiha.la $(GCVERS)/libhiha-gc.la lib/libgnu.la \
+	$(LTLIBICONV) $(LTLIBINTL) $(LTLIBUNISTRING)
+hiha_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
 hiha_DEPENDENCIES = config.h libhiha.la lib/libgnu.la
 hiha_SOURCES = src/hiha/hiha.c
 
 #---------------------------------------------------------------------
 lib_LTLIBRARIES = libhiha.la
 libhiha_la_LIBADD = lib/libgnu.la
-libhiha_la_LDFLAGS = $(LIBPCRE2_32_LIBS) $(LTLIBICONV) $(LTLIBINTL) \
+libhiha_la_LDFLAGS = $(LIBS) $(LTLIBICONV) $(LTLIBINTL) \
 	$(LTLIBUNISTRING) -lm -ldl -export-dynamic
-libhiha_la_CFLAGS = $(BASICCFLAGS) $(LIBPCRE2_32_CFLAGS)
+libhiha_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
 libhiha_la_DEPENDENCIES = config.h
+#libhiha_la_SOURCES += include/libhiha/malloc_replacement.h
 libhiha_la_SOURCES = include/libhiha/string_t.h \
 	include/libhiha/token_t.h include/libhiha/parse_expression.h \
 	src/libhiha/string_t.c src/libhiha/token_t.c \
@@ -2240,7 +2245,7 @@ maintainer-clean-generic:
 clean: clean-recursive
 
 clean-am: clean-binPROGRAMS clean-generic clean-libLTLIBRARIES \
-	clean-libtool mostlyclean-am
+	clean-libtool clean-local mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
@@ -2250,7 +2255,7 @@ distclean: distclean-recursive
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo
 	-rm -f GNUmakefile
 distclean-am: clean-am distclean-compile distclean-generic \
-	distclean-hdr distclean-libtool distclean-tags
+	distclean-hdr distclean-libtool distclean-local distclean-tags
 
 dvi: dvi-recursive
 
@@ -2270,7 +2275,8 @@ install-dvi: install-dvi-recursive
 
 install-dvi-am:
 
-install-exec-am: install-binPROGRAMS install-libLTLIBRARIES
+install-exec-am: install-binPROGRAMS install-exec-local \
+	install-libLTLIBRARIES
 
 install-html: install-html-recursive
 
@@ -2305,7 +2311,7 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 mostlyclean: mostlyclean-recursive
 
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool
+	mostlyclean-libtool mostlyclean-local
 
 pdf: pdf-recursive
 
@@ -2315,7 +2321,8 @@ ps: ps-recursive
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES
+uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
+	uninstall-local
 
 .MAKE: $(am__recursive_targets) all check install install-am \
 	install-exec install-strip
@@ -2323,22 +2330,24 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES
 .PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am \
 	am--depfiles am--refresh check check-am clean \
 	clean-binPROGRAMS clean-cscope clean-generic \
-	clean-libLTLIBRARIES clean-libtool cscope cscopelist-am ctags \
-	ctags-am dist dist-all dist-bzip2 dist-bzip3 dist-gzip \
-	dist-lzip dist-shar dist-tarZ dist-xz dist-zip dist-zstd \
-	distcheck distclean distclean-compile distclean-generic \
-	distclean-hdr distclean-libtool distclean-tags distcleancheck \
-	distdir distuninstallcheck dvi dvi-am html html-am info \
-	info-am install install-am install-binPROGRAMS install-data \
+	clean-libLTLIBRARIES clean-libtool clean-local cscope \
+	cscopelist-am ctags ctags-am dist dist-all dist-bzip2 \
+	dist-bzip3 dist-gzip dist-lzip dist-shar dist-tarZ dist-xz \
+	dist-zip dist-zstd distcheck distclean distclean-compile \
+	distclean-generic distclean-hdr distclean-libtool \
+	distclean-local distclean-tags distcleancheck distdir \
+	distuninstallcheck dvi dvi-am html html-am info info-am \
+	install install-am install-binPROGRAMS install-data \
 	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-libLTLIBRARIES install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs installdirs-am \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
-	pdf pdf-am ps ps-am tags tags-am uninstall uninstall-am \
-	uninstall-binPROGRAMS uninstall-libLTLIBRARIES
+	install-exec-am install-exec-local install-html \
+	install-html-am install-info install-info-am \
+	install-libLTLIBRARIES install-man install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs installdirs-am maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool mostlyclean-local pdf \
+	pdf-am ps ps-am tags tags-am uninstall uninstall-am \
+	uninstall-binPROGRAMS uninstall-libLTLIBRARIES uninstall-local
 
 .PRECIOUS: GNUmakefile
 
@@ -2346,6 +2355,59 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES
 .DELETE_ON_ERROR:
 
 @GNU@ include $(top_srcdir)/silent-rules.mk
+
+$(GCVERS)/libhiha-gc.la:
+	( \
+	  mkdir -p $(GCVERS) && \
+	  cd $(GCVERS) && \
+	  $(abs_top_srcdir)/$(GCVERS)/configure \
+	    --prefix=$(prefix) \
+	    --bindir=$(bindir) \
+	    --sbindir=$(sbindir) \
+	    --libexecdir=$(libexecdir) \
+	    --sysconfdir=$(sysconfdir) \
+	    --sharedstatedir=$(sharedstatedir) \
+	    --localstatedir=$(localstatedir) \
+	    --runstatedir=$(runstatedir) \
+	    --libdir=$(libdir) \
+	    --includedir=$(includedir) \
+	    --oldincludedir=$(oldincludedir) \
+	    --datarootdir=$(datarootdir) \
+	    --datadir=$(datadir) \
+	    --infodir=$(infodir) \
+	    --localedir=$(localedir) \
+	    --mandir=$(mandir) \
+	    --docdir=$(docdir) \
+	    --htmldir=$(htmldir) \
+	    --dvidir=$(dvidir) \
+	    --pdfdir=$(pdfdir) \
+	    --psdir=$(psdir) \
+	    --enable-redirect-malloc \
+	    --enable-shared \
+	    --enable-static \
+	    CFLAGS="$(CFLAGS) -I. -I$(abs_top_srcdir)/$(GCVERS) $(VISIBLE_CFLAGS)" && \
+	  $(SED) -e 's/libgc/libhiha-gc/g' \
+	         -e 's/libcord/libhiha-cord/g' \
+	         Makefile > Makefile.tmp && \
+	  mv Makefile{.tmp,} && \
+	  $(MAKE) $(MAKEFLAGS) \
+	)
+
+mostlyclean-local::
+	$(MAKE) $(MAKEFLAGS) -C $(GCVERS) mostlyclean
+
+clean-local::
+	$(MAKE) $(MAKEFLAGS) -C $(GCVERS) clean
+
+distclean-local::
+	$(MAKE) $(MAKEFLAGS) -C $(GCVERS) distclean
+
+install-exec-local::
+	$(MAKE) $(MAKEFILE) -C $(GCVERS) install-libLTLIBRARIES
+
+uninstall-local::
+	$(MAKE) $(MAKEFILE) -C $(GCVERS) uninstall-libLTLIBRARIES
+#libhiha_la_SOURCES += src/libhiha/malloc_replacement.c
 
 #---------------------------------------------------------------------
 

@@ -57,6 +57,12 @@ CHEM_GNU_C_FLAGS([__c_compiler_flags],[
 ])
 CFLAGS="${CFLAGS}${CFLAGS+ }${__c_compiler_flags}"
 
+CHEM_GNU_C_FLAGS([__visible_flags],[
+  -fPIC
+  -fvisibility=default
+])
+AC_SUBST([VISIBLE_CFLAGS],["${__visible_flags}"])
+
 CHEM_PATH_PROGS_CACHED_AND_PRECIOUS([INDENT],
   [GNU indent],[indent],
   [
@@ -80,6 +86,14 @@ gl_INIT
 PKG_CHECK_MODULES([LIBPCRE2_32],[libpcre2-32],,[
   AC_MSG_ERROR([PCRE2 with UTF-32 support is needed. See https://pcre2project.github.io/pcre2/])
 ])
+CFLAGS="${CFLAGS}${CFLAGS+ }${LIBPCRE2_32_CFLAGS}"
+LIBS="${LIBS}${LIBS+ }${LIBPCRE2_32_LIBS}"
+
+#PKG_CHECK_MODULES([BDW_GC],[bdw-gc],,[
+#  AC_MSG_ERROR([The BDW garbage collector is needed. See https://github.com/bdwgc])
+#])
+#CFLAGS="${CFLAGS}${CFLAGS+ }${BDW_GC_CFLAGS}"
+#LIBS="${LIBS}${LIBS+ }${BDW_GC_LIBS}"
 
 # You can use ‘@GNU@’ to make GNU Make constructs unbothersome to
 # Automake. (Often you can use ‘$(eval ...)’ instead, but @GNU@ is
@@ -90,6 +104,8 @@ CHEM_REQUIRE_GNU_MAKE_IN_PATH
 CHEM_CONFIG_MAKEFILES
 CHEM_CONFIG_MAKEFILES([lib/Makefile],[lib/GNUmakefile])
 #CHEM_CONFIG_MAKEFILES([tests/Makefile],[tests/GNUmakefile])
+
+AC_DEFINE([PCRE2_CODE_UNIT_WIDTH],[32],[Code unit width for PCRE2.])
 
 AC_OUTPUT
 

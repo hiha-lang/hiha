@@ -56,6 +56,64 @@ BASICCFLAGS += -I $(srcdir)/lib
 
 #---------------------------------------------------------------------
 
+GCVERS = gc-8.2.12
+
+BUILT_SOURCES += $(GCVERS)/libhiha-gc.la
+
+$(GCVERS)/libhiha-gc.la:
+	( \
+	  mkdir -p $(GCVERS) && \
+	  cd $(GCVERS) && \
+	  $(abs_top_srcdir)/$(GCVERS)/configure \
+	    --prefix=$(prefix) \
+	    --bindir=$(bindir) \
+	    --sbindir=$(sbindir) \
+	    --libexecdir=$(libexecdir) \
+	    --sysconfdir=$(sysconfdir) \
+	    --sharedstatedir=$(sharedstatedir) \
+	    --localstatedir=$(localstatedir) \
+	    --runstatedir=$(runstatedir) \
+	    --libdir=$(libdir) \
+	    --includedir=$(includedir) \
+	    --oldincludedir=$(oldincludedir) \
+	    --datarootdir=$(datarootdir) \
+	    --datadir=$(datadir) \
+	    --infodir=$(infodir) \
+	    --localedir=$(localedir) \
+	    --mandir=$(mandir) \
+	    --docdir=$(docdir) \
+	    --htmldir=$(htmldir) \
+	    --dvidir=$(dvidir) \
+	    --pdfdir=$(pdfdir) \
+	    --psdir=$(psdir) \
+	    --enable-redirect-malloc \
+	    --enable-shared \
+	    --enable-static \
+	    CFLAGS="$(CFLAGS) -I. -I$(abs_top_srcdir)/$(GCVERS) $(VISIBLE_CFLAGS)" && \
+	  $(SED) -e 's/libgc/libhiha-gc/g' \
+	         -e 's/libcord/libhiha-cord/g' \
+	         Makefile > Makefile.tmp && \
+	  mv Makefile{.tmp,} && \
+	  $(MAKE) $(MAKEFLAGS) \
+	)
+
+mostlyclean-local::
+	$(MAKE) $(MAKEFLAGS) -C $(GCVERS) mostlyclean
+
+clean-local::
+	$(MAKE) $(MAKEFLAGS) -C $(GCVERS) clean
+
+distclean-local::
+	$(MAKE) $(MAKEFLAGS) -C $(GCVERS) distclean
+
+install-exec-local::
+	$(MAKE) $(MAKEFILE) -C $(GCVERS) install-libLTLIBRARIES
+
+uninstall-local::
+	$(MAKE) $(MAKEFILE) -C $(GCVERS) uninstall-libLTLIBRARIES
+
+#---------------------------------------------------------------------
+
 bin_PROGRAMS = hiha
 
 hiha_LDFLAGS =
@@ -67,12 +125,14 @@ hiha_SOURCES =
 hiha_LDFLAGS += -export-dynamic
 
 hiha_LDADD += libhiha.la
+hiha_LDADD += $(GCVERS)/libhiha-gc.la
 hiha_LDADD += lib/libgnu.la
 hiha_LDADD += $(LTLIBICONV)
 hiha_LDADD += $(LTLIBINTL)
 hiha_LDADD += $(LTLIBUNISTRING)
 
 hiha_CFLAGS += $(BASICCFLAGS)
+hiha_CFLAGS += $(CFLAGS)
 
 hiha_DEPENDENCIES += config.h
 hiha_DEPENDENCIES += libhiha.la
@@ -92,7 +152,7 @@ libhiha_la_SOURCES =
 
 libhiha_la_LIBADD += lib/libgnu.la
 
-libhiha_la_LDFLAGS += $(LIBPCRE2_32_LIBS)
+libhiha_la_LDFLAGS += $(LIBS)
 libhiha_la_LDFLAGS += $(LTLIBICONV)
 libhiha_la_LDFLAGS += $(LTLIBINTL)
 libhiha_la_LDFLAGS += $(LTLIBUNISTRING)
@@ -100,17 +160,19 @@ libhiha_la_LDFLAGS += -lm -ldl
 libhiha_la_LDFLAGS += -export-dynamic
 
 libhiha_la_CFLAGS += $(BASICCFLAGS)
-libhiha_la_CFLAGS += $(LIBPCRE2_32_CFLAGS)
+libhiha_la_CFLAGS += $(CFLAGS)
 
 libhiha_la_DEPENDENCIES += config.h
 
 libhiha_la_SOURCES += include/libhiha/string_t.h
 libhiha_la_SOURCES += include/libhiha/token_t.h
 libhiha_la_SOURCES += include/libhiha/parse_expression.h
+#libhiha_la_SOURCES += include/libhiha/malloc_replacement.h
 
 libhiha_la_SOURCES += src/libhiha/string_t.c
 libhiha_la_SOURCES += src/libhiha/token_t.c
 libhiha_la_SOURCES += src/libhiha/parse_expression.c
+#libhiha_la_SOURCES += src/libhiha/malloc_replacement.c
 
 #---------------------------------------------------------------------
 

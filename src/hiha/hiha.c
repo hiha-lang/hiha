@@ -103,26 +103,37 @@ print_version (void)
 }
 
 NORETURN static void
-print_version_and_exit (void)
+print_version_then_exit (void)
 {
   print_version ();
   exit (exit_failure);
 }
 
 static void
+usage_puts (const char *s)
+{
+  fputs (s, stdout);
+}
+
+static void
 print_usage (void)
 {
-  fputs (_("Usage: "), stdout);
-  fputs (program_name, stdout);
-  fputs (_(" [OPTION] SRC.hiha...\n"), stdout);
-  fputs ("\n", stdout);
-  fputs (_("      --help        display this help and exit\n"), stdout);
-  fputs (_("      --version     output version information and exit\n"),
-	 stdout);
+  usage_puts (_("Usage: "));
+  usage_puts (program_name);
+  usage_puts (_(" [OPTION] FILES...\n"));
+  usage_puts (_("Do something not yet implemented "
+		"with hiha source FILES...\n"));
+  usage_puts ("\n");
+  usage_puts (_("      --help        display this help and exit\n"));
+  usage_puts (_("      --version     "
+		"output version information and exit\n"));
+  usage_puts ("\n");
+  usage_puts (_("hiha homepage: "
+		"<https://github.com/chemoelectric/hiha>\n"));
 }
 
 NORETURN static void
-print_usage_and_exit (void)
+print_usage_then_exit (void)
 {
   print_usage ();
   exit (exit_failure);
@@ -132,7 +143,7 @@ static void
 check_usage (int argc, MAYBE_UNUSED char **argv)
 {
   if (argc < 2)
-    print_usage_and_exit ();
+    print_usage_then_exit ();
 }
 
 static struct option const long_opts[] = {
@@ -157,11 +168,11 @@ get_options (int argc, char **argv,
       switch (c)
 	{
 	case GETOPT_VERSION_CHAR:
-	  print_version_and_exit ();
+	  print_version_then_exit ();
 
 	case GETOPT_HELP_CHAR:
 	default:
-	  print_usage_and_exit ();
+	  print_usage_then_exit ();
 	}
       c = getopt_for_this_program (argc, argv);
     }
@@ -171,10 +182,13 @@ int
 main (int argc, char **argv)
 {
   set_program_name (argv[0]);
+
   get_options (argc, argv, NULL);
   argc -= optind - 1;
   argv += optind - 1;
+
   check_usage (argc, argv);
+
   parser_data_t parser_data = initialize_parser_data ();
   for (int i = 1; i != argc; i += 1)
     {

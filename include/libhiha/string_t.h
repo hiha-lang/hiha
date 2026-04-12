@@ -19,6 +19,9 @@
 
 */
 
+#ifndef __LIBHAHA__STRING_T_H__INCLUDED__
+#define __LIBHAHA__STRING_T_H__INCLUDED__
+
 #include <stdlib.h>
 #include <stdint.h>
 #include <unistr.h>
@@ -62,6 +65,8 @@ void str_len_from_string_t (const string_t src, char **s, size_t *n);
 
 void text_location_t_free (text_location_t);
 char *text_location_string (text_location_t);
+
+#endif /* __LIBHAHA__STRING_T_H__INCLUDED__ */
 
 /*
   local variables:

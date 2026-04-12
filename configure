@@ -672,8 +672,6 @@ ifnGNUmake
 ifGNUmake
 GNU_MAKE
 GNU
-LIBPCRE2_32_LIBS
-LIBPCRE2_32_CFLAGS
 GL_CFLAG_GNULIB_WARNINGS
 GL_CFLAG_ALLOW_WARNINGS
 gltests_WITNESS
@@ -1901,9 +1899,6 @@ GL_COND_LIBTOOL_FALSE
 GL_COND_LIBTOOL_TRUE
 INDENT
 VISIBLE_CFLAGS
-PKG_CONFIG_LIBDIR
-PKG_CONFIG_PATH
-PKG_CONFIG
 ARFLAGS
 CPP
 LT_SYS_LIBRARY_PATH
@@ -2064,12 +2059,7 @@ LIBS
 CPPFLAGS
 LT_SYS_LIBRARY_PATH
 CPP
-PKG_CONFIG
-PKG_CONFIG_PATH
-PKG_CONFIG_LIBDIR
 INDENT
-LIBPCRE2_32_CFLAGS
-LIBPCRE2_32_LIBS
 GNU_MAKE'
 
 
@@ -2749,16 +2739,7 @@ Some influential environment variables:
   LT_SYS_LIBRARY_PATH
               User-defined run-time library search path.
   CPP         C preprocessor
-  PKG_CONFIG  path to pkg-config utility
-  PKG_CONFIG_PATH
-              directories to add to pkg-config's search path
-  PKG_CONFIG_LIBDIR
-              path overriding pkg-config's built-in search path
   INDENT      GNU indent
-  LIBPCRE2_32_CFLAGS
-              C compiler flags for LIBPCRE2_32, overriding pkg-config
-  LIBPCRE2_32_LIBS
-              linker flags for LIBPCRE2_32, overriding pkg-config
   GNU_MAKE    GNU Make command
 
 Use these variables to override the choices made by 'configure' or to help
@@ -17970,138 +17951,6 @@ printf "%s\n" "$ac_cv_path_EGREP" >&6; }
          EGREP_TRADITIONAL=$EGREP
  ac_cv_path_EGREP_TRADITIONAL=$EGREP
 
-
-
-
-
-
-
-
-if test "x$ac_cv_env_PKG_CONFIG_set" != "xset"; then
-	if test -n "$ac_tool_prefix"; then
-  # Extract the first word of "${ac_tool_prefix}pkg-config", so it can be a program name with args.
-set dummy ${ac_tool_prefix}pkg-config; ac_word=$2
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-printf %s "checking for $ac_word... " >&6; }
-if test ${ac_cv_path_PKG_CONFIG+y}
-then :
-  printf %s "(cached) " >&6
-else case e in #(
-  e) case $PKG_CONFIG in
-  [\\/]* | ?:[\\/]*)
-  ac_cv_path_PKG_CONFIG="$PKG_CONFIG" # Let the user override the test with a path.
-  ;;
-  *)
-  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  case $as_dir in #(((
-    '') as_dir=./ ;;
-    */) ;;
-    *) as_dir=$as_dir/ ;;
-  esac
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir$ac_word$ac_exec_ext"; then
-    ac_cv_path_PKG_CONFIG="$as_dir$ac_word$ac_exec_ext"
-    printf "%s\n" "$as_me:${as_lineno-$LINENO}: found $as_dir$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-  ;;
-esac ;;
-esac
-fi
-PKG_CONFIG=$ac_cv_path_PKG_CONFIG
-if test -n "$PKG_CONFIG"; then
-  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $PKG_CONFIG" >&5
-printf "%s\n" "$PKG_CONFIG" >&6; }
-else
-  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
-printf "%s\n" "no" >&6; }
-fi
-
-
-fi
-if test -z "$ac_cv_path_PKG_CONFIG"; then
-  ac_pt_PKG_CONFIG=$PKG_CONFIG
-  # Extract the first word of "pkg-config", so it can be a program name with args.
-set dummy pkg-config; ac_word=$2
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-printf %s "checking for $ac_word... " >&6; }
-if test ${ac_cv_path_ac_pt_PKG_CONFIG+y}
-then :
-  printf %s "(cached) " >&6
-else case e in #(
-  e) case $ac_pt_PKG_CONFIG in
-  [\\/]* | ?:[\\/]*)
-  ac_cv_path_ac_pt_PKG_CONFIG="$ac_pt_PKG_CONFIG" # Let the user override the test with a path.
-  ;;
-  *)
-  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  case $as_dir in #(((
-    '') as_dir=./ ;;
-    */) ;;
-    *) as_dir=$as_dir/ ;;
-  esac
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir$ac_word$ac_exec_ext"; then
-    ac_cv_path_ac_pt_PKG_CONFIG="$as_dir$ac_word$ac_exec_ext"
-    printf "%s\n" "$as_me:${as_lineno-$LINENO}: found $as_dir$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-  ;;
-esac ;;
-esac
-fi
-ac_pt_PKG_CONFIG=$ac_cv_path_ac_pt_PKG_CONFIG
-if test -n "$ac_pt_PKG_CONFIG"; then
-  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_pt_PKG_CONFIG" >&5
-printf "%s\n" "$ac_pt_PKG_CONFIG" >&6; }
-else
-  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
-printf "%s\n" "no" >&6; }
-fi
-
-  if test "x$ac_pt_PKG_CONFIG" = x; then
-    PKG_CONFIG=""
-  else
-    case $cross_compiling:$ac_tool_warned in
-yes:)
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: using cross tools not prefixed with host triplet" >&5
-printf "%s\n" "$as_me: WARNING: using cross tools not prefixed with host triplet" >&2;}
-ac_tool_warned=yes ;;
-esac
-    PKG_CONFIG=$ac_pt_PKG_CONFIG
-  fi
-else
-  PKG_CONFIG="$ac_cv_path_PKG_CONFIG"
-fi
-
-fi
-if test -n "$PKG_CONFIG"; then
-	_pkg_min_version=0.9.0
-	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking pkg-config is at least version $_pkg_min_version" >&5
-printf %s "checking pkg-config is at least version $_pkg_min_version... " >&6; }
-	if $PKG_CONFIG --atleast-pkgconfig-version $_pkg_min_version; then
-		{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-printf "%s\n" "yes" >&6; }
-	else
-		{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
-printf "%s\n" "no" >&6; }
-		PKG_CONFIG=""
-	fi
-fi
 
 { :;
    if test x"${GCC}" = xyes; then
@@ -35256,90 +35105,6 @@ printf "%s\n" "#define GNULIB_XALLOC_DIE 1" >>confdefs.h
 
 
 
-
-
-pkg_failed=no
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for LIBPCRE2_32" >&5
-printf %s "checking for LIBPCRE2_32... " >&6; }
-
-if test -n "$LIBPCRE2_32_CFLAGS"; then
-    pkg_cv_LIBPCRE2_32_CFLAGS="$LIBPCRE2_32_CFLAGS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
-    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libpcre2-32\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "libpcre2-32") 2>&5
-  ac_status=$?
-  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_LIBPCRE2_32_CFLAGS=`$PKG_CONFIG --cflags "libpcre2-32" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
-else
-  pkg_failed=yes
-fi
- else
-    pkg_failed=untried
-fi
-if test -n "$LIBPCRE2_32_LIBS"; then
-    pkg_cv_LIBPCRE2_32_LIBS="$LIBPCRE2_32_LIBS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
-    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libpcre2-32\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "libpcre2-32") 2>&5
-  ac_status=$?
-  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_LIBPCRE2_32_LIBS=`$PKG_CONFIG --libs "libpcre2-32" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
-else
-  pkg_failed=yes
-fi
- else
-    pkg_failed=untried
-fi
-
-
-
-if test $pkg_failed = yes; then
-   	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
-printf "%s\n" "no" >&6; }
-
-if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
-        _pkg_short_errors_supported=yes
-else
-        _pkg_short_errors_supported=no
-fi
-        if test $_pkg_short_errors_supported = yes; then
-	        LIBPCRE2_32_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libpcre2-32" 2>&1`
-        else
-	        LIBPCRE2_32_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libpcre2-32" 2>&1`
-        fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$LIBPCRE2_32_PKG_ERRORS" >&5
-
-
-  as_fn_error $? "PCRE2 with UTF-32 support is needed. See https://pcre2project.github.io/pcre2/" "$LINENO" 5
-
-elif test $pkg_failed = untried; then
-     	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
-printf "%s\n" "no" >&6; }
-
-  as_fn_error $? "PCRE2 with UTF-32 support is needed. See https://pcre2project.github.io/pcre2/" "$LINENO" 5
-
-else
-	LIBPCRE2_32_CFLAGS=$pkg_cv_LIBPCRE2_32_CFLAGS
-	LIBPCRE2_32_LIBS=$pkg_cv_LIBPCRE2_32_LIBS
-        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-printf "%s\n" "yes" >&6; }
-
-fi
-CFLAGS="${CFLAGS}${CFLAGS+ }${LIBPCRE2_32_CFLAGS}"
-LIBS="${LIBS}${LIBS+ }${LIBPCRE2_32_LIBS}"
-
-#PKG_CHECK_MODULES([BDW_GC],[bdw-gc],,[
-#  AC_MSG_ERROR([The BDW garbage collector is needed. See https://github.com/bdwgc])
-#])
-#CFLAGS="${CFLAGS}${CFLAGS+ }${BDW_GC_CFLAGS}"
-#LIBS="${LIBS}${LIBS+ }${BDW_GC_LIBS}"
 
 # You can use ‘@GNU@’ to make GNU Make constructs unbothersome to
 # Automake. (Often you can use ‘$(eval ...)’ instead, but @GNU@ is

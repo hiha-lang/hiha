@@ -49,7 +49,6 @@ AC_PROG_SED
 AC_PROG_GREP
 AC_PROG_FGREP
 AC_PROG_EGREP
-PKG_PROG_PKG_CONFIG
 
 CHEM_GNU_C_FLAGS([__c_compiler_flags],[
   -std=gnu23
@@ -82,18 +81,6 @@ CHEM_PATH_PROGS_CACHED_AND_PRECIOUS([INDENT],
 # CHEM_UNIQUE_ID([UNIQUE_ID])
 
 gl_INIT
-
-PKG_CHECK_MODULES([LIBPCRE2_32],[libpcre2-32],,[
-  AC_MSG_ERROR([PCRE2 with UTF-32 support is needed. See https://pcre2project.github.io/pcre2/])
-])
-CFLAGS="${CFLAGS}${CFLAGS+ }${LIBPCRE2_32_CFLAGS}"
-LIBS="${LIBS}${LIBS+ }${LIBPCRE2_32_LIBS}"
-
-#PKG_CHECK_MODULES([BDW_GC],[bdw-gc],,[
-#  AC_MSG_ERROR([The BDW garbage collector is needed. See https://github.com/bdwgc])
-#])
-#CFLAGS="${CFLAGS}${CFLAGS+ }${BDW_GC_CFLAGS}"
-#LIBS="${LIBS}${LIBS+ }${BDW_GC_LIBS}"
 
 # You can use ‘@GNU@’ to make GNU Make constructs unbothersome to
 # Automake. (Often you can use ‘$(eval ...)’ instead, but @GNU@ is

@@ -22,7 +22,6 @@
 #include <config.h>
 #include <stdio.h>
 #include <string.h>
-#include <pcre2.h>
 #include <error.h>
 #include <exitfail.h>
 #include <gl_avltree_list.h>
@@ -123,56 +122,6 @@ get_more_lines_if_necessary (token_getter_from_file_t g)
 }
 
 static void
-match_pattern (string_t pattern, const pcre2_code **re,
-	       const string_t subject, size_t i_code_point,
-	       string_t *match)
-{
-  if (*re == NULL)
-    {
-      int errorcode;
-      PCRE2_SIZE erroroffset;
-      *re = pcre2_compile (pattern->s, pattern->n,
-			   PCRE2_ANCHORED | PCRE2_UTF | PCRE2_UCP,
-			   &errorcode, &erroroffset, NULL);
-      if (*re == NULL)
-	error (exit_failure, 0, "%s",
-	       _("regular expression compilation failed"));
-    }
-  pcre2_match_data *match_data =
-    pcre2_match_data_create_from_pattern (*re, NULL);
-  int retval = pcre2_match (*re, subject->s, subject->n, i_code_point,
-			    PCRE2_ANCHORED, match_data, NULL);
-  if (retval <= 0)
-    *match = NULL;
-  else
-    {
-      PCRE2_SIZE *ovector = pcre2_get_ovector_pointer (match_data);
-      *match = XMALLOC (struct string);
-      (*match)->n = ovector[1] - ovector[0];
-      (*match)->s = XNMALLOC ((*match)->n, uint32_t);
-      memcpy ((*match)->s, subject->s + ovector[0],
-	      (*match)->n * sizeof (uint32_t));
-    }
-  pcre2_match_data_free (match_data);
-}
-
-static void
-match_whitespace (const string_t subject, const char *filename,
-		  size_t line_no, size_t i_code_point, token_t *tok)
-{
-  string_t pattern = make_string_t ("\\w+");
-  static const pcre2_code *re = NULL;
-
-  string_t match;
-  match_pattern (pattern, &re, subject, i_code_point, &match);
-  if (match == NULL)
-    *tok = NULL;
-  else
-    *tok = make_token_t (make_string_t ("WHITESPACE"), match,
-			 filename, line_no, i_code_point + 1);
-}
-
-static void
 get_token_from_file (token_getter_t getter, token_t *tok,
 		     const char **error_message)
 {
@@ -189,20 +138,7 @@ get_token_from_file (token_getter_t getter, token_t *tok,
 			 g->i_code_point + 1);
   else
     {
-      // FIXME: FOR NOW WE DO THIS, BUT IN FACT WE WILL HAVE PLUGINS
-      // AND SUCH.
-      string_t pattern = make_string_t ("");
-      int errorcode;
-      PCRE2_SIZE erroroffset;
-      pcre2_code *re = pcre2_compile (pattern->s, pattern->n,
-				      PCRE2_ANCHORED | PCRE2_UTF |
-				      PCRE2_UCP,
-				      &errorcode, &erroroffset, NULL);
-      if (re == NULL)
-	error (exit_failure, 0, "%s",
-	       _("regular expression compilation failed"));
-      //      int pcre2_match(const pcre2_code *code, PCRE2_SPTR subject, PCRE2_SIZE length, g->i_code_point, PCRE2_ANCHORED, pcre2_match_data *match_data, NULL);
-      pcre2_code_free (re);
+      /// FIXME
     }
 }
 

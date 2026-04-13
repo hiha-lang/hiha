@@ -1575,6 +1575,7 @@ gltests_WITNESS = @gltests_WITNESS@
 gltests_libgnu_LIBOBJDEPS = @gltests_libgnu_LIBOBJDEPS@
 gltests_libgnu_LIBOBJS = @gltests_libgnu_LIBOBJS@
 gltests_libgnu_LTLIBOBJS = @gltests_libgnu_LTLIBOBJS@
+have___builtin_ia32_pause = @have___builtin_ia32_pause@
 host = @host@
 host_alias = @host_alias@
 host_cpu = @host_cpu@
@@ -2350,7 +2351,7 @@ maintainer-clean-generic:
 clean: clean-recursive
 
 clean-am: clean-binPROGRAMS clean-generic clean-libLTLIBRARIES \
-	clean-libtool clean-local mostlyclean-am
+	clean-libtool mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
@@ -2361,7 +2362,7 @@ distclean: distclean-recursive
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo
 	-rm -f GNUmakefile
 distclean-am: clean-am distclean-compile distclean-generic \
-	distclean-hdr distclean-libtool distclean-local distclean-tags
+	distclean-hdr distclean-libtool distclean-tags
 
 dvi: dvi-recursive
 
@@ -2419,7 +2420,7 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 mostlyclean: mostlyclean-recursive
 
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool mostlyclean-local
+	mostlyclean-libtool
 
 pdf: pdf-recursive
 
@@ -2440,14 +2441,13 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
 .PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am \
 	am--depfiles am--refresh check check-am clean \
 	clean-binPROGRAMS clean-cscope clean-generic \
-	clean-libLTLIBRARIES clean-libtool clean-local cscope \
-	cscopelist-am ctags ctags-am dist dist-all dist-bzip2 \
-	dist-bzip3 dist-gzip dist-lzip dist-shar dist-tarZ dist-xz \
-	dist-zip dist-zstd distcheck distclean distclean-compile \
-	distclean-generic distclean-hdr distclean-libtool \
-	distclean-local distclean-tags distcleancheck distdir \
-	distuninstallcheck dvi dvi-am html html-am info info-am \
-	install install-am install-binPROGRAMS install-data \
+	clean-libLTLIBRARIES clean-libtool cscope cscopelist-am ctags \
+	ctags-am dist dist-all dist-bzip2 dist-bzip3 dist-gzip \
+	dist-lzip dist-shar dist-tarZ dist-xz dist-zip dist-zstd \
+	distcheck distclean distclean-compile distclean-generic \
+	distclean-hdr distclean-libtool distclean-tags distcleancheck \
+	distdir distuninstallcheck dvi dvi-am html html-am info \
+	info-am install install-am install-binPROGRAMS install-data \
 	install-data-am install-dvi install-dvi-am install-exec \
 	install-exec-am install-exec-local install-html \
 	install-html-am install-info install-info-am \
@@ -2457,9 +2457,9 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
 	install-ps install-ps-am install-strip installcheck \
 	installcheck-am installdirs installdirs-am maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool mostlyclean-local pdf \
-	pdf-am ps ps-am tags tags-am uninstall uninstall-am \
-	uninstall-binPROGRAMS uninstall-libLTLIBRARIES uninstall-local \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS \
+	uninstall-libLTLIBRARIES uninstall-local \
 	uninstall-pkg_gc_includeHEADERS \
 	uninstall-pkg_libhiha_includeHEADERS \
 	uninstall-pkgincludeHEADERS
@@ -2509,13 +2509,7 @@ $(GCVERS)/libhiha-gc.la:
 	  $(MAKE) $(MAKEFLAGS) \
 	)
 
-mostlyclean-local::
-	$(MAKE) $(MAKEFLAGS) -C $(GCVERS) mostlyclean
-
-clean-local::
-	$(MAKE) $(MAKEFLAGS) -C $(GCVERS) clean
-
-distclean-local::
+clean-local distclean-local::
 	$(MAKE) $(MAKEFLAGS) -C $(GCVERS) distclean
 
 install-exec-local::

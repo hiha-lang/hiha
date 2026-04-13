@@ -28,23 +28,13 @@
 
 #define VISIBLE [[gnu::visibility ("default")]]
 
-#if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
-
 static inline void
 spinlock_pause (void)
 {
+#if HAVE___BUILTIN_IA32_PAUSE
   __builtin_ia32_pause ();
+#endif  /* FIXME: Support pauses on more platforms. */
 }
-
-#else /* FIXME: Support more platforms. */
-
-static inline void
-spinlock_pause (void)
-{
-  /* do nothing */
-}
-
-#endif
 
 VISIBLE void
 acquire_spinlock (spinlock_t *lock)

@@ -82,6 +82,23 @@ CHEM_PATH_PROGS_CACHED_AND_PRECIOUS([INDENT],
 
 gl_INIT
 
+
+if test x${host_cpu} = xi386 || test x${host_cpu} = xx86_64; then
+  AC_CACHE_CHECK([for __builtin_ia32_pause],
+                 [hiha_cv_func_have___builtin_ia32_pause],
+                 [hiha_cv_func_have___builtin_ia32_pause=no
+                  AC_COMPILE_IFELSE([
+                    AC_LANG_PROGRAM([[]],[[__builtin_ia32_pause();]])
+                  ],
+                  [hiha_cv_func_have___builtin_ia32_pause=yes])])
+  if test x"${hiha_cv_func_have___builtin_ia32_pause}" = xyes; then
+    AC_DEFINE([HAVE___BUILTIN_IA32_PAUSE],[1],
+              [Define if __builtin_ia32_pause exists.])
+  fi
+  AC_SUBST([have___builtin_ia32_pause],
+           ["${hiha_cv_func_have___builtin_ia32_pause}"])
+fi
+
 # You can use ‘@GNU@’ to make GNU Make constructs unbothersome to
 # Automake. (Often you can use ‘$(eval ...)’ instead, but @GNU@ is
 # more straightforward.)

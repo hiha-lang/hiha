@@ -672,6 +672,7 @@ ifnGNUmake
 ifGNUmake
 GNU_MAKE
 GNU
+have___builtin_ia32_pause
 GL_CFLAG_GNULIB_WARNINGS
 GL_CFLAG_ALLOW_WARNINGS
 gltests_WITNESS
@@ -35339,6 +35340,46 @@ printf "%s\n" "#define GNULIB_XALLOC_DIE 1" >>confdefs.h
 
 
 
+
+
+if test x${host_cpu} = xi386 || test x${host_cpu} = xx86_64; then
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for __builtin_ia32_pause" >&5
+printf %s "checking for __builtin_ia32_pause... " >&6; }
+if test ${hiha_cv_func_have___builtin_ia32_pause+y}
+then :
+  printf %s "(cached) " >&6
+else case e in #(
+  e) hiha_cv_func_have___builtin_ia32_pause=no
+                  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+
+int
+main (void)
+{
+__builtin_ia32_pause();
+  ;
+  return 0;
+}
+
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"
+then :
+  hiha_cv_func_have___builtin_ia32_pause=yes
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext ;;
+esac
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $hiha_cv_func_have___builtin_ia32_pause" >&5
+printf "%s\n" "$hiha_cv_func_have___builtin_ia32_pause" >&6; }
+  if test x"${hiha_cv_func_have___builtin_ia32_pause}" = xyes; then
+
+printf "%s\n" "#define HAVE___BUILTIN_IA32_PAUSE 1" >>confdefs.h
+
+  fi
+  have___builtin_ia32_pause="${hiha_cv_func_have___builtin_ia32_pause}"
+
+fi
 
 # You can use ‘@GNU@’ to make GNU Make constructs unbothersome to
 # Automake. (Often you can use ‘$(eval ...)’ instead, but @GNU@ is

@@ -559,6 +559,9 @@
 /* Define to 1 if you have the '_set_invalid_parameter_handler' function. */
 #undef HAVE__SET_INVALID_PARAMETER_HANDLER
 
+/* Define if __builtin_ia32_pause exists. */
+#undef HAVE___BUILTIN_IA32_PAUSE
+
 /* Define to 1 if you have the `__fseterr' function. */
 #undef HAVE___FSETERR
 

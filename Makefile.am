@@ -109,13 +109,7 @@ $(GCVERS)/libhiha-gc.la:
 	  $(MAKE) $(MAKEFLAGS) \
 	)
 
-mostlyclean-local::
-	$(MAKE) $(MAKEFLAGS) -C $(GCVERS) mostlyclean
-
-clean-local::
-	$(MAKE) $(MAKEFLAGS) -C $(GCVERS) clean
-
-distclean-local::
+clean-local distclean-local::
 	$(MAKE) $(MAKEFLAGS) -C $(GCVERS) distclean
 
 install-exec-local::

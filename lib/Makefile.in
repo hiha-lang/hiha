@@ -1865,6 +1865,7 @@ gltests_WITNESS = @gltests_WITNESS@
 gltests_libgnu_LIBOBJDEPS = @gltests_libgnu_LIBOBJDEPS@
 gltests_libgnu_LIBOBJS = @gltests_libgnu_LIBOBJS@
 gltests_libgnu_LTLIBOBJS = @gltests_libgnu_LTLIBOBJS@
+have___builtin_ia32_pause = @have___builtin_ia32_pause@
 host = @host@
 host_alias = @host_alias@
 host_cpu = @host_cpu@

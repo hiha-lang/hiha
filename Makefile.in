@@ -224,6 +224,7 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 am__objects_1 =
 am__dirstamp = $(am__leading_dot)dirstamp
 am_libhiha_la_OBJECTS = $(am__objects_1) \
+	src/libhiha/libhiha_la-spinlock.lo \
 	src/libhiha/libhiha_la-string_t.lo \
 	src/libhiha/libhiha_la-token_t.lo \
 	src/libhiha/libhiha_la-parse_expression.lo
@@ -258,6 +259,7 @@ depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = src/hiha/$(DEPDIR)/hiha-hiha.Po \
 	src/libhiha/$(DEPDIR)/libhiha_la-parse_expression.Plo \
+	src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo
 am__mv = mv -f
@@ -1658,10 +1660,12 @@ libhiha_la_LDFLAGS = $(LIBS) $(LTLIBICONV) $(LTLIBINTL) \
 	$(LTLIBUNISTRING) -lm -ldl -export-dynamic
 libhiha_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
 libhiha_la_DEPENDENCIES = config.h
-libhiha_la_SOURCES = $(libhiha_HDRS) src/libhiha/string_t.c \
-	src/libhiha/token_t.c src/libhiha/parse_expression.c
-libhiha_HDRS = include/libhiha/string_t.h include/libhiha/token_t.h \
-	include/libhiha/parse_expression.h
+libhiha_la_SOURCES = $(libhiha_HDRS) src/libhiha/spinlock.c \
+	src/libhiha/string_t.c src/libhiha/token_t.c \
+	src/libhiha/parse_expression.c
+libhiha_HDRS = include/libhiha/spinlock.h \
+	include/libhiha/initialize_once.h include/libhiha/string_t.h \
+	include/libhiha/token_t.h include/libhiha/parse_expression.h
 all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -1798,6 +1802,8 @@ src/libhiha/$(am__dirstamp):
 src/libhiha/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) src/libhiha/$(DEPDIR)
 	@: >>src/libhiha/$(DEPDIR)/$(am__dirstamp)
+src/libhiha/libhiha_la-spinlock.lo: src/libhiha/$(am__dirstamp) \
+	src/libhiha/$(DEPDIR)/$(am__dirstamp)
 src/libhiha/libhiha_la-string_t.lo: src/libhiha/$(am__dirstamp) \
 	src/libhiha/$(DEPDIR)/$(am__dirstamp)
 src/libhiha/libhiha_la-token_t.lo: src/libhiha/$(am__dirstamp) \
@@ -1832,6 +1838,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@src/hiha/$(DEPDIR)/hiha-hiha.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-parse_expression.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo@am__quote@ # am--include-marker
 
@@ -1864,6 +1871,13 @@ am--depfiles: $(am__depfiles_remade)
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
+
+src/libhiha/libhiha_la-spinlock.lo: src/libhiha/spinlock.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_la-spinlock.lo -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Tpo -c -o src/libhiha/libhiha_la-spinlock.lo `test -f 'src/libhiha/spinlock.c' || echo '$(srcdir)/'`src/libhiha/spinlock.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Tpo src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/libhiha/spinlock.c' object='src/libhiha/libhiha_la-spinlock.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -c -o src/libhiha/libhiha_la-spinlock.lo `test -f 'src/libhiha/spinlock.c' || echo '$(srcdir)/'`src/libhiha/spinlock.c
 
 src/libhiha/libhiha_la-string_t.lo: src/libhiha/string_t.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_la-string_t.lo -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_la-string_t.Tpo -c -o src/libhiha/libhiha_la-string_t.lo `test -f 'src/libhiha/string_t.c' || echo '$(srcdir)/'`src/libhiha/string_t.c
@@ -2342,6 +2356,7 @@ distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -f src/hiha/$(DEPDIR)/hiha-hiha.Po
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-parse_expression.Plo
+	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo
 	-rm -f GNUmakefile
@@ -2395,6 +2410,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -rf $(top_srcdir)/autom4te.cache
 	-rm -f src/hiha/$(DEPDIR)/hiha-hiha.Po
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-parse_expression.Plo
+	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo
 	-rm -f GNUmakefile
@@ -2520,6 +2536,7 @@ include/gc.h: Makefile.am
 indent:
 	$(INDENT) -l72 \
 		-TFILE \
+	    -Tspinlock_t \
 		-Tbinding_power_t \
 		-Tstring_t \
 		-Ttoken_t \

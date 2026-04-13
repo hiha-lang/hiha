@@ -205,6 +205,8 @@ libhiha_la_CFLAGS += $(CFLAGS)
 libhiha_la_DEPENDENCIES += config.h
 
 libhiha_HDRS =
+libhiha_HDRS += include/libhiha/spinlock.h
+libhiha_HDRS += include/libhiha/initialize_once.h
 libhiha_HDRS += include/libhiha/string_t.h
 libhiha_HDRS += include/libhiha/token_t.h
 libhiha_HDRS += include/libhiha/parse_expression.h
@@ -212,6 +214,7 @@ libhiha_HDRS += include/libhiha/parse_expression.h
 pkg_libhiha_include_HEADERS += $(libhiha_HDRS)
 
 libhiha_la_SOURCES += $(libhiha_HDRS)
+libhiha_la_SOURCES += src/libhiha/spinlock.c
 libhiha_la_SOURCES += src/libhiha/string_t.c
 libhiha_la_SOURCES += src/libhiha/token_t.c
 libhiha_la_SOURCES += src/libhiha/parse_expression.c
@@ -222,6 +225,7 @@ libhiha_la_SOURCES += src/libhiha/parse_expression.c
 indent:
 	$(INDENT) -l72 \
 		-TFILE \
+	    -Tspinlock_t \
 		-Tbinding_power_t \
 		-Tstring_t \
 		-Ttoken_t \

@@ -86,7 +86,8 @@ parse_file (const char *filename, FILE *f, parser_data_t parser_data)
   token_getter_t getter = (token_getter_t) g;
 
   (getter->get_token) (getter, &tok, &error_message);
-  while (!error_message && string_t_cmp (tok->token_kind, string_t_EOF))
+  while (!error_message
+	 && string_t_cmp (tok->token_kind, string_t_EOF ()))
     {
       serialize_token_t (tok, stdout);
       //print_token_t (tok, stdout);
@@ -161,13 +162,6 @@ static struct option const long_opts[] = {
   {NULL, 0, NULL, 0}
 };
 
-static void
-string_t_consts_initialize (void)
-{
-  string_t_EOF = make_string_t ("EOF");
-  string_t_CP = make_string_t ("CP");
-}
-
 static int
 getopt_for_this_program (int argc, char **argv)
 {
@@ -206,7 +200,6 @@ main (int argc, char **argv)
 {
   GC_INIT ();
   set_program_name (argv[0]);
-  string_t_consts_initialize ();
 
   hiha_options_t opts;
   get_options (argc, argv, &opts);

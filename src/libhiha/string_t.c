@@ -26,14 +26,40 @@
 #include <xalloc.h>
 #include <exitfail.h>
 #include <libhiha/string_t.h>
+#include <libhiha/initialize_once.h>
 
 // Change this if using gettext.
 #define _(msgid) msgid
 
 #define VISIBLE [[gnu::visibility ("default")]]
 
-VISIBLE string_t string_t_EOF;
-VISIBLE string_t string_t_CP;
+static initialize_once_t _string_constants_init1t =
+  INITIALIZE_ONCE_T_INIT;
+static string_t _string_t_EOF;
+static string_t _string_t_CP;
+
+static void
+_initialize_string_constants (void)
+{
+  _string_t_EOF = make_string_t ("EOF");
+  _string_t_CP = make_string_t ("CP");
+}
+
+VISIBLE const string_t
+string_t_EOF (void)
+{
+  INITIALIZE_ONCE (_string_constants_init1t,
+		   _initialize_string_constants);
+  return _string_t_EOF;
+}
+
+VISIBLE const string_t
+string_t_CP (void)
+{
+  INITIALIZE_ONCE (_string_constants_init1t,
+		   _initialize_string_constants);
+  return _string_t_CP;
+}
 
 VISIBLE int
 string_t_cmp (const string_t str1, const string_t str2)

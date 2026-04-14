@@ -49,8 +49,8 @@ struct text_location
 typedef struct text_location *text_location_t;
 
 /* Some string constants. */
-extern string_t string_t_EOF;	/* “EOF” */
-extern string_t string_t_CP;	/* “CP” (code point) */
+const string_t string_t_EOF (void);	/* “EOF” */
+const string_t string_t_CP (void);	/* “CP” (code point) */
 
 int string_t_cmp (const string_t str1, const string_t str2);
 

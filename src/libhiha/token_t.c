@@ -127,40 +127,21 @@ get_token_from_source_file (token_getter_t getter, token_t *tok,
       str->s = XNMALLOC (1, uint32_t);
       str->s[0] = g->buf[g->i_code_point];
       str->n = 1;
-      *tok = make_token_t (copy_string_t (string_t_CP), str,
+      *tok = make_token_t (copy_string_t (string_t_CP ()), str,
 			   g->filename, g->line_no,
 			   g->i_code_point + 1);
       g->i_code_point += 1;
     }
   else if (was_end_of_line)
     *tok =
-      make_token_t (copy_string_t (string_t_EOF),
-		    copy_string_t (string_t_EOF), g->filename,
+      make_token_t (copy_string_t (string_t_EOF ()),
+		    copy_string_t (string_t_EOF ()), g->filename,
 		    g->line_no + 1, 0);
   else
     *tok =
-      make_token_t (copy_string_t (string_t_EOF),
-		    copy_string_t (string_t_EOF), g->filename,
+      make_token_t (copy_string_t (string_t_EOF ()),
+		    copy_string_t (string_t_EOF ()), g->filename,
 		    g->line_no, g->i_code_point + 1);
-}
-
-VISIBLE void
-print_token_t (const token_t tok, FILE *f)
-{
-  // FIXME: Is this of any use?
-  //
-  // FIXME: Is this of any use?
-  //
-  // FIXME: Is this of any use?
-  //
-  // FIXME: Is this of any use?
-  //
-  // FIXME: Is this of any use?
-  //
-  const char *separator = "  ";
-  print_string_t (tok->token_kind, f);
-  fputs (separator, f);
-  print_string_t (tok->token_value, f);
 }
 
 static bool
@@ -179,14 +160,15 @@ str_equal (const void *s1, const void *s2)
   return b;
 }
 
-initialize_once_t _serialized_filenames_init1t = INITIALIZE_ONCE_T_INIT;
+static initialize_once_t _serialized_filenames_init1t =
+  INITIALIZE_ONCE_T_INIT;
 static gl_list_t _serialized_filenames = NULL;
 
-initialize_once_t _serialized_token_kind_init1t =
+static initialize_once_t _serialized_token_kind_init1t =
   INITIALIZE_ONCE_T_INIT;
 static gl_list_t _serialized_token_kind = NULL;
 
-initialize_once_t _serialized_token_value_init1t =
+static initialize_once_t _serialized_token_value_init1t =
   INITIALIZE_ONCE_T_INIT;
 static gl_list_t _serialized_token_value = NULL;
 

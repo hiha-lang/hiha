@@ -109,8 +109,8 @@ parse_file (const char *filename, FILE *f, parser_data_t parser_data)
   token_getter_t getter = (token_getter_t) g;
 
   (getter->get_token) (getter, &tok, &error_message);
-  while (!error_message
-	 && string_t_cmp (tok->token_kind, string_t_EOF ()))
+  while (error_message == NULL
+	 && 0 != string_t_cmp (tok->token_kind, string_t_EOF ()))
     {
       //serialize_token_t (tok, stdout);
       (getter->get_token) (getter, &tok, &error_message);
@@ -118,6 +118,11 @@ parse_file (const char *filename, FILE *f, parser_data_t parser_data)
   if (!error_message)
     {
       //serialize_token_t (tok, stdout);
+    }
+  else
+    {
+      printf ("error: %s\n", error_message);
+      exit (1);
     }
 }
 

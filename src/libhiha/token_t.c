@@ -298,7 +298,7 @@ serialize_token_t (const token_t tok, FILE *f)
       /* Write the token_value in BASE64-encoding of the UTF32-encoded
          string, in native byte order, after a number that will be
          used in place of the string. */
-      fprintf (f, "V %zu %zu %s\n", j, tok->token_value->n, buf2);
+      fprintf (f, "V %zu %zu %s\n", k, tok->token_value->n, buf2);
     }
 
   fprintf (f, "T %zu %zu %zu %zu %zu\n", i, tok->loc->line_no,
@@ -364,12 +364,12 @@ static void
 deserialize_token_kind (token_getter_from_serialized_tokens_t g,
 			ssize_t *nread)
 {
-  char F;
+  char K;
   size_t index;
   size_t string_size;
   char *b64;
   int retval =
-    sscanf (g->buf, "%c %zu %zu %ms", &F, &index, &string_size, &b64);
+    sscanf (g->buf, "%c %zu %zu %ms", &K, &index, &string_size, &b64);
   idx_t nb64 = BASE64_LENGTH (string_size * sizeof (uint32_t));
   if (retval != 4 || index != gl_list_size (g->token_kinds)
       || nb64 != strlen (b64))
@@ -384,6 +384,34 @@ deserialize_token_kind (token_getter_from_serialized_tokens_t g,
       free (b64);
       gl_list_add_last (g->token_kinds, s);
       //printf ("%s\n", make_str_nul (s)); ///////////////////////////////////////////// FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
+    }
+}
+
+static void
+deserialize_token_value (token_getter_from_serialized_tokens_t g,
+                         ssize_t *nread)
+{
+  char V;
+  size_t index;
+  size_t string_size;
+  char *b64;
+  int retval =
+    sscanf (g->buf, "%c %zu %zu %ms", &V, &index, &string_size, &b64);
+  idx_t nb64 = BASE64_LENGTH (string_size * sizeof (uint32_t));
+  if (retval != 4 || index != gl_list_size (g->token_values)
+      || nb64 != strlen (b64))
+    *nread = -103;
+  else
+    {
+      string_t s = XMALLOC (struct string);
+      s->n = string_size;
+      s->s = XNMALLOC (s->n, uint32_t);
+      idx_t outlen = s->n * sizeof (uint32_t);
+      base64_decode (b64, nb64, (char *) s->s, &outlen);
+      free (b64);
+      gl_list_add_last (g->token_values, s);
+      //printf ("%s\n", make_str_nul (s)); ///////////////////////////////////////////// FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
+      //if (0 == string_t_cmp (s, string_t_EOF ())) exit (1);
     }
 }
 
@@ -408,6 +436,7 @@ get_token_from_serialized_tokens (token_getter_t getter, token_t *tok,
 	  deserialize_token_kind (g, &nread);
 	  break;
 	case 'V':
+	  deserialize_token_value (g, &nread);
 	  break;
 	case 'T':
 	  break;

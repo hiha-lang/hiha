@@ -336,8 +336,8 @@ make_token_getter_from_serialized_tokens_t (const char *filename,
 }
 
 static void
-get_serialized_filename (token_getter_from_serialized_tokens_t g,
-			 ssize_t *nread)
+deserialize_filename (token_getter_from_serialized_tokens_t g,
+		      ssize_t *nread)
 {
   char F;
   size_t index;
@@ -361,6 +361,33 @@ get_serialized_filename (token_getter_from_serialized_tokens_t g,
 }
 
 static void
+deserialize_token_kind (token_getter_from_serialized_tokens_t g,
+			ssize_t *nread)
+{
+  char F;
+  size_t index;
+  size_t string_size;
+  char *b64;
+  int retval =
+    sscanf (g->buf, "%c %zu %zu %ms", &F, &index, &string_size, &b64);
+  idx_t nb64 = BASE64_LENGTH (string_size * sizeof (uint32_t));
+  if (retval != 4 || index != gl_list_size (g->token_kinds)
+      || nb64 != strlen (b64))
+    *nread = -102;
+  else
+    {
+      string_t s = XMALLOC (struct string);
+      s->n = string_size;
+      s->s = XNMALLOC (s->n, uint32_t);
+      idx_t outlen = s->n * sizeof (uint32_t);
+      base64_decode (b64, nb64, (char *) s->s, &outlen);
+      free (b64);
+      gl_list_add_last (g->token_kinds, s);
+      //printf ("%s\n", make_str_nul (s)); ///////////////////////////////////////////// FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
+    }
+}
+
+static void
 get_token_from_serialized_tokens (token_getter_t getter, token_t *tok,
 				  const char **error_message)
 {
@@ -375,9 +402,10 @@ get_token_from_serialized_tokens (token_getter_t getter, token_t *tok,
       switch (g->buf[0])
 	{
 	case 'F':
-	  get_serialized_filename (g, &nread);
+	  deserialize_filename (g, &nread);
 	  break;
 	case 'K':
+	  deserialize_token_kind (g, &nread);
 	  break;
 	case 'V':
 	  break;

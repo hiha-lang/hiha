@@ -41,13 +41,15 @@ struct token_getter
 		     token_t *tok, const char **error_message);
 };
 
-struct token_getter_from_file;
-typedef struct token_getter_from_file *token_getter_from_file_t;
+struct token_getter_from_source_file;
+typedef struct token_getter_from_source_file
+  *token_getter_from_source_file_t;
 
-token_getter_from_file_t
-make_token_getter_from_file_t (const char *filename, FILE *f);
+token_getter_from_source_file_t
+make_token_getter_from_source_file_t (const char *filename, FILE *f);
 
-void print_token_t (const token_t tok, FILE *f);
+void print_token_t (const token_t tok, FILE *f);	// FIXME  DO WE WANT THIS????     FIXME  FIXME  FIXME  FIXME  FIXME
+void serialize_token_t (const token_t tok, FILE *f);
 
 #endif /* __LIBHAHA__TOKEN_T_H__INCLUDED__ */
 

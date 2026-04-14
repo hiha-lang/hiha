@@ -33,7 +33,7 @@
 #define VISIBLE [[gnu::visibility ("default")]]
 
 VISIBLE string_t string_t_EOF;
-VISIBLE string_t string_t_CODE_POINT;
+VISIBLE string_t string_t_CP;
 
 VISIBLE int
 string_t_cmp (const string_t str1, const string_t str2)

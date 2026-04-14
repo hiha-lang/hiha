@@ -81,21 +81,23 @@ parse_file (const char *filename, FILE *f, parser_data_t parser_data)
   token_t tok;
   const char *error_message;
 
-  token_getter_from_file_t g =
-    make_token_getter_from_file_t (filename, f);
+  token_getter_from_source_file_t g =
+    make_token_getter_from_source_file_t (filename, f);
   token_getter_t getter = (token_getter_t) g;
 
   (getter->get_token) (getter, &tok, &error_message);
   while (!error_message && string_t_cmp (tok->token_kind, string_t_EOF))
     {
-      print_token_t (tok, stdout);
-      fputs ("\n", stdout);
+      serialize_token_t (tok, stdout);
+      //print_token_t (tok, stdout);
+      //fputs ("\n", stdout);
       (getter->get_token) (getter, &tok, &error_message);
     }
   if (!error_message)
     {
-      print_token_t (tok, stdout);
-      fputs ("\n", stdout);
+      serialize_token_t (tok, stdout);
+      //print_token_t (tok, stdout);
+      //fputs ("\n", stdout);
     }
 }
 
@@ -163,7 +165,7 @@ static void
 string_t_consts_initialize (void)
 {
   string_t_EOF = make_string_t ("EOF");
-  string_t_CODE_POINT = make_string_t ("CODE_POINT");
+  string_t_CP = make_string_t ("CP");
 }
 
 static int

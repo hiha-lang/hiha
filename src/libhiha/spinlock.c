@@ -33,7 +33,7 @@ spinlock_pause (void)
 {
 #if HAVE___BUILTIN_IA32_PAUSE
   __builtin_ia32_pause ();
-#endif  /* FIXME: Support pauses on more platforms. */
+#endif /* FIXME: Support pauses on more platforms. */
 }
 
 VISIBLE void

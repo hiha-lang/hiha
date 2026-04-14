@@ -76,7 +76,7 @@ initialize_line_buffer (void)
 }
 
 static void
-parse_file (const char *filename, FILE *f, parser_data_t parser_data)
+xxxparse_file (const char *filename, FILE *f, parser_data_t parser_data)
 {
   token_t tok;
   const char *error_message;
@@ -90,15 +90,34 @@ parse_file (const char *filename, FILE *f, parser_data_t parser_data)
 	 && string_t_cmp (tok->token_kind, string_t_EOF ()))
     {
       serialize_token_t (tok, stdout);
-      //print_token_t (tok, stdout);
-      //fputs ("\n", stdout);
       (getter->get_token) (getter, &tok, &error_message);
     }
   if (!error_message)
     {
       serialize_token_t (tok, stdout);
-      //print_token_t (tok, stdout);
-      //fputs ("\n", stdout);
+    }
+}
+
+static void
+parse_file (const char *filename, FILE *f, parser_data_t parser_data)
+{
+  token_t tok;
+  const char *error_message;
+
+  token_getter_from_serialized_tokens_t g =
+    make_token_getter_from_serialized_tokens_t (filename, f);
+  token_getter_t getter = (token_getter_t) g;
+
+  (getter->get_token) (getter, &tok, &error_message);
+  while (!error_message
+	 && string_t_cmp (tok->token_kind, string_t_EOF ()))
+    {
+      //serialize_token_t (tok, stdout);
+      (getter->get_token) (getter, &tok, &error_message);
+    }
+  if (!error_message)
+    {
+      //serialize_token_t (tok, stdout);
     }
 }
 

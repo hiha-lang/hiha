@@ -53,9 +53,26 @@ struct token_getter_from_source_file
   size_t i_code_point;		/* Zero-based. */
   bool eof_reached;
 };
+static void get_token_from_source_file (token_getter_t, token_t *,
+					const char **);
 
-static void get_token_from_source_file (token_getter_t, token_t *tok,
-					const char **error_message);
+struct token_getter_from_serialized_tokens
+{
+  /* This struct must be castable to a struct token_getter. */
+
+  void (*get_token) (token_getter_t this_struct,
+		     token_t *tok, const char **error_message);
+
+  const char *filename;
+  FILE *f;
+  char *buf;
+  size_t nbuf;			/* The size of the buf. */
+  gl_list_t filenames;
+  gl_list_t token_kinds;
+  gl_list_t token_values;
+};
+static void get_token_from_serialized_tokens (token_getter_t, token_t *,
+					      const char **);
 
 static token_t
 make_token_t (string_t token_kind, string_t token_value,
@@ -266,7 +283,6 @@ serialize_token_t (const token_t tok, FILE *f)
       fprintf (f, "K %zu %zu %s\n", j, tok->token_kind->n, buf1);
     }
 
-
   size_t inlen2 = tok->token_value->n * sizeof (uint32_t);
   size_t outlen2 = BASE64_LENGTH (inlen2) + 1;
   char *buf2 = XNMALLOC (outlen2, char);
@@ -290,6 +306,97 @@ serialize_token_t (const token_t tok, FILE *f)
 
   free (buf1);
   free (buf2);
+}
+
+VISIBLE token_getter_from_serialized_tokens_t
+make_token_getter_from_serialized_tokens_t (const char *filename,
+					    FILE *f)
+{
+  token_getter_from_serialized_tokens_t getter =
+    XMALLOC (struct token_getter_from_serialized_tokens);
+
+  getter->get_token = &get_token_from_serialized_tokens;
+
+  getter->filename = filename;
+  getter->f = f;
+
+  getter->nbuf = 1000;
+  getter->buf = XNMALLOC (getter->nbuf, char);
+
+  getter->filenames =
+    gl_list_create_empty (GL_AVLTREE_LIST, NULL, NULL, NULL, true);
+  /* The NULL filename will be represented by the index 0. */
+  gl_list_add_last (getter->filenames, NULL);
+  getter->token_kinds =
+    gl_list_create_empty (GL_AVLTREE_LIST, NULL, NULL, NULL, true);
+  getter->token_values =
+    gl_list_create_empty (GL_AVLTREE_LIST, NULL, NULL, NULL, true);
+
+  return getter;
+}
+
+static void
+get_serialized_filename (token_getter_from_serialized_tokens_t g,
+			 ssize_t *nread)
+{
+  char F;
+  size_t index;
+  size_t string_size;
+  char *b64;
+  int retval =
+    sscanf (g->buf, "%c %zu %zu %ms", &F, &index, &string_size, &b64);
+  idx_t nb64 = BASE64_LENGTH (string_size);
+  if (retval != 4 || index != gl_list_size (g->filenames)
+      || nb64 != strlen (b64))
+    *nread = -101;
+  else
+    {
+      char *s = XCALLOC (string_size + 1, char);
+      idx_t outlen = string_size;
+      base64_decode (b64, nb64, s, &outlen);
+      free (b64);
+      gl_list_add_last (g->filenames, s);
+      //printf ("%s\n",s); ///////////////////////////////////////////// FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
+    }
+}
+
+static void
+get_token_from_serialized_tokens (token_getter_t getter, token_t *tok,
+				  const char **error_message)
+{
+  token_getter_from_serialized_tokens_t g =
+    (token_getter_from_serialized_tokens_t) getter;
+  *error_message = NULL;
+
+  *tok = NULL;
+  ssize_t nread = getline (&g->buf, &g->nbuf, g->f);
+  while (0 <= nread && *tok == NULL)
+    {
+      switch (g->buf[0])
+	{
+	case 'F':
+	  get_serialized_filename (g, &nread);
+	  break;
+	case 'K':
+	  break;
+	case 'V':
+	  break;
+	case 'T':
+	  break;
+	default:
+	  nread = -100;
+	  break;
+	}
+      nread =
+	(nread <= -100) ? nread : getline (&g->buf, &g->nbuf, g->f);
+    }
+  if (*tok == NULL)
+    {
+      char s[1000];
+      snprintf (s, 1000, _("error involving serialized tokens %s"),
+		g->filename);
+      *error_message = xstrdup (s);
+    }
 }
 
 /*

@@ -462,7 +462,7 @@ get_token_from_serialized_tokens (token_getter_t getter, token_t *tok,
     (token_getter_from_serialized_tokens_t) getter;
   *error_message = NULL;
 
-  size_t nread = 0;
+  ssize_t nread = 0;
   *tok = NULL;
   make_serialized_line_available (g, tok, &nread);
   while (0 <= nread && *tok == NULL)

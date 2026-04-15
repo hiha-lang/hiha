@@ -40,11 +40,13 @@
 #  avltree-list \
 #  avltree-omap \
 #  base64 \
+#  crypto/sha256 \
 #  error \
 #  exitfail \
 #  getline \
 #  getopt-gnu \
 #  progname \
+#  sha256 \
 #  unicase/u32-casecoll \
 #  uniconv/u32-casecoll \
 #  uniconv/u32-conv-from-enc \
@@ -63,11 +65,13 @@ gl_MODULES([
   avltree-list
   avltree-omap
   base64
+  crypto/sha256
   error
   exitfail
   getline
   getopt-gnu
   progname
+  sha256
   unicase/u32-casecoll
   uniconv/u32-casecoll
   uniconv/u32-conv-from-enc

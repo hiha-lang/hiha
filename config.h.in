@@ -10,6 +10,9 @@
 #define _GL_CONFIG_H_INCLUDED 1
 
 
+/* Define if building universal (internal helper macro) */
+#undef AC_APPLE_UNIVERSAL_BUILD
+
 /* Define to the number of bits in type 'ptrdiff_t'. */
 #undef BITSIZEOF_PTRDIFF_T
 
@@ -34,9 +37,26 @@
 /* Define this to 1 if F_DUPFD behavior does not match POSIX */
 #undef FCNTL_DUPFD_BUGGY
 
+/* Define to 1 if the system's ftello function has the Solaris bug. */
+#undef FTELLO_BROKEN_AFTER_SWITCHING_FROM_READ_TO_WRITE
+
+/* Define to 1 if the system's ftello function has the macOS bug. */
+#undef FTELLO_BROKEN_AFTER_UNGETC
+
+/* Define to 1 if fflush is known to work on stdin as per POSIX.1-2008 or
+   later, 0 if fflush is known to not work, -1 if unknown. */
+#undef FUNC_FFLUSH_STDIN
+
+/* Define to 1 if ungetc is broken when used on arbitrary bytes. */
+#undef FUNC_UNGETC_BROKEN
+
 /* Define to a C preprocessor expression that evaluates to 1 or 0, depending
    whether the gnulib module close shall be considered present. */
 #undef GNULIB_CLOSE
+
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module fflush shall be considered present. */
+#undef GNULIB_FFLUSH
 
 /* Define to a C preprocessor expression that evaluates to 1 or 0, depending
    whether the gnulib module fscanf shall be considered present. */
@@ -96,6 +116,9 @@
 /* Define to 1 when the gnulib module fcntl should be tested. */
 #undef GNULIB_TEST_FCNTL
 
+/* Define to 1 when the gnulib module fflush should be tested. */
+#undef GNULIB_TEST_FFLUSH
+
 /* Define to 1 when the gnulib module fgetc should be tested. */
 #undef GNULIB_TEST_FGETC
 
@@ -104,6 +127,9 @@
 
 /* Define to 1 when the gnulib module fprintf should be tested. */
 #undef GNULIB_TEST_FPRINTF
+
+/* Define to 1 when the gnulib module fpurge should be tested. */
+#undef GNULIB_TEST_FPURGE
 
 /* Define to 1 when the gnulib module fputc should be tested. */
 #undef GNULIB_TEST_FPUTC
@@ -120,8 +146,20 @@
 /* Define to 1 when the gnulib module fscanf should be tested. */
 #undef GNULIB_TEST_FSCANF
 
+/* Define to 1 when the gnulib module fseek should be tested. */
+#undef GNULIB_TEST_FSEEK
+
+/* Define to 1 when the gnulib module fseeko should be tested. */
+#undef GNULIB_TEST_FSEEKO
+
 /* Define to 1 when the gnulib module fstat should be tested. */
 #undef GNULIB_TEST_FSTAT
+
+/* Define to 1 when the gnulib module ftell should be tested. */
+#undef GNULIB_TEST_FTELL
+
+/* Define to 1 when the gnulib module ftello should be tested. */
+#undef GNULIB_TEST_FTELLO
 
 /* Define to 1 when the gnulib module fwrite should be tested. */
 #undef GNULIB_TEST_FWRITE
@@ -146,6 +184,9 @@
 
 /* Define to 1 when the gnulib module getprogname should be tested. */
 #undef GNULIB_TEST_GETPROGNAME
+
+/* Define to 1 when the gnulib module lseek should be tested. */
+#undef GNULIB_TEST_LSEEK
 
 /* Define to 1 when the gnulib module lstat should be tested. */
 #undef GNULIB_TEST_LSTAT
@@ -246,8 +287,14 @@
 /* Define to 1 if you have the <bp-sym.h> header file. */
 #undef HAVE_BP_SYM_H
 
+/* Define to 1 if you have the <byteswap.h> header file. */
+#undef HAVE_BYTESWAP_H
+
 /* Define to 1 if you have the <crtdefs.h> header file. */
 #undef HAVE_CRTDEFS_H
+
+/* Define to 1 if the alignas and alignof keywords work. */
+#undef HAVE_C_ALIGNASOF
 
 /* Define to 1 if bool, true and false work as per C2023. */
 #undef HAVE_C_BOOL
@@ -273,6 +320,18 @@
 /* Define to 1 if you have the declaration of 'fcvt', and to 0 if you don't.
    */
 #undef HAVE_DECL_FCVT
+
+/* Define to 1 if you have the declaration of 'fpurge', and to 0 if you don't.
+   */
+#undef HAVE_DECL_FPURGE
+
+/* Define to 1 if you have the declaration of 'fseeko', and to 0 if you don't.
+   */
+#undef HAVE_DECL_FSEEKO
+
+/* Define to 1 if you have the declaration of 'ftello', and to 0 if you don't.
+   */
+#undef HAVE_DECL_FTELLO
 
 /* Define to 1 if you have the declaration of 'gcvt', and to 0 if you don't.
    */
@@ -326,6 +385,10 @@
    */
 #undef HAVE_DECL_WCSDUP
 
+/* Define to 1 if you have the declaration of '_fseeki64', and to 0 if you
+   don't. */
+#undef HAVE_DECL__FSEEKI64
+
 /* Define to 1 if you have the declaration of '__argv', and to 0 if you don't.
    */
 #undef HAVE_DECL___ARGV
@@ -348,8 +411,17 @@
 /* Define to 1 if you have the 'flockfile' function. */
 #undef HAVE_FLOCKFILE
 
+/* Define to 1 if you have the 'fpurge' function. */
+#undef HAVE_FPURGE
+
 /* Define if the 'free' function is guaranteed to preserve errno. */
 #undef HAVE_FREE_POSIX
+
+/* Define to 1 if the system has the fseeko function. */
+#undef HAVE_FSEEKO
+
+/* Define to 1 if the system has the ftello function. */
+#undef HAVE_FTELLO
 
 /* Define to 1 if you have the 'funlockfile' function. */
 #undef HAVE_FUNLOCKFILE
@@ -395,6 +467,9 @@
 /* Define to 1 if you have the <limits.h> header file. */
 #undef HAVE_LIMITS_H
 
+/* Define to 1 if you have 'struct sockaddr_alg' defined. */
+#undef HAVE_LINUX_IF_ALG_H
+
 /* Define to 1 if the system has the type 'long long int'. */
 #undef HAVE_LONG_LONG_INT
 
@@ -427,17 +502,29 @@
    concept. */
 #undef HAVE_MSVC_INVALID_PARAMETER_HANDLER
 
+/* Define to 1 if libcrypto is used for SHA256. */
+#undef HAVE_OPENSSL_SHA256
+
+/* Define to 1 if you have the <openssl/sha.h> header file. */
+#undef HAVE_OPENSSL_SHA_H
+
 /* Define to 1 if you have the `reallocarray' function. */
 #undef HAVE_REALLOCARRAY
 
 /* Define to 1 if realloc (..., 0) returns nonnull. */
 #undef HAVE_REALLOC_0_NONNULL
 
+/* Define to 1 if the system has the type 'sa_family_t'. */
+#undef HAVE_SA_FAMILY_T
+
 /* Define to 1 if you have the <sdkddkver.h> header file. */
 #undef HAVE_SDKDDKVER_H
 
 /* Define to 1 if you have the 'setdtablesize' function. */
 #undef HAVE_SETDTABLESIZE
+
+/* Define to 1 if you have the 'shutdown' function. */
+#undef HAVE_SHUTDOWN
 
 /* Define to 1 if 'sig_atomic_t' is a signed integer type. */
 #undef HAVE_SIGNED_SIG_ATOMIC_T
@@ -457,6 +544,9 @@
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
 
+/* Define to 1 if you have the <stdio_ext.h> header file. */
+#undef HAVE_STDIO_EXT_H
+
 /* Define to 1 if you have the <stdio.h> header file. */
 #undef HAVE_STDIO_H
 
@@ -471,6 +561,12 @@
 
 /* Define to 1 if you have the <string.h> header file. */
 #undef HAVE_STRING_H
+
+/* Define to 1 if the system has the type 'struct sockaddr_storage'. */
+#undef HAVE_STRUCT_SOCKADDR_STORAGE
+
+/* Define to 1 if 'ss_family' is a member of 'struct sockaddr_storage'. */
+#undef HAVE_STRUCT_SOCKADDR_STORAGE_SS_FAMILY
 
 /* Define to 1 if 'st_atimensec' is a member of 'struct stat'. */
 #undef HAVE_STRUCT_STAT_ST_ATIMENSEC
@@ -520,6 +616,9 @@
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
 
+/* Define to 1 if you have the <sys/uio.h> header file. */
+#undef HAVE_SYS_UIO_H
+
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
@@ -553,14 +652,29 @@
 /* Define to 1 if O_NOFOLLOW works, 0 otherwise. */
 #undef HAVE_WORKING_O_NOFOLLOW
 
+/* Define to 1 if you have the <ws2tcpip.h> header file. */
+#undef HAVE_WS2TCPIP_H
+
 /* Define to 1 if you have the <xlocale.h> header file. */
 #undef HAVE_XLOCALE_H
+
+/* Define to 1 if you have the '_fseeki64' function. */
+#undef HAVE__FSEEKI64
+
+/* Define to 1 if you have the '_ftelli64' function. */
+#undef HAVE__FTELLI64
 
 /* Define to 1 if you have the '_set_invalid_parameter_handler' function. */
 #undef HAVE__SET_INVALID_PARAMETER_HANDLER
 
 /* Define if __builtin_ia32_pause exists. */
 #undef HAVE___BUILTIN_IA32_PAUSE
+
+/* Define to 1 if you have the `__fpurge' function. */
+#undef HAVE___FPURGE
+
+/* Define to 1 if you have the `__freading' function. */
+#undef HAVE___FREADING
 
 /* Define to 1 if you have the `__fseterr' function. */
 #undef HAVE___FSETERR
@@ -684,6 +798,9 @@
    implementation. */
 #undef ICONV_FLAVOR
 
+/* Define to 1 if lseek does not detect pipes. */
+#undef LSEEK_PIPE_BROKEN
+
 /* Define to 1 if 'lstat' dereferences a symlink specified with a trailing
    slash. */
 #undef LSTAT_FOLLOWS_SLASHED_SYMLINK
@@ -798,6 +915,15 @@
 #endif
 
 
+/* Define to 1 if you want to use libblake3. */
+#undef USE_LIBBLAKE3
+
+/* Define to 1 if you want to use the Linux kernel cryptographic API. */
+#undef USE_LINUX_CRYPTO_API
+
+/* Define to 1 if you want to use SHA256. */
+#undef USE_SHA256
+
 /* Enable extensions on AIX, Interix, z/OS.  */
 #ifndef _ALL_SOURCE
 # undef _ALL_SOURCE
@@ -900,6 +1026,18 @@
 /* Define to l, ll, u, ul, ull, etc., as suitable for constants of type
    'wint_t'. */
 #undef WINT_T_SUFFIX
+
+/* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
+   significant byte first (like Motorola and SPARC, unlike Intel). */
+#if defined AC_APPLE_UNIVERSAL_BUILD
+# if defined __BIG_ENDIAN__
+#  define WORDS_BIGENDIAN 1
+# endif
+#else
+# ifndef WORDS_BIGENDIAN
+#  undef WORDS_BIGENDIAN
+# endif
+#endif
 
 /* Number of bits in a file offset, on hosts where this is settable. */
 #undef _FILE_OFFSET_BITS
@@ -1891,6 +2029,9 @@
 /* Define as 'unsigned int' if <stddef.h> doesn't define. */
 #undef size_t
 
+/* type to use in place of socklen_t if not defined */
+#undef socklen_t
+
 /* Define as a signed type of the same size as size_t. */
 #undef ssize_t
 
@@ -1912,6 +2053,127 @@
 
 /* Define as a macro for copying va_list variables. */
 #undef va_copy
+
+#if !defined HAVE_C_ALIGNASOF \
+    && !(defined __cplusplus && 201103 <= __cplusplus) \
+    && !defined alignof
+# if defined HAVE_STDALIGN_H
+#  include <stdalign.h>
+# endif
+
+/* ISO C23 alignas and alignof for platforms that lack it.
+
+   References:
+   ISO C23 (latest free draft
+   <https://www.open-std.org/jtc1/sc22/wg14/www/docs/n3096.pdf>)
+   sections 6.5.3.4, 6.7.5, 7.15.
+   C++11 (latest free draft
+   <https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2011/n3242.pdf>)
+   section 18.10. */
+
+/* alignof (TYPE), also known as _Alignof (TYPE), yields the alignment
+   requirement of a structure member (i.e., slot or field) that is of
+   type TYPE, as an integer constant expression.
+
+   This differs from GCC's and clang's __alignof__ operator, which can
+   yield a better-performing alignment for an object of that type.  For
+   example, on x86 with GCC and on Linux/x86 with clang,
+   __alignof__ (double) and __alignof__ (long long) are 8, whereas
+   alignof (double) and alignof (long long) are 4 unless the option
+   '-malign-double' is used.
+
+   The result cannot be used as a value for an 'enum' constant, if you
+   want to be portable to HP-UX 10.20 cc and AIX 3.2.5 xlc.  */
+
+/* GCC releases before GCC 4.9 had a bug in _Alignof.  See GCC bug 52023
+   <https://gcc.gnu.org/PR52023>.
+   clang versions < 8.0.0 have the same bug.
+   IBM XL C V16.1.0 cc (non-clang) has the same bug.  */
+#  if (!defined __STDC_VERSION__ || __STDC_VERSION__ < 201112 \
+       || (defined __GNUC__ && __GNUC__ < 4 + (__GNUC_MINOR__ < 9) \
+           && !defined __clang__) \
+       || (defined __clang__ && __clang_major__ < 8) \
+       || defined __xlC__)
+#   undef/**/_Alignof
+#   ifdef __cplusplus
+#    if (201103 <= __cplusplus || defined _MSC_VER)
+#     define _Alignof(type) alignof (type)
+#    else
+      template <class __t> struct __alignof_helper { char __a; __t __b; };
+#     if (defined __GNUC__ && 4 <= __GNUC__) || defined __clang__
+#      define _Alignof(type) __builtin_offsetof (__alignof_helper<type>, __b)
+#     else
+#      define _Alignof(type) offsetof (__alignof_helper<type>, __b)
+#     endif
+#     define _GL_STDALIGN_NEEDS_STDDEF 1
+#    endif
+#   else
+#    if (defined __GNUC__ && 4 <= __GNUC__) || defined __clang__
+#     define _Alignof(type) __builtin_offsetof (struct { char __a; type __b; }, __b)
+#    else
+#     define _Alignof(type) offsetof (struct { char __a; type __b; }, __b)
+#     define _GL_STDALIGN_NEEDS_STDDEF 1
+#    endif
+#   endif
+#  endif
+#  if ! (defined __cplusplus && (201103 <= __cplusplus || defined _MSC_VER))
+#   undef/**/alignof
+#   define alignof _Alignof
+#  endif
+
+/* alignas (A), also known as _Alignas (A), aligns a variable or type
+   to the alignment A, where A is an integer constant expression.  For
+   example:
+
+      int alignas (8) foo;
+      struct s { int a; int alignas (8) bar; };
+
+   aligns the address of FOO and the offset of BAR to be multiples of 8.
+
+   A should be a power of two that is at least the type's alignment
+   and at most the implementation's alignment limit.  This limit is
+   2**28 on typical GNUish hosts, and 2**13 on MSVC.  To be portable
+   to MSVC through at least version 10.0, A should be an integer
+   constant, as MSVC does not support expressions such as 1 << 3.
+   To be portable to Sun C 5.11, do not align auto variables to
+   anything stricter than their default alignment.
+
+   The following C23 requirements are not supported here:
+
+     - If A is zero, alignas has no effect.
+     - alignas can be used multiple times; the strictest one wins.
+     - alignas (TYPE) is equivalent to alignas (alignof (TYPE)).
+
+   */
+# if !defined __STDC_VERSION__ || __STDC_VERSION__ < 201112
+#  if defined __cplusplus && (201103 <= __cplusplus || defined _MSC_VER)
+#   define _Alignas(a) alignas (a)
+#  elif (!defined __attribute__ \
+         && ((defined __APPLE__ && defined __MACH__ \
+              ? 4 < __GNUC__ + (1 <= __GNUC_MINOR__) \
+              : __GNUC__ && !defined __ibmxl__) \
+             || (4 <= __clang_major__) \
+             || (__ia64 && (61200 <= __HP_cc || 61200 <= __HP_aCC)) \
+             || __ICC || 0x590 <= __SUNPRO_C || 0x0600 <= __xlC__))
+#   define _Alignas(a) __attribute__ ((__aligned__ (a)))
+#  elif 1300 <= _MSC_VER
+#   define _Alignas(a) __declspec (align (a))
+#  endif
+# endif
+# if !defined HAVE_STDALIGN_H
+#  if ((defined _Alignas \
+        && !(defined __cplusplus \
+             && (201103 <= __cplusplus || defined _MSC_VER))) \
+       || (defined __STDC_VERSION__ && 201112 <= __STDC_VERSION__ \
+           && !defined __xlC__))
+#   define alignas _Alignas
+#  endif
+# endif
+
+# if defined _GL_STDALIGN_NEEDS_STDDEF
+#  include <stddef.h>
+# endif
+#endif
 
 #if !(defined __cplusplus \
       ? 1 \

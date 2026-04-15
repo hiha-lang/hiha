@@ -35,11 +35,13 @@
 #  avltree-list \
 #  avltree-omap \
 #  base64 \
+#  crypto/sha256 \
 #  error \
 #  exitfail \
 #  getline \
 #  getopt-gnu \
 #  progname \
+#  sha256 \
 #  unicase/u32-casecoll \
 #  uniconv/u32-casecoll \
 #  uniconv/u32-conv-from-enc \
@@ -82,6 +84,7 @@ libgnu_la_DEPENDENCIES = $(gl_libgnu_LTLIBOBJS)
 EXTRA_libgnu_la_SOURCES =
 libgnu_la_LDFLAGS = $(AM_LDFLAGS)
 libgnu_la_LDFLAGS += -no-undefined
+libgnu_la_LDFLAGS += $(LIB_CRYPTO)
 libgnu_la_LDFLAGS += $(LTLIBICONV)
 libgnu_la_LDFLAGS += $(LTLIBINTL)
 libgnu_la_LDFLAGS += $(LTLIBUNISTRING)
@@ -196,6 +199,27 @@ EXTRA_DIST += basename-lgpl.h
 
 ## end   gnulib module basename-lgpl
 
+## begin gnulib module byteswap
+
+BUILT_SOURCES += $(BYTESWAP_H)
+
+# We need the following in order to create <byteswap.h> when the system
+# doesn't have one.
+if GL_GENERATE_BYTESWAP_H
+byteswap.h: byteswap.in.h $(top_builddir)/config.status
+	$(gl_V_at)$(SED_HEADER_TO_AT_t) $(srcdir)/byteswap.in.h
+	$(AM_V_at)mv $@-t $@
+libgnu_la_SOURCES += byteswap.c
+else
+byteswap.h: $(top_builddir)/config.status
+	rm -f $@
+endif
+MOSTLYCLEANFILES += byteswap.h byteswap.h-t
+
+EXTRA_DIST += byteswap.in.h
+
+## end   gnulib module byteswap
+
 ## begin gnulib module c-ctype
 
 libgnu_la_SOURCES += c-ctype.h c-ctype.c
@@ -250,6 +274,28 @@ libgnu_la_SOURCES += close.c
 endif
 
 ## end   gnulib module close
+
+## begin gnulib module crypto/af_alg
+
+libgnu_la_SOURCES += af_alg.c
+
+EXTRA_DIST += af_alg.h sys-limits.h
+
+## end   gnulib module crypto/af_alg
+
+## begin gnulib module crypto/sha256
+
+libgnu_la_SOURCES += sha256-stream.c
+
+## end   gnulib module crypto/sha256
+
+## begin gnulib module crypto/sha256-buffer
+
+libgnu_la_SOURCES += sha256.c
+
+EXTRA_DIST += gl_openssl.h sha256.h
+
+## end   gnulib module crypto/sha256-buffer
 
 ## begin gnulib module dup2
 
@@ -378,12 +424,40 @@ EXTRA_DIST += fd-hook.h
 
 ## end   gnulib module fd-hook
 
+## begin gnulib module fflush
+
+if GL_COND_OBJ_FFLUSH
+libgnu_la_SOURCES += fflush.c
+endif
+
+EXTRA_DIST += stdio-impl.h
+
+## end   gnulib module fflush
+
 ## begin gnulib module filename
 
 
 EXTRA_DIST += filename.h
 
 ## end   gnulib module filename
+
+## begin gnulib module fpurge
+
+if GL_COND_OBJ_FPURGE
+libgnu_la_SOURCES += fpurge.c
+endif
+
+EXTRA_DIST += stdio-impl.h
+
+## end   gnulib module fpurge
+
+## begin gnulib module freading
+
+libgnu_la_SOURCES += freading.c
+
+EXTRA_DIST += freading.h stdio-impl.h
+
+## end   gnulib module freading
 
 ## begin gnulib module free-posix
 
@@ -392,6 +466,24 @@ libgnu_la_SOURCES += free.c
 endif
 
 ## end   gnulib module free-posix
+
+## begin gnulib module fseek
+
+if GL_COND_OBJ_FSEEK
+libgnu_la_SOURCES += fseek.c
+endif
+
+## end   gnulib module fseek
+
+## begin gnulib module fseeko
+
+if GL_COND_OBJ_FSEEKO
+libgnu_la_SOURCES += fseeko.c
+endif
+
+EXTRA_DIST += stdio-impl.h
+
+## end   gnulib module fseeko
 
 ## begin gnulib module fseterr
 
@@ -414,6 +506,24 @@ EXTRA_DIST += stat-w32.c stat-w32.h
 EXTRA_libgnu_la_SOURCES += stat-w32.c
 
 ## end   gnulib module fstat
+
+## begin gnulib module ftell
+
+if GL_COND_OBJ_FTELL
+libgnu_la_SOURCES += ftell.c
+endif
+
+## end   gnulib module ftell
+
+## begin gnulib module ftello
+
+if GL_COND_OBJ_FTELLO
+libgnu_la_SOURCES += ftello.c
+endif
+
+EXTRA_DIST += stdio-impl.h
+
+## end   gnulib module ftello
 
 ## begin gnulib module gen-header
 
@@ -765,6 +875,14 @@ MOSTLYCLEANFILES += locale.h locale.h-t
 EXTRA_DIST += locale.in.h
 
 ## end   gnulib module locale-h
+
+## begin gnulib module lseek
+
+if GL_COND_OBJ_LSEEK
+libgnu_la_SOURCES += lseek.c
+endif
+
+## end   gnulib module lseek
 
 ## begin gnulib module lstat
 
@@ -1593,6 +1711,56 @@ libgnu_la_SOURCES += string.c
 
 ## end   gnulib module stringeq
 
+## begin gnulib module sys_socket-h
+
+BUILT_SOURCES += sys/socket.h
+libgnu_la_SOURCES += sys_socket.c
+
+# We need the following in order to create <sys/socket.h> when the system
+# doesn't have one that works with the given compiler.
+sys/socket.h: sys_socket.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_ON_USE_H) $(ARG_NONNULL_H)
+	$(AM_V_GEN)$(MKDIR_P) '%reldir%/sys'
+	$(AM_V_at)$(SED_HEADER_STDOUT) \
+	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+	      -e 's|@''NEXT_SYS_SOCKET_H''@|$(NEXT_SYS_SOCKET_H)|g' \
+	      -e 's|@''HAVE_SYS_SOCKET_H''@|$(HAVE_SYS_SOCKET_H)|g' \
+	      -e 's/@''GNULIB_CLOSE''@/$(GL_GNULIB_CLOSE)/g' \
+	      -e 's/@''GNULIB_SOCKET''@/$(GL_GNULIB_SOCKET)/g' \
+	      -e 's/@''GNULIB_CONNECT''@/$(GL_GNULIB_CONNECT)/g' \
+	      -e 's/@''GNULIB_ACCEPT''@/$(GL_GNULIB_ACCEPT)/g' \
+	      -e 's/@''GNULIB_BIND''@/$(GL_GNULIB_BIND)/g' \
+	      -e 's/@''GNULIB_GETPEERNAME''@/$(GL_GNULIB_GETPEERNAME)/g' \
+	      -e 's/@''GNULIB_GETSOCKNAME''@/$(GL_GNULIB_GETSOCKNAME)/g' \
+	      -e 's/@''GNULIB_GETSOCKOPT''@/$(GL_GNULIB_GETSOCKOPT)/g' \
+	      -e 's/@''GNULIB_LISTEN''@/$(GL_GNULIB_LISTEN)/g' \
+	      -e 's/@''GNULIB_RECV''@/$(GL_GNULIB_RECV)/g' \
+	      -e 's/@''GNULIB_SEND''@/$(GL_GNULIB_SEND)/g' \
+	      -e 's/@''GNULIB_RECVFROM''@/$(GL_GNULIB_RECVFROM)/g' \
+	      -e 's/@''GNULIB_SENDTO''@/$(GL_GNULIB_SENDTO)/g' \
+	      -e 's/@''GNULIB_SETSOCKOPT''@/$(GL_GNULIB_SETSOCKOPT)/g' \
+	      -e 's/@''GNULIB_SHUTDOWN''@/$(GL_GNULIB_SHUTDOWN)/g' \
+	      -e 's/@''GNULIB_ACCEPT4''@/$(GL_GNULIB_ACCEPT4)/g' \
+	      -e 's|@''HAVE_WINSOCK2_H''@|$(HAVE_WINSOCK2_H)|g' \
+	      -e 's|@''HAVE_WS2TCPIP_H''@|$(HAVE_WS2TCPIP_H)|g' \
+	      -e 's|@''HAVE_STRUCT_SOCKADDR_STORAGE''@|$(HAVE_STRUCT_SOCKADDR_STORAGE)|g' \
+	      -e 's|@''HAVE_STRUCT_SOCKADDR_STORAGE_SS_FAMILY''@|$(HAVE_STRUCT_SOCKADDR_STORAGE_SS_FAMILY)|g' \
+	      -e 's|@''HAVE_SA_FAMILY_T''@|$(HAVE_SA_FAMILY_T)|g' \
+	      -e 's|@''HAVE_ACCEPT4''@|$(HAVE_ACCEPT4)|g' \
+	      -e '/definitions of _GL_FUNCDECL_RPL/r $(CXXDEFS_H)' \
+	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
+	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
+	      $(srcdir)/sys_socket.in.h > $@-t
+	$(AM_V_at)mv $@-t $@
+MOSTLYCLEANFILES += sys/socket.h sys/socket.h-t
+MOSTLYCLEANDIRS += sys
+
+EXTRA_DIST += sys_socket.in.h
+
+## end   gnulib module sys_socket-h
+
 ## begin gnulib module sys_stat-h
 
 BUILT_SOURCES += sys/stat.h
@@ -1693,6 +1861,30 @@ MOSTLYCLEANDIRS += sys
 EXTRA_DIST += sys_types.in.h
 
 ## end   gnulib module sys_types-h
+
+## begin gnulib module sys_uio-h
+
+BUILT_SOURCES += sys/uio.h
+
+# We need the following in order to create <sys/uio.h> when the system
+# doesn't have one that works with the given compiler.
+sys/uio.h: sys_uio.in.h $(top_builddir)/config.status
+	$(AM_V_GEN)$(MKDIR_P) '%reldir%/sys'
+	$(AM_V_at)$(SED_HEADER_STDOUT) \
+	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+	      -e 's|@''NEXT_SYS_UIO_H''@|$(NEXT_SYS_UIO_H)|g' \
+	      -e 's|@''HAVE_SYS_UIO_H''@|$(HAVE_SYS_UIO_H)|g' \
+	      $(srcdir)/sys_uio.in.h > $@-t
+	$(AM_V_at)mv $@-t $@
+MOSTLYCLEANFILES += sys/uio.h sys/uio.h-t
+MOSTLYCLEANDIRS += sys
+
+EXTRA_DIST += sys_uio.in.h
+
+## end   gnulib module sys_uio-h
 
 ## begin gnulib module time-h
 

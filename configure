@@ -672,6 +672,7 @@ ifnGNUmake
 ifGNUmake
 GNU_MAKE
 GNU
+have__mm_pause
 have___builtin_ia32_pause
 GL_CFLAG_GNULIB_WARNINGS
 GL_CFLAG_ALLOW_WARNINGS
@@ -35341,8 +35342,16 @@ printf "%s\n" "#define GNULIB_XALLOC_DIE 1" >>confdefs.h
 
 
 
+host_is_x86=no
+if test x${host_cpu} = xi386; then
+  host_is_x86=yes
+elif test x${host_cpu} = xx86_64; then
+  host_is_x86=yes
+elif test x${host_cpu} = xx86_64-x32; then
+  host_is_x86=yes
+fi
 
-if test x${host_cpu} = xi386 || test x${host_cpu} = xx86_64; then
+if test x${host_is_x86} = xyes; then
   { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for __builtin_ia32_pause" >&5
 printf %s "checking for __builtin_ia32_pause... " >&6; }
 if test ${hiha_cv_func_have___builtin_ia32_pause+y}
@@ -35378,6 +35387,45 @@ printf "%s\n" "#define HAVE___BUILTIN_IA32_PAUSE 1" >>confdefs.h
 
   fi
   have___builtin_ia32_pause="${hiha_cv_func_have___builtin_ia32_pause}"
+
+fi
+
+if test x${host_is_x86} = xyes; then
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for _mm_pause" >&5
+printf %s "checking for _mm_pause... " >&6; }
+if test ${hiha_cv_func_have__mm_pause+y}
+then :
+  printf %s "(cached) " >&6
+else case e in #(
+  e) hiha_cv_func_have__mm_pause=no
+                  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+                    #include <immintrin.h>
+int
+main (void)
+{
+_mm_pause();
+  ;
+  return 0;
+}
+
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"
+then :
+  hiha_cv_func_have__mm_pause=yes
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext ;;
+esac
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $hiha_cv_func_have__mm_pause" >&5
+printf "%s\n" "$hiha_cv_func_have__mm_pause" >&6; }
+  if test x"${hiha_cv_func_have__mm_pause}" = xyes; then
+
+printf "%s\n" "#define HAVE__MM_PAUSE 1" >>confdefs.h
+
+  fi
+  have__mm_pause="${hiha_cv_func_have__mm_pause}"
 
 fi
 

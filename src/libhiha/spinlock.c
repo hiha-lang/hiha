@@ -28,12 +28,19 @@
 
 #define VISIBLE [[gnu::visibility ("default")]]
 
+#if HAVE___BUILTIN_IA32_PAUSE
+#define CPU_PAUSE __builtin_ia32_pause ()
+#elif #if HAVE__MM_PAUSE
+#include <immintrin.h>
+#define CPU_PAUSE _mm_pause ()
+#else /* FIXME: Support pauses on more platforms. */
+#define CPU_PAUSE do {} while (0)
+#endif
+
 static inline void
 spinlock_pause (void)
 {
-#if HAVE___BUILTIN_IA32_PAUSE
-  __builtin_ia32_pause ();
-#endif /* FIXME: Support pauses on more platforms. */
+  CPU_PAUSE;
 }
 
 VISIBLE void

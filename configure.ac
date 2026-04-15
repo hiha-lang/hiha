@@ -82,8 +82,16 @@ CHEM_PATH_PROGS_CACHED_AND_PRECIOUS([INDENT],
 
 gl_INIT
 
+host_is_x86=no
+if test x${host_cpu} = xi386; then
+  host_is_x86=yes
+elif test x${host_cpu} = xx86_64; then
+  host_is_x86=yes
+elif test x${host_cpu} = xx86_64-x32; then
+  host_is_x86=yes
+fi
 
-if test x${host_cpu} = xi386 || test x${host_cpu} = xx86_64; then
+if test x${host_is_x86} = xyes; then
   AC_CACHE_CHECK([for __builtin_ia32_pause],
                  [hiha_cv_func_have___builtin_ia32_pause],
                  [hiha_cv_func_have___builtin_ia32_pause=no
@@ -97,6 +105,23 @@ if test x${host_cpu} = xi386 || test x${host_cpu} = xx86_64; then
   fi
   AC_SUBST([have___builtin_ia32_pause],
            ["${hiha_cv_func_have___builtin_ia32_pause}"])
+fi
+
+if test x${host_is_x86} = xyes; then
+  AC_CACHE_CHECK([for _mm_pause],
+                 [hiha_cv_func_have__mm_pause],
+                 [hiha_cv_func_have__mm_pause=no
+                  AC_COMPILE_IFELSE([
+                    AC_LANG_PROGRAM([[#include <immintrin.h>]],
+                                    [[_mm_pause();]])
+                  ],
+                  [hiha_cv_func_have__mm_pause=yes])])
+  if test x"${hiha_cv_func_have__mm_pause}" = xyes; then
+    AC_DEFINE([HAVE__MM_PAUSE],[1],
+              [Define if _mm_pause exists.])
+  fi
+  AC_SUBST([have__mm_pause],
+           ["${hiha_cv_func_have__mm_pause}"])
 fi
 
 # You can use ‘@GNU@’ to make GNU Make constructs unbothersome to

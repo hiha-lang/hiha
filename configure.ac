@@ -37,12 +37,6 @@ AM_MAINTAINER_MODE
 LT_PREREQ([2.5.4])
 LT_INIT([pic-only,dlopen])
 
-AC_ARG_ENABLE([fixed-point-hash],
-  [AS_HELP_STRING([--enable-fixed-point-hash=blake3,sha256 [blake3]],
-      [hash algorithm for token-stream fixed-point detection])],
-  [],
-  [enable_fixed_point_hash=blake3])
-
 AC_PROG_CC
 gl_EARLY
 AC_PROG_CC_C_O
@@ -88,16 +82,6 @@ CHEM_PATH_PROGS_CACHED_AND_PRECIOUS([INDENT],
 
 gl_INIT
 
-if test "${enable_fixed_point_hash}" = blake3; then
-  PKG_CHECK_MODULES([LIBBLAKE3],[libblake3])
-  CFLAGS="${CFLAGS}${CFLAGS+ }${LIBBLAKE3_CFLAGS}"
-  LIBS="${LIBS}${LIBS+ }${LIBBLAKE3_LIBS}"
-  AC_DEFINE([USE_LIBBLAKE3],[1],[Define to 1 if you want to use libblake3.])
-elif test "${enable_fixed_point_hash}" = sha256; then
-  AC_DEFINE([USE_SHA256],[1],[Define to 1 if you want to use SHA256.])
-else
-  AC_MSG_ERROR([unknown hash algorithm “${enable_fixed_point_hash}”])
-fi
 
 if test x${host_cpu} = xi386 || test x${host_cpu} = xx86_64; then
   AC_CACHE_CHECK([for __builtin_ia32_pause],

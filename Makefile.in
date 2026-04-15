@@ -115,13 +115,12 @@ EXTRA_PROGRAMS =
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
-	$(top_srcdir)/m4/absolute-header.m4 $(top_srcdir)/m4/af_alg.m4 \
-	$(top_srcdir)/m4/alloca.m4 $(top_srcdir)/m4/assert_h.m4 \
+	$(top_srcdir)/m4/absolute-header.m4 $(top_srcdir)/m4/alloca.m4 \
+	$(top_srcdir)/m4/assert_h.m4 \
 	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_gnu_make.m4 \
 	$(top_srcdir)/m4/base64.m4 $(top_srcdir)/m4/build-to-host.m4 \
-	$(top_srcdir)/m4/byteswap.m4 $(top_srcdir)/m4/c-bool.m4 \
-	$(top_srcdir)/m4/calloc.m4 \
+	$(top_srcdir)/m4/c-bool.m4 $(top_srcdir)/m4/calloc.m4 \
 	$(top_srcdir)/m4/chem_compiler_flags.m4 \
 	$(top_srcdir)/m4/chem_config_makefiles.m4 \
 	$(top_srcdir)/m4/chem_path_progs_cached_and_precious.m4 \
@@ -133,15 +132,11 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/extensions.m4 \
 	$(top_srcdir)/m4/extern-inline.m4 $(top_srcdir)/m4/fcntl-o.m4 \
 	$(top_srcdir)/m4/fcntl.m4 $(top_srcdir)/m4/fcntl_h.m4 \
-	$(top_srcdir)/m4/fflush.m4 $(top_srcdir)/m4/fpurge.m4 \
-	$(top_srcdir)/m4/freading.m4 $(top_srcdir)/m4/free.m4 \
-	$(top_srcdir)/m4/fseek.m4 $(top_srcdir)/m4/fseeko.m4 \
-	$(top_srcdir)/m4/fseterr.m4 $(top_srcdir)/m4/fstat.m4 \
-	$(top_srcdir)/m4/ftell.m4 $(top_srcdir)/m4/ftello.m4 \
-	$(top_srcdir)/m4/getdelim.m4 $(top_srcdir)/m4/getdtablesize.m4 \
-	$(top_srcdir)/m4/getline.m4 $(top_srcdir)/m4/getopt.m4 \
-	$(top_srcdir)/m4/getprogname.m4 $(top_srcdir)/m4/gettext_h.m4 \
-	$(top_srcdir)/m4/gl-openssl.m4 \
+	$(top_srcdir)/m4/free.m4 $(top_srcdir)/m4/fseterr.m4 \
+	$(top_srcdir)/m4/fstat.m4 $(top_srcdir)/m4/getdelim.m4 \
+	$(top_srcdir)/m4/getdtablesize.m4 $(top_srcdir)/m4/getline.m4 \
+	$(top_srcdir)/m4/getopt.m4 $(top_srcdir)/m4/getprogname.m4 \
+	$(top_srcdir)/m4/gettext_h.m4 \
 	$(top_srcdir)/m4/gnulib-common.m4 \
 	$(top_srcdir)/m4/gnulib-comp.m4 \
 	$(top_srcdir)/m4/gnulib-i18n.m4 \
@@ -154,23 +149,20 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/libunistring-base.m4 \
 	$(top_srcdir)/m4/limits-h.m4 $(top_srcdir)/m4/localcharset.m4 \
 	$(top_srcdir)/m4/locale-en.m4 $(top_srcdir)/m4/locale_h.m4 \
-	$(top_srcdir)/m4/lseek.m4 $(top_srcdir)/m4/lstat.m4 \
-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/m4/malloc.m4 $(top_srcdir)/m4/malloca.m4 \
-	$(top_srcdir)/m4/memchr.m4 $(top_srcdir)/m4/minmax.m4 \
-	$(top_srcdir)/m4/mmap-anon.m4 $(top_srcdir)/m4/mode_t.m4 \
-	$(top_srcdir)/m4/msvc-inval.m4 \
+	$(top_srcdir)/m4/lstat.m4 $(top_srcdir)/m4/ltoptions.m4 \
+	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
+	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/m4/malloc.m4 \
+	$(top_srcdir)/m4/malloca.m4 $(top_srcdir)/m4/memchr.m4 \
+	$(top_srcdir)/m4/minmax.m4 $(top_srcdir)/m4/mmap-anon.m4 \
+	$(top_srcdir)/m4/mode_t.m4 $(top_srcdir)/m4/msvc-inval.m4 \
 	$(top_srcdir)/m4/msvc-nothrow.m4 $(top_srcdir)/m4/multiarch.m4 \
 	$(top_srcdir)/m4/musl.m4 $(top_srcdir)/m4/nocrash.m4 \
 	$(top_srcdir)/m4/off64_t.m4 $(top_srcdir)/m4/off_t.m4 \
 	$(top_srcdir)/m4/open-cloexec.m4 \
 	$(top_srcdir)/m4/open-slash.m4 $(top_srcdir)/m4/open.m4 \
-	$(top_srcdir)/m4/pathmax.m4 $(top_srcdir)/m4/pkg.m4 \
-	$(top_srcdir)/m4/realloc.m4 $(top_srcdir)/m4/reallocarray.m4 \
-	$(top_srcdir)/m4/sha256.m4 $(top_srcdir)/m4/socklen.m4 \
-	$(top_srcdir)/m4/ssize_t.m4 $(top_srcdir)/m4/stat-time.m4 \
-	$(top_srcdir)/m4/stat.m4 $(top_srcdir)/m4/stdalign.m4 \
+	$(top_srcdir)/m4/pathmax.m4 $(top_srcdir)/m4/realloc.m4 \
+	$(top_srcdir)/m4/reallocarray.m4 $(top_srcdir)/m4/ssize_t.m4 \
+	$(top_srcdir)/m4/stat-time.m4 $(top_srcdir)/m4/stat.m4 \
 	$(top_srcdir)/m4/stdarg.m4 $(top_srcdir)/m4/stdckdint_h.m4 \
 	$(top_srcdir)/m4/stddef_h.m4 $(top_srcdir)/m4/stdint.m4 \
 	$(top_srcdir)/m4/stdio_h.m4 $(top_srcdir)/m4/stdlib_h.m4 \
@@ -178,8 +170,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/stringeq.m4 $(top_srcdir)/m4/sys_cdefs_h.m4 \
 	$(top_srcdir)/m4/sys_socket_h.m4 \
 	$(top_srcdir)/m4/sys_stat_h.m4 $(top_srcdir)/m4/sys_types_h.m4 \
-	$(top_srcdir)/m4/sys_uio_h.m4 $(top_srcdir)/m4/time_h.m4 \
-	$(top_srcdir)/m4/ungetc.m4 $(top_srcdir)/m4/unicase_h.m4 \
+	$(top_srcdir)/m4/time_h.m4 $(top_srcdir)/m4/unicase_h.m4 \
 	$(top_srcdir)/m4/unictype_h.m4 $(top_srcdir)/m4/uninorm_h.m4 \
 	$(top_srcdir)/m4/unistd_h.m4 $(top_srcdir)/m4/unitypes_h.m4 \
 	$(top_srcdir)/m4/version-etc.m4 \
@@ -410,7 +401,6 @@ BITSIZEOF_SIG_ATOMIC_T = @BITSIZEOF_SIG_ATOMIC_T@
 BITSIZEOF_SIZE_T = @BITSIZEOF_SIZE_T@
 BITSIZEOF_WCHAR_T = @BITSIZEOF_WCHAR_T@
 BITSIZEOF_WINT_T = @BITSIZEOF_WINT_T@
-BYTESWAP_H = @BYTESWAP_H@
 CAN_PRINT_STACK_TRACE = @CAN_PRINT_STACK_TRACE@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
@@ -439,12 +429,9 @@ GETOPT_H = @GETOPT_H@
 GL_CFLAG_ALLOW_WARNINGS = @GL_CFLAG_ALLOW_WARNINGS@
 GL_CFLAG_GNULIB_WARNINGS = @GL_CFLAG_GNULIB_WARNINGS@
 GL_GNULIB_ABORT_DEBUG = @GL_GNULIB_ABORT_DEBUG@
-GL_GNULIB_ACCEPT = @GL_GNULIB_ACCEPT@
-GL_GNULIB_ACCEPT4 = @GL_GNULIB_ACCEPT4@
 GL_GNULIB_ACCESS = @GL_GNULIB_ACCESS@
 GL_GNULIB_ALIGNED_ALLOC = @GL_GNULIB_ALIGNED_ALLOC@
 GL_GNULIB_ATOLL = @GL_GNULIB_ATOLL@
-GL_GNULIB_BIND = @GL_GNULIB_BIND@
 GL_GNULIB_BTOWC = @GL_GNULIB_BTOWC@
 GL_GNULIB_CALLOC_GNU = @GL_GNULIB_CALLOC_GNU@
 GL_GNULIB_CALLOC_POSIX = @GL_GNULIB_CALLOC_POSIX@
@@ -453,7 +440,6 @@ GL_GNULIB_CHDIR = @GL_GNULIB_CHDIR@
 GL_GNULIB_CHMOD = @GL_GNULIB_CHMOD@
 GL_GNULIB_CHOWN = @GL_GNULIB_CHOWN@
 GL_GNULIB_CLOSE = @GL_GNULIB_CLOSE@
-GL_GNULIB_CONNECT = @GL_GNULIB_CONNECT@
 GL_GNULIB_COPY_FILE_RANGE = @GL_GNULIB_COPY_FILE_RANGE@
 GL_GNULIB_CREAT = @GL_GNULIB_CREAT@
 GL_GNULIB_CTIME = @GL_GNULIB_CTIME@
@@ -528,10 +514,7 @@ GL_GNULIB_GETOPT_POSIX = @GL_GNULIB_GETOPT_POSIX@
 GL_GNULIB_GETPAGESIZE = @GL_GNULIB_GETPAGESIZE@
 GL_GNULIB_GETPASS = @GL_GNULIB_GETPASS@
 GL_GNULIB_GETPASS_GNU = @GL_GNULIB_GETPASS_GNU@
-GL_GNULIB_GETPEERNAME = @GL_GNULIB_GETPEERNAME@
 GL_GNULIB_GETPROGNAME = @GL_GNULIB_GETPROGNAME@
-GL_GNULIB_GETSOCKNAME = @GL_GNULIB_GETSOCKNAME@
-GL_GNULIB_GETSOCKOPT = @GL_GNULIB_GETSOCKOPT@
 GL_GNULIB_GETSUBOPT = @GL_GNULIB_GETSUBOPT@
 GL_GNULIB_GETUMASK = @GL_GNULIB_GETUMASK@
 GL_GNULIB_GETUSERSHELL = @GL_GNULIB_GETUSERSHELL@
@@ -545,7 +528,6 @@ GL_GNULIB_LCHMOD = @GL_GNULIB_LCHMOD@
 GL_GNULIB_LCHOWN = @GL_GNULIB_LCHOWN@
 GL_GNULIB_LINK = @GL_GNULIB_LINK@
 GL_GNULIB_LINKAT = @GL_GNULIB_LINKAT@
-GL_GNULIB_LISTEN = @GL_GNULIB_LISTEN@
 GL_GNULIB_LOCALECONV = @GL_GNULIB_LOCALECONV@
 GL_GNULIB_LOCALENAME_UNSAFE = @GL_GNULIB_LOCALENAME_UNSAFE@
 GL_GNULIB_LOCALTIME = @GL_GNULIB_LOCALTIME@
@@ -672,8 +654,6 @@ GL_GNULIB_READLINKAT = @GL_GNULIB_READLINKAT@
 GL_GNULIB_REALLOCARRAY = @GL_GNULIB_REALLOCARRAY@
 GL_GNULIB_REALLOC_POSIX = @GL_GNULIB_REALLOC_POSIX@
 GL_GNULIB_REALPATH = @GL_GNULIB_REALPATH@
-GL_GNULIB_RECV = @GL_GNULIB_RECV@
-GL_GNULIB_RECVFROM = @GL_GNULIB_RECVFROM@
 GL_GNULIB_REMOVE = @GL_GNULIB_REMOVE@
 GL_GNULIB_RENAME = @GL_GNULIB_RENAME@
 GL_GNULIB_RENAMEAT = @GL_GNULIB_RENAMEAT@
@@ -681,20 +661,15 @@ GL_GNULIB_RMDIR = @GL_GNULIB_RMDIR@
 GL_GNULIB_RPMATCH = @GL_GNULIB_RPMATCH@
 GL_GNULIB_SCANF = @GL_GNULIB_SCANF@
 GL_GNULIB_SECURE_GETENV = @GL_GNULIB_SECURE_GETENV@
-GL_GNULIB_SEND = @GL_GNULIB_SEND@
-GL_GNULIB_SENDTO = @GL_GNULIB_SENDTO@
 GL_GNULIB_SETENV = @GL_GNULIB_SETENV@
 GL_GNULIB_SETHOSTNAME = @GL_GNULIB_SETHOSTNAME@
 GL_GNULIB_SETLOCALE = @GL_GNULIB_SETLOCALE@
 GL_GNULIB_SETLOCALE_NULL = @GL_GNULIB_SETLOCALE_NULL@
-GL_GNULIB_SETSOCKOPT = @GL_GNULIB_SETSOCKOPT@
-GL_GNULIB_SHUTDOWN = @GL_GNULIB_SHUTDOWN@
 GL_GNULIB_SIGABBREV_NP = @GL_GNULIB_SIGABBREV_NP@
 GL_GNULIB_SIGDESCR_NP = @GL_GNULIB_SIGDESCR_NP@
 GL_GNULIB_SLEEP = @GL_GNULIB_SLEEP@
 GL_GNULIB_SNPRINTF = @GL_GNULIB_SNPRINTF@
 GL_GNULIB_SNZPRINTF = @GL_GNULIB_SNZPRINTF@
-GL_GNULIB_SOCKET = @GL_GNULIB_SOCKET@
 GL_GNULIB_SPRINTF_POSIX = @GL_GNULIB_SPRINTF_POSIX@
 GL_GNULIB_STACK_TRACE = @GL_GNULIB_STACK_TRACE@
 GL_GNULIB_STAT = @GL_GNULIB_STAT@
@@ -961,7 +936,6 @@ GNULIB_LOCALEDIR_c = @GNULIB_LOCALEDIR_c@
 GNULIB_LOCALEDIR_c_make = @GNULIB_LOCALEDIR_c_make@
 GNU_MAKE = @GNU_MAKE@
 GREP = @GREP@
-HAVE_ACCEPT4 = @HAVE_ACCEPT4@
 HAVE_ALIGNED_ALLOC = @HAVE_ALIGNED_ALLOC@
 HAVE_ALLOCA_H = @HAVE_ALLOCA_H@
 HAVE_ATOLL = @HAVE_ATOLL@
@@ -1121,7 +1095,6 @@ HAVE_REALLOCARRAY = @HAVE_REALLOCARRAY@
 HAVE_REALPATH = @HAVE_REALPATH@
 HAVE_RENAMEAT = @HAVE_RENAMEAT@
 HAVE_RPMATCH = @HAVE_RPMATCH@
-HAVE_SA_FAMILY_T = @HAVE_SA_FAMILY_T@
 HAVE_SECURE_GETENV = @HAVE_SECURE_GETENV@
 HAVE_SETENV = @HAVE_SETENV@
 HAVE_SETHOSTNAME = @HAVE_SETHOSTNAME@
@@ -1151,8 +1124,6 @@ HAVE_STRTOLL = @HAVE_STRTOLL@
 HAVE_STRTOUL = @HAVE_STRTOUL@
 HAVE_STRTOULL = @HAVE_STRTOULL@
 HAVE_STRUCT_RANDOM_DATA = @HAVE_STRUCT_RANDOM_DATA@
-HAVE_STRUCT_SOCKADDR_STORAGE = @HAVE_STRUCT_SOCKADDR_STORAGE@
-HAVE_STRUCT_SOCKADDR_STORAGE_SS_FAMILY = @HAVE_STRUCT_SOCKADDR_STORAGE_SS_FAMILY@
 HAVE_STRVERSCMP = @HAVE_STRVERSCMP@
 HAVE_SYMLINK = @HAVE_SYMLINK@
 HAVE_SYMLINKAT = @HAVE_SYMLINKAT@
@@ -1161,9 +1132,7 @@ HAVE_SYS_CDEFS_H = @HAVE_SYS_CDEFS_H@
 HAVE_SYS_INTTYPES_H = @HAVE_SYS_INTTYPES_H@
 HAVE_SYS_LOADAVG_H = @HAVE_SYS_LOADAVG_H@
 HAVE_SYS_PARAM_H = @HAVE_SYS_PARAM_H@
-HAVE_SYS_SOCKET_H = @HAVE_SYS_SOCKET_H@
 HAVE_SYS_TYPES_H = @HAVE_SYS_TYPES_H@
-HAVE_SYS_UIO_H = @HAVE_SYS_UIO_H@
 HAVE_TIMEGM = @HAVE_TIMEGM@
 HAVE_TIMESPEC_GET = @HAVE_TIMESPEC_GET@
 HAVE_TIMESPEC_GETRES = @HAVE_TIMESPEC_GETRES@
@@ -1217,7 +1186,6 @@ HAVE_WMEMPCPY = @HAVE_WMEMPCPY@
 HAVE_WMEMSET = @HAVE_WMEMSET@
 HAVE_WORKING_CXX_STDCKDINT_H = @HAVE_WORKING_CXX_STDCKDINT_H@
 HAVE_WORKING_C_STDCKDINT_H = @HAVE_WORKING_C_STDCKDINT_H@
-HAVE_WS2TCPIP_H = @HAVE_WS2TCPIP_H@
 HAVE_XLOCALE_H = @HAVE_XLOCALE_H@
 HAVE__EXIT = @HAVE__EXIT@
 ICONV_CONST = @ICONV_CONST@
@@ -1234,8 +1202,6 @@ INT32_MAX_LT_INTMAX_MAX = @INT32_MAX_LT_INTMAX_MAX@
 INT64_MAX_EQ_LONG_MAX = @INT64_MAX_EQ_LONG_MAX@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
-LIBBLAKE3_CFLAGS = @LIBBLAKE3_CFLAGS@
-LIBBLAKE3_LIBS = @LIBBLAKE3_LIBS@
 LIBICONV = @LIBICONV@
 LIBINTL = @LIBINTL@
 LIBOBJS = @LIBOBJS@
@@ -1247,7 +1213,6 @@ LIBUNISTRING_UNICTYPE_H = @LIBUNISTRING_UNICTYPE_H@
 LIBUNISTRING_UNINORM_H = @LIBUNISTRING_UNINORM_H@
 LIBUNISTRING_UNISTR_H = @LIBUNISTRING_UNISTR_H@
 LIBUNISTRING_UNITYPES_H = @LIBUNISTRING_UNITYPES_H@
-LIB_CRYPTO = @LIB_CRYPTO@
 LIMITS_H = @LIMITS_H@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -1279,10 +1244,8 @@ NEXT_AS_FIRST_DIRECTIVE_STDINT_H = @NEXT_AS_FIRST_DIRECTIVE_STDINT_H@
 NEXT_AS_FIRST_DIRECTIVE_STDIO_H = @NEXT_AS_FIRST_DIRECTIVE_STDIO_H@
 NEXT_AS_FIRST_DIRECTIVE_STDLIB_H = @NEXT_AS_FIRST_DIRECTIVE_STDLIB_H@
 NEXT_AS_FIRST_DIRECTIVE_STRING_H = @NEXT_AS_FIRST_DIRECTIVE_STRING_H@
-NEXT_AS_FIRST_DIRECTIVE_SYS_SOCKET_H = @NEXT_AS_FIRST_DIRECTIVE_SYS_SOCKET_H@
 NEXT_AS_FIRST_DIRECTIVE_SYS_STAT_H = @NEXT_AS_FIRST_DIRECTIVE_SYS_STAT_H@
 NEXT_AS_FIRST_DIRECTIVE_SYS_TYPES_H = @NEXT_AS_FIRST_DIRECTIVE_SYS_TYPES_H@
-NEXT_AS_FIRST_DIRECTIVE_SYS_UIO_H = @NEXT_AS_FIRST_DIRECTIVE_SYS_UIO_H@
 NEXT_AS_FIRST_DIRECTIVE_TIME_H = @NEXT_AS_FIRST_DIRECTIVE_TIME_H@
 NEXT_AS_FIRST_DIRECTIVE_UNISTD_H = @NEXT_AS_FIRST_DIRECTIVE_UNISTD_H@
 NEXT_AS_FIRST_DIRECTIVE_WCHAR_H = @NEXT_AS_FIRST_DIRECTIVE_WCHAR_H@
@@ -1301,10 +1264,8 @@ NEXT_STDINT_H = @NEXT_STDINT_H@
 NEXT_STDIO_H = @NEXT_STDIO_H@
 NEXT_STDLIB_H = @NEXT_STDLIB_H@
 NEXT_STRING_H = @NEXT_STRING_H@
-NEXT_SYS_SOCKET_H = @NEXT_SYS_SOCKET_H@
 NEXT_SYS_STAT_H = @NEXT_SYS_STAT_H@
 NEXT_SYS_TYPES_H = @NEXT_SYS_TYPES_H@
-NEXT_SYS_UIO_H = @NEXT_SYS_UIO_H@
 NEXT_TIME_H = @NEXT_TIME_H@
 NEXT_UNISTD_H = @NEXT_UNISTD_H@
 NEXT_WCHAR_H = @NEXT_WCHAR_H@
@@ -1323,9 +1284,6 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
-PKG_CONFIG = @PKG_CONFIG@
-PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
-PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 PRAGMA_COLUMNS = @PRAGMA_COLUMNS@
 PRAGMA_SYSTEM_HEADER = @PRAGMA_SYSTEM_HEADER@
 PRIPTR_PREFIX = @PRIPTR_PREFIX@
@@ -1694,12 +1652,12 @@ BASICCFLAGS = -I $(abs_top_builddir) -I $(abs_top_builddir)/include -I \
 GCVERS = gc-8.2.12
 hiha_LDFLAGS = -export-dynamic
 hiha_LDADD = libhiha.la $(GCVERS)/libhiha-gc.la lib/libgnu.la \
-	$(LIB_CRYPTO) $(LTLIBICONV) $(LTLIBINTL) $(LTLIBUNISTRING)
+	$(LTLIBICONV) $(LTLIBINTL) $(LTLIBUNISTRING)
 hiha_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
 hiha_DEPENDENCIES = config.h libhiha.la lib/libgnu.la
 hiha_SOURCES = src/hiha/hiha.c
 libhiha_la_LIBADD = lib/libgnu.la
-libhiha_la_LDFLAGS = $(LIBS) $(LIB_CRYPTO) $(LTLIBICONV) $(LTLIBINTL) \
+libhiha_la_LDFLAGS = $(LIBS) $(LTLIBICONV) $(LTLIBINTL) \
 	$(LTLIBUNISTRING) -lm -ldl -export-dynamic
 libhiha_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
 libhiha_la_DEPENDENCIES = config.h

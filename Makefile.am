@@ -161,7 +161,6 @@ hiha_LDFLAGS += -export-dynamic
 hiha_LDADD += libhiha.la
 hiha_LDADD += $(GCVERS)/libhiha-gc.la
 hiha_LDADD += lib/libgnu.la
-hiha_LDADD += $(LIB_CRYPTO)
 hiha_LDADD += $(LTLIBICONV)
 hiha_LDADD += $(LTLIBINTL)
 hiha_LDADD += $(LTLIBUNISTRING)
@@ -188,7 +187,6 @@ libhiha_la_SOURCES =
 libhiha_la_LIBADD += lib/libgnu.la
 
 libhiha_la_LDFLAGS += $(LIBS)
-libhiha_la_LDFLAGS += $(LIB_CRYPTO)
 libhiha_la_LDFLAGS += $(LTLIBICONV)
 libhiha_la_LDFLAGS += $(LTLIBINTL)
 libhiha_la_LDFLAGS += $(LTLIBUNISTRING)

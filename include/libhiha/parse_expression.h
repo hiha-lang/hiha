@@ -42,20 +42,20 @@ typedef parse_tree_t nud_entry_handler (parser_data_t, token_t);
 typedef nud_entry_handler *nud_entry_handler_t;
 
 typedef parse_tree_t led_entry_handler (parser_data_t, parse_tree_t,
-					token_t);
+                                        token_t);
 typedef led_entry_handler *led_entry_handler_t;
 
 /* Add a null denotation handler to the Pratt parsing. */
 void add_nud_entry (parser_data_t data, string_t token_kind,
-		    nud_entry_handler_t);
+                    nud_entry_handler_t);
 
 /* Add a left denotation handler to the Pratt parsing. */
 void add_led_entry (parser_data_t data, string_t token_kind,
-		    led_entry_handler_t);
+                    led_entry_handler_t);
 
 /* Add a left binding power to the Pratt parsing. */
 void add_lbp_entry (parser_data_t data, string_t token_kind,
-		    double binding_power);
+                    double binding_power);
 
 #endif /* __LIBHAHA__PARSE_EXPRESSION_H__INCLUDED__ */
 

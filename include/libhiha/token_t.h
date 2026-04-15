@@ -38,7 +38,7 @@ typedef struct token_getter *token_getter_t;
 struct token_getter
 {
   void (*get_token) (token_getter_t this_struct,
-		     token_t *tok, const char **error_message);
+                     token_t *tok, const char **error_message);
 };
 
 struct token_getter_from_source_file;
@@ -54,7 +54,7 @@ typedef struct token_getter_from_serialized_tokens
 
 token_getter_from_serialized_tokens_t
 make_token_getter_from_serialized_tokens_t (const char *filename,
-					    FILE *f);
+                                            FILE *f);
 
 void serialize_token_t (const token_t tok, FILE *f);
 

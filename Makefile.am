@@ -217,7 +217,7 @@ libhiha_la_SOURCES += src/libhiha/parse_expression.c
 
 .PHONY: indent
 indent:
-	$(INDENT) -l72 \
+	$(INDENT) -l72 --no-tabs \
 		-TFILE \
 	    -Tspinlock_t \
 		-Tbinding_power_t \

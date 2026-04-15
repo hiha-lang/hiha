@@ -82,21 +82,21 @@ initialize_parser_data (void)
 
 VISIBLE void
 add_nud_entry (parser_data_t data, string_t token_kind,
-	       nud_entry_handler_t handler)
+               nud_entry_handler_t handler)
 {
   gl_omap_put (data->nud, token_kind, handler);
 }
 
 VISIBLE void
 add_led_entry (parser_data_t data, string_t token_kind,
-	       led_entry_handler_t handler)
+               led_entry_handler_t handler)
 {
   gl_omap_put (data->led, token_kind, handler);
 }
 
 VISIBLE void
 add_lbp_entry (parser_data_t data, string_t token_kind,
-	       double binding_power)
+               double binding_power)
 {
   binding_power_t *bp = XMALLOC (binding_power_t);
   *bp = make_binding_power_t (binding_power);

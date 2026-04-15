@@ -2529,7 +2529,7 @@ include/gc.h: Makefile.am
 
 .PHONY: indent
 indent:
-	$(INDENT) -l72 \
+	$(INDENT) -l72 --no-tabs \
 		-TFILE \
 	    -Tspinlock_t \
 		-Tbinding_power_t \

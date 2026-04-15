@@ -49,7 +49,7 @@ VISIBLE const string_t
 string_t_EOF (void)
 {
   INITIALIZE_ONCE (_string_constants_init1t,
-		   _initialize_string_constants);
+                   _initialize_string_constants);
   return _string_t_EOF;
 }
 
@@ -57,7 +57,7 @@ VISIBLE const string_t
 string_t_CP (void)
 {
   INITIALIZE_ONCE (_string_constants_init1t,
-		   _initialize_string_constants);
+                   _initialize_string_constants);
   return _string_t_CP;
 }
 
@@ -80,7 +80,7 @@ copy_string_t (const string_t str)
   s->n = str->n;
   s->s = XNMALLOC (s->n, uint32_t);
   memcpy (s->s, ((const struct string *) str)->s,
-	  s->n * sizeof (uint32_t));
+          s->n * sizeof (uint32_t));
   return s;
 }
 
@@ -98,13 +98,13 @@ make_str_nul (const string_t str)
 
 VISIBLE string_t
 string_t_from_str_len (const char *src, size_t srclen,
-		       text_location_t loc)
+                       text_location_t loc)
 {
   size_t n;
   uint32_t *u32 = u32_conv_from_encoding (locale_charset (),
-					  iconveh_replacement_character,
-					  src, srclen, NULL,
-					  NULL, &n);
+                                          iconveh_replacement_character,
+                                          src, srclen, NULL,
+                                          NULL, &n);
   int err_number = errno;
   if (u32 == NULL)
     {
@@ -126,7 +126,7 @@ string_t_canonicalize (const string_t src, text_location_t loc)
 {
   size_t n;
   uint32_t *u32 = u32_normalize (UNINORM_NFC, src->s, src->n,
-				 NULL, &n);
+                                 NULL, &n);
   int err_number = errno;
   if (u32 == NULL)
     {
@@ -142,7 +142,7 @@ string_t_canonicalize (const string_t src, text_location_t loc)
 
 VISIBLE string_t
 string_t_canonical_from_str_len (const char *src, size_t srclen,
-				 text_location_t loc)
+                                 text_location_t loc)
 {
   string_t str1 = string_t_from_str_len (src, srclen, loc);
   string_t str = string_t_canonicalize (str1, loc);
@@ -153,8 +153,8 @@ VISIBLE void
 str_len_from_string_t (const string_t src, char **s, size_t *n)
 {
   *s = u32_conv_to_encoding (locale_charset (),
-			     iconveh_replacement_character, src->s,
-			     src->n, NULL, NULL, n);
+                             iconveh_replacement_character, src->s,
+                             src->n, NULL, NULL, n);
   int err_number = errno;
   if (*s == NULL)
     {

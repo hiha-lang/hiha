@@ -42,42 +42,42 @@ struct token_getter_from_source_file
   /* This struct must be castable to a struct token_getter. */
 
   void (*get_token) (token_getter_t this_struct,
-		     token_t *tok, const char **error_message);
+                     token_t *tok, const char **error_message);
 
   const char *filename;
   FILE *f;
   char *buf;
-  size_t nbuf;			/* The size of the buf. */
-  size_t n;			/* How many are in the buf. */
-  size_t line_no;		/* Starting at one. */
-  size_t i_code_point;		/* Zero-based. */
+  size_t nbuf;                  /* The size of the buf. */
+  size_t n;                     /* How many are in the buf. */
+  size_t line_no;               /* Starting at one. */
+  size_t i_code_point;          /* Zero-based. */
   bool eof_reached;
 };
 static void get_token_from_source_file (token_getter_t, token_t *,
-					const char **);
+                                        const char **);
 
 struct token_getter_from_serialized_tokens
 {
   /* This struct must be castable to a struct token_getter. */
 
   void (*get_token) (token_getter_t this_struct,
-		     token_t *tok, const char **error_message);
+                     token_t *tok, const char **error_message);
 
   const char *filename;
   FILE *f;
   char *buf;
-  size_t nbuf;			/* The size of the buf. */
+  size_t nbuf;                  /* The size of the buf. */
   gl_list_t filenames;
   gl_list_t token_kinds;
   gl_list_t token_values;
 };
 static void get_token_from_serialized_tokens (token_getter_t, token_t *,
-					      const char **);
+                                              const char **);
 
 static token_t
 make_token_t (string_t token_kind, string_t token_value,
-	      const char *filename, size_t line_no,
-	      size_t code_point_no)
+              const char *filename, size_t line_no,
+              size_t code_point_no)
 {
   token_t tok = XMALLOC (struct token);
   tok->token_kind = token_kind;
@@ -120,23 +120,23 @@ fill_line_if_necessary (token_getter_from_source_file_t g)
       const ssize_t nread = getline (&g->buf, &g->nbuf, g->f);
       g->eof_reached = (nread == -1);
       if (!g->eof_reached)
-	{
-	  g->n = nread;
-	  g->line_no += 1;
-	  g->i_code_point = 0;
-	}
+        {
+          g->n = nread;
+          g->line_no += 1;
+          g->i_code_point = 0;
+        }
     }
 }
 
 static void
 get_token_from_source_file (token_getter_t getter, token_t *tok,
-			    const char **error_message)
+                            const char **error_message)
 {
   token_getter_from_source_file_t g =
     (token_getter_from_source_file_t) getter;
   *error_message = NULL;
   const bool was_end_of_line = (0 < g->line_no && g->n != 0
-				&& g->buf[g->n - 1] == '\n');
+                                && g->buf[g->n - 1] == '\n');
   fill_line_if_necessary (g);
   if (!g->eof_reached)
     {
@@ -144,21 +144,21 @@ get_token_from_source_file (token_getter_t getter, token_t *tok,
       str->s = XNMALLOC (1, uint32_t);
       str->s[0] = g->buf[g->i_code_point];
       str->n = 1;
-      *tok = make_token_t (copy_string_t (string_t_CP ()), str,
-			   g->filename, g->line_no,
-			   g->i_code_point + 1);
+      *tok =
+        make_token_t (copy_string_t (string_t_CP ()), str, g->filename,
+                      g->line_no, g->i_code_point + 1);
       g->i_code_point += 1;
     }
   else if (was_end_of_line)
     *tok =
       make_token_t (copy_string_t (string_t_EOF ()),
-		    copy_string_t (string_t_EOF ()), g->filename,
-		    g->line_no + 1, 0);
+                    copy_string_t (string_t_EOF ()), g->filename,
+                    g->line_no + 1, 0);
   else
     *tok =
       make_token_t (copy_string_t (string_t_EOF ()),
-		    copy_string_t (string_t_EOF ()), g->filename,
-		    g->line_no, g->i_code_point + 1);
+                    copy_string_t (string_t_EOF ()), g->filename,
+                    g->line_no, g->i_code_point + 1);
 }
 
 static bool
@@ -194,7 +194,7 @@ _initialize_serialized_filenames (void)
 {
   _serialized_filenames =
     gl_list_create_empty (GL_AVLTREE_LIST, str_equal, NULL,
-			  NULL, false);
+                          NULL, false);
 
   /* The NULL filename will be represented by the index 0. */
   gl_list_add_last (_serialized_filenames, NULL);
@@ -204,7 +204,7 @@ static gl_list_t
 serialized_filenames (void)
 {
   INITIALIZE_ONCE (_serialized_filenames_init1t,
-		   _initialize_serialized_filenames);
+                   _initialize_serialized_filenames);
   return _serialized_filenames;
 }
 
@@ -213,14 +213,14 @@ _initialize_serialized_token_kind (void)
 {
   _serialized_token_kind =
     gl_list_create_empty (GL_AVLTREE_LIST, str_equal, NULL,
-			  NULL, false);
+                          NULL, false);
 }
 
 static gl_list_t
 serialized_token_kinds (void)
 {
   INITIALIZE_ONCE (_serialized_token_kind_init1t,
-		   _initialize_serialized_token_kind);
+                   _initialize_serialized_token_kind);
   return _serialized_token_kind;
 }
 
@@ -229,14 +229,14 @@ _initialize_serialized_token_value (void)
 {
   _serialized_token_value =
     gl_list_create_empty (GL_AVLTREE_LIST, str_equal, NULL,
-			  NULL, false);
+                          NULL, false);
 }
 
 static gl_list_t
 serialized_token_values (void)
 {
   INITIALIZE_ONCE (_serialized_token_value_init1t,
-		   _initialize_serialized_token_value);
+                   _initialize_serialized_token_value);
   return _serialized_token_value;
 }
 
@@ -269,7 +269,7 @@ serialize_token_t (const token_t tok, FILE *f)
   size_t outlen1 = BASE64_LENGTH (inlen1) + 1;
   char *buf1 = XNMALLOC (outlen1, char);
   base64_encode ((const char *) tok->token_kind->s, inlen1, buf1,
-		 outlen1);
+                 outlen1);
   gl_list_t tokkinds = serialized_token_kinds ();
   size_t j = gl_list_indexof (tokkinds, buf1);
   if (j == (size_t) (-1))
@@ -287,7 +287,7 @@ serialize_token_t (const token_t tok, FILE *f)
   size_t outlen2 = BASE64_LENGTH (inlen2) + 1;
   char *buf2 = XNMALLOC (outlen2, char);
   base64_encode ((const char *) tok->token_value->s, inlen2, buf2,
-		 outlen2);
+                 outlen2);
   gl_list_t tokvals = serialized_token_values ();
   size_t k = gl_list_indexof (tokvals, buf2);
   if (k == (size_t) (-1))
@@ -302,7 +302,7 @@ serialize_token_t (const token_t tok, FILE *f)
     }
 
   fprintf (f, "T %zu %zu %zu %zu %zu\n", i, tok->loc->line_no,
-	   tok->loc->code_point_no, j, k);
+           tok->loc->code_point_no, j, k);
 
   free (buf1);
   free (buf2);
@@ -310,7 +310,7 @@ serialize_token_t (const token_t tok, FILE *f)
 
 VISIBLE token_getter_from_serialized_tokens_t
 make_token_getter_from_serialized_tokens_t (const char *filename,
-					    FILE *f)
+                                            FILE *f)
 {
   token_getter_from_serialized_tokens_t getter =
     XMALLOC (struct token_getter_from_serialized_tokens);
@@ -337,7 +337,7 @@ make_token_getter_from_serialized_tokens_t (const char *filename,
 
 static void
 deserialize_filename (token_getter_from_serialized_tokens_t g,
-		      ssize_t *nread)
+                      ssize_t *nread)
 {
   char F;
   size_t index;
@@ -346,7 +346,7 @@ deserialize_filename (token_getter_from_serialized_tokens_t g,
   int retval =
     sscanf (g->buf, "%c %zu %zu %ms", &F, &index, &string_size, &b64);
   idx_t nb64 = BASE64_LENGTH (string_size);
-  if (retval != 4 || index != gl_list_size (g->filenames)
+  if (retval != 4 || F != 'F' || index != gl_list_size (g->filenames)
       || nb64 != strlen (b64))
     *nread = -101;
   else
@@ -356,13 +356,12 @@ deserialize_filename (token_getter_from_serialized_tokens_t g,
       base64_decode (b64, nb64, s, &outlen);
       free (b64);
       gl_list_add_last (g->filenames, s);
-      //printf ("%s\n",s); ///////////////////////////////////////////// FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
     }
 }
 
 static void
 deserialize_token_kind (token_getter_from_serialized_tokens_t g,
-			ssize_t *nread)
+                        ssize_t *nread)
 {
   char K;
   size_t index;
@@ -371,7 +370,7 @@ deserialize_token_kind (token_getter_from_serialized_tokens_t g,
   int retval =
     sscanf (g->buf, "%c %zu %zu %ms", &K, &index, &string_size, &b64);
   idx_t nb64 = BASE64_LENGTH (string_size * sizeof (uint32_t));
-  if (retval != 4 || index != gl_list_size (g->token_kinds)
+  if (retval != 4 || K != 'K' || index != gl_list_size (g->token_kinds)
       || nb64 != strlen (b64))
     *nread = -102;
   else
@@ -383,7 +382,6 @@ deserialize_token_kind (token_getter_from_serialized_tokens_t g,
       base64_decode (b64, nb64, (char *) s->s, &outlen);
       free (b64);
       gl_list_add_last (g->token_kinds, s);
-      //printf ("%s\n", make_str_nul (s)); ///////////////////////////////////////////// FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
     }
 }
 
@@ -398,7 +396,7 @@ deserialize_token_value (token_getter_from_serialized_tokens_t g,
   int retval =
     sscanf (g->buf, "%c %zu %zu %ms", &V, &index, &string_size, &b64);
   idx_t nb64 = BASE64_LENGTH (string_size * sizeof (uint32_t));
-  if (retval != 4 || index != gl_list_size (g->token_values)
+  if (retval != 4 || V != 'V' || index != gl_list_size (g->token_values)
       || nb64 != strlen (b64))
     *nread = -103;
   else
@@ -410,14 +408,46 @@ deserialize_token_value (token_getter_from_serialized_tokens_t g,
       base64_decode (b64, nb64, (char *) s->s, &outlen);
       free (b64);
       gl_list_add_last (g->token_values, s);
-      //printf ("%s\n", make_str_nul (s)); ///////////////////////////////////////////// FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
-      //if (0 == string_t_cmp (s, string_t_EOF ())) exit (1);
+    }
+}
+
+static void
+deserialize_token (token_getter_from_serialized_tokens_t g,
+                   token_t *tok, ssize_t *nread)
+{
+  char T;
+  size_t i_filename;
+  size_t line_no;
+  size_t code_point_no;
+  size_t i_token_kind;
+  size_t i_token_value;
+
+  int retval =
+    sscanf (g->buf, "%c %zu %zu %zu %zu %zu", &T, &i_filename, &line_no,
+            &code_point_no, &i_token_kind, &i_token_value);
+  if (retval != 6 || T != 'T'
+      || gl_list_size (g->filenames) <= i_filename
+      || gl_list_size (g->token_kinds) <= i_token_kind
+      || gl_list_size (g->token_values) <= i_token_value)
+    *nread = -104;
+  else
+    {
+      const char *filename = gl_list_get_at (g->filenames, i_filename);
+      string_t tokkind =
+        copy_string_t ((string_t) gl_list_get_at (g->token_kinds,
+                                                  i_token_kind));
+      string_t tokvalue =
+        copy_string_t ((string_t) gl_list_get_at (g->token_values,
+                                                  i_token_value));
+      *tok =
+        make_token_t (tokkind, tokvalue, filename, line_no,
+                      code_point_no);
     }
 }
 
 static void
 get_token_from_serialized_tokens (token_getter_t getter, token_t *tok,
-				  const char **error_message)
+                                  const char **error_message)
 {
   token_getter_from_serialized_tokens_t g =
     (token_getter_from_serialized_tokens_t) getter;
@@ -428,30 +458,31 @@ get_token_from_serialized_tokens (token_getter_t getter, token_t *tok,
   while (0 <= nread && *tok == NULL)
     {
       switch (g->buf[0])
-	{
-	case 'F':
-	  deserialize_filename (g, &nread);
-	  break;
-	case 'K':
-	  deserialize_token_kind (g, &nread);
-	  break;
-	case 'V':
-	  deserialize_token_value (g, &nread);
-	  break;
-	case 'T':
-	  break;
-	default:
-	  nread = -100;
-	  break;
-	}
-      nread =
-	(nread <= -100) ? nread : getline (&g->buf, &g->nbuf, g->f);
+        {
+        case 'F':
+          deserialize_filename (g, &nread);
+          break;
+        case 'K':
+          deserialize_token_kind (g, &nread);
+          break;
+        case 'V':
+          deserialize_token_value (g, &nread);
+          break;
+        case 'T':
+          deserialize_token (g, tok, &nread);
+          break;
+        default:
+          nread = -100;
+          break;
+        }
+      if (0 <= nread && *tok == NULL)
+        nread = getline (&g->buf, &g->nbuf, g->f);
     }
   if (*tok == NULL)
     {
       char s[1000];
       snprintf (s, 1000, _("error involving serialized tokens %s"),
-		g->filename);
+                g->filename);
       *error_message = xstrdup (s);
     }
 }

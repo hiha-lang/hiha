@@ -39,18 +39,18 @@ typedef struct string *string_t;
 
 struct text_location
 {
-  const char *filename;		/* Do not free this. */
+  const char *filename;         /* Do not free this. */
 
   /* If either line_no or code_point_no is zero, it means that field
      should be ignored. */
-  size_t line_no;		/* Starting at 1. */
-  size_t code_point_no;		/* Starting at 1, after canonicalization. */
+  size_t line_no;               /* Starting at 1. */
+  size_t code_point_no;         /* Starting at 1, after canonicalization. */
 };
 typedef struct text_location *text_location_t;
 
 /* Some string constants. */
-const string_t string_t_EOF (void);	/* “EOF” */
-const string_t string_t_CP (void);	/* “CP” (code point) */
+const string_t string_t_EOF (void);     /* “EOF” */
+const string_t string_t_CP (void);      /* “CP” (code point) */
 
 int string_t_cmp (const string_t str1, const string_t str2);
 
@@ -59,12 +59,12 @@ string_t copy_string_t (const string_t str);
 char *make_str_nul (const string_t str);
 
 string_t string_t_from_str_len (const char *src, size_t srclen,
-				text_location_t loc);
+                                text_location_t loc);
 string_t string_t_canonicalize (const string_t src,
-				text_location_t loc);
+                                text_location_t loc);
 string_t string_t_canonical_from_str_len (const char *src,
-					  size_t srclen,
-					  text_location_t loc);
+                                          size_t srclen,
+                                          text_location_t loc);
 
 void str_len_from_string_t (const string_t src, char **s, size_t *n);
 

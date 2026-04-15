@@ -28,12 +28,18 @@
 
 #define VISIBLE [[gnu::visibility ("default")]]
 
+/* A ‘PAUSE’ instruction, at least on x86, is a hint to the CPU that
+   can improve the behavior of a spinlock. What the instruction does
+   may vary by specific architecture. */
 #if HAVE___BUILTIN_IA32_PAUSE
+/* GCC’s favored way to get a PAUSE. Also supported by late-model
+   Clang. */
 #define CPU_PAUSE __builtin_ia32_pause ()
 #elif HAVE__MM_PAUSE
+/* Intel’s way to get a PAUSE. Also supported by GCC and Clang. */
 #include <immintrin.h>
 #define CPU_PAUSE _mm_pause ()
-#else /* FIXME: Support pauses on more platforms. */
+#else
 #define CPU_PAUSE do {} while (0)
 #endif
 

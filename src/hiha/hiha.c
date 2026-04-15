@@ -87,7 +87,7 @@ xxxparse_file (const char *filename, FILE *f, parser_data_t parser_data)
 
   (getter->get_token) (getter, &tok, &error_message);
   while (!error_message
-	 && string_t_cmp (tok->token_kind, string_t_EOF ()))
+         && string_t_cmp (tok->token_kind, string_t_EOF ()))
     {
       serialize_token_t (tok, stdout);
       (getter->get_token) (getter, &tok, &error_message);
@@ -110,14 +110,16 @@ parse_file (const char *filename, FILE *f, parser_data_t parser_data)
 
   (getter->get_token) (getter, &tok, &error_message);
   while (error_message == NULL
-	 && 0 != string_t_cmp (tok->token_kind, string_t_EOF ()))
+         && 0 != string_t_cmp (tok->token_kind, string_t_EOF ()))
     {
-      //serialize_token_t (tok, stdout);
+      if (string_t_cmp (tok->token_kind, string_t_CP ()) == 0)
+        printf ("%s", make_str_nul (tok->token_value));
       (getter->get_token) (getter, &tok, &error_message);
     }
   if (!error_message)
     {
-      //serialize_token_t (tok, stdout);
+      if (string_t_cmp (tok->token_kind, string_t_CP ()) == 0)
+        printf ("%s", make_str_nul (tok->token_value));
     }
   else
     {
@@ -130,8 +132,8 @@ static void
 print_version (void)
 {
   version_etc_ar (stdout, COMMAND_NAME,
-		  "an “orthogonal” programming language",
-		  PACKAGE_VERSION, authors);
+                  "an “orthogonal” programming language",
+                  PACKAGE_VERSION, authors);
 }
 
 NORETURN static void
@@ -154,15 +156,15 @@ print_usage (void)
   usage_puts (program_name);
   usage_puts (_(" [OPTION] FILES...\n"));
   usage_puts (_("Do something not yet implemented "
-		"with hiha source FILES...\n"));
+                "with hiha source FILES...\n"));
   usage_puts ("\n");
   usage_puts (_("      --plugin=PLUGIN     load the plugin\n"));
   usage_puts (_("      --help        display this help and exit\n"));
   usage_puts (_("      --version     "
-		"output version information and exit\n"));
+                "output version information and exit\n"));
   usage_puts ("\n");
   usage_puts (_("hiha homepage: "
-		"<https://github.com/chemoelectric/hiha>\n"));
+                "<https://github.com/chemoelectric/hiha>\n"));
 }
 
 NORETURN static void
@@ -197,24 +199,24 @@ get_options (int argc, char **argv, hiha_options_t *opts)
 {
   *opts = XMALLOC (struct hiha_options);
   (*opts)->plugins = gl_list_create_empty (GL_AVLTREE_LIST, NULL, NULL,
-					   NULL, true);
+                                           NULL, true);
 
   int c = getopt_for_this_program (argc, argv);
   while (c != -1)
     {
       switch (c)
-	{
-	case GETOPT_PLUGIN_CHAR:
-	  gl_list_add_last ((*opts)->plugins, xstrdup (optarg));
-	  break;
+        {
+        case GETOPT_PLUGIN_CHAR:
+          gl_list_add_last ((*opts)->plugins, xstrdup (optarg));
+          break;
 
-	case GETOPT_VERSION_CHAR:
-	  print_version_then_exit ();
+        case GETOPT_VERSION_CHAR:
+          print_version_then_exit ();
 
-	case GETOPT_HELP_CHAR:
-	default:
-	  print_usage_then_exit ();
-	}
+        case GETOPT_HELP_CHAR:
+        default:
+          print_usage_then_exit ();
+        }
       c = getopt_for_this_program (argc, argv);
     }
 }
@@ -237,11 +239,11 @@ main (int argc, char **argv)
     {
       FILE *f = fopen (argv[i], "r");
       if (f == NULL)
-	{
-	  printf ("%s: failed to open “%s” for reading\n",
-		  program_name, argv[i]);
-	  exit (exit_failure);
-	}
+        {
+          printf ("%s: failed to open “%s” for reading\n",
+                  program_name, argv[i]);
+          exit (exit_failure);
+        }
       parse_file (argv[i], f, parser_data);
       fclose (f);
     }

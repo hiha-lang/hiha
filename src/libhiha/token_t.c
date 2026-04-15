@@ -445,6 +445,15 @@ deserialize_token (token_getter_from_serialized_tokens_t g,
     }
 }
 
+
+static void
+make_serialized_line_available (token_getter_from_serialized_tokens_t g,
+                                token_t *tok, ssize_t *nread)
+{
+  if (0 <= *nread && *tok == NULL)
+    *nread = getline (&g->buf, &g->nbuf, g->f);
+}
+
 static void
 get_token_from_serialized_tokens (token_getter_t getter, token_t *tok,
                                   const char **error_message)
@@ -453,8 +462,9 @@ get_token_from_serialized_tokens (token_getter_t getter, token_t *tok,
     (token_getter_from_serialized_tokens_t) getter;
   *error_message = NULL;
 
+  size_t nread = 0;
   *tok = NULL;
-  ssize_t nread = getline (&g->buf, &g->nbuf, g->f);
+  make_serialized_line_available (g, tok, &nread);
   while (0 <= nread && *tok == NULL)
     {
       switch (g->buf[0])
@@ -475,8 +485,7 @@ get_token_from_serialized_tokens (token_getter_t getter, token_t *tok,
           nread = -100;
           break;
         }
-      if (0 <= nread && *tok == NULL)
-        nread = getline (&g->buf, &g->nbuf, g->f);
+      make_serialized_line_available (g, tok, &nread);
     }
   if (*tok == NULL)
     {

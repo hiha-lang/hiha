@@ -204,6 +204,7 @@ libhiha_HDRS += include/libhiha/initialize_once.h
 libhiha_HDRS += include/libhiha/string_t.h
 libhiha_HDRS += include/libhiha/token_t.h
 libhiha_HDRS += include/libhiha/pratt.h
+libhiha_HDRS += include/libhiha/load_plugin.h
 #libhiha_HDRS += include/libhiha/parse_expression.h
 
 pkg_libhiha_include_HEADERS += $(libhiha_HDRS)
@@ -213,6 +214,7 @@ libhiha_la_SOURCES += src/libhiha/spinlock.c
 libhiha_la_SOURCES += src/libhiha/string_t.c
 libhiha_la_SOURCES += src/libhiha/token_t.c
 libhiha_la_SOURCES += src/libhiha/pratt.c
+libhiha_la_SOURCES += src/libhiha/load_plugin.c
 #libhiha_la_SOURCES += src/libhiha/parse_expression.c
 
 #---------------------------------------------------------------------

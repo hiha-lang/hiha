@@ -25,6 +25,7 @@
 #include <limits.h>
 #include <progname.h>
 #include <exitfail.h>
+#include <error.h>
 #include <xalloc.h>
 #include <getopt.h>
 #include <version-etc.h>
@@ -33,6 +34,7 @@
 #include <gl_xlist.h>
 #include <libhiha/string_t.h>
 #include <libhiha/token_t.h>
+#include <libhiha/load_plugin.h>
 
 // Change this if using gettext.
 #define _(msgid) msgid
@@ -220,6 +222,22 @@ get_options (int argc, char **argv, hiha_options_t *opts)
     }
 }
 
+static void
+load_command_line_plugins (gl_list_t plugins)
+{
+  for (size_t i = 0; i != gl_list_size (plugins); i += 1)
+    {
+      const char *error_message;
+      const char *fn = gl_list_get_at (plugins, i);
+      load_plugin (fn, &error_message);
+      if (error_message != NULL)
+        {
+          error (exit_failure, 0, "%s", error_message);
+          abort ();
+        }
+    }
+}
+
 int
 main (int argc, char **argv)
 {
@@ -233,14 +251,15 @@ main (int argc, char **argv)
 
   check_usage (argc, argv);
 
+  load_command_line_plugins (opts->plugins);
   for (int i = 1; i != argc; i += 1)
     {
       FILE *f = fopen (argv[i], "r");
       if (f == NULL)
         {
-          printf ("%s: failed to open “%s” for reading\n",
-                  program_name, argv[i]);
-          exit (exit_failure);
+          error (exit_failure, 0,
+                 "failed to open “%s” for reading\n", argv[i]);
+          abort ();
         }
       parse_file (argv[i], f);
       fclose (f);

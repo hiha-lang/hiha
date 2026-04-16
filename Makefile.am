@@ -203,7 +203,8 @@ libhiha_HDRS += include/libhiha/spinlock.h
 libhiha_HDRS += include/libhiha/initialize_once.h
 libhiha_HDRS += include/libhiha/string_t.h
 libhiha_HDRS += include/libhiha/token_t.h
-libhiha_HDRS += include/libhiha/parse_expression.h
+libhiha_HDRS += include/libhiha/pratt.h
+#libhiha_HDRS += include/libhiha/parse_expression.h
 
 pkg_libhiha_include_HEADERS += $(libhiha_HDRS)
 
@@ -211,7 +212,8 @@ libhiha_la_SOURCES += $(libhiha_HDRS)
 libhiha_la_SOURCES += src/libhiha/spinlock.c
 libhiha_la_SOURCES += src/libhiha/string_t.c
 libhiha_la_SOURCES += src/libhiha/token_t.c
-libhiha_la_SOURCES += src/libhiha/parse_expression.c
+libhiha_la_SOURCES += src/libhiha/pratt.c
+#libhiha_la_SOURCES += src/libhiha/parse_expression.c
 
 #---------------------------------------------------------------------
 
@@ -220,7 +222,10 @@ indent:
 	$(INDENT) -l72 --no-tabs \
 		-TFILE \
 	    -Tspinlock_t \
-		-Tbinding_power_t \
+		-Tpratt_tables_t \
+		-Tpratt_binding_power_t \
+		-Tnud_handler_t \
+		-Tled_handler_t \
 		-Tstring_t \
 		-Ttoken_t \
 		-Ttext_location_t \

@@ -19,35 +19,49 @@
 
 */
 
+/*
+
+  Pratt parsing
+  -------------
+
+  We use Pratt ‘parsing’ not only for parsing but also for lexical
+  analysis. For parsing, we run the Pratt parser in the usual way:
+  tokens in, parse tree out. For lexical analysis, we feed tokens in
+  and get tokens out, and do this repeatedly until the token stream
+  reaches a fixed point. The initial token stream consists of Unicode
+  code points (in NFC canonical form), and end-of-file markers.
+
+*/
+
 #include <config.h>
-#include <inttypes.h>
 #include <math.h>
+#include <inttypes.h>
 #include <gl_avltree_omap.h>
 #include <gl_xomap.h>
 #include <libhiha/string_t.h>
-#include <libhiha/parse_expression.h>
+#include <libhiha/pratt.h>
 
 // Change this if using gettext.
 #define _(msgid) msgid
 
 #define VISIBLE [[gnu::visibility ("default")]]
 
-struct parser_data
+struct pratt_tables
 {
   gl_omap_t nud;
   gl_omap_t led;
   gl_omap_t lbp;
 };
-typedef struct parser_data *parser_data_t;
+typedef struct pratt_tables *pratt_tables_t;
 
-typedef long int binding_power_t;
+typedef long int pratt_binding_power_t;
 
-static binding_power_t
-make_binding_power_t (double bp)
+static pratt_binding_power_t
+make_pratt_binding_power_t (double bp)
 {
   /* There are six decimal digits available for binding powers. */
 
-  binding_power_t result;
+  pratt_binding_power_t result;
 
   bp = rint (bp * 1.0e6);
   if (bp <= LONG_MIN)
@@ -67,10 +81,10 @@ compare_strings (const void *s1, const void *s2)
   return string_t_cmp (str1, str2);
 }
 
-VISIBLE parser_data_t
-initialize_parser_data (void)
+VISIBLE pratt_tables_t
+make_pratt_tables_t (void)
 {
-  parser_data_t data = XMALLOC (struct parser_data);
+  pratt_tables_t data = XMALLOC (struct pratt_tables);
   data->nud =
     gl_omap_create_empty (GL_AVLTREE_OMAP, compare_strings, NULL, NULL);
   data->led =
@@ -81,36 +95,27 @@ initialize_parser_data (void)
 }
 
 VISIBLE void
-add_nud_entry (parser_data_t data, string_t token_kind,
-               nud_entry_handler_t handler)
+pratt_add_nud (pratt_tables_t data, string_t token_kind,
+               nud_handler_t handler)
 {
   gl_omap_put (data->nud, token_kind, handler);
 }
 
 VISIBLE void
-add_led_entry (parser_data_t data, string_t token_kind,
-               led_entry_handler_t handler)
+pratt_add_led (pratt_tables_t data, string_t token_kind,
+               led_handler_t handler)
 {
   gl_omap_put (data->led, token_kind, handler);
 }
 
 VISIBLE void
-add_lbp_entry (parser_data_t data, string_t token_kind,
+pratt_add_lbp (pratt_tables_t data, string_t token_kind,
                double binding_power)
 {
-  binding_power_t *bp = XMALLOC (binding_power_t);
-  *bp = make_binding_power_t (binding_power);
+  pratt_binding_power_t *bp = XMALLOC (pratt_binding_power_t);
+  *bp = make_pratt_binding_power_t (binding_power);
   gl_omap_put (data->lbp, token_kind, bp);
 }
-
-/*
-parse_tree_t
-parse_expression (xxxxxxx get_token,
-                  parser_data_t data,
-                  double min_power)
-{
-}
-*/
 
 /*
 procedure parse_expression(get_token, tables, min_power)

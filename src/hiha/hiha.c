@@ -33,7 +33,6 @@
 #include <gl_xlist.h>
 #include <libhiha/string_t.h>
 #include <libhiha/token_t.h>
-#include <libhiha/parse_expression.h>
 
 // Change this if using gettext.
 #define _(msgid) msgid
@@ -76,7 +75,7 @@ initialize_line_buffer (void)
 }
 
 static void
-xxxparse_file (const char *filename, FILE *f, parser_data_t parser_data)
+xxxparse_file (const char *filename, FILE *f)
 {
   token_t tok;
   const char *error_message;
@@ -99,7 +98,7 @@ xxxparse_file (const char *filename, FILE *f, parser_data_t parser_data)
 }
 
 static void
-parse_file (const char *filename, FILE *f, parser_data_t parser_data)
+parse_file (const char *filename, FILE *f)
 {
   token_t tok;
   const char *error_message;
@@ -234,7 +233,6 @@ main (int argc, char **argv)
 
   check_usage (argc, argv);
 
-  parser_data_t parser_data = initialize_parser_data ();
   for (int i = 1; i != argc; i += 1)
     {
       FILE *f = fopen (argv[i], "r");
@@ -244,7 +242,7 @@ main (int argc, char **argv)
                   program_name, argv[i]);
           exit (exit_failure);
         }
-      parse_file (argv[i], f, parser_data);
+      parse_file (argv[i], f);
       fclose (f);
     }
   exit (EXIT_SUCCESS);

@@ -174,6 +174,8 @@ AC_CONFIG_COMMANDS([configure-gc],
         --pdfdir="${pdfdir}" \
         --psdir="${psdir}" \
         --enable-redirect-malloc=yes \
+        --enable-silent-rules="${enable_silent_rules}" \
+        --enable-maintainer-mode="${enable_maintainer_mode}" \
         --enable-shared=yes \
         --enable-static=yes \
         --enable-threads=no \
@@ -190,6 +192,8 @@ AC_CONFIG_COMMANDS([configure-gc],
     GCVERS="${GCVERS}"
     ac_abs_top_srcdir="${ac_abs_top_srcdir}"
     ac_abs_top_builddir="${ac_abs_top_builddir}"
+    enable_silent_rules="${enable_silent_rules}"
+    enable_maintainer_mode="${enable_maintainer_mode}"
     prefix="${prefix}"
     bindir="${bindir}"
     sbindir="${sbindir}"

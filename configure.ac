@@ -136,6 +136,83 @@ CHEM_CONFIG_MAKEFILES([lib/Makefile],[lib/GNUmakefile])
 
 AC_DEFINE([PCRE2_CODE_UNIT_WIDTH],[32],[Code unit width for PCRE2.])
 
+# We compile our own copy of Boehm GC, with
+# enable-redirect-malloc=yes, which we need. (Below we have
+# enable-threads=no only due to a “poor performance” warning from the
+# package, for some combination of features.) Our library will be
+# called libhiha-gc. There is no great reason not to include the
+# corresponding “cord” library, so it will be called libhiha-cord.
+GCVERS=gc-8.2.12
+AC_SUBST([GCVERS])
+AC_CONFIG_COMMANDS([configure-gc],
+  [
+    gcdir="${ac_abs_top_builddir}/${GCVERS}"
+    mkdir -p "${gcdir}"
+    (
+      _cflags=`printf "%s" "${CFLAGS}" | ${SED} 's/fvisibility=hidden/fvisibility=default/g'`
+      cd "${gcdir}"
+      "${ac_abs_top_srcdir}/${GCVERS}"/configure \
+        --prefix="${prefix}" \
+        --bindir="${bindir}" \
+        --sbindir="${sbindir}" \
+        --libexecdir="${libexecdir}" \
+        --sysconfdir="${sysconfdir}" \
+        --sharedstatedir="${sharedstatedir}" \
+        --localstatedir="${localstatedir}" \
+        --runstatedir="${runstatedir}" \
+        --libdir="${libdir}" \
+        --includedir="${includedir}" \
+        --oldincludedir="${oldincludedir}" \
+        --datarootdir="${datarootdir}" \
+        --datadir="${datadir}" \
+        --infodir="${infodir}" \
+        --localedir="${localedir}" \
+        --mandir="${mandir}" \
+        --docdir="${docdir}" \
+        --htmldir="${htmldir}" \
+        --dvidir="${dvidir}" \
+        --pdfdir="${pdfdir}" \
+        --psdir="${psdir}" \
+        --enable-redirect-malloc=yes \
+        --enable-shared=yes \
+        --enable-static=yes \
+        --enable-threads=no \
+        CFLAGS="${_cflags}"
+    )
+    ${SED} -e 's/libgc/libhiha-gc/g' \
+           -e 's/libcord/libhiha-cord/g' \
+           "${gcdir}"/Makefile > "${gcdir}"/Makefile.tmp
+    mv "${gcdir}"/Makefile{.tmp,}
+  ],
+  [
+    SED="${SED}"
+    CFLAGS="${CFLAGS}"
+    GCVERS="${GCVERS}"
+    ac_abs_top_srcdir="${ac_abs_top_srcdir}"
+    ac_abs_top_builddir="${ac_abs_top_builddir}"
+    prefix="${prefix}"
+    bindir="${bindir}"
+    sbindir="${sbindir}"
+    libexecdir="${libexecdir}"
+    sysconfdir="${sysconfdir}"
+    sharedstatedir="${sharedstatedir}"
+    localstatedir="${localstatedir}"
+    runstatedir="${runstatedir}"
+    libdir="${libdir}"
+    includedir="${includedir}"
+    oldincludedir="${oldincludedir}"
+    datarootdir="${datarootdir}"
+    datadir="${datadir}"
+    infodir="${infodir}"
+    localedir="${localedir}"
+    mandir="${mandir}"
+    docdir="${docdir}"
+    htmldir="${htmldir}"
+    dvidir="${dvidir}"
+    pdfdir="${pdfdir}"
+    psdir="${psdir}"
+  ])
+
 AC_OUTPUT
 
 # local variables:

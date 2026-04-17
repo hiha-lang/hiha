@@ -221,6 +221,7 @@ am__uninstall_files_from_dir = { \
        $(am__cd) "$$dir" && echo $$files | $(am__xargs_n) 40 $(am__rm_f); }; \
   }
 LTLIBRARIES = $(lib_LTLIBRARIES)
+libhiha_la_DEPENDENCIES = lib/libgnu.la
 am__objects_1 =
 am__dirstamp = $(am__leading_dot)dirstamp
 am_libhiha_la_OBJECTS = $(am__objects_1) \
@@ -240,6 +241,8 @@ libhiha_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 am_hiha_OBJECTS = src/hiha/hiha-hiha.$(OBJEXT)
 hiha_OBJECTS = $(am_hiha_OBJECTS)
 am__DEPENDENCIES_1 =
+hiha_DEPENDENCIES = libhiha.la $(GCVERS)/libhiha-gc.la lib/libgnu.la \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 hiha_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(hiha_CFLAGS) $(CFLAGS) \
 	$(hiha_LDFLAGS) $(LDFLAGS) -o $@
@@ -328,7 +331,7 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 DIST_SUBDIRS = $(SUBDIRS)
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in \
-	$(top_srcdir)/build-aux/compile \
+	$(srcdir)/gc-dist.am $(top_srcdir)/build-aux/compile \
 	$(top_srcdir)/build-aux/config.guess \
 	$(top_srcdir)/build-aux/config.rpath \
 	$(top_srcdir)/build-aux/config.sub \
@@ -426,6 +429,7 @@ ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
 FILECMD = @FILECMD@
+GCVERS = @GCVERS@
 GETOPT_CDEFS_H = @GETOPT_CDEFS_H@
 GETOPT_H = @GETOPT_H@
 GL_CFLAG_ALLOW_WARNINGS = @GL_CFLAG_ALLOW_WARNINGS@
@@ -1640,35 +1644,144 @@ pkg_gc_include_HEADERS = $(top_srcdir)/$(GCVERS)/include/cord.h \
 #libhiha_HDRS += include/libhiha/parse_expression.h
 pkg_libhiha_include_HEADERS = $(libhiha_HDRS)
 CLEANFILES = include/gc.h
-DISTCLEANFILES = Makefile GNUmakefile
+DISTCLEANFILES = Makefile GNUmakefile lib/Makefile lib/GNUmakefile
 EXTRA_DIST = m4/gnulib-cache.m4 silent-rules.mk COPYING README.adoc \
-	INSTALL AUTHORS
+	INSTALL AUTHORS gc-8.2.12/doc/README.rs6000 \
+	gc-8.2.12/doc/gcinterface.md gc-8.2.12/doc/README.hp \
+	gc-8.2.12/doc/README.linux gc-8.2.12/doc/README.DGUX386 \
+	gc-8.2.12/doc/README.amiga gc-8.2.12/doc/README.macros \
+	gc-8.2.12/doc/overview.md gc-8.2.12/doc/debugging.md \
+	gc-8.2.12/doc/README.win64 gc-8.2.12/doc/README.cords \
+	gc-8.2.12/doc/leak.md gc-8.2.12/doc/README.uts \
+	gc-8.2.12/doc/README.environment gc-8.2.12/doc/porting.md \
+	gc-8.2.12/doc/scale.md gc-8.2.12/doc/README.win32 \
+	gc-8.2.12/doc/gc.man gc-8.2.12/doc/README.symbian \
+	gc-8.2.12/doc/doc.am gc-8.2.12/doc/README.ews4800 \
+	gc-8.2.12/doc/README.sgi gc-8.2.12/doc/finalization.md \
+	gc-8.2.12/doc/tree.md gc-8.2.12/doc/README.OS2 \
+	gc-8.2.12/doc/README.solaris2 gc-8.2.12/doc/README.arm.cross \
+	gc-8.2.12/doc/README.Mac gc-8.2.12/doc/simple_example.md \
+	gc-8.2.12/doc/README.darwin gc-8.2.12/doc/gcdescr.md \
+	gc-8.2.12/doc/README.cmake gc-8.2.12/doc/README.autoconf \
+	gc-8.2.12/doc/README.emscripten gc-8.2.12/gc_cpp.cc \
+	gc-8.2.12/specific.c gc-8.2.12/PCR-Makefile \
+	gc-8.2.12/Makefile.in gc-8.2.12/darwin_stop_world.c \
+	gc-8.2.12/digimars.mak gc-8.2.12/README.QUICK \
+	gc-8.2.12/mach_dep.c gc-8.2.12/allchblk.c gc-8.2.12/missing \
+	gc-8.2.12/ltmain.sh gc-8.2.12/finalize.c \
+	gc-8.2.12/win32_threads.c gc-8.2.12/sparc_mach_dep.S \
+	gc-8.2.12/mark_rts.c gc-8.2.12/configure gc-8.2.12/alloc.c \
+	gc-8.2.12/bdw-gc.pc.in gc-8.2.12/sparc_netbsd_mach_dep.s \
+	gc-8.2.12/Makefile.am gc-8.2.12/build/s60v3 \
+	gc-8.2.12/build/s60v3/bld.inf gc-8.2.12/build/s60v3/libgc.mmp \
+	gc-8.2.12/mallocx.c gc-8.2.12/Makefile.direct \
+	gc-8.2.12/gcj_mlc.c gc-8.2.12/tests/tests.am \
+	gc-8.2.12/tests/trace_test.c gc-8.2.12/tests/staticrootstest.c \
+	gc-8.2.12/tests/leak_test.c gc-8.2.12/tests/test.c \
+	gc-8.2.12/tests/smash_test.c \
+	gc-8.2.12/tests/initsecondarythread.c \
+	gc-8.2.12/tests/test_cpp.cc \
+	gc-8.2.12/tests/disclaim_weakmap_test.c \
+	gc-8.2.12/tests/realloc_test.c gc-8.2.12/tests/middle.c \
+	gc-8.2.12/tests/test_atomic_ops.c \
+	gc-8.2.12/tests/staticrootslib.c \
+	gc-8.2.12/tests/disclaim_test.c \
+	gc-8.2.12/tests/thread_leak_test.c \
+	gc-8.2.12/tests/threadkey_test.c gc-8.2.12/tests/huge_test.c \
+	gc-8.2.12/tests/disclaim_bench.c \
+	gc-8.2.12/tests/subthread_create.c gc-8.2.12/obj_map.c \
+	gc-8.2.12/NT_MAKEFILE gc-8.2.12/ChangeLog gc-8.2.12/README.md \
+	gc-8.2.12/OS2_MAKEFILE gc-8.2.12/aclocal.m4 \
+	gc-8.2.12/dyn_load.c gc-8.2.12/new_hblk.c gc-8.2.12/autogen.sh \
+	gc-8.2.12/typd_mlc.c gc-8.2.12/ia64_save_regs_in_stack.s \
+	gc-8.2.12/backgraph.c gc-8.2.12/config.sub \
+	gc-8.2.12/checksums.c gc-8.2.12/malloc.c gc-8.2.12/dbg_mlc.c \
+	gc-8.2.12/CMakeLists.txt gc-8.2.12/test-driver \
+	gc-8.2.12/gc_cpp.cpp gc-8.2.12/cord/cordbscs.c \
+	gc-8.2.12/cord/tests/de_win.rc gc-8.2.12/cord/tests/de_win.h \
+	gc-8.2.12/cord/tests/de_cmds.h gc-8.2.12/cord/tests/cordtest.c \
+	gc-8.2.12/cord/tests/de_win.c gc-8.2.12/cord/tests/de.c \
+	gc-8.2.12/cord/cord.am gc-8.2.12/cord/cordxtra.c \
+	gc-8.2.12/cord/cordprnt.c gc-8.2.12/thread_local_alloc.c \
+	gc-8.2.12/install-sh gc-8.2.12/pthread_start.c \
+	gc-8.2.12/config.guess gc-8.2.12/tools/setjmp_t.c \
+	gc-8.2.12/tools/threadlibs.c gc-8.2.12/tools/if_not_there.c \
+	gc-8.2.12/tools/callprocs.sh gc-8.2.12/tools/if_mach.c \
+	gc-8.2.12/blacklst.c gc-8.2.12/misc.c gc-8.2.12/fnlz_mlc.c \
+	gc-8.2.12/pthread_stop_world.c gc-8.2.12/depcomp \
+	gc-8.2.12/WCC_MAKEFILE gc-8.2.12/AUTHORS \
+	gc-8.2.12/Config.cmake.in gc-8.2.12/headers.c \
+	gc-8.2.12/m4/ltoptions.m4 gc-8.2.12/m4/libtool.m4 \
+	gc-8.2.12/m4/ltsugar.m4 gc-8.2.12/m4/lt~obsolete.m4 \
+	gc-8.2.12/m4/gc_set_version.m4 gc-8.2.12/m4/ltversion.m4 \
+	gc-8.2.12/mark.c gc-8.2.12/os_dep.c gc-8.2.12/compile \
+	gc-8.2.12/extra/AmigaOS.c gc-8.2.12/extra/Mac_files \
+	gc-8.2.12/extra/Mac_files/datastart.c \
+	gc-8.2.12/extra/Mac_files/dataend.c \
+	gc-8.2.12/extra/Mac_files/MacOS_config.h \
+	gc-8.2.12/extra/pcr_interface.c gc-8.2.12/extra/real_malloc.c \
+	gc-8.2.12/extra/symbian \
+	gc-8.2.12/extra/symbian/init_global_static_roots.cpp \
+	gc-8.2.12/extra/symbian/global_start.cpp \
+	gc-8.2.12/extra/symbian/global_end.cpp gc-8.2.12/extra/MacOS.c \
+	gc-8.2.12/extra/gc.c gc-8.2.12/extra/msvc_dbg.c \
+	gc-8.2.12/extra/symbian.cpp gc-8.2.12/ptr_chck.c \
+	gc-8.2.12/gc_badalc.cc gc-8.2.12/SMakefile.amiga \
+	gc-8.2.12/include/gc_typed.h gc-8.2.12/include/include.am \
+	gc-8.2.12/include/config.h.in gc-8.2.12/include/gc_gcj.h \
+	gc-8.2.12/include/gc_allocator.h gc-8.2.12/include/cord.h \
+	gc-8.2.12/include/private gc-8.2.12/include/private/gc_pmark.h \
+	gc-8.2.12/include/private/pthread_stop_world.h \
+	gc-8.2.12/include/private/gcconfig.h \
+	gc-8.2.12/include/private/gc_hdrs.h \
+	gc-8.2.12/include/private/specific.h \
+	gc-8.2.12/include/private/dbg_mlc.h \
+	gc-8.2.12/include/private/thread_local_alloc.h \
+	gc-8.2.12/include/private/darwin_semaphore.h \
+	gc-8.2.12/include/private/gc_alloc_ptrs.h \
+	gc-8.2.12/include/private/gc_locks.h \
+	gc-8.2.12/include/private/pthread_support.h \
+	gc-8.2.12/include/private/gc_priv.h \
+	gc-8.2.12/include/private/msvc_dbg.h \
+	gc-8.2.12/include/private/darwin_stop_world.h \
+	gc-8.2.12/include/private/gc_atomic_ops.h \
+	gc-8.2.12/include/gc_version.h \
+	gc-8.2.12/include/leak_detector.h \
+	gc-8.2.12/include/gc_config_macros.h gc-8.2.12/include/gc.h \
+	gc-8.2.12/include/gc_tiny_fl.h gc-8.2.12/include/javaxfc.h \
+	gc-8.2.12/include/ec.h gc-8.2.12/include/gc_backptr.h \
+	gc-8.2.12/include/gc_pthread_redirects.h \
+	gc-8.2.12/include/gc_disclaim.h gc-8.2.12/include/gc_cpp.h \
+	gc-8.2.12/include/gc_inline.h gc-8.2.12/include/extra/gc.h \
+	gc-8.2.12/include/extra/gc_cpp.h gc-8.2.12/include/cord_pos.h \
+	gc-8.2.12/include/gc_mark.h gc-8.2.12/gc_dlopen.c \
+	gc-8.2.12/gc_badalc.cpp gc-8.2.12/pthread_support.c \
+	gc-8.2.12/reclaim.c gc-8.2.12/configure.ac
 EXTRA_SCRIPTS = 
-BUILT_SOURCES = $(GCVERS)/libhiha-gc.la
+
+#---------------------------------------------------------------------
+BUILT_SOURCES = config.h $(GCVERS)/libhiha-gc.la
 AM_CPPFLAGS = 
 AM_CFLAGS = 
 BASICCFLAGS = -I $(abs_top_builddir) -I $(abs_top_builddir)/include -I \
 	$(abs_top_builddir)/lib -I $(abs_top_srcdir) -I \
 	$(abs_top_srcdir)/include -I $(abs_top_srcdir)/lib -I \
 	$(abs_top_srcdir)/$(GCVERS)/include
-
-#---------------------------------------------------------------------
-GCVERS = gc-8.2.12
 hiha_LDFLAGS = -export-dynamic
 hiha_LDADD = libhiha.la $(GCVERS)/libhiha-gc.la lib/libgnu.la \
 	$(LTLIBICONV) $(LTLIBINTL) $(LTLIBUNISTRING)
 hiha_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
-hiha_DEPENDENCIES = config.h libhiha.la lib/libgnu.la
+EXTRA_hiha_DEPENDENCIES = libhiha.la lib/libgnu.la
 hiha_SOURCES = src/hiha/hiha.c
 libhiha_la_LIBADD = lib/libgnu.la
 libhiha_la_LDFLAGS = $(LIBS) $(LTLIBICONV) $(LTLIBINTL) \
 	$(LTLIBUNISTRING) -lm -ldl -export-dynamic
 libhiha_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
-libhiha_la_DEPENDENCIES = config.h
+EXTRA_libhiha_la_DEPENDENCIES = 
 libhiha_la_SOURCES = $(libhiha_HDRS) src/libhiha/spinlock.c \
 	src/libhiha/string_t.c src/libhiha/token_t.c \
 	src/libhiha/pratt.c src/libhiha/load_plugin.c
-libhiha_HDRS = include/libhiha/spinlock.h \
+libhiha_HDRS = include/libhiha/libhiha.h include/libhiha/spinlock.h \
 	include/libhiha/initialize_once.h include/libhiha/string_t.h \
 	include/libhiha/token_t.h include/libhiha/pratt.h \
 	include/libhiha/load_plugin.h
@@ -1679,7 +1792,7 @@ all: $(BUILT_SOURCES) config.h
 .SUFFIXES: .c .lo .o .obj
 am--refresh: GNUmakefile
 	@:
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__configure_deps)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/gc-dist.am $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -1701,6 +1814,7 @@ GNUmakefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__maybe_remake_depfiles)'; \
 	    cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__maybe_remake_depfiles);; \
 	esac;
+$(srcdir)/gc-dist.am $(am__empty):
 
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
@@ -2365,7 +2479,7 @@ maintainer-clean-generic:
 clean: clean-recursive
 
 clean-am: clean-binPROGRAMS clean-generic clean-libLTLIBRARIES \
-	clean-libtool mostlyclean-am
+	clean-libtool clean-local mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
@@ -2377,7 +2491,7 @@ distclean: distclean-recursive
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo
 	-rm -f GNUmakefile
 distclean-am: clean-am distclean-compile distclean-generic \
-	distclean-hdr distclean-libtool distclean-tags
+	distclean-hdr distclean-libtool distclean-local distclean-tags
 
 dvi: dvi-recursive
 
@@ -2398,8 +2512,7 @@ install-dvi: install-dvi-recursive
 
 install-dvi-am:
 
-install-exec-am: install-binPROGRAMS install-exec-local \
-	install-libLTLIBRARIES
+install-exec-am: install-binPROGRAMS install-libLTLIBRARIES
 
 install-html: install-html-recursive
 
@@ -2436,7 +2549,7 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 mostlyclean: mostlyclean-recursive
 
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool
+	mostlyclean-libtool mostlyclean-local
 
 pdf: pdf-recursive
 
@@ -2447,7 +2560,7 @@ ps: ps-recursive
 ps-am:
 
 uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
-	uninstall-local uninstall-pkg_gc_includeHEADERS \
+	uninstall-pkg_gc_includeHEADERS \
 	uninstall-pkg_libhiha_includeHEADERS \
 	uninstall-pkgincludeHEADERS
 
@@ -2457,25 +2570,25 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
 .PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am \
 	am--depfiles am--refresh check check-am clean \
 	clean-binPROGRAMS clean-cscope clean-generic \
-	clean-libLTLIBRARIES clean-libtool cscope cscopelist-am ctags \
-	ctags-am dist dist-all dist-bzip2 dist-bzip3 dist-gzip \
-	dist-lzip dist-shar dist-tarZ dist-xz dist-zip dist-zstd \
-	distcheck distclean distclean-compile distclean-generic \
-	distclean-hdr distclean-libtool distclean-tags distcleancheck \
-	distdir distuninstallcheck dvi dvi-am html html-am info \
-	info-am install install-am install-binPROGRAMS install-data \
+	clean-libLTLIBRARIES clean-libtool clean-local cscope \
+	cscopelist-am ctags ctags-am dist dist-all dist-bzip2 \
+	dist-bzip3 dist-gzip dist-lzip dist-shar dist-tarZ dist-xz \
+	dist-zip dist-zstd distcheck distclean distclean-compile \
+	distclean-generic distclean-hdr distclean-libtool \
+	distclean-local distclean-tags distcleancheck distdir \
+	distuninstallcheck dvi dvi-am html html-am info info-am \
+	install install-am install-binPROGRAMS install-data \
 	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-exec-local install-html \
-	install-html-am install-info install-info-am \
-	install-libLTLIBRARIES install-man install-pdf install-pdf-am \
-	install-pkg_gc_includeHEADERS \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-libLTLIBRARIES install-man install-pdf \
+	install-pdf-am install-pkg_gc_includeHEADERS \
 	install-pkg_libhiha_includeHEADERS install-pkgincludeHEADERS \
 	install-ps install-ps-am install-strip installcheck \
 	installcheck-am installdirs installdirs-am maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS \
-	uninstall-libLTLIBRARIES uninstall-local \
+	mostlyclean-generic mostlyclean-libtool mostlyclean-local pdf \
+	pdf-am ps ps-am tags tags-am uninstall uninstall-am \
+	uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
 	uninstall-pkg_gc_includeHEADERS \
 	uninstall-pkg_libhiha_includeHEADERS \
 	uninstall-pkgincludeHEADERS
@@ -2488,51 +2601,17 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
 @GNU@ include $(top_srcdir)/silent-rules.mk
 
 $(GCVERS)/libhiha-gc.la:
-	( \
-	  mkdir -p $(GCVERS) && \
-	  cd $(GCVERS) && \
-	  $(abs_top_srcdir)/$(GCVERS)/configure \
-	    --prefix=$(prefix) \
-	    --bindir=$(bindir) \
-	    --sbindir=$(sbindir) \
-	    --libexecdir=$(libexecdir) \
-	    --sysconfdir=$(sysconfdir) \
-	    --sharedstatedir=$(sharedstatedir) \
-	    --localstatedir=$(localstatedir) \
-	    --runstatedir=$(runstatedir) \
-	    --libdir=$(libdir) \
-	    --includedir=$(includedir) \
-	    --oldincludedir=$(oldincludedir) \
-	    --datarootdir=$(datarootdir) \
-	    --datadir=$(datadir) \
-	    --infodir=$(infodir) \
-	    --localedir=$(localedir) \
-	    --mandir=$(mandir) \
-	    --docdir=$(docdir) \
-	    --htmldir=$(htmldir) \
-	    --dvidir=$(dvidir) \
-	    --pdfdir=$(pdfdir) \
-	    --psdir=$(psdir) \
-	    --enable-redirect-malloc \
-	    --enable-shared \
-	    --enable-static \
-	    --disable-threads \
-	    CFLAGS="$(CFLAGS) -I. -I$(abs_top_srcdir)/$(GCVERS) $(VISIBLE_CFLAGS)" && \
-	  $(SED) -e 's/libgc/libhiha-gc/g' \
-	         -e 's/libcord/libhiha-cord/g' \
-	         Makefile > Makefile.tmp && \
-	  mv Makefile{.tmp,} && \
-	  $(MAKE) $(MAKEFLAGS) \
-	)
+	$(MAKE) $(AM_MAKEFLAGS) -C $(GCVERS)
 
-clean-local distclean-local::
-	$(MAKE) $(MAKEFLAGS) -C $(GCVERS) distclean
+mostlyclean-local::
+	-$(MAKE) $(AM_MAKEFLAGS) -C $(GCVERS) mostlyclean
 
-install-exec-local::
-	$(MAKE) $(MAKEFILE) -C $(GCVERS) install-libLTLIBRARIES
+clean-local::
+	-$(MAKE) $(AM_MAKEFLAGS) -C $(GCVERS) clean
 
-uninstall-local::
-	$(MAKE) $(MAKEFILE) -C $(GCVERS) uninstall-libLTLIBRARIES
+distclean-local::
+	-$(MAKE) $(AM_MAKEFLAGS) -C $(GCVERS) distclean
+	-find $(GCVERS) -name 'libcord_la-*.Plo' -exec rm -f '{}' ';'
 
 include/gc.h: Makefile.am
 	$(call v,GEN)mkdir -p $(@D) && \

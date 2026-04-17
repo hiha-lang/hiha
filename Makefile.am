@@ -55,6 +55,8 @@ EXTRA_DIST += AUTHORS
 
 DISTCLEANFILES += Makefile
 DISTCLEANFILES += GNUmakefile
+DISTCLEANFILES += lib/Makefile
+DISTCLEANFILES += lib/GNUmakefile
 
 BASICCFLAGS =
 BASICCFLAGS += -I $(abs_top_builddir)
@@ -65,58 +67,26 @@ BASICCFLAGS += -I $(abs_top_srcdir)/include
 BASICCFLAGS += -I $(abs_top_srcdir)/lib
 BASICCFLAGS += -I $(abs_top_srcdir)/$(GCVERS)/include
 
+BUILT_SOURCES += config.h
+
 #---------------------------------------------------------------------
 
-GCVERS = gc-8.2.12
+include gc-dist.am
 
 BUILT_SOURCES += $(GCVERS)/libhiha-gc.la
 
 $(GCVERS)/libhiha-gc.la:
-	( \
-	  mkdir -p $(GCVERS) && \
-	  cd $(GCVERS) && \
-	  $(abs_top_srcdir)/$(GCVERS)/configure \
-	    --prefix=$(prefix) \
-	    --bindir=$(bindir) \
-	    --sbindir=$(sbindir) \
-	    --libexecdir=$(libexecdir) \
-	    --sysconfdir=$(sysconfdir) \
-	    --sharedstatedir=$(sharedstatedir) \
-	    --localstatedir=$(localstatedir) \
-	    --runstatedir=$(runstatedir) \
-	    --libdir=$(libdir) \
-	    --includedir=$(includedir) \
-	    --oldincludedir=$(oldincludedir) \
-	    --datarootdir=$(datarootdir) \
-	    --datadir=$(datadir) \
-	    --infodir=$(infodir) \
-	    --localedir=$(localedir) \
-	    --mandir=$(mandir) \
-	    --docdir=$(docdir) \
-	    --htmldir=$(htmldir) \
-	    --dvidir=$(dvidir) \
-	    --pdfdir=$(pdfdir) \
-	    --psdir=$(psdir) \
-	    --enable-redirect-malloc \
-	    --enable-shared \
-	    --enable-static \
-	    --disable-threads \
-	    CFLAGS="$(CFLAGS) -I. -I$(abs_top_srcdir)/$(GCVERS) $(VISIBLE_CFLAGS)" && \
-	  $(SED) -e 's/libgc/libhiha-gc/g' \
-	         -e 's/libcord/libhiha-cord/g' \
-	         Makefile > Makefile.tmp && \
-	  mv Makefile{.tmp,} && \
-	  $(MAKE) $(MAKEFLAGS) \
-	)
+	$(MAKE) $(AM_MAKEFLAGS) -C $(GCVERS)
 
-clean-local distclean-local::
-	$(MAKE) $(MAKEFLAGS) -C $(GCVERS) distclean
+mostlyclean-local::
+	-$(MAKE) $(AM_MAKEFLAGS) -C $(GCVERS) mostlyclean
 
-install-exec-local::
-	$(MAKE) $(MAKEFILE) -C $(GCVERS) install-libLTLIBRARIES
+clean-local::
+	-$(MAKE) $(AM_MAKEFLAGS) -C $(GCVERS) clean
 
-uninstall-local::
-	$(MAKE) $(MAKEFILE) -C $(GCVERS) uninstall-libLTLIBRARIES
+distclean-local::
+	-$(MAKE) $(AM_MAKEFLAGS) -C $(GCVERS) distclean
+	-find $(GCVERS) -name 'libcord_la-*.Plo' -exec rm -f '{}' ';'
 
 include/gc.h: Makefile.am
 	$(call v,GEN)mkdir -p $(@D) && \
@@ -153,7 +123,7 @@ bin_PROGRAMS += hiha
 hiha_LDFLAGS =
 hiha_LDADD =
 hiha_CFLAGS =
-hiha_DEPENDENCIES =
+EXTRA_hiha_DEPENDENCIES =
 hiha_SOURCES =
 
 hiha_LDFLAGS += -export-dynamic
@@ -168,9 +138,8 @@ hiha_LDADD += $(LTLIBUNISTRING)
 hiha_CFLAGS += $(BASICCFLAGS)
 hiha_CFLAGS += $(CFLAGS)
 
-hiha_DEPENDENCIES += config.h
-hiha_DEPENDENCIES += libhiha.la
-hiha_DEPENDENCIES += lib/libgnu.la
+EXTRA_hiha_DEPENDENCIES += libhiha.la
+EXTRA_hiha_DEPENDENCIES += lib/libgnu.la
 
 hiha_SOURCES += src/hiha/hiha.c
 
@@ -181,7 +150,7 @@ lib_LTLIBRARIES += libhiha.la
 libhiha_la_LIBADD =
 libhiha_la_LDFLAGS =
 libhiha_la_CFLAGS =
-libhiha_la_DEPENDENCIES =
+EXTRA_libhiha_la_DEPENDENCIES =
 libhiha_la_SOURCES =
 
 libhiha_la_LIBADD += lib/libgnu.la
@@ -196,9 +165,8 @@ libhiha_la_LDFLAGS += -export-dynamic
 libhiha_la_CFLAGS += $(BASICCFLAGS)
 libhiha_la_CFLAGS += $(CFLAGS)
 
-libhiha_la_DEPENDENCIES += config.h
-
 libhiha_HDRS =
+libhiha_HDRS += include/libhiha/libhiha.h
 libhiha_HDRS += include/libhiha/spinlock.h
 libhiha_HDRS += include/libhiha/initialize_once.h
 libhiha_HDRS += include/libhiha/string_t.h

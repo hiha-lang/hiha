@@ -1,5 +1,5 @@
 # DO NOT EDIT! GENERATED AUTOMATICALLY!
-# Copyright (C) 2002-2025 Free Software Foundation, Inc.
+# Copyright (C) 2002-2026 Free Software Foundation, Inc.
 #
 # This file is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -111,13 +111,13 @@ AC_DEFUN([gl_EARLY],
   # Code from module limits-h:
   # Code from module list:
   # Code from module localcharset:
-  # Code from module locale-h:
   # Code from module lstat:
   # Code from module malloc-gnu:
   # Code from module malloc-posix:
   # Code from module malloca:
   # Code from module memchr:
   # Code from module memcmp2:
+  # Code from module memeq:
   # Code from module minmax:
   # Code from module msvc-inval:
   # Code from module msvc-nothrow:
@@ -145,17 +145,20 @@ AC_DEFUN([gl_EARLY],
   dnl for the builtin va_copy to work.  gl_PROG_CC_C99 arranges for this.
   gl_PROG_CC_C99
   # Code from module stdckdint-h:
+  # Code from module stdcountof-h:
   # Code from module stddef-h:
   # Code from module stdint-h:
   # Code from module stdio-h:
   gl_STDIO_H_EARLY
+  # Code from module stdio-windows:
   # Code from module stdlib-h:
+  # Code from module streq:
   # Code from module strerror:
   # Code from module strerror-override:
   # Code from module striconveh:
   # Code from module striconveha:
   # Code from module string-h:
-  # Code from module stringeq:
+  # Code from module strnul:
   # Code from module sys_stat-h:
   # Code from module sys_types-h:
   AC_REQUIRE([AC_USE_SYSTEM_EXTENSIONS])
@@ -394,9 +397,6 @@ AC_DEFUN([gl_INIT],
   dnl For backward compatibility. Some packages still use this.
   LOCALCHARSET_TESTS_ENVIRONMENT=
   AC_SUBST([LOCALCHARSET_TESTS_ENVIRONMENT])
-  gl_LOCALE_H
-  gl_LOCALE_H_REQUIRE_DEFAULTS
-  AC_PROG_MKDIR_P
   gl_FUNC_LSTAT
   gl_CONDITIONAL([GL_COND_OBJ_LSTAT], [test $REPLACE_LSTAT = 1])
   AM_COND_IF([GL_COND_OBJ_LSTAT], [
@@ -421,6 +421,8 @@ AC_DEFUN([gl_INIT],
     gl_PREREQ_MEMCHR
   ])
   gl_STRING_MODULE_INDICATOR([memchr])
+  gl_FUNC_MEMEQ
+  gl_STRING_MODULE_INDICATOR([memeq])
   gl_MINMAX
   AC_REQUIRE([gl_MSVC_INVAL])
   gl_CONDITIONAL([GL_COND_OBJ_MSVC_INVAL],
@@ -487,6 +489,9 @@ AC_DEFUN([gl_INIT],
   gl_STDCKDINT_H
   gl_CONDITIONAL_HEADER([stdckdint.h])
   AC_PROG_MKDIR_P
+  gl_STDCOUNTOF_H
+  gl_CONDITIONAL_HEADER([stdcountof.h])
+  AC_PROG_MKDIR_P
   gl_STDDEF_H
   gl_STDDEF_H_REQUIRE_DEFAULTS
   gl_CONDITIONAL_HEADER([stddef.h])
@@ -499,18 +504,6 @@ AC_DEFUN([gl_INIT],
   gl_STDIO_H
   gl_STDIO_H_REQUIRE_DEFAULTS
   AC_PROG_MKDIR_P
-  USES_MSVCRT=0
-  case "$host_os" in
-    mingw* | windows*)
-      AC_EGREP_CPP([Special], [
-  #ifndef _UCRT
-   Special
-  #endif
-        ],
-        [USES_MSVCRT=1])
-      ;;
-  esac
-  gl_CONDITIONAL([GL_COND_OBJ_STDIO_CONSOLESAFE], [test $USES_MSVCRT = 1])
   gl_CONDITIONAL([GL_COND_OBJ_STDIO_READ], [test $REPLACE_STDIO_READ_FUNCS = 1])
   gl_CONDITIONAL([GL_COND_OBJ_STDIO_WRITE], [test $REPLACE_STDIO_WRITE_FUNCS = 1])
   dnl No need to create extra modules for these functions. Everyone who uses
@@ -536,9 +529,25 @@ AC_DEFUN([gl_INIT],
   gl_STDIO_MODULE_INDICATOR([fputs])
   gl_STDIO_MODULE_INDICATOR([puts])
   gl_STDIO_MODULE_INDICATOR([fwrite])
+  AC_REQUIRE([AC_CANONICAL_HOST])
+  USES_MSVCRT=0
+  case "$host_os" in
+    mingw* | windows*)
+      AC_EGREP_CPP([Special], [
+  #ifndef _UCRT
+   Special
+  #endif
+        ],
+        [USES_MSVCRT=1])
+      ;;
+  esac
+  gl_CONDITIONAL([GL_COND_OBJ_STDIO_CONSOLESAFE], [test $USES_MSVCRT = 1])
+  AC_CHECK_FUNCS_ONCE([vasprintf])
   gl_STDLIB_H
   gl_STDLIB_H_REQUIRE_DEFAULTS
   AC_PROG_MKDIR_P
+  gl_FUNC_STREQ
+  gl_STRING_MODULE_INDICATOR([streq])
   gl_FUNC_STRERROR
   gl_CONDITIONAL([GL_COND_OBJ_STRERROR], [test $REPLACE_STRERROR = 1])
   gl_MODULE_INDICATOR([strerror])
@@ -557,9 +566,7 @@ AC_DEFUN([gl_INIT],
   gl_STRING_H
   gl_STRING_H_REQUIRE_DEFAULTS
   AC_PROG_MKDIR_P
-  gl_FUNC_STREQ
-  gl_FUNC_MEMEQ
-  gl_STRING_MODULE_INDICATOR([stringeq])
+  gl_STRING_MODULE_INDICATOR([strnul])
   gl_SYS_STAT_H
   gl_SYS_STAT_H_REQUIRE_DEFAULTS
   AC_PROG_MKDIR_P
@@ -929,7 +936,6 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/limits.in.h
   lib/localcharset.c
   lib/localcharset.h
-  lib/locale.in.h
   lib/lstat.c
   lib/malloc.c
   lib/malloca.c
@@ -938,6 +944,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/memchr.valgrind
   lib/memcmp2.c
   lib/memcmp2.h
+  lib/memeq.c
   lib/minmax.h
   lib/msvc-inval.c
   lib/msvc-inval.h
@@ -959,6 +966,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/stat.c
   lib/stdarg.in.h
   lib/stdckdint.in.h
+  lib/stdcountof.in.h
   lib/stddef.in.h
   lib/stdint.in.h
   lib/stdio-consolesafe.c
@@ -968,6 +976,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/stdio.in.h
   lib/stdlib.c
   lib/stdlib.in.h
+  lib/streq.c
   lib/strerror-override.c
   lib/strerror-override.h
   lib/strerror.c
@@ -975,8 +984,8 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/striconveh.h
   lib/striconveha.c
   lib/striconveha.h
-  lib/string.c
   lib/string.in.h
+  lib/strnul.c
   lib/sys_stat.in.h
   lib/sys_types.in.h
   lib/time.in.h
@@ -1122,11 +1131,11 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/limits-h.m4
   m4/localcharset.m4
   m4/locale-en.m4
-  m4/locale_h.m4
   m4/lstat.m4
   m4/malloc.m4
   m4/malloca.m4
   m4/memchr.m4
+  m4/memeq.m4
   m4/minmax.m4
   m4/mmap-anon.m4
   m4/mode_t.m4
@@ -1153,13 +1162,14 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/std-gnu11.m4
   m4/stdarg.m4
   m4/stdckdint_h.m4
+  m4/stdcountof_h.m4
   m4/stddef_h.m4
   m4/stdint.m4
   m4/stdio_h.m4
   m4/stdlib_h.m4
+  m4/streq.m4
   m4/strerror.m4
   m4/string_h.m4
-  m4/stringeq.m4
   m4/sys_cdefs_h.m4
   m4/sys_socket_h.m4
   m4/sys_stat_h.m4

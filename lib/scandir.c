@@ -1,4 +1,4 @@
-/* Copyright (C) 1992-1998, 2000, 2002-2003, 2009-2025 Free Software
+/* Copyright (C) 1992-1998, 2000, 2002-2003, 2009-2026 Free Software
    Foundation, Inc.
    This file is part of the GNU C Library.
 
@@ -60,7 +60,7 @@
 /* The results of opendir() in this file are not used with dirfd and fchdir,
    and we do not leak fds to any single-threaded code that could use stdio,
    therefore save some unnecessary recursion in fchdir.c and opendir_safer.c.
-   FIXME - if the kernel ever adds support for multi-thread safety for
+   FIXME - if the kernel ever adds support for thread safety for
    avoiding standard fds, then we should use opendir_safer.  */
 # ifdef GNULIB_defined_DIR
 #  undef DIR
@@ -91,10 +91,9 @@ static void
 cancel_handler (void *arg)
 {
   struct scandir_cancel_struct *cp = arg;
-  size_t i;
   void **v = cp->v;
 
-  for (i = 0; i < cp->cnt; ++i)
+  for (size_t i = 0; i < cp->cnt; ++i)
     free (v[i]);
   free (v);
   (void) __closedir (cp->dp);
@@ -119,18 +118,14 @@ SCANDIR (const char *dir,
 #endif
 {
   DIR *dp = __opendir (dir);
-  DIRENT_TYPE **v = NULL;
-  size_t vsize = 0;
-  struct scandir_cancel_struct c;
-  DIRENT_TYPE *d;
-  int save;
 
   if (dp == NULL)
     return -1;
 
-  save = errno;
+  int saved_errno = errno;
   __set_errno (0);
 
+  struct scandir_cancel_struct c;
   c.dp = dp;
   c.v = NULL;
   c.cnt = 0;
@@ -138,6 +133,10 @@ SCANDIR (const char *dir,
   __libc_cleanup_push (cancel_handler, &c);
 #endif
 
+  DIRENT_TYPE **v = NULL;
+  size_t vsize = 0;
+
+  DIRENT_TYPE *d;
   while ((d = READDIR (dp)) != NULL)
     {
       int use_it = select == NULL;
@@ -153,9 +152,6 @@ SCANDIR (const char *dir,
 
       if (use_it)
         {
-          DIRENT_TYPE *vnew;
-          size_t dsize;
-
           /* Ignore errors from select or readdir */
           __set_errno (0);
 
@@ -173,8 +169,8 @@ SCANDIR (const char *dir,
               c.v = (void *) v;
             }
 
-          dsize = &d->d_name[_D_ALLOC_NAMLEN (d)] - (char *) d;
-          vnew = (DIRENT_TYPE *) malloc (dsize);
+          size_t dsize = &d->d_name[_D_ALLOC_NAMLEN (d)] - (char *) d;
+          DIRENT_TYPE *vnew = (DIRENT_TYPE *) malloc (dsize);
           if (vnew == NULL)
             break;
 
@@ -184,7 +180,7 @@ SCANDIR (const char *dir,
 
   if (__builtin_expect (errno, 0) != 0)
     {
-      save = errno;
+      saved_errno = errno;
 
       while (c.cnt > 0)
         free (v[--c.cnt]);
@@ -205,7 +201,7 @@ SCANDIR (const char *dir,
 #endif
 
   (void) __closedir (dp);
-  __set_errno (save);
+  __set_errno (saved_errno);
 
   return c.cnt;
 }

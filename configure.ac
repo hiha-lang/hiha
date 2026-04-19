@@ -217,6 +217,9 @@ AC_CONFIG_COMMANDS([configure-gc],
     psdir="${psdir}"
   ])
 
+# A workaround for a bug in Gnulib’s stdlib.h (2026 April 19).
+AH_BOTTOM([@%:@define _GL_FUNCDECL_SYS_NAME(func) (func)])
+
 AC_OUTPUT
 
 # local variables:

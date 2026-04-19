@@ -1,5 +1,5 @@
 /* Ordered map data type implemented by a binary tree.
-   Copyright (C) 2006-2007, 2009-2025 Free Software Foundation, Inc.
+   Copyright (C) 2006-2007, 2009-2026 Free Software Foundation, Inc.
    Written by Bruno Haible <bruno@clisp.org>, 2018.
 
    This file is free software: you can redistribute it and/or modify
@@ -59,9 +59,8 @@ static bool
 gl_tree_search (gl_omap_t map, const void *key, const void **valuep)
 {
   gl_mapkey_compar_fn compar = map->base.compar_fn;
-  gl_omap_node_t node;
 
-  for (node = map->root; node != NULL; )
+  for (gl_omap_node_t node = map->root; node != NULL; )
     {
       int cmp = (compar != NULL
                  ? compar (node->key, key)
@@ -88,9 +87,7 @@ gl_tree_search_atleast (gl_omap_t map,
                         const void *threshold,
                         const void **keyp, const void **valuep)
 {
-  gl_omap_node_t node;
-
-  for (node = map->root; node != NULL; )
+  for (gl_omap_node_t node = map->root; node != NULL; )
     {
       if (! threshold_fn (node->key, threshold))
         node = node->right;
@@ -122,7 +119,6 @@ static int
 gl_tree_nx_getput (gl_omap_t map, const void *key, const void *value,
                    const void **oldvaluep)
 {
-  gl_mapkey_compar_fn compar;
   gl_omap_node_t node = map->root;
 
   if (node == NULL)
@@ -132,7 +128,7 @@ gl_tree_nx_getput (gl_omap_t map, const void *key, const void *value,
       return 1;
     }
 
-  compar = map->base.compar_fn;
+  gl_mapkey_compar_fn compar = map->base.compar_fn;
 
   for (;;)
     {
@@ -174,9 +170,8 @@ static bool
 gl_tree_getremove (gl_omap_t map, const void *key, const void **oldvaluep)
 {
   gl_mapkey_compar_fn compar = map->base.compar_fn;
-  gl_omap_node_t node;
 
-  for (node = map->root; node != NULL; )
+  for (gl_omap_node_t node = map->root; node != NULL; )
     {
       int cmp = (compar != NULL
                  ? compar (node->key, key)
@@ -249,16 +244,17 @@ static gl_omap_iterator_t _GL_ATTRIBUTE_PURE
 gl_tree_iterator (gl_omap_t map)
 {
   gl_omap_iterator_t result;
-  gl_omap_node_t node;
 
   result.vtable = map->base.vtable;
   result.map = map;
-  /* Start node is the leftmost node.  */
-  node = map->root;
-  if (node != NULL)
-    while (node->left != NULL)
-      node = node->left;
-  result.p = node;
+  {
+    /* Start node is the leftmost node.  */
+    gl_omap_node_t node = map->root;
+    if (node != NULL)
+      while (node->left != NULL)
+        node = node->left;
+    result.p = node;
+  }
   /* End point is past the rightmost node.  */
   result.q = NULL;
 #if defined GCC_LINT || defined lint
@@ -300,6 +296,6 @@ gl_tree_iterator_next (gl_omap_iterator_t *iterator,
 }
 
 static void
-gl_tree_iterator_free (_GL_ATTRIBUTE_MAYBE_UNUSED gl_omap_iterator_t *iterator)
+gl_tree_iterator_free (gl_omap_iterator_t *_GL_UNNAMED (iterator))
 {
 }

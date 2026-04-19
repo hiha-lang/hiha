@@ -1,5 +1,5 @@
 /* Conversion from UTF-32 to legacy encodings.
-   Copyright (C) 2002, 2006-2007, 2009-2025 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2006-2007, 2009-2026 Free Software Foundation, Inc.
 
    This file is free software.
    It is dual-licensed under "the GNU LGPLv3+ or the GNU GPLv2+".
@@ -30,13 +30,12 @@
 #include "uniconv.h"
 
 #include <errno.h>
+#include <stdcountof.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "striconveha.h"
 #include "unistr.h"
-
-#define SIZEOF(array) (sizeof (array) / sizeof (array[0]))
 
 /* Name of UTF-32 or UCS-4 encoding with machine dependent endianness and
    alignment.  */

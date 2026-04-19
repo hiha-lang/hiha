@@ -1,5 +1,5 @@
 /* Sequential list data type implemented by a binary tree.
-   Copyright (C) 2006-2025 Free Software Foundation, Inc.
+   Copyright (C) 2006-2026 Free Software Foundation, Inc.
    Written by Bruno Haible <bruno@clisp.org>, 2006.
 
    This file is free software: you can redistribute it and/or modify
@@ -60,8 +60,7 @@ gl_tree_size (gl_list_t list)
 }
 
 static const void * _GL_ATTRIBUTE_PURE
-gl_tree_node_value (_GL_ATTRIBUTE_MAYBE_UNUSED gl_list_t list,
-                    gl_list_node_t node)
+gl_tree_node_value (gl_list_t _GL_UNNAMED (list), gl_list_node_t node)
 {
   return node->value;
 }
@@ -103,8 +102,7 @@ gl_tree_node_nx_set_value (_GL_ATTRIBUTE_MAYBE_UNUSED gl_list_t list,
 }
 
 static gl_list_node_t _GL_ATTRIBUTE_PURE
-gl_tree_next_node (_GL_ATTRIBUTE_MAYBE_UNUSED gl_list_t list,
-                   gl_list_node_t node)
+gl_tree_next_node (gl_list_t _GL_UNNAMED (list), gl_list_node_t node)
 {
   if (node->right != NULL)
     {
@@ -122,8 +120,7 @@ gl_tree_next_node (_GL_ATTRIBUTE_MAYBE_UNUSED gl_list_t list,
 }
 
 static gl_list_node_t _GL_ATTRIBUTE_PURE
-gl_tree_previous_node (_GL_ATTRIBUTE_MAYBE_UNUSED gl_list_t list,
-                       gl_list_node_t node)
+gl_tree_previous_node (gl_list_t _GL_UNNAMED (list), gl_list_node_t node)
 {
   if (node->left != NULL)
     {
@@ -141,7 +138,7 @@ gl_tree_previous_node (_GL_ATTRIBUTE_MAYBE_UNUSED gl_list_t list,
 }
 
 static gl_list_node_t _GL_ATTRIBUTE_PURE
-gl_tree_first_node (_GL_ATTRIBUTE_MAYBE_UNUSED gl_list_t list)
+gl_tree_first_node (gl_list_t list)
 {
   gl_list_node_t node = list->root;
 
@@ -154,7 +151,7 @@ gl_tree_first_node (_GL_ATTRIBUTE_MAYBE_UNUSED gl_list_t list)
 }
 
 static gl_list_node_t _GL_ATTRIBUTE_PURE
-gl_tree_last_node (_GL_ATTRIBUTE_MAYBE_UNUSED gl_list_t list)
+gl_tree_last_node (gl_list_t list)
 {
   gl_list_node_t node = list->root;
 
@@ -582,16 +579,17 @@ static gl_list_iterator_t _GL_ATTRIBUTE_PURE
 gl_tree_iterator (gl_list_t list)
 {
   gl_list_iterator_t result;
-  gl_list_node_t node;
 
   result.vtable = list->base.vtable;
   result.list = list;
-  /* Start node is the leftmost node.  */
-  node = list->root;
-  if (node != NULL)
-    while (node->left != NULL)
-      node = node->left;
-  result.p = node;
+  {
+    /* Start node is the leftmost node.  */
+    gl_list_node_t node = list->root;
+    if (node != NULL)
+      while (node->left != NULL)
+        node = node->left;
+    result.p = node;
+  }
   /* End point is past the rightmost node.  */
   result.q = NULL;
 #if defined GCC_LINT || defined lint
@@ -658,7 +656,7 @@ gl_tree_iterator_next (gl_list_iterator_t *iterator,
 }
 
 static void
-gl_tree_iterator_free (_GL_ATTRIBUTE_MAYBE_UNUSED gl_list_iterator_t *iterator)
+gl_tree_iterator_free (gl_list_iterator_t *_GL_UNNAMED (iterator))
 {
 }
 
@@ -668,9 +666,7 @@ static gl_list_node_t _GL_ATTRIBUTE_PURE
 gl_tree_sortedlist_search (gl_list_t list, gl_listelement_compar_fn compar,
                            const void *elt)
 {
-  gl_list_node_t node;
-
-  for (node = list->root; node != NULL; )
+  for (gl_list_node_t node = list->root; node != NULL; )
     {
       int cmp = compar (node->value, elt);
 
@@ -711,14 +707,12 @@ gl_tree_sortedlist_search_from_to (gl_list_t list,
                                    size_t low, size_t high,
                                    const void *elt)
 {
-  gl_list_node_t node;
-
   if (!(low <= high
         && high <= (list->root != NULL ? list->root->branch_size : 0)))
     /* Invalid arguments.  */
     abort ();
 
-  for (node = list->root; node != NULL; )
+  for (gl_list_node_t node = list->root; node != NULL; )
     {
       size_t left_branch_size =
         (node->left != NULL ? node->left->branch_size : 0);
@@ -848,13 +842,13 @@ gl_tree_sortedlist_indexof_from_to (gl_list_t list,
                                     size_t low, size_t high,
                                     const void *elt)
 {
-  gl_list_node_t node;
-  size_t position;
-
   if (!(low <= high
         && high <= (list->root != NULL ? list->root->branch_size : 0)))
     /* Invalid arguments.  */
     abort ();
+
+  gl_list_node_t node;
+  size_t position;
 
   for (node = list->root, position = 0; node != NULL; )
     {

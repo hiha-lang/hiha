@@ -1,5 +1,5 @@
 /* Sequential list data type implemented by a binary tree.
-   Copyright (C) 2006-2007, 2009-2025 Free Software Foundation, Inc.
+   Copyright (C) 2006-2007, 2009-2026 Free Software Foundation, Inc.
    Written by Bruno Haible <bruno@clisp.org>, 2006.
 
    This file is free software: you can redistribute it and/or modify
@@ -148,21 +148,16 @@ rebalance (gl_list_t list,
 {
   for (;;)
     {
-      gl_list_node_t child;
-      int previous_balance;
-      int balance_diff;
-      gl_list_node_t nodeleft;
-      gl_list_node_t noderight;
-
-      child = node;
+      gl_list_node_t child = node;
       node = parent;
 
-      previous_balance = node->balance;
+      int previous_balance = node->balance;
 
       /* The balance of NODE is incremented by BALANCE_DIFF: +1 if the right
          branch's height has increased by 1 or the left branch's height has
          decreased by 1, -1 if the right branch's height has decreased by 1 or
          the left branch's height has increased by 1, 0 if no height change.  */
+      int balance_diff;
       if (node->left != NULL || node->right != NULL)
         balance_diff = (child == node->right ? height_diff : -height_diff);
       else
@@ -187,8 +182,8 @@ rebalance (gl_list_t list,
           else
             abort ();
 
-          nodeleft = node->left;
-          noderight = node->right;
+          gl_list_node_t nodeleft = node->left;
+          gl_list_node_t noderight = node->right;
 
           if (balance_diff < 0)
             {
@@ -429,12 +424,8 @@ gl_tree_remove_node_from_tree (gl_list_t list, gl_list_node_t node)
             parent->right = child;
 
           /* Update branch_size fields of the parent nodes.  */
-          {
-            gl_list_node_t p;
-
-            for (p = parent; p != NULL; p = p->parent)
-              p->branch_size--;
-          }
+          for (gl_list_node_t p = parent; p != NULL; p = p->parent)
+            p->branch_size--;
 
           rebalance (list, child, -1, parent);
         }
@@ -457,12 +448,8 @@ gl_tree_remove_node_from_tree (gl_list_t list, gl_list_node_t node)
             parent->right = child;
 
           /* Update branch_size fields of the parent nodes.  */
-          {
-            gl_list_node_t p;
-
-            for (p = parent; p != NULL; p = p->parent)
-              p->branch_size--;
-          }
+          for (gl_list_node_t p = parent; p != NULL; p = p->parent)
+            p->branch_size--;
 
           rebalance (list, child, -1, parent);
         }
@@ -470,16 +457,14 @@ gl_tree_remove_node_from_tree (gl_list_t list, gl_list_node_t node)
   else
     {
       /* Replace node with the rightmost element of the node->left subtree.  */
-      gl_list_node_t subst;
-      gl_list_node_t subst_parent;
-      gl_list_node_t child;
 
+      gl_list_node_t subst;
       for (subst = node->left; subst->right != NULL; )
         subst = subst->right;
 
-      subst_parent = subst->parent;
+      gl_list_node_t subst_parent = subst->parent;
 
-      child = subst->left;
+      gl_list_node_t child = subst->left;
 
       /* The case subst_parent == node is special:  If we do nothing special,
          we get confusion about node->left, subst->left and child->parent.
@@ -500,12 +485,8 @@ gl_tree_remove_node_from_tree (gl_list_t list, gl_list_node_t node)
         }
 
       /* Update branch_size fields of the parent nodes.  */
-      {
-        gl_list_node_t p;
-
-        for (p = subst_parent; p != NULL; p = p->parent)
-          p->branch_size--;
-      }
+      for (gl_list_node_t p = subst_parent; p != NULL; p = p->parent)
+        p->branch_size--;
 
       /* Copy subst into node's position.
          (This is safer than to copy subst's value into node, keep node in
@@ -565,7 +546,6 @@ gl_tree_nx_add_first (gl_list_t list, const void *elt)
   else
     {
       gl_list_node_t node;
-
       for (node = list->root; node->left != NULL; )
         node = node->left;
 
@@ -574,12 +554,8 @@ gl_tree_nx_add_first (gl_list_t list, const void *elt)
       node->balance--;
 
       /* Update branch_size fields of the parent nodes.  */
-      {
-        gl_list_node_t p;
-
-        for (p = node; p != NULL; p = p->parent)
-          p->branch_size++;
-      }
+      for (gl_list_node_t p = node; p != NULL; p = p->parent)
+        p->branch_size++;
 
       /* Rebalance.  */
       if (node->right == NULL && node->parent != NULL)
@@ -633,7 +609,6 @@ gl_tree_nx_add_last (gl_list_t list, const void *elt)
   else
     {
       gl_list_node_t node;
-
       for (node = list->root; node->right != NULL; )
         node = node->right;
 
@@ -642,12 +617,8 @@ gl_tree_nx_add_last (gl_list_t list, const void *elt)
       node->balance++;
 
       /* Update branch_size fields of the parent nodes.  */
-      {
-        gl_list_node_t p;
-
-        for (p = node; p != NULL; p = p->parent)
-          p->branch_size++;
-      }
+      for (gl_list_node_t p = node; p != NULL; p = p->parent)
+        p->branch_size++;
 
       /* Rebalance.  */
       if (node->left == NULL && node->parent != NULL)
@@ -675,7 +646,6 @@ gl_tree_nx_add_before (gl_list_t list, gl_list_node_t node, const void *elt)
 {
   /* Create new node.  */
   gl_list_node_t new_node;
-  bool height_inc;
 
   new_node =
     (struct gl_list_node_impl *) malloc (sizeof (struct gl_list_node_impl));
@@ -695,6 +665,7 @@ gl_tree_nx_add_before (gl_list_t list, gl_list_node_t node, const void *elt)
 #endif
 
   /* Add it to the tree.  */
+  bool height_inc;
   if (node->left == NULL)
     {
       node->left = new_node;
@@ -712,12 +683,8 @@ gl_tree_nx_add_before (gl_list_t list, gl_list_node_t node, const void *elt)
   new_node->parent = node;
 
   /* Update branch_size fields of the parent nodes.  */
-  {
-    gl_list_node_t p;
-
-    for (p = node; p != NULL; p = p->parent)
-      p->branch_size++;
-  }
+  for (gl_list_node_t p = node; p != NULL; p = p->parent)
+    p->branch_size++;
 
   /* Rebalance.  */
   if (height_inc && node->parent != NULL)
@@ -744,7 +711,6 @@ gl_tree_nx_add_after (gl_list_t list, gl_list_node_t node, const void *elt)
 {
   /* Create new node.  */
   gl_list_node_t new_node;
-  bool height_inc;
 
   new_node =
     (struct gl_list_node_impl *) malloc (sizeof (struct gl_list_node_impl));
@@ -764,6 +730,7 @@ gl_tree_nx_add_after (gl_list_t list, gl_list_node_t node, const void *elt)
 #endif
 
   /* Add it to the tree.  */
+  bool height_inc;
   if (node->right == NULL)
     {
       node->right = new_node;
@@ -781,12 +748,8 @@ gl_tree_nx_add_after (gl_list_t list, gl_list_node_t node, const void *elt)
   new_node->parent = node;
 
   /* Update branch_size fields of the parent nodes.  */
-  {
-    gl_list_node_t p;
-
-    for (p = node; p != NULL; p = p->parent)
-      p->branch_size++;
-  }
+  for (gl_list_node_t p = node; p != NULL; p = p->parent)
+    p->branch_size++;
 
   /* Rebalance.  */
   if (height_inc && node->parent != NULL)

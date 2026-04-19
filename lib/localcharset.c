@@ -1,6 +1,6 @@
 /* Determine a canonical name for the current locale's character encoding.
 
-   Copyright (C) 2000-2006, 2008-2025 Free Software Foundation, Inc.
+   Copyright (C) 2000-2006, 2008-2026 Free Software Foundation, Inc.
 
    This file is free software: you can redistribute it and/or modify
    it under the terms of the GNU Lesser General Public License as
@@ -781,7 +781,7 @@ static const struct table_entry locale_table[] =
    The result must not be freed; it is statically allocated.  The result
    becomes invalid when setlocale() is used to change the global locale, or
    when the value of one of the environment variables LC_ALL, LC_CTYPE, LANG
-   is changed; threads in multithreaded programs should not do this.
+   is changed; threads in multithreaded processes should not do this.
    If the canonical name cannot be determined, the result is a non-canonical
    name.  */
 
@@ -793,7 +793,7 @@ locale_charset (void)
 {
   const char *codeset;
 
-  /* This function must be multithread-safe.  To achieve this without using
+  /* This function must be thread-safe.  To achieve this without using
      thread-local storage, we use a simple strcpy or memcpy to fill this static
      buffer.  Filling it through, for example, strcpy + strcat would not be
      guaranteed to leave the buffer's contents intact if another thread is
@@ -813,10 +813,9 @@ locale_charset (void)
      environment variables (if present) or the codepage as a number.  */
   if (codeset != NULL && streq (codeset, "US-ASCII"))
     {
-      const char *locale;
       static char resultbuf[2 + 10 + 1];
 
-      locale = getenv ("LC_ALL");
+      const char *locale = getenv ("LC_ALL");
       if (locale == NULL || locale[0] == '\0')
         {
           locale = getenv ("LC_CTYPE");
@@ -840,7 +839,7 @@ locale_charset (void)
                 return dot;
               if (modifier - dot < sizeof (resultbuf))
                 {
-                  /* This way of filling resultbuf is multithread-safe.  */
+                  /* This way of filling resultbuf is thread-safe.  */
                   memcpy (resultbuf, dot, modifier - dot);
                   resultbuf [modifier - dot] = '\0';
                   return resultbuf;
@@ -912,16 +911,13 @@ locale_charset (void)
 
 # elif defined OS2
 
-  const char *locale;
   static char resultbuf[2 + 10 + 1];
-  ULONG cp[3];
-  ULONG cplen;
 
   codeset = NULL;
 
   /* Allow user to override the codeset, as set in the operating system,
      with standard language environment variables.  */
-  locale = getenv ("LC_ALL");
+  const char *locale = getenv ("LC_ALL");
   if (locale == NULL || locale[0] == '\0')
     {
       locale = getenv ("LC_CTYPE");
@@ -944,7 +940,7 @@ locale_charset (void)
             return dot;
           if (modifier - dot < sizeof (resultbuf))
             {
-              /* This way of filling resultbuf is multithread-safe.  */
+              /* This way of filling resultbuf is thread-safe.  */
               memcpy (resultbuf, dot, modifier - dot);
               resultbuf [modifier - dot] = '\0';
               return resultbuf;
@@ -958,6 +954,9 @@ locale_charset (void)
 
   if (codeset == NULL)
     {
+      ULONG cp[3];
+      ULONG cplen;
+
       /* OS/2 has a function returning the locale's codepage as a number.  */
       if (DosQueryCp (sizeof (cp), cp, &cplen))
         codeset = "";

@@ -1,5 +1,5 @@
 /* Character set conversion.
-   Copyright (C) 2007, 2009-2025 Free Software Foundation, Inc.
+   Copyright (C) 2007, 2009-2026 Free Software Foundation, Inc.
 
    This file is free software: you can redistribute it and/or modify
    it under the terms of the GNU Lesser General Public License as
@@ -20,11 +20,10 @@
 #include <iconv.h>
 
 #include <errno.h>
+#include <stdcountof.h>
 #include <string.h>
 #include "c-ctype.h"
 #include "c-strcase.h"
-
-#define SIZEOF(a) (sizeof(a) / sizeof(a[0]))
 
 /* Namespace cleanliness.  */
 #define mapping_lookup rpl_iconv_open_mapping_lookup
@@ -44,11 +43,6 @@ iconv_t
 rpl_iconv_open (const char *tocode, const char *fromcode)
 #undef iconv_open
 {
-  char fromcode_upper[32];
-  char tocode_upper[32];
-  char *fromcode_upper_end;
-  char *tocode_upper_end;
-
 #if REPLACE_ICONV_UTF
   /* Special handling of conversion between UTF-8 and UTF-{16,32}{BE,LE}.
      We do not need to handle conversion between arbitrary encodings and
@@ -113,6 +107,8 @@ rpl_iconv_open (const char *tocode, const char *fromcode)
   /* Convert the encodings to upper case, because
        1. in the arguments of iconv_open() on AIX and HP-UX, the case matters,
        2. it makes searching in the table faster.  */
+  char fromcode_upper[32];
+  char *fromcode_upper_end;
   {
     const char *p = fromcode;
     char *q = fromcode_upper;
@@ -120,7 +116,7 @@ rpl_iconv_open (const char *tocode, const char *fromcode)
       {
         p++;
         q++;
-        if (q == &fromcode_upper[SIZEOF (fromcode_upper)])
+        if (q == &fromcode_upper[countof (fromcode_upper)])
           {
             errno = EINVAL;
             return (iconv_t)(-1);
@@ -129,6 +125,8 @@ rpl_iconv_open (const char *tocode, const char *fromcode)
     fromcode_upper_end = q;
   }
 
+  char tocode_upper[32];
+  char *tocode_upper_end;
   {
     const char *p = tocode;
     char *q = tocode_upper;
@@ -136,7 +134,7 @@ rpl_iconv_open (const char *tocode, const char *fromcode)
       {
         p++;
         q++;
-        if (q == &tocode_upper[SIZEOF (tocode_upper)])
+        if (q == &tocode_upper[countof (tocode_upper)])
           {
             errno = EINVAL;
             return (iconv_t)(-1);

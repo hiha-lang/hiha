@@ -274,7 +274,7 @@ int
 plugin_filter (const struct dirent *dp)
 {
   bool accept = false;
-  if (dp->d_name[0] != '.')
+  if (dp->d_name[0] != '.' && strncmp (dp->d_name, "lib", 3) != 0)
     {
       const char *p = strstr (dp->d_name, ".so");
       if (p != NULL)

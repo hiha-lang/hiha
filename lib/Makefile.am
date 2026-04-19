@@ -32,13 +32,13 @@
 #  --no-conditional-dependencies \
 #  --libtool \
 #  --macro-prefix=gl \
-#  alphasort \
 #  avltree-list \
 #  avltree-omap \
 #  base64 \
 #  dirent \
 #  error \
 #  exitfail \
+#  filevercmp \
 #  getline \
 #  getopt-gnu \
 #  progname \
@@ -119,14 +119,6 @@ MOSTLYCLEANFILES += alloca.h alloca.h-t
 EXTRA_DIST += alloca.in.h
 
 ## end   gnulib module alloca-opt
-
-## begin gnulib module alphasort
-
-if GL_COND_OBJ_ALPHASORT
-libgnu_la_SOURCES += alphasort.c
-endif
-
-## end   gnulib module alphasort
 
 ## begin gnulib module amemxfrm
 
@@ -464,6 +456,14 @@ EXTRA_DIST += fd-hook.h
 EXTRA_DIST += filename.h
 
 ## end   gnulib module filename
+
+## begin gnulib module filevercmp
+
+libgnu_la_SOURCES += filevercmp.c
+
+EXTRA_DIST += filevercmp.h
+
+## end   gnulib module filevercmp
 
 ## begin gnulib module free-posix
 

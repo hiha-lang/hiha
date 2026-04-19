@@ -26,6 +26,7 @@
 #include <limits.h>
 #include <errno.h>
 #include <dirent.h>
+#include <filevercmp.h>
 #include <progname.h>
 #include <exitfail.h>
 #include <error.h>
@@ -283,12 +284,18 @@ plugin_filter (const struct dirent *dp)
   return accept;
 }
 
+static int
+_fileversort (const struct dirent **a, const struct dirent **b)
+{
+  return filevercmp ((*a)->d_name, (*b)->d_name);
+}
+
 void
 load_one_plugindir (const char *dirname)
 {
   struct dirent **namelist;
   int num_entries =
-    scandir (dirname, &namelist, plugin_filter, alphasort);
+    scandir (dirname, &namelist, plugin_filter, _fileversort);
   if (num_entries < 0)
     {
       int err_number = errno;

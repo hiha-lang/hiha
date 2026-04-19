@@ -44,7 +44,6 @@ AC_DEFUN([gl_EARLY],
 
   # Code from module absolute-header:
   # Code from module alloca-opt:
-  # Code from module alphasort:
   # Code from module amemxfrm:
   # Code from module array-mergesort:
   # Code from module assert-h:
@@ -83,6 +82,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module fcntl-h:
   # Code from module fd-hook:
   # Code from module filename:
+  # Code from module filevercmp:
   # Code from module free-posix:
   # Code from module fseterr:
   # Code from module fstat:
@@ -238,12 +238,6 @@ AC_DEFUN([gl_INIT],
   gl_FUNC_ALLOCA
   gl_CONDITIONAL_HEADER([alloca.h])
   AC_PROG_MKDIR_P
-  gl_FUNC_ALPHASORT
-  gl_CONDITIONAL([GL_COND_OBJ_ALPHASORT], [test $HAVE_ALPHASORT = 0])
-  AM_COND_IF([GL_COND_OBJ_ALPHASORT], [
-    gl_PREREQ_ALPHASORT
-  ])
-  gl_DIRENT_MODULE_INDICATOR([alphasort])
   AC_REQUIRE([AC_C_RESTRICT])
   gl_ASSERT_H
   gl_CONDITIONAL_HEADER([assert.h])
@@ -843,7 +837,6 @@ AC_DEFUN([gl_FILE_LIST], [
   build-aux/config.rpath
   lib/_Noreturn.h
   lib/alloca.in.h
-  lib/alphasort.c
   lib/amemxfrm.c
   lib/amemxfrm.h
   lib/arg-nonnull.h
@@ -879,6 +872,8 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/fd-hook.c
   lib/fd-hook.h
   lib/filename.h
+  lib/filevercmp.c
+  lib/filevercmp.h
   lib/free.c
   lib/fseterr.c
   lib/fseterr.h
@@ -1079,7 +1074,6 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/00gnulib.m4
   m4/absolute-header.m4
   m4/alloca.m4
-  m4/alphasort.m4
   m4/assert_h.m4
   m4/base64.m4
   m4/build-to-host.m4

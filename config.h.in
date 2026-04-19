@@ -88,9 +88,6 @@
    whether the gnulib module strerror shall be considered present. */
 #undef GNULIB_STRERROR
 
-/* Define to 1 when the gnulib module alphasort should be tested. */
-#undef GNULIB_TEST_ALPHASORT
-
 /* Define to 1 when the gnulib module calloc-gnu should be tested. */
 #undef GNULIB_TEST_CALLOC_GNU
 
@@ -270,9 +267,6 @@
 
 /* Define to 1 if <alloca.h> works. */
 #undef HAVE_ALLOCA_H
-
-/* Define to 1 if you have the 'alphasort' function. */
-#undef HAVE_ALPHASORT
 
 /* Define to 1 if you have the <bp-sym.h> header file. */
 #undef HAVE_BP_SYM_H

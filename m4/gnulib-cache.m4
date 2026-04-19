@@ -37,13 +37,13 @@
 #  --no-conditional-dependencies \
 #  --libtool \
 #  --macro-prefix=gl \
-#  alphasort \
 #  avltree-list \
 #  avltree-omap \
 #  base64 \
 #  dirent \
 #  error \
 #  exitfail \
+#  filevercmp \
 #  getline \
 #  getopt-gnu \
 #  progname \
@@ -63,13 +63,13 @@
 # Specification in the form of a few gnulib-tool.m4 macro invocations:
 gl_LOCAL_DIR([])
 gl_MODULES([
-  alphasort
   avltree-list
   avltree-omap
   base64
   dirent
   error
   exitfail
+  filevercmp
   getline
   getopt-gnu
   progname

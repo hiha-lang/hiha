@@ -44,6 +44,7 @@ AC_DEFUN([gl_EARLY],
 
   # Code from module absolute-header:
   # Code from module alloca-opt:
+  # Code from module alphasort:
   # Code from module amemxfrm:
   # Code from module array-mergesort:
   # Code from module assert-h:
@@ -53,6 +54,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module base64:
   # Code from module basename-lgpl:
   # Code from module bool:
+  # Code from module builtin-expect:
   # Code from module c-ctype:
   # Code from module c-strcasecmp:
   # Code from module c-strcaseeq:
@@ -61,6 +63,10 @@ AC_DEFUN([gl_EARLY],
   # Code from module calloc-posix:
   # Code from module cloexec:
   # Code from module close:
+  # Code from module closedir:
+  # Code from module dirent:
+  # Code from module dirent-h:
+  # Code from module dirfd:
   # Code from module double-slash-root:
   # Code from module dup2:
   # Code from module errno-h:
@@ -119,10 +125,13 @@ AC_DEFUN([gl_EARLY],
   # Code from module nocrash:
   # Code from module omap:
   # Code from module open:
+  # Code from module opendir:
   # Code from module pathmax:
   # Code from module progname:
+  # Code from module readdir:
   # Code from module realloc-posix:
   # Code from module reallocarray:
+  # Code from module scandir:
   # Code from module snippet/_Noreturn:
   # Code from module snippet/arg-nonnull:
   # Code from module snippet/c++defs:
@@ -229,12 +238,19 @@ AC_DEFUN([gl_INIT],
   gl_FUNC_ALLOCA
   gl_CONDITIONAL_HEADER([alloca.h])
   AC_PROG_MKDIR_P
+  gl_FUNC_ALPHASORT
+  gl_CONDITIONAL([GL_COND_OBJ_ALPHASORT], [test $HAVE_ALPHASORT = 0])
+  AM_COND_IF([GL_COND_OBJ_ALPHASORT], [
+    gl_PREREQ_ALPHASORT
+  ])
+  gl_DIRENT_MODULE_INDICATOR([alphasort])
   AC_REQUIRE([AC_C_RESTRICT])
   gl_ASSERT_H
   gl_CONDITIONAL_HEADER([assert.h])
   AC_PROG_MKDIR_P
   gl_FUNC_BASE64
   gl_C_BOOL
+  gl___BUILTIN_EXPECT
   gl_FUNC_CALLOC_GNU
   if test $REPLACE_CALLOC_FOR_CALLOC_GNU = 1; then
     AC_LIBOBJ([calloc])
@@ -250,6 +266,20 @@ AC_DEFUN([gl_INIT],
   gl_CONDITIONAL([GL_COND_OBJ_CLOSE], [test $REPLACE_CLOSE = 1])
   gl_UNISTD_MODULE_INDICATOR([close])
   gl_MODULE_INDICATOR([close])
+  gl_FUNC_CLOSEDIR
+  gl_CONDITIONAL([GL_COND_OBJ_CLOSEDIR],
+                 [test $HAVE_CLOSEDIR = 0 || test $REPLACE_CLOSEDIR = 1])
+  gl_DIRENT_MODULE_INDICATOR([closedir])
+  gl_DIRENT_H
+  gl_DIRENT_H_REQUIRE_DEFAULTS
+  AC_PROG_MKDIR_P
+  gl_FUNC_DIRFD
+  gl_CONDITIONAL([GL_COND_OBJ_DIRFD],
+                 [test $HAVE_DIRFD = 0 || test $REPLACE_DIRFD = 1])
+  AM_COND_IF([GL_COND_OBJ_DIRFD], [
+    gl_PREREQ_DIRFD
+  ])
+  gl_DIRENT_MODULE_INDICATOR([dirfd])
   gl_DOUBLE_SLASH_ROOT
   gl_FUNC_DUP2
   gl_CONDITIONAL([GL_COND_OBJ_DUP2], [test $REPLACE_DUP2 = 1])
@@ -412,9 +442,17 @@ AC_DEFUN([gl_INIT],
     gl_PREREQ_OPEN
   ])
   gl_FCNTL_MODULE_INDICATOR([open])
+  gl_FUNC_OPENDIR
+  gl_CONDITIONAL([GL_COND_OBJ_OPENDIR],
+                 [test $HAVE_OPENDIR = 0 || test $REPLACE_OPENDIR = 1])
+  gl_DIRENT_MODULE_INDICATOR([opendir])
   gl_PATHMAX
   AC_CHECK_DECLS([program_invocation_name], [], [], [#include <errno.h>])
   AC_CHECK_DECLS([program_invocation_short_name], [], [], [#include <errno.h>])
+  gl_FUNC_READDIR
+  gl_CONDITIONAL([GL_COND_OBJ_READDIR],
+                 [test $HAVE_READDIR = 0 || test $REPLACE_READDIR = 1])
+  gl_DIRENT_MODULE_INDICATOR([readdir])
   gl_FUNC_REALLOC_POSIX
   gl_FUNC_REALLOC_0_NONNULL
   gl_CONDITIONAL([GL_COND_OBJ_REALLOC_POSIX],
@@ -428,6 +466,12 @@ AC_DEFUN([gl_INIT],
   ])
   gl_MODULE_INDICATOR([reallocarray])
   gl_STDLIB_MODULE_INDICATOR([reallocarray])
+  gl_FUNC_SCANDIR
+  gl_CONDITIONAL([GL_COND_OBJ_SCANDIR], [test $HAVE_SCANDIR = 0])
+  AM_COND_IF([GL_COND_OBJ_SCANDIR], [
+    gl_PREREQ_SCANDIR
+  ])
+  gl_DIRENT_MODULE_INDICATOR([scandir])
   gt_TYPE_SSIZE_T
   gl_FUNC_STAT
   gl_CONDITIONAL([GL_COND_OBJ_STAT], [test $REPLACE_STAT = 1])
@@ -799,6 +843,7 @@ AC_DEFUN([gl_FILE_LIST], [
   build-aux/config.rpath
   lib/_Noreturn.h
   lib/alloca.in.h
+  lib/alphasort.c
   lib/amemxfrm.c
   lib/amemxfrm.h
   lib/arg-nonnull.h
@@ -819,6 +864,10 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/cloexec.c
   lib/cloexec.h
   lib/close.c
+  lib/closedir.c
+  lib/dirent-private.h
+  lib/dirent.in.h
+  lib/dirfd.c
   lib/dup2.c
   lib/errno.in.h
   lib/error.c
@@ -900,11 +949,14 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/msvc-nothrow.c
   lib/msvc-nothrow.h
   lib/open.c
+  lib/opendir.c
   lib/pathmax.h
   lib/progname.c
   lib/progname.h
+  lib/readdir.c
   lib/realloc.c
   lib/reallocarray.c
+  lib/scandir.c
   lib/stat-time.c
   lib/stat-time.h
   lib/stat-w32.c
@@ -1027,13 +1079,18 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/00gnulib.m4
   m4/absolute-header.m4
   m4/alloca.m4
+  m4/alphasort.m4
   m4/assert_h.m4
   m4/base64.m4
   m4/build-to-host.m4
+  m4/builtin-expect.m4
   m4/c-bool.m4
   m4/calloc.m4
   m4/close.m4
+  m4/closedir.m4
   m4/codeset.m4
+  m4/dirent_h.m4
+  m4/dirfd.m4
   m4/double-slash-root.m4
   m4/dup2.m4
   m4/errno_h.m4
@@ -1089,10 +1146,13 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/open-cloexec.m4
   m4/open-slash.m4
   m4/open.m4
+  m4/opendir.m4
   m4/pathmax.m4
   m4/pid_t.m4
+  m4/readdir.m4
   m4/realloc.m4
   m4/reallocarray.m4
+  m4/scandir.m4
   m4/ssize_t.m4
   m4/stat-time.m4
   m4/stat.m4

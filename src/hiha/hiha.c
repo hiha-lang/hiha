@@ -22,7 +22,10 @@
 #include <config.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <limits.h>
+#include <errno.h>
+#include <dirent.h>
 #include <progname.h>
 #include <exitfail.h>
 #include <error.h>
@@ -46,6 +49,21 @@
 #define GETOPT_HELP_CHAR (CHAR_MIN - 2)
 #define GETOPT_VERSION_CHAR (CHAR_MIN - 3)
 #define GETOPT_PLUGIN_CHAR (CHAR_MAX + 1)
+#define GETOPT_PLUGINDIR_CHAR (CHAR_MAX + 2)
+
+enum hiha_plugin_tag_t
+{
+  TAG_PLUGIN,
+  TAG_PLUGINDIR
+};
+typedef enum hiha_plugin_tag_t hiha_plugin_tag_t;
+
+struct hiha_plugin
+{
+  hiha_plugin_tag_t tag;
+  const char *locator;
+};
+typedef struct hiha_plugin *hiha_plugin_t;
 
 struct hiha_options
 {
@@ -159,7 +177,9 @@ print_usage (void)
   usage_puts (_("Do something not yet implemented "
                 "with hiha source FILES...\n"));
   usage_puts ("\n");
-  usage_puts (_("      --plugin=PLUGIN     load the plugin\n"));
+  usage_puts (_("      --plugin=PLUGIN     load a plugin\n"));
+  usage_puts (_("      --plugindir=DIR     "
+                "load plugins from a directory\n"));
   usage_puts (_("      --help        display this help and exit\n"));
   usage_puts (_("      --version     "
                 "output version information and exit\n"));
@@ -184,6 +204,7 @@ check_usage (int argc, MAYBE_UNUSED char **argv)
 
 static struct option const long_opts[] = {
   {"plugin", required_argument, NULL, GETOPT_PLUGIN_CHAR},
+  {"plugindir", required_argument, NULL, GETOPT_PLUGINDIR_CHAR},
   {"help", no_argument, NULL, GETOPT_HELP_CHAR},
   {"version", no_argument, NULL, GETOPT_VERSION_CHAR},
   {NULL, 0, NULL, 0}
@@ -194,6 +215,15 @@ getopt_for_this_program (int argc, char **argv)
 {
   return getopt_long (argc, argv, "", long_opts, NULL);
 }
+
+hiha_plugin_t
+make_hiha_plugin_t (hiha_plugin_tag_t tag, const char *locator)
+{
+  hiha_plugin_t p = XMALLOC (struct hiha_plugin);
+  p->tag = tag;
+  p->locator = xstrdup (locator);
+  return p;
+};
 
 static void
 get_options (int argc, char **argv, hiha_options_t *opts)
@@ -208,7 +238,13 @@ get_options (int argc, char **argv, hiha_options_t *opts)
       switch (c)
         {
         case GETOPT_PLUGIN_CHAR:
-          gl_list_add_last ((*opts)->plugins, xstrdup (optarg));
+          gl_list_add_last ((*opts)->plugins,
+                            make_hiha_plugin_t (TAG_PLUGIN, optarg));
+          break;
+
+        case GETOPT_PLUGINDIR_CHAR:
+          gl_list_add_last ((*opts)->plugins,
+                            make_hiha_plugin_t (TAG_PLUGINDIR, optarg));
           break;
 
         case GETOPT_VERSION_CHAR:
@@ -222,18 +258,75 @@ get_options (int argc, char **argv, hiha_options_t *opts)
     }
 }
 
+void
+load_one_plugin (const char *fn)
+{
+  const char *error_message = NULL;
+  load_plugin (fn, &error_message);
+  if (error_message != NULL)
+    {
+      error (exit_failure, 0, "%s", error_message);
+      abort ();
+    }
+}
+
+int
+plugin_filter (const struct dirent *dp)
+{
+  bool accept = false;
+  if (dp->d_name[0] != '.')
+    {
+      const char *p = strstr (dp->d_name, ".so");
+      if (p != NULL)
+        accept = (p - dp->d_name == strlen (dp->d_name) - 3);
+    }
+  return accept;
+}
+
+void
+load_one_plugindir (const char *dirname)
+{
+  struct dirent **namelist;
+  int num_entries =
+    scandir (dirname, &namelist, plugin_filter, alphasort);
+  if (num_entries < 0)
+    {
+      int err_number = errno;
+      char *msg = strerror (err_number);
+      error (exit_failure, err_number, "%s", msg);
+      abort ();
+    }
+  else
+    {
+      const int n_dirname = strlen (dirname);
+      for (int i = 0; i != num_entries; i += 1)
+        {
+          char *dn = namelist[i]->d_name;
+          size_t n_dn = strlen (dn);
+          char *fn = XCALLOC (n_dn + n_dirname + 2, char);
+          memcpy (fn, dirname, n_dirname * sizeof (char));
+          fn[n_dirname] = '/';
+          memcpy (fn + n_dirname + 1, namelist[i]->d_name, n_dn);
+          load_one_plugin (fn);
+        }
+    }
+}
+
 static void
 load_command_line_plugins (gl_list_t plugins)
 {
   for (size_t i = 0; i != gl_list_size (plugins); i += 1)
     {
-      const char *error_message;
-      const char *fn = gl_list_get_at (plugins, i);
-      load_plugin (fn, &error_message);
-      if (error_message != NULL)
+      const hiha_plugin_t p =
+        (hiha_plugin_t) gl_list_get_at (plugins, i);
+      switch (p->tag)
         {
-          error (exit_failure, 0, "%s", error_message);
-          abort ();
+        case TAG_PLUGIN:
+          load_one_plugin (p->locator);
+          break;
+        case TAG_PLUGINDIR:
+          load_one_plugindir (p->locator);
+          break;
         }
     }
 }

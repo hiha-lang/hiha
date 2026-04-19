@@ -201,6 +201,9 @@ indent:
 		-Ttext_location_t \
 		-Ttoken_getter_t \
 		-Ttoken_getter_from_file_t \
+		-Thiha_plugin_t \
+		-Thiha_plugin_tag_t \
+		-Thiha_options_t \
 		$(addprefix $(top_srcdir)/, \
 			$(filter %.c %.h,$(libhiha_la_SOURCES))) \
 		$(addprefix $(top_srcdir)/, \

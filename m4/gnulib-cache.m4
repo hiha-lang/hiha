@@ -37,14 +37,17 @@
 #  --no-conditional-dependencies \
 #  --libtool \
 #  --macro-prefix=gl \
+#  alphasort \
 #  avltree-list \
 #  avltree-omap \
 #  base64 \
+#  dirent \
 #  error \
 #  exitfail \
 #  getline \
 #  getopt-gnu \
 #  progname \
+#  scandir \
 #  unicase/u32-casecoll \
 #  uniconv/u32-casecoll \
 #  uniconv/u32-conv-from-enc \
@@ -60,14 +63,17 @@
 # Specification in the form of a few gnulib-tool.m4 macro invocations:
 gl_LOCAL_DIR([])
 gl_MODULES([
+  alphasort
   avltree-list
   avltree-omap
   base64
+  dirent
   error
   exitfail
   getline
   getopt-gnu
   progname
+  scandir
   unicase/u32-casecoll
   uniconv/u32-casecoll
   uniconv/u32-conv-from-enc

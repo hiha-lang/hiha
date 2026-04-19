@@ -32,14 +32,17 @@
 #  --no-conditional-dependencies \
 #  --libtool \
 #  --macro-prefix=gl \
+#  alphasort \
 #  avltree-list \
 #  avltree-omap \
 #  base64 \
+#  dirent \
 #  error \
 #  exitfail \
 #  getline \
 #  getopt-gnu \
 #  progname \
+#  scandir \
 #  unicase/u32-casecoll \
 #  uniconv/u32-casecoll \
 #  uniconv/u32-conv-from-enc \
@@ -116,6 +119,14 @@ MOSTLYCLEANFILES += alloca.h alloca.h-t
 EXTRA_DIST += alloca.in.h
 
 ## end   gnulib module alloca-opt
+
+## begin gnulib module alphasort
+
+if GL_COND_OBJ_ALPHASORT
+libgnu_la_SOURCES += alphasort.c
+endif
+
+## end   gnulib module alphasort
 
 ## begin gnulib module amemxfrm
 
@@ -250,6 +261,75 @@ libgnu_la_SOURCES += close.c
 endif
 
 ## end   gnulib module close
+
+## begin gnulib module closedir
+
+if GL_COND_OBJ_CLOSEDIR
+libgnu_la_SOURCES += closedir.c
+endif
+
+EXTRA_DIST += dirent-private.h
+
+## end   gnulib module closedir
+
+## begin gnulib module dirent-h
+
+BUILT_SOURCES += dirent.h
+
+# We need the following in order to create <dirent.h> when the system
+# doesn't have one that works with the given compiler.
+dirent.h: dirent.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
+	$(gl_V_at)$(SED_HEADER_STDOUT) \
+	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+	      -e 's|@''HAVE_DIRENT_H''@|$(HAVE_DIRENT_H)|g' \
+	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+	      -e 's|@''NEXT_DIRENT_H''@|$(NEXT_DIRENT_H)|g' \
+	      -e 's/@''DIR_HAS_FD_MEMBER''@/$(DIR_HAS_FD_MEMBER)/g' \
+	      -e 's/@''GNULIB_OPENDIR''@/$(GL_GNULIB_OPENDIR)/g' \
+	      -e 's/@''GNULIB_READDIR''@/$(GL_GNULIB_READDIR)/g' \
+	      -e 's/@''GNULIB_REWINDDIR''@/$(GL_GNULIB_REWINDDIR)/g' \
+	      -e 's/@''GNULIB_CLOSEDIR''@/$(GL_GNULIB_CLOSEDIR)/g' \
+	      -e 's/@''GNULIB_DIRFD''@/$(GL_GNULIB_DIRFD)/g' \
+	      -e 's/@''GNULIB_FDOPENDIR''@/$(GL_GNULIB_FDOPENDIR)/g' \
+	      -e 's/@''GNULIB_SCANDIR''@/$(GL_GNULIB_SCANDIR)/g' \
+	      -e 's/@''GNULIB_ALPHASORT''@/$(GL_GNULIB_ALPHASORT)/g' \
+	      -e 's/@''HAVE_OPENDIR''@/$(HAVE_OPENDIR)/g' \
+	      -e 's/@''HAVE_READDIR''@/$(HAVE_READDIR)/g' \
+	      -e 's/@''HAVE_REWINDDIR''@/$(HAVE_REWINDDIR)/g' \
+	      -e 's/@''HAVE_CLOSEDIR''@/$(HAVE_CLOSEDIR)/g' \
+	      -e 's|@''HAVE_DECL_DIRFD''@|$(HAVE_DECL_DIRFD)|g' \
+	      -e 's|@''HAVE_DECL_FDOPENDIR''@|$(HAVE_DECL_FDOPENDIR)|g' \
+	      -e 's|@''HAVE_FDOPENDIR''@|$(HAVE_FDOPENDIR)|g' \
+	      -e 's|@''HAVE_SCANDIR''@|$(HAVE_SCANDIR)|g' \
+	      -e 's|@''HAVE_ALPHASORT''@|$(HAVE_ALPHASORT)|g' \
+	      -e 's|@''REPLACE_OPENDIR''@|$(REPLACE_OPENDIR)|g' \
+	      -e 's|@''REPLACE_READDIR''@|$(REPLACE_READDIR)|g' \
+	      -e 's|@''REPLACE_REWINDDIR''@|$(REPLACE_REWINDDIR)|g' \
+	      -e 's|@''REPLACE_CLOSEDIR''@|$(REPLACE_CLOSEDIR)|g' \
+	      -e 's|@''REPLACE_DIRFD''@|$(REPLACE_DIRFD)|g' \
+	      -e 's|@''REPLACE_FDOPENDIR''@|$(REPLACE_FDOPENDIR)|g' \
+	      -e '/definitions of _GL_FUNCDECL_RPL/r $(CXXDEFS_H)' \
+	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
+	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
+	      $(srcdir)/dirent.in.h > $@-t
+	$(AM_V_at)mv $@-t $@
+MOSTLYCLEANFILES += dirent.h dirent.h-t
+
+EXTRA_DIST += dirent.in.h
+
+## end   gnulib module dirent-h
+
+## begin gnulib module dirfd
+
+if GL_COND_OBJ_DIRFD
+libgnu_la_SOURCES += dirfd.c
+endif
+
+EXTRA_DIST += dirent-private.h
+
+## end   gnulib module dirfd
 
 ## begin gnulib module dup2
 
@@ -858,6 +938,16 @@ endif
 
 ## end   gnulib module open
 
+## begin gnulib module opendir
+
+if GL_COND_OBJ_OPENDIR
+libgnu_la_SOURCES += opendir.c
+endif
+
+EXTRA_DIST += dirent-private.h
+
+## end   gnulib module opendir
+
 ## begin gnulib module pathmax
 
 
@@ -870,6 +960,16 @@ EXTRA_DIST += pathmax.h
 libgnu_la_SOURCES += progname.h progname.c
 
 ## end   gnulib module progname
+
+## begin gnulib module readdir
+
+if GL_COND_OBJ_READDIR
+libgnu_la_SOURCES += readdir.c
+endif
+
+EXTRA_DIST += dirent-private.h
+
+## end   gnulib module readdir
 
 ## begin gnulib module realloc-posix
 
@@ -886,6 +986,14 @@ libgnu_la_SOURCES += reallocarray.c
 endif
 
 ## end   gnulib module reallocarray
+
+## begin gnulib module scandir
+
+if GL_COND_OBJ_SCANDIR
+libgnu_la_SOURCES += scandir.c
+endif
+
+## end   gnulib module scandir
 
 ## begin gnulib module snippet/_Noreturn
 

@@ -76,6 +76,14 @@ make_pratt_binding_power_t (double bp)
 }
 
 static int
+binding_powers_lt (double a, double b)
+{
+  pratt_binding_power_t _a = make_pratt_binding_power_t (a);
+  pratt_binding_power_t _b = make_pratt_binding_power_t (b);
+  return (a < b);
+}
+
+static int
 compare_strings (const void *s1, const void *s2)
 {
   const string_t str1 = (const string_t) s1;
@@ -114,39 +122,140 @@ VISIBLE void
 pratt_add_lbp (pratt_tables_t data, string_t token_kind,
                double binding_power)
 {
-  pratt_binding_power_t *bp = XMALLOC (pratt_binding_power_t);
-  *bp = make_pratt_binding_power_t (binding_power);
+  double *bp = XMALLOC (double);
+  *bp = binding_power;
   gl_omap_put (data->lbp, token_kind, bp);
 }
 
-VISIBLE void *
-pratt_parse (void *state, buffered_token_getter_t getter,
-             pratt_tables_t tables, double min_power)
+static void
+execute_null_denotation (void *state, buffered_token_getter_t getter,
+                         pratt_tables_t tables, void **lhs,
+                         const char **error_message)
 {
-  void *lhs = NULL;             /* left hand side */
-  token_t tok = NULL;
-  char *error_message = NULL;
+  token_t tok;
 
-  // FIXME
+  *lhs = NULL;
+  //
+  // Consume the next token.
+  //
+  getter->get_token (getter, &tok, error_message);
+  if (error_message == NULL)
+    {
+      const void *p = gl_omap_get (tables->nud, tok->token_kind);
+      if (p == NULL)
+        {
+          //
+          // Syntax error.
+          //
+          char s[1000];
+          snprintf (s, 1000, _("syntax error%s: “%s”"),
+                    text_location_string (tok->loc),
+                    make_str_nul (tok->token_value));
+          *error_message = xstrdup (s);
+        }
+      else
+        {
+          //
+          // Success.
+          //
+          nud_handler_t handler = (nud_handler_t) p;
+          handler (state, tables, tok, lhs, error_message);
+        }
+    }
 }
 
-/*
-procedure parse_expression(get_token, tables, min_power)
-   local tok, lhs
+static void
+peek_at_next_token (void *state, buffered_token_getter_t getter,
+                    pratt_tables_t tables, double *left_binding_power,
+                    const char **error_message)
+{
+  if (*error_message == NULL)
+    {
+      token_t tok;
+      //
+      // Peek at the next token, without consuming it.
+      //
+      getter->look_at_token (getter, 0, &tok, error_message);
+      if (*error_message == NULL)
+        {
+          const void *p = gl_omap_get (tables->lbp, tok->token_kind);
+          if (p == NULL)
+            //
+            // There is no entry in the binding power table. Default
+            // to the absolute minimum binding power.
+            //
+            // Keep in mind that we do not consider binding powers to
+            // have actual floating point values. They have fixed
+            // point values with a certain number of decimal places.
+            // That conversion happens elsewhere, however. The use of
+            // “double” at this point, with later conversion to
+            // decimal, is a concession to C compilers that do not
+            // support _Decimal32 or _Decimal64.
+            //
+            // This all may seem like too much of a big deal, but I
+            // was determined that binding powers should be exact
+            // decimal numbers with a few useful decimal places.
+            //
+            *left_binding_power = -HUGE_VAL;
+          else
+            //
+            // There is an entry in the binding power table. Use it.
+            //
+            *left_binding_power = *((const double *) p);
+        }
+    }
+}
 
-   /min_power := 0
+static void
+execute_left_denotation (void *state, buffered_token_getter_t getter,
+                         pratt_tables_t tables, void **lhs,
+                         const char **error_message)
+{
+  token_t tok;
 
-   tok := get_token(1)
-   lhs := tables.nud[tok.token_kind](tok)
-   while min_power <
-      tables.lbp[get_token(0).token_kind] do {
-         tok := get_token(1)
-         lhs := tables.led[tok.token_kind](lhs, tok)
-      }
-   return lhs
-end
+  //
+  // Consume the next token.
+  //
+  getter->get_token (getter, &tok, error_message);
+  if (error_message == NULL)
+    {
+      const void *p = gl_omap_get (tables->led, tok->token_kind);
+      if (p == NULL)
+        {
+          //
+          // Syntax error.
+          //
+          char s[1000];
+          snprintf (s, 1000, _("syntax error%s: “%s”"),
+                    text_location_string (tok->loc),
+                    make_str_nul (tok->token_value));
+          *error_message = xstrdup (s);
+        }
+      else
+        {
+          //
+          // Success.
+          //
+          led_handler_t handler = (led_handler_t) p;
+          handler (state, tables, tok, lhs, error_message);
+        }
+    }
+}
 
-*/
+VISIBLE void
+pratt_parse (void *state, buffered_token_getter_t getter,
+             pratt_tables_t tables, double min_power,
+             void **lhs, const char **error_message)
+{
+  double binding_power;
+
+  execute_null_denotation (state, getter, tables, lhs, error_message);
+  peek_at_next_token (state, getter, tables, &binding_power,
+                      error_message);
+  while (*error_message == NULL
+         && binding_powers_lt (min_power, binding_power))
+    execute_left_denotation (state, getter, tables, lhs, error_message);
+}
 
 /*
   local variables:

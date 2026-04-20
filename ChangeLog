@@ -1,8 +1,13 @@
 2026-04-20  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
 
+	* ChangeLog, Makefile.in, include/libhiha/token_t.h, src/hiha/hiha.c,
+	src/libhiha/pratt.c, src/libhiha/token_t.c:
+	Improved interface for buffered tokens.
+	[a398325d3991] [github/master, tip]
+
 	* ChangeLog, Makefile.am:
 	Change the ChangeLog template.
-	[11b83464e2e3] [github/master, tip]
+	[11b83464e2e3]
 
 	* ChangeLog, Makefile.am, Makefile.in, configure, configure.ac,
 	lib/Makefile.in, src/hiha/hiha.c, src/libhiha/pratt.c:

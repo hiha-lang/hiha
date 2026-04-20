@@ -213,11 +213,21 @@ indent:
 
 #---------------------------------------------------------------------
 
+dist: $(DISTITEMS)
+
+DISTITEMS =
+
 $(srcdir)/README: $(srcdir)/README.adoc
 	asciidoctor $(<) -o - \
 		| elinks -dump 1 -no-references -no-numbering > $(@)
+DISTITEMS += $(srcdir)/README
 
-dist: $(srcdir)/README
+if HAVE_CHANGELOGGER
+$(srcdir)/ChangeLog: $(srcdir)/.hg
+	SORTSMILL_HG_LOG_STYLE=compact $(CHANGELOGGER) -C $(srcdir) \
+	  > $(@).tmp && mv $(@){.tmp,}
+DISTITEMS += $(srcdir)/ChangeLog
+endif HAVE_CHANGELOGGER
 
 #---------------------------------------------------------------------
 # local variables:

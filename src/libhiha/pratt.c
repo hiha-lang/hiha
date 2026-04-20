@@ -119,13 +119,15 @@ pratt_add_lbp (pratt_tables_t data, string_t token_kind,
   gl_omap_put (data->lbp, token_kind, bp);
 }
 
-/*
 VISIBLE void *
-pratt_parse (void *state, buffered_token_getter_t getter, pratt_tables_t tables, double min_power)
+pratt_parse (void *state, buffered_token_getter_t getter,
+             pratt_tables_t tables, double min_power)
 {
+  void *lhs;                    /* left hand side */
+  token_t tok;
 
+  // FIXME
 }
-*/
 
 /*
 procedure parse_expression(get_token, tables, min_power)

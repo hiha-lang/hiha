@@ -112,6 +112,7 @@ build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = hiha$(EXEEXT)
 EXTRA_PROGRAMS =
+@HAVE_CHANGELOGGER_TRUE@am__append_1 = $(srcdir)/ChangeLog
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
@@ -416,6 +417,7 @@ CAN_PRINT_STACK_TRACE = @CAN_PRINT_STACK_TRACE@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
+CHANGELOGGER = @CHANGELOGGER@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CSCOPE = @CSCOPE@
@@ -1805,6 +1807,7 @@ libhiha_HDRS = include/libhiha/libhiha.h include/libhiha/spinlock.h \
 	include/libhiha/initialize_once.h include/libhiha/string_t.h \
 	include/libhiha/token_t.h include/libhiha/pratt.h \
 	include/libhiha/load_plugin.h
+DISTITEMS = $(srcdir)/README $(am__append_1)
 all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -2668,11 +2671,15 @@ indent:
 
 #---------------------------------------------------------------------
 
+dist: $(DISTITEMS)
+
 $(srcdir)/README: $(srcdir)/README.adoc
 	asciidoctor $(<) -o - \
 		| elinks -dump 1 -no-references -no-numbering > $(@)
 
-dist: $(srcdir)/README
+@HAVE_CHANGELOGGER_TRUE@$(srcdir)/ChangeLog: $(srcdir)/.hg
+@HAVE_CHANGELOGGER_TRUE@	SORTSMILL_HG_LOG_STYLE=compact $(CHANGELOGGER) -C $(srcdir) \
+@HAVE_CHANGELOGGER_TRUE@	  > $(@).tmp && mv $(@){.tmp,}
 
 #---------------------------------------------------------------------
 # local variables:

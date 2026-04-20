@@ -73,6 +73,23 @@ CHEM_PATH_PROGS_CACHED_AND_PRECIOUS([INDENT],
     fi
   ])
 
+CHEM_PATH_PROGS_CACHED_AND_PRECIOUS([CHANGELOGGER],
+  [Sorts Mill Changelogger],[sortsmill-changelogger],
+  [
+    if LC_ALL=C LANG=C ${ac_path_CHANGELOGGER} -V 2>&1 | \
+      LC_ALL=C LANG=C ${GREP} -e '^sortsmill-changelogger' \
+               2> /dev/null > /dev/null; then
+      if LC_ALL=C LANG=C ${ac_path_CHANGELOGGER} -V 2>&1 | \
+        LC_ALL=C LANG=C ${GREP} -e 'Barry Schwartz' \
+                 2> /dev/null > /dev/null; then
+        ac_cv_path_CHANGELOGGER="${ac_path_CHANGELOGGER}"
+        ac_path_CHANGELOGGER_found=:
+      fi
+    fi
+  ])
+AM_CONDITIONAL([HAVE_CHANGELOGGER],
+        [test "${chem_cv_path_CHANGELOGGER_found}" = yes])
+
 # CHEM_PROG_GNU_M4
 # if test -z "${GNU_M4}"; then
 #    AC_MSG_ERROR([GNU m4 not found. Perhaps set GNU_M4 to OpenBSD m4.])

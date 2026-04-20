@@ -1,1 +1,132 @@
-FIXME: Possibly add Sorts Mill Changelogger to the package.
+43[github/master,tip][master]   84c6de58025e   2026-04-20 09:48 -0500   150643+chemoelectric
+  Added buffered token getters. The buffering has not been tried yet.
+
+42   51249829f2ae   2026-04-19 14:06 -0500   150643+chemoelectric
+  Upgrade gnulib. Note that a workaround had to be added in configure.ac.
+
+41   fed5d6dda822   2026-04-19 12:53 -0500   150643+chemoelectric
+  Gnulib changes.
+
+40   32ea468c2ce3   2026-04-19 12:52 -0500   150643+chemoelectric
+  Use filevercmp instead of strverscmp or strcoll.
+
+39   3c67a86998cd   2026-04-19 12:30 -0500   150643+chemoelectric
+  Do not allow plugin names to start with "lib"
+
+38   f9046b37ec62   2026-04-19 09:45 -0500   150643+chemoelectric
+  Ability to load the all the plugins in a directory.
+
+37   b0ea4c2bb98a   2026-04-17 13:30 -0500   150643+chemoelectric
+  Pass some flags from configure to configure.
+
+36   537098785411   2026-04-17 13:18 -0500   150643+chemoelectric
+  Make it pass ‘make distcheck’
+
+35   21e9846e2a3a   2026-04-16 13:52 -0500   150643+chemoelectric
+  Some code for loading plugins.
+
+34   505d44fdd40b   2026-04-16 10:17 -0500   150643+chemoelectric
+  Start of better organized Pratt parsing.
+
+33   bcef1e7c919b   2026-04-15 15:14 -0500   150643+chemoelectric
+  bug fix
+
+32   f2093d063261   2026-04-15 15:13 -0500   150643+chemoelectric
+  Reduce McCabe complexity.
+
+31   f9e707b7ed9a   2026-04-15 11:41 -0500   150643+chemoelectric
+  Deserialization now works.
+
+30   eca383887b19   2026-04-15 10:05 -0500   150643+chemoelectric
+  Bug fix
+
+29   38128c9a30e9   2026-04-15 09:49 -0500   150643+chemoelectric
+  Add _mm_pause as a way to do the spinlock.
+
+28   102da849cfae   2026-04-15 09:16 -0500   150643+chemoelectric
+  Revert out of the crypto stuff that it turns out is not needed.
+
+27   e3883c68fcb0   2026-04-14 20:52 -0500   150643+chemoelectric
+  Prepare configure for libblake3 and Gnulib’s SHA256 support for fixed-point hashing.
+
+26   ef1382b783b5   2026-04-14 12:05 -0500   150643+chemoelectric
+  A bug fix to serialization.
+
+25   d3303e271c90   2026-04-14 11:40 -0500   150643+chemoelectric
+  Deserialization of token kinds.
+
+24   8587a697f6de   2026-04-14 11:01 -0500   150643+chemoelectric
+  Start of deserialization programming.
+
+23   13885535bc0f   2026-04-14 06:36 -0500   150643+chemoelectric
+  Use one-time initialization more broadly.
+
+22   cce191261c32   2026-04-13 22:06 -0500   150643+chemoelectric
+  Compression scheme for the serialization.
+
+21   97ad3552a5d6   2026-04-13 12:25 -0500   150643+chemoelectric
+  Test for builtin pause in configure
+
+20   fa6b5f1cfe5a   2026-04-13 09:15 -0500   150643+chemoelectric
+  Now I have modularized the one-time initialization and used my old
+
+19   166b20044f3c   2026-04-12 17:16 -0500   150643+chemoelectric
+  Save the base64 stuff from Gnulib that I will be using.
+
+18   4604e4755fbc   2026-04-12 17:16 -0500   150643+chemoelectric
+  Save my spinlocked code.
+
+17   7c0911b1e864   2026-04-12 13:52 -0500   150643+chemoelectric
+  Some basic token reading.
+
+16   31cd4cc3edc0   2026-04-12 06:01 -0500   150643+chemoelectric
+  Remove PCRE2.
+
+15   d203eb2c6b09   2026-04-12 05:55 -0500   150643+chemoelectric
+  Remove code for freeing things.
+
+14   b97166016064   2026-04-11 19:40 -0500   150643+chemoelectric
+  Incorporate a garbage collector. We are going to get rid of bothering to free things.
+
+13   abbd1dd8cbdc   2026-04-09 11:32 -0500   150643+chemoelectric
+  Link with PCRE2, and also bring up to GNU standards in some respects.
+
+12   1a9183d6766c   2026-04-08 19:48 -0500   150643+chemoelectric
+  A few preparations for dlopen
+
+11   24478f2ba2d5   2026-04-08 19:08 -0500   150643+chemoelectric
+  Fix ‘make indent’.
+
+10   a51b67c363da   2026-04-08 19:04 -0500   150643+chemoelectric
+  Libtoolize and prepare to use dlopen modules.
+
+9   f1b44974593b   2026-04-08 11:22 -0500   150643+chemoelectric
+  Got rid of the need for _Decimal32
+
+8   6a54067e3f6a   2026-04-08 06:47 -0500   150643+chemoelectric
+  There is no need at all it include snprintf-gnu from Gnulib.
+
+7   bf5a383b4e49   2026-04-08 04:41 -0500   150643+chemoelectric
+  Add a note about abort(3) after error(exit_failure,...)
+
+6   920d35e64894   2026-04-08 04:34 -0500   150643+chemoelectric
+  Improvements to error reporting.
+
+5   7432da541aff   2026-04-07 13:56 -0500   150643+chemoelectric
+  Save work before resting due to disability.
+
+4   331e3e3476c6   2026-04-07 10:36 -0500   150643+chemoelectric
+  I think I should save the current work.
+
+3   b981a1acee77   2026-04-06 17:05 -0500   150643+chemoelectric
+  A little explanation.
+
+2   fd5ec24b36a2   2026-04-06 15:51 -0500   150643+chemoelectric
+  Conversion from UTF-32 to locale.
+
+1   06bf42bfc0dd   2026-04-06 15:25 -0500   150643+chemoelectric
+  The latest.
+
+0   e57500ce0f3e   2026-04-05 18:07 -0500   150643+chemoelectric
+  Initial commit.
+

@@ -496,6 +496,64 @@ get_token_from_serialized_tokens (token_getter_t getter, token_t *tok,
     }
 }
 
+struct _buffered_token_getter
+{
+  void (*get_token) (token_getter_t this_struct,
+                     token_t *tok, const char **error_message);
+  void (*look_at_token) (token_getter_t this_struct, size_t,
+                         token_t *tok, const char **error_message);
+  token_getter_t getter;
+  gl_list_t buffer;
+};
+typedef struct _buffered_token_getter *_buffered_token_getter_t;
+
+static void
+get_token_from_buffered_getter (token_getter_t getter, token_t *tok,
+                                const char **error_message)
+{
+  _buffered_token_getter_t g = (_buffered_token_getter_t) getter;
+  *error_message = NULL;
+
+  if (gl_list_size (g->buffer) != 0)
+    {
+      *tok = (token_t) gl_list_get_first (g->buffer);
+      gl_list_remove_first (g->buffer);
+    }
+  else
+    g->getter->get_token (g->getter, tok, error_message);
+}
+
+static void
+look_at_buffered_token (token_getter_t getter, size_t i,
+                        token_t *tok, const char **error_message)
+{
+  _buffered_token_getter_t g = (_buffered_token_getter_t) getter;
+  *tok = NULL;
+  *error_message = NULL;
+
+  while (*error_message == NULL && gl_list_size (g->buffer) <= i)
+    {
+      token_t t;
+      g->getter->get_token (g->getter, &t, error_message);
+      if (*error_message == NULL)
+        gl_list_add_last (g->buffer, t);
+    }
+  if (*error_message == NULL)
+    *tok = (token_t) gl_list_get_at (g->buffer, i);
+}
+
+VISIBLE buffered_token_getter_t
+make_buffered_token_getter_t (token_getter_t unbuffered_getter)
+{
+  _buffered_token_getter_t g = XMALLOC (struct _buffered_token_getter);
+  g->getter = unbuffered_getter;
+  g->buffer =
+    gl_list_create_empty (GL_AVLTREE_LIST, NULL, NULL, NULL, true);
+  g->get_token = &get_token_from_buffered_getter;
+  g->look_at_token = &look_at_buffered_token;
+  return (buffered_token_getter_t) g;
+}
+
 /*
   local variables:
   mode: c

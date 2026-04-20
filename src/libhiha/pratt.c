@@ -55,6 +55,8 @@ struct pratt_tables
 typedef struct pratt_tables *pratt_tables_t;
 
 typedef long int pratt_binding_power_t;
+#define PRATT_BINDING_POWER_MIN LONG_MIN
+#define PRATT_BINDING_POWER_MAX LONG_MAX
 
 static pratt_binding_power_t
 make_pratt_binding_power_t (double bp)
@@ -64,10 +66,10 @@ make_pratt_binding_power_t (double bp)
   pratt_binding_power_t result;
 
   bp = rint (bp * 1.0e6);
-  if (bp <= LONG_MIN)
-    result = LONG_MIN;
-  else if (LONG_MAX <= bp)
-    result = LONG_MAX;
+  if (bp <= PRATT_BINDING_POWER_MIN)
+    result = PRATT_BINDING_POWER_MIN;
+  else if (PRATT_BINDING_POWER_MAX <= bp)
+    result = PRATT_BINDING_POWER_MAX;
   else
     result = lrint (bp);
   return result;
@@ -116,6 +118,14 @@ pratt_add_lbp (pratt_tables_t data, string_t token_kind,
   *bp = make_pratt_binding_power_t (binding_power);
   gl_omap_put (data->lbp, token_kind, bp);
 }
+
+/*
+VISIBLE void *
+pratt_parse (void *state, buffered_token_getter_t getter, pratt_tables_t tables, double min_power)
+{
+
+}
+*/
 
 /*
 procedure parse_expression(get_token, tables, min_power)

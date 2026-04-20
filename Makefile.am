@@ -191,7 +191,7 @@ libhiha_la_SOURCES += src/libhiha/load_plugin.c
 indent:
 	$(INDENT) -l72 --no-tabs \
 		-TFILE \
-	    -Tspinlock_t \
+		-Tspinlock_t \
 		-Tpratt_tables_t \
 		-Tpratt_binding_power_t \
 		-Tnud_handler_t \
@@ -200,7 +200,9 @@ indent:
 		-Ttoken_t \
 		-Ttext_location_t \
 		-Ttoken_getter_t \
-		-Ttoken_getter_from_file_t \
+		-Ttoken_getter_from_source_file_t \
+		-Ttoken_getter_from_serialized_tokens_t \
+		-Tbuffering_token_getter_t \
 		-Thiha_plugin_t \
 		-Thiha_plugin_tag_t \
 		-Thiha_options_t \

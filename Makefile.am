@@ -224,7 +224,7 @@ DISTITEMS += $(srcdir)/README
 
 if HAVE_CHANGELOGGER
 $(srcdir)/ChangeLog: $(srcdir)/.hg
-	SORTSMILL_HG_LOG_STYLE=compact $(CHANGELOGGER) -C $(srcdir) \
+	SORTSMILL_HG_LOG_STYLE=changelog $(CHANGELOGGER) -C $(srcdir) \
 	  > $(@).tmp && mv $(@){.tmp,}
 DISTITEMS += $(srcdir)/ChangeLog
 endif HAVE_CHANGELOGGER

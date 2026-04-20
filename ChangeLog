@@ -1,4 +1,7 @@
-43[github/master,tip][master]   84c6de58025e   2026-04-20 09:48 -0500   150643+chemoelectric
+44[tip][master]   b4a32cb4ee97   2026-04-20 11:03 -0500   150643+chemoelectric
+  Added support for Sorts Mill Changelogger, assuming a Mercurial
+
+43[github/master]   84c6de58025e   2026-04-20 09:48 -0500   150643+chemoelectric
   Added buffered token getters. The buffering has not been tried yet.
 
 42   51249829f2ae   2026-04-19 14:06 -0500   150643+chemoelectric

@@ -498,9 +498,9 @@ get_token_from_serialized_tokens (token_getter_t getter, token_t *tok,
 
 struct _buffered_token_getter
 {
-  void (*get_token) (token_getter_t this_struct,
+  void (*get_token) (buffered_token_getter_t this_struct,
                      token_t *tok, const char **error_message);
-  void (*look_at_token) (token_getter_t this_struct, size_t,
+  void (*look_at_token) (buffered_token_getter_t this_struct, size_t,
                          token_t *tok, const char **error_message);
   token_getter_t getter;
   gl_list_t buffer;
@@ -508,7 +508,8 @@ struct _buffered_token_getter
 typedef struct _buffered_token_getter *_buffered_token_getter_t;
 
 static void
-get_token_from_buffered_getter (token_getter_t getter, token_t *tok,
+get_token_from_buffered_getter (buffered_token_getter_t getter,
+                                token_t *tok,
                                 const char **error_message)
 {
   _buffered_token_getter_t g = (_buffered_token_getter_t) getter;
@@ -524,7 +525,7 @@ get_token_from_buffered_getter (token_getter_t getter, token_t *tok,
 }
 
 static void
-look_at_buffered_token (token_getter_t getter, size_t i,
+look_at_buffered_token (buffered_token_getter_t getter, size_t i,
                         token_t *tok, const char **error_message)
 {
   _buffered_token_getter_t g = (_buffered_token_getter_t) getter;

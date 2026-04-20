@@ -58,14 +58,15 @@ make_token_getter_from_serialized_tokens_t (const char *filename,
 
 void serialize_token_t (const token_t tok, FILE *f);
 
+struct buffered_token_getter;
+typedef struct buffered_token_getter *buffered_token_getter_t;
 struct buffered_token_getter
 {
-  void (*get_token) (token_getter_t this_struct,
+  void (*get_token) (buffered_token_getter_t this_struct,
                      token_t *tok, const char **error_message);
-  void (*look_at_token) (token_getter_t this_struct, size_t,
+  void (*look_at_token) (buffered_token_getter_t this_struct, size_t,
                          token_t *tok, const char **error_message);
 };
-typedef struct buffered_token_getter *buffered_token_getter_t;
 
 buffered_token_getter_t
 make_buffered_token_getter_t (token_getter_t unbuffered_getter);

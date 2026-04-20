@@ -124,12 +124,10 @@ parse_file (const char *filename, FILE *f)
   token_t tok;
   const char *error_message;
 
-  token_getter_from_serialized_tokens_t _g =
+  token_getter_from_serialized_tokens_t g =
     make_token_getter_from_serialized_tokens_t (filename, f);
-  token_getter_t _getter = (token_getter_t) _g;
-
-  buffered_token_getter_t g = make_buffered_token_getter_t (_getter);
-  token_getter_t getter = (token_getter_t) g;
+  buffered_token_getter_t getter =
+    make_buffered_token_getter_t ((token_getter_t) g);
 
   (getter->get_token) (getter, &tok, &error_message);
   while (error_message == NULL

@@ -1,135 +1,938 @@
-44[tip][master]   b4a32cb4ee97   2026-04-20 11:03 -0500   150643+chemoelectric
-  Added support for Sorts Mill Changelogger, assuming a Mercurial
+2026-04-20  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
 
-43[github/master]   84c6de58025e   2026-04-20 09:48 -0500   150643+chemoelectric
-  Added buffered token getters. The buffering has not been tried yet.
+	* ChangeLog, Makefile.am:
+	Change the ChangeLog template.
+	[11b83464e2e3] [github/master, tip]
 
-42   51249829f2ae   2026-04-19 14:06 -0500   150643+chemoelectric
-  Upgrade gnulib. Note that a workaround had to be added in configure.ac.
+	* ChangeLog, Makefile.am, Makefile.in, configure, configure.ac,
+	lib/Makefile.in, src/hiha/hiha.c, src/libhiha/pratt.c:
+	Added support for Sorts Mill Changelogger, assuming a Mercurial
+	repository locally. Though it ought to work for you if you use Git
+	and simply do not have Sorts Mill Changelogger, override the cache
+	variable for Sorts Mill Changelogger, or create an .hg file with an
+	old date and never update it.
 
-41   fed5d6dda822   2026-04-19 12:53 -0500   150643+chemoelectric
-  Gnulib changes.
+	Honestly, I could set up a lot of options for this, or have
+	configure.ac detect if it is in a Git or Hg or even in a Breezy
+	repo. (Sorts Mill Changelogger supported Bazaar, and so might be
+	adapted to Breezy without much difficulty. Sorts Mill had
+	Debian/Ubuntu packaging in Bazaar.)
+	[b4a32cb4ee97]
 
-40   32ea468c2ce3   2026-04-19 12:52 -0500   150643+chemoelectric
-  Use filevercmp instead of strverscmp or strcoll.
+	* Makefile.am, Makefile.in, include/libhiha/token_t.h,
+	src/hiha/hiha.c, src/libhiha/pratt.c, src/libhiha/token_t.c:
+	Added buffered token getters. The buffering has not been tried yet.
+	[84c6de58025e]
 
-39   3c67a86998cd   2026-04-19 12:30 -0500   150643+chemoelectric
-  Do not allow plugin names to start with "lib"
+2026-04-19  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
 
-38   f9046b37ec62   2026-04-19 09:45 -0500   150643+chemoelectric
-  Ability to load the all the plugins in a directory.
+	* Makefile.in, aclocal.m4, build-aux/config.rpath, config.h.in,
+	configure, configure.ac, lib/Makefile.am, lib/Makefile.in,
+	lib/_Noreturn.h, lib/alloca.in.h, lib/amemxfrm.c, lib/amemxfrm.h,
+	lib/arg-nonnull.h, lib/array-mergesort.h, lib/assert.in.h,
+	lib/attribute.h, lib/base64.c, lib/base64.h, lib/basename-lgpl.c,
+	lib/basename-lgpl.h, lib/c++defs.h, lib/c-ctype.c, lib/c-ctype.h,
+	lib/c-strcase.h, lib/c-strcasecmp.c, lib/c-strcaseeq.h,
+	lib/calloc.c, lib/cloexec.c, lib/cloexec.h, lib/close.c,
+	lib/closedir.c, lib/dirent-private.h, lib/dirent.in.h, lib/dirfd.c,
+	lib/dup2.c, lib/errno.in.h, lib/error.c, lib/error.in.h,
+	lib/exitfail.c, lib/exitfail.h, lib/fcntl.c, lib/fcntl.in.h, lib/fd-
+	hook.c, lib/fd-hook.h, lib/filename.h, lib/filevercmp.c,
+	lib/filevercmp.h, lib/free.c, lib/fseterr.c, lib/fseterr.h,
+	lib/fstat.c, lib/getdelim.c, lib/getdtablesize.c, lib/getline.c,
+	lib/getopt-cdefs.in.h, lib/getopt-core.h, lib/getopt-ext.h,
+	lib/getopt-pfx-core.h, lib/getopt-pfx-ext.h, lib/getopt.c,
+	lib/getopt.in.h, lib/getopt1.c, lib/getopt_int.h, lib/getprogname.c,
+	lib/getprogname.h, lib/gettext.h, lib/gl_anyavltree_list1.h,
+	lib/gl_anyavltree_list2.h, lib/gl_anytree_list1.h,
+	lib/gl_anytree_list2.h, lib/gl_anytree_omap.h,
+	lib/gl_avltree_list.c, lib/gl_avltree_list.h, lib/gl_avltree_omap.c,
+	lib/gl_avltree_omap.h, lib/gl_avltree_ordered.h, lib/gl_list.c,
+	lib/gl_list.h, lib/gl_omap.c, lib/gl_omap.h, lib/gl_xlist.c,
+	lib/gl_xlist.h, lib/gl_xomap.c, lib/gl_xomap.h, lib/ialloc.c,
+	lib/ialloc.h, lib/iconv.c, lib/iconv.in.h, lib/iconv_close.c,
+	lib/iconv_open-aix.gperf, lib/iconv_open-hpux.gperf, lib/iconv_open-
+	solaris.gperf, lib/iconv_open-zos.gperf, lib/iconv_open.c,
+	lib/iconveh.h, lib/idx.h, lib/intprops-internal.h, lib/intprops.h,
+	lib/inttypes.in.h, lib/limits.in.h, lib/localcharset.c,
+	lib/localcharset.h, lib/locale.in.h, lib/lstat.c, lib/malloc.c,
+	lib/malloca.c, lib/malloca.h, lib/memchr.c, lib/memchr.valgrind,
+	lib/memcmp2.c, lib/memcmp2.h, lib/memeq.c, lib/minmax.h, lib/msvc-
+	inval.c, lib/msvc-inval.h, lib/msvc-nothrow.c, lib/msvc-nothrow.h,
+	lib/open.c, lib/opendir.c, lib/pathmax.h, lib/progname.c,
+	lib/progname.h, lib/readdir.c, lib/realloc.c, lib/reallocarray.c,
+	lib/scandir.c, lib/stat-time.c, lib/stat-time.h, lib/stat-w32.c,
+	lib/stat-w32.h, lib/stat.c, lib/stdarg.in.h, lib/stdckdint.in.h,
+	lib/stdcountof.in.h, lib/stddef.in.h, lib/stdint.in.h, lib/stdio-
+	consolesafe.c, lib/stdio-impl.h, lib/stdio-read.c, lib/stdio-
+	write.c, lib/stdio.in.h, lib/stdlib.c, lib/stdlib.in.h, lib/streq.c,
+	lib/strerror-override.c, lib/strerror-override.h, lib/strerror.c,
+	lib/striconveh.c, lib/striconveh.h, lib/striconveha.c,
+	lib/striconveha.h, lib/string.c, lib/string.in.h, lib/strnul.c,
+	lib/sys_stat.in.h, lib/sys_types.in.h, lib/time.in.h,
+	lib/unicase.in.h, lib/unicase/cased.c, lib/unicase/casefold.h,
+	lib/unicase/caseprop.h, lib/unicase/context.h, lib/unicase/empty-
+	prefix-context.c, lib/unicase/empty-suffix-context.c,
+	lib/unicase/ignorable.c, lib/unicase/simple-mapping.h,
+	lib/unicase/special-casing.c, lib/unicase/special-casing.in.h,
+	lib/unicase/tocasefold.c, lib/unicase/u-casecoll.h,
+	lib/unicase/u-casefold.h, lib/unicase/u-casemap.h,
+	lib/unicase/u-casexfrm.h, lib/unicase/u-ct-casefold.h,
+	lib/unicase/u32-casecoll.c, lib/unicase/u32-casefold.c,
+	lib/unicase/u32-casemap.c, lib/unicase/u32-casexfrm.c,
+	lib/unicase/u32-ct-casefold.c, lib/unicase/unicasemap.h,
+	lib/uniconv.in.h, lib/uniconv/u-conv-from-enc.h, lib/uniconv/u-conv-
+	to-enc.h, lib/uniconv/u32-conv-from-enc.c, lib/uniconv/u32-conv-to-
+	enc.c, lib/uniconv/u8-conv-from-enc.c, lib/uniconv/u8-conv-to-enc.c,
+	lib/unictype.in.h, lib/unictype/bitmap.h,
+	lib/unictype/combiningclass.c, lib/unictype/pr_soft_dotted.c,
+	lib/uninorm.in.h, lib/uninorm/canonical-decomposition.c,
+	lib/uninorm/composition.c, lib/uninorm/decompose-internal.c,
+	lib/uninorm/decompose-internal.h, lib/uninorm/decomposing-form.c,
+	lib/uninorm/decomposition-table.c, lib/uninorm/decomposition-
+	table.h, lib/uninorm/nfc.c, lib/uninorm/nfd.c,
+	lib/uninorm/normalize-internal.h, lib/uninorm/u-normalize-
+	internal.h, lib/uninorm/u32-normalize.c, lib/unistd.c,
+	lib/unistd.in.h, lib/unistr.in.h, lib/unistr/u-cmp2.h,
+	lib/unistr/u-cpy.h, lib/unistr/u32-check.c, lib/unistr/u32-cmp.c,
+	lib/unistr/u32-cmp2.c, lib/unistr/u32-cpy.c, lib/unistr/u32-mblen.c,
+	lib/unistr/u32-mbtouc-unsafe.c, lib/unistr/u32-to-u8.c,
+	lib/unistr/u32-uctomb.c, lib/unistr/u8-check.c,
+	lib/unistr/u8-mblen.c, lib/unistr/u8-mbtouc-aux.c,
+	lib/unistr/u8-mbtouc-unsafe-aux.c, lib/unistr/u8-mbtouc-unsafe.c,
+	lib/unistr/u8-mbtouc.c, lib/unistr/u8-mbtoucr.c,
+	lib/unistr/u8-prev.c, lib/unistr/u8-to-u32.c, lib/unistr/u8-uctomb-
+	aux.c, lib/unistr/u8-uctomb.c, lib/unitypes.in.h, lib/verify.h,
+	lib/version-etc.c, lib/version-etc.h, lib/warn-on-use.h,
+	lib/wchar.in.h, lib/xalloc-die.c, lib/xalloc-oversized.h,
+	lib/xalloc.h, lib/xmalloc.c, m4/00gnulib.m4, m4/absolute-header.m4,
+	m4/alloca.m4, m4/assert_h.m4, m4/base64.m4, m4/build-to-host.m4,
+	m4/builtin-expect.m4, m4/c-bool.m4, m4/calloc.m4, m4/close.m4,
+	m4/closedir.m4, m4/codeset.m4, m4/dirent_h.m4, m4/dirfd.m4,
+	m4/double-slash-root.m4, m4/dup2.m4, m4/errno_h.m4, m4/error.m4,
+	m4/error_h.m4, m4/extensions-aix.m4, m4/extensions.m4, m4/extern-
+	inline.m4, m4/fcntl-o.m4, m4/fcntl.m4, m4/fcntl_h.m4, m4/free.m4,
+	m4/fseterr.m4, m4/fstat.m4, m4/getdelim.m4, m4/getdtablesize.m4,
+	m4/getline.m4, m4/getopt.m4, m4/getprogname.m4, m4/gettext_h.m4,
+	m4/gnulib-cache.m4, m4/gnulib-common.m4, m4/gnulib-comp.m4,
+	m4/gnulib-i18n.m4, m4/gnulib-tool.m4, m4/host-cpu-c-abi.m4,
+	m4/iconv.m4, m4/iconv_h.m4, m4/iconv_open.m4, m4/include_next.m4,
+	m4/inline.m4, m4/inttypes.m4, m4/largefile.m4, m4/lib-ld.m4, m4/lib-
+	link.m4, m4/lib-prefix.m4, m4/libunistring-base.m4, m4/limits-h.m4,
+	m4/localcharset.m4, m4/locale-en.m4, m4/locale_h.m4, m4/lstat.m4,
+	m4/malloc.m4, m4/malloca.m4, m4/memchr.m4, m4/memeq.m4,
+	m4/minmax.m4, m4/mmap-anon.m4, m4/mode_t.m4, m4/msvc-inval.m4,
+	m4/msvc-nothrow.m4, m4/multiarch.m4, m4/musl.m4, m4/nocrash.m4,
+	m4/off64_t.m4, m4/off_t.m4, m4/open-cloexec.m4, m4/open-slash.m4,
+	m4/open.m4, m4/opendir.m4, m4/pathmax.m4, m4/pid_t.m4,
+	m4/readdir.m4, m4/realloc.m4, m4/reallocarray.m4, m4/scandir.m4,
+	m4/ssize_t.m4, m4/stat-time.m4, m4/stat.m4, m4/std-gnu11.m4,
+	m4/stdarg.m4, m4/stdckdint_h.m4, m4/stdcountof_h.m4, m4/stddef_h.m4,
+	m4/stdint.m4, m4/stdio_h.m4, m4/stdlib_h.m4, m4/streq.m4,
+	m4/strerror.m4, m4/string_h.m4, m4/stringeq.m4, m4/sys_cdefs_h.m4,
+	m4/sys_socket_h.m4, m4/sys_stat_h.m4, m4/sys_types_h.m4,
+	m4/time_h.m4, m4/unicase_h.m4, m4/unictype_h.m4, m4/uninorm_h.m4,
+	m4/unistd_h.m4, m4/unitypes_h.m4, m4/vararrays.m4, m4/version-
+	etc.m4, m4/warn-on-use.m4, m4/wchar_h.m4, m4/wint_t.m4,
+	m4/xalloc.m4, m4/zzgnulib.m4:
+	Upgrade gnulib. Note that a workaround had to be added in
+	configure.ac.
+	[51249829f2ae]
 
-37   b0ea4c2bb98a   2026-04-17 13:30 -0500   150643+chemoelectric
-  Pass some flags from configure to configure.
+	* lib/alphasort.c, lib/filevercmp.c, lib/filevercmp.h,
+	m4/alphasort.m4:
+	Gnulib changes.
+	[fed5d6dda822]
 
-36   537098785411   2026-04-17 13:18 -0500   150643+chemoelectric
-  Make it pass ‘make distcheck’
+	* Makefile.in, aclocal.m4, config.h.in, configure, lib/Makefile.am,
+	lib/Makefile.in, m4/gnulib-cache.m4, m4/gnulib-comp.m4,
+	src/hiha/hiha.c:
+	Use filevercmp instead of strverscmp or strcoll.
+	[32ea468c2ce3]
 
-35   21e9846e2a3a   2026-04-16 13:52 -0500   150643+chemoelectric
-  Some code for loading plugins.
+	* src/hiha/hiha.c:
+	Do not allow plugin names to start with "lib"
+	[3c67a86998cd]
 
-34   505d44fdd40b   2026-04-16 10:17 -0500   150643+chemoelectric
-  Start of better organized Pratt parsing.
+	* Makefile.am, Makefile.in, aclocal.m4, config.h.in, configure,
+	lib/Makefile.am, lib/Makefile.in, lib/alphasort.c, lib/closedir.c,
+	lib/dirent-private.h, lib/dirent.in.h, lib/dirfd.c, lib/opendir.c,
+	lib/readdir.c, lib/scandir.c, m4/alphasort.m4, m4/builtin-expect.m4,
+	m4/closedir.m4, m4/dirent_h.m4, m4/dirfd.m4, m4/gnulib-cache.m4,
+	m4/gnulib-comp.m4, m4/opendir.m4, m4/readdir.m4, m4/scandir.m4,
+	src/hiha/hiha.c:
+	Ability to load the all the plugins in a directory.
+	[f9046b37ec62]
 
-33   bcef1e7c919b   2026-04-15 15:14 -0500   150643+chemoelectric
-  bug fix
+2026-04-17  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
 
-32   f2093d063261   2026-04-15 15:13 -0500   150643+chemoelectric
-  Reduce McCabe complexity.
+	* configure, configure.ac:
+	Pass some flags from configure to configure.
+	[b0ea4c2bb98a]
 
-31   f9e707b7ed9a   2026-04-15 11:41 -0500   150643+chemoelectric
-  Deserialization now works.
+	* Makefile.am, Makefile.in, configure, configure.ac, gc-dist.am,
+	include/libhiha/libhiha.h, lib/Makefile.in:
+	Make it pass ‘make distcheck’
+	[537098785411]
 
-30   eca383887b19   2026-04-15 10:05 -0500   150643+chemoelectric
-  Bug fix
+2026-04-16  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
 
-29   38128c9a30e9   2026-04-15 09:49 -0500   150643+chemoelectric
-  Add _mm_pause as a way to do the spinlock.
+	* Makefile.am, Makefile.in, include/libhiha/load_plugin.h,
+	src/hiha/hiha.c, src/libhiha/load_plugin.c:
+	Some code for loading plugins.
+	[21e9846e2a3a]
 
-28   102da849cfae   2026-04-15 09:16 -0500   150643+chemoelectric
-  Revert out of the crypto stuff that it turns out is not needed.
+	* Makefile.am, Makefile.in, include/libhiha/pratt.h, src/hiha/hiha.c,
+	src/libhiha/parse_expression.c, src/libhiha/pratt.c:
+	Start of better organized Pratt parsing.
+	[505d44fdd40b]
 
-27   e3883c68fcb0   2026-04-14 20:52 -0500   150643+chemoelectric
-  Prepare configure for libblake3 and Gnulib’s SHA256 support for fixed-point hashing.
+2026-04-15  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
 
-26   ef1382b783b5   2026-04-14 12:05 -0500   150643+chemoelectric
-  A bug fix to serialization.
+	* src/libhiha/token_t.c:
+	bug fix
+	[bcef1e7c919b]
 
-25   d3303e271c90   2026-04-14 11:40 -0500   150643+chemoelectric
-  Deserialization of token kinds.
+	* src/libhiha/token_t.c:
+	Reduce McCabe complexity.
+	[f2093d063261]
 
-24   8587a697f6de   2026-04-14 11:01 -0500   150643+chemoelectric
-  Start of deserialization programming.
+	* .dir-locals.el, Makefile.am, Makefile.in,
+	include/libhiha/parse_expression.h, include/libhiha/string_t.h,
+	include/libhiha/token_t.h, src/hiha/hiha.c,
+	src/libhiha/parse_expression.c, src/libhiha/spinlock.c,
+	src/libhiha/string_t.c, src/libhiha/token_t.c:
+	Deserialization now works.
+	[f9e707b7ed9a]
 
-23   13885535bc0f   2026-04-14 06:36 -0500   150643+chemoelectric
-  Use one-time initialization more broadly.
+	* src/libhiha/spinlock.c:
+	Bug fix
+	[eca383887b19]
 
-22   cce191261c32   2026-04-13 22:06 -0500   150643+chemoelectric
-  Compression scheme for the serialization.
+	* Makefile.in, config.h.in, configure, configure.ac, lib/Makefile.in,
+	m4/pkg.m4, src/libhiha/spinlock.c:
+	Add _mm_pause as a way to do the spinlock.
+	[38128c9a30e9]
 
-21   97ad3552a5d6   2026-04-13 12:25 -0500   150643+chemoelectric
-  Test for builtin pause in configure
+	* Makefile.am, Makefile.in, aclocal.m4, config.h.in, configure,
+	configure.ac, lib/Makefile.am, lib/Makefile.in, m4/gnulib-cache.m4,
+	m4/gnulib-comp.m4:
+	Revert out of the crypto stuff that it turns out is not needed.
+	[102da849cfae]
 
-20   fa6b5f1cfe5a   2026-04-13 09:15 -0500   150643+chemoelectric
-  Now I have modularized the one-time initialization and used my old
+2026-04-14  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
 
-19   166b20044f3c   2026-04-12 17:16 -0500   150643+chemoelectric
-  Save the base64 stuff from Gnulib that I will be using.
+	* Makefile.am, Makefile.in, aclocal.m4, config.h.in, configure,
+	configure.ac, lib/Makefile.am, lib/Makefile.in, lib/af_alg.c,
+	lib/af_alg.h, lib/byteswap.c, lib/byteswap.in.h, lib/fflush.c,
+	lib/fpurge.c, lib/freading.c, lib/freading.h, lib/fseek.c,
+	lib/fseeko.c, lib/ftell.c, lib/ftello.c, lib/gl_openssl.h,
+	lib/lseek.c, lib/sha256-stream.c, lib/sha256.c, lib/sha256.h,
+	lib/sys-limits.h, lib/sys_socket.c, lib/sys_socket.in.h,
+	lib/sys_uio.in.h, m4/af_alg.m4, m4/byteswap.m4, m4/fflush.m4,
+	m4/fpurge.m4, m4/freading.m4, m4/fseek.m4, m4/fseeko.m4,
+	m4/ftell.m4, m4/ftello.m4, m4/gl-openssl.m4, m4/gnulib-cache.m4,
+	m4/gnulib-comp.m4, m4/lseek.m4, m4/pkg.m4, m4/sha256.m4,
+	m4/socklen.m4, m4/sockpfaf.m4, m4/stdalign.m4, m4/sys_uio_h.m4,
+	m4/ungetc.m4:
+	Prepare configure for libblake3 and Gnulib’s SHA256 support for
+	fixed-point hashing.
+	[e3883c68fcb0]
 
-18   4604e4755fbc   2026-04-12 17:16 -0500   150643+chemoelectric
-  Save my spinlocked code.
+	* src/hiha/hiha.c, src/libhiha/token_t.c:
+	A bug fix to serialization.
+	[ef1382b783b5]
 
-17   7c0911b1e864   2026-04-12 13:52 -0500   150643+chemoelectric
-  Some basic token reading.
+	* src/libhiha/token_t.c:
+	Deserialization of token kinds.
+	[d3303e271c90]
 
-16   31cd4cc3edc0   2026-04-12 06:01 -0500   150643+chemoelectric
-  Remove PCRE2.
+	* include/libhiha/token_t.h, src/hiha/hiha.c, src/libhiha/token_t.c:
+	Start of deserialization programming.
+	[8587a697f6de]
 
-15   d203eb2c6b09   2026-04-12 05:55 -0500   150643+chemoelectric
-  Remove code for freeing things.
+	* include/libhiha/string_t.h, include/libhiha/token_t.h,
+	src/hiha/hiha.c, src/libhiha/string_t.c, src/libhiha/token_t.c:
+	Use one-time initialization more broadly.
+	[13885535bc0f]
 
-14   b97166016064   2026-04-11 19:40 -0500   150643+chemoelectric
-  Incorporate a garbage collector. We are going to get rid of bothering to free things.
+2026-04-13  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
 
-13   abbd1dd8cbdc   2026-04-09 11:32 -0500   150643+chemoelectric
-  Link with PCRE2, and also bring up to GNU standards in some respects.
+	* include/libhiha/string_t.h, include/libhiha/token_t.h,
+	src/hiha/hiha.c, src/libhiha/spinlock.c, src/libhiha/string_t.c,
+	src/libhiha/token_t.c:
+	Compression scheme for the serialization.
+	[cce191261c32]
 
-12   1a9183d6766c   2026-04-08 19:48 -0500   150643+chemoelectric
-  A few preparations for dlopen
+	* Makefile.am, Makefile.in, config.h.in, configure, configure.ac,
+	lib/Makefile.in, src/libhiha/spinlock.c:
+	Test for builtin pause in configure
+	[97ad3552a5d6]
 
-11   24478f2ba2d5   2026-04-08 19:08 -0500   150643+chemoelectric
-  Fix ‘make indent’.
+	* Makefile.am, Makefile.in, include/libhiha/initialize_once.h,
+	include/libhiha/spinlock.h, src/libhiha/spinlock.c,
+	src/libhiha/token_t.c:
+	Now I have modularized the one-time initialization and used my old
+	spinlock ticketing system, adapting it from the ATS. It could use
+	testing! But for now just committing.
+	[fa6b5f1cfe5a]
 
-10   a51b67c363da   2026-04-08 19:04 -0500   150643+chemoelectric
-  Libtoolize and prepare to use dlopen modules.
+2026-04-12  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
 
-9   f1b44974593b   2026-04-08 11:22 -0500   150643+chemoelectric
-  Got rid of the need for _Decimal32
+	* lib/base64.c, lib/base64.h, lib/memchr.c, lib/memchr.valgrind,
+	m4/base64.m4, m4/memchr.m4, m4/mmap-anon.m4:
+	Save the base64 stuff from Gnulib that I will be using.
+	[166b20044f3c]
 
-8   6a54067e3f6a   2026-04-08 06:47 -0500   150643+chemoelectric
-  There is no need at all it include snprintf-gnu from Gnulib.
+	* Makefile.am, Makefile.in, aclocal.m4, config.h.in, configure,
+	lib/Makefile.am, lib/Makefile.in, m4/gnulib-cache.m4, m4/gnulib-
+	comp.m4, src/hiha/hiha.c, src/libhiha/string_t.c,
+	src/libhiha/token_t.c:
+	Save my spinlocked code.
+	[4604e4755fbc]
 
-7   bf5a383b4e49   2026-04-08 04:41 -0500   150643+chemoelectric
-  Add a note about abort(3) after error(exit_failure,...)
+	* Makefile.am, Makefile.in, include/libhiha/string_t.h,
+	include/libhiha/token_t.h, src/hiha/hiha.c, src/libhiha/string_t.c,
+	src/libhiha/token_t.c:
+	Some basic token reading.
+	[7c0911b1e864]
 
-6   920d35e64894   2026-04-08 04:34 -0500   150643+chemoelectric
-  Improvements to error reporting.
+	* Makefile.in, aclocal.m4, configure, configure.ac, lib/Makefile.in,
+	m4/pkg.m4, src/libhiha/token_t.c:
+	Remove PCRE2.
+	[31cd4cc3edc0]
 
-5   7432da541aff   2026-04-07 13:56 -0500   150643+chemoelectric
-  Save work before resting due to disability.
+	* include/libhiha/parse_expression.h, include/libhiha/string_t.h,
+	include/libhiha/token_t.h, src/hiha/hiha.c,
+	src/libhiha/parse_expression.c, src/libhiha/string_t.c,
+	src/libhiha/token_t.c:
+	Remove code for freeing things.
+	[d203eb2c6b09]
 
-4   331e3e3476c6   2026-04-07 10:36 -0500   150643+chemoelectric
-  I think I should save the current work.
+2026-04-11  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
 
-3   b981a1acee77   2026-04-06 17:05 -0500   150643+chemoelectric
-  A little explanation.
+	* Makefile.am, Makefile.in, config.h.in, configure, configure.ac,
+	gc-8.2.12/AUTHORS, gc-8.2.12/CMakeLists.txt, gc-8.2.12/ChangeLog,
+	gc-8.2.12/Config.cmake.in, gc-8.2.12/Makefile.am,
+	gc-8.2.12/Makefile.direct, gc-8.2.12/Makefile.in,
+	gc-8.2.12/NT_MAKEFILE, gc-8.2.12/OS2_MAKEFILE, gc-8.2.12/PCR-
+	Makefile, gc-8.2.12/README.QUICK, gc-8.2.12/README.md,
+	gc-8.2.12/SMakefile.amiga, gc-8.2.12/WCC_MAKEFILE,
+	gc-8.2.12/aclocal.m4, gc-8.2.12/allchblk.c, gc-8.2.12/alloc.c,
+	gc-8.2.12/autogen.sh, gc-8.2.12/backgraph.c, gc-8.2.12/bdw-gc.pc.in,
+	gc-8.2.12/blacklst.c, gc-8.2.12/build/s60v3/bld.inf,
+	gc-8.2.12/build/s60v3/libgc.mmp, gc-8.2.12/checksums.c,
+	gc-8.2.12/compile, gc-8.2.12/config.guess, gc-8.2.12/config.sub,
+	gc-8.2.12/configure, gc-8.2.12/configure.ac, gc-8.2.12/cord/cord.am,
+	gc-8.2.12/cord/cordbscs.c, gc-8.2.12/cord/cordprnt.c,
+	gc-8.2.12/cord/cordxtra.c, gc-8.2.12/cord/tests/cordtest.c,
+	gc-8.2.12/cord/tests/de.c, gc-8.2.12/cord/tests/de_cmds.h,
+	gc-8.2.12/cord/tests/de_win.c, gc-8.2.12/cord/tests/de_win.h,
+	gc-8.2.12/cord/tests/de_win.rc, gc-8.2.12/darwin_stop_world.c,
+	gc-8.2.12/dbg_mlc.c, gc-8.2.12/depcomp, gc-8.2.12/digimars.mak,
+	gc-8.2.12/doc/README.DGUX386, gc-8.2.12/doc/README.Mac,
+	gc-8.2.12/doc/README.OS2, gc-8.2.12/doc/README.amiga,
+	gc-8.2.12/doc/README.arm.cross, gc-8.2.12/doc/README.autoconf,
+	gc-8.2.12/doc/README.cmake, gc-8.2.12/doc/README.cords,
+	gc-8.2.12/doc/README.darwin, gc-8.2.12/doc/README.emscripten,
+	gc-8.2.12/doc/README.environment, gc-8.2.12/doc/README.ews4800,
+	gc-8.2.12/doc/README.hp, gc-8.2.12/doc/README.linux,
+	gc-8.2.12/doc/README.macros, gc-8.2.12/doc/README.rs6000,
+	gc-8.2.12/doc/README.sgi, gc-8.2.12/doc/README.solaris2,
+	gc-8.2.12/doc/README.symbian, gc-8.2.12/doc/README.uts,
+	gc-8.2.12/doc/README.win32, gc-8.2.12/doc/README.win64,
+	gc-8.2.12/doc/debugging.md, gc-8.2.12/doc/doc.am,
+	gc-8.2.12/doc/finalization.md, gc-8.2.12/doc/gc.man,
+	gc-8.2.12/doc/gcdescr.md, gc-8.2.12/doc/gcinterface.md,
+	gc-8.2.12/doc/leak.md, gc-8.2.12/doc/overview.md,
+	gc-8.2.12/doc/porting.md, gc-8.2.12/doc/scale.md,
+	gc-8.2.12/doc/simple_example.md, gc-8.2.12/doc/tree.md,
+	gc-8.2.12/dyn_load.c, gc-8.2.12/extra/AmigaOS.c,
+	gc-8.2.12/extra/MacOS.c, gc-8.2.12/extra/Mac_files/MacOS_config.h,
+	gc-8.2.12/extra/Mac_files/dataend.c,
+	gc-8.2.12/extra/Mac_files/datastart.c, gc-8.2.12/extra/gc.c,
+	gc-8.2.12/extra/msvc_dbg.c, gc-8.2.12/extra/pcr_interface.c,
+	gc-8.2.12/extra/real_malloc.c, gc-8.2.12/extra/symbian.cpp,
+	gc-8.2.12/extra/symbian/global_end.cpp,
+	gc-8.2.12/extra/symbian/global_start.cpp,
+	gc-8.2.12/extra/symbian/init_global_static_roots.cpp,
+	gc-8.2.12/finalize.c, gc-8.2.12/fnlz_mlc.c, gc-8.2.12/gc_badalc.cc,
+	gc-8.2.12/gc_badalc.cpp, gc-8.2.12/gc_cpp.cc, gc-8.2.12/gc_cpp.cpp,
+	gc-8.2.12/gc_dlopen.c, gc-8.2.12/gcj_mlc.c, gc-8.2.12/headers.c,
+	gc-8.2.12/ia64_save_regs_in_stack.s, gc-8.2.12/include/config.h.in,
+	gc-8.2.12/include/cord.h, gc-8.2.12/include/cord_pos.h,
+	gc-8.2.12/include/ec.h, gc-8.2.12/include/extra/gc.h,
+	gc-8.2.12/include/extra/gc_cpp.h, gc-8.2.12/include/gc.h,
+	gc-8.2.12/include/gc_allocator.h, gc-8.2.12/include/gc_backptr.h,
+	gc-8.2.12/include/gc_config_macros.h, gc-8.2.12/include/gc_cpp.h,
+	gc-8.2.12/include/gc_disclaim.h, gc-8.2.12/include/gc_gcj.h,
+	gc-8.2.12/include/gc_inline.h, gc-8.2.12/include/gc_mark.h,
+	gc-8.2.12/include/gc_pthread_redirects.h,
+	gc-8.2.12/include/gc_tiny_fl.h, gc-8.2.12/include/gc_typed.h,
+	gc-8.2.12/include/gc_version.h, gc-8.2.12/include/include.am,
+	gc-8.2.12/include/javaxfc.h, gc-8.2.12/include/leak_detector.h,
+	gc-8.2.12/include/private/darwin_semaphore.h,
+	gc-8.2.12/include/private/darwin_stop_world.h,
+	gc-8.2.12/include/private/dbg_mlc.h,
+	gc-8.2.12/include/private/gc_alloc_ptrs.h,
+	gc-8.2.12/include/private/gc_atomic_ops.h,
+	gc-8.2.12/include/private/gc_hdrs.h,
+	gc-8.2.12/include/private/gc_locks.h,
+	gc-8.2.12/include/private/gc_pmark.h,
+	gc-8.2.12/include/private/gc_priv.h,
+	gc-8.2.12/include/private/gcconfig.h,
+	gc-8.2.12/include/private/msvc_dbg.h,
+	gc-8.2.12/include/private/pthread_stop_world.h,
+	gc-8.2.12/include/private/pthread_support.h,
+	gc-8.2.12/include/private/specific.h,
+	gc-8.2.12/include/private/thread_local_alloc.h, gc-8.2.12/install-
+	sh, gc-8.2.12/ltmain.sh, gc-8.2.12/m4/gc_set_version.m4,
+	gc-8.2.12/m4/libtool.m4, gc-8.2.12/m4/ltoptions.m4,
+	gc-8.2.12/m4/ltsugar.m4, gc-8.2.12/m4/ltversion.m4,
+	gc-8.2.12/m4/lt~obsolete.m4, gc-8.2.12/mach_dep.c,
+	gc-8.2.12/malloc.c, gc-8.2.12/mallocx.c, gc-8.2.12/mark.c,
+	gc-8.2.12/mark_rts.c, gc-8.2.12/misc.c, gc-8.2.12/missing,
+	gc-8.2.12/new_hblk.c, gc-8.2.12/obj_map.c, gc-8.2.12/os_dep.c,
+	gc-8.2.12/pthread_start.c, gc-8.2.12/pthread_stop_world.c,
+	gc-8.2.12/pthread_support.c, gc-8.2.12/ptr_chck.c,
+	gc-8.2.12/reclaim.c, gc-8.2.12/sparc_mach_dep.S,
+	gc-8.2.12/sparc_netbsd_mach_dep.s, gc-8.2.12/specific.c,
+	gc-8.2.12/test-driver, gc-8.2.12/tests/disclaim_bench.c,
+	gc-8.2.12/tests/disclaim_test.c,
+	gc-8.2.12/tests/disclaim_weakmap_test.c,
+	gc-8.2.12/tests/huge_test.c, gc-8.2.12/tests/initsecondarythread.c,
+	gc-8.2.12/tests/leak_test.c, gc-8.2.12/tests/middle.c,
+	gc-8.2.12/tests/realloc_test.c, gc-8.2.12/tests/smash_test.c,
+	gc-8.2.12/tests/staticrootslib.c, gc-8.2.12/tests/staticrootstest.c,
+	gc-8.2.12/tests/subthread_create.c, gc-8.2.12/tests/test.c,
+	gc-8.2.12/tests/test_atomic_ops.c, gc-8.2.12/tests/test_cpp.cc,
+	gc-8.2.12/tests/tests.am, gc-8.2.12/tests/thread_leak_test.c,
+	gc-8.2.12/tests/threadkey_test.c, gc-8.2.12/tests/trace_test.c,
+	gc-8.2.12/thread_local_alloc.c, gc-8.2.12/tools/callprocs.sh,
+	gc-8.2.12/tools/if_mach.c, gc-8.2.12/tools/if_not_there.c,
+	gc-8.2.12/tools/setjmp_t.c, gc-8.2.12/tools/threadlibs.c,
+	gc-8.2.12/typd_mlc.c, gc-8.2.12/win32_threads.c,
+	include/libhiha/parse_expression.h, include/libhiha/string_t.h,
+	include/libhiha/token_t.h, lib/Makefile.in, src/hiha/hiha.c,
+	src/libhiha/string_t.c, src/libhiha/token_t.c:
+	Incorporate a garbage collector. We are going to get rid of
+	bothering to free things.
+	[b97166016064]
 
-2   fd5ec24b36a2   2026-04-06 15:51 -0500   150643+chemoelectric
-  Conversion from UTF-32 to locale.
+2026-04-09  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
 
-1   06bf42bfc0dd   2026-04-06 15:25 -0500   150643+chemoelectric
-  The latest.
+	* ChangeLog, Makefile.am, Makefile.in, NEWS, README, aclocal.m4,
+	config.h.in, configure, configure.ac, lib/Makefile.am,
+	lib/Makefile.in, lib/getopt-cdefs.in.h, lib/getopt-core.h,
+	lib/getopt-ext.h, lib/getopt-pfx-core.h, lib/getopt-pfx-ext.h,
+	lib/getopt.c, lib/getopt.in.h, lib/getopt1.c, lib/getopt_int.h,
+	lib/stdarg.in.h, lib/version-etc.c, lib/version-etc.h, m4/getopt.m4,
+	m4/gnulib-cache.m4, m4/gnulib-comp.m4, m4/nocrash.m4, m4/pkg.m4,
+	m4/stdarg.m4, m4/sys_cdefs_h.m4, m4/version-etc.m4, src/hiha/hiha.c:
+	Link with PCRE2, and also bring up to GNU standards in some
+	respects.
+	[abbd1dd8cbdc]
 
-0   e57500ce0f3e   2026-04-05 18:07 -0500   150643+chemoelectric
-  Initial commit.
+2026-04-08  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
+
+	* Makefile.am, Makefile.in:
+	A few preparations for dlopen
+	[1a9183d6766c]
+
+	* Makefile.am, Makefile.in:
+	Fix ‘make indent’.
+	[24478f2ba2d5]
+
+	* .dir-locals.el, Makefile.am, Makefile.in, aclocal.m4, build-
+	aux/ltmain.sh, config.h.in, configure, configure.ac,
+	include/libhiha/string_t.h, include/libhiha/token_t.h,
+	lib/Makefile.am, lib/Makefile.in, m4/gnulib-cache.m4, m4/gnulib-
+	comp.m4, m4/libtool.m4, m4/ltoptions.m4, m4/ltsugar.m4,
+	m4/ltversion.m4, m4/lt~obsolete.m4, src/libhiha/parse_expression.c,
+	src/libhiha/string_t.c, src/libhiha/token_t.c:
+	Libtoolize and prepare to use dlopen modules.
+	[a51b67c363da]
+
+	* Makefile.am, Makefile.in, configure, configure.ac,
+	include/libhiha/parse_expression.h, include/libhiha/token_t.h,
+	lib/Makefile.am, lib/Makefile.in, lib/_Noreturn.h, lib/alloca.in.h,
+	lib/amemxfrm.c, lib/amemxfrm.h, lib/arg-nonnull.h, lib/array-
+	mergesort.h, lib/assert.in.h, lib/attribute.h, lib/basename-lgpl.c,
+	lib/basename-lgpl.h, lib/c++defs.h, lib/c-ctype.c, lib/c-ctype.h,
+	lib/c-strcase.h, lib/c-strcasecmp.c, lib/c-strcaseeq.h,
+	lib/calloc.c, lib/cloexec.c, lib/cloexec.h, lib/close.c, lib/dup2.c,
+	lib/errno.in.h, lib/error.c, lib/error.in.h, lib/exitfail.c,
+	lib/exitfail.h, lib/fcntl.c, lib/fcntl.in.h, lib/fd-hook.c, lib/fd-
+	hook.h, lib/filename.h, lib/free.c, lib/fseterr.c, lib/fseterr.h,
+	lib/fstat.c, lib/getdelim.c, lib/getdtablesize.c, lib/getline.c,
+	lib/getprogname.c, lib/getprogname.h, lib/gettext.h,
+	lib/gl_anyavltree_list1.h, lib/gl_anyavltree_list2.h,
+	lib/gl_anytree_list1.h, lib/gl_anytree_list2.h,
+	lib/gl_anytree_omap.h, lib/gl_avltree_list.c, lib/gl_avltree_list.h,
+	lib/gl_avltree_omap.c, lib/gl_avltree_omap.h,
+	lib/gl_avltree_ordered.h, lib/gl_list.c, lib/gl_list.h,
+	lib/gl_omap.c, lib/gl_omap.h, lib/gl_xlist.c, lib/gl_xlist.h,
+	lib/gl_xomap.c, lib/gl_xomap.h, lib/ialloc.c, lib/ialloc.h,
+	lib/iconv.c, lib/iconv.in.h, lib/iconv_close.c, lib/iconv_open-
+	aix.gperf, lib/iconv_open-aix.h, lib/iconv_open-hpux.gperf,
+	lib/iconv_open-hpux.h, lib/iconv_open-solaris.gperf, lib/iconv_open-
+	solaris.h, lib/iconv_open-zos.gperf, lib/iconv_open-zos.h,
+	lib/iconv_open.c, lib/iconveh.h, lib/idx.h, lib/intprops-internal.h,
+	lib/intprops.h, lib/inttypes.in.h, lib/limits.in.h,
+	lib/localcharset.c, lib/localcharset.h, lib/locale.in.h,
+	lib/lstat.c, lib/malloc.c, lib/malloca.c, lib/malloca.h,
+	lib/memcmp2.c, lib/memcmp2.h, lib/minmax.h, lib/msvc-inval.c,
+	lib/msvc-inval.h, lib/msvc-nothrow.c, lib/msvc-nothrow.h,
+	lib/open.c, lib/pathmax.h, lib/progname.c, lib/progname.h,
+	lib/realloc.c, lib/reallocarray.c, lib/stat-time.c, lib/stat-time.h,
+	lib/stat-w32.c, lib/stat-w32.h, lib/stat.c, lib/stdckdint.in.h,
+	lib/stddef.in.h, lib/stdint.in.h, lib/stdio-consolesafe.c,
+	lib/stdio-impl.h, lib/stdio-read.c, lib/stdio-write.c,
+	lib/stdio.in.h, lib/stdlib.c, lib/stdlib.in.h, lib/strerror-
+	override.c, lib/strerror-override.h, lib/strerror.c,
+	lib/striconveh.c, lib/striconveh.h, lib/striconveha.c,
+	lib/striconveha.h, lib/string.c, lib/string.in.h, lib/sys_stat.in.h,
+	lib/sys_types.in.h, lib/time.in.h, lib/unicase.in.h,
+	lib/unicase/cased.c, lib/unicase/cased.h, lib/unicase/casefold.h,
+	lib/unicase/caseprop.h, lib/unicase/context.h, lib/unicase/empty-
+	prefix-context.c, lib/unicase/empty-suffix-context.c,
+	lib/unicase/ignorable.c, lib/unicase/ignorable.h,
+	lib/unicase/simple-mapping.h, lib/unicase/special-casing-
+	table.gperf, lib/unicase/special-casing-table.h,
+	lib/unicase/special-casing.c, lib/unicase/special-casing.in.h,
+	lib/unicase/tocasefold.c, lib/unicase/tocasefold.h,
+	lib/unicase/u-casecoll.h, lib/unicase/u-casefold.h,
+	lib/unicase/u-casemap.h, lib/unicase/u-casexfrm.h, lib/unicase/u-ct-
+	casefold.h, lib/unicase/u32-casecoll.c, lib/unicase/u32-casefold.c,
+	lib/unicase/u32-casemap.c, lib/unicase/u32-casexfrm.c,
+	lib/unicase/u32-ct-casefold.c, lib/unicase/unicasemap.h,
+	lib/uniconv.in.h, lib/uniconv/u-conv-from-enc.h, lib/uniconv/u-conv-
+	to-enc.h, lib/uniconv/u32-conv-from-enc.c, lib/uniconv/u32-conv-to-
+	enc.c, lib/uniconv/u8-conv-from-enc.c, lib/uniconv/u8-conv-to-enc.c,
+	lib/unictype.in.h, lib/unictype/bitmap.h,
+	lib/unictype/combiningclass.c, lib/unictype/combiningclass.h,
+	lib/unictype/pr_soft_dotted.c, lib/unictype/pr_soft_dotted.h,
+	lib/uninorm.in.h, lib/uninorm/canonical-decomposition.c,
+	lib/uninorm/composition-table-bounds.h, lib/uninorm/composition-
+	table.gperf, lib/uninorm/composition-table.h,
+	lib/uninorm/composition.c, lib/uninorm/decompose-internal.c,
+	lib/uninorm/decompose-internal.h, lib/uninorm/decomposing-form.c,
+	lib/uninorm/decomposition-table.c, lib/uninorm/decomposition-
+	table.h, lib/uninorm/decomposition-table1.h,
+	lib/uninorm/decomposition-table2.h, lib/uninorm/nfc.c,
+	lib/uninorm/nfd.c, lib/uninorm/normalize-internal.h,
+	lib/uninorm/u-normalize-internal.h, lib/uninorm/u32-normalize.c,
+	lib/unistd.c, lib/unistd.in.h, lib/unistr.in.h, lib/unistr/u-cmp2.h,
+	lib/unistr/u-cpy.h, lib/unistr/u32-check.c, lib/unistr/u32-cmp.c,
+	lib/unistr/u32-cmp2.c, lib/unistr/u32-cpy.c, lib/unistr/u32-mblen.c,
+	lib/unistr/u32-mbtouc-unsafe.c, lib/unistr/u32-to-u8.c,
+	lib/unistr/u32-uctomb.c, lib/unistr/u8-check.c,
+	lib/unistr/u8-mblen.c, lib/unistr/u8-mbtouc-aux.c,
+	lib/unistr/u8-mbtouc-unsafe-aux.c, lib/unistr/u8-mbtouc-unsafe.c,
+	lib/unistr/u8-mbtouc.c, lib/unistr/u8-mbtoucr.c,
+	lib/unistr/u8-prev.c, lib/unistr/u8-to-u32.c, lib/unistr/u8-uctomb-
+	aux.c, lib/unistr/u8-uctomb.c, lib/unitypes.in.h, lib/verify.h,
+	lib/warn-on-use.h, lib/wchar.in.h, lib/xalloc-die.c, lib/xalloc-
+	oversized.h, lib/xalloc.h, lib/xmalloc.c, m4/00gnulib.m4,
+	m4/absolute-header.m4, m4/alloca.m4, m4/assert_h.m4,
+	m4/ax_check_compile_flag.m4, m4/ax_check_gnu_make.m4, m4/build-to-
+	host.m4, m4/c-bool.m4, m4/calloc.m4, m4/chem_compiler_flags.m4,
+	m4/chem_config_makefiles.m4,
+	m4/chem_path_progs_cached_and_precious.m4, m4/chem_prog_gnu_make.m4,
+	m4/close.m4, m4/codeset.m4, m4/double-slash-root.m4, m4/dup2.m4,
+	m4/errno_h.m4, m4/error.m4, m4/error_h.m4, m4/extensions-aix.m4,
+	m4/extensions.m4, m4/extern-inline.m4, m4/fcntl-o.m4, m4/fcntl.m4,
+	m4/fcntl_h.m4, m4/free.m4, m4/fseterr.m4, m4/fstat.m4,
+	m4/getdelim.m4, m4/getdtablesize.m4, m4/getline.m4,
+	m4/getprogname.m4, m4/gettext_h.m4, m4/gnulib-cache.m4, m4/gnulib-
+	common.m4, m4/gnulib-comp.m4, m4/gnulib-i18n.m4, m4/gnulib-tool.m4,
+	m4/host-cpu-c-abi.m4, m4/iconv.m4, m4/iconv_h.m4, m4/iconv_open.m4,
+	m4/include_next.m4, m4/inline.m4, m4/inttypes.m4, m4/largefile.m4,
+	m4/lib-ld.m4, m4/lib-link.m4, m4/lib-prefix.m4, m4/libunistring-
+	base.m4, m4/limits-h.m4, m4/localcharset.m4, m4/locale-en.m4,
+	m4/locale_h.m4, m4/lstat.m4, m4/malloc.m4, m4/malloca.m4,
+	m4/minmax.m4, m4/mode_t.m4, m4/msvc-inval.m4, m4/msvc-nothrow.m4,
+	m4/multiarch.m4, m4/musl.m4, m4/off64_t.m4, m4/off_t.m4, m4/open-
+	cloexec.m4, m4/open-slash.m4, m4/open.m4, m4/pathmax.m4,
+	m4/pid_t.m4, m4/realloc.m4, m4/reallocarray.m4, m4/ssize_t.m4,
+	m4/stat-time.m4, m4/stat.m4, m4/std-gnu11.m4, m4/stdckdint_h.m4,
+	m4/stddef_h.m4, m4/stdint.m4, m4/stdio_h.m4, m4/stdlib_h.m4,
+	m4/strerror.m4, m4/string_h.m4, m4/stringeq.m4, m4/sys_socket_h.m4,
+	m4/sys_stat_h.m4, m4/sys_types_h.m4, m4/time_h.m4, m4/unicase_h.m4,
+	m4/unictype_h.m4, m4/uninorm_h.m4, m4/unistd_h.m4, m4/unitypes_h.m4,
+	m4/vararrays.m4, m4/warn-on-use.m4, m4/wchar_h.m4, m4/wint_t.m4,
+	m4/xalloc.m4, m4/zzgnulib.m4, src/libhiha/parse_expression.c,
+	src/libhiha/token_t.c:
+	Got rid of the need for _Decimal32
+	[f1b44974593b]
+
+	* Makefile.in, aclocal.m4, config.h.in, configure, lib/Makefile.am,
+	lib/Makefile.in, lib/_Noreturn.h, lib/alloca.in.h, lib/amemxfrm.c,
+	lib/amemxfrm.h, lib/arg-nonnull.h, lib/array-mergesort.h,
+	lib/asnprintf.c, lib/assert.in.h, lib/attribute.h, lib/basename-
+	lgpl.c, lib/basename-lgpl.h, lib/c++defs.h, lib/c-ctype.c,
+	lib/c-ctype.h, lib/c-strcase.h, lib/c-strcasecmp.c,
+	lib/c-strcaseeq.h, lib/c32is-impl.h, lib/c32isalnum.c,
+	lib/c32isalpha.c, lib/c32isblank.c, lib/c32iscntrl.c,
+	lib/c32isdigit.c, lib/c32isgraph.c, lib/c32islower.c,
+	lib/c32isprint.c, lib/c32ispunct.c, lib/c32isspace.c,
+	lib/c32isupper.c, lib/c32isxdigit.c, lib/c32to-impl.h,
+	lib/c32tolower.c, lib/c32width.c, lib/calloc.c, lib/cloexec.c,
+	lib/cloexec.h, lib/close.c, lib/dup2.c, lib/errno.in.h, lib/error.c,
+	lib/error.in.h, lib/exitfail.c, lib/exitfail.h, lib/fcntl.c,
+	lib/fcntl.in.h, lib/fd-hook.c, lib/fd-hook.h, lib/filename.h,
+	lib/float+.h, lib/float.c, lib/float.in.h, lib/fpucw.h, lib/free.c,
+	lib/frexp.c, lib/frexpl.c, lib/fseterr.c, lib/fseterr.h,
+	lib/fstat.c, lib/getdelim.c, lib/getdtablesize.c, lib/getline.c,
+	lib/getprogname.c, lib/getprogname.h, lib/gettext.h,
+	lib/gl_anytree_omap.h, lib/gl_avltree_omap.c, lib/gl_avltree_omap.h,
+	lib/gl_avltree_ordered.h, lib/gl_omap.c, lib/gl_omap.h,
+	lib/gl_xomap.c, lib/gl_xomap.h, lib/hard-locale.c, lib/hard-
+	locale.h, lib/ialloc.c, lib/ialloc.h, lib/iconv.c, lib/iconv.in.h,
+	lib/iconv_close.c, lib/iconv_open-aix.gperf, lib/iconv_open-aix.h,
+	lib/iconv_open-hpux.gperf, lib/iconv_open-hpux.h, lib/iconv_open-
+	solaris.gperf, lib/iconv_open-solaris.h, lib/iconv_open-zos.gperf,
+	lib/iconv_open-zos.h, lib/iconv_open.c, lib/iconveh.h, lib/idx.h,
+	lib/intprops-internal.h, lib/intprops.h, lib/inttypes.in.h,
+	lib/isnan.c, lib/isnand-nolibm.h, lib/isnand.c, lib/isnanf-nolibm.h,
+	lib/isnanf.c, lib/isnanl-nolibm.h, lib/isnanl.c, lib/iswblank.c,
+	lib/iswdigit.c, lib/iswpunct.c, lib/iswxdigit.c, lib/itold.c,
+	lib/lc-charset-dispatch.c, lib/lc-charset-dispatch.h,
+	lib/limits.in.h, lib/localcharset.c, lib/localcharset.h,
+	lib/locale.in.h, lib/localeconv.c, lib/lstat.c, lib/malloc.c,
+	lib/malloca.c, lib/malloca.h, lib/math.c, lib/math.in.h,
+	lib/mbchar.c, lib/mbchar.h, lib/mbiterf.c, lib/mbiterf.h,
+	lib/mbrtoc32.c, lib/mbrtowc-impl-utf8.h, lib/mbrtowc-impl.h,
+	lib/mbrtowc.c, lib/mbsinit.c, lib/mbsnlen.c, lib/mbszero.c,
+	lib/mbtowc-lock.c, lib/mbtowc-lock.h, lib/memchr.c,
+	lib/memchr.valgrind, lib/memcmp2.c, lib/memcmp2.h, lib/minmax.h,
+	lib/msvc-inval.c, lib/msvc-inval.h, lib/msvc-nothrow.c, lib/msvc-
+	nothrow.h, lib/open.c, lib/pathmax.h, lib/printf-args.c, lib/printf-
+	args.h, lib/printf-frexp.c, lib/printf-frexp.h, lib/printf-frexpl.c,
+	lib/printf-frexpl.h, lib/printf-parse.c, lib/printf-parse.h,
+	lib/progname.c, lib/progname.h, lib/realloc.c, lib/reallocarray.c,
+	lib/setlocale-lock.c, lib/setlocale_null-unlocked.c,
+	lib/setlocale_null.c, lib/setlocale_null.h, lib/signbitd.c,
+	lib/signbitf.c, lib/signbitl.c, lib/size_max.h, lib/snprintf.c,
+	lib/stat-time.c, lib/stat-time.h, lib/stat-w32.c, lib/stat-w32.h,
+	lib/stat.c, lib/stdckdint.in.h, lib/stddef.in.h, lib/stdint.in.h,
+	lib/stdio-consolesafe.c, lib/stdio-impl.h, lib/stdio-read.c,
+	lib/stdio-write.c, lib/stdio.in.h, lib/stdlib.c, lib/stdlib.in.h,
+	lib/streq.h, lib/strerror-override.c, lib/strerror-override.h,
+	lib/strerror.c, lib/striconveh.c, lib/striconveh.h,
+	lib/striconveha.c, lib/striconveha.h, lib/string.c, lib/string.in.h,
+	lib/sys_stat.in.h, lib/sys_types.in.h, lib/time.in.h,
+	lib/uchar.in.h, lib/unicase.in.h, lib/unicase/cased.c,
+	lib/unicase/cased.h, lib/unicase/casefold.h, lib/unicase/caseprop.h,
+	lib/unicase/context.h, lib/unicase/empty-prefix-context.c,
+	lib/unicase/empty-suffix-context.c, lib/unicase/ignorable.c,
+	lib/unicase/ignorable.h, lib/unicase/simple-mapping.h,
+	lib/unicase/special-casing-table.gperf, lib/unicase/special-casing-
+	table.h, lib/unicase/special-casing.c, lib/unicase/special-
+	casing.in.h, lib/unicase/tocasefold.c, lib/unicase/tocasefold.h,
+	lib/unicase/tolower.c, lib/unicase/tolower.h,
+	lib/unicase/u-casecoll.h, lib/unicase/u-casefold.h,
+	lib/unicase/u-casemap.h, lib/unicase/u-casexfrm.h, lib/unicase/u-ct-
+	casefold.h, lib/unicase/u32-casecoll.c, lib/unicase/u32-casefold.c,
+	lib/unicase/u32-casemap.c, lib/unicase/u32-casexfrm.c,
+	lib/unicase/u32-ct-casefold.c, lib/unicase/unicasemap.h,
+	lib/uniconv.in.h, lib/uniconv/u-conv-from-enc.h, lib/uniconv/u-conv-
+	to-enc.h, lib/uniconv/u32-conv-from-enc.c, lib/uniconv/u32-conv-to-
+	enc.c, lib/uniconv/u8-conv-from-enc.c, lib/uniconv/u8-conv-to-enc.c,
+	lib/unictype.in.h, lib/unictype/bitmap.h,
+	lib/unictype/combiningclass.c, lib/unictype/combiningclass.h,
+	lib/unictype/ctype_alnum.c, lib/unictype/ctype_alnum.h,
+	lib/unictype/ctype_alpha.c, lib/unictype/ctype_alpha.h,
+	lib/unictype/ctype_blank.c, lib/unictype/ctype_blank.h,
+	lib/unictype/ctype_cntrl.c, lib/unictype/ctype_cntrl.h,
+	lib/unictype/ctype_digit.c, lib/unictype/ctype_digit.h,
+	lib/unictype/ctype_graph.c, lib/unictype/ctype_graph.h,
+	lib/unictype/ctype_lower.c, lib/unictype/ctype_lower.h,
+	lib/unictype/ctype_print.c, lib/unictype/ctype_print.h,
+	lib/unictype/ctype_punct.c, lib/unictype/ctype_punct.h,
+	lib/unictype/ctype_space.c, lib/unictype/ctype_space.h,
+	lib/unictype/ctype_upper.c, lib/unictype/ctype_upper.h,
+	lib/unictype/ctype_xdigit.c, lib/unictype/ctype_xdigit.h,
+	lib/unictype/pr_soft_dotted.c, lib/unictype/pr_soft_dotted.h,
+	lib/uninorm.in.h, lib/uninorm/canonical-decomposition.c,
+	lib/uninorm/composition-table-bounds.h, lib/uninorm/composition-
+	table.gperf, lib/uninorm/composition-table.h,
+	lib/uninorm/composition.c, lib/uninorm/decompose-internal.c,
+	lib/uninorm/decompose-internal.h, lib/uninorm/decomposing-form.c,
+	lib/uninorm/decomposition-table.c, lib/uninorm/decomposition-
+	table.h, lib/uninorm/decomposition-table1.h,
+	lib/uninorm/decomposition-table2.h, lib/uninorm/nfc.c,
+	lib/uninorm/nfd.c, lib/uninorm/normalize-internal.h,
+	lib/uninorm/u-normalize-internal.h, lib/uninorm/u32-normalize.c,
+	lib/unistd.c, lib/unistd.in.h, lib/unistr.in.h, lib/unistr/u-cmp2.h,
+	lib/unistr/u-cpy.h, lib/unistr/u32-check.c, lib/unistr/u32-cmp.c,
+	lib/unistr/u32-cmp2.c, lib/unistr/u32-cpy.c, lib/unistr/u32-mblen.c,
+	lib/unistr/u32-mbtouc-unsafe.c, lib/unistr/u32-to-u8.c,
+	lib/unistr/u32-uctomb.c, lib/unistr/u8-check.c,
+	lib/unistr/u8-mblen.c, lib/unistr/u8-mbtouc-aux.c,
+	lib/unistr/u8-mbtouc-unsafe-aux.c, lib/unistr/u8-mbtouc-unsafe.c,
+	lib/unistr/u8-mbtouc.c, lib/unistr/u8-mbtoucr.c,
+	lib/unistr/u8-prev.c, lib/unistr/u8-to-u32.c, lib/unistr/u8-uctomb-
+	aux.c, lib/unistr/u8-uctomb.c, lib/unitypes.in.h, lib/uniwidth.in.h,
+	lib/uniwidth/cjk.h, lib/uniwidth/width.c, lib/uniwidth/width0.h,
+	lib/uniwidth/width2.h, lib/vasnprintf.c, lib/vasnprintf.h,
+	lib/verify.h, lib/vsnzprintf.c, lib/warn-on-use.h, lib/wchar.in.h,
+	lib/wctype-h.c, lib/wctype.in.h, lib/wcwidth.c, lib/windows-
+	initguard.h, lib/xalloc-die.c, lib/xalloc-oversized.h, lib/xalloc.h,
+	lib/xmalloc.c, lib/xsize.c, lib/xsize.h, m4/00gnulib.m4,
+	m4/absolute-header.m4, m4/alloca.m4, m4/assert_h.m4,
+	m4/ax_check_compile_flag.m4, m4/ax_check_gnu_make.m4, m4/build-to-
+	host.m4, m4/c-bool.m4, m4/c32rtomb.m4, m4/calloc.m4,
+	m4/chem_compiler_flags.m4, m4/chem_config_makefiles.m4,
+	m4/chem_path_progs_cached_and_precious.m4, m4/chem_prog_gnu_make.m4,
+	m4/close.m4, m4/codeset.m4, m4/double-slash-root.m4, m4/dup2.m4,
+	m4/errno_h.m4, m4/error.m4, m4/error_h.m4, m4/exponentd.m4,
+	m4/exponentf.m4, m4/exponentl.m4, m4/extensions-aix.m4,
+	m4/extensions.m4, m4/extern-inline.m4, m4/fcntl-o.m4, m4/fcntl.m4,
+	m4/fcntl_h.m4, m4/float_h.m4, m4/fpieee.m4, m4/free.m4, m4/frexp.m4,
+	m4/frexpl.m4, m4/fseterr.m4, m4/fstat.m4, m4/getdelim.m4,
+	m4/getdtablesize.m4, m4/getline.m4, m4/getprogname.m4,
+	m4/gettext_h.m4, m4/gnulib-cache.m4, m4/gnulib-common.m4, m4/gnulib-
+	comp.m4, m4/gnulib-i18n.m4, m4/gnulib-tool.m4, m4/host-cpu-c-abi.m4,
+	m4/iconv.m4, m4/iconv_h.m4, m4/iconv_open.m4, m4/include_next.m4,
+	m4/inline.m4, m4/intmax_t.m4, m4/inttypes.m4, m4/inttypes_h.m4,
+	m4/isnand.m4, m4/isnanf.m4, m4/isnanl.m4, m4/iswblank.m4,
+	m4/iswdigit.m4, m4/iswpunct.m4, m4/iswxdigit.m4, m4/largefile.m4,
+	m4/ldexpl.m4, m4/lib-ld.m4, m4/lib-link.m4, m4/lib-prefix.m4,
+	m4/libunistring-base.m4, m4/limits-h.m4, m4/localcharset.m4,
+	m4/locale-en.m4, m4/locale-fr.m4, m4/locale-ja.m4, m4/locale-zh.m4,
+	m4/locale_h.m4, m4/localeconv.m4, m4/lstat.m4, m4/malloc.m4,
+	m4/malloca.m4, m4/math_h.m4, m4/mbchar.m4, m4/mbiter.m4,
+	m4/mbrtoc32.m4, m4/mbrtowc.m4, m4/mbsinit.m4, m4/mbstate_t.m4,
+	m4/memchr.m4, m4/minmax.m4, m4/mmap-anon.m4, m4/mode_t.m4, m4/msvc-
+	inval.m4, m4/msvc-nothrow.m4, m4/multiarch.m4, m4/musl.m4,
+	m4/nocrash.m4, m4/off64_t.m4, m4/off_t.m4, m4/open-cloexec.m4,
+	m4/open-slash.m4, m4/open.m4, m4/pathmax.m4, m4/pid_t.m4, m4/printf-
+	frexp.m4, m4/printf-frexpl.m4, m4/printf.m4, m4/realloc.m4,
+	m4/reallocarray.m4, m4/setlocale_null.m4, m4/signbit.m4,
+	m4/size_max.m4, m4/snprintf-gnu.m4, m4/snprintf-posix.m4,
+	m4/snprintf.m4, m4/ssize_t.m4, m4/stat-time.m4, m4/stat.m4, m4/std-
+	gnu11.m4, m4/stdckdint_h.m4, m4/stddef_h.m4, m4/stdint.m4,
+	m4/stdint_h.m4, m4/stdio_h.m4, m4/stdlib_h.m4, m4/strerror.m4,
+	m4/string_h.m4, m4/stringeq.m4, m4/sys_socket_h.m4,
+	m4/sys_stat_h.m4, m4/sys_types_h.m4, m4/threadlib.m4, m4/time_h.m4,
+	m4/uchar_h.m4, m4/unicase_h.m4, m4/unictype_h.m4, m4/uninorm_h.m4,
+	m4/unistd_h.m4, m4/unitypes_h.m4, m4/vararrays.m4, m4/vasnprintf.m4,
+	m4/visibility.m4, m4/warn-on-use.m4, m4/wchar_h.m4, m4/wctype_h.m4,
+	m4/wcwidth.m4, m4/wint_t.m4, m4/xalloc.m4, m4/xsize.m4,
+	m4/zzgnulib.m4:
+	There is no need at all it include snprintf-gnu from Gnulib.
+	[6a54067e3f6a]
+
+	* src/libhiha/string_t.c:
+	Add a note about abort(3) after error(exit_failure,...)
+	[bf5a383b4e49]
+
+	* include/libhiha/string_t.h, src/hiha/hiha.c, src/libhiha/string_t.c,
+	src/libhiha/token_t.c:
+	Improvements to error reporting.
+	[920d35e64894]
+
+2026-04-07  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
+
+	* Makefile.am, Makefile.in, aclocal.m4, config.h.in, configure,
+	include/libhiha/parse_expression.h, include/libhiha/string_t.h,
+	include/libhiha/token_t.h, lib/Makefile.am, lib/Makefile.in,
+	lib/asnprintf.c, lib/c32is-impl.h, lib/c32isalnum.c,
+	lib/c32isalpha.c, lib/c32isblank.c, lib/c32iscntrl.c,
+	lib/c32isdigit.c, lib/c32isgraph.c, lib/c32islower.c,
+	lib/c32isprint.c, lib/c32ispunct.c, lib/c32isspace.c,
+	lib/c32isupper.c, lib/c32isxdigit.c, lib/c32to-impl.h,
+	lib/c32tolower.c, lib/c32width.c, lib/float+.h, lib/float.c,
+	lib/float.in.h, lib/fpucw.h, lib/frexp.c, lib/frexpl.c, lib/hard-
+	locale.c, lib/hard-locale.h, lib/isnan.c, lib/isnand-nolibm.h,
+	lib/isnand.c, lib/isnanf-nolibm.h, lib/isnanf.c, lib/isnanl-
+	nolibm.h, lib/isnanl.c, lib/iswblank.c, lib/iswdigit.c,
+	lib/iswpunct.c, lib/iswxdigit.c, lib/itold.c, lib/lc-charset-
+	dispatch.c, lib/lc-charset-dispatch.h, lib/localeconv.c, lib/math.c,
+	lib/math.in.h, lib/mbchar.c, lib/mbchar.h, lib/mbiterf.c,
+	lib/mbiterf.h, lib/mbrtoc32.c, lib/mbrtowc-impl-utf8.h, lib/mbrtowc-
+	impl.h, lib/mbrtowc.c, lib/mbsinit.c, lib/mbsnlen.c, lib/mbszero.c,
+	lib/mbtowc-lock.c, lib/mbtowc-lock.h, lib/memchr.c,
+	lib/memchr.valgrind, lib/printf-args.c, lib/printf-args.h,
+	lib/printf-frexp.c, lib/printf-frexp.h, lib/printf-frexpl.c,
+	lib/printf-frexpl.h, lib/printf-parse.c, lib/printf-parse.h,
+	lib/setlocale-lock.c, lib/setlocale_null-unlocked.c,
+	lib/setlocale_null.c, lib/setlocale_null.h, lib/signbitd.c,
+	lib/signbitf.c, lib/signbitl.c, lib/size_max.h, lib/snprintf.c,
+	lib/streq.h, lib/uchar.in.h, lib/unicase/tolower.c,
+	lib/unicase/tolower.h, lib/unictype/ctype_alnum.c,
+	lib/unictype/ctype_alnum.h, lib/unictype/ctype_alpha.c,
+	lib/unictype/ctype_alpha.h, lib/unictype/ctype_blank.c,
+	lib/unictype/ctype_blank.h, lib/unictype/ctype_cntrl.c,
+	lib/unictype/ctype_cntrl.h, lib/unictype/ctype_digit.c,
+	lib/unictype/ctype_digit.h, lib/unictype/ctype_graph.c,
+	lib/unictype/ctype_graph.h, lib/unictype/ctype_lower.c,
+	lib/unictype/ctype_lower.h, lib/unictype/ctype_print.c,
+	lib/unictype/ctype_print.h, lib/unictype/ctype_punct.c,
+	lib/unictype/ctype_punct.h, lib/unictype/ctype_space.c,
+	lib/unictype/ctype_space.h, lib/unictype/ctype_upper.c,
+	lib/unictype/ctype_upper.h, lib/unictype/ctype_xdigit.c,
+	lib/unictype/ctype_xdigit.h, lib/uniwidth.in.h, lib/uniwidth/cjk.h,
+	lib/uniwidth/width.c, lib/uniwidth/width0.h, lib/uniwidth/width2.h,
+	lib/vasnprintf.c, lib/vasnprintf.h, lib/vsnzprintf.c,
+	lib/wctype-h.c, lib/wctype.in.h, lib/wcwidth.c, lib/windows-
+	initguard.h, lib/xsize.c, lib/xsize.h, m4/c32rtomb.m4,
+	m4/exponentd.m4, m4/exponentf.m4, m4/exponentl.m4, m4/float_h.m4,
+	m4/fpieee.m4, m4/frexp.m4, m4/frexpl.m4, m4/gnulib-cache.m4,
+	m4/gnulib-comp.m4, m4/intmax_t.m4, m4/inttypes_h.m4, m4/isnand.m4,
+	m4/isnanf.m4, m4/isnanl.m4, m4/iswblank.m4, m4/iswdigit.m4,
+	m4/iswpunct.m4, m4/iswxdigit.m4, m4/ldexpl.m4, m4/locale-fr.m4,
+	m4/locale-ja.m4, m4/locale-zh.m4, m4/localeconv.m4, m4/math_h.m4,
+	m4/mbchar.m4, m4/mbiter.m4, m4/mbrtoc32.m4, m4/mbrtowc.m4,
+	m4/mbsinit.m4, m4/mbstate_t.m4, m4/memchr.m4, m4/mmap-anon.m4,
+	m4/nocrash.m4, m4/printf-frexp.m4, m4/printf-frexpl.m4,
+	m4/printf.m4, m4/setlocale_null.m4, m4/signbit.m4, m4/size_max.m4,
+	m4/snprintf-gnu.m4, m4/snprintf-posix.m4, m4/snprintf.m4,
+	m4/stdint_h.m4, m4/threadlib.m4, m4/uchar_h.m4, m4/vasnprintf.m4,
+	m4/visibility.m4, m4/wctype_h.m4, m4/wcwidth.m4, m4/xsize.m4,
+	src/hiha/hiha.c, src/libhiha/string_t.c:
+	Save work before resting due to disability.
+	[7432da541aff]
+
+	* Makefile.am, Makefile.in, configure, configure.ac,
+	include/libhiha/parse_expression.h, include/libhiha/string_t.h,
+	include/libhiha/token_t.h, lib/Makefile.am, lib/Makefile.in,
+	lib/gl_anytree_omap.h, lib/gl_avltree_omap.c, lib/gl_avltree_omap.h,
+	lib/gl_avltree_ordered.h, lib/gl_omap.c, lib/gl_omap.h,
+	lib/gl_xomap.c, lib/gl_xomap.h, lib/unistr/u-cmp2.h,
+	lib/unistr/u32-cmp.c, lib/unistr/u32-cmp2.c, m4/gnulib-cache.m4,
+	m4/gnulib-comp.m4, src/hiha/hiha.c, src/libhiha/parse_expression.c,
+	src/libhiha/string_t.c, src/libhiha/token_t.c:
+	I think I should save the current work.
+	[331e3e3476c6]
+
+2026-04-06  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
+
+	* README.adoc:
+	A little explanation.
+	[b981a1acee77]
+
+	* include/libhiha/string_t.h, src/hiha/hiha.c, src/libhiha/string_t.c:
+	Conversion from UTF-32 to locale.
+	[fd5ec24b36a2]
+
+	* Makefile.am, Makefile.in, aclocal.m4, config.h.in, configure,
+	configure.ac, include/libhiha/parse_expression.h,
+	include/libhiha/string_t.h, include/libhiha/token_t.h,
+	include/parse_expression.h, lib/Makefile.am, lib/Makefile.in,
+	lib/basename-lgpl.c, lib/basename-lgpl.h, lib/calloc.c,
+	lib/cloexec.c, lib/cloexec.h, lib/close.c, lib/dup2.c,
+	lib/errno.in.h, lib/error.c, lib/error.in.h, lib/exitfail.c,
+	lib/exitfail.h, lib/fcntl.c, lib/fd-hook.c, lib/fd-hook.h,
+	lib/filename.h, lib/fseterr.c, lib/fseterr.h, lib/fstat.c,
+	lib/getdelim.c, lib/getdtablesize.c, lib/getline.c,
+	lib/getprogname.c, lib/getprogname.h, lib/gettext.h, lib/ialloc.c,
+	lib/ialloc.h, lib/intprops.h, lib/locale.in.h, lib/lstat.c,
+	lib/malloc.c, lib/minmax.h, lib/msvc-inval.c, lib/msvc-inval.h,
+	lib/msvc-nothrow.c, lib/msvc-nothrow.h, lib/open.c, lib/pathmax.h,
+	lib/progname.c, lib/progname.h, lib/realloc.c, lib/reallocarray.c,
+	lib/stat-time.c, lib/stat-time.h, lib/stat-w32.c, lib/stat-w32.h,
+	lib/stat.c, lib/stdio-consolesafe.c, lib/stdio-impl.h, lib/stdio-
+	read.c, lib/stdio-write.c, lib/stdio.in.h, lib/strerror-override.c,
+	lib/strerror-override.h, lib/strerror.c, lib/sys_stat.in.h,
+	lib/time.in.h, lib/uninorm/composition-table-bounds.h,
+	lib/uninorm/composition-table.gperf, lib/uninorm/composition.c,
+	lib/uninorm/nfc.c, lib/xalloc-die.c, lib/xalloc.h, lib/xmalloc.c,
+	m4/build-to-host.m4, m4/calloc.m4,
+	m4/chem_path_progs_cached_and_precious.m4, m4/close.m4, m4/double-
+	slash-root.m4, m4/dup2.m4, m4/errno_h.m4, m4/error.m4,
+	m4/error_h.m4, m4/fcntl.m4, m4/fseterr.m4, m4/fstat.m4,
+	m4/getdelim.m4, m4/getdtablesize.m4, m4/getline.m4,
+	m4/getprogname.m4, m4/gettext_h.m4, m4/gnulib-cache.m4, m4/gnulib-
+	comp.m4, m4/gnulib-i18n.m4, m4/largefile.m4, m4/locale_h.m4,
+	m4/lstat.m4, m4/minmax.m4, m4/mode_t.m4, m4/msvc-inval.m4, m4/msvc-
+	nothrow.m4, m4/musl.m4, m4/open-cloexec.m4, m4/open-slash.m4,
+	m4/open.m4, m4/pathmax.m4, m4/realloc.m4, m4/reallocarray.m4,
+	m4/stat-time.m4, m4/stat.m4, m4/stdio_h.m4, m4/strerror.m4,
+	m4/sys_socket_h.m4, m4/sys_stat_h.m4, m4/time_h.m4, m4/vararrays.m4,
+	m4/xalloc.m4, src/hiha/hiha.c, src/libhiha/parse_expression.c,
+	src/libhiha/string_t.c, src/parse_expression.c:
+	The latest.
+	[06bf42bfc0dd]
+
+2026-04-05  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
+
+	* .dir-locals.el, .hgignore, AUTHORS, COPYING, INSTALL, Makefile.am,
+	Makefile.in, README.adoc, aclocal.m4, autogen.sh, build-aux/compile,
+	build-aux/config.guess, build-aux/config.rpath, build-
+	aux/config.sub, build-aux/depcomp, build-aux/install-sh, build-
+	aux/missing, config.h.in, configure, configure.ac, hiha-90x150.jpg,
+	include/parse_expression.h, lib/Makefile.am, lib/Makefile.in,
+	lib/_Noreturn.h, lib/alloca.in.h, lib/amemxfrm.c, lib/amemxfrm.h,
+	lib/arg-nonnull.h, lib/array-mergesort.h, lib/assert.in.h,
+	lib/attribute.h, lib/c++defs.h, lib/c-ctype.c, lib/c-ctype.h,
+	lib/c-strcase.h, lib/c-strcasecmp.c, lib/c-strcaseeq.h,
+	lib/fcntl.in.h, lib/free.c, lib/iconv.c, lib/iconv.in.h,
+	lib/iconv_close.c, lib/iconv_open-aix.gperf, lib/iconv_open-aix.h,
+	lib/iconv_open-hpux.gperf, lib/iconv_open-hpux.h, lib/iconv_open-
+	solaris.gperf, lib/iconv_open-solaris.h, lib/iconv_open-zos.gperf,
+	lib/iconv_open-zos.h, lib/iconv_open.c, lib/iconveh.h, lib/idx.h,
+	lib/intprops-internal.h, lib/inttypes.in.h, lib/limits.in.h,
+	lib/localcharset.c, lib/localcharset.h, lib/malloca.c,
+	lib/malloca.h, lib/memcmp2.c, lib/memcmp2.h, lib/stdckdint.in.h,
+	lib/stddef.in.h, lib/stdint.in.h, lib/stdlib.c, lib/stdlib.in.h,
+	lib/striconveh.c, lib/striconveh.h, lib/striconveha.c,
+	lib/striconveha.h, lib/string.c, lib/string.in.h,
+	lib/sys_types.in.h, lib/unicase.in.h, lib/unicase/cased.c,
+	lib/unicase/cased.h, lib/unicase/casefold.h, lib/unicase/caseprop.h,
+	lib/unicase/context.h, lib/unicase/empty-prefix-context.c,
+	lib/unicase/empty-suffix-context.c, lib/unicase/ignorable.c,
+	lib/unicase/ignorable.h, lib/unicase/simple-mapping.h,
+	lib/unicase/special-casing-table.gperf, lib/unicase/special-casing-
+	table.h, lib/unicase/special-casing.c, lib/unicase/special-
+	casing.in.h, lib/unicase/tocasefold.c, lib/unicase/tocasefold.h,
+	lib/unicase/u-casecoll.h, lib/unicase/u-casefold.h,
+	lib/unicase/u-casemap.h, lib/unicase/u-casexfrm.h, lib/unicase/u-ct-
+	casefold.h, lib/unicase/u32-casecoll.c, lib/unicase/u32-casefold.c,
+	lib/unicase/u32-casemap.c, lib/unicase/u32-casexfrm.c,
+	lib/unicase/u32-ct-casefold.c, lib/unicase/unicasemap.h,
+	lib/uniconv.in.h, lib/uniconv/u-conv-from-enc.h, lib/uniconv/u-conv-
+	to-enc.h, lib/uniconv/u32-conv-from-enc.c, lib/uniconv/u32-conv-to-
+	enc.c, lib/uniconv/u8-conv-from-enc.c, lib/uniconv/u8-conv-to-enc.c,
+	lib/unictype.in.h, lib/unictype/bitmap.h,
+	lib/unictype/combiningclass.c, lib/unictype/combiningclass.h,
+	lib/unictype/pr_soft_dotted.c, lib/unictype/pr_soft_dotted.h,
+	lib/uninorm.in.h, lib/uninorm/canonical-decomposition.c,
+	lib/uninorm/composition-table.h, lib/uninorm/decompose-internal.c,
+	lib/uninorm/decompose-internal.h, lib/uninorm/decomposing-form.c,
+	lib/uninorm/decomposition-table.c, lib/uninorm/decomposition-
+	table.h, lib/uninorm/decomposition-table1.h,
+	lib/uninorm/decomposition-table2.h, lib/uninorm/nfd.c,
+	lib/uninorm/normalize-internal.h, lib/uninorm/u-normalize-
+	internal.h, lib/uninorm/u32-normalize.c, lib/unistd.c,
+	lib/unistd.in.h, lib/unistr.in.h, lib/unistr/u-cpy.h,
+	lib/unistr/u32-check.c, lib/unistr/u32-cpy.c,
+	lib/unistr/u32-mblen.c, lib/unistr/u32-mbtouc-unsafe.c,
+	lib/unistr/u32-to-u8.c, lib/unistr/u32-uctomb.c,
+	lib/unistr/u8-check.c, lib/unistr/u8-mblen.c, lib/unistr/u8-mbtouc-
+	aux.c, lib/unistr/u8-mbtouc-unsafe-aux.c, lib/unistr/u8-mbtouc-
+	unsafe.c, lib/unistr/u8-mbtouc.c, lib/unistr/u8-mbtoucr.c,
+	lib/unistr/u8-prev.c, lib/unistr/u8-to-u32.c, lib/unistr/u8-uctomb-
+	aux.c, lib/unistr/u8-uctomb.c, lib/unitypes.in.h, lib/verify.h,
+	lib/warn-on-use.h, lib/wchar.in.h, lib/xalloc-oversized.h,
+	m4/00gnulib.m4, m4/absolute-header.m4, m4/alloca.m4, m4/assert_h.m4,
+	m4/ax_check_compile_flag.m4, m4/ax_check_gnu_make.m4, m4/c-bool.m4,
+	m4/chem_compiler_flags.m4, m4/chem_config_makefiles.m4,
+	m4/chem_prog_gnu_make.m4, m4/codeset.m4, m4/extensions-aix.m4,
+	m4/extensions.m4, m4/extern-inline.m4, m4/fcntl-o.m4, m4/fcntl_h.m4,
+	m4/free.m4, m4/gnulib-cache.m4, m4/gnulib-common.m4, m4/gnulib-
+	comp.m4, m4/gnulib-tool.m4, m4/host-cpu-c-abi.m4, m4/iconv.m4,
+	m4/iconv_h.m4, m4/iconv_open.m4, m4/include_next.m4, m4/inline.m4,
+	m4/inttypes.m4, m4/lib-ld.m4, m4/lib-link.m4, m4/lib-prefix.m4,
+	m4/libunistring-base.m4, m4/limits-h.m4, m4/localcharset.m4,
+	m4/locale-en.m4, m4/malloc.m4, m4/malloca.m4, m4/multiarch.m4,
+	m4/off64_t.m4, m4/off_t.m4, m4/pid_t.m4, m4/ssize_t.m4, m4/std-
+	gnu11.m4, m4/stdckdint_h.m4, m4/stddef_h.m4, m4/stdint.m4,
+	m4/stdlib_h.m4, m4/string_h.m4, m4/stringeq.m4, m4/sys_types_h.m4,
+	m4/unicase_h.m4, m4/unictype_h.m4, m4/uninorm_h.m4, m4/unistd_h.m4,
+	m4/unitypes_h.m4, m4/warn-on-use.m4, m4/wchar_h.m4, m4/wint_t.m4,
+	m4/zzgnulib.m4, silent-rules.mk, src/parse_expression.c:
+	Initial commit.
+	[e57500ce0f3e]
 

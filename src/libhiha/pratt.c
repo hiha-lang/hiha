@@ -123,8 +123,9 @@ VISIBLE void *
 pratt_parse (void *state, buffered_token_getter_t getter,
              pratt_tables_t tables, double min_power)
 {
-  void *lhs;                    /* left hand side */
-  token_t tok;
+  void *lhs = NULL;             /* left hand side */
+  token_t tok = NULL;
+  char *error_message = NULL;
 
   // FIXME
 }

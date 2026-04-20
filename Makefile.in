@@ -2678,7 +2678,7 @@ $(srcdir)/README: $(srcdir)/README.adoc
 		| elinks -dump 1 -no-references -no-numbering > $(@)
 
 @HAVE_CHANGELOGGER_TRUE@$(srcdir)/ChangeLog: $(srcdir)/.hg
-@HAVE_CHANGELOGGER_TRUE@	SORTSMILL_HG_LOG_STYLE=compact $(CHANGELOGGER) -C $(srcdir) \
+@HAVE_CHANGELOGGER_TRUE@	SORTSMILL_HG_LOG_STYLE=changelog $(CHANGELOGGER) -C $(srcdir) \
 @HAVE_CHANGELOGGER_TRUE@	  > $(@).tmp && mv $(@){.tmp,}
 
 #---------------------------------------------------------------------

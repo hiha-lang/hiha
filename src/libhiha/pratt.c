@@ -46,6 +46,8 @@
 
 #define VISIBLE [[gnu::visibility ("default")]]
 
+#define UNEXPECTED_TEXT _("unexpected text%s: “%s”")
+
 struct pratt_tables
 {
   gl_omap_t nud;
@@ -145,10 +147,11 @@ execute_null_denotation (void *state, buffered_token_getter_t getter,
       if (p == NULL)
         {
           //
-          // Syntax error.
+          // There is no null denotation. Treat this as a lexical or
+          // syntax error.
           //
           char s[1000];
-          snprintf (s, 1000, _("syntax error%s: “%s”"),
+          snprintf (s, 1000, UNEXPECTED_TEXT,
                     text_location_string (tok->loc),
                     make_str_nul (tok->token_value));
           *error_message = xstrdup (s);
@@ -223,10 +226,11 @@ execute_left_denotation (void *state, buffered_token_getter_t getter,
       if (p == NULL)
         {
           //
-          // Syntax error.
+          // Unexpected token. Treat this as a lexical or syntax
+          // error.
           //
           char s[1000];
-          snprintf (s, 1000, _("syntax error%s: “%s”"),
+          snprintf (s, 1000, UNEXPECTED_TEXT,
                     text_location_string (tok->loc),
                     make_str_nul (tok->token_value));
           *error_message = xstrdup (s);

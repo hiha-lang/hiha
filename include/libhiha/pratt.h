@@ -30,12 +30,9 @@ typedef struct pratt_tables *pratt_tables_t;
 
 pratt_tables_t make_pratt_tables_t (void);
 
-/**INDENT-OFF**/
 typedef void nud_handler (void *state, pratt_tables_t tables,
                           token_t tok, void **lhs,
-                          const char **error_handler)
-  [[gnu::access (write_only, 4)]];
-/**INDENT-ON**/
+                          const char **error_handler);
 typedef nud_handler *nud_handler_t;
 
 typedef void led_handler (void *state, pratt_tables_t tables,

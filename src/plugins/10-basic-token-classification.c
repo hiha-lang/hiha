@@ -20,36 +20,17 @@
 */
 
 #include <config.h>
-#include <stddef.h>
-#include <dlfcn.h>
-#include <xalloc.h>
-#include <libhiha/load_plugin.h>
 
 // Change this if using gettext.
 #define _(msgid) msgid
 
 #define VISIBLE [[gnu::visibility ("default")]]
 
+#include <stdio.h>
 VISIBLE void
-load_plugin (const char *filename, const char **error_message)
+plugin_init (void)
 {
-  *error_message = NULL;
-  void *handle = dlopen (filename, RTLD_LAZY | RTLD_LOCAL);
-  if (handle == NULL)
-    {
-      *error_message = xstrdup (dlerror ());
-    }
-  else
-    {
-      dlerror ();
-      void (*plugin_init) (void) =
-        (void (*)(void)) dlsym (handle, "plugin_init");
-      if (plugin_init != NULL)
-        // If there is no plugin_init() function, just ignore this
-        // library.
-        plugin_init ();
-      dlclose (handle);
-    }
+  printf ("Hello, world!\n");
 }
 
 /*

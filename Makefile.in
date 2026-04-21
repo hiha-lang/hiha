@@ -197,6 +197,7 @@ CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libdir)" \
+	"$(DESTDIR)$(pkg_plugins_libdir)" \
 	"$(DESTDIR)$(pkg_gc_includedir)" \
 	"$(DESTDIR)$(pkg_libhiha_includedir)" \
 	"$(DESTDIR)$(pkgincludedir)"
@@ -227,10 +228,22 @@ am__uninstall_files_from_dir = { \
   || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
        $(am__cd) "$$dir" && echo $$files | $(am__xargs_n) 40 $(am__rm_f); }; \
   }
-LTLIBRARIES = $(lib_LTLIBRARIES)
+LTLIBRARIES = $(lib_LTLIBRARIES) $(pkg_plugins_lib_LTLIBRARIES)
+10_basic_token_classification_la_DEPENDENCIES = lib/libgnu.la
+am__dirstamp = $(am__leading_dot)dirstamp
+am_10_basic_token_classification_la_OBJECTS = src/plugins/10_basic_token_classification_la-10-basic-token-classification.lo
+10_basic_token_classification_la_OBJECTS =  \
+	$(am_10_basic_token_classification_la_OBJECTS)
+AM_V_lt = $(am__v_lt_@AM_V@)
+am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
+am__v_lt_0 = --silent
+am__v_lt_1 = 
+10_basic_token_classification_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(10_basic_token_classification_la_CFLAGS) $(CFLAGS) \
+	$(10_basic_token_classification_la_LDFLAGS) $(LDFLAGS) -o $@
 libhiha_la_DEPENDENCIES = lib/libgnu.la
 am__objects_1 =
-am__dirstamp = $(am__leading_dot)dirstamp
 am_libhiha_la_OBJECTS = $(am__objects_1) \
 	src/libhiha/libhiha_la-spinlock.lo \
 	src/libhiha/libhiha_la-string_t.lo \
@@ -238,10 +251,6 @@ am_libhiha_la_OBJECTS = $(am__objects_1) \
 	src/libhiha/libhiha_la-pratt.lo \
 	src/libhiha/libhiha_la-load_plugin.lo
 libhiha_la_OBJECTS = $(am_libhiha_la_OBJECTS)
-AM_V_lt = $(am__v_lt_@AM_V@)
-am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
-am__v_lt_0 = --silent
-am__v_lt_1 = 
 libhiha_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(libhiha_la_CFLAGS) \
 	$(CFLAGS) $(libhiha_la_LDFLAGS) $(LDFLAGS) -o $@
@@ -273,7 +282,8 @@ am__depfiles_remade = src/hiha/$(DEPDIR)/hiha-hiha.Po \
 	src/libhiha/$(DEPDIR)/libhiha_la-pratt.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo \
-	src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo
+	src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo \
+	src/plugins/$(DEPDIR)/10_basic_token_classification_la-10-basic-token-classification.Plo
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -293,8 +303,10 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(libhiha_la_SOURCES) $(hiha_SOURCES)
-DIST_SOURCES = $(libhiha_la_SOURCES) $(hiha_SOURCES)
+SOURCES = $(10_basic_token_classification_la_SOURCES) \
+	$(libhiha_la_SOURCES) $(hiha_SOURCES)
+DIST_SOURCES = $(10_basic_token_classification_la_SOURCES) \
+	$(libhiha_la_SOURCES) $(hiha_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
 	install-data-recursive install-dvi-recursive \
@@ -1639,11 +1651,16 @@ top_srcdir = @top_srcdir@
 SUBDIRS = lib . # tests
 ACLOCAL_AMFLAGS = -I m4 --install
 AUTOMAKE_OPTIONS = subdir-objects -Wno-portability
+pkg_plugins_libdir = $(pkglibdir)/plugins
 pkg_gc_includedir = $(pkgincludedir)/gc
 pkg_libhiha_includedir = $(pkgincludedir)/libhiha
 
 #---------------------------------------------------------------------
 lib_LTLIBRARIES = libhiha.la
+#libhiha_la_SOURCES += src/libhiha/parse_expression.c
+
+#---------------------------------------------------------------------
+pkg_plugins_lib_LTLIBRARIES = 10-basic-token-classification.la
 pkginclude_HEADERS = include/gc.h
 pkg_gc_include_HEADERS = $(top_srcdir)/$(GCVERS)/include/cord.h \
 	$(top_srcdir)/$(GCVERS)/include/cord_pos.h \
@@ -1807,6 +1824,13 @@ libhiha_HDRS = include/libhiha/libhiha.h include/libhiha/spinlock.h \
 	include/libhiha/initialize_once.h include/libhiha/string_t.h \
 	include/libhiha/token_t.h include/libhiha/pratt.h \
 	include/libhiha/load_plugin.h
+10_basic_token_classification_la_LIBADD = lib/libgnu.la
+10_basic_token_classification_la_LDFLAGS = $(LIBS) $(LTLIBICONV) \
+	$(LTLIBINTL) $(LTLIBUNISTRING) -avoid-version -module -shared
+10_basic_token_classification_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
+EXTRA_10_basic_token_classification_la_DEPENDENCIES = 
+10_basic_token_classification_la_SOURCES =  \
+	src/plugins/10-basic-token-classification.c
 DISTITEMS = $(srcdir)/README $(am__append_1)
 all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
@@ -1939,6 +1963,51 @@ clean-libLTLIBRARIES:
 	      sort -u`; \
 	echo rm -f $${locs}; \
 	$(am__rm_f) $${locs}
+
+install-pkg_plugins_libLTLIBRARIES: $(pkg_plugins_lib_LTLIBRARIES)
+	@$(NORMAL_INSTALL)
+	@list='$(pkg_plugins_lib_LTLIBRARIES)'; test -n "$(pkg_plugins_libdir)" || list=; \
+	list2=; for p in $$list; do \
+	  if test -f $$p; then \
+	    list2="$$list2 $$p"; \
+	  else :; fi; \
+	done; \
+	test -z "$$list2" || { \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(pkg_plugins_libdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(pkg_plugins_libdir)" || exit 1; \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 '$(DESTDIR)$(pkg_plugins_libdir)'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 "$(DESTDIR)$(pkg_plugins_libdir)"; \
+	}
+
+uninstall-pkg_plugins_libLTLIBRARIES:
+	@$(NORMAL_UNINSTALL)
+	@list='$(pkg_plugins_lib_LTLIBRARIES)'; test -n "$(pkg_plugins_libdir)" || list=; \
+	for p in $$list; do \
+	  $(am__strip_dir) \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f '$(DESTDIR)$(pkg_plugins_libdir)/$$f'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f "$(DESTDIR)$(pkg_plugins_libdir)/$$f"; \
+	done
+
+clean-pkg_plugins_libLTLIBRARIES:
+	-$(am__rm_f) $(pkg_plugins_lib_LTLIBRARIES)
+	@list='$(pkg_plugins_lib_LTLIBRARIES)'; \
+	locs=`for p in $$list; do echo $$p; done | \
+	      sed 's|^[^/]*$$|.|; s|/[^/]*$$||; s|$$|/so_locations|' | \
+	      sort -u`; \
+	echo rm -f $${locs}; \
+	$(am__rm_f) $${locs}
+src/plugins/$(am__dirstamp):
+	@$(MKDIR_P) src/plugins
+	@: >>src/plugins/$(am__dirstamp)
+src/plugins/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/plugins/$(DEPDIR)
+	@: >>src/plugins/$(DEPDIR)/$(am__dirstamp)
+src/plugins/10_basic_token_classification_la-10-basic-token-classification.lo:  \
+	src/plugins/$(am__dirstamp) \
+	src/plugins/$(DEPDIR)/$(am__dirstamp)
+
+10-basic-token-classification.la: $(10_basic_token_classification_la_OBJECTS) $(10_basic_token_classification_la_DEPENDENCIES) $(EXTRA_10_basic_token_classification_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(10_basic_token_classification_la_LINK) -rpath $(pkg_plugins_libdir) $(10_basic_token_classification_la_OBJECTS) $(10_basic_token_classification_la_LIBADD) $(LIBS)
 src/libhiha/$(am__dirstamp):
 	@$(MKDIR_P) src/libhiha
 	@: >>src/libhiha/$(am__dirstamp)
@@ -1976,6 +2045,8 @@ mostlyclean-compile:
 	-rm -f src/hiha/*.$(OBJEXT)
 	-rm -f src/libhiha/*.$(OBJEXT)
 	-rm -f src/libhiha/*.lo
+	-rm -f src/plugins/*.$(OBJEXT)
+	-rm -f src/plugins/*.lo
 
 distclean-compile:
 	-rm -f *.tab.c
@@ -1986,6 +2057,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/10_basic_token_classification_la-10-basic-token-classification.Plo@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -2016,6 +2088,13 @@ am--depfiles: $(am__depfiles_remade)
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
+
+src/plugins/10_basic_token_classification_la-10-basic-token-classification.lo: src/plugins/10-basic-token-classification.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(10_basic_token_classification_la_CFLAGS) $(CFLAGS) -MT src/plugins/10_basic_token_classification_la-10-basic-token-classification.lo -MD -MP -MF src/plugins/$(DEPDIR)/10_basic_token_classification_la-10-basic-token-classification.Tpo -c -o src/plugins/10_basic_token_classification_la-10-basic-token-classification.lo `test -f 'src/plugins/10-basic-token-classification.c' || echo '$(srcdir)/'`src/plugins/10-basic-token-classification.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/plugins/$(DEPDIR)/10_basic_token_classification_la-10-basic-token-classification.Tpo src/plugins/$(DEPDIR)/10_basic_token_classification_la-10-basic-token-classification.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/plugins/10-basic-token-classification.c' object='src/plugins/10_basic_token_classification_la-10-basic-token-classification.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(10_basic_token_classification_la_CFLAGS) $(CFLAGS) -c -o src/plugins/10_basic_token_classification_la-10-basic-token-classification.lo `test -f 'src/plugins/10-basic-token-classification.c' || echo '$(srcdir)/'`src/plugins/10-basic-token-classification.c
 
 src/libhiha/libhiha_la-spinlock.lo: src/libhiha/spinlock.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_la-spinlock.lo -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Tpo -c -o src/libhiha/libhiha_la-spinlock.lo `test -f 'src/libhiha/spinlock.c' || echo '$(srcdir)/'`src/libhiha/spinlock.c
@@ -2072,6 +2151,7 @@ mostlyclean-libtool:
 clean-libtool:
 	-rm -rf .libs _libs
 	-rm -rf src/libhiha/.libs src/libhiha/_libs
+	-rm -rf src/plugins/.libs src/plugins/_libs
 
 distclean-libtool:
 	-rm -f libtool config.lt
@@ -2455,9 +2535,11 @@ install-EXTRAPROGRAMS: install-libLTLIBRARIES
 
 install-binPROGRAMS: install-libLTLIBRARIES
 
+install-pkgpluginslibLTLIBRARIES: install-libLTLIBRARIES
+
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkg_gc_includedir)" "$(DESTDIR)$(pkg_libhiha_includedir)" "$(DESTDIR)$(pkgincludedir)"; do \
+	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkg_plugins_libdir)" "$(DESTDIR)$(pkg_gc_includedir)" "$(DESTDIR)$(pkg_libhiha_includedir)" "$(DESTDIR)$(pkgincludedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: $(BUILT_SOURCES)
@@ -2494,6 +2576,8 @@ distclean-generic:
 	-$(am__rm_f) src/hiha/$(am__dirstamp)
 	-$(am__rm_f) src/libhiha/$(DEPDIR)/$(am__dirstamp)
 	-$(am__rm_f) src/libhiha/$(am__dirstamp)
+	-$(am__rm_f) src/plugins/$(DEPDIR)/$(am__dirstamp)
+	-$(am__rm_f) src/plugins/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -2502,7 +2586,8 @@ maintainer-clean-generic:
 clean: clean-recursive
 
 clean-am: clean-binPROGRAMS clean-generic clean-libLTLIBRARIES \
-	clean-libtool clean-local mostlyclean-am
+	clean-libtool clean-local clean-pkg_plugins_libLTLIBRARIES \
+	mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
@@ -2512,6 +2597,7 @@ distclean: distclean-recursive
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo
+	-rm -f src/plugins/$(DEPDIR)/10_basic_token_classification_la-10-basic-token-classification.Plo
 	-rm -f GNUmakefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-libtool distclean-local distclean-tags
@@ -2529,7 +2615,8 @@ info: info-recursive
 info-am:
 
 install-data-am: install-pkg_gc_includeHEADERS \
-	install-pkg_libhiha_includeHEADERS install-pkgincludeHEADERS
+	install-pkg_libhiha_includeHEADERS \
+	install-pkg_plugins_libLTLIBRARIES install-pkgincludeHEADERS
 
 install-dvi: install-dvi-recursive
 
@@ -2566,6 +2653,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo
+	-rm -f src/plugins/$(DEPDIR)/10_basic_token_classification_la-10-basic-token-classification.Plo
 	-rm -f GNUmakefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -2585,6 +2673,7 @@ ps-am:
 uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
 	uninstall-pkg_gc_includeHEADERS \
 	uninstall-pkg_libhiha_includeHEADERS \
+	uninstall-pkg_plugins_libLTLIBRARIES \
 	uninstall-pkgincludeHEADERS
 
 .MAKE: $(am__recursive_targets) all check install install-am \
@@ -2593,19 +2682,21 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
 .PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am \
 	am--depfiles am--refresh check check-am clean \
 	clean-binPROGRAMS clean-cscope clean-generic \
-	clean-libLTLIBRARIES clean-libtool clean-local cscope \
-	cscopelist-am ctags ctags-am dist dist-all dist-bzip2 \
-	dist-bzip3 dist-gzip dist-lzip dist-shar dist-tarZ dist-xz \
-	dist-zip dist-zstd distcheck distclean distclean-compile \
-	distclean-generic distclean-hdr distclean-libtool \
-	distclean-local distclean-tags distcleancheck distdir \
-	distuninstallcheck dvi dvi-am html html-am info info-am \
-	install install-am install-binPROGRAMS install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-libLTLIBRARIES install-man install-pdf \
-	install-pdf-am install-pkg_gc_includeHEADERS \
-	install-pkg_libhiha_includeHEADERS install-pkgincludeHEADERS \
+	clean-libLTLIBRARIES clean-libtool clean-local \
+	clean-pkg_plugins_libLTLIBRARIES cscope cscopelist-am ctags \
+	ctags-am dist dist-all dist-bzip2 dist-bzip3 dist-gzip \
+	dist-lzip dist-shar dist-tarZ dist-xz dist-zip dist-zstd \
+	distcheck distclean distclean-compile distclean-generic \
+	distclean-hdr distclean-libtool distclean-local distclean-tags \
+	distcleancheck distdir distuninstallcheck dvi dvi-am html \
+	html-am info info-am install install-am install-binPROGRAMS \
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-info install-info-am install-libLTLIBRARIES \
+	install-man install-pdf install-pdf-am \
+	install-pkg_gc_includeHEADERS \
+	install-pkg_libhiha_includeHEADERS \
+	install-pkg_plugins_libLTLIBRARIES install-pkgincludeHEADERS \
 	install-ps install-ps-am install-strip installcheck \
 	installcheck-am installdirs installdirs-am maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
@@ -2614,6 +2705,7 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
 	uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
 	uninstall-pkg_gc_includeHEADERS \
 	uninstall-pkg_libhiha_includeHEADERS \
+	uninstall-pkg_plugins_libLTLIBRARIES \
 	uninstall-pkgincludeHEADERS
 
 .PRECIOUS: GNUmakefile
@@ -2641,7 +2733,6 @@ include/gc.h: Makefile.am
 	rm -f $(@) && \
 	echo '/* This file is installed for backward compatibility. */' > $(@) && \
 	echo '#include <gc/gc.h>' >> $(@)
-#libhiha_la_SOURCES += src/libhiha/parse_expression.c
 
 #---------------------------------------------------------------------
 

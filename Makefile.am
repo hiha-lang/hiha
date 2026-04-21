@@ -28,11 +28,13 @@ AUTOMAKE_OPTIONS += -Wno-portability
 
 @GNU@ include $(top_srcdir)/silent-rules.mk
 
+pkg_plugins_libdir = $(pkglibdir)/plugins
 pkg_gc_includedir = $(pkgincludedir)/gc
 pkg_libhiha_includedir = $(pkgincludedir)/libhiha
 
 bin_PROGRAMS =
 lib_LTLIBRARIES =
+pkg_plugins_lib_LTLIBRARIES =
 pkginclude_HEADERS =
 pkg_gc_include_HEADERS =
 pkg_libhiha_include_HEADERS =
@@ -184,6 +186,31 @@ libhiha_la_SOURCES += src/libhiha/token_t.c
 libhiha_la_SOURCES += src/libhiha/pratt.c
 libhiha_la_SOURCES += src/libhiha/load_plugin.c
 #libhiha_la_SOURCES += src/libhiha/parse_expression.c
+
+#---------------------------------------------------------------------
+
+pkg_plugins_lib_LTLIBRARIES += 10-basic-token-classification.la
+
+10_basic_token_classification_la_LIBADD =
+10_basic_token_classification_la_LDFLAGS =
+10_basic_token_classification_la_CFLAGS =
+EXTRA_10_basic_token_classification_la_DEPENDENCIES =
+10_basic_token_classification_la_SOURCES =
+
+10_basic_token_classification_la_LIBADD += lib/libgnu.la
+
+10_basic_token_classification_la_LDFLAGS += $(LIBS)
+10_basic_token_classification_la_LDFLAGS += $(LTLIBICONV)
+10_basic_token_classification_la_LDFLAGS += $(LTLIBINTL)
+10_basic_token_classification_la_LDFLAGS += $(LTLIBUNISTRING)
+10_basic_token_classification_la_LDFLAGS += -avoid-version -module
+10_basic_token_classification_la_LDFLAGS += -shared
+
+10_basic_token_classification_la_CFLAGS += $(BASICCFLAGS)
+10_basic_token_classification_la_CFLAGS += $(CFLAGS)
+
+10_basic_token_classification_la_SOURCES += \
+	src/plugins/10-basic-token-classification.c
 
 #---------------------------------------------------------------------
 

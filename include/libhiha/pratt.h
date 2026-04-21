@@ -32,12 +32,12 @@ pratt_tables_t make_pratt_tables_t (void);
 
 typedef void nud_handler (void *state, pratt_tables_t tables,
                           token_t tok, void **lhs,
-                          const char **error_handler);
+                          const char **error_message);
 typedef nud_handler *nud_handler_t;
 
 typedef void led_handler (void *state, pratt_tables_t tables,
                           token_t tok, void **lhs,
-                          const char **error_handler);
+                          const char **error_message);
 typedef led_handler *led_handler_t;
 
 /* Add a null denotation handler to the Pratt parsing. */

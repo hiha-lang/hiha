@@ -33,6 +33,9 @@ struct token
 };
 typedef struct token *token_t;
 
+token_t make_token_t (string_t token_kind, string_t token_value,
+                      text_location_t loc);
+
 struct token_getter;
 typedef struct token_getter *token_getter_t;
 struct token_getter

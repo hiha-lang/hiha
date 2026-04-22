@@ -229,26 +229,29 @@ am__uninstall_files_from_dir = { \
        $(am__cd) "$$dir" && echo $$files | $(am__xargs_n) 40 $(am__rm_f); }; \
   }
 LTLIBRARIES = $(lib_LTLIBRARIES) $(pkg_plugins_lib_LTLIBRARIES)
-10_basic_token_classification_la_DEPENDENCIES = lib/libgnu.la
+10_basic_code_point_classification_la_DEPENDENCIES = libhiha.la \
+	lib/libgnu.la $(GCVERS)/libhiha-gc.la
 am__dirstamp = $(am__leading_dot)dirstamp
-am_10_basic_token_classification_la_OBJECTS = src/plugins/10_basic_token_classification_la-10-basic-token-classification.lo
-10_basic_token_classification_la_OBJECTS =  \
-	$(am_10_basic_token_classification_la_OBJECTS)
+am_10_basic_code_point_classification_la_OBJECTS = src/plugins/10_basic_code_point_classification_la-10-basic-code-point-classification.lo
+10_basic_code_point_classification_la_OBJECTS =  \
+	$(am_10_basic_code_point_classification_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-10_basic_token_classification_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(10_basic_token_classification_la_CFLAGS) $(CFLAGS) \
-	$(10_basic_token_classification_la_LDFLAGS) $(LDFLAGS) -o $@
-libhiha_la_DEPENDENCIES = lib/libgnu.la
+10_basic_code_point_classification_la_LINK = $(LIBTOOL) $(AM_V_lt) \
+	--tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
+	$(CCLD) $(10_basic_code_point_classification_la_CFLAGS) \
+	$(CFLAGS) $(10_basic_code_point_classification_la_LDFLAGS) \
+	$(LDFLAGS) -o $@
+libhiha_la_DEPENDENCIES = lib/libgnu.la $(GCVERS)/libhiha-gc.la
 am__objects_1 =
 am_libhiha_la_OBJECTS = $(am__objects_1) \
 	src/libhiha/libhiha_la-spinlock.lo \
 	src/libhiha/libhiha_la-string_t.lo \
 	src/libhiha/libhiha_la-token_t.lo \
 	src/libhiha/libhiha_la-pratt.lo \
+	src/libhiha/libhiha_la-lexical.lo \
 	src/libhiha/libhiha_la-load_plugin.lo
 libhiha_la_OBJECTS = $(am_libhiha_la_OBJECTS)
 libhiha_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
@@ -278,12 +281,13 @@ DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = src/hiha/$(DEPDIR)/hiha-hiha.Po \
+	src/libhiha/$(DEPDIR)/libhiha_la-lexical.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-load_plugin.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-pratt.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo \
-	src/plugins/$(DEPDIR)/10_basic_token_classification_la-10-basic-token-classification.Plo
+	src/plugins/$(DEPDIR)/10_basic_code_point_classification_la-10-basic-code-point-classification.Plo
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -303,9 +307,9 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(10_basic_token_classification_la_SOURCES) \
+SOURCES = $(10_basic_code_point_classification_la_SOURCES) \
 	$(libhiha_la_SOURCES) $(hiha_SOURCES)
-DIST_SOURCES = $(10_basic_token_classification_la_SOURCES) \
+DIST_SOURCES = $(10_basic_code_point_classification_la_SOURCES) \
 	$(libhiha_la_SOURCES) $(hiha_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
@@ -1657,10 +1661,9 @@ pkg_libhiha_includedir = $(pkgincludedir)/libhiha
 
 #---------------------------------------------------------------------
 lib_LTLIBRARIES = libhiha.la
-#libhiha_la_SOURCES += src/libhiha/parse_expression.c
 
 #---------------------------------------------------------------------
-pkg_plugins_lib_LTLIBRARIES = 10-basic-token-classification.la
+pkg_plugins_lib_LTLIBRARIES = 10-basic-code-point-classification.la
 pkginclude_HEADERS = include/gc.h
 pkg_gc_include_HEADERS = $(top_srcdir)/$(GCVERS)/include/cord.h \
 	$(top_srcdir)/$(GCVERS)/include/cord_pos.h \
@@ -1680,7 +1683,6 @@ pkg_gc_include_HEADERS = $(top_srcdir)/$(GCVERS)/include/cord.h \
 	$(top_srcdir)/$(GCVERS)/include/gc_version.h \
 	$(top_srcdir)/$(GCVERS)/include/javaxfc.h \
 	$(top_srcdir)/$(GCVERS)/include/leak_detector.h
-#libhiha_HDRS += include/libhiha/parse_expression.h
 pkg_libhiha_include_HEADERS = $(libhiha_HDRS)
 CLEANFILES = include/gc.h
 DISTCLEANFILES = Makefile GNUmakefile lib/Makefile lib/GNUmakefile
@@ -1812,25 +1814,28 @@ hiha_LDADD = libhiha.la $(GCVERS)/libhiha-gc.la lib/libgnu.la \
 hiha_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
 EXTRA_hiha_DEPENDENCIES = libhiha.la lib/libgnu.la
 hiha_SOURCES = src/hiha/hiha.c
-libhiha_la_LIBADD = lib/libgnu.la
+libhiha_la_LIBADD = lib/libgnu.la $(GCVERS)/libhiha-gc.la
 libhiha_la_LDFLAGS = $(LIBS) $(LTLIBICONV) $(LTLIBINTL) \
 	$(LTLIBUNISTRING) -lm -ldl -export-dynamic
 libhiha_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
 EXTRA_libhiha_la_DEPENDENCIES = 
 libhiha_la_SOURCES = $(libhiha_HDRS) src/libhiha/spinlock.c \
 	src/libhiha/string_t.c src/libhiha/token_t.c \
-	src/libhiha/pratt.c src/libhiha/load_plugin.c
+	src/libhiha/pratt.c src/libhiha/lexical.c \
+	src/libhiha/load_plugin.c
 libhiha_HDRS = include/libhiha/libhiha.h include/libhiha/spinlock.h \
 	include/libhiha/initialize_once.h include/libhiha/string_t.h \
 	include/libhiha/token_t.h include/libhiha/pratt.h \
-	include/libhiha/load_plugin.h
-10_basic_token_classification_la_LIBADD = lib/libgnu.la
-10_basic_token_classification_la_LDFLAGS = $(LIBS) $(LTLIBICONV) \
+	include/libhiha/lexical.h include/libhiha/load_plugin.h
+10_basic_code_point_classification_la_LIBADD = libhiha.la \
+	lib/libgnu.la $(GCVERS)/libhiha-gc.la
+10_basic_code_point_classification_la_LDFLAGS = $(LIBS) $(LTLIBICONV) \
 	$(LTLIBINTL) $(LTLIBUNISTRING) -avoid-version -module -shared
-10_basic_token_classification_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
-EXTRA_10_basic_token_classification_la_DEPENDENCIES = 
-10_basic_token_classification_la_SOURCES =  \
-	src/plugins/10-basic-token-classification.c
+10_basic_code_point_classification_la_CFLAGS = $(BASICCFLAGS) \
+	$(CFLAGS)
+EXTRA_10_basic_code_point_classification_la_DEPENDENCIES = 
+10_basic_code_point_classification_la_SOURCES =  \
+	src/plugins/10-basic-code-point-classification.c
 DISTITEMS = $(srcdir)/README $(am__append_1)
 all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
@@ -2002,12 +2007,12 @@ src/plugins/$(am__dirstamp):
 src/plugins/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) src/plugins/$(DEPDIR)
 	@: >>src/plugins/$(DEPDIR)/$(am__dirstamp)
-src/plugins/10_basic_token_classification_la-10-basic-token-classification.lo:  \
+src/plugins/10_basic_code_point_classification_la-10-basic-code-point-classification.lo:  \
 	src/plugins/$(am__dirstamp) \
 	src/plugins/$(DEPDIR)/$(am__dirstamp)
 
-10-basic-token-classification.la: $(10_basic_token_classification_la_OBJECTS) $(10_basic_token_classification_la_DEPENDENCIES) $(EXTRA_10_basic_token_classification_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(10_basic_token_classification_la_LINK) -rpath $(pkg_plugins_libdir) $(10_basic_token_classification_la_OBJECTS) $(10_basic_token_classification_la_LIBADD) $(LIBS)
+10-basic-code-point-classification.la: $(10_basic_code_point_classification_la_OBJECTS) $(10_basic_code_point_classification_la_DEPENDENCIES) $(EXTRA_10_basic_code_point_classification_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(10_basic_code_point_classification_la_LINK) -rpath $(pkg_plugins_libdir) $(10_basic_code_point_classification_la_OBJECTS) $(10_basic_code_point_classification_la_LIBADD) $(LIBS)
 src/libhiha/$(am__dirstamp):
 	@$(MKDIR_P) src/libhiha
 	@: >>src/libhiha/$(am__dirstamp)
@@ -2021,6 +2026,8 @@ src/libhiha/libhiha_la-string_t.lo: src/libhiha/$(am__dirstamp) \
 src/libhiha/libhiha_la-token_t.lo: src/libhiha/$(am__dirstamp) \
 	src/libhiha/$(DEPDIR)/$(am__dirstamp)
 src/libhiha/libhiha_la-pratt.lo: src/libhiha/$(am__dirstamp) \
+	src/libhiha/$(DEPDIR)/$(am__dirstamp)
+src/libhiha/libhiha_la-lexical.lo: src/libhiha/$(am__dirstamp) \
 	src/libhiha/$(DEPDIR)/$(am__dirstamp)
 src/libhiha/libhiha_la-load_plugin.lo: src/libhiha/$(am__dirstamp) \
 	src/libhiha/$(DEPDIR)/$(am__dirstamp)
@@ -2052,12 +2059,13 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@src/hiha/$(DEPDIR)/hiha-hiha.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-lexical.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-load_plugin.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-pratt.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/10_basic_token_classification_la-10-basic-token-classification.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/10_basic_code_point_classification_la-10-basic-code-point-classification.Plo@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -2089,12 +2097,12 @@ am--depfiles: $(am__depfiles_remade)
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
 
-src/plugins/10_basic_token_classification_la-10-basic-token-classification.lo: src/plugins/10-basic-token-classification.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(10_basic_token_classification_la_CFLAGS) $(CFLAGS) -MT src/plugins/10_basic_token_classification_la-10-basic-token-classification.lo -MD -MP -MF src/plugins/$(DEPDIR)/10_basic_token_classification_la-10-basic-token-classification.Tpo -c -o src/plugins/10_basic_token_classification_la-10-basic-token-classification.lo `test -f 'src/plugins/10-basic-token-classification.c' || echo '$(srcdir)/'`src/plugins/10-basic-token-classification.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/plugins/$(DEPDIR)/10_basic_token_classification_la-10-basic-token-classification.Tpo src/plugins/$(DEPDIR)/10_basic_token_classification_la-10-basic-token-classification.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/plugins/10-basic-token-classification.c' object='src/plugins/10_basic_token_classification_la-10-basic-token-classification.lo' libtool=yes @AMDEPBACKSLASH@
+src/plugins/10_basic_code_point_classification_la-10-basic-code-point-classification.lo: src/plugins/10-basic-code-point-classification.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(10_basic_code_point_classification_la_CFLAGS) $(CFLAGS) -MT src/plugins/10_basic_code_point_classification_la-10-basic-code-point-classification.lo -MD -MP -MF src/plugins/$(DEPDIR)/10_basic_code_point_classification_la-10-basic-code-point-classification.Tpo -c -o src/plugins/10_basic_code_point_classification_la-10-basic-code-point-classification.lo `test -f 'src/plugins/10-basic-code-point-classification.c' || echo '$(srcdir)/'`src/plugins/10-basic-code-point-classification.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/plugins/$(DEPDIR)/10_basic_code_point_classification_la-10-basic-code-point-classification.Tpo src/plugins/$(DEPDIR)/10_basic_code_point_classification_la-10-basic-code-point-classification.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/plugins/10-basic-code-point-classification.c' object='src/plugins/10_basic_code_point_classification_la-10-basic-code-point-classification.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(10_basic_token_classification_la_CFLAGS) $(CFLAGS) -c -o src/plugins/10_basic_token_classification_la-10-basic-token-classification.lo `test -f 'src/plugins/10-basic-token-classification.c' || echo '$(srcdir)/'`src/plugins/10-basic-token-classification.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(10_basic_code_point_classification_la_CFLAGS) $(CFLAGS) -c -o src/plugins/10_basic_code_point_classification_la-10-basic-code-point-classification.lo `test -f 'src/plugins/10-basic-code-point-classification.c' || echo '$(srcdir)/'`src/plugins/10-basic-code-point-classification.c
 
 src/libhiha/libhiha_la-spinlock.lo: src/libhiha/spinlock.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_la-spinlock.lo -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Tpo -c -o src/libhiha/libhiha_la-spinlock.lo `test -f 'src/libhiha/spinlock.c' || echo '$(srcdir)/'`src/libhiha/spinlock.c
@@ -2123,6 +2131,13 @@ src/libhiha/libhiha_la-pratt.lo: src/libhiha/pratt.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/libhiha/pratt.c' object='src/libhiha/libhiha_la-pratt.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -c -o src/libhiha/libhiha_la-pratt.lo `test -f 'src/libhiha/pratt.c' || echo '$(srcdir)/'`src/libhiha/pratt.c
+
+src/libhiha/libhiha_la-lexical.lo: src/libhiha/lexical.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_la-lexical.lo -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_la-lexical.Tpo -c -o src/libhiha/libhiha_la-lexical.lo `test -f 'src/libhiha/lexical.c' || echo '$(srcdir)/'`src/libhiha/lexical.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/libhiha/$(DEPDIR)/libhiha_la-lexical.Tpo src/libhiha/$(DEPDIR)/libhiha_la-lexical.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/libhiha/lexical.c' object='src/libhiha/libhiha_la-lexical.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -c -o src/libhiha/libhiha_la-lexical.lo `test -f 'src/libhiha/lexical.c' || echo '$(srcdir)/'`src/libhiha/lexical.c
 
 src/libhiha/libhiha_la-load_plugin.lo: src/libhiha/load_plugin.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_la-load_plugin.lo -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_la-load_plugin.Tpo -c -o src/libhiha/libhiha_la-load_plugin.lo `test -f 'src/libhiha/load_plugin.c' || echo '$(srcdir)/'`src/libhiha/load_plugin.c
@@ -2592,12 +2607,13 @@ clean-am: clean-binPROGRAMS clean-generic clean-libLTLIBRARIES \
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -f src/hiha/$(DEPDIR)/hiha-hiha.Po
+	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-lexical.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-load_plugin.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-pratt.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo
-	-rm -f src/plugins/$(DEPDIR)/10_basic_token_classification_la-10-basic-token-classification.Plo
+	-rm -f src/plugins/$(DEPDIR)/10_basic_code_point_classification_la-10-basic-code-point-classification.Plo
 	-rm -f GNUmakefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-libtool distclean-local distclean-tags
@@ -2648,12 +2664,13 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
 	-rm -f src/hiha/$(DEPDIR)/hiha-hiha.Po
+	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-lexical.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-load_plugin.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-pratt.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo
-	-rm -f src/plugins/$(DEPDIR)/10_basic_token_classification_la-10-basic-token-classification.Plo
+	-rm -f src/plugins/$(DEPDIR)/10_basic_code_point_classification_la-10-basic-code-point-classification.Plo
 	-rm -f GNUmakefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -2758,7 +2775,9 @@ indent:
 		$(addprefix $(top_srcdir)/, \
 			$(filter %.c %.h,$(libhiha_la_SOURCES))) \
 		$(addprefix $(top_srcdir)/, \
-			$(filter %.c %.h,$(hiha_SOURCES)))
+			$(filter %.c %.h,$(hiha_SOURCES))) \
+		$(addprefix $(top_srcdir)/, \
+			$(filter %.c %.h,$(10_basic_code_point_classification_la_SOURCES)))
 
 #---------------------------------------------------------------------
 

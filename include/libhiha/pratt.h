@@ -30,6 +30,13 @@ typedef struct pratt_tables *pratt_tables_t;
 
 pratt_tables_t make_pratt_tables_t (void);
 
+/* The ‘state’ argument is for whatever use the programmer wishes. The
+   ‘*lhs’ argument would typically represent token_t for lexical
+   analysis and a parse tree for syntactic analysis. */
+void pratt_parse (void *state, buffered_token_getter_t getter,
+                  pratt_tables_t tables, double min_power,
+                  void **lhs, const char **error_message);
+
 typedef void nud_handler (void *state, pratt_tables_t tables,
                           token_t tok, void **lhs,
                           const char **error_message);
@@ -40,15 +47,32 @@ typedef void led_handler (void *state, pratt_tables_t tables,
                           const char **error_message);
 typedef led_handler *led_handler_t;
 
-/* Add a null denotation handler to the Pratt parsing. */
-void add_nud (pratt_tables_t data, string_t token_kind, nud_handler_t);
+/* Add a null denotation handler to the Pratt parsing, or replace an
+   existing one. */
+void pratt_nud_put (pratt_tables_t data, string_t token_kind,
+                    nud_handler_t);
 
-/* Add a left denotation handler to the Pratt parsing. */
-void add_led (pratt_tables_t data, string_t token_kind, led_handler_t);
+/* Add a left denotation handler to the Pratt parsing, or replace an
+   existing one. */
+void pratt_led_put (pratt_tables_t data, string_t token_kind,
+                    led_handler_t);
 
-/* Add a left binding power to the Pratt parsing. */
-void add_lbp (pratt_tables_t data, string_t token_kind,
-              double binding_power);
+/* Add a left binding power to the Pratt parsing, or replace an
+   existing one. */
+void pratt_lbp_put (pratt_tables_t data, string_t token_kind,
+                    double binding_power);
+
+/* Get a null denotation handler from the Pratt tables, or return
+   NULL. */
+nud_handler_t pratt_nud_get (pratt_tables_t data, string_t token_kind);
+
+/* Get a left denotation handler from the Pratt tables, or return
+   NULL. */
+led_handler_t pratt_led_get (pratt_tables_t data, string_t token_kind);
+
+/* Get a left binding power from the Pratt tables, or return
+   -HUGE_VAL. */
+double pratt_lbp_get (pratt_tables_t data, string_t token_kind);
 
 #endif /* __LIBHAHA__PRATT_H__INCLUDED__ */
 

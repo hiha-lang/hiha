@@ -27,6 +27,7 @@
 #include <libhiha/string_t.h>
 #include <libhiha/token_t.h>
 #include <libhiha/pratt.h>
+#include <libhiha/lexical.h>
 #include <libhiha/load_plugin.h>
 
 #endif /* __LIBHAHA__LIBHIHA_H__INCLUDED__ */

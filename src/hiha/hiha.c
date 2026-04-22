@@ -22,6 +22,7 @@
 #include <config.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <string.h>
 #include <limits.h>
 #include <errno.h>
@@ -36,9 +37,7 @@
 #include <gc/gc.h>
 #include <gl_avltree_list.h>
 #include <gl_xlist.h>
-#include <libhiha/string_t.h>
-#include <libhiha/token_t.h>
-#include <libhiha/load_plugin.h>
+#include <libhiha/libhiha.h>
 
 // Change this if using gettext.
 #define _(msgid) msgid
@@ -119,7 +118,7 @@ xxxparse_file (const char *filename, FILE *f)
 }
 
 static void
-parse_file (const char *filename, FILE *f)
+yyyparse_file (const char *filename, FILE *f)
 {
   token_t tok;
   const char *error_message;
@@ -136,6 +135,46 @@ parse_file (const char *filename, FILE *f)
       if (string_t_cmp (tok->token_kind, string_t_CP ()) == 0)
         printf ("%s", make_str_nul (tok->token_value));
       (getter->get_token) (getter, &tok, &error_message);
+    }
+  if (!error_message)
+    {
+      if (string_t_cmp (tok->token_kind, string_t_CP ()) == 0)
+        printf ("%s", make_str_nul (tok->token_value));
+    }
+  else
+    {
+      printf ("error: %s\n", error_message);
+      exit (1);
+    }
+}
+
+static token_t
+lhs_to_token_t (void *lhs, const char *error_message)
+{
+  return (error_message == NULL) ? (token_t) lhs : NULL;
+}
+
+static void
+parse_file (const char *filename, FILE *f)
+{
+  token_t tok;
+  void *lhs = NULL;
+  const char *error_message = NULL;
+  pratt_tables_t tables = lexical_pratt_tables ();
+
+  token_getter_from_serialized_tokens_t g =
+    make_token_getter_from_serialized_tokens_t (filename, f);
+  buffered_token_getter_t getter =
+    make_buffered_token_getter_t ((token_getter_t) g);
+
+  pratt_parse (NULL, getter, tables, -HUGE_VAL, &lhs, &error_message);
+  tok = lhs_to_token_t (lhs, error_message);
+  while (!error_message
+         && string_t_cmp (tok->token_kind, string_t_EOF ()))
+    {
+      if (string_t_cmp (tok->token_kind, string_t_CP ()) == 0)
+        printf ("%s", make_str_nul (tok->token_value));
+      pratt_parse (NULL, getter, tables, -HUGE_VAL, &lhs, &error_message);
     }
   if (!error_message)
     {

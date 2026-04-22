@@ -74,19 +74,27 @@ struct token_getter_from_serialized_tokens
 static void get_token_from_serialized_tokens (token_getter_t, token_t *,
                                               const char **);
 
-static token_t
+VISIBLE token_t
 make_token_t (string_t token_kind, string_t token_value,
-              const char *filename, size_t line_no,
-              size_t code_point_no)
+              text_location_t loc)
 {
   token_t tok = XMALLOC (struct token);
   tok->token_kind = token_kind;
   tok->token_value = token_value;
-  tok->loc = XMALLOC (struct text_location);
-  tok->loc->filename = filename;
-  tok->loc->line_no = line_no;
-  tok->loc->code_point_no = code_point_no;
+  tok->loc = loc;
   return tok;
+}
+
+static token_t
+_make_token_t (string_t token_kind, string_t token_value,
+               const char *filename, size_t line_no,
+               size_t code_point_no)
+{
+  text_location_t loc = XMALLOC (struct text_location);
+  loc->filename = filename;
+  loc->line_no = line_no;
+  loc->code_point_no = code_point_no;
+  return make_token_t (token_kind, token_value, loc);
 }
 
 VISIBLE token_getter_from_source_file_t
@@ -145,20 +153,20 @@ get_token_from_source_file (token_getter_t getter, token_t *tok,
       str->s[0] = g->buf[g->i_code_point];
       str->n = 1;
       *tok =
-        make_token_t (copy_string_t (string_t_CP ()), str, g->filename,
-                      g->line_no, g->i_code_point + 1);
+        _make_token_t (copy_string_t (string_t_CP ()), str, g->filename,
+                       g->line_no, g->i_code_point + 1);
       g->i_code_point += 1;
     }
   else if (was_end_of_line)
     *tok =
-      make_token_t (copy_string_t (string_t_EOF ()),
-                    copy_string_t (string_t_EOF ()), g->filename,
-                    g->line_no + 1, 0);
+      _make_token_t (copy_string_t (string_t_EOF ()),
+                     copy_string_t (string_t_EOF ()), g->filename,
+                     g->line_no + 1, 0);
   else
     *tok =
-      make_token_t (copy_string_t (string_t_EOF ()),
-                    copy_string_t (string_t_EOF ()), g->filename,
-                    g->line_no, g->i_code_point + 1);
+      _make_token_t (copy_string_t (string_t_EOF ()),
+                     copy_string_t (string_t_EOF ()), g->filename,
+                     g->line_no, g->i_code_point + 1);
 }
 
 static bool
@@ -440,11 +448,10 @@ deserialize_token (token_getter_from_serialized_tokens_t g,
         copy_string_t ((string_t) gl_list_get_at (g->token_values,
                                                   i_token_value));
       *tok =
-        make_token_t (tokkind, tokvalue, filename, line_no,
-                      code_point_no);
+        _make_token_t (tokkind, tokvalue, filename, line_no,
+                       code_point_no);
     }
 }
-
 
 static void
 make_serialized_line_available (token_getter_from_serialized_tokens_t g,

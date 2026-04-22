@@ -46,7 +46,7 @@
 
 #define VISIBLE [[gnu::visibility ("default")]]
 
-#define UNEXPECTED_TEXT _("unexpected text%s: “%s”")
+#define UNEXPECTED_TEXT _("unexpected text at %s: “%s”")
 
 struct pratt_tables
 {
@@ -107,26 +107,45 @@ make_pratt_tables_t (void)
 }
 
 VISIBLE void
-pratt_add_nud (pratt_tables_t data, string_t token_kind,
+pratt_nud_put (pratt_tables_t data, string_t token_kind,
                nud_handler_t handler)
 {
   gl_omap_put (data->nud, token_kind, handler);
 }
 
 VISIBLE void
-pratt_add_led (pratt_tables_t data, string_t token_kind,
+pratt_led_put (pratt_tables_t data, string_t token_kind,
                led_handler_t handler)
 {
   gl_omap_put (data->led, token_kind, handler);
 }
 
 VISIBLE void
-pratt_add_lbp (pratt_tables_t data, string_t token_kind,
+pratt_lbp_put (pratt_tables_t data, string_t token_kind,
                double binding_power)
 {
   double *bp = XMALLOC (double);
   *bp = binding_power;
   gl_omap_put (data->lbp, token_kind, bp);
+}
+
+VISIBLE nud_handler_t
+pratt_nud_get (pratt_tables_t data, string_t token_kind)
+{
+  return (nud_handler_t) gl_omap_get (data->nud, token_kind);
+}
+
+VISIBLE led_handler_t
+pratt_led_get (pratt_tables_t data, string_t token_kind)
+{
+  return (led_handler_t) gl_omap_get (data->led, token_kind);
+}
+
+VISIBLE double
+pratt_lbp_get (pratt_tables_t data, string_t token_kind)
+{
+  const void *p = gl_omap_get (data->lbp, token_kind);
+  return (p == NULL) ? -HUGE_VAL : *((const double *) p);
 }
 
 static void
@@ -141,7 +160,7 @@ execute_null_denotation (void *state, buffered_token_getter_t getter,
   // Consume the next token.
   //
   getter->get_token (getter, &tok, error_message);
-  if (error_message == NULL)
+  if (*error_message == NULL)
     {
       const void *p = gl_omap_get (tables->nud, tok->token_kind);
       if (p == NULL)

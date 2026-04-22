@@ -156,6 +156,7 @@ EXTRA_libhiha_la_DEPENDENCIES =
 libhiha_la_SOURCES =
 
 libhiha_la_LIBADD += lib/libgnu.la
+libhiha_la_LIBADD += $(GCVERS)/libhiha-gc.la
 
 libhiha_la_LDFLAGS += $(LIBS)
 libhiha_la_LDFLAGS += $(LTLIBICONV)
@@ -174,8 +175,8 @@ libhiha_HDRS += include/libhiha/initialize_once.h
 libhiha_HDRS += include/libhiha/string_t.h
 libhiha_HDRS += include/libhiha/token_t.h
 libhiha_HDRS += include/libhiha/pratt.h
+libhiha_HDRS += include/libhiha/lexical.h
 libhiha_HDRS += include/libhiha/load_plugin.h
-#libhiha_HDRS += include/libhiha/parse_expression.h
 
 pkg_libhiha_include_HEADERS += $(libhiha_HDRS)
 
@@ -184,33 +185,35 @@ libhiha_la_SOURCES += src/libhiha/spinlock.c
 libhiha_la_SOURCES += src/libhiha/string_t.c
 libhiha_la_SOURCES += src/libhiha/token_t.c
 libhiha_la_SOURCES += src/libhiha/pratt.c
+libhiha_la_SOURCES += src/libhiha/lexical.c
 libhiha_la_SOURCES += src/libhiha/load_plugin.c
-#libhiha_la_SOURCES += src/libhiha/parse_expression.c
 
 #---------------------------------------------------------------------
 
-pkg_plugins_lib_LTLIBRARIES += 10-basic-token-classification.la
+pkg_plugins_lib_LTLIBRARIES += 10-basic-code-point-classification.la
 
-10_basic_token_classification_la_LIBADD =
-10_basic_token_classification_la_LDFLAGS =
-10_basic_token_classification_la_CFLAGS =
-EXTRA_10_basic_token_classification_la_DEPENDENCIES =
-10_basic_token_classification_la_SOURCES =
+10_basic_code_point_classification_la_LIBADD =
+10_basic_code_point_classification_la_LDFLAGS =
+10_basic_code_point_classification_la_CFLAGS =
+EXTRA_10_basic_code_point_classification_la_DEPENDENCIES =
+10_basic_code_point_classification_la_SOURCES =
 
-10_basic_token_classification_la_LIBADD += lib/libgnu.la
+10_basic_code_point_classification_la_LIBADD += libhiha.la
+10_basic_code_point_classification_la_LIBADD += lib/libgnu.la
+10_basic_code_point_classification_la_LIBADD += $(GCVERS)/libhiha-gc.la
 
-10_basic_token_classification_la_LDFLAGS += $(LIBS)
-10_basic_token_classification_la_LDFLAGS += $(LTLIBICONV)
-10_basic_token_classification_la_LDFLAGS += $(LTLIBINTL)
-10_basic_token_classification_la_LDFLAGS += $(LTLIBUNISTRING)
-10_basic_token_classification_la_LDFLAGS += -avoid-version -module
-10_basic_token_classification_la_LDFLAGS += -shared
+10_basic_code_point_classification_la_LDFLAGS += $(LIBS)
+10_basic_code_point_classification_la_LDFLAGS += $(LTLIBICONV)
+10_basic_code_point_classification_la_LDFLAGS += $(LTLIBINTL)
+10_basic_code_point_classification_la_LDFLAGS += $(LTLIBUNISTRING)
+10_basic_code_point_classification_la_LDFLAGS += -avoid-version -module
+10_basic_code_point_classification_la_LDFLAGS += -shared
 
-10_basic_token_classification_la_CFLAGS += $(BASICCFLAGS)
-10_basic_token_classification_la_CFLAGS += $(CFLAGS)
+10_basic_code_point_classification_la_CFLAGS += $(BASICCFLAGS)
+10_basic_code_point_classification_la_CFLAGS += $(CFLAGS)
 
-10_basic_token_classification_la_SOURCES += \
-	src/plugins/10-basic-token-classification.c
+10_basic_code_point_classification_la_SOURCES += \
+	src/plugins/10-basic-code-point-classification.c
 
 #---------------------------------------------------------------------
 
@@ -236,7 +239,9 @@ indent:
 		$(addprefix $(top_srcdir)/, \
 			$(filter %.c %.h,$(libhiha_la_SOURCES))) \
 		$(addprefix $(top_srcdir)/, \
-			$(filter %.c %.h,$(hiha_SOURCES)))
+			$(filter %.c %.h,$(hiha_SOURCES))) \
+		$(addprefix $(top_srcdir)/, \
+			$(filter %.c %.h,$(10_basic_code_point_classification_la_SOURCES)))
 
 #---------------------------------------------------------------------
 

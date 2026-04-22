@@ -19,19 +19,12 @@
 
 */
 
-#include <config.h>
+#ifndef __LIBHAHA__LEXICAL_H__INCLUDED__
+#define __LIBHAHA__LEXICAL_H__INCLUDED__
 
-// Change this if using gettext.
-#define _(msgid) msgid
+pratt_tables_t lexical_pratt_tables (void);
 
-#define VISIBLE [[gnu::visibility ("default")]]
-
-#include <stdio.h>
-VISIBLE void
-plugin_init (void)
-{
-  printf ("Hello, world!\n");
-}
+#endif /* __LIBHAHA__LEXICAL_H__INCLUDED__ */
 
 /*
   local variables:

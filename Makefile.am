@@ -226,8 +226,6 @@ indent:
 		-Tpratt_binding_power_t \
 		-Tnud_handler_t \
 		-Tled_handler_t \
-		-Tplugin_interface_t \
-		-Tplugin_pratt_interface_t \
 		-Tstring_t \
 		-Ttoken_t \
 		-Ttext_location_t \

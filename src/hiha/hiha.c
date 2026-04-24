@@ -305,16 +305,13 @@ get_options (int argc, char **argv, hiha_options_t *opts)
 void
 load_one_plugin (const char *fn)
 {
-  plugin_interface_t interface = NULL;
   const char *error_message = NULL;
-  load_plugin (fn, &interface, &error_message);
+  load_plugin (fn, &error_message);
   if (error_message != NULL)
     {
       error (exit_failure, 0, "%s", error_message);
       abort ();
     }
-  else if (interface != NULL)
-    register_plugin (interface);
 }
 
 int

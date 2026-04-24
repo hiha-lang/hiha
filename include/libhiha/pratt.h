@@ -57,15 +57,11 @@ typedef void led_handler (void *state, pratt_tables_t tables,
                           const char **error_message);
 typedef led_handler *led_handler_t;
 
-/* Add a reference to a null denotation handler, or replace an
-   existing one. */
-void pratt_nud_put (pratt_tables_t tables, string_t token_kind,
-                    pratt_handler_reference_t);
+/* Add a null denotation handler, or replace an existing one. */
+void pratt_nud_put (pratt_tables_t tables, string_t token_kind, nud_handler_t);
 
-/* Add a reference to a left denotation handler, or replace an
-   existing one. */
-void pratt_led_put (pratt_tables_t tables, string_t token_kind,
-                    pratt_handler_reference_t);
+/* Add a left denotation handler, or replace an existing one. */
+void pratt_led_put (pratt_tables_t tables, string_t token_kind, led_handler_t);
 
 /* Add a left binding power, or replace an existing one. */
 void pratt_lbp_put (pratt_tables_t tables, string_t token_kind,
@@ -73,13 +69,11 @@ void pratt_lbp_put (pratt_tables_t tables, string_t token_kind,
 
 /* Get a null denotation handler from the Pratt tables, or return
    NULL. */
-nud_handler_t pratt_nud_handler_get (pratt_tables_t tables,
-                                     string_t token_kind);
+nud_handler_t pratt_nud_get (pratt_tables_t tables, string_t token_kind);
 
 /* Get a left denotation handler from the Pratt tables, or return
    NULL. */
-led_handler_t pratt_led_handler_get (pratt_tables_t tables,
-                                     string_t token_kind);
+led_handler_t pratt_led_get (pratt_tables_t tables, string_t token_kind);
 
 /* Get a left binding power from the Pratt tables, or return
    -HUGE_VAL. */

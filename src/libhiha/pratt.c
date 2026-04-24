@@ -108,17 +108,15 @@ make_pratt_tables_t (void)
 }
 
 VISIBLE void
-pratt_nud_put (pratt_tables_t data, string_t token_kind,
-               pratt_handler_reference_t ref)
+pratt_nud_put (pratt_tables_t data, string_t token_kind, nud_handler_t handler)
 {
-  gl_omap_put (data->nud, token_kind, ref);
+  gl_omap_put (data->nud, token_kind, handler);
 }
 
 VISIBLE void
-pratt_led_put (pratt_tables_t data, string_t token_kind,
-               pratt_handler_reference_t ref)
+pratt_led_put (pratt_tables_t data, string_t token_kind, led_handler_t handler)
 {
-  gl_omap_put (data->led, token_kind, ref);
+  gl_omap_put (data->led, token_kind, handler);
 }
 
 VISIBLE void
@@ -131,19 +129,15 @@ pratt_lbp_put (pratt_tables_t data, string_t token_kind,
 }
 
 VISIBLE nud_handler_t
-pratt_nud_handler_get (pratt_tables_t data, string_t token_kind)
+pratt_nud_get (pratt_tables_t data, string_t token_kind)
 {
-  pratt_handler_reference_t ref =
-    (pratt_handler_reference_t) gl_omap_get (data->nud, token_kind);
-  return plugin_nud_handler (ref->register_no, ref->handler_no);
+  return (nud_handler_t) gl_omap_get (data->nud, token_kind);
 }
 
 VISIBLE led_handler_t
-pratt_led_handler_get (pratt_tables_t data, string_t token_kind)
+pratt_led_get (pratt_tables_t data, string_t token_kind)
 {
-  pratt_handler_reference_t ref =
-    (pratt_handler_reference_t) gl_omap_get (data->led, token_kind);
-  return plugin_led_handler (ref->register_no, ref->handler_no);
+  return (led_handler_t) gl_omap_get (data->nud, token_kind);
 }
 
 VISIBLE double
@@ -167,8 +161,7 @@ execute_null_denotation (void *state, buffered_token_getter_t getter,
   getter->get_token (getter, &tok, error_message);
   if (*error_message == NULL)
     {
-      nud_handler_t handler =
-        pratt_nud_handler_get (tables, tok->token_kind);
+      nud_handler_t handler = pratt_nud_get (tables, tok->token_kind);
       if (handler == NULL)
         {
           //
@@ -220,8 +213,7 @@ execute_left_denotation (void *state, buffered_token_getter_t getter,
   getter->get_token (getter, &tok, error_message);
   if (error_message == NULL)
     {
-      led_handler_t handler =
-        pratt_led_handler_get (tables, tok->token_kind);
+      led_handler_t handler = pratt_led_get (tables, tok->token_kind);
       if (handler == NULL)
         {
           //

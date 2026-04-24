@@ -244,7 +244,7 @@ am__v_lt_1 =
 	$(CCLD) $(10_basic_code_point_classification_la_CFLAGS) \
 	$(CFLAGS) $(10_basic_code_point_classification_la_LDFLAGS) \
 	$(LDFLAGS) -o $@
-libhiha_la_DEPENDENCIES = lib/libgnu.la $(GCVERS)/libhiha-gc.la
+libhiha_la_DEPENDENCIES = lib/libgnu.la
 am__objects_1 =
 am_libhiha_la_OBJECTS = $(am__objects_1) \
 	src/libhiha/libhiha_la-spinlock.lo \
@@ -1814,7 +1814,8 @@ hiha_LDADD = libhiha.la $(GCVERS)/libhiha-gc.la lib/libgnu.la \
 hiha_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
 EXTRA_hiha_DEPENDENCIES = libhiha.la lib/libgnu.la
 hiha_SOURCES = src/hiha/hiha.c
-libhiha_la_LIBADD = lib/libgnu.la $(GCVERS)/libhiha-gc.la
+libhiha_la_LIBADD = lib/libgnu.la
+#libhiha_la_LIBADD += $(GCVERS)/libhiha-gc.la
 libhiha_la_LDFLAGS = $(LIBS) $(LTLIBICONV) $(LTLIBINTL) \
 	$(LTLIBUNISTRING) -lm -ldl -export-dynamic
 libhiha_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
@@ -2638,7 +2639,8 @@ install-dvi: install-dvi-recursive
 
 install-dvi-am:
 
-install-exec-am: install-binPROGRAMS install-libLTLIBRARIES
+install-exec-am: install-binPROGRAMS install-exec-local \
+	install-libLTLIBRARIES
 
 install-html: install-html-recursive
 
@@ -2688,7 +2690,7 @@ ps: ps-recursive
 ps-am:
 
 uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
-	uninstall-pkg_gc_includeHEADERS \
+	uninstall-local uninstall-pkg_gc_includeHEADERS \
 	uninstall-pkg_libhiha_includeHEADERS \
 	uninstall-pkg_plugins_libLTLIBRARIES \
 	uninstall-pkgincludeHEADERS
@@ -2708,9 +2710,9 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
 	distcleancheck distdir distuninstallcheck dvi dvi-am html \
 	html-am info info-am install install-am install-binPROGRAMS \
 	install-data install-data-am install-dvi install-dvi-am \
-	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-libLTLIBRARIES \
-	install-man install-pdf install-pdf-am \
+	install-exec install-exec-am install-exec-local install-html \
+	install-html-am install-info install-info-am \
+	install-libLTLIBRARIES install-man install-pdf install-pdf-am \
 	install-pkg_gc_includeHEADERS \
 	install-pkg_libhiha_includeHEADERS \
 	install-pkg_plugins_libLTLIBRARIES install-pkgincludeHEADERS \
@@ -2719,7 +2721,7 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool mostlyclean-local pdf \
 	pdf-am ps ps-am tags tags-am uninstall uninstall-am \
-	uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
+	uninstall-binPROGRAMS uninstall-libLTLIBRARIES uninstall-local \
 	uninstall-pkg_gc_includeHEADERS \
 	uninstall-pkg_libhiha_includeHEADERS \
 	uninstall-pkg_plugins_libLTLIBRARIES \
@@ -2744,6 +2746,17 @@ clean-local::
 distclean-local::
 	-$(MAKE) $(AM_MAKEFLAGS) -C $(GCVERS) distclean
 	-find $(GCVERS) -name 'libcord_la-*.Plo' -exec rm -f '{}' ';'
+
+install-exec-local::
+	-mkdir -p '$(DESTDIR)$(libdir)'
+	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) \
+	    $(GCVERS)/libhiha-gc.la \
+	    $(GCVERS)/libhiha-cord.la \
+	    '$(DESTDIR)$(libdir)'
+
+uninstall-local::
+	$(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall \
+	    rm -f '$(DESTDIR)$(libdir)'/{libhiha-cord,libhiha-gc}.la
 
 include/gc.h: Makefile.am
 	$(call v,GEN)mkdir -p $(@D) && \

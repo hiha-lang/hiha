@@ -30,6 +30,7 @@
 */
 
 #include <config.h>
+#include <math.h>
 #include <error.h>
 #include <exitfail.h>
 #include <libhiha/pratt.h>
@@ -57,28 +58,35 @@ lexical_pratt_tables (void)
   return _lexical_tables;
 }
 
+static token_t
+lhs_to_token_t (void *lhs, const char *error_message)
+{
+  return (error_message == NULL) ? (token_t) lhs : NULL;
+}
+
 static void
 scan_serialized_tokens (const char *filename, FILE *f)
 {
-  token_t tok;
+  void *lhs = NULL;
+  token_t tok = NULL;
   const char *error_message = NULL;
+  pratt_tables_t tables = lexical_pratt_tables ();
 
-  token_getter_from_serialized_tokens_t g =
-    make_token_getter_from_serialized_tokens_t (filename, f);
   buffered_token_getter_t getter =
-    make_buffered_token_getter_t ((token_getter_t) g);
+    make_buffered_token_getter_from_serialized_tokens (filename, f);
 
-  (getter->get_token) (getter, &tok, &error_message);
-  while (error_message == NULL
-         && 0 != string_t_cmp (tok->token_kind, string_t_EOF ()))
+  pratt_parse (NULL, getter, tables, -HUGE_VAL, &lhs, &error_message);
+  tok = lhs_to_token_t (lhs, error_message);
+  while (!error_message
+         && string_t_cmp (tok->token_kind, string_t_EOF ()))
     {
-      // FIXME
-      (getter->get_token) (getter, &tok, &error_message);
+      serialize_token_t (tok, stdout);
+      pratt_parse (NULL, getter, tables, -HUGE_VAL, &lhs,
+                   &error_message);
+      tok = lhs_to_token_t (lhs, error_message);
     }
   if (!error_message)
-    {
-      // FIXME
-    }
+    serialize_token_t (tok, stdout);
   else
     {
       error (exit_failure, 0, "%s", error_message);

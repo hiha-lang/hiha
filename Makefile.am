@@ -90,6 +90,17 @@ distclean-local::
 	-$(MAKE) $(AM_MAKEFLAGS) -C $(GCVERS) distclean
 	-find $(GCVERS) -name 'libcord_la-*.Plo' -exec rm -f '{}' ';'
 
+install-exec-local::
+	-mkdir -p '$(DESTDIR)$(libdir)'
+	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) \
+	    $(GCVERS)/libhiha-gc.la \
+	    $(GCVERS)/libhiha-cord.la \
+	    '$(DESTDIR)$(libdir)'
+
+uninstall-local::
+	$(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall \
+	    rm -f '$(DESTDIR)$(libdir)'/{libhiha-cord,libhiha-gc}.la
+
 include/gc.h: Makefile.am
 	$(call v,GEN)mkdir -p $(@D) && \
 	rm -f $(@) && \
@@ -156,7 +167,7 @@ EXTRA_libhiha_la_DEPENDENCIES =
 libhiha_la_SOURCES =
 
 libhiha_la_LIBADD += lib/libgnu.la
-libhiha_la_LIBADD += $(GCVERS)/libhiha-gc.la
+#libhiha_la_LIBADD += $(GCVERS)/libhiha-gc.la
 
 libhiha_la_LDFLAGS += $(LIBS)
 libhiha_la_LDFLAGS += $(LTLIBICONV)

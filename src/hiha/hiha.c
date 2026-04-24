@@ -20,6 +20,7 @@
 */
 
 #include <config.h>
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -155,7 +156,7 @@ lhs_to_token_t (void *lhs, const char *error_message)
 }
 
 static void
-parse_file (const char *filename, FILE *f)
+zzzparse_file (const char *filename, FILE *f)
 {
   token_t tok;
   void *lhs = NULL;
@@ -166,6 +167,42 @@ parse_file (const char *filename, FILE *f)
     make_token_getter_from_serialized_tokens_t (filename, f);
   buffered_token_getter_t getter =
     make_buffered_token_getter_t ((token_getter_t) g);
+
+  pratt_parse (NULL, getter, tables, -HUGE_VAL, &lhs, &error_message);
+  tok = lhs_to_token_t (lhs, error_message);
+  while (!error_message
+         && string_t_cmp (tok->token_kind, string_t_EOF ()))
+    {
+      //if (string_t_cmp (tok->token_kind, string_t_CP ()) == 0)
+      //  printf ("%s", make_str_nul (tok->token_value));
+      serialize_token_t (tok, stdout);
+      pratt_parse (NULL, getter, tables, -HUGE_VAL, &lhs,
+                   &error_message);
+      tok = lhs_to_token_t (lhs, error_message);
+    }
+  if (!error_message)
+    {
+      //if (string_t_cmp (tok->token_kind, string_t_CP ()) == 0)
+      //  printf ("%s", make_str_nul (tok->token_value));
+      serialize_token_t (tok, stdout);
+    }
+  else
+    {
+      printf ("error: %s\n", error_message);
+      exit (1);
+    }
+}
+
+static void
+____scan_some_files (size_t n, const char *filenames[n])
+{
+  token_t tok;
+  void *lhs = NULL;
+  const char *error_message = NULL;
+  pratt_tables_t tables = lexical_pratt_tables ();
+
+  buffered_token_getter_t getter =
+    make_buffered_token_getter_from_source_files (n, filenames);
 
   pratt_parse (NULL, getter, tables, -HUGE_VAL, &lhs, &error_message);
   tok = lhs_to_token_t (lhs, error_message);
@@ -396,18 +433,21 @@ main (int argc, char **argv)
   check_usage (argc, argv);
 
   load_command_line_plugins (opts->plugins);
-  for (int i = 1; i != argc; i += 1)
-    {
-      FILE *f = fopen (argv[i], "r");
-      if (f == NULL)
-        {
-          error (exit_failure, 0,
-                 "failed to open “%s” for reading\n", argv[i]);
-          abort ();
-        }
-      parse_file (argv[i], f);
-      fclose (f);
-    }
+  ____scan_some_files (argc - 1, ((const char **) argv) + 1);
+  /*
+     for (int i = 1; i != argc; i += 1)
+     {
+     FILE *f = fopen (argv[i], "r");
+     if (f == NULL)
+     {
+     error (exit_failure, 0,
+     "failed to open “%s” for reading\n", argv[i]);
+     abort ();
+     }
+     parse_file (argv[i], f);
+     fclose (f);
+     }
+   */
   exit (EXIT_SUCCESS);
 }
 

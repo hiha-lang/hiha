@@ -74,6 +74,18 @@ struct buffered_token_getter
 buffered_token_getter_t
 make_buffered_token_getter_t (token_getter_t unbuffered_getter);
 
+//
+// Play the files in sequence, converting all the EOF but the last to
+// formfeed.
+//
+buffered_token_getter_t
+make_buffered_token_getter_from_source_files (size_t n,
+                                              const char *filenames[n]);
+
+buffered_token_getter_t
+make_buffered_token_getter_from_serialized_tokens (const char *filename,
+                                                   FILE *f);
+
 #endif /* __LIBHAHA__TOKEN_T_H__INCLUDED__ */
 
 /*

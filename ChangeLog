@@ -1,4 +1,19 @@
+2026-04-24  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
+
+	* donkey-farbe/donkey-farbe.png, donkey-farbe/donkey-farbe.svg:
+	Save the public domain donkey vector.
+	[11e3104fbbcb] [github/master, tip]
+
 2026-04-23  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
+
+	* src/hiha/hiha.c:
+	I have figured out how to process tokens with the Pratt parser.
+	[ffd240f83faa]
+
+	* ChangeLog, include/libhiha/pratt.h, src/libhiha/load_plugin.c,
+	src/libhiha/pratt.c:
+	Run indent.
+	[b7dbd48f081b]
 
 	* Makefile.in, aclocal.m4, config.h.in, configure,
 	include/libhiha/load_plugin.h, include/libhiha/pratt.h,
@@ -11,7 +26,7 @@
 	classification.c:
 	Get plugins working, but the Pratt token processing isn’t quite
 	figured out yet.
-	[8a43e4a22d96] [tip]
+	[8a43e4a22d96]
 
 	* Makefile.am, Makefile.in, include/libhiha/load_plugin.h,
 	include/libhiha/pratt.h, src/hiha/hiha.c, src/libhiha/load_plugin.c,
@@ -46,7 +61,7 @@
 	code-point-classification.c, src/plugins/10-basic-token-
 	classification.c:
 	The first hints of anything that can do lexical analysis.
-	[515096ba567f] [github/master]
+	[515096ba567f]
 
 2026-04-21  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
 

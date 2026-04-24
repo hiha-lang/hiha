@@ -20,9 +20,10 @@
 */
 
 #include <config.h>
+#include <assert.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdatomic.h>
+#include <errno.h>
 #include <error.h>
 #include <xalloc.h>
 #include <exitfail.h>
@@ -36,6 +37,14 @@
 #define _(msgid) msgid
 
 #define VISIBLE [[gnu::visibility ("default")]]
+
+//
+// It might be prudent to be prepared to copy strings, if this code
+// ever becomes converted somehow to linear types instead of garbage
+// collection.
+//
+#define NEW_STRING
+//#define NEW_STRING copy_string_t
 
 struct token_getter_from_source_file
 {
@@ -153,19 +162,19 @@ get_token_from_source_file (token_getter_t getter, token_t *tok,
       str->s[0] = g->buf[g->i_code_point];
       str->n = 1;
       *tok =
-        _make_token_t (copy_string_t (string_t_CP ()), str, g->filename,
+        _make_token_t (NEW_STRING (string_t_CP ()), str, g->filename,
                        g->line_no, g->i_code_point + 1);
       g->i_code_point += 1;
     }
   else if (was_end_of_line)
     *tok =
-      _make_token_t (copy_string_t (string_t_EOF ()),
-                     copy_string_t (string_t_EOF ()), g->filename,
+      _make_token_t (NEW_STRING (string_t_EOF ()),
+                     NEW_STRING (string_t_EOF ()), g->filename,
                      g->line_no + 1, 0);
   else
     *tok =
-      _make_token_t (copy_string_t (string_t_EOF ()),
-                     copy_string_t (string_t_EOF ()), g->filename,
+      _make_token_t (NEW_STRING (string_t_EOF ()),
+                     NEW_STRING (string_t_EOF ()), g->filename,
                      g->line_no, g->i_code_point + 1);
 }
 
@@ -442,11 +451,11 @@ deserialize_token (token_getter_from_serialized_tokens_t g,
     {
       const char *filename = gl_list_get_at (g->filenames, i_filename);
       string_t tokkind =
-        copy_string_t ((string_t) gl_list_get_at (g->token_kinds,
-                                                  i_token_kind));
+        NEW_STRING ((string_t) gl_list_get_at (g->token_kinds,
+                                               i_token_kind));
       string_t tokvalue =
-        copy_string_t ((string_t) gl_list_get_at (g->token_values,
-                                                  i_token_value));
+        NEW_STRING ((string_t) gl_list_get_at (g->token_values,
+                                               i_token_value));
       *tok =
         _make_token_t (tokkind, tokvalue, filename, line_no,
                        code_point_no);
@@ -560,6 +569,121 @@ make_buffered_token_getter_t (token_getter_t unbuffered_getter)
   g->get_token = &get_token_from_buffered_getter;
   g->look_at_token = &look_at_buffered_token;
   return (buffered_token_getter_t) g;
+}
+
+struct _multiple_files_getter
+{
+  /* This struct must be castable to a struct token_getter. */
+
+  void (*get_token) (token_getter_t this_struct,
+                     token_t *tok, const char **error_message);
+
+  const char **filenames;
+  size_t n;
+  ssize_t i;
+  FILE *f;
+  token_getter_t getter;
+};
+typedef struct _multiple_files_getter *_multiple_files_getter_t;
+
+static void
+open_one_of_multiple_files (_multiple_files_getter_t g)
+{
+  g->f = fopen (g->filenames[g->i], "r");
+  if (g->f == NULL)
+    {
+      int err_number = errno;
+      error (exit_failure, err_number, "%s", g->filenames[g->i]);
+      abort ();
+    }
+  g->getter =
+    (token_getter_t)
+    make_token_getter_from_source_file_t (g->filenames[g->i], g->f);
+}
+
+static void
+get_token_from_multiple_files_getter (token_getter_t getter,
+                                      token_t *tok,
+                                      const char **error_message)
+{
+  //
+  // Play the files in sequence, converting all the EOF but the last
+  // to formfeed.
+  //
+
+  _multiple_files_getter_t g = (_multiple_files_getter_t) getter;
+
+  assert (-1 <= g->i);
+  assert (g->i <= (ssize_t) g->n);
+
+  *error_message = NULL;
+
+  if (g->n == 0 || g->i == g->n)
+    *tok = make_token_t (NEW_STRING (string_t_EOF ()),
+                         NEW_STRING (string_t_EOF ()), NULL);
+  else
+    {
+      if (g->i == -1)
+        {
+          // Open the first file.
+          g->i += 1;
+          open_one_of_multiple_files (g);
+        }
+
+      g->getter->get_token (g->getter, tok, error_message);
+
+      if (*error_message == NULL)
+        {
+          if (string_t_cmp ((*tok)->token_kind, string_t_EOF ()) == 0)
+            {
+              // Close the finished file.
+              fclose (g->f);
+
+              g->i += 1;
+              if (g->i != g->n)
+                {
+                  // There is at least one more file to go through.
+                  // Replace the EOF token with a formfeed.
+                  *tok =
+                    make_token_t (NEW_STRING (string_t_CP ()),
+                                  NEW_STRING (string_t_formfeed ()),
+                                  (*tok)->loc);
+
+                  open_one_of_multiple_files (g);
+                }
+            }
+        }
+    }
+}
+
+_multiple_files_getter_t
+make_multiple_files_getter_t (size_t n, const char *filenames[n])
+{
+  _multiple_files_getter_t g = XMALLOC (struct _multiple_files_getter);
+  g->get_token = &get_token_from_multiple_files_getter;
+  g->filenames = filenames;
+  g->n = n;
+  g->i = -1;
+  g->f = NULL;
+  g->getter = NULL;
+}
+
+VISIBLE buffered_token_getter_t
+make_buffered_token_getter_from_source_files (size_t n,
+                                              const char *filenames[n])
+{
+  _multiple_files_getter_t g =
+    make_multiple_files_getter_t (n, filenames);
+  return make_buffered_token_getter_t ((token_getter_t) g);
+}
+
+VISIBLE buffered_token_getter_t
+make_buffered_token_getter_from_serialized_tokens (const char *filename,
+                                                   FILE *f)
+{
+  token_getter_from_serialized_tokens_t g =
+    make_token_getter_from_serialized_tokens_t (filename, f);
+  return make_buffered_token_getter_t ((token_getter_t) g);
 }
 
 /*

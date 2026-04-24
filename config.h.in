@@ -775,6 +775,9 @@
 /* Define to 1 on musl libc. */
 #undef MUSL_LIBC
 
+/* Define to 1 if assertions should be disabled. */
+#undef NDEBUG
+
 /* Define to 1 if realloc should abort upon undefined behaviour. */
 #undef NEED_SANITIZED_REALLOC
 

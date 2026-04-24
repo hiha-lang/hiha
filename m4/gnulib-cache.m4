@@ -37,6 +37,8 @@
 #  --no-conditional-dependencies \
 #  --libtool \
 #  --macro-prefix=gl \
+#  assert \
+#  assert-h \
 #  avltree-list \
 #  avltree-omap \
 #  base64 \
@@ -52,6 +54,9 @@
 #  uniconv/u32-casecoll \
 #  uniconv/u32-conv-from-enc \
 #  uniconv/u32-conv-to-enc \
+#  unictype/property-alphabetic \
+#  unictype/property-quotation-mark \
+#  unictype/property-white-space \
 #  uninorm/nfc \
 #  unistr/u32-check \
 #  unistr/u32-cmp2 \
@@ -63,6 +68,8 @@
 # Specification in the form of a few gnulib-tool.m4 macro invocations:
 gl_LOCAL_DIR([])
 gl_MODULES([
+  assert
+  assert-h
   avltree-list
   avltree-omap
   base64
@@ -78,6 +85,9 @@ gl_MODULES([
   uniconv/u32-casecoll
   uniconv/u32-conv-from-enc
   uniconv/u32-conv-to-enc
+  unictype/property-alphabetic
+  unictype/property-quotation-mark
+  unictype/property-white-space
   uninorm/nfc
   unistr/u32-check
   unistr/u32-cmp2

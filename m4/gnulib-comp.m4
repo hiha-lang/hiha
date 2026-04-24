@@ -46,6 +46,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module alloca-opt:
   # Code from module amemxfrm:
   # Code from module array-mergesort:
+  # Code from module assert:
   # Code from module assert-h:
   # Code from module attribute:
   # Code from module avltree-list:
@@ -182,7 +183,10 @@ AC_DEFUN([gl_EARLY],
   # Code from module uniconv/u8-conv-to-enc:
   # Code from module unictype/base:
   # Code from module unictype/combining-class:
+  # Code from module unictype/property-alphabetic:
+  # Code from module unictype/property-quotation-mark:
   # Code from module unictype/property-soft-dotted:
+  # Code from module unictype/property-white-space:
   # Code from module uninorm/base:
   # Code from module uninorm/canonical-decomposition:
   # Code from module uninorm/composition:
@@ -242,6 +246,7 @@ AC_DEFUN([gl_INIT],
   gl_CONDITIONAL_HEADER([alloca.h])
   AC_PROG_MKDIR_P
   AC_REQUIRE([AC_C_RESTRICT])
+  gl_ASSERT
   gl_ASSERT_H
   gl_CONDITIONAL_HEADER([assert.h])
   AC_PROG_MKDIR_P
@@ -604,7 +609,16 @@ AC_DEFUN([gl_INIT],
   gl_LIBUNISTRING_MODULE([1.4], [unictype/combining-class])
   AC_REQUIRE([AC_C_INLINE])
   gl_UNICTYPE_H_REQUIRE_DEFAULTS
+  gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [unictype/property-alphabetic])
+  AC_REQUIRE([AC_C_INLINE])
+  gl_UNICTYPE_H_REQUIRE_DEFAULTS
+  gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [unictype/property-quotation-mark])
+  AC_REQUIRE([AC_C_INLINE])
+  gl_UNICTYPE_H_REQUIRE_DEFAULTS
   gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [unictype/property-soft-dotted])
+  AC_REQUIRE([AC_C_INLINE])
+  gl_UNICTYPE_H_REQUIRE_DEFAULTS
+  gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [unictype/property-white-space])
   gl_LIBUNISTRING_LIBHEADER([1.2], [uninorm.h])
   gl_UNINORM_H
   gl_UNINORM_H_REQUIRE_DEFAULTS
@@ -1027,8 +1041,14 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/unictype/bitmap.h
   lib/unictype/combiningclass.c
   lib/unictype/combiningclass.h
+  lib/unictype/pr_alphabetic.c
+  lib/unictype/pr_alphabetic.h
+  lib/unictype/pr_quotation_mark.c
+  lib/unictype/pr_quotation_mark.h
   lib/unictype/pr_soft_dotted.c
   lib/unictype/pr_soft_dotted.h
+  lib/unictype/pr_white_space.c
+  lib/unictype/pr_white_space.h
   lib/uninorm.in.h
   lib/uninorm/canonical-decomposition.c
   lib/uninorm/composition-table-bounds.h
@@ -1083,6 +1103,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/00gnulib.m4
   m4/absolute-header.m4
   m4/alloca.m4
+  m4/assert.m4
   m4/assert_h.m4
   m4/base64.m4
   m4/build-to-host.m4

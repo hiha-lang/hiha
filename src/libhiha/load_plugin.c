@@ -22,7 +22,14 @@
 #include <config.h>
 #include <stddef.h>
 #include <dlfcn.h>
+#include <assert.h>
 #include <xalloc.h>
+#include <error.h>
+#include <exitfail.h>
+#include <lib/gl_avltree_list.h>
+#include <lib/gl_xlist.h>
+#include <libhiha/initialize_once.h>
+#include <libhiha/pratt.h>
 #include <libhiha/load_plugin.h>
 
 // Change this if using gettext.
@@ -30,25 +37,29 @@
 
 #define VISIBLE [[gnu::visibility ("default")]]
 
+typedef void plugin_init_func_t (void);
+typedef plugin_init_func_t *plugin_init_t;
+
 VISIBLE void
-load_plugin (const char *filename, const char **error_message)
+load_plugin (const char *filename,
+             const char **error_message)
 {
   *error_message = NULL;
   void *handle = dlopen (filename, RTLD_LAZY | RTLD_LOCAL);
   if (handle == NULL)
-    {
-      *error_message = xstrdup (dlerror ());
-    }
+    *error_message = xstrdup (dlerror ());
   else
     {
+      // Clear any errors.
       dlerror ();
-      void (*plugin_init) (void) =
-        (void (*)(void)) dlsym (handle, "plugin_init");
+
+      plugin_init_t plugin_init =
+        (plugin_init_t) dlsym (handle, "plugin_init");
+
+      // If there is no plugin_init() function, just ignore this
+      // library.
       if (plugin_init != NULL)
-        // If there is no plugin_init() function, just ignore this
-        // library.
         plugin_init ();
-      dlclose (handle);
     }
 }
 

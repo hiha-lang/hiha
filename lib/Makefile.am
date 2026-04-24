@@ -32,6 +32,8 @@
 #  --no-conditional-dependencies \
 #  --libtool \
 #  --macro-prefix=gl \
+#  assert \
+#  assert-h \
 #  avltree-list \
 #  avltree-omap \
 #  base64 \
@@ -47,6 +49,9 @@
 #  uniconv/u32-casecoll \
 #  uniconv/u32-conv-from-enc \
 #  uniconv/u32-conv-to-enc \
+#  unictype/property-alphabetic \
+#  unictype/property-quotation-mark \
+#  unictype/property-white-space \
 #  uninorm/nfc \
 #  unistr/u32-check \
 #  unistr/u32-cmp2 \
@@ -2227,6 +2232,26 @@ EXTRA_DIST += unictype/combiningclass.h
 
 ## end   gnulib module unictype/combining-class
 
+## begin gnulib module unictype/property-alphabetic
+
+if LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ALPHABETIC
+libgnu_la_SOURCES += unictype/pr_alphabetic.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/pr_alphabetic.h
+
+## end   gnulib module unictype/property-alphabetic
+
+## begin gnulib module unictype/property-quotation-mark
+
+if LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_QUOTATION_MARK
+libgnu_la_SOURCES += unictype/pr_quotation_mark.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/pr_quotation_mark.h
+
+## end   gnulib module unictype/property-quotation-mark
+
 ## begin gnulib module unictype/property-soft-dotted
 
 if LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_SOFT_DOTTED
@@ -2236,6 +2261,16 @@ endif
 EXTRA_DIST += unictype/bitmap.h unictype/pr_soft_dotted.h
 
 ## end   gnulib module unictype/property-soft-dotted
+
+## begin gnulib module unictype/property-white-space
+
+if LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_WHITE_SPACE
+libgnu_la_SOURCES += unictype/pr_white_space.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/pr_white_space.h
+
+## end   gnulib module unictype/property-white-space
 
 ## begin gnulib module uninorm/base
 

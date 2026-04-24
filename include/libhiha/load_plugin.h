@@ -22,6 +22,9 @@
 #ifndef __LIBHAHA__LOAD_PLUGIN_H__INCLUDED__
 #define __LIBHAHA__LOAD_PLUGIN_H__INCLUDED__
 
+#include <stddef.h>
+#include <libhiha/pratt.h>
+
 void load_plugin (const char *filename, const char **error_message);
 
 #endif /* __LIBHAHA__LOAD_PLUGIN_H__INCLUDED__ */

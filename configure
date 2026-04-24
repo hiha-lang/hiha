@@ -844,8 +844,14 @@ GL_GNULIB_UNINORM_NFKD_DLL_VARIABLE
 GL_GNULIB_UNINORM_NFC_DLL_VARIABLE
 GL_GNULIB_UNINORM_NFD_DLL_VARIABLE
 LIBUNISTRING_UNINORM_H
+LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_WHITE_SPACE_FALSE
+LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_WHITE_SPACE_TRUE
 LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_SOFT_DOTTED_FALSE
 LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_SOFT_DOTTED_TRUE
+LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_QUOTATION_MARK_FALSE
+LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_QUOTATION_MARK_TRUE
+LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ALPHABETIC_FALSE
+LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ALPHABETIC_TRUE
 LIBUNISTRING_COMPILE_UNICTYPE_COMBINING_CLASS_FALSE
 LIBUNISTRING_COMPILE_UNICTYPE_COMBINING_CLASS_TRUE
 GL_GNULIB_UNICTYPE_PROPERTY_REGIONAL_INDICATOR_DLL_VARIABLE
@@ -2075,6 +2081,7 @@ with_sysroot
 enable_libtool_lock
 enable_largefile
 enable_cross_guesses
+enable_assert
 with_gnulib_prefix
 enable_rpath
 with_libiconv_prefix
@@ -2745,6 +2752,7 @@ Optional Features:
   --disable-largefile     omit support for large files
   --enable-cross-guesses={conservative|risky}
                           specify policy for cross-compilation guesses
+  --disable-assert        turn off assertions
   --disable-rpath         do not hardcode runtime library paths
   --enable-year2038       support timestamps after 2038
 
@@ -17310,6 +17318,7 @@ fi
   # Code from module alloca-opt:
   # Code from module amemxfrm:
   # Code from module array-mergesort:
+  # Code from module assert:
   # Code from module assert-h:
   # Code from module attribute:
   # Code from module avltree-list:
@@ -17450,7 +17459,10 @@ fi
   # Code from module uniconv/u8-conv-to-enc:
   # Code from module unictype/base:
   # Code from module unictype/combining-class:
+  # Code from module unictype/property-alphabetic:
+  # Code from module unictype/property-quotation-mark:
   # Code from module unictype/property-soft-dotted:
+  # Code from module unictype/property-white-space:
   # Code from module uninorm/base:
   # Code from module uninorm/canonical-decomposition:
   # Code from module uninorm/composition:
@@ -29331,6 +29343,31 @@ fi
 
 
 
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether to enable assertions" >&5
+printf %s "checking whether to enable assertions... " >&6; }
+  # Check whether --enable-assert was given.
+if test ${enable_assert+y}
+then :
+  enableval=$enable_assert; if test "x$enableval" = xno
+then :
+
+printf "%s\n" "#define NDEBUG 1" >>confdefs.h
+
+elif test "x$enableval" != xyes
+then :
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: invalid argument supplied to --enable-assert" >&5
+printf "%s\n" "$as_me: WARNING: invalid argument supplied to --enable-assert" >&2;}
+      enable_assert=yes
+fi
+else case e in #(
+  e) enable_assert=yes ;;
+esac
+fi
+
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $enable_assert" >&5
+printf "%s\n" "$enable_assert" >&6; }
+
+
   { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for static_assert" >&5
 printf %s "checking for static_assert... " >&6; }
 if test ${gl_cv_static_assert+y}
@@ -35001,6 +35038,100 @@ fi
 
        }
   }; then
+  LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ALPHABETIC_TRUE=
+  LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ALPHABETIC_FALSE='#'
+else
+  LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ALPHABETIC_TRUE='#'
+  LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ALPHABETIC_FALSE=
+fi
+:
+    if test -z "${LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ALPHABETIC_TRUE}" && test -z "${LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ALPHABETIC_FALSE}"; then
+    LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ALPHABETIC_TRUE='#'
+    LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ALPHABETIC_FALSE='#'
+  fi
+
+
+  if test -z "${LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ALPHABETIC_TRUE}"; then
+       GL_GNULIB_UNICTYPE_PROPERTY_ALPHABETIC_DLL_VARIABLE=$GL_GNULIB_LIBUNISTRING_DLL_VARIABLE_NAME
+     fi
+
+
+
+
+
+
+
+
+
+
+
+
+     if  { test "$HAVE_LIBUNISTRING" != yes \
+    || {
+
+
+
+            test $LIBUNISTRING_VERSION_MAJOR -lt 1 \
+            || { test $LIBUNISTRING_VERSION_MAJOR -eq 1 \
+                 && { test $LIBUNISTRING_VERSION_MINOR -lt 4 \
+                      || { test $LIBUNISTRING_VERSION_MINOR -eq 4 \
+                           && test $LIBUNISTRING_VERSION_SUBMINOR -lt 0
+                         }
+                    }
+               }
+
+
+
+
+       }
+  }; then
+  LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_QUOTATION_MARK_TRUE=
+  LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_QUOTATION_MARK_FALSE='#'
+else
+  LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_QUOTATION_MARK_TRUE='#'
+  LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_QUOTATION_MARK_FALSE=
+fi
+:
+    if test -z "${LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_QUOTATION_MARK_TRUE}" && test -z "${LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_QUOTATION_MARK_FALSE}"; then
+    LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_QUOTATION_MARK_TRUE='#'
+    LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_QUOTATION_MARK_FALSE='#'
+  fi
+
+
+  if test -z "${LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_QUOTATION_MARK_TRUE}"; then
+       GL_GNULIB_UNICTYPE_PROPERTY_QUOTATION_MARK_DLL_VARIABLE=$GL_GNULIB_LIBUNISTRING_DLL_VARIABLE_NAME
+     fi
+
+
+
+
+
+
+
+
+
+
+
+
+     if  { test "$HAVE_LIBUNISTRING" != yes \
+    || {
+
+
+
+            test $LIBUNISTRING_VERSION_MAJOR -lt 1 \
+            || { test $LIBUNISTRING_VERSION_MAJOR -eq 1 \
+                 && { test $LIBUNISTRING_VERSION_MINOR -lt 4 \
+                      || { test $LIBUNISTRING_VERSION_MINOR -eq 4 \
+                           && test $LIBUNISTRING_VERSION_SUBMINOR -lt 0
+                         }
+                    }
+               }
+
+
+
+
+       }
+  }; then
   LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_SOFT_DOTTED_TRUE=
   LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_SOFT_DOTTED_FALSE='#'
 else
@@ -35016,6 +35147,53 @@ fi
 
   if test -z "${LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_SOFT_DOTTED_TRUE}"; then
        GL_GNULIB_UNICTYPE_PROPERTY_SOFT_DOTTED_DLL_VARIABLE=$GL_GNULIB_LIBUNISTRING_DLL_VARIABLE_NAME
+     fi
+
+
+
+
+
+
+
+
+
+
+
+
+     if  { test "$HAVE_LIBUNISTRING" != yes \
+    || {
+
+
+
+            test $LIBUNISTRING_VERSION_MAJOR -lt 1 \
+            || { test $LIBUNISTRING_VERSION_MAJOR -eq 1 \
+                 && { test $LIBUNISTRING_VERSION_MINOR -lt 4 \
+                      || { test $LIBUNISTRING_VERSION_MINOR -eq 4 \
+                           && test $LIBUNISTRING_VERSION_SUBMINOR -lt 0
+                         }
+                    }
+               }
+
+
+
+
+       }
+  }; then
+  LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_WHITE_SPACE_TRUE=
+  LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_WHITE_SPACE_FALSE='#'
+else
+  LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_WHITE_SPACE_TRUE='#'
+  LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_WHITE_SPACE_FALSE=
+fi
+:
+    if test -z "${LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_WHITE_SPACE_TRUE}" && test -z "${LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_WHITE_SPACE_FALSE}"; then
+    LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_WHITE_SPACE_TRUE='#'
+    LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_WHITE_SPACE_FALSE='#'
+  fi
+
+
+  if test -z "${LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_WHITE_SPACE_TRUE}"; then
+       GL_GNULIB_UNICTYPE_PROPERTY_WHITE_SPACE_DLL_VARIABLE=$GL_GNULIB_LIBUNISTRING_DLL_VARIABLE_NAME
      fi
 
 

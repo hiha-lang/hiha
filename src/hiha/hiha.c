@@ -172,14 +172,17 @@ parse_file (const char *filename, FILE *f)
   while (!error_message
          && string_t_cmp (tok->token_kind, string_t_EOF ()))
     {
-      if (string_t_cmp (tok->token_kind, string_t_CP ()) == 0)
-        printf ("%s", make_str_nul (tok->token_value));
-      pratt_parse (NULL, getter, tables, -HUGE_VAL, &lhs, &error_message);
+      //if (string_t_cmp d(tok->token_kind, string_t_CP ()) == 0)
+      //  printf ("%s", make_str_nul (tok->token_value));
+      serialize_token_t (tok, stdout);
+      pratt_parse (NULL, getter, tables, -HUGE_VAL, &lhs,
+                   &error_message);
     }
   if (!error_message)
     {
-      if (string_t_cmp (tok->token_kind, string_t_CP ()) == 0)
-        printf ("%s", make_str_nul (tok->token_value));
+      //if (string_t_cmp (tok->token_kind, string_t_CP ()) == 0)
+      //  printf ("%s", make_str_nul (tok->token_value));
+      serialize_token_t (tok, stdout);
     }
   else
     {

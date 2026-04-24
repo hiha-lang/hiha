@@ -22,12 +22,22 @@
 #include <config.h>
 #include <error.h>
 #include <exitfail.h>
+#include <unictype.h>
+#include <xalloc.h>
 #include <libhiha/libhiha.h>
 
 // Change this if using gettext.
 #define _(msgid) msgid
 
 #define VISIBLE [[gnu::visibility ("default")]]
+
+static void
+eof_handler (void *state, pratt_tables_t tables,
+             token_t tok, void **lhs, const char **error_message)
+{
+  *error_message = NULL;
+  *lhs = (void *) tok;
+}
 
 static void
 check_code_point_token (token_t tok)
@@ -51,28 +61,32 @@ code_point_handler (void *state, pratt_tables_t tables,
   check_code_point_token (tok);
   *error_message = NULL;
   uint32_t cp = tok->token_value->s[0];
-  if (is_ascii_digit (cp))
+  if (uc_is_property_white_space (cp))
+    *lhs =
+      (void *) make_token_t (make_string_t ("SP"), tok->token_value,
+                             tok->loc);
+  else if (is_ascii_digit (cp))
     *lhs =
       (void *) make_token_t (make_string_t ("0-9"), tok->token_value,
                              tok->loc);
+  else if (uc_is_property_alphabetic (cp))
+    *lhs =
+      (void *) make_token_t (make_string_t ("AL"), tok->token_value,
+                             tok->loc);
+  else if (uc_is_property_quotation_mark (cp))
+    *lhs =
+      (void *) make_token_t (make_string_t ("QU"), tok->token_value,
+                             tok->loc);
   else
     *lhs = (void *) tok;
-}
-
-static void
-eof_handler (void *state, pratt_tables_t tables,
-             token_t tok, void **lhs, const char **error_message)
-{
-  *error_message = NULL;
-  *lhs = (void *) tok;
 }
 
 VISIBLE void
 plugin_init (void)
 {
   pratt_tables_t tables = lexical_pratt_tables ();
-  pratt_nud_put (tables, string_t_CP (), &code_point_handler);
   pratt_nud_put (tables, string_t_EOF (), &eof_handler);
+  pratt_nud_put (tables, string_t_CP (), &code_point_handler);
 }
 
 /*

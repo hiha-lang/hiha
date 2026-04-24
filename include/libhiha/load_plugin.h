@@ -22,7 +22,42 @@
 #ifndef __LIBHAHA__LOAD_PLUGIN_H__INCLUDED__
 #define __LIBHAHA__LOAD_PLUGIN_H__INCLUDED__
 
-void load_plugin (const char *filename, const char **error_message);
+#include <stddef.h>
+#include <libhiha/pratt.h>
+
+struct plugin_pratt_interface
+{
+  void **nud_handlers;
+  void **led_handlers;
+};
+typedef struct plugin_pratt_interface *plugin_pratt_interface_t;
+
+enum plugin_interface_tag
+{
+  tag_PLUGIN_PRATT_INTERFACE
+};
+typedef enum plugin_interface_tag plugin_interface_tag_t;
+
+struct plugin_interface
+{
+  const char *filename;    /* The plugin’s filename, for reöpening. */
+  size_t register_no;
+  plugin_interface_tag_t tag;
+  volatile void *interface;
+};
+typedef struct plugin_interface *plugin_interface_t;
+
+void load_plugin (const char *filename,
+                  volatile plugin_interface_t * interface,
+                  const char **error_message);
+
+void register_plugin (volatile plugin_interface_t interface);
+volatile plugin_interface_t plugin (size_t register_no);
+
+nud_handler_t plugin_nud_handler (size_t register_no,
+                                  size_t handler_no);
+led_handler_t plugin_led_handler (size_t register_no,
+                                  size_t handler_no);
 
 #endif /* __LIBHAHA__LOAD_PLUGIN_H__INCLUDED__ */
 

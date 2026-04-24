@@ -172,14 +172,17 @@ parse_file (const char *filename, FILE *f)
   while (!error_message
          && string_t_cmp (tok->token_kind, string_t_EOF ()))
     {
-      if (string_t_cmp (tok->token_kind, string_t_CP ()) == 0)
-        printf ("%s", make_str_nul (tok->token_value));
-      pratt_parse (NULL, getter, tables, -HUGE_VAL, &lhs, &error_message);
+      //if (string_t_cmp d(tok->token_kind, string_t_CP ()) == 0)
+      //  printf ("%s", make_str_nul (tok->token_value));
+      serialize_token_t (tok, stdout);
+      pratt_parse (NULL, getter, tables, -HUGE_VAL, &lhs,
+                   &error_message);
     }
   if (!error_message)
     {
-      if (string_t_cmp (tok->token_kind, string_t_CP ()) == 0)
-        printf ("%s", make_str_nul (tok->token_value));
+      //if (string_t_cmp (tok->token_kind, string_t_CP ()) == 0)
+      //  printf ("%s", make_str_nul (tok->token_value));
+      serialize_token_t (tok, stdout);
     }
   else
     {
@@ -302,13 +305,16 @@ get_options (int argc, char **argv, hiha_options_t *opts)
 void
 load_one_plugin (const char *fn)
 {
+  plugin_interface_t interface = NULL;
   const char *error_message = NULL;
-  load_plugin (fn, &error_message);
+  load_plugin (fn, &interface, &error_message);
   if (error_message != NULL)
     {
       error (exit_failure, 0, "%s", error_message);
       abort ();
     }
+  else if (interface != NULL)
+    register_plugin (interface);
 }
 
 int

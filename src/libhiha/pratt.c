@@ -39,6 +39,7 @@
 #include <gl_avltree_omap.h>
 #include <gl_xomap.h>
 #include <libhiha/string_t.h>
+#include <libhiha/load_plugin.h>
 #include <libhiha/pratt.h>
 
 // Change this if using gettext.
@@ -108,16 +109,16 @@ make_pratt_tables_t (void)
 
 VISIBLE void
 pratt_nud_put (pratt_tables_t data, string_t token_kind,
-               nud_handler_t handler)
+               pratt_handler_reference_t ref)
 {
-  gl_omap_put (data->nud, token_kind, handler);
+  gl_omap_put (data->nud, token_kind, ref);
 }
 
 VISIBLE void
 pratt_led_put (pratt_tables_t data, string_t token_kind,
-               led_handler_t handler)
+               pratt_handler_reference_t ref)
 {
-  gl_omap_put (data->led, token_kind, handler);
+  gl_omap_put (data->led, token_kind, ref);
 }
 
 VISIBLE void
@@ -130,15 +131,19 @@ pratt_lbp_put (pratt_tables_t data, string_t token_kind,
 }
 
 VISIBLE nud_handler_t
-pratt_nud_get (pratt_tables_t data, string_t token_kind)
+pratt_nud_handler_get (pratt_tables_t data, string_t token_kind)
 {
-  return (nud_handler_t) gl_omap_get (data->nud, token_kind);
+  pratt_handler_reference_t ref =
+    (pratt_handler_reference_t) gl_omap_get (data->nud, token_kind);
+  return plugin_nud_handler (ref->register_no, ref->handler_no);
 }
 
 VISIBLE led_handler_t
-pratt_led_get (pratt_tables_t data, string_t token_kind)
+pratt_led_handler_get (pratt_tables_t data, string_t token_kind)
 {
-  return (led_handler_t) gl_omap_get (data->led, token_kind);
+  pratt_handler_reference_t ref =
+    (pratt_handler_reference_t) gl_omap_get (data->led, token_kind);
+  return plugin_led_handler (ref->register_no, ref->handler_no);
 }
 
 VISIBLE double
@@ -162,8 +167,9 @@ execute_null_denotation (void *state, buffered_token_getter_t getter,
   getter->get_token (getter, &tok, error_message);
   if (*error_message == NULL)
     {
-      const void *p = gl_omap_get (tables->nud, tok->token_kind);
-      if (p == NULL)
+      nud_handler_t handler =
+        pratt_nud_handler_get (tables, tok->token_kind);
+      if (handler == NULL)
         {
           //
           // There is no null denotation. Treat this as a lexical or
@@ -176,13 +182,10 @@ execute_null_denotation (void *state, buffered_token_getter_t getter,
           *error_message = xstrdup (s);
         }
       else
-        {
-          //
-          // Success.
-          //
-          nud_handler_t handler = (nud_handler_t) p;
-          handler (state, tables, tok, lhs, error_message);
-        }
+        //
+        // Success.
+        //
+        handler (state, tables, tok, lhs, error_message);
     }
 }
 
@@ -193,38 +196,14 @@ peek_at_next_token (void *state, buffered_token_getter_t getter,
 {
   if (*error_message == NULL)
     {
-      token_t tok;
       //
       // Peek at the next token, without consuming it.
       //
+      token_t tok;
       getter->look_at_token (getter, 0, &tok, error_message);
+
       if (*error_message == NULL)
-        {
-          const void *p = gl_omap_get (tables->lbp, tok->token_kind);
-          if (p == NULL)
-            //
-            // There is no entry in the binding power table. Default
-            // to the absolute minimum binding power.
-            //
-            // Keep in mind that we do not consider binding powers to
-            // have actual floating point values. They have fixed
-            // point values with a certain number of decimal places.
-            // That conversion happens elsewhere, however. The use of
-            // “double” at this point, with later conversion to
-            // decimal, is a concession to C compilers that do not
-            // support _Decimal32 or _Decimal64.
-            //
-            // This all may seem like too much of a big deal, but I
-            // was determined that binding powers should be exact
-            // decimal numbers with a few useful decimal places.
-            //
-            *left_binding_power = -HUGE_VAL;
-          else
-            //
-            // There is an entry in the binding power table. Use it.
-            //
-            *left_binding_power = *((const double *) p);
-        }
+        *left_binding_power = pratt_lbp_get (tables, tok->token_kind);
     }
 }
 
@@ -241,8 +220,9 @@ execute_left_denotation (void *state, buffered_token_getter_t getter,
   getter->get_token (getter, &tok, error_message);
   if (error_message == NULL)
     {
-      const void *p = gl_omap_get (tables->led, tok->token_kind);
-      if (p == NULL)
+      led_handler_t handler =
+        pratt_led_handler_get (tables, tok->token_kind);
+      if (handler == NULL)
         {
           //
           // Unexpected token. Treat this as a lexical or syntax
@@ -255,13 +235,10 @@ execute_left_denotation (void *state, buffered_token_getter_t getter,
           *error_message = xstrdup (s);
         }
       else
-        {
-          //
-          // Success.
-          //
-          led_handler_t handler = (led_handler_t) p;
-          handler (state, tables, tok, lhs, error_message);
-        }
+        //
+        // Success.
+        //
+        handler (state, tables, tok, lhs, error_message);
     }
 }
 
@@ -278,6 +255,16 @@ pratt_parse (void *state, buffered_token_getter_t getter,
   while (*error_message == NULL
          && binding_powers_lt (min_power, binding_power))
     execute_left_denotation (state, getter, tables, lhs, error_message);
+}
+
+VISIBLE pratt_handler_reference_t
+make_pratt_handler_reference_t (size_t register_no, size_t handler_no)
+{
+  pratt_handler_reference_t ref =
+    XMALLOC (struct pratt_handler_reference);
+  ref->register_no = register_no;
+  ref->handler_no = handler_no;
+  return ref;
 }
 
 /*

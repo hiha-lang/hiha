@@ -614,7 +614,7 @@ get_token_from_multiple_files_getter (token_getter_t getter,
   _multiple_files_getter_t g = (_multiple_files_getter_t) getter;
 
   assert (-1 <= g->i);
-  assert (g->i <= (ssize_t) g->n);
+  assert (g->i + 1 <= g->n + 1);
 
   *error_message = NULL;
 

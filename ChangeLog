@@ -1,9 +1,86 @@
+2026-04-23  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
+
+	* Makefile.in, aclocal.m4, config.h.in, configure,
+	include/libhiha/load_plugin.h, include/libhiha/pratt.h,
+	lib/Makefile.am, lib/Makefile.in, lib/unictype/pr_alphabetic.c,
+	lib/unictype/pr_alphabetic.h, lib/unictype/pr_quotation_mark.c,
+	lib/unictype/pr_quotation_mark.h, lib/unictype/pr_white_space.c,
+	lib/unictype/pr_white_space.h, m4/assert.m4, m4/gnulib-cache.m4,
+	m4/gnulib-comp.m4, src/hiha/hiha.c, src/libhiha/load_plugin.c,
+	src/libhiha/pratt.c, src/plugins/10-basic-code-point-
+	classification.c:
+	Get plugins working, but the Pratt token processing isn’t quite
+	figured out yet.
+	[8a43e4a22d96] [tip]
+
+	* Makefile.am, Makefile.in, include/libhiha/load_plugin.h,
+	include/libhiha/pratt.h, src/hiha/hiha.c, src/libhiha/load_plugin.c,
+	src/libhiha/pratt.c, src/plugins/10-basic-code-point-
+	classification.c:
+	I can load the plugin now. The processing is not yet right.
+	[7412c49b612b] [github/getting-plugins-working]
+
+	* lib/unictype/pr_alphabetic.c, lib/unictype/pr_alphabetic.h,
+	lib/unictype/pr_quotation_mark.c, lib/unictype/pr_quotation_mark.h,
+	lib/unictype/pr_white_space.c, lib/unictype/pr_white_space.h,
+	m4/assert.m4:
+	New Gnulib stuff.
+	[b47b686b9ea7]
+
+	* Makefile.am, Makefile.in, aclocal.m4, config.h.in, configure,
+	include/libhiha/load_plugin.h, include/libhiha/pratt.h,
+	lib/Makefile.am, lib/Makefile.in, m4/gnulib-cache.m4, m4/gnulib-
+	comp.m4, src/hiha/hiha.c, src/libhiha/load_plugin.c,
+	src/libhiha/pratt.c, src/plugins/10-basic-code-point-
+	classification.c:
+	A bunch of overcomplication that at least keeps the plugin loaded.
+	[44e2403b576d]
+
+2026-04-22  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
+
+	* Makefile.am, Makefile.in, include/libhiha/lexical.h,
+	include/libhiha/libhiha.h, include/libhiha/parse_expression.h,
+	include/libhiha/pratt.h, include/libhiha/token_t.h, src/hiha/hiha.c,
+	src/libhiha/lexical.c, src/libhiha/parse_expression.c,
+	src/libhiha/pratt.c, src/libhiha/token_t.c, src/plugins/10-basic-
+	code-point-classification.c, src/plugins/10-basic-token-
+	classification.c:
+	The first hints of anything that can do lexical analysis.
+	[515096ba567f] [github/master]
+
+2026-04-21  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
+
+	* include/libhiha/pratt.h:
+	Wrong name for function parameters.
+	[4b039adabd06]
+
+	* Makefile.am, Makefile.in, src/libhiha/load_plugin.c,
+	src/plugins/10-basic-token-classification.c:
+	Do not crash if there is no plugin_init() function in a dlopen
+	library.
+	[f71f92fb32a0]
+
+	* include/libhiha/pratt.h, src/libhiha/pratt.c:
+	Get rid of the silly gnu::access attribute. It might, for instance,
+	break plugins written by people not having support for the
+	attribute. And it adds nothing, because the Pratt parser itself
+	treats the argument differently for the two different types of
+	handler: it initializes the argument to NULL before calling a
+	nud_handler_t.
+
+	I made a few other minor changes.
+	[f37639892fe5]
+
 2026-04-20  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
+
+	* ChangeLog, include/libhiha/pratt.h, src/libhiha/pratt.c:
+	I have written the Pratt parser but have not tested it.
+	[a0baa4cd1ede]
 
 	* ChangeLog, Makefile.in, include/libhiha/token_t.h, src/hiha/hiha.c,
 	src/libhiha/pratt.c, src/libhiha/token_t.c:
 	Improved interface for buffered tokens.
-	[a398325d3991] [github/master, tip]
+	[a398325d3991]
 
 	* ChangeLog, Makefile.am:
 	Change the ChangeLog template.

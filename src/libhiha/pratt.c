@@ -108,13 +108,15 @@ make_pratt_tables_t (void)
 }
 
 VISIBLE void
-pratt_nud_put (pratt_tables_t data, string_t token_kind, nud_handler_t handler)
+pratt_nud_put (pratt_tables_t data, string_t token_kind,
+               nud_handler_t handler)
 {
   gl_omap_put (data->nud, token_kind, handler);
 }
 
 VISIBLE void
-pratt_led_put (pratt_tables_t data, string_t token_kind, led_handler_t handler)
+pratt_led_put (pratt_tables_t data, string_t token_kind,
+               led_handler_t handler)
 {
   gl_omap_put (data->led, token_kind, handler);
 }

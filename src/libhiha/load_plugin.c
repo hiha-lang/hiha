@@ -41,8 +41,7 @@ typedef void plugin_init_func_t (void);
 typedef plugin_init_func_t *plugin_init_t;
 
 VISIBLE void
-load_plugin (const char *filename,
-             const char **error_message)
+load_plugin (const char *filename, const char **error_message)
 {
   *error_message = NULL;
   void *handle = dlopen (filename, RTLD_LAZY | RTLD_LOCAL);

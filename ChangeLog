@@ -1,8 +1,28 @@
+2026-04-25  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
+
+	* Makefile.am, Makefile.in, include/libhiha/token_t.h,
+	src/hiha/hiha.c, src/libhiha/token_t.c:
+	Code simplification, bug fix in source file reading (it merely
+	happened to work before, probably would not have with an optimizer
+	on), and start of a token putter.
+	[bf57b678d3ee] [github/master, tip]
+
 2026-04-24  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
+
+	* src/libhiha/token_t.c:
+	A better assertion.
+	[7b0b9a467dbf]
+
+	* ChangeLog, Makefile.am, Makefile.in, include/libhiha/string_t.h,
+	include/libhiha/token_t.h, src/hiha/hiha.c, src/libhiha/lexical.c,
+	src/libhiha/string_t.c, src/libhiha/token_t.c:
+	Preparing to read from multiple source files, and getting ‘make
+	distcheck’ working again.
+	[bf1f05b5684b]
 
 	* donkey-farbe/donkey-farbe.png, donkey-farbe/donkey-farbe.svg:
 	Save the public domain donkey vector.
-	[11e3104fbbcb] [github/master, tip]
+	[11e3104fbbcb]
 
 2026-04-23  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
 

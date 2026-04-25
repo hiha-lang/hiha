@@ -690,6 +690,48 @@ make_buffered_token_getter_from_serialized_tokens (const char *filename,
   return make_buffered_token_getter_t (g);
 }
 
+struct token_putter_to_stream
+{
+  void (*put_token) (token_putter_t this_struct,
+                     token_t tok, const char **error_message);
+
+  const char *filename;
+  FILE *f;
+
+  // Serialize or do other output processing.
+  void (*outputter) (const token_t tok, FILE *f,
+                     const char **error_message);
+};
+typedef struct token_putter_to_stream *token_putter_to_stream_t;
+
+static void
+put_token_to_stream (token_putter_t this_struct,
+                     token_t tok, const char **error_message)
+{
+  token_putter_to_stream_t p = (token_putter_to_stream_t) this_struct;
+  *error_message = NULL;
+  p->outputter (tok, p->f, error_message);
+}
+
+static void
+serializing_outputter (const token_t tok, FILE *f,
+                       const char **error_message)
+{
+  *error_message = NULL;
+  serialize_token_t (tok, f);
+}
+
+VISIBLE token_putter_t
+make_token_putter_to_stream_serialized_t (const char *filename, FILE *f)
+{
+  token_putter_to_stream_t p = XMALLOC (struct token_putter_to_stream);
+  p->put_token = put_token_to_stream;
+  p->filename = filename;
+  p->f = f;
+  p->outputter = serializing_outputter;
+  return (token_putter_t) p;
+}
+
 /*
   local variables:
   mode: c

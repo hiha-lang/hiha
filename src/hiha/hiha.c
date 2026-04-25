@@ -82,112 +82,10 @@ static const char *authors[] = {
   NULL
 };
 
-char *line_buffer = NULL;
-size_t line_buffer_size = 0;
-
-static void
-initialize_line_buffer (void)
-{
-  if (line_buffer == NULL)
-    {
-      line_buffer_size = 1000;
-      line_buffer = XNMALLOC (line_buffer_size, char);
-    }
-}
-
-static void
-xxxparse_file (const char *filename, FILE *f)
-{
-  token_t tok;
-  const char *error_message;
-
-  token_getter_t getter =
-    make_token_getter_from_source_file_t (filename, f);
-
-  (getter->get_token) (getter, &tok, &error_message);
-  while (!error_message
-         && string_t_cmp (tok->token_kind, string_t_EOF ()))
-    {
-      serialize_token_t (tok, stdout);
-      (getter->get_token) (getter, &tok, &error_message);
-    }
-  if (!error_message)
-    {
-      serialize_token_t (tok, stdout);
-    }
-}
-
-static void
-yyyparse_file (const char *filename, FILE *f)
-{
-  token_t tok;
-  const char *error_message;
-
-  token_getter_t g =
-    make_token_getter_from_serialized_tokens_t (filename, f);
-  buffered_token_getter_t getter = make_buffered_token_getter_t (g);
-
-  (getter->get_token) (getter, &tok, &error_message);
-  while (error_message == NULL
-         && 0 != string_t_cmp (tok->token_kind, string_t_EOF ()))
-    {
-      if (string_t_cmp (tok->token_kind, string_t_CP ()) == 0)
-        printf ("%s", make_str_nul (tok->token_value));
-      (getter->get_token) (getter, &tok, &error_message);
-    }
-  if (!error_message)
-    {
-      if (string_t_cmp (tok->token_kind, string_t_CP ()) == 0)
-        printf ("%s", make_str_nul (tok->token_value));
-    }
-  else
-    {
-      printf ("error: %s\n", error_message);
-      exit (1);
-    }
-}
-
 static token_t
 lhs_to_token_t (void *lhs, const char *error_message)
 {
   return (error_message == NULL) ? (token_t) lhs : NULL;
-}
-
-static void
-zzzparse_file (const char *filename, FILE *f)
-{
-  token_t tok;
-  void *lhs = NULL;
-  const char *error_message = NULL;
-  pratt_tables_t tables = lexical_pratt_tables ();
-
-  token_getter_t g =
-    make_token_getter_from_serialized_tokens_t (filename, f);
-  buffered_token_getter_t getter = make_buffered_token_getter_t (g);
-
-  pratt_parse (NULL, getter, tables, -HUGE_VAL, &lhs, &error_message);
-  tok = lhs_to_token_t (lhs, error_message);
-  while (!error_message
-         && string_t_cmp (tok->token_kind, string_t_EOF ()))
-    {
-      //if (string_t_cmp (tok->token_kind, string_t_CP ()) == 0)
-      //  printf ("%s", make_str_nul (tok->token_value));
-      serialize_token_t (tok, stdout);
-      pratt_parse (NULL, getter, tables, -HUGE_VAL, &lhs,
-                   &error_message);
-      tok = lhs_to_token_t (lhs, error_message);
-    }
-  if (!error_message)
-    {
-      //if (string_t_cmp (tok->token_kind, string_t_CP ()) == 0)
-      //  printf ("%s", make_str_nul (tok->token_value));
-      serialize_token_t (tok, stdout);
-    }
-  else
-    {
-      printf ("error: %s\n", error_message);
-      exit (1);
-    }
 }
 
 static void
@@ -200,6 +98,8 @@ ____scan_some_files (size_t n, const char *filenames[n])
 
   buffered_token_getter_t getter =
     make_buffered_token_getter_from_source_files (n, filenames);
+  token_putter_t putter =
+    make_token_putter_to_stream_serialized_t ("<stdout>", stdout);
 
   pratt_parse (NULL, getter, tables, -HUGE_VAL, &lhs, &error_message);
   tok = lhs_to_token_t (lhs, error_message);
@@ -208,7 +108,7 @@ ____scan_some_files (size_t n, const char *filenames[n])
     {
       //if (string_t_cmp (tok->token_kind, string_t_CP ()) == 0)
       //  printf ("%s", make_str_nul (tok->token_value));
-      serialize_token_t (tok, stdout);
+      putter->put_token (putter, tok, &error_message);
       pratt_parse (NULL, getter, tables, -HUGE_VAL, &lhs,
                    &error_message);
       tok = lhs_to_token_t (lhs, error_message);
@@ -217,7 +117,7 @@ ____scan_some_files (size_t n, const char *filenames[n])
     {
       //if (string_t_cmp (tok->token_kind, string_t_CP ()) == 0)
       //  printf ("%s", make_str_nul (tok->token_value));
-      serialize_token_t (tok, stdout);
+      putter->put_token (putter, tok, &error_message);
     }
   else
     {
@@ -431,20 +331,6 @@ main (int argc, char **argv)
 
   load_command_line_plugins (opts->plugins);
   ____scan_some_files (argc - 1, ((const char **) argv) + 1);
-  /*
-     for (int i = 1; i != argc; i += 1)
-     {
-     FILE *f = fopen (argv[i], "r");
-     if (f == NULL)
-     {
-     error (exit_failure, 0,
-     "failed to open “%s” for reading\n", argv[i]);
-     abort ();
-     }
-     parse_file (argv[i], f);
-     fclose (f);
-     }
-   */
   exit (EXIT_SUCCESS);
 }
 

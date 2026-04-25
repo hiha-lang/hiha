@@ -83,11 +83,7 @@ struct token_putter
                      token_t tok, const char **error_message);
 };
 
-struct token_putter_to_stream_serialized;
-typedef struct token_putter_to_stream_serialized
-  *token_putter_to_stream_serialized_t;
-
-token_putter_to_stream_serialized_t
+token_putter_t
 make_token_putter_to_stream_serialized_t (const char *filename,
                                           FILE *f);
 

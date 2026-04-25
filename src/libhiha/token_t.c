@@ -62,6 +62,8 @@ struct token_getter_from_source_file
   size_t i_code_point;          /* Zero-based. */
   bool eof_reached;
 };
+typedef struct token_getter_from_source_file
+  *token_getter_from_source_file_t;
 static void get_token_from_source_file (token_getter_t, token_t *,
                                         const char **);
 
@@ -80,6 +82,8 @@ struct token_getter_from_serialized_tokens
   gl_list_t token_kinds;
   gl_list_t token_values;
 };
+typedef struct token_getter_from_serialized_tokens
+  *token_getter_from_serialized_tokens_t;
 static void get_token_from_serialized_tokens (token_getter_t, token_t *,
                                               const char **);
 
@@ -106,7 +110,8 @@ _make_token_t (string_t token_kind, string_t token_value,
   return make_token_t (token_kind, token_value, loc);
 }
 
-VISIBLE token_getter_from_source_file_t
+//VISIBLE token_getter_from_source_file_t
+VISIBLE token_getter_t
 make_token_getter_from_source_file_t (const char *filename, FILE *f)
 {
   token_getter_from_source_file_t getter =
@@ -126,7 +131,7 @@ make_token_getter_from_source_file_t (const char *filename, FILE *f)
 
   getter->eof_reached = false;
 
-  return getter;
+  return (token_getter_t) getter;
 }
 
 static void
@@ -325,7 +330,7 @@ serialize_token_t (const token_t tok, FILE *f)
   free (buf2);
 }
 
-VISIBLE token_getter_from_serialized_tokens_t
+VISIBLE token_getter_t
 make_token_getter_from_serialized_tokens_t (const char *filename,
                                             FILE *f)
 {
@@ -349,7 +354,7 @@ make_token_getter_from_serialized_tokens_t (const char *filename,
   getter->token_values =
     gl_list_create_empty (GL_AVLTREE_LIST, NULL, NULL, NULL, true);
 
-  return getter;
+  return (token_getter_t) getter;
 }
 
 static void
@@ -597,7 +602,6 @@ open_one_of_multiple_files (_multiple_files_getter_t g)
       abort ();
     }
   g->getter =
-    (token_getter_t)
     make_token_getter_from_source_file_t (g->filenames[g->i], g->f);
 }
 
@@ -656,7 +660,7 @@ get_token_from_multiple_files_getter (token_getter_t getter,
     }
 }
 
-_multiple_files_getter_t
+static token_getter_t
 make_multiple_files_getter_t (size_t n, const char *filenames[n])
 {
   _multiple_files_getter_t g = XMALLOC (struct _multiple_files_getter);
@@ -666,24 +670,24 @@ make_multiple_files_getter_t (size_t n, const char *filenames[n])
   g->i = -1;
   g->f = NULL;
   g->getter = NULL;
+  return (token_getter_t) g;
 }
 
 VISIBLE buffered_token_getter_t
 make_buffered_token_getter_from_source_files (size_t n,
                                               const char *filenames[n])
 {
-  _multiple_files_getter_t g =
-    make_multiple_files_getter_t (n, filenames);
-  return make_buffered_token_getter_t ((token_getter_t) g);
+  token_getter_t g = make_multiple_files_getter_t (n, filenames);
+  return make_buffered_token_getter_t (g);
 }
 
 VISIBLE buffered_token_getter_t
 make_buffered_token_getter_from_serialized_tokens (const char *filename,
                                                    FILE *f)
 {
-  token_getter_from_serialized_tokens_t g =
+  token_getter_t g =
     make_token_getter_from_serialized_tokens_t (filename, f);
-  return make_buffered_token_getter_t ((token_getter_t) g);
+  return make_buffered_token_getter_t (g);
 }
 
 /*

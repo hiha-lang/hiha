@@ -35,6 +35,7 @@ typedef struct token *token_t;
 
 token_t make_token_t (string_t token_kind, string_t token_value,
                       text_location_t loc);
+void serialize_token_t (const token_t tok, FILE *f);
 
 struct token_getter;
 typedef struct token_getter *token_getter_t;
@@ -44,22 +45,12 @@ struct token_getter
                      token_t *tok, const char **error_message);
 };
 
-struct token_getter_from_source_file;
-typedef struct token_getter_from_source_file
-  *token_getter_from_source_file_t;
-
-token_getter_from_source_file_t
+token_getter_t
 make_token_getter_from_source_file_t (const char *filename, FILE *f);
 
-struct token_getter_from_serialized_tokens;
-typedef struct token_getter_from_serialized_tokens
-  *token_getter_from_serialized_tokens_t;
-
-token_getter_from_serialized_tokens_t
+token_getter_t
 make_token_getter_from_serialized_tokens_t (const char *filename,
                                             FILE *f);
-
-void serialize_token_t (const token_t tok, FILE *f);
 
 struct buffered_token_getter;
 typedef struct buffered_token_getter *buffered_token_getter_t;
@@ -74,10 +65,8 @@ struct buffered_token_getter
 buffered_token_getter_t
 make_buffered_token_getter_t (token_getter_t unbuffered_getter);
 
-//
-// Play the files in sequence, converting all the EOF but the last to
-// formfeed.
-//
+/* Play the files in sequence, converting all the EOF but the last to
+   formfeed. */
 buffered_token_getter_t
 make_buffered_token_getter_from_source_files (size_t n,
                                               const char *filenames[n]);
@@ -85,6 +74,22 @@ make_buffered_token_getter_from_source_files (size_t n,
 buffered_token_getter_t
 make_buffered_token_getter_from_serialized_tokens (const char *filename,
                                                    FILE *f);
+
+struct token_putter;
+typedef struct token_putter *token_putter_t;
+struct token_putter
+{
+  void (*put_token) (token_putter_t this_struct,
+                     token_t tok, const char **error_message);
+};
+
+struct token_putter_to_stream_serialized;
+typedef struct token_putter_to_stream_serialized
+  *token_putter_to_stream_serialized_t;
+
+token_putter_to_stream_serialized_t
+make_token_putter_to_stream_serialized_t (const char *filename,
+                                          FILE *f);
 
 #endif /* __LIBHAHA__TOKEN_T_H__INCLUDED__ */
 

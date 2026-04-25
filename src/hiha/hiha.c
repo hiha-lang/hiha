@@ -101,9 +101,8 @@ xxxparse_file (const char *filename, FILE *f)
   token_t tok;
   const char *error_message;
 
-  token_getter_from_source_file_t g =
+  token_getter_t getter =
     make_token_getter_from_source_file_t (filename, f);
-  token_getter_t getter = (token_getter_t) g;
 
   (getter->get_token) (getter, &tok, &error_message);
   while (!error_message
@@ -124,10 +123,9 @@ yyyparse_file (const char *filename, FILE *f)
   token_t tok;
   const char *error_message;
 
-  token_getter_from_serialized_tokens_t g =
+  token_getter_t g =
     make_token_getter_from_serialized_tokens_t (filename, f);
-  buffered_token_getter_t getter =
-    make_buffered_token_getter_t ((token_getter_t) g);
+  buffered_token_getter_t getter = make_buffered_token_getter_t (g);
 
   (getter->get_token) (getter, &tok, &error_message);
   while (error_message == NULL
@@ -163,10 +161,9 @@ zzzparse_file (const char *filename, FILE *f)
   const char *error_message = NULL;
   pratt_tables_t tables = lexical_pratt_tables ();
 
-  token_getter_from_serialized_tokens_t g =
+  token_getter_t g =
     make_token_getter_from_serialized_tokens_t (filename, f);
-  buffered_token_getter_t getter =
-    make_buffered_token_getter_t ((token_getter_t) g);
+  buffered_token_getter_t getter = make_buffered_token_getter_t (g);
 
   pratt_parse (NULL, getter, tables, -HUGE_VAL, &lhs, &error_message);
   tok = lhs_to_token_t (lhs, error_message);

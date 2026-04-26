@@ -91,38 +91,17 @@ lhs_to_token_t (void *lhs, const char *error_message)
 static void
 ____scan_some_files (size_t n, const char *filenames[n])
 {
-  token_t tok;
-  void *lhs = NULL;
-  const char *error_message = NULL;
-  pratt_tables_t tables = lexical_pratt_tables ();
-
   buffered_token_getter_t getter =
     make_buffered_token_getter_from_source_files (n, filenames);
   token_putter_t putter =
     make_token_putter_to_stream_serialized_t ("<stdout>", stdout);
 
-  pratt_parse (NULL, getter, tables, -HUGE_VAL, &lhs, &error_message);
-  tok = lhs_to_token_t (lhs, error_message);
-  while (!error_message
-         && string_t_cmp (tok->token_kind, string_t_EOF ()))
+  const char *error_message;
+  scan_tokens (NULL, getter, putter, &error_message);
+  if (error_message != NULL)
     {
-      //if (string_t_cmp (tok->token_kind, string_t_CP ()) == 0)
-      //  printf ("%s", make_str_nul (tok->token_value));
-      putter->put_token (putter, tok, &error_message);
-      pratt_parse (NULL, getter, tables, -HUGE_VAL, &lhs,
-                   &error_message);
-      tok = lhs_to_token_t (lhs, error_message);
-    }
-  if (!error_message)
-    {
-      //if (string_t_cmp (tok->token_kind, string_t_CP ()) == 0)
-      //  printf ("%s", make_str_nul (tok->token_value));
-      putter->put_token (putter, tok, &error_message);
-    }
-  else
-    {
-      printf ("error: %s\n", error_message);
-      exit (1);
+      error (exit_failure, 0, "%s", error_message);
+      abort ();
     }
 }
 

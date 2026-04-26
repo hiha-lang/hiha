@@ -33,7 +33,9 @@
 #include <math.h>
 #include <error.h>
 #include <exitfail.h>
-#include <libhiha/pratt.h>
+#include <lib/gl_xlist.h>
+#include <lib/gl_avltree_list.h>
+#include <libhiha/lexical.h>
 #include <libhiha/initialize_once.h>
 
 // Change this if using gettext.
@@ -64,34 +66,31 @@ lhs_to_token_t (void *lhs, const char *error_message)
   return (error_message == NULL) ? (token_t) lhs : NULL;
 }
 
-static void
-scan_serialized_tokens (const char *filename, FILE *f)
+VISIBLE void
+scan_tokens (void *state, buffered_token_getter_t getter,
+             token_putter_t putter, const char **error_message)
 {
+  token_t tok;
   void *lhs = NULL;
-  token_t tok = NULL;
-  const char *error_message = NULL;
   pratt_tables_t tables = lexical_pratt_tables ();
 
-  buffered_token_getter_t getter =
-    make_buffered_token_getter_from_serialized_tokens (filename, f);
+  *error_message = NULL;
 
-  pratt_parse (NULL, getter, tables, -HUGE_VAL, &lhs, &error_message);
-  tok = lhs_to_token_t (lhs, error_message);
-  while (!error_message
+  pratt_parse (state, getter, tables, -HUGE_VAL, &lhs, error_message);
+  tok = lhs_to_token_t (lhs, *error_message);
+  while (*error_message == NULL
          && string_t_cmp (tok->token_kind, string_t_EOF ()))
     {
-      serialize_token_t (tok, stdout);
-      pratt_parse (NULL, getter, tables, -HUGE_VAL, &lhs,
-                   &error_message);
-      tok = lhs_to_token_t (lhs, error_message);
+      putter->put_token (putter, tok, error_message);
+      if (*error_message == NULL)
+        {
+          pratt_parse (state, getter, tables, -HUGE_VAL, &lhs,
+                       error_message);
+          tok = lhs_to_token_t (lhs, *error_message);
+        }
     }
-  if (!error_message)
-    serialize_token_t (tok, stdout);
-  else
-    {
-      error (exit_failure, 0, "%s", error_message);
-      abort ();
-    }
+  if (*error_message == NULL)
+    putter->put_token (putter, tok, error_message);
 }
 
 /*

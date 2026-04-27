@@ -61,22 +61,29 @@ code_point_handler (void *state, pratt_tables_t tables,
   check_code_point_token (tok);
   *error_message = NULL;
   uint32_t cp = tok->token_value->s[0];
-  if (uc_is_property_white_space (cp))
+  if (uc_is_property (cp, UC_PROPERTY_WHITE_SPACE))
     *lhs =
       (void *) make_token_t (make_string_t ("SP"), tok->token_value,
                              tok->loc);
-  else if (is_ascii_digit (cp))
+  else if (uc_is_property (cp, UC_PROPERTY_ID_START))
     *lhs =
-      (void *) make_token_t (make_string_t ("0-9"), tok->token_value,
+      (void *) make_token_t (make_string_t ("IDS"), tok->token_value,
                              tok->loc);
-  else if (uc_is_property_alphabetic (cp))
+  else if (uc_is_property (cp, UC_PROPERTY_ID_CONTINUE))
     *lhs =
-      (void *) make_token_t (make_string_t ("AL"), tok->token_value,
+      (void *) make_token_t (make_string_t ("IDC"), tok->token_value,
                              tok->loc);
-  else if (uc_is_property_quotation_mark (cp))
+  else if (uc_is_general_category (cp, UC_CATEGORY_Sm))
+    // Math symbols.
+    *lhs =
+      (void *) make_token_t (make_string_t ("Sm"), tok->token_value,
+                             tok->loc);
+  /*
+  else if (uc_is_property (cp, UC_PROPERTY_QUOTATION_MARK))
     *lhs =
       (void *) make_token_t (make_string_t ("QU"), tok->token_value,
                              tok->loc);
+  */
   else
     *lhs = (void *) tok;
 }

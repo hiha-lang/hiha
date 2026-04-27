@@ -182,10 +182,13 @@ AC_DEFUN([gl_EARLY],
   # Code from module uniconv/u8-conv-from-enc:
   # Code from module uniconv/u8-conv-to-enc:
   # Code from module unictype/base:
+  # Code from module unictype/category-Sm:
+  # Code from module unictype/category-test:
   # Code from module unictype/combining-class:
-  # Code from module unictype/property-alphabetic:
-  # Code from module unictype/property-quotation-mark:
+  # Code from module unictype/property-id-continue:
+  # Code from module unictype/property-id-start:
   # Code from module unictype/property-soft-dotted:
+  # Code from module unictype/property-test:
   # Code from module unictype/property-white-space:
   # Code from module uninorm/base:
   # Code from module uninorm/canonical-decomposition:
@@ -606,16 +609,21 @@ AC_DEFUN([gl_INIT],
   gl_UNICTYPE_H
   gl_UNICTYPE_H_REQUIRE_DEFAULTS
   AC_PROG_MKDIR_P
+  gl_UNICTYPE_H_REQUIRE_DEFAULTS
+  gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [unictype/category-Sm])
+  AC_REQUIRE([AC_C_INLINE])
+  gl_LIBUNISTRING_MODULE([1.4], [unictype/category-test])
   gl_LIBUNISTRING_MODULE([1.4], [unictype/combining-class])
   AC_REQUIRE([AC_C_INLINE])
   gl_UNICTYPE_H_REQUIRE_DEFAULTS
-  gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [unictype/property-alphabetic])
+  gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [unictype/property-id-continue])
   AC_REQUIRE([AC_C_INLINE])
   gl_UNICTYPE_H_REQUIRE_DEFAULTS
-  gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [unictype/property-quotation-mark])
+  gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [unictype/property-id-start])
   AC_REQUIRE([AC_C_INLINE])
   gl_UNICTYPE_H_REQUIRE_DEFAULTS
   gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [unictype/property-soft-dotted])
+  gl_LIBUNISTRING_MODULE([1.4], [unictype/property-test])
   AC_REQUIRE([AC_C_INLINE])
   gl_UNICTYPE_H_REQUIRE_DEFAULTS
   gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [unictype/property-white-space])
@@ -1039,14 +1047,18 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/uniconv/u8-conv-to-enc.c
   lib/unictype.in.h
   lib/unictype/bitmap.h
+  lib/unictype/categ_Sm.c
+  lib/unictype/categ_Sm.h
+  lib/unictype/categ_test.c
   lib/unictype/combiningclass.c
   lib/unictype/combiningclass.h
-  lib/unictype/pr_alphabetic.c
-  lib/unictype/pr_alphabetic.h
-  lib/unictype/pr_quotation_mark.c
-  lib/unictype/pr_quotation_mark.h
+  lib/unictype/pr_id_continue.c
+  lib/unictype/pr_id_continue.h
+  lib/unictype/pr_id_start.c
+  lib/unictype/pr_id_start.h
   lib/unictype/pr_soft_dotted.c
   lib/unictype/pr_soft_dotted.h
+  lib/unictype/pr_test.c
   lib/unictype/pr_white_space.c
   lib/unictype/pr_white_space.h
   lib/uninorm.in.h

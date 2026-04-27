@@ -54,8 +54,11 @@
 #  uniconv/u32-casecoll \
 #  uniconv/u32-conv-from-enc \
 #  uniconv/u32-conv-to-enc \
-#  unictype/property-alphabetic \
-#  unictype/property-quotation-mark \
+#  unictype/category-Sm \
+#  unictype/category-test \
+#  unictype/property-id-continue \
+#  unictype/property-id-start \
+#  unictype/property-test \
 #  unictype/property-white-space \
 #  uninorm/nfc \
 #  unistr/u32-check \
@@ -85,8 +88,11 @@ gl_MODULES([
   uniconv/u32-casecoll
   uniconv/u32-conv-from-enc
   uniconv/u32-conv-to-enc
-  unictype/property-alphabetic
-  unictype/property-quotation-mark
+  unictype/category-Sm
+  unictype/category-test
+  unictype/property-id-continue
+  unictype/property-id-start
+  unictype/property-test
   unictype/property-white-space
   uninorm/nfc
   unistr/u32-check

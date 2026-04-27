@@ -49,8 +49,11 @@
 #  uniconv/u32-casecoll \
 #  uniconv/u32-conv-from-enc \
 #  uniconv/u32-conv-to-enc \
-#  unictype/property-alphabetic \
-#  unictype/property-quotation-mark \
+#  unictype/category-Sm \
+#  unictype/category-test \
+#  unictype/property-id-continue \
+#  unictype/property-id-start \
+#  unictype/property-test \
 #  unictype/property-white-space \
 #  uninorm/nfc \
 #  unistr/u32-check \
@@ -2222,6 +2225,26 @@ EXTRA_DIST += unictype.in.h
 
 ## end   gnulib module unictype/base
 
+## begin gnulib module unictype/category-Sm
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_SM
+libgnu_la_SOURCES += unictype/categ_Sm.c
+endif
+
+EXTRA_DIST += unictype/categ_Sm.h
+
+## end   gnulib module unictype/category-Sm
+
+## begin gnulib module unictype/category-test
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_TEST
+libgnu_la_SOURCES += unictype/categ_test.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h
+
+## end   gnulib module unictype/category-test
+
 ## begin gnulib module unictype/combining-class
 
 if LIBUNISTRING_COMPILE_UNICTYPE_COMBINING_CLASS
@@ -2232,25 +2255,25 @@ EXTRA_DIST += unictype/combiningclass.h
 
 ## end   gnulib module unictype/combining-class
 
-## begin gnulib module unictype/property-alphabetic
+## begin gnulib module unictype/property-id-continue
 
-if LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ALPHABETIC
-libgnu_la_SOURCES += unictype/pr_alphabetic.c
+if LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ID_CONTINUE
+libgnu_la_SOURCES += unictype/pr_id_continue.c
 endif
 
-EXTRA_DIST += unictype/bitmap.h unictype/pr_alphabetic.h
+EXTRA_DIST += unictype/bitmap.h unictype/pr_id_continue.h
 
-## end   gnulib module unictype/property-alphabetic
+## end   gnulib module unictype/property-id-continue
 
-## begin gnulib module unictype/property-quotation-mark
+## begin gnulib module unictype/property-id-start
 
-if LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_QUOTATION_MARK
-libgnu_la_SOURCES += unictype/pr_quotation_mark.c
+if LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ID_START
+libgnu_la_SOURCES += unictype/pr_id_start.c
 endif
 
-EXTRA_DIST += unictype/bitmap.h unictype/pr_quotation_mark.h
+EXTRA_DIST += unictype/bitmap.h unictype/pr_id_start.h
 
-## end   gnulib module unictype/property-quotation-mark
+## end   gnulib module unictype/property-id-start
 
 ## begin gnulib module unictype/property-soft-dotted
 
@@ -2261,6 +2284,14 @@ endif
 EXTRA_DIST += unictype/bitmap.h unictype/pr_soft_dotted.h
 
 ## end   gnulib module unictype/property-soft-dotted
+
+## begin gnulib module unictype/property-test
+
+if LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_TEST
+libgnu_la_SOURCES += unictype/pr_test.c
+endif
+
+## end   gnulib module unictype/property-test
 
 ## begin gnulib module unictype/property-white-space
 

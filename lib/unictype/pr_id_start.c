@@ -30,14 +30,14 @@
 
 #include "bitmap.h"
 
-/* Define u_property_quotation_mark table.  */
-#include "pr_quotation_mark.h"
+/* Define u_property_id_start table.  */
+#include "pr_id_start.h"
 
 bool
-uc_is_property_quotation_mark (ucs4_t uc)
+uc_is_property_id_start (ucs4_t uc)
 {
-  return bitmap_lookup (&u_property_quotation_mark, uc);
+  return bitmap_lookup (&u_property_id_start, uc);
 }
 
-const uc_property_t UC_PROPERTY_QUOTATION_MARK =
-  { &uc_is_property_quotation_mark };
+const uc_property_t UC_PROPERTY_ID_START =
+  { &uc_is_property_id_start };

@@ -30,14 +30,14 @@
 
 #include "bitmap.h"
 
-/* Define u_property_alphabetic table.  */
-#include "pr_alphabetic.h"
+/* Define u_property_id_continue table.  */
+#include "pr_id_continue.h"
 
 bool
-uc_is_property_alphabetic (ucs4_t uc)
+uc_is_property_id_continue (ucs4_t uc)
 {
-  return bitmap_lookup (&u_property_alphabetic, uc);
+  return bitmap_lookup (&u_property_id_continue, uc);
 }
 
-const uc_property_t UC_PROPERTY_ALPHABETIC =
-  { &uc_is_property_alphabetic };
+const uc_property_t UC_PROPERTY_ID_CONTINUE =
+  { &uc_is_property_id_continue };

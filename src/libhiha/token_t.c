@@ -774,12 +774,15 @@ mismatch_check (buffered_token_getter_t output_getter, token_t tok)
     (_getter_with_mismatch_check_t) output_getter;
   if (tok != NULL && !g->mismatch_detected)
     {
-      assert (gl_list_size (g->queue) != 0);
-      token_t t = (token_t) gl_list_get_first (g->queue);
-      g->mismatch_detected =
-        (string_t_cmp (t->token_kind, tok->token_kind) != 0
-         || string_t_cmp (t->token_value, tok->token_value) != 0);
-      gl_list_remove_first (g->queue);
+      g->mismatch_detected = (gl_list_size (g->queue) == 0);
+      if (!g->mismatch_detected)
+        {
+          token_t t = (token_t) gl_list_get_first (g->queue);
+          g->mismatch_detected =
+            (string_t_cmp (t->token_kind, tok->token_kind) != 0
+             || string_t_cmp (t->token_value, tok->token_value) != 0);
+          gl_list_remove_first (g->queue);
+        }
     }
   return g->mismatch_detected;
 }

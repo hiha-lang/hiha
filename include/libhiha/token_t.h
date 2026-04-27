@@ -45,12 +45,11 @@ struct token_getter
                      token_t *tok, const char **error_message);
 };
 
-token_getter_t
-make_token_getter_from_source_file_t (const char *filename, FILE *f);
+token_getter_t make_token_getter_from_source_file_t
+  (const char *filename, FILE *f);
 
-token_getter_t
-make_token_getter_from_serialized_tokens_t (const char *filename,
-                                            FILE *f);
+token_getter_t make_token_getter_from_serialized_tokens_t
+  (const char *filename, FILE *f);
 
 struct buffered_token_getter;
 typedef struct buffered_token_getter *buffered_token_getter_t;
@@ -62,18 +61,29 @@ struct buffered_token_getter
                          token_t *tok, const char **error_message);
 };
 
-buffered_token_getter_t
-make_buffered_token_getter_t (token_getter_t unbuffered_getter);
+buffered_token_getter_t make_buffered_token_getter_t
+  (token_getter_t unbuffered_getter);
 
 /* Play the files in sequence, converting all the EOF but the last to
    formfeed. */
-buffered_token_getter_t
-make_buffered_token_getter_from_source_files (size_t n,
-                                              const char *filenames[n]);
+buffered_token_getter_t make_buffered_token_getter_from_source_files
+  (size_t n, const char *filenames[n]);
 
 buffered_token_getter_t
-make_buffered_token_getter_from_serialized_tokens (const char *filename,
-                                                   FILE *f);
+  make_buffered_token_getter_from_serialized_tokens
+  (const char *filename, FILE *f);
+
+/* The first argument to check_for_mismatch MUST be the value that was
+   returned as *output_getter. The second argument should be either a
+   token outputted by the Pratt parser, to include it in the check
+   whether there are any mismatches between inputs and outputs, or
+   NULL, to check whether a mismatch has been detected. Thus we can
+   achieve fixed point detection in lexical analysis. */
+void make_token_getter_with_mismatch_check
+  (buffered_token_getter_t input_getter,
+   buffered_token_getter_t *output_getter,
+   const bool (**check_for_mismatch) (buffered_token_getter_t,
+                                      token_t));
 
 struct token_putter;
 typedef struct token_putter *token_putter_t;
@@ -83,9 +93,12 @@ struct token_putter
                      token_t tok, const char **error_message);
 };
 
-token_putter_t
-make_token_putter_to_stream_serialized_t (const char *filename,
-                                          FILE *f);
+token_putter_t make_token_putter_to_stream_serialized_t
+  (const char *filename, FILE *f);
+
+token_putter_t make_token_putter_with_mismatch_check
+  (token_putter_t input_putter, buffered_token_getter_t output_getter,
+   bool (*check_for_mismatch) (buffered_token_getter_t, token_t));
 
 #endif /* __LIBHAHA__TOKEN_T_H__INCLUDED__ */
 

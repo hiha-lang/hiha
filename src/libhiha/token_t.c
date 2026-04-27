@@ -732,6 +732,119 @@ make_token_putter_to_stream_serialized_t (const char *filename, FILE *f)
   return (token_putter_t) p;
 }
 
+struct _getter_with_mismatch_check
+{
+  void (*get_token) (buffered_token_getter_t this_struct,
+                     token_t *tok, const char **error_message);
+  void (*look_at_token) (buffered_token_getter_t this_struct, size_t,
+                         token_t *tok, const char **error_message);
+
+  buffered_token_getter_t getter;
+  gl_list_t queue;
+  bool mismatch_detected;
+};
+typedef struct _getter_with_mismatch_check
+  *_getter_with_mismatch_check_t;
+
+static void
+get_for_mismatch_check (buffered_token_getter_t this_struct,
+                        token_t *tok, const char **error_message)
+{
+  _getter_with_mismatch_check_t g =
+    (_getter_with_mismatch_check_t) this_struct;
+  g->getter->get_token (g->getter, tok, error_message);
+  if (!g->mismatch_detected)
+    gl_list_add_last (g->queue, *tok);
+}
+
+static void
+peek_for_mismatch_check (buffered_token_getter_t this_struct,
+                         size_t i, token_t *tok,
+                         const char **error_message)
+{
+  _getter_with_mismatch_check_t g =
+    (_getter_with_mismatch_check_t) this_struct;
+  g->getter->look_at_token (g->getter, i, tok, error_message);
+}
+
+static bool
+mismatch_check (buffered_token_getter_t output_getter, token_t tok)
+{
+  _getter_with_mismatch_check_t g =
+    (_getter_with_mismatch_check_t) output_getter;
+  if (tok != NULL && !g->mismatch_detected)
+    {
+      assert (gl_list_size (g->queue) != 0);
+      token_t t = (token_t) gl_list_get_first (g->queue);
+      g->mismatch_detected =
+        (string_t_cmp (t->token_kind, tok->token_kind) != 0
+         || string_t_cmp (t->token_value, tok->token_value) != 0);
+      gl_list_remove_first (g->queue);
+    }
+  return g->mismatch_detected;
+}
+
+#define MAKE_TOKEN_GETTER__ make_token_getter_with_mismatch_check
+VISIBLE void
+MAKE_TOKEN_GETTER__ (buffered_token_getter_t input_getter,
+                     buffered_token_getter_t *output_getter,
+                     const bool (**check_for_mismatch)
+                     (buffered_token_getter_t, token_t))
+{
+  _getter_with_mismatch_check_t p =
+    XMALLOC (struct _getter_with_mismatch_check);
+
+  p->getter = input_getter;
+  p->queue =
+    gl_list_create_empty (GL_AVLTREE_LIST, NULL, NULL, NULL, true);
+  p->mismatch_detected = false;
+
+  p->get_token = &get_for_mismatch_check;
+  p->look_at_token = &peek_for_mismatch_check;
+
+  *output_getter = (buffered_token_getter_t) p;
+  *check_for_mismatch = &mismatch_check;
+}
+
+struct _putter_with_mismatch_check
+{
+  void (*put_token) (token_putter_t this_struct,
+                     token_t tok, const char **error_message);
+
+  token_putter_t input_putter;
+  buffered_token_getter_t output_getter;
+  const bool (*check_for_mismatch) (buffered_token_getter_t, token_t);
+};
+typedef struct _putter_with_mismatch_check
+  *_putter_with_mismatch_check_t;
+
+static void
+put_with_mismatch_check (token_putter_t this_struct,
+                         token_t tok, const char **error_message)
+{
+  _putter_with_mismatch_check_t p =
+    (_putter_with_mismatch_check_t) this_struct;
+  (void) p->check_for_mismatch (p->output_getter, tok);
+  p->input_putter->put_token (p->input_putter, tok, error_message);
+}
+
+VISIBLE token_putter_t
+make_token_putter_with_mismatch_check (token_putter_t input_putter,
+                                       buffered_token_getter_t
+                                       output_getter,
+                                       bool (*check_for_mismatch)
+                                       (buffered_token_getter_t,
+                                        token_t))
+{
+  _putter_with_mismatch_check_t p =
+    XMALLOC (struct _putter_with_mismatch_check);
+  p->put_token = &put_with_mismatch_check;
+  p->input_putter = input_putter;
+  p->output_getter = output_getter;
+  p->check_for_mismatch = check_for_mismatch;
+  return (token_putter_t) p;
+}
+
 /*
   local variables:
   mode: c

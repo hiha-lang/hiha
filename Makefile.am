@@ -243,7 +243,7 @@ indent:
 		-Ttoken_getter_t \
 		-Ttoken_getter_from_source_file_t \
 		-Ttoken_getter_from_serialized_tokens_t \
-		-Tbuffering_token_getter_t \
+		-Tbuffered_token_getter_t \
 		-Ttoken_putter_t \
 		-Ttoken_putter_to_stream_serialized_t \
 		-Thiha_plugin_t \

@@ -82,19 +82,21 @@ static const char *authors[] = {
   NULL
 };
 
-static token_t
-lhs_to_token_t (void *lhs, const char *error_message)
-{
-  return (error_message == NULL) ? (token_t) lhs : NULL;
-}
-
 static void
 ____scan_some_files (size_t n, const char *filenames[n])
 {
-  buffered_token_getter_t getter =
+  buffered_token_getter_t input_getter =
     make_buffered_token_getter_from_source_files (n, filenames);
-  token_putter_t putter =
+  buffered_token_getter_t getter;
+  const bool (*check_for_mismatch) (buffered_token_getter_t, token_t);
+  make_token_getter_with_mismatch_check (input_getter, &getter,
+                                         &check_for_mismatch);
+
+  token_putter_t input_putter =
     make_token_putter_to_stream_serialized_t ("<stdout>", stdout);
+  token_putter_t putter =
+    make_token_putter_with_mismatch_check (input_putter, getter,
+                                           check_for_mismatch);
 
   const char *error_message;
   scan_tokens (NULL, getter, putter, &error_message);
@@ -103,6 +105,8 @@ ____scan_some_files (size_t n, const char *filenames[n])
       error (exit_failure, 0, "%s", error_message);
       abort ();
     }
+  printf ("FIXED POINT? %s\n",
+          check_for_mismatch (getter, NULL) ? "no" : "yes");
 }
 
 static void

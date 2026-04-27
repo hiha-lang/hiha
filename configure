@@ -1934,9 +1934,9 @@ HAVE_ALLOCA_H
 ALLOCA
 GL_COND_LIBTOOL_FALSE
 GL_COND_LIBTOOL_TRUE
-HAVE_CHANGELOGGER_FALSE
-HAVE_CHANGELOGGER_TRUE
-CHANGELOGGER
+HAVE_MERCURIAL_FALSE
+HAVE_MERCURIAL_TRUE
+MERCURIAL
 INDENT
 VISIBLE_CFLAGS
 ARFLAGS
@@ -2101,7 +2101,7 @@ CPPFLAGS
 LT_SYS_LIBRARY_PATH
 CPP
 INDENT
-CHANGELOGGER
+MERCURIAL
 GNU_MAKE'
 
 
@@ -2783,8 +2783,7 @@ Some influential environment variables:
               User-defined run-time library search path.
   CPP         C preprocessor
   INDENT      GNU indent
-  CHANGELOGGER
-              Sorts Mill Changelogger
+  MERCURIAL   Mercurial Distributed SCM
   GNU_MAKE    GNU Make command
 
 Use these variables to override the choices made by 'configure' or to help
@@ -18315,17 +18314,17 @@ fi
 
 { :;
 
-# Override the cache if the precious variable CHANGELOGGER is set.
-test -n "${CHANGELOGGER}" && unset ac_cv_path_CHANGELOGGER
-chem_cv_path_CHANGELOGGER_found=yes
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for sortsmill-changelogger" >&5
-printf %s "checking for sortsmill-changelogger... " >&6; }
-if test ${ac_cv_path_CHANGELOGGER+y}
+# Override the cache if the precious variable MERCURIAL is set.
+test -n "${MERCURIAL}" && unset ac_cv_path_MERCURIAL
+chem_cv_path_MERCURIAL_found=yes
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for hg" >&5
+printf %s "checking for hg... " >&6; }
+if test ${ac_cv_path_MERCURIAL+y}
 then :
   printf %s "(cached) " >&6
 else case e in #(
-  e) if test -z "$CHANGELOGGER"; then
-  ac_path_CHANGELOGGER_found=false
+  e) if test -z "$MERCURIAL"; then
+  ac_path_MERCURIAL_found=false
   # Loop through the user's path and test for each of PROGNAME-LIST
   as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
 for as_dir in $PATH
@@ -18336,68 +18335,64 @@ do
     */) ;;
     *) as_dir=$as_dir/ ;;
   esac
-    for ac_prog in sortsmill-changelogger
+    for ac_prog in hg
    do
     for ac_exec_ext in '' $ac_executable_extensions; do
-      ac_path_CHANGELOGGER="$as_dir$ac_prog$ac_exec_ext"
-      as_fn_executable_p "$ac_path_CHANGELOGGER" || continue
+      ac_path_MERCURIAL="$as_dir$ac_prog$ac_exec_ext"
+      as_fn_executable_p "$ac_path_MERCURIAL" || continue
 
-      if test -n "${CHANGELOGGER}"; then
-         # Bypass the test if the precious variable CHANGELOGGER is set.
-         ac_cv_path_CHANGELOGGER="${CHANGELOGGER}"
-         ac_path_CHANGELOGGER_found=:
+      if test -n "${MERCURIAL}"; then
+         # Bypass the test if the precious variable MERCURIAL is set.
+         ac_cv_path_MERCURIAL="${MERCURIAL}"
+         ac_path_MERCURIAL_found=:
       else
          # Run the test.
 
-    if LC_ALL=C LANG=C ${ac_path_CHANGELOGGER} -V 2>&1 | \
-      LC_ALL=C LANG=C ${GREP} -e '^sortsmill-changelogger' \
+    if LC_ALL=C LANG=C ${ac_path_MERCURIAL} --version 2>&1 | \
+      LC_ALL=C LANG=C ${GREP} -e '^Mercurial Distributed SCM' \
                2> /dev/null > /dev/null; then
-      if LC_ALL=C LANG=C ${ac_path_CHANGELOGGER} -V 2>&1 | \
-        LC_ALL=C LANG=C ${GREP} -e 'Barry Schwartz' \
-                 2> /dev/null > /dev/null; then
-        ac_cv_path_CHANGELOGGER="${ac_path_CHANGELOGGER}"
-        ac_path_CHANGELOGGER_found=:
-      fi
+      ac_cv_path_MERCURIAL="${ac_path_MERCURIAL}"
+      ac_path_MERCURIAL_found=:
     fi
 
       fi
-      $ac_path_CHANGELOGGER_found && break 3
+      $ac_path_MERCURIAL_found && break 3
     done
   done
   done
 IFS=$as_save_IFS
-  if test -z "$ac_cv_path_CHANGELOGGER"; then
+  if test -z "$ac_cv_path_MERCURIAL"; then
     :
   fi
 else
-  ac_cv_path_CHANGELOGGER=$CHANGELOGGER
+  ac_cv_path_MERCURIAL=$MERCURIAL
 fi
 
-      if test -z "${ac_cv_path_CHANGELOGGER}"; then
-         ac_cv_path_CHANGELOGGER="not found"
-         chem_cv_path_CHANGELOGGER_found=no
+      if test -z "${ac_cv_path_MERCURIAL}"; then
+         ac_cv_path_MERCURIAL="not found"
+         chem_cv_path_MERCURIAL_found=no
       fi
     ;;
 esac
 fi
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_cv_path_CHANGELOGGER" >&5
-printf "%s\n" "$ac_cv_path_CHANGELOGGER" >&6; }
-if test x"${chem_cv_path_CHANGELOGGER_found}" = x"yes"; then
-   CHANGELOGGER="${ac_cv_path_CHANGELOGGER}"
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_cv_path_MERCURIAL" >&5
+printf "%s\n" "$ac_cv_path_MERCURIAL" >&6; }
+if test x"${chem_cv_path_MERCURIAL_found}" = x"yes"; then
+   MERCURIAL="${ac_cv_path_MERCURIAL}"
 else
-   CHANGELOGGER=""
+   MERCURIAL=""
    # Do not cache the negative result. That way someone can install
    # the program and have it be discovered, even though they did not
    # clear a cache entry.
-   unset ac_cv_path_CHANGELOGGER
+   unset ac_cv_path_MERCURIAL
 fi
 }
- if test "${chem_cv_path_CHANGELOGGER_found}" = yes; then
-  HAVE_CHANGELOGGER_TRUE=
-  HAVE_CHANGELOGGER_FALSE='#'
+ if test "${chem_cv_path_MERCURIAL_found}" = yes; then
+  HAVE_MERCURIAL_TRUE=
+  HAVE_MERCURIAL_FALSE='#'
 else
-  HAVE_CHANGELOGGER_TRUE='#'
-  HAVE_CHANGELOGGER_FALSE=
+  HAVE_MERCURIAL_TRUE='#'
+  HAVE_MERCURIAL_FALSE=
 fi
 
 
@@ -36749,8 +36744,8 @@ then :
   enableval=$enable_year2038;
 fi
 
-if test -z "${HAVE_CHANGELOGGER_TRUE}" && test -z "${HAVE_CHANGELOGGER_FALSE}"; then
-  as_fn_error $? "conditional \"HAVE_CHANGELOGGER\" was never defined.
+if test -z "${HAVE_MERCURIAL_TRUE}" && test -z "${HAVE_MERCURIAL_FALSE}"; then
+  as_fn_error $? "conditional \"HAVE_MERCURIAL\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${GL_COND_LIBTOOL_TRUE}" && test -z "${GL_COND_LIBTOOL_FALSE}"; then

@@ -73,22 +73,18 @@ CHEM_PATH_PROGS_CACHED_AND_PRECIOUS([INDENT],
     fi
   ])
 
-CHEM_PATH_PROGS_CACHED_AND_PRECIOUS([CHANGELOGGER],
-  [Sorts Mill Changelogger],[sortsmill-changelogger],
+CHEM_PATH_PROGS_CACHED_AND_PRECIOUS([MERCURIAL],
+  [Mercurial Distributed SCM],[hg],
   [
-    if LC_ALL=C LANG=C ${ac_path_CHANGELOGGER} -V 2>&1 | \
-      LC_ALL=C LANG=C ${GREP} -e '^sortsmill-changelogger' \
+    if LC_ALL=C LANG=C ${ac_path_MERCURIAL} --version 2>&1 | \
+      LC_ALL=C LANG=C ${GREP} -e '^Mercurial Distributed SCM' \
                2> /dev/null > /dev/null; then
-      if LC_ALL=C LANG=C ${ac_path_CHANGELOGGER} -V 2>&1 | \
-        LC_ALL=C LANG=C ${GREP} -e 'Barry Schwartz' \
-                 2> /dev/null > /dev/null; then
-        ac_cv_path_CHANGELOGGER="${ac_path_CHANGELOGGER}"
-        ac_path_CHANGELOGGER_found=:
-      fi
+      ac_cv_path_MERCURIAL="${ac_path_MERCURIAL}"
+      ac_path_MERCURIAL_found=:
     fi
   ])
-AM_CONDITIONAL([HAVE_CHANGELOGGER],
-        [test "${chem_cv_path_CHANGELOGGER_found}" = yes])
+AM_CONDITIONAL([HAVE_MERCURIAL],
+        [test "${chem_cv_path_MERCURIAL_found}" = yes])
 
 # CHEM_PROG_GNU_M4
 # if test -z "${GNU_M4}"; then

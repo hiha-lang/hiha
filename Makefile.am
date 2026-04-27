@@ -267,19 +267,21 @@ $(srcdir)/README: $(srcdir)/README.adoc
 		| elinks -dump 1 -no-references -no-numbering > $(@)
 DISTITEMS += $(srcdir)/README
 
-if HAVE_CHANGELOGGER
+if HAVE_MERCURIAL
 #
-# The changelog style here is designed for a Mercurial repository. At
-# the time of this writing I have not yet made public a Mercurial
-# repository. However, the log does include the Git hashes of the
-# changesets.
+# The changelogging here is for a Mercurial repository. At the time of
+# this writing I have not yet made public a Mercurial repository.
+# However, the log will include the Git hashes of the changesets.
 #
-CHANGELOG_STYLE = "{ifeq(bookmarks,'','','{bookmarks}\n')}{localdate(date, 'UTC')|date|isodate}\n{author}\ngit:       {gitnode}\nmercurial: {node}\nrevision:  {rev}\nparents:   {ifeq(p1.rev,'-1','','{p1.rev}')} {ifeq(p2.rev,'-1','','{p2.rev}')}\n\n{indent('{desc|fill68}','  ')}\n\n\n"
+# Those who fork the public Git repository may prefer to design their
+# own ChangeLog.
+#
+CHANGELOG_TEMPLATE = "{ifeq(bookmarks,'','','{bookmarks}\n')}{localdate(date, 'UTC')|date|isodate}\n{author}\ngit:       {gitnode}\nmercurial: {node}\nrevision:  {rev}\nparents:   {ifeq(p1.rev,'-1','','{p1.rev}')} {ifeq(p2.rev,'-1','','{p2.rev}')}\n\n{indent('{desc|fill68}','  ')}\n\n\n"
 $(srcdir)/ChangeLog: $(srcdir)/.hg
-	SORTSMILL_HG_LOG_STYLE=$(CHANGELOG_STYLE) $(CHANGELOGGER) -G -C $(srcdir) \
+	$(MERCURIAL) log -G -T $(CHANGELOG_TEMPLATE) -C $(srcdir) \
 	  > $(@).tmp && mv $(@){.tmp,}
 DISTITEMS += $(srcdir)/ChangeLog
-endif HAVE_CHANGELOGGER
+endif HAVE_MERCURIAL
 
 #---------------------------------------------------------------------
 # local variables:

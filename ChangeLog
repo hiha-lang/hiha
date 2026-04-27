@@ -1,5 +1,17 @@
 @  master
-|  2026-04-27 18:44 +0000
+|  2026-04-27 18:54 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       682005b00c07565b3d9e46b14ff81cb859910d6e
+|  mercurial: 25918d6489d01d928ef4c02cba3ce2f301f8645c
+|  revision:  68
+|  parents:   67
+|
+|    Add Mercurial bookmarks to the ChangeLog. A user of hggit should
+|    keep these bookmarks in correspondence with Git branches, and thus
+|    they indicate the Git branch (if properly maintained).
+|
+|
+o  2026-04-27 18:44 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       2c1d679baa293f233a83a7f7d90ab01233e8aa38
 |  mercurial: d2221e617faa4f345bc272d3c80a7c1f0ed8d22f

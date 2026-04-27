@@ -1,5 +1,16 @@
 @  master
-|  2026-04-27 18:54 +0000
+|  2026-04-27 19:25 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       d7503af65ccb9151ff6a9c8d303abb21bcf5b21d
+|  mercurial: 58a4f22ca05a339f481ed84089ddcf482ab10bd8
+|  revision:  69
+|  parents:   68
+|
+|    Use Mercurial directly for the ChangeLog, instead of Sorts Mill
+|    Changelogger.
+|
+|
+o  2026-04-27 18:54 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       682005b00c07565b3d9e46b14ff81cb859910d6e
 |  mercurial: 25918d6489d01d928ef4c02cba3ce2f301f8645c

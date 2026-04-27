@@ -1,14 +1,26 @@
-_  2026-04-27 17:10 +0000
+@  master
+|  2026-04-27 18:44 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
-|  git:       72e308b8b950e7eb7851a00fd7b19b5b0cc37d4e
-|  mercurial: 01eebf8a3d04ce95da7cd55ce655c8a39a2a1855
-|  revision:  66
-|  parents:   54
+|  git:       2c1d679baa293f233a83a7f7d90ab01233e8aa38
+|  mercurial: d2221e617faa4f345bc272d3c80a7c1f0ed8d22f
+|  revision:  67
+|  parents:   65
 |
-|    Close this branch.
+|    A new ChangeLog style.
 |
 |
-| @  2026-04-27 16:17 +0000
+| _  getting-plugins-working
+| |  2026-04-27 17:10 +0000
+| |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+| |  git:       72e308b8b950e7eb7851a00fd7b19b5b0cc37d4e
+| |  mercurial: 01eebf8a3d04ce95da7cd55ce655c8a39a2a1855
+| |  revision:  66
+| |  parents:   54
+| |
+| |    Close this branch.
+| |
+| |
+o |  2026-04-27 16:17 +0000
 | |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 | |  git:       44b435d4f6999b4566758320390bf75b794f69cd
 | |  mercurial: 2f7a3dc0916a970073ef3a6f6f3fdf92630468f0
@@ -19,7 +31,7 @@ _  2026-04-27 17:10 +0000
 | |    more tokens than it takes in.
 | |
 | |
-| o  2026-04-27 00:03 +0000
+o |  2026-04-27 00:03 +0000
 | |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 | |  git:       d5de8f5c8eb67c0a10ec013d515b77729eb98db4
 | |  mercurial: 78564d3c38c16d0958451ee635f3265060f91c38
@@ -29,7 +41,7 @@ _  2026-04-27 17:10 +0000
 | |    Fixed point detection for lexical analysis.
 | |
 | |
-| o  2026-04-26 14:46 +0000
+o |  2026-04-26 14:46 +0000
 | |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 | |  git:       aeccc87050fcfd379641c5875b5420bbf59e98c1
 | |  mercurial: b28a755cde0d5c5daf6557a4d57999648d1a6c5b
@@ -39,7 +51,7 @@ _  2026-04-27 17:10 +0000
 | |    Added scan_tokens()
 | |
 | |
-| o  2026-04-25 15:52 +0000
+o |  2026-04-25 15:52 +0000
 | |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 | |  git:       8c46af3075379097e1cf2df5488c73835c2eaae3
 | |  mercurial: b2911ffad059d0baedac412e27ac74fb713c14a6
@@ -49,7 +61,7 @@ _  2026-04-27 17:10 +0000
 | |    Added token putters.
 | |
 | |
-| o  2026-04-25 15:11 +0000
+o |  2026-04-25 15:11 +0000
 | |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 | |  git:       1a647d38c4d37fc4f7dab7bab65379db09276992
 | |  mercurial: bf57b678d3eed05e8c8f3c30286a3ae0518c43cb
@@ -61,7 +73,7 @@ _  2026-04-27 17:10 +0000
 | |    on), and start of a token putter.
 | |
 | |
-| o  2026-04-24 22:40 +0000
+o |  2026-04-24 22:40 +0000
 | |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 | |  git:       f0eebe1bd3551feda34a780555c6b3bb23a22e70
 | |  mercurial: 7b0b9a467dbf9fe681611d9935fe73cbb1b557f0
@@ -71,7 +83,7 @@ _  2026-04-27 17:10 +0000
 | |    A better assertion.
 | |
 | |
-| o  2026-04-24 21:58 +0000
+o |  2026-04-24 21:58 +0000
 | |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 | |  git:       29a449f0e2cade51fd4c3f9ef0e027df54bfbef0
 | |  mercurial: bf1f05b5684b91418bbcadf2e30fb8f53b07bc92
@@ -82,7 +94,7 @@ _  2026-04-27 17:10 +0000
 | |    distcheck’ working again.
 | |
 | |
-| o  2026-04-24 13:28 +0000
+o |  2026-04-24 13:28 +0000
 | |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 | |  git:       a5614d70d7fc8350474b01f57f68ef2a9043978b
 | |  mercurial: 11e3104fbbcb57f87e1aaa414d3389dc510f69c0
@@ -92,7 +104,7 @@ _  2026-04-27 17:10 +0000
 | |    Save the public domain donkey vector.
 | |
 | |
-| o  2026-04-24 02:32 +0000
+o |  2026-04-24 02:32 +0000
 | |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 | |  git:       60f908e3e43144bcaea7c7f03458c81c224e103b
 | |  mercurial: ffd240f83faab37eb25863638d6706c06d3cd9e4
@@ -102,7 +114,7 @@ _  2026-04-27 17:10 +0000
 | |    I have figured out how to process tokens with the Pratt parser.
 | |
 | |
-| o  2026-04-24 02:12 +0000
+o |  2026-04-24 02:12 +0000
 | |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 | |  git:       4345e8f435f1e9efacf6a44f73a06307c300e529
 | |  mercurial: b7dbd48f081b2b62dd88eea8ccca04aa8a9a8192
@@ -112,7 +124,7 @@ _  2026-04-27 17:10 +0000
 | |    Run indent.
 | |
 | |
-| o  2026-04-24 02:09 +0000
+o |  2026-04-24 02:09 +0000
 | |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 | |  git:       bd781dec1fc22783314b95d9f9cc61a4b0eaa2b5
 | |  mercurial: 8a43e4a22d965db8e00b2a9c3356aaf13dde1f12
@@ -123,7 +135,7 @@ _  2026-04-27 17:10 +0000
 | |    figured out yet.
 | |
 | |
-o |  2026-04-24 02:06 +0000
+| o  2026-04-24 02:06 +0000
 | |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 | |  git:       8d938c256f343d6c962cceb152655988e585b15f
 | |  mercurial: 7412c49b612bd2890edf94bfdf04b0bb088d8a92
@@ -133,7 +145,7 @@ o |  2026-04-24 02:06 +0000
 | |    I can load the plugin now. The processing is not yet right.
 | |
 | |
-o |  2026-04-24 01:48 +0000
+| o  2026-04-24 01:48 +0000
 | |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 | |  git:       5dfc722c5d9fa0ac2e92989d0f1305f8f3ada678
 | |  mercurial: b47b686b9ea7b6c539b95acd203ea51c3e5a97c5
@@ -143,7 +155,7 @@ o |  2026-04-24 01:48 +0000
 | |    New Gnulib stuff.
 | |
 | |
-o |  2026-04-24 01:47 +0000
+| o  2026-04-24 01:47 +0000
 |/   Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |    git:       afcb200a6f456e2c03f8e0dab5b46a14302c78f9
 |    mercurial: 44e2403b576d346482688fcf45e41f02ec7af080

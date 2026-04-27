@@ -268,8 +268,15 @@ $(srcdir)/README: $(srcdir)/README.adoc
 DISTITEMS += $(srcdir)/README
 
 if HAVE_CHANGELOGGER
+#
+# The changelog style here is designed for a Mercurial repository. At
+# the time of this writing I have not yet made public a Mercurial
+# repository. However, the log does include the Git hashes of the
+# changesets.
+#
+CHANGELOG_STYLE = "{localdate(date, 'UTC')|date|isodate}\n{author}\ngit:       {gitnode}\nmercurial: {node}\nrevision:  {rev}\nparents:   {ifeq(p1.rev,'-1','','{p1.rev}')} {ifeq(p2.rev,'-1','','{p2.rev}')}\n\n{indent('{desc|fill68}','  ')}\n\n\n"
 $(srcdir)/ChangeLog: $(srcdir)/.hg
-	SORTSMILL_HG_LOG_STYLE=changelog $(CHANGELOGGER) -C $(srcdir) \
+	SORTSMILL_HG_LOG_STYLE=$(CHANGELOG_STYLE) $(CHANGELOGGER) -G -C $(srcdir) \
 	  > $(@).tmp && mv $(@){.tmp,}
 DISTITEMS += $(srcdir)/ChangeLog
 endif HAVE_CHANGELOGGER

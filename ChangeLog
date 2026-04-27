@@ -1,1055 +1,699 @@
-2026-04-25  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
+_  2026-04-27 17:10 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       72e308b8b950e7eb7851a00fd7b19b5b0cc37d4e
+|  mercurial: 01eebf8a3d04ce95da7cd55ce655c8a39a2a1855
+|  revision:  66
+|  parents:   54
+|
+|    Close this branch.
+|
+|
+| @  2026-04-27 16:17 +0000
+| |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+| |  git:       44b435d4f6999b4566758320390bf75b794f69cd
+| |  mercurial: 2f7a3dc0916a970073ef3a6f6f3fdf92630468f0
+| |  revision:  65
+| |  parents:   64
+| |
+| |    Prepare just in case lexical analysis should get the means to output
+| |    more tokens than it takes in.
+| |
+| |
+| o  2026-04-27 00:03 +0000
+| |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+| |  git:       d5de8f5c8eb67c0a10ec013d515b77729eb98db4
+| |  mercurial: 78564d3c38c16d0958451ee635f3265060f91c38
+| |  revision:  64
+| |  parents:   63
+| |
+| |    Fixed point detection for lexical analysis.
+| |
+| |
+| o  2026-04-26 14:46 +0000
+| |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+| |  git:       aeccc87050fcfd379641c5875b5420bbf59e98c1
+| |  mercurial: b28a755cde0d5c5daf6557a4d57999648d1a6c5b
+| |  revision:  63
+| |  parents:   62
+| |
+| |    Added scan_tokens()
+| |
+| |
+| o  2026-04-25 15:52 +0000
+| |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+| |  git:       8c46af3075379097e1cf2df5488c73835c2eaae3
+| |  mercurial: b2911ffad059d0baedac412e27ac74fb713c14a6
+| |  revision:  62
+| |  parents:   61
+| |
+| |    Added token putters.
+| |
+| |
+| o  2026-04-25 15:11 +0000
+| |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+| |  git:       1a647d38c4d37fc4f7dab7bab65379db09276992
+| |  mercurial: bf57b678d3eed05e8c8f3c30286a3ae0518c43cb
+| |  revision:  61
+| |  parents:   60
+| |
+| |    Code simplification, bug fix in source file reading (it merely
+| |    happened to work before, probably would not have with an optimizer
+| |    on), and start of a token putter.
+| |
+| |
+| o  2026-04-24 22:40 +0000
+| |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+| |  git:       f0eebe1bd3551feda34a780555c6b3bb23a22e70
+| |  mercurial: 7b0b9a467dbf9fe681611d9935fe73cbb1b557f0
+| |  revision:  60
+| |  parents:   59
+| |
+| |    A better assertion.
+| |
+| |
+| o  2026-04-24 21:58 +0000
+| |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+| |  git:       29a449f0e2cade51fd4c3f9ef0e027df54bfbef0
+| |  mercurial: bf1f05b5684b91418bbcadf2e30fb8f53b07bc92
+| |  revision:  59
+| |  parents:   58
+| |
+| |    Preparing to read from multiple source files, and getting ‘make
+| |    distcheck’ working again.
+| |
+| |
+| o  2026-04-24 13:28 +0000
+| |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+| |  git:       a5614d70d7fc8350474b01f57f68ef2a9043978b
+| |  mercurial: 11e3104fbbcb57f87e1aaa414d3389dc510f69c0
+| |  revision:  58
+| |  parents:   57
+| |
+| |    Save the public domain donkey vector.
+| |
+| |
+| o  2026-04-24 02:32 +0000
+| |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+| |  git:       60f908e3e43144bcaea7c7f03458c81c224e103b
+| |  mercurial: ffd240f83faab37eb25863638d6706c06d3cd9e4
+| |  revision:  57
+| |  parents:   56
+| |
+| |    I have figured out how to process tokens with the Pratt parser.
+| |
+| |
+| o  2026-04-24 02:12 +0000
+| |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+| |  git:       4345e8f435f1e9efacf6a44f73a06307c300e529
+| |  mercurial: b7dbd48f081b2b62dd88eea8ccca04aa8a9a8192
+| |  revision:  56
+| |  parents:   55
+| |
+| |    Run indent.
+| |
+| |
+| o  2026-04-24 02:09 +0000
+| |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+| |  git:       bd781dec1fc22783314b95d9f9cc61a4b0eaa2b5
+| |  mercurial: 8a43e4a22d965db8e00b2a9c3356aaf13dde1f12
+| |  revision:  55
+| |  parents:   51
+| |
+| |    Get plugins working, but the Pratt token processing isn’t quite
+| |    figured out yet.
+| |
+| |
+o |  2026-04-24 02:06 +0000
+| |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+| |  git:       8d938c256f343d6c962cceb152655988e585b15f
+| |  mercurial: 7412c49b612bd2890edf94bfdf04b0bb088d8a92
+| |  revision:  54
+| |  parents:   53
+| |
+| |    I can load the plugin now. The processing is not yet right.
+| |
+| |
+o |  2026-04-24 01:48 +0000
+| |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+| |  git:       5dfc722c5d9fa0ac2e92989d0f1305f8f3ada678
+| |  mercurial: b47b686b9ea7b6c539b95acd203ea51c3e5a97c5
+| |  revision:  53
+| |  parents:   52
+| |
+| |    New Gnulib stuff.
+| |
+| |
+o |  2026-04-24 01:47 +0000
+|/   Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|    git:       afcb200a6f456e2c03f8e0dab5b46a14302c78f9
+|    mercurial: 44e2403b576d346482688fcf45e41f02ec7af080
+|    revision:  52
+|    parents:   51
+|
+|      A bunch of overcomplication that at least keeps the plugin loaded.
+|
+|
+o  2026-04-22 17:53 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       8da8ec91d53e0159446bb6c468c13c38c6a0b5e8
+|  mercurial: 515096ba567f4fd4027e13bee3f1581aa3b64c62
+|  revision:  51
+|  parents:   50
+|
+|    The first hints of anything that can do lexical analysis.
+|
+|
+o  2026-04-21 16:51 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       ac2b3c384f92212f1be6c18e47cb79c8b6fff347
+|  mercurial: 4b039adabd063e42aae34f195cba41233960eca8
+|  revision:  50
+|  parents:   49
+|
+|    Wrong name for function parameters.
+|
+|
+o  2026-04-21 16:37 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       737f28f847d47c5d5bb4f383af03b185f95aa474
+|  mercurial: f71f92fb32a0b46e06f3896918702e5439d39b2a
+|  revision:  49
+|  parents:   48
+|
+|    Do not crash if there is no plugin_init() function in a dlopen
+|    library.
+|
+|
+o  2026-04-21 15:22 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       5d63bd002b0225dae3ae87f03eebf0b5855173d2
+|  mercurial: f37639892fe5a2d7d50862da94801531c3feb465
+|  revision:  48
+|  parents:   47
+|
+|    Get rid of the silly gnu::access attribute. It might, for instance,
+|    break plugins written by people not having support for the
+|    attribute. And it adds nothing, because the Pratt parser itself
+|    treats the argument differently for the two different types of
+|    handler: it initializes the argument to NULL before calling a
+|    nud_handler_t.
+|
+|    I made a few other minor changes.
+|
+|
+o  2026-04-20 21:49 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       f9c4e39807987175bd533cfee7ec264bdad6ae5d
+|  mercurial: a0baa4cd1edec9a1853ed3a8306bd6cedaf1fa8d
+|  revision:  47
+|  parents:   46
+|
+|    I have written the Pratt parser but have not tested it.
+|
+|
+o  2026-04-20 17:22 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       8a363c781cba83c8f76d714d691023a772295e31
+|  mercurial: a398325d39919c488a17e6c378d8990e7fcbd52f
+|  revision:  46
+|  parents:   45
+|
+|    Improved interface for buffered tokens.
+|
+|
+o  2026-04-20 16:07 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       f5e51e5aeb147f699a32c1d3785a1b2a0aac8649
+|  mercurial: 11b83464e2e3494ee94d64a90e4aa4375ec02424
+|  revision:  45
+|  parents:   44
+|
+|    Change the ChangeLog template.
+|
+|
+o  2026-04-20 16:03 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       73584889dff40819454a307f4ecbf1ea3fd25e5c
+|  mercurial: b4a32cb4ee97debad960425de6b6e8ce0826482f
+|  revision:  44
+|  parents:   43
+|
+|    Added support for Sorts Mill Changelogger, assuming a Mercurial
+|    repository locally. Though it ought to work for you if you use Git
+|    and simply do not have Sorts Mill Changelogger, override the cache
+|    variable for Sorts Mill Changelogger, or create an .hg file with an
+|    old date and never update it.
+|
+|    Honestly, I could set up a lot of options for this, or have
+|    configure.ac detect if it is in a Git or Hg or even in a Breezy
+|    repo. (Sorts Mill Changelogger supported Bazaar, and so might be
+|    adapted to Breezy without much difficulty. Sorts Mill had
+|    Debian/Ubuntu packaging in Bazaar.)
+|
+|
+o  2026-04-20 14:48 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       7b17b6fc4d8486eac6d4e8e32f573bb4f2b8afd8
+|  mercurial: 84c6de58025ee1927f110247a18ddc8b8cedd7ec
+|  revision:  43
+|  parents:   42
+|
+|    Added buffered token getters. The buffering has not been tried yet.
+|
+|
+o  2026-04-19 19:06 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       64af2d9b1effb1c7e1e805463a658e16d877ef87
+|  mercurial: 51249829f2ae13c1f30df0d3b15e2ddb12d25707
+|  revision:  42
+|  parents:   41
+|
+|    Upgrade gnulib. Note that a workaround had to be added in
+|    configure.ac.
+|
+|
+o  2026-04-19 17:53 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       109d07d6afac5d48b5996c18ee95c974d82d2471
+|  mercurial: fed5d6dda82292bc2d778019b017176b93be34a7
+|  revision:  41
+|  parents:   40
+|
+|    Gnulib changes.
+|
+|
+o  2026-04-19 17:52 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       32df5bea2e8ae0145021084356237597ef7b7ddd
+|  mercurial: 32ea468c2ce3efd7fce06fc8202874aaadfd8305
+|  revision:  40
+|  parents:   39
+|
+|    Use filevercmp instead of strverscmp or strcoll.
+|
+|
+o  2026-04-19 17:30 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       5ec312e1ca590044c9189def58e7de3a55e8ad71
+|  mercurial: 3c67a86998cd76a52c25eef31c732a015555e50e
+|  revision:  39
+|  parents:   38
+|
+|    Do not allow plugin names to start with "lib"
+|
+|
+o  2026-04-19 14:45 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       89dc640e0fc19591f3bf36207e5dbdbe27a7b505
+|  mercurial: f9046b37ec62d16f37547860d6fb6cb84e8a31c9
+|  revision:  38
+|  parents:   37
+|
+|    Ability to load the all the plugins in a directory.
+|
+|
+o  2026-04-17 18:30 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       010e30e50f14270bd5c7d11b070033f52da7e435
+|  mercurial: b0ea4c2bb98a36bdd1c90d4f5655dc1c2634b533
+|  revision:  37
+|  parents:   36
+|
+|    Pass some flags from configure to configure.
+|
+|
+o  2026-04-17 18:18 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       ddcaa67a0b5c141bb06f740c20c66924e40568ee
+|  mercurial: 537098785411985435288ca547ebcb0e2286d501
+|  revision:  36
+|  parents:   35
+|
+|    Make it pass ‘make distcheck’
+|
+|
+o  2026-04-16 18:52 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       e45e29a22c464ac120ba1d22d42dd833f6682c2c
+|  mercurial: 21e9846e2a3ae5786955b81e14941171ce25ea9f
+|  revision:  35
+|  parents:   34
+|
+|    Some code for loading plugins.
+|
+|
+o  2026-04-16 15:17 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       45a5e498b4e9d128244d2a079012f734181b2bd1
+|  mercurial: 505d44fdd40bc62eee1761693977f167ede723dc
+|  revision:  34
+|  parents:   33
+|
+|    Start of better organized Pratt parsing.
+|
+|
+o  2026-04-15 20:14 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       f4fd9e210f5b2b88a0fa38db31f654674ba8bb54
+|  mercurial: bcef1e7c919bd7262521a7c9ea769b7b599479b0
+|  revision:  33
+|  parents:   32
+|
+|    bug fix
+|
+|
+o  2026-04-15 20:13 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       9130460227406d3e3bad983ed7b7086c9702bd59
+|  mercurial: f2093d0632616976a99499ecfcddbb4d43e7ade2
+|  revision:  32
+|  parents:   31
+|
+|    Reduce McCabe complexity.
+|
+|
+o  2026-04-15 16:41 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       94370eba645b227c09b8fff4c774c5aaa29065d6
+|  mercurial: f9e707b7ed9a2cfc28209d45358f0209f744de67
+|  revision:  31
+|  parents:   30
+|
+|    Deserialization now works.
+|
+|
+o  2026-04-15 15:05 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       a45cba5029c71878e2f89d25189b43b20193acad
+|  mercurial: eca383887b19ec1bd0e322579605de2871b685e6
+|  revision:  30
+|  parents:   29
+|
+|    Bug fix
+|
+|
+o  2026-04-15 14:49 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       7919634401ec10bd14680b05e0cdb6de8d573245
+|  mercurial: 38128c9a30e904eac56f089296a7d748a12ebf01
+|  revision:  29
+|  parents:   28
+|
+|    Add _mm_pause as a way to do the spinlock.
+|
+|
+o  2026-04-15 14:16 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       66f1471d62d307f2c9022f16c8c1a43412a0f015
+|  mercurial: 102da849cfae6343cd73dfed3dc7beab22db7f80
+|  revision:  28
+|  parents:   27
+|
+|    Revert out of the crypto stuff that it turns out is not needed.
+|
+|
+o  2026-04-15 01:52 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       0a0fbcc5178c993f7b2393a9b15b2dcd8ec79ebc
+|  mercurial: e3883c68fcb0671e5e4ec64cecf0eb1cf5d1c125
+|  revision:  27
+|  parents:   26
+|
+|    Prepare configure for libblake3 and Gnulib’s SHA256 support for
+|    fixed-point hashing.
+|
+|
+o  2026-04-14 17:05 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       3266ec51b99da69a95b04a4df7a507fe10760243
+|  mercurial: ef1382b783b56cfcdad6807e4a7e5d9005774a9e
+|  revision:  26
+|  parents:   25
+|
+|    A bug fix to serialization.
+|
+|
+o  2026-04-14 16:40 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       01f97a464334b51f3c4b540513264d79ab6f86b3
+|  mercurial: d3303e271c9041aa8eef28edc8d27632c58275ff
+|  revision:  25
+|  parents:   24
+|
+|    Deserialization of token kinds.
+|
+|
+o  2026-04-14 16:01 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       bf269b926b2a413b7cbf0f035e5d1740a9be74d0
+|  mercurial: 8587a697f6de0b5695fd80b2f3f7202c30cd5216
+|  revision:  24
+|  parents:   23
+|
+|    Start of deserialization programming.
+|
+|
+o  2026-04-14 11:36 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       47c949a11161a961a177f7052659458e549c05fd
+|  mercurial: 13885535bc0f01e9e499dd9a9a5e03c6d1e992a4
+|  revision:  23
+|  parents:   22
+|
+|    Use one-time initialization more broadly.
+|
+|
+o  2026-04-14 03:06 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       715828bba0815a278f10dcb8e4f369e15945eed1
+|  mercurial: cce191261c321cb612ddd51144418b6da637fca2
+|  revision:  22
+|  parents:   21
+|
+|    Compression scheme for the serialization.
+|
+|
+o  2026-04-13 17:25 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       38428d4e5d33b8ba5a5b0b6b6c411eb902b0d399
+|  mercurial: 97ad3552a5d6ad7feb04d02d55b20e8d0c6652af
+|  revision:  21
+|  parents:   20
+|
+|    Test for builtin pause in configure
+|
+|
+o  2026-04-13 14:15 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       ca5c621c122567adce868823ccefe6fc18b3f463
+|  mercurial: fa6b5f1cfe5a06de23bac5d9f459e330d8845f14
+|  revision:  20
+|  parents:   19
+|
+|    Now I have modularized the one-time initialization and used my old
+|    spinlock ticketing system, adapting it from the ATS. It could use
+|    testing! But for now just committing.
+|
+|
+o  2026-04-12 22:16 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       257f7827cbfedf9ae89e4593e2c0987d6eac345a
+|  mercurial: 166b20044f3c077ceb39441d41d8f50c28a3d581
+|  revision:  19
+|  parents:   18
+|
+|    Save the base64 stuff from Gnulib that I will be using.
+|
+|
+o  2026-04-12 22:16 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       2a2e244ba6351033861372344ab8ed6190a4d845
+|  mercurial: 4604e4755fbc464c44730c787cafaff455961fc2
+|  revision:  18
+|  parents:   17
+|
+|    Save my spinlocked code.
+|
+|
+o  2026-04-12 18:52 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       224dd7b67311df9d972b4734038a7b8daaa2d4b4
+|  mercurial: 7c0911b1e8640009c9d4989ecc0f9d4db9f54e29
+|  revision:  17
+|  parents:   16
+|
+|    Some basic token reading.
+|
+|
+o  2026-04-12 11:01 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       b3e3a4688fb500799e66bc7071217ac5947dee87
+|  mercurial: 31cd4cc3edc00373de508af8e3ae471a4f757eff
+|  revision:  16
+|  parents:   15
+|
+|    Remove PCRE2.
+|
+|
+o  2026-04-12 10:55 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       8d12824f3e00f38fb448f79f77ac4d3417dec2dd
+|  mercurial: d203eb2c6b09004bee61e5543e8ca6037e648f85
+|  revision:  15
+|  parents:   14
+|
+|    Remove code for freeing things.
+|
+|
+o  2026-04-12 00:40 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       4bccc72e5e162b80017be96b8c803b74b656e16d
+|  mercurial: b97166016064e8a806541670331be548ade20075
+|  revision:  14
+|  parents:   13
+|
+|    Incorporate a garbage collector. We are going to get rid of
+|    bothering to free things.
+|
+|
+o  2026-04-09 16:32 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       99c1700843108e4e1093b08a1749512b88d73abf
+|  mercurial: abbd1dd8cbdc53243c4ad2466f138f00d01d1661
+|  revision:  13
+|  parents:   12
+|
+|    Link with PCRE2, and also bring up to GNU standards in some
+|    respects.
+|
+|
+o  2026-04-09 00:48 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       5911e067e0503d4ae01d92b83be0caf0a6a7a0e7
+|  mercurial: 1a9183d6766cf8a57101706a8d69cbbf26f29093
+|  revision:  12
+|  parents:   11
+|
+|    A few preparations for dlopen
+|
+|
+o  2026-04-09 00:08 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       9f6b7346d4125653075cacfebd7e4abdc3486989
+|  mercurial: 24478f2ba2d5c400ed41bd6a9072a0904db6ead4
+|  revision:  11
+|  parents:   10
+|
+|    Fix ‘make indent’.
+|
+|
+o  2026-04-09 00:04 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       0f6c1596066ed52c357ce0011f25662d28cabb6f
+|  mercurial: a51b67c363dac915e7a3b8447b8e004f40d1c42a
+|  revision:  10
+|  parents:   9
+|
+|    Libtoolize and prepare to use dlopen modules.
+|
+|
+o  2026-04-08 16:22 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       49640f23277373b1005e2672356360e86fb1197e
+|  mercurial: f1b44974593ba15ae3a1db5bed68d55d43b3d0a7
+|  revision:  9
+|  parents:   8
+|
+|    Got rid of the need for _Decimal32
+|
+|
+o  2026-04-08 11:47 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       ffa720244c0be26ea56c8fc9b3fc004f19fea54f
+|  mercurial: 6a54067e3f6a31b5ba0fc891273d8d98c14a3b7c
+|  revision:  8
+|  parents:   7
+|
+|    There is no need at all it include snprintf-gnu from Gnulib.
+|
+|
+o  2026-04-08 09:41 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       3eed9163a5f796ef57c6817d3b01997b140e4473
+|  mercurial: bf5a383b4e49c7b48815ff5652f5f6586426e14f
+|  revision:  7
+|  parents:   6
+|
+|    Add a note about abort(3) after error(exit_failure,...)
+|
+|
+o  2026-04-08 09:34 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       eb1008e04a2af8ea0bb8ea8c3f162fe8a92c5622
+|  mercurial: 920d35e6489495cec951b5f5b48ad46c701a74cd
+|  revision:  6
+|  parents:   5
+|
+|    Improvements to error reporting.
+|
+|
+o  2026-04-07 18:56 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       496ea4a31cde7c3cd9cc379fae93cd75bca3da3b
+|  mercurial: 7432da541aff3c45a89768204dd32636c4ad6ca2
+|  revision:  5
+|  parents:   4
+|
+|    Save work before resting due to disability.
+|
+|
+o  2026-04-07 15:36 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       0fb355df3bd6223ab152bb79cba2621e8d747de9
+|  mercurial: 331e3e3476c6386ad059788e7d655ca93997180c
+|  revision:  4
+|  parents:   3
+|
+|    I think I should save the current work.
+|
+|
+o  2026-04-06 22:05 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       dcc9add1a5f34974b452ade2befa5c10bcade8a7
+|  mercurial: b981a1acee77686bbf3001e993f2300b775fc3b0
+|  revision:  3
+|  parents:   2
+|
+|    A little explanation.
+|
+|
+o  2026-04-06 20:51 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       b428c373c45441e0e859f0c5a81a0a7df0a6c64b
+|  mercurial: fd5ec24b36a206049704ada13f0f28e8913163de
+|  revision:  2
+|  parents:   1
+|
+|    Conversion from UTF-32 to locale.
+|
+|
+o  2026-04-06 20:25 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       64520c0f49ed5e0df2b2d4d8c503a53ce642fc03
+|  mercurial: 06bf42bfc0ddb8f6f897962c30e0be8a150495d5
+|  revision:  1
+|  parents:   0
+|
+|    The latest.
+|
+|
+o  2026-04-05 23:07 +0000
+   Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+   git:       5db8356ad346d85c4e8b4fcf5225104c53b5a996
+   mercurial: e57500ce0f3e7b023fca4ac9d7fe64c1d8ca6c4f
+   revision:  0
+   parents:
+
+     Initial commit.
 
-	* Makefile.am, Makefile.in, include/libhiha/token_t.h,
-	src/hiha/hiha.c, src/libhiha/token_t.c:
-	Code simplification, bug fix in source file reading (it merely
-	happened to work before, probably would not have with an optimizer
-	on), and start of a token putter.
-	[bf57b678d3ee] [github/master, tip]
-
-2026-04-24  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
-
-	* src/libhiha/token_t.c:
-	A better assertion.
-	[7b0b9a467dbf]
-
-	* ChangeLog, Makefile.am, Makefile.in, include/libhiha/string_t.h,
-	include/libhiha/token_t.h, src/hiha/hiha.c, src/libhiha/lexical.c,
-	src/libhiha/string_t.c, src/libhiha/token_t.c:
-	Preparing to read from multiple source files, and getting ‘make
-	distcheck’ working again.
-	[bf1f05b5684b]
-
-	* donkey-farbe/donkey-farbe.png, donkey-farbe/donkey-farbe.svg:
-	Save the public domain donkey vector.
-	[11e3104fbbcb]
-
-2026-04-23  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
-
-	* src/hiha/hiha.c:
-	I have figured out how to process tokens with the Pratt parser.
-	[ffd240f83faa]
-
-	* ChangeLog, include/libhiha/pratt.h, src/libhiha/load_plugin.c,
-	src/libhiha/pratt.c:
-	Run indent.
-	[b7dbd48f081b]
-
-	* Makefile.in, aclocal.m4, config.h.in, configure,
-	include/libhiha/load_plugin.h, include/libhiha/pratt.h,
-	lib/Makefile.am, lib/Makefile.in, lib/unictype/pr_alphabetic.c,
-	lib/unictype/pr_alphabetic.h, lib/unictype/pr_quotation_mark.c,
-	lib/unictype/pr_quotation_mark.h, lib/unictype/pr_white_space.c,
-	lib/unictype/pr_white_space.h, m4/assert.m4, m4/gnulib-cache.m4,
-	m4/gnulib-comp.m4, src/hiha/hiha.c, src/libhiha/load_plugin.c,
-	src/libhiha/pratt.c, src/plugins/10-basic-code-point-
-	classification.c:
-	Get plugins working, but the Pratt token processing isn’t quite
-	figured out yet.
-	[8a43e4a22d96]
-
-	* Makefile.am, Makefile.in, include/libhiha/load_plugin.h,
-	include/libhiha/pratt.h, src/hiha/hiha.c, src/libhiha/load_plugin.c,
-	src/libhiha/pratt.c, src/plugins/10-basic-code-point-
-	classification.c:
-	I can load the plugin now. The processing is not yet right.
-	[7412c49b612b] [github/getting-plugins-working]
-
-	* lib/unictype/pr_alphabetic.c, lib/unictype/pr_alphabetic.h,
-	lib/unictype/pr_quotation_mark.c, lib/unictype/pr_quotation_mark.h,
-	lib/unictype/pr_white_space.c, lib/unictype/pr_white_space.h,
-	m4/assert.m4:
-	New Gnulib stuff.
-	[b47b686b9ea7]
-
-	* Makefile.am, Makefile.in, aclocal.m4, config.h.in, configure,
-	include/libhiha/load_plugin.h, include/libhiha/pratt.h,
-	lib/Makefile.am, lib/Makefile.in, m4/gnulib-cache.m4, m4/gnulib-
-	comp.m4, src/hiha/hiha.c, src/libhiha/load_plugin.c,
-	src/libhiha/pratt.c, src/plugins/10-basic-code-point-
-	classification.c:
-	A bunch of overcomplication that at least keeps the plugin loaded.
-	[44e2403b576d]
-
-2026-04-22  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
-
-	* Makefile.am, Makefile.in, include/libhiha/lexical.h,
-	include/libhiha/libhiha.h, include/libhiha/parse_expression.h,
-	include/libhiha/pratt.h, include/libhiha/token_t.h, src/hiha/hiha.c,
-	src/libhiha/lexical.c, src/libhiha/parse_expression.c,
-	src/libhiha/pratt.c, src/libhiha/token_t.c, src/plugins/10-basic-
-	code-point-classification.c, src/plugins/10-basic-token-
-	classification.c:
-	The first hints of anything that can do lexical analysis.
-	[515096ba567f]
-
-2026-04-21  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
-
-	* include/libhiha/pratt.h:
-	Wrong name for function parameters.
-	[4b039adabd06]
-
-	* Makefile.am, Makefile.in, src/libhiha/load_plugin.c,
-	src/plugins/10-basic-token-classification.c:
-	Do not crash if there is no plugin_init() function in a dlopen
-	library.
-	[f71f92fb32a0]
-
-	* include/libhiha/pratt.h, src/libhiha/pratt.c:
-	Get rid of the silly gnu::access attribute. It might, for instance,
-	break plugins written by people not having support for the
-	attribute. And it adds nothing, because the Pratt parser itself
-	treats the argument differently for the two different types of
-	handler: it initializes the argument to NULL before calling a
-	nud_handler_t.
-
-	I made a few other minor changes.
-	[f37639892fe5]
-
-2026-04-20  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
-
-	* ChangeLog, include/libhiha/pratt.h, src/libhiha/pratt.c:
-	I have written the Pratt parser but have not tested it.
-	[a0baa4cd1ede]
-
-	* ChangeLog, Makefile.in, include/libhiha/token_t.h, src/hiha/hiha.c,
-	src/libhiha/pratt.c, src/libhiha/token_t.c:
-	Improved interface for buffered tokens.
-	[a398325d3991]
-
-	* ChangeLog, Makefile.am:
-	Change the ChangeLog template.
-	[11b83464e2e3]
-
-	* ChangeLog, Makefile.am, Makefile.in, configure, configure.ac,
-	lib/Makefile.in, src/hiha/hiha.c, src/libhiha/pratt.c:
-	Added support for Sorts Mill Changelogger, assuming a Mercurial
-	repository locally. Though it ought to work for you if you use Git
-	and simply do not have Sorts Mill Changelogger, override the cache
-	variable for Sorts Mill Changelogger, or create an .hg file with an
-	old date and never update it.
-
-	Honestly, I could set up a lot of options for this, or have
-	configure.ac detect if it is in a Git or Hg or even in a Breezy
-	repo. (Sorts Mill Changelogger supported Bazaar, and so might be
-	adapted to Breezy without much difficulty. Sorts Mill had
-	Debian/Ubuntu packaging in Bazaar.)
-	[b4a32cb4ee97]
-
-	* Makefile.am, Makefile.in, include/libhiha/token_t.h,
-	src/hiha/hiha.c, src/libhiha/pratt.c, src/libhiha/token_t.c:
-	Added buffered token getters. The buffering has not been tried yet.
-	[84c6de58025e]
-
-2026-04-19  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
-
-	* Makefile.in, aclocal.m4, build-aux/config.rpath, config.h.in,
-	configure, configure.ac, lib/Makefile.am, lib/Makefile.in,
-	lib/_Noreturn.h, lib/alloca.in.h, lib/amemxfrm.c, lib/amemxfrm.h,
-	lib/arg-nonnull.h, lib/array-mergesort.h, lib/assert.in.h,
-	lib/attribute.h, lib/base64.c, lib/base64.h, lib/basename-lgpl.c,
-	lib/basename-lgpl.h, lib/c++defs.h, lib/c-ctype.c, lib/c-ctype.h,
-	lib/c-strcase.h, lib/c-strcasecmp.c, lib/c-strcaseeq.h,
-	lib/calloc.c, lib/cloexec.c, lib/cloexec.h, lib/close.c,
-	lib/closedir.c, lib/dirent-private.h, lib/dirent.in.h, lib/dirfd.c,
-	lib/dup2.c, lib/errno.in.h, lib/error.c, lib/error.in.h,
-	lib/exitfail.c, lib/exitfail.h, lib/fcntl.c, lib/fcntl.in.h, lib/fd-
-	hook.c, lib/fd-hook.h, lib/filename.h, lib/filevercmp.c,
-	lib/filevercmp.h, lib/free.c, lib/fseterr.c, lib/fseterr.h,
-	lib/fstat.c, lib/getdelim.c, lib/getdtablesize.c, lib/getline.c,
-	lib/getopt-cdefs.in.h, lib/getopt-core.h, lib/getopt-ext.h,
-	lib/getopt-pfx-core.h, lib/getopt-pfx-ext.h, lib/getopt.c,
-	lib/getopt.in.h, lib/getopt1.c, lib/getopt_int.h, lib/getprogname.c,
-	lib/getprogname.h, lib/gettext.h, lib/gl_anyavltree_list1.h,
-	lib/gl_anyavltree_list2.h, lib/gl_anytree_list1.h,
-	lib/gl_anytree_list2.h, lib/gl_anytree_omap.h,
-	lib/gl_avltree_list.c, lib/gl_avltree_list.h, lib/gl_avltree_omap.c,
-	lib/gl_avltree_omap.h, lib/gl_avltree_ordered.h, lib/gl_list.c,
-	lib/gl_list.h, lib/gl_omap.c, lib/gl_omap.h, lib/gl_xlist.c,
-	lib/gl_xlist.h, lib/gl_xomap.c, lib/gl_xomap.h, lib/ialloc.c,
-	lib/ialloc.h, lib/iconv.c, lib/iconv.in.h, lib/iconv_close.c,
-	lib/iconv_open-aix.gperf, lib/iconv_open-hpux.gperf, lib/iconv_open-
-	solaris.gperf, lib/iconv_open-zos.gperf, lib/iconv_open.c,
-	lib/iconveh.h, lib/idx.h, lib/intprops-internal.h, lib/intprops.h,
-	lib/inttypes.in.h, lib/limits.in.h, lib/localcharset.c,
-	lib/localcharset.h, lib/locale.in.h, lib/lstat.c, lib/malloc.c,
-	lib/malloca.c, lib/malloca.h, lib/memchr.c, lib/memchr.valgrind,
-	lib/memcmp2.c, lib/memcmp2.h, lib/memeq.c, lib/minmax.h, lib/msvc-
-	inval.c, lib/msvc-inval.h, lib/msvc-nothrow.c, lib/msvc-nothrow.h,
-	lib/open.c, lib/opendir.c, lib/pathmax.h, lib/progname.c,
-	lib/progname.h, lib/readdir.c, lib/realloc.c, lib/reallocarray.c,
-	lib/scandir.c, lib/stat-time.c, lib/stat-time.h, lib/stat-w32.c,
-	lib/stat-w32.h, lib/stat.c, lib/stdarg.in.h, lib/stdckdint.in.h,
-	lib/stdcountof.in.h, lib/stddef.in.h, lib/stdint.in.h, lib/stdio-
-	consolesafe.c, lib/stdio-impl.h, lib/stdio-read.c, lib/stdio-
-	write.c, lib/stdio.in.h, lib/stdlib.c, lib/stdlib.in.h, lib/streq.c,
-	lib/strerror-override.c, lib/strerror-override.h, lib/strerror.c,
-	lib/striconveh.c, lib/striconveh.h, lib/striconveha.c,
-	lib/striconveha.h, lib/string.c, lib/string.in.h, lib/strnul.c,
-	lib/sys_stat.in.h, lib/sys_types.in.h, lib/time.in.h,
-	lib/unicase.in.h, lib/unicase/cased.c, lib/unicase/casefold.h,
-	lib/unicase/caseprop.h, lib/unicase/context.h, lib/unicase/empty-
-	prefix-context.c, lib/unicase/empty-suffix-context.c,
-	lib/unicase/ignorable.c, lib/unicase/simple-mapping.h,
-	lib/unicase/special-casing.c, lib/unicase/special-casing.in.h,
-	lib/unicase/tocasefold.c, lib/unicase/u-casecoll.h,
-	lib/unicase/u-casefold.h, lib/unicase/u-casemap.h,
-	lib/unicase/u-casexfrm.h, lib/unicase/u-ct-casefold.h,
-	lib/unicase/u32-casecoll.c, lib/unicase/u32-casefold.c,
-	lib/unicase/u32-casemap.c, lib/unicase/u32-casexfrm.c,
-	lib/unicase/u32-ct-casefold.c, lib/unicase/unicasemap.h,
-	lib/uniconv.in.h, lib/uniconv/u-conv-from-enc.h, lib/uniconv/u-conv-
-	to-enc.h, lib/uniconv/u32-conv-from-enc.c, lib/uniconv/u32-conv-to-
-	enc.c, lib/uniconv/u8-conv-from-enc.c, lib/uniconv/u8-conv-to-enc.c,
-	lib/unictype.in.h, lib/unictype/bitmap.h,
-	lib/unictype/combiningclass.c, lib/unictype/pr_soft_dotted.c,
-	lib/uninorm.in.h, lib/uninorm/canonical-decomposition.c,
-	lib/uninorm/composition.c, lib/uninorm/decompose-internal.c,
-	lib/uninorm/decompose-internal.h, lib/uninorm/decomposing-form.c,
-	lib/uninorm/decomposition-table.c, lib/uninorm/decomposition-
-	table.h, lib/uninorm/nfc.c, lib/uninorm/nfd.c,
-	lib/uninorm/normalize-internal.h, lib/uninorm/u-normalize-
-	internal.h, lib/uninorm/u32-normalize.c, lib/unistd.c,
-	lib/unistd.in.h, lib/unistr.in.h, lib/unistr/u-cmp2.h,
-	lib/unistr/u-cpy.h, lib/unistr/u32-check.c, lib/unistr/u32-cmp.c,
-	lib/unistr/u32-cmp2.c, lib/unistr/u32-cpy.c, lib/unistr/u32-mblen.c,
-	lib/unistr/u32-mbtouc-unsafe.c, lib/unistr/u32-to-u8.c,
-	lib/unistr/u32-uctomb.c, lib/unistr/u8-check.c,
-	lib/unistr/u8-mblen.c, lib/unistr/u8-mbtouc-aux.c,
-	lib/unistr/u8-mbtouc-unsafe-aux.c, lib/unistr/u8-mbtouc-unsafe.c,
-	lib/unistr/u8-mbtouc.c, lib/unistr/u8-mbtoucr.c,
-	lib/unistr/u8-prev.c, lib/unistr/u8-to-u32.c, lib/unistr/u8-uctomb-
-	aux.c, lib/unistr/u8-uctomb.c, lib/unitypes.in.h, lib/verify.h,
-	lib/version-etc.c, lib/version-etc.h, lib/warn-on-use.h,
-	lib/wchar.in.h, lib/xalloc-die.c, lib/xalloc-oversized.h,
-	lib/xalloc.h, lib/xmalloc.c, m4/00gnulib.m4, m4/absolute-header.m4,
-	m4/alloca.m4, m4/assert_h.m4, m4/base64.m4, m4/build-to-host.m4,
-	m4/builtin-expect.m4, m4/c-bool.m4, m4/calloc.m4, m4/close.m4,
-	m4/closedir.m4, m4/codeset.m4, m4/dirent_h.m4, m4/dirfd.m4,
-	m4/double-slash-root.m4, m4/dup2.m4, m4/errno_h.m4, m4/error.m4,
-	m4/error_h.m4, m4/extensions-aix.m4, m4/extensions.m4, m4/extern-
-	inline.m4, m4/fcntl-o.m4, m4/fcntl.m4, m4/fcntl_h.m4, m4/free.m4,
-	m4/fseterr.m4, m4/fstat.m4, m4/getdelim.m4, m4/getdtablesize.m4,
-	m4/getline.m4, m4/getopt.m4, m4/getprogname.m4, m4/gettext_h.m4,
-	m4/gnulib-cache.m4, m4/gnulib-common.m4, m4/gnulib-comp.m4,
-	m4/gnulib-i18n.m4, m4/gnulib-tool.m4, m4/host-cpu-c-abi.m4,
-	m4/iconv.m4, m4/iconv_h.m4, m4/iconv_open.m4, m4/include_next.m4,
-	m4/inline.m4, m4/inttypes.m4, m4/largefile.m4, m4/lib-ld.m4, m4/lib-
-	link.m4, m4/lib-prefix.m4, m4/libunistring-base.m4, m4/limits-h.m4,
-	m4/localcharset.m4, m4/locale-en.m4, m4/locale_h.m4, m4/lstat.m4,
-	m4/malloc.m4, m4/malloca.m4, m4/memchr.m4, m4/memeq.m4,
-	m4/minmax.m4, m4/mmap-anon.m4, m4/mode_t.m4, m4/msvc-inval.m4,
-	m4/msvc-nothrow.m4, m4/multiarch.m4, m4/musl.m4, m4/nocrash.m4,
-	m4/off64_t.m4, m4/off_t.m4, m4/open-cloexec.m4, m4/open-slash.m4,
-	m4/open.m4, m4/opendir.m4, m4/pathmax.m4, m4/pid_t.m4,
-	m4/readdir.m4, m4/realloc.m4, m4/reallocarray.m4, m4/scandir.m4,
-	m4/ssize_t.m4, m4/stat-time.m4, m4/stat.m4, m4/std-gnu11.m4,
-	m4/stdarg.m4, m4/stdckdint_h.m4, m4/stdcountof_h.m4, m4/stddef_h.m4,
-	m4/stdint.m4, m4/stdio_h.m4, m4/stdlib_h.m4, m4/streq.m4,
-	m4/strerror.m4, m4/string_h.m4, m4/stringeq.m4, m4/sys_cdefs_h.m4,
-	m4/sys_socket_h.m4, m4/sys_stat_h.m4, m4/sys_types_h.m4,
-	m4/time_h.m4, m4/unicase_h.m4, m4/unictype_h.m4, m4/uninorm_h.m4,
-	m4/unistd_h.m4, m4/unitypes_h.m4, m4/vararrays.m4, m4/version-
-	etc.m4, m4/warn-on-use.m4, m4/wchar_h.m4, m4/wint_t.m4,
-	m4/xalloc.m4, m4/zzgnulib.m4:
-	Upgrade gnulib. Note that a workaround had to be added in
-	configure.ac.
-	[51249829f2ae]
-
-	* lib/alphasort.c, lib/filevercmp.c, lib/filevercmp.h,
-	m4/alphasort.m4:
-	Gnulib changes.
-	[fed5d6dda822]
-
-	* Makefile.in, aclocal.m4, config.h.in, configure, lib/Makefile.am,
-	lib/Makefile.in, m4/gnulib-cache.m4, m4/gnulib-comp.m4,
-	src/hiha/hiha.c:
-	Use filevercmp instead of strverscmp or strcoll.
-	[32ea468c2ce3]
-
-	* src/hiha/hiha.c:
-	Do not allow plugin names to start with "lib"
-	[3c67a86998cd]
-
-	* Makefile.am, Makefile.in, aclocal.m4, config.h.in, configure,
-	lib/Makefile.am, lib/Makefile.in, lib/alphasort.c, lib/closedir.c,
-	lib/dirent-private.h, lib/dirent.in.h, lib/dirfd.c, lib/opendir.c,
-	lib/readdir.c, lib/scandir.c, m4/alphasort.m4, m4/builtin-expect.m4,
-	m4/closedir.m4, m4/dirent_h.m4, m4/dirfd.m4, m4/gnulib-cache.m4,
-	m4/gnulib-comp.m4, m4/opendir.m4, m4/readdir.m4, m4/scandir.m4,
-	src/hiha/hiha.c:
-	Ability to load the all the plugins in a directory.
-	[f9046b37ec62]
-
-2026-04-17  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
-
-	* configure, configure.ac:
-	Pass some flags from configure to configure.
-	[b0ea4c2bb98a]
-
-	* Makefile.am, Makefile.in, configure, configure.ac, gc-dist.am,
-	include/libhiha/libhiha.h, lib/Makefile.in:
-	Make it pass ‘make distcheck’
-	[537098785411]
-
-2026-04-16  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
-
-	* Makefile.am, Makefile.in, include/libhiha/load_plugin.h,
-	src/hiha/hiha.c, src/libhiha/load_plugin.c:
-	Some code for loading plugins.
-	[21e9846e2a3a]
-
-	* Makefile.am, Makefile.in, include/libhiha/pratt.h, src/hiha/hiha.c,
-	src/libhiha/parse_expression.c, src/libhiha/pratt.c:
-	Start of better organized Pratt parsing.
-	[505d44fdd40b]
-
-2026-04-15  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
-
-	* src/libhiha/token_t.c:
-	bug fix
-	[bcef1e7c919b]
-
-	* src/libhiha/token_t.c:
-	Reduce McCabe complexity.
-	[f2093d063261]
-
-	* .dir-locals.el, Makefile.am, Makefile.in,
-	include/libhiha/parse_expression.h, include/libhiha/string_t.h,
-	include/libhiha/token_t.h, src/hiha/hiha.c,
-	src/libhiha/parse_expression.c, src/libhiha/spinlock.c,
-	src/libhiha/string_t.c, src/libhiha/token_t.c:
-	Deserialization now works.
-	[f9e707b7ed9a]
-
-	* src/libhiha/spinlock.c:
-	Bug fix
-	[eca383887b19]
-
-	* Makefile.in, config.h.in, configure, configure.ac, lib/Makefile.in,
-	m4/pkg.m4, src/libhiha/spinlock.c:
-	Add _mm_pause as a way to do the spinlock.
-	[38128c9a30e9]
-
-	* Makefile.am, Makefile.in, aclocal.m4, config.h.in, configure,
-	configure.ac, lib/Makefile.am, lib/Makefile.in, m4/gnulib-cache.m4,
-	m4/gnulib-comp.m4:
-	Revert out of the crypto stuff that it turns out is not needed.
-	[102da849cfae]
-
-2026-04-14  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
-
-	* Makefile.am, Makefile.in, aclocal.m4, config.h.in, configure,
-	configure.ac, lib/Makefile.am, lib/Makefile.in, lib/af_alg.c,
-	lib/af_alg.h, lib/byteswap.c, lib/byteswap.in.h, lib/fflush.c,
-	lib/fpurge.c, lib/freading.c, lib/freading.h, lib/fseek.c,
-	lib/fseeko.c, lib/ftell.c, lib/ftello.c, lib/gl_openssl.h,
-	lib/lseek.c, lib/sha256-stream.c, lib/sha256.c, lib/sha256.h,
-	lib/sys-limits.h, lib/sys_socket.c, lib/sys_socket.in.h,
-	lib/sys_uio.in.h, m4/af_alg.m4, m4/byteswap.m4, m4/fflush.m4,
-	m4/fpurge.m4, m4/freading.m4, m4/fseek.m4, m4/fseeko.m4,
-	m4/ftell.m4, m4/ftello.m4, m4/gl-openssl.m4, m4/gnulib-cache.m4,
-	m4/gnulib-comp.m4, m4/lseek.m4, m4/pkg.m4, m4/sha256.m4,
-	m4/socklen.m4, m4/sockpfaf.m4, m4/stdalign.m4, m4/sys_uio_h.m4,
-	m4/ungetc.m4:
-	Prepare configure for libblake3 and Gnulib’s SHA256 support for
-	fixed-point hashing.
-	[e3883c68fcb0]
-
-	* src/hiha/hiha.c, src/libhiha/token_t.c:
-	A bug fix to serialization.
-	[ef1382b783b5]
-
-	* src/libhiha/token_t.c:
-	Deserialization of token kinds.
-	[d3303e271c90]
-
-	* include/libhiha/token_t.h, src/hiha/hiha.c, src/libhiha/token_t.c:
-	Start of deserialization programming.
-	[8587a697f6de]
-
-	* include/libhiha/string_t.h, include/libhiha/token_t.h,
-	src/hiha/hiha.c, src/libhiha/string_t.c, src/libhiha/token_t.c:
-	Use one-time initialization more broadly.
-	[13885535bc0f]
-
-2026-04-13  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
-
-	* include/libhiha/string_t.h, include/libhiha/token_t.h,
-	src/hiha/hiha.c, src/libhiha/spinlock.c, src/libhiha/string_t.c,
-	src/libhiha/token_t.c:
-	Compression scheme for the serialization.
-	[cce191261c32]
-
-	* Makefile.am, Makefile.in, config.h.in, configure, configure.ac,
-	lib/Makefile.in, src/libhiha/spinlock.c:
-	Test for builtin pause in configure
-	[97ad3552a5d6]
-
-	* Makefile.am, Makefile.in, include/libhiha/initialize_once.h,
-	include/libhiha/spinlock.h, src/libhiha/spinlock.c,
-	src/libhiha/token_t.c:
-	Now I have modularized the one-time initialization and used my old
-	spinlock ticketing system, adapting it from the ATS. It could use
-	testing! But for now just committing.
-	[fa6b5f1cfe5a]
-
-2026-04-12  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
-
-	* lib/base64.c, lib/base64.h, lib/memchr.c, lib/memchr.valgrind,
-	m4/base64.m4, m4/memchr.m4, m4/mmap-anon.m4:
-	Save the base64 stuff from Gnulib that I will be using.
-	[166b20044f3c]
-
-	* Makefile.am, Makefile.in, aclocal.m4, config.h.in, configure,
-	lib/Makefile.am, lib/Makefile.in, m4/gnulib-cache.m4, m4/gnulib-
-	comp.m4, src/hiha/hiha.c, src/libhiha/string_t.c,
-	src/libhiha/token_t.c:
-	Save my spinlocked code.
-	[4604e4755fbc]
-
-	* Makefile.am, Makefile.in, include/libhiha/string_t.h,
-	include/libhiha/token_t.h, src/hiha/hiha.c, src/libhiha/string_t.c,
-	src/libhiha/token_t.c:
-	Some basic token reading.
-	[7c0911b1e864]
-
-	* Makefile.in, aclocal.m4, configure, configure.ac, lib/Makefile.in,
-	m4/pkg.m4, src/libhiha/token_t.c:
-	Remove PCRE2.
-	[31cd4cc3edc0]
-
-	* include/libhiha/parse_expression.h, include/libhiha/string_t.h,
-	include/libhiha/token_t.h, src/hiha/hiha.c,
-	src/libhiha/parse_expression.c, src/libhiha/string_t.c,
-	src/libhiha/token_t.c:
-	Remove code for freeing things.
-	[d203eb2c6b09]
-
-2026-04-11  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
-
-	* Makefile.am, Makefile.in, config.h.in, configure, configure.ac,
-	gc-8.2.12/AUTHORS, gc-8.2.12/CMakeLists.txt, gc-8.2.12/ChangeLog,
-	gc-8.2.12/Config.cmake.in, gc-8.2.12/Makefile.am,
-	gc-8.2.12/Makefile.direct, gc-8.2.12/Makefile.in,
-	gc-8.2.12/NT_MAKEFILE, gc-8.2.12/OS2_MAKEFILE, gc-8.2.12/PCR-
-	Makefile, gc-8.2.12/README.QUICK, gc-8.2.12/README.md,
-	gc-8.2.12/SMakefile.amiga, gc-8.2.12/WCC_MAKEFILE,
-	gc-8.2.12/aclocal.m4, gc-8.2.12/allchblk.c, gc-8.2.12/alloc.c,
-	gc-8.2.12/autogen.sh, gc-8.2.12/backgraph.c, gc-8.2.12/bdw-gc.pc.in,
-	gc-8.2.12/blacklst.c, gc-8.2.12/build/s60v3/bld.inf,
-	gc-8.2.12/build/s60v3/libgc.mmp, gc-8.2.12/checksums.c,
-	gc-8.2.12/compile, gc-8.2.12/config.guess, gc-8.2.12/config.sub,
-	gc-8.2.12/configure, gc-8.2.12/configure.ac, gc-8.2.12/cord/cord.am,
-	gc-8.2.12/cord/cordbscs.c, gc-8.2.12/cord/cordprnt.c,
-	gc-8.2.12/cord/cordxtra.c, gc-8.2.12/cord/tests/cordtest.c,
-	gc-8.2.12/cord/tests/de.c, gc-8.2.12/cord/tests/de_cmds.h,
-	gc-8.2.12/cord/tests/de_win.c, gc-8.2.12/cord/tests/de_win.h,
-	gc-8.2.12/cord/tests/de_win.rc, gc-8.2.12/darwin_stop_world.c,
-	gc-8.2.12/dbg_mlc.c, gc-8.2.12/depcomp, gc-8.2.12/digimars.mak,
-	gc-8.2.12/doc/README.DGUX386, gc-8.2.12/doc/README.Mac,
-	gc-8.2.12/doc/README.OS2, gc-8.2.12/doc/README.amiga,
-	gc-8.2.12/doc/README.arm.cross, gc-8.2.12/doc/README.autoconf,
-	gc-8.2.12/doc/README.cmake, gc-8.2.12/doc/README.cords,
-	gc-8.2.12/doc/README.darwin, gc-8.2.12/doc/README.emscripten,
-	gc-8.2.12/doc/README.environment, gc-8.2.12/doc/README.ews4800,
-	gc-8.2.12/doc/README.hp, gc-8.2.12/doc/README.linux,
-	gc-8.2.12/doc/README.macros, gc-8.2.12/doc/README.rs6000,
-	gc-8.2.12/doc/README.sgi, gc-8.2.12/doc/README.solaris2,
-	gc-8.2.12/doc/README.symbian, gc-8.2.12/doc/README.uts,
-	gc-8.2.12/doc/README.win32, gc-8.2.12/doc/README.win64,
-	gc-8.2.12/doc/debugging.md, gc-8.2.12/doc/doc.am,
-	gc-8.2.12/doc/finalization.md, gc-8.2.12/doc/gc.man,
-	gc-8.2.12/doc/gcdescr.md, gc-8.2.12/doc/gcinterface.md,
-	gc-8.2.12/doc/leak.md, gc-8.2.12/doc/overview.md,
-	gc-8.2.12/doc/porting.md, gc-8.2.12/doc/scale.md,
-	gc-8.2.12/doc/simple_example.md, gc-8.2.12/doc/tree.md,
-	gc-8.2.12/dyn_load.c, gc-8.2.12/extra/AmigaOS.c,
-	gc-8.2.12/extra/MacOS.c, gc-8.2.12/extra/Mac_files/MacOS_config.h,
-	gc-8.2.12/extra/Mac_files/dataend.c,
-	gc-8.2.12/extra/Mac_files/datastart.c, gc-8.2.12/extra/gc.c,
-	gc-8.2.12/extra/msvc_dbg.c, gc-8.2.12/extra/pcr_interface.c,
-	gc-8.2.12/extra/real_malloc.c, gc-8.2.12/extra/symbian.cpp,
-	gc-8.2.12/extra/symbian/global_end.cpp,
-	gc-8.2.12/extra/symbian/global_start.cpp,
-	gc-8.2.12/extra/symbian/init_global_static_roots.cpp,
-	gc-8.2.12/finalize.c, gc-8.2.12/fnlz_mlc.c, gc-8.2.12/gc_badalc.cc,
-	gc-8.2.12/gc_badalc.cpp, gc-8.2.12/gc_cpp.cc, gc-8.2.12/gc_cpp.cpp,
-	gc-8.2.12/gc_dlopen.c, gc-8.2.12/gcj_mlc.c, gc-8.2.12/headers.c,
-	gc-8.2.12/ia64_save_regs_in_stack.s, gc-8.2.12/include/config.h.in,
-	gc-8.2.12/include/cord.h, gc-8.2.12/include/cord_pos.h,
-	gc-8.2.12/include/ec.h, gc-8.2.12/include/extra/gc.h,
-	gc-8.2.12/include/extra/gc_cpp.h, gc-8.2.12/include/gc.h,
-	gc-8.2.12/include/gc_allocator.h, gc-8.2.12/include/gc_backptr.h,
-	gc-8.2.12/include/gc_config_macros.h, gc-8.2.12/include/gc_cpp.h,
-	gc-8.2.12/include/gc_disclaim.h, gc-8.2.12/include/gc_gcj.h,
-	gc-8.2.12/include/gc_inline.h, gc-8.2.12/include/gc_mark.h,
-	gc-8.2.12/include/gc_pthread_redirects.h,
-	gc-8.2.12/include/gc_tiny_fl.h, gc-8.2.12/include/gc_typed.h,
-	gc-8.2.12/include/gc_version.h, gc-8.2.12/include/include.am,
-	gc-8.2.12/include/javaxfc.h, gc-8.2.12/include/leak_detector.h,
-	gc-8.2.12/include/private/darwin_semaphore.h,
-	gc-8.2.12/include/private/darwin_stop_world.h,
-	gc-8.2.12/include/private/dbg_mlc.h,
-	gc-8.2.12/include/private/gc_alloc_ptrs.h,
-	gc-8.2.12/include/private/gc_atomic_ops.h,
-	gc-8.2.12/include/private/gc_hdrs.h,
-	gc-8.2.12/include/private/gc_locks.h,
-	gc-8.2.12/include/private/gc_pmark.h,
-	gc-8.2.12/include/private/gc_priv.h,
-	gc-8.2.12/include/private/gcconfig.h,
-	gc-8.2.12/include/private/msvc_dbg.h,
-	gc-8.2.12/include/private/pthread_stop_world.h,
-	gc-8.2.12/include/private/pthread_support.h,
-	gc-8.2.12/include/private/specific.h,
-	gc-8.2.12/include/private/thread_local_alloc.h, gc-8.2.12/install-
-	sh, gc-8.2.12/ltmain.sh, gc-8.2.12/m4/gc_set_version.m4,
-	gc-8.2.12/m4/libtool.m4, gc-8.2.12/m4/ltoptions.m4,
-	gc-8.2.12/m4/ltsugar.m4, gc-8.2.12/m4/ltversion.m4,
-	gc-8.2.12/m4/lt~obsolete.m4, gc-8.2.12/mach_dep.c,
-	gc-8.2.12/malloc.c, gc-8.2.12/mallocx.c, gc-8.2.12/mark.c,
-	gc-8.2.12/mark_rts.c, gc-8.2.12/misc.c, gc-8.2.12/missing,
-	gc-8.2.12/new_hblk.c, gc-8.2.12/obj_map.c, gc-8.2.12/os_dep.c,
-	gc-8.2.12/pthread_start.c, gc-8.2.12/pthread_stop_world.c,
-	gc-8.2.12/pthread_support.c, gc-8.2.12/ptr_chck.c,
-	gc-8.2.12/reclaim.c, gc-8.2.12/sparc_mach_dep.S,
-	gc-8.2.12/sparc_netbsd_mach_dep.s, gc-8.2.12/specific.c,
-	gc-8.2.12/test-driver, gc-8.2.12/tests/disclaim_bench.c,
-	gc-8.2.12/tests/disclaim_test.c,
-	gc-8.2.12/tests/disclaim_weakmap_test.c,
-	gc-8.2.12/tests/huge_test.c, gc-8.2.12/tests/initsecondarythread.c,
-	gc-8.2.12/tests/leak_test.c, gc-8.2.12/tests/middle.c,
-	gc-8.2.12/tests/realloc_test.c, gc-8.2.12/tests/smash_test.c,
-	gc-8.2.12/tests/staticrootslib.c, gc-8.2.12/tests/staticrootstest.c,
-	gc-8.2.12/tests/subthread_create.c, gc-8.2.12/tests/test.c,
-	gc-8.2.12/tests/test_atomic_ops.c, gc-8.2.12/tests/test_cpp.cc,
-	gc-8.2.12/tests/tests.am, gc-8.2.12/tests/thread_leak_test.c,
-	gc-8.2.12/tests/threadkey_test.c, gc-8.2.12/tests/trace_test.c,
-	gc-8.2.12/thread_local_alloc.c, gc-8.2.12/tools/callprocs.sh,
-	gc-8.2.12/tools/if_mach.c, gc-8.2.12/tools/if_not_there.c,
-	gc-8.2.12/tools/setjmp_t.c, gc-8.2.12/tools/threadlibs.c,
-	gc-8.2.12/typd_mlc.c, gc-8.2.12/win32_threads.c,
-	include/libhiha/parse_expression.h, include/libhiha/string_t.h,
-	include/libhiha/token_t.h, lib/Makefile.in, src/hiha/hiha.c,
-	src/libhiha/string_t.c, src/libhiha/token_t.c:
-	Incorporate a garbage collector. We are going to get rid of
-	bothering to free things.
-	[b97166016064]
-
-2026-04-09  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
-
-	* ChangeLog, Makefile.am, Makefile.in, NEWS, README, aclocal.m4,
-	config.h.in, configure, configure.ac, lib/Makefile.am,
-	lib/Makefile.in, lib/getopt-cdefs.in.h, lib/getopt-core.h,
-	lib/getopt-ext.h, lib/getopt-pfx-core.h, lib/getopt-pfx-ext.h,
-	lib/getopt.c, lib/getopt.in.h, lib/getopt1.c, lib/getopt_int.h,
-	lib/stdarg.in.h, lib/version-etc.c, lib/version-etc.h, m4/getopt.m4,
-	m4/gnulib-cache.m4, m4/gnulib-comp.m4, m4/nocrash.m4, m4/pkg.m4,
-	m4/stdarg.m4, m4/sys_cdefs_h.m4, m4/version-etc.m4, src/hiha/hiha.c:
-	Link with PCRE2, and also bring up to GNU standards in some
-	respects.
-	[abbd1dd8cbdc]
-
-2026-04-08  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
-
-	* Makefile.am, Makefile.in:
-	A few preparations for dlopen
-	[1a9183d6766c]
-
-	* Makefile.am, Makefile.in:
-	Fix ‘make indent’.
-	[24478f2ba2d5]
-
-	* .dir-locals.el, Makefile.am, Makefile.in, aclocal.m4, build-
-	aux/ltmain.sh, config.h.in, configure, configure.ac,
-	include/libhiha/string_t.h, include/libhiha/token_t.h,
-	lib/Makefile.am, lib/Makefile.in, m4/gnulib-cache.m4, m4/gnulib-
-	comp.m4, m4/libtool.m4, m4/ltoptions.m4, m4/ltsugar.m4,
-	m4/ltversion.m4, m4/lt~obsolete.m4, src/libhiha/parse_expression.c,
-	src/libhiha/string_t.c, src/libhiha/token_t.c:
-	Libtoolize and prepare to use dlopen modules.
-	[a51b67c363da]
-
-	* Makefile.am, Makefile.in, configure, configure.ac,
-	include/libhiha/parse_expression.h, include/libhiha/token_t.h,
-	lib/Makefile.am, lib/Makefile.in, lib/_Noreturn.h, lib/alloca.in.h,
-	lib/amemxfrm.c, lib/amemxfrm.h, lib/arg-nonnull.h, lib/array-
-	mergesort.h, lib/assert.in.h, lib/attribute.h, lib/basename-lgpl.c,
-	lib/basename-lgpl.h, lib/c++defs.h, lib/c-ctype.c, lib/c-ctype.h,
-	lib/c-strcase.h, lib/c-strcasecmp.c, lib/c-strcaseeq.h,
-	lib/calloc.c, lib/cloexec.c, lib/cloexec.h, lib/close.c, lib/dup2.c,
-	lib/errno.in.h, lib/error.c, lib/error.in.h, lib/exitfail.c,
-	lib/exitfail.h, lib/fcntl.c, lib/fcntl.in.h, lib/fd-hook.c, lib/fd-
-	hook.h, lib/filename.h, lib/free.c, lib/fseterr.c, lib/fseterr.h,
-	lib/fstat.c, lib/getdelim.c, lib/getdtablesize.c, lib/getline.c,
-	lib/getprogname.c, lib/getprogname.h, lib/gettext.h,
-	lib/gl_anyavltree_list1.h, lib/gl_anyavltree_list2.h,
-	lib/gl_anytree_list1.h, lib/gl_anytree_list2.h,
-	lib/gl_anytree_omap.h, lib/gl_avltree_list.c, lib/gl_avltree_list.h,
-	lib/gl_avltree_omap.c, lib/gl_avltree_omap.h,
-	lib/gl_avltree_ordered.h, lib/gl_list.c, lib/gl_list.h,
-	lib/gl_omap.c, lib/gl_omap.h, lib/gl_xlist.c, lib/gl_xlist.h,
-	lib/gl_xomap.c, lib/gl_xomap.h, lib/ialloc.c, lib/ialloc.h,
-	lib/iconv.c, lib/iconv.in.h, lib/iconv_close.c, lib/iconv_open-
-	aix.gperf, lib/iconv_open-aix.h, lib/iconv_open-hpux.gperf,
-	lib/iconv_open-hpux.h, lib/iconv_open-solaris.gperf, lib/iconv_open-
-	solaris.h, lib/iconv_open-zos.gperf, lib/iconv_open-zos.h,
-	lib/iconv_open.c, lib/iconveh.h, lib/idx.h, lib/intprops-internal.h,
-	lib/intprops.h, lib/inttypes.in.h, lib/limits.in.h,
-	lib/localcharset.c, lib/localcharset.h, lib/locale.in.h,
-	lib/lstat.c, lib/malloc.c, lib/malloca.c, lib/malloca.h,
-	lib/memcmp2.c, lib/memcmp2.h, lib/minmax.h, lib/msvc-inval.c,
-	lib/msvc-inval.h, lib/msvc-nothrow.c, lib/msvc-nothrow.h,
-	lib/open.c, lib/pathmax.h, lib/progname.c, lib/progname.h,
-	lib/realloc.c, lib/reallocarray.c, lib/stat-time.c, lib/stat-time.h,
-	lib/stat-w32.c, lib/stat-w32.h, lib/stat.c, lib/stdckdint.in.h,
-	lib/stddef.in.h, lib/stdint.in.h, lib/stdio-consolesafe.c,
-	lib/stdio-impl.h, lib/stdio-read.c, lib/stdio-write.c,
-	lib/stdio.in.h, lib/stdlib.c, lib/stdlib.in.h, lib/strerror-
-	override.c, lib/strerror-override.h, lib/strerror.c,
-	lib/striconveh.c, lib/striconveh.h, lib/striconveha.c,
-	lib/striconveha.h, lib/string.c, lib/string.in.h, lib/sys_stat.in.h,
-	lib/sys_types.in.h, lib/time.in.h, lib/unicase.in.h,
-	lib/unicase/cased.c, lib/unicase/cased.h, lib/unicase/casefold.h,
-	lib/unicase/caseprop.h, lib/unicase/context.h, lib/unicase/empty-
-	prefix-context.c, lib/unicase/empty-suffix-context.c,
-	lib/unicase/ignorable.c, lib/unicase/ignorable.h,
-	lib/unicase/simple-mapping.h, lib/unicase/special-casing-
-	table.gperf, lib/unicase/special-casing-table.h,
-	lib/unicase/special-casing.c, lib/unicase/special-casing.in.h,
-	lib/unicase/tocasefold.c, lib/unicase/tocasefold.h,
-	lib/unicase/u-casecoll.h, lib/unicase/u-casefold.h,
-	lib/unicase/u-casemap.h, lib/unicase/u-casexfrm.h, lib/unicase/u-ct-
-	casefold.h, lib/unicase/u32-casecoll.c, lib/unicase/u32-casefold.c,
-	lib/unicase/u32-casemap.c, lib/unicase/u32-casexfrm.c,
-	lib/unicase/u32-ct-casefold.c, lib/unicase/unicasemap.h,
-	lib/uniconv.in.h, lib/uniconv/u-conv-from-enc.h, lib/uniconv/u-conv-
-	to-enc.h, lib/uniconv/u32-conv-from-enc.c, lib/uniconv/u32-conv-to-
-	enc.c, lib/uniconv/u8-conv-from-enc.c, lib/uniconv/u8-conv-to-enc.c,
-	lib/unictype.in.h, lib/unictype/bitmap.h,
-	lib/unictype/combiningclass.c, lib/unictype/combiningclass.h,
-	lib/unictype/pr_soft_dotted.c, lib/unictype/pr_soft_dotted.h,
-	lib/uninorm.in.h, lib/uninorm/canonical-decomposition.c,
-	lib/uninorm/composition-table-bounds.h, lib/uninorm/composition-
-	table.gperf, lib/uninorm/composition-table.h,
-	lib/uninorm/composition.c, lib/uninorm/decompose-internal.c,
-	lib/uninorm/decompose-internal.h, lib/uninorm/decomposing-form.c,
-	lib/uninorm/decomposition-table.c, lib/uninorm/decomposition-
-	table.h, lib/uninorm/decomposition-table1.h,
-	lib/uninorm/decomposition-table2.h, lib/uninorm/nfc.c,
-	lib/uninorm/nfd.c, lib/uninorm/normalize-internal.h,
-	lib/uninorm/u-normalize-internal.h, lib/uninorm/u32-normalize.c,
-	lib/unistd.c, lib/unistd.in.h, lib/unistr.in.h, lib/unistr/u-cmp2.h,
-	lib/unistr/u-cpy.h, lib/unistr/u32-check.c, lib/unistr/u32-cmp.c,
-	lib/unistr/u32-cmp2.c, lib/unistr/u32-cpy.c, lib/unistr/u32-mblen.c,
-	lib/unistr/u32-mbtouc-unsafe.c, lib/unistr/u32-to-u8.c,
-	lib/unistr/u32-uctomb.c, lib/unistr/u8-check.c,
-	lib/unistr/u8-mblen.c, lib/unistr/u8-mbtouc-aux.c,
-	lib/unistr/u8-mbtouc-unsafe-aux.c, lib/unistr/u8-mbtouc-unsafe.c,
-	lib/unistr/u8-mbtouc.c, lib/unistr/u8-mbtoucr.c,
-	lib/unistr/u8-prev.c, lib/unistr/u8-to-u32.c, lib/unistr/u8-uctomb-
-	aux.c, lib/unistr/u8-uctomb.c, lib/unitypes.in.h, lib/verify.h,
-	lib/warn-on-use.h, lib/wchar.in.h, lib/xalloc-die.c, lib/xalloc-
-	oversized.h, lib/xalloc.h, lib/xmalloc.c, m4/00gnulib.m4,
-	m4/absolute-header.m4, m4/alloca.m4, m4/assert_h.m4,
-	m4/ax_check_compile_flag.m4, m4/ax_check_gnu_make.m4, m4/build-to-
-	host.m4, m4/c-bool.m4, m4/calloc.m4, m4/chem_compiler_flags.m4,
-	m4/chem_config_makefiles.m4,
-	m4/chem_path_progs_cached_and_precious.m4, m4/chem_prog_gnu_make.m4,
-	m4/close.m4, m4/codeset.m4, m4/double-slash-root.m4, m4/dup2.m4,
-	m4/errno_h.m4, m4/error.m4, m4/error_h.m4, m4/extensions-aix.m4,
-	m4/extensions.m4, m4/extern-inline.m4, m4/fcntl-o.m4, m4/fcntl.m4,
-	m4/fcntl_h.m4, m4/free.m4, m4/fseterr.m4, m4/fstat.m4,
-	m4/getdelim.m4, m4/getdtablesize.m4, m4/getline.m4,
-	m4/getprogname.m4, m4/gettext_h.m4, m4/gnulib-cache.m4, m4/gnulib-
-	common.m4, m4/gnulib-comp.m4, m4/gnulib-i18n.m4, m4/gnulib-tool.m4,
-	m4/host-cpu-c-abi.m4, m4/iconv.m4, m4/iconv_h.m4, m4/iconv_open.m4,
-	m4/include_next.m4, m4/inline.m4, m4/inttypes.m4, m4/largefile.m4,
-	m4/lib-ld.m4, m4/lib-link.m4, m4/lib-prefix.m4, m4/libunistring-
-	base.m4, m4/limits-h.m4, m4/localcharset.m4, m4/locale-en.m4,
-	m4/locale_h.m4, m4/lstat.m4, m4/malloc.m4, m4/malloca.m4,
-	m4/minmax.m4, m4/mode_t.m4, m4/msvc-inval.m4, m4/msvc-nothrow.m4,
-	m4/multiarch.m4, m4/musl.m4, m4/off64_t.m4, m4/off_t.m4, m4/open-
-	cloexec.m4, m4/open-slash.m4, m4/open.m4, m4/pathmax.m4,
-	m4/pid_t.m4, m4/realloc.m4, m4/reallocarray.m4, m4/ssize_t.m4,
-	m4/stat-time.m4, m4/stat.m4, m4/std-gnu11.m4, m4/stdckdint_h.m4,
-	m4/stddef_h.m4, m4/stdint.m4, m4/stdio_h.m4, m4/stdlib_h.m4,
-	m4/strerror.m4, m4/string_h.m4, m4/stringeq.m4, m4/sys_socket_h.m4,
-	m4/sys_stat_h.m4, m4/sys_types_h.m4, m4/time_h.m4, m4/unicase_h.m4,
-	m4/unictype_h.m4, m4/uninorm_h.m4, m4/unistd_h.m4, m4/unitypes_h.m4,
-	m4/vararrays.m4, m4/warn-on-use.m4, m4/wchar_h.m4, m4/wint_t.m4,
-	m4/xalloc.m4, m4/zzgnulib.m4, src/libhiha/parse_expression.c,
-	src/libhiha/token_t.c:
-	Got rid of the need for _Decimal32
-	[f1b44974593b]
-
-	* Makefile.in, aclocal.m4, config.h.in, configure, lib/Makefile.am,
-	lib/Makefile.in, lib/_Noreturn.h, lib/alloca.in.h, lib/amemxfrm.c,
-	lib/amemxfrm.h, lib/arg-nonnull.h, lib/array-mergesort.h,
-	lib/asnprintf.c, lib/assert.in.h, lib/attribute.h, lib/basename-
-	lgpl.c, lib/basename-lgpl.h, lib/c++defs.h, lib/c-ctype.c,
-	lib/c-ctype.h, lib/c-strcase.h, lib/c-strcasecmp.c,
-	lib/c-strcaseeq.h, lib/c32is-impl.h, lib/c32isalnum.c,
-	lib/c32isalpha.c, lib/c32isblank.c, lib/c32iscntrl.c,
-	lib/c32isdigit.c, lib/c32isgraph.c, lib/c32islower.c,
-	lib/c32isprint.c, lib/c32ispunct.c, lib/c32isspace.c,
-	lib/c32isupper.c, lib/c32isxdigit.c, lib/c32to-impl.h,
-	lib/c32tolower.c, lib/c32width.c, lib/calloc.c, lib/cloexec.c,
-	lib/cloexec.h, lib/close.c, lib/dup2.c, lib/errno.in.h, lib/error.c,
-	lib/error.in.h, lib/exitfail.c, lib/exitfail.h, lib/fcntl.c,
-	lib/fcntl.in.h, lib/fd-hook.c, lib/fd-hook.h, lib/filename.h,
-	lib/float+.h, lib/float.c, lib/float.in.h, lib/fpucw.h, lib/free.c,
-	lib/frexp.c, lib/frexpl.c, lib/fseterr.c, lib/fseterr.h,
-	lib/fstat.c, lib/getdelim.c, lib/getdtablesize.c, lib/getline.c,
-	lib/getprogname.c, lib/getprogname.h, lib/gettext.h,
-	lib/gl_anytree_omap.h, lib/gl_avltree_omap.c, lib/gl_avltree_omap.h,
-	lib/gl_avltree_ordered.h, lib/gl_omap.c, lib/gl_omap.h,
-	lib/gl_xomap.c, lib/gl_xomap.h, lib/hard-locale.c, lib/hard-
-	locale.h, lib/ialloc.c, lib/ialloc.h, lib/iconv.c, lib/iconv.in.h,
-	lib/iconv_close.c, lib/iconv_open-aix.gperf, lib/iconv_open-aix.h,
-	lib/iconv_open-hpux.gperf, lib/iconv_open-hpux.h, lib/iconv_open-
-	solaris.gperf, lib/iconv_open-solaris.h, lib/iconv_open-zos.gperf,
-	lib/iconv_open-zos.h, lib/iconv_open.c, lib/iconveh.h, lib/idx.h,
-	lib/intprops-internal.h, lib/intprops.h, lib/inttypes.in.h,
-	lib/isnan.c, lib/isnand-nolibm.h, lib/isnand.c, lib/isnanf-nolibm.h,
-	lib/isnanf.c, lib/isnanl-nolibm.h, lib/isnanl.c, lib/iswblank.c,
-	lib/iswdigit.c, lib/iswpunct.c, lib/iswxdigit.c, lib/itold.c,
-	lib/lc-charset-dispatch.c, lib/lc-charset-dispatch.h,
-	lib/limits.in.h, lib/localcharset.c, lib/localcharset.h,
-	lib/locale.in.h, lib/localeconv.c, lib/lstat.c, lib/malloc.c,
-	lib/malloca.c, lib/malloca.h, lib/math.c, lib/math.in.h,
-	lib/mbchar.c, lib/mbchar.h, lib/mbiterf.c, lib/mbiterf.h,
-	lib/mbrtoc32.c, lib/mbrtowc-impl-utf8.h, lib/mbrtowc-impl.h,
-	lib/mbrtowc.c, lib/mbsinit.c, lib/mbsnlen.c, lib/mbszero.c,
-	lib/mbtowc-lock.c, lib/mbtowc-lock.h, lib/memchr.c,
-	lib/memchr.valgrind, lib/memcmp2.c, lib/memcmp2.h, lib/minmax.h,
-	lib/msvc-inval.c, lib/msvc-inval.h, lib/msvc-nothrow.c, lib/msvc-
-	nothrow.h, lib/open.c, lib/pathmax.h, lib/printf-args.c, lib/printf-
-	args.h, lib/printf-frexp.c, lib/printf-frexp.h, lib/printf-frexpl.c,
-	lib/printf-frexpl.h, lib/printf-parse.c, lib/printf-parse.h,
-	lib/progname.c, lib/progname.h, lib/realloc.c, lib/reallocarray.c,
-	lib/setlocale-lock.c, lib/setlocale_null-unlocked.c,
-	lib/setlocale_null.c, lib/setlocale_null.h, lib/signbitd.c,
-	lib/signbitf.c, lib/signbitl.c, lib/size_max.h, lib/snprintf.c,
-	lib/stat-time.c, lib/stat-time.h, lib/stat-w32.c, lib/stat-w32.h,
-	lib/stat.c, lib/stdckdint.in.h, lib/stddef.in.h, lib/stdint.in.h,
-	lib/stdio-consolesafe.c, lib/stdio-impl.h, lib/stdio-read.c,
-	lib/stdio-write.c, lib/stdio.in.h, lib/stdlib.c, lib/stdlib.in.h,
-	lib/streq.h, lib/strerror-override.c, lib/strerror-override.h,
-	lib/strerror.c, lib/striconveh.c, lib/striconveh.h,
-	lib/striconveha.c, lib/striconveha.h, lib/string.c, lib/string.in.h,
-	lib/sys_stat.in.h, lib/sys_types.in.h, lib/time.in.h,
-	lib/uchar.in.h, lib/unicase.in.h, lib/unicase/cased.c,
-	lib/unicase/cased.h, lib/unicase/casefold.h, lib/unicase/caseprop.h,
-	lib/unicase/context.h, lib/unicase/empty-prefix-context.c,
-	lib/unicase/empty-suffix-context.c, lib/unicase/ignorable.c,
-	lib/unicase/ignorable.h, lib/unicase/simple-mapping.h,
-	lib/unicase/special-casing-table.gperf, lib/unicase/special-casing-
-	table.h, lib/unicase/special-casing.c, lib/unicase/special-
-	casing.in.h, lib/unicase/tocasefold.c, lib/unicase/tocasefold.h,
-	lib/unicase/tolower.c, lib/unicase/tolower.h,
-	lib/unicase/u-casecoll.h, lib/unicase/u-casefold.h,
-	lib/unicase/u-casemap.h, lib/unicase/u-casexfrm.h, lib/unicase/u-ct-
-	casefold.h, lib/unicase/u32-casecoll.c, lib/unicase/u32-casefold.c,
-	lib/unicase/u32-casemap.c, lib/unicase/u32-casexfrm.c,
-	lib/unicase/u32-ct-casefold.c, lib/unicase/unicasemap.h,
-	lib/uniconv.in.h, lib/uniconv/u-conv-from-enc.h, lib/uniconv/u-conv-
-	to-enc.h, lib/uniconv/u32-conv-from-enc.c, lib/uniconv/u32-conv-to-
-	enc.c, lib/uniconv/u8-conv-from-enc.c, lib/uniconv/u8-conv-to-enc.c,
-	lib/unictype.in.h, lib/unictype/bitmap.h,
-	lib/unictype/combiningclass.c, lib/unictype/combiningclass.h,
-	lib/unictype/ctype_alnum.c, lib/unictype/ctype_alnum.h,
-	lib/unictype/ctype_alpha.c, lib/unictype/ctype_alpha.h,
-	lib/unictype/ctype_blank.c, lib/unictype/ctype_blank.h,
-	lib/unictype/ctype_cntrl.c, lib/unictype/ctype_cntrl.h,
-	lib/unictype/ctype_digit.c, lib/unictype/ctype_digit.h,
-	lib/unictype/ctype_graph.c, lib/unictype/ctype_graph.h,
-	lib/unictype/ctype_lower.c, lib/unictype/ctype_lower.h,
-	lib/unictype/ctype_print.c, lib/unictype/ctype_print.h,
-	lib/unictype/ctype_punct.c, lib/unictype/ctype_punct.h,
-	lib/unictype/ctype_space.c, lib/unictype/ctype_space.h,
-	lib/unictype/ctype_upper.c, lib/unictype/ctype_upper.h,
-	lib/unictype/ctype_xdigit.c, lib/unictype/ctype_xdigit.h,
-	lib/unictype/pr_soft_dotted.c, lib/unictype/pr_soft_dotted.h,
-	lib/uninorm.in.h, lib/uninorm/canonical-decomposition.c,
-	lib/uninorm/composition-table-bounds.h, lib/uninorm/composition-
-	table.gperf, lib/uninorm/composition-table.h,
-	lib/uninorm/composition.c, lib/uninorm/decompose-internal.c,
-	lib/uninorm/decompose-internal.h, lib/uninorm/decomposing-form.c,
-	lib/uninorm/decomposition-table.c, lib/uninorm/decomposition-
-	table.h, lib/uninorm/decomposition-table1.h,
-	lib/uninorm/decomposition-table2.h, lib/uninorm/nfc.c,
-	lib/uninorm/nfd.c, lib/uninorm/normalize-internal.h,
-	lib/uninorm/u-normalize-internal.h, lib/uninorm/u32-normalize.c,
-	lib/unistd.c, lib/unistd.in.h, lib/unistr.in.h, lib/unistr/u-cmp2.h,
-	lib/unistr/u-cpy.h, lib/unistr/u32-check.c, lib/unistr/u32-cmp.c,
-	lib/unistr/u32-cmp2.c, lib/unistr/u32-cpy.c, lib/unistr/u32-mblen.c,
-	lib/unistr/u32-mbtouc-unsafe.c, lib/unistr/u32-to-u8.c,
-	lib/unistr/u32-uctomb.c, lib/unistr/u8-check.c,
-	lib/unistr/u8-mblen.c, lib/unistr/u8-mbtouc-aux.c,
-	lib/unistr/u8-mbtouc-unsafe-aux.c, lib/unistr/u8-mbtouc-unsafe.c,
-	lib/unistr/u8-mbtouc.c, lib/unistr/u8-mbtoucr.c,
-	lib/unistr/u8-prev.c, lib/unistr/u8-to-u32.c, lib/unistr/u8-uctomb-
-	aux.c, lib/unistr/u8-uctomb.c, lib/unitypes.in.h, lib/uniwidth.in.h,
-	lib/uniwidth/cjk.h, lib/uniwidth/width.c, lib/uniwidth/width0.h,
-	lib/uniwidth/width2.h, lib/vasnprintf.c, lib/vasnprintf.h,
-	lib/verify.h, lib/vsnzprintf.c, lib/warn-on-use.h, lib/wchar.in.h,
-	lib/wctype-h.c, lib/wctype.in.h, lib/wcwidth.c, lib/windows-
-	initguard.h, lib/xalloc-die.c, lib/xalloc-oversized.h, lib/xalloc.h,
-	lib/xmalloc.c, lib/xsize.c, lib/xsize.h, m4/00gnulib.m4,
-	m4/absolute-header.m4, m4/alloca.m4, m4/assert_h.m4,
-	m4/ax_check_compile_flag.m4, m4/ax_check_gnu_make.m4, m4/build-to-
-	host.m4, m4/c-bool.m4, m4/c32rtomb.m4, m4/calloc.m4,
-	m4/chem_compiler_flags.m4, m4/chem_config_makefiles.m4,
-	m4/chem_path_progs_cached_and_precious.m4, m4/chem_prog_gnu_make.m4,
-	m4/close.m4, m4/codeset.m4, m4/double-slash-root.m4, m4/dup2.m4,
-	m4/errno_h.m4, m4/error.m4, m4/error_h.m4, m4/exponentd.m4,
-	m4/exponentf.m4, m4/exponentl.m4, m4/extensions-aix.m4,
-	m4/extensions.m4, m4/extern-inline.m4, m4/fcntl-o.m4, m4/fcntl.m4,
-	m4/fcntl_h.m4, m4/float_h.m4, m4/fpieee.m4, m4/free.m4, m4/frexp.m4,
-	m4/frexpl.m4, m4/fseterr.m4, m4/fstat.m4, m4/getdelim.m4,
-	m4/getdtablesize.m4, m4/getline.m4, m4/getprogname.m4,
-	m4/gettext_h.m4, m4/gnulib-cache.m4, m4/gnulib-common.m4, m4/gnulib-
-	comp.m4, m4/gnulib-i18n.m4, m4/gnulib-tool.m4, m4/host-cpu-c-abi.m4,
-	m4/iconv.m4, m4/iconv_h.m4, m4/iconv_open.m4, m4/include_next.m4,
-	m4/inline.m4, m4/intmax_t.m4, m4/inttypes.m4, m4/inttypes_h.m4,
-	m4/isnand.m4, m4/isnanf.m4, m4/isnanl.m4, m4/iswblank.m4,
-	m4/iswdigit.m4, m4/iswpunct.m4, m4/iswxdigit.m4, m4/largefile.m4,
-	m4/ldexpl.m4, m4/lib-ld.m4, m4/lib-link.m4, m4/lib-prefix.m4,
-	m4/libunistring-base.m4, m4/limits-h.m4, m4/localcharset.m4,
-	m4/locale-en.m4, m4/locale-fr.m4, m4/locale-ja.m4, m4/locale-zh.m4,
-	m4/locale_h.m4, m4/localeconv.m4, m4/lstat.m4, m4/malloc.m4,
-	m4/malloca.m4, m4/math_h.m4, m4/mbchar.m4, m4/mbiter.m4,
-	m4/mbrtoc32.m4, m4/mbrtowc.m4, m4/mbsinit.m4, m4/mbstate_t.m4,
-	m4/memchr.m4, m4/minmax.m4, m4/mmap-anon.m4, m4/mode_t.m4, m4/msvc-
-	inval.m4, m4/msvc-nothrow.m4, m4/multiarch.m4, m4/musl.m4,
-	m4/nocrash.m4, m4/off64_t.m4, m4/off_t.m4, m4/open-cloexec.m4,
-	m4/open-slash.m4, m4/open.m4, m4/pathmax.m4, m4/pid_t.m4, m4/printf-
-	frexp.m4, m4/printf-frexpl.m4, m4/printf.m4, m4/realloc.m4,
-	m4/reallocarray.m4, m4/setlocale_null.m4, m4/signbit.m4,
-	m4/size_max.m4, m4/snprintf-gnu.m4, m4/snprintf-posix.m4,
-	m4/snprintf.m4, m4/ssize_t.m4, m4/stat-time.m4, m4/stat.m4, m4/std-
-	gnu11.m4, m4/stdckdint_h.m4, m4/stddef_h.m4, m4/stdint.m4,
-	m4/stdint_h.m4, m4/stdio_h.m4, m4/stdlib_h.m4, m4/strerror.m4,
-	m4/string_h.m4, m4/stringeq.m4, m4/sys_socket_h.m4,
-	m4/sys_stat_h.m4, m4/sys_types_h.m4, m4/threadlib.m4, m4/time_h.m4,
-	m4/uchar_h.m4, m4/unicase_h.m4, m4/unictype_h.m4, m4/uninorm_h.m4,
-	m4/unistd_h.m4, m4/unitypes_h.m4, m4/vararrays.m4, m4/vasnprintf.m4,
-	m4/visibility.m4, m4/warn-on-use.m4, m4/wchar_h.m4, m4/wctype_h.m4,
-	m4/wcwidth.m4, m4/wint_t.m4, m4/xalloc.m4, m4/xsize.m4,
-	m4/zzgnulib.m4:
-	There is no need at all it include snprintf-gnu from Gnulib.
-	[6a54067e3f6a]
-
-	* src/libhiha/string_t.c:
-	Add a note about abort(3) after error(exit_failure,...)
-	[bf5a383b4e49]
-
-	* include/libhiha/string_t.h, src/hiha/hiha.c, src/libhiha/string_t.c,
-	src/libhiha/token_t.c:
-	Improvements to error reporting.
-	[920d35e64894]
-
-2026-04-07  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
-
-	* Makefile.am, Makefile.in, aclocal.m4, config.h.in, configure,
-	include/libhiha/parse_expression.h, include/libhiha/string_t.h,
-	include/libhiha/token_t.h, lib/Makefile.am, lib/Makefile.in,
-	lib/asnprintf.c, lib/c32is-impl.h, lib/c32isalnum.c,
-	lib/c32isalpha.c, lib/c32isblank.c, lib/c32iscntrl.c,
-	lib/c32isdigit.c, lib/c32isgraph.c, lib/c32islower.c,
-	lib/c32isprint.c, lib/c32ispunct.c, lib/c32isspace.c,
-	lib/c32isupper.c, lib/c32isxdigit.c, lib/c32to-impl.h,
-	lib/c32tolower.c, lib/c32width.c, lib/float+.h, lib/float.c,
-	lib/float.in.h, lib/fpucw.h, lib/frexp.c, lib/frexpl.c, lib/hard-
-	locale.c, lib/hard-locale.h, lib/isnan.c, lib/isnand-nolibm.h,
-	lib/isnand.c, lib/isnanf-nolibm.h, lib/isnanf.c, lib/isnanl-
-	nolibm.h, lib/isnanl.c, lib/iswblank.c, lib/iswdigit.c,
-	lib/iswpunct.c, lib/iswxdigit.c, lib/itold.c, lib/lc-charset-
-	dispatch.c, lib/lc-charset-dispatch.h, lib/localeconv.c, lib/math.c,
-	lib/math.in.h, lib/mbchar.c, lib/mbchar.h, lib/mbiterf.c,
-	lib/mbiterf.h, lib/mbrtoc32.c, lib/mbrtowc-impl-utf8.h, lib/mbrtowc-
-	impl.h, lib/mbrtowc.c, lib/mbsinit.c, lib/mbsnlen.c, lib/mbszero.c,
-	lib/mbtowc-lock.c, lib/mbtowc-lock.h, lib/memchr.c,
-	lib/memchr.valgrind, lib/printf-args.c, lib/printf-args.h,
-	lib/printf-frexp.c, lib/printf-frexp.h, lib/printf-frexpl.c,
-	lib/printf-frexpl.h, lib/printf-parse.c, lib/printf-parse.h,
-	lib/setlocale-lock.c, lib/setlocale_null-unlocked.c,
-	lib/setlocale_null.c, lib/setlocale_null.h, lib/signbitd.c,
-	lib/signbitf.c, lib/signbitl.c, lib/size_max.h, lib/snprintf.c,
-	lib/streq.h, lib/uchar.in.h, lib/unicase/tolower.c,
-	lib/unicase/tolower.h, lib/unictype/ctype_alnum.c,
-	lib/unictype/ctype_alnum.h, lib/unictype/ctype_alpha.c,
-	lib/unictype/ctype_alpha.h, lib/unictype/ctype_blank.c,
-	lib/unictype/ctype_blank.h, lib/unictype/ctype_cntrl.c,
-	lib/unictype/ctype_cntrl.h, lib/unictype/ctype_digit.c,
-	lib/unictype/ctype_digit.h, lib/unictype/ctype_graph.c,
-	lib/unictype/ctype_graph.h, lib/unictype/ctype_lower.c,
-	lib/unictype/ctype_lower.h, lib/unictype/ctype_print.c,
-	lib/unictype/ctype_print.h, lib/unictype/ctype_punct.c,
-	lib/unictype/ctype_punct.h, lib/unictype/ctype_space.c,
-	lib/unictype/ctype_space.h, lib/unictype/ctype_upper.c,
-	lib/unictype/ctype_upper.h, lib/unictype/ctype_xdigit.c,
-	lib/unictype/ctype_xdigit.h, lib/uniwidth.in.h, lib/uniwidth/cjk.h,
-	lib/uniwidth/width.c, lib/uniwidth/width0.h, lib/uniwidth/width2.h,
-	lib/vasnprintf.c, lib/vasnprintf.h, lib/vsnzprintf.c,
-	lib/wctype-h.c, lib/wctype.in.h, lib/wcwidth.c, lib/windows-
-	initguard.h, lib/xsize.c, lib/xsize.h, m4/c32rtomb.m4,
-	m4/exponentd.m4, m4/exponentf.m4, m4/exponentl.m4, m4/float_h.m4,
-	m4/fpieee.m4, m4/frexp.m4, m4/frexpl.m4, m4/gnulib-cache.m4,
-	m4/gnulib-comp.m4, m4/intmax_t.m4, m4/inttypes_h.m4, m4/isnand.m4,
-	m4/isnanf.m4, m4/isnanl.m4, m4/iswblank.m4, m4/iswdigit.m4,
-	m4/iswpunct.m4, m4/iswxdigit.m4, m4/ldexpl.m4, m4/locale-fr.m4,
-	m4/locale-ja.m4, m4/locale-zh.m4, m4/localeconv.m4, m4/math_h.m4,
-	m4/mbchar.m4, m4/mbiter.m4, m4/mbrtoc32.m4, m4/mbrtowc.m4,
-	m4/mbsinit.m4, m4/mbstate_t.m4, m4/memchr.m4, m4/mmap-anon.m4,
-	m4/nocrash.m4, m4/printf-frexp.m4, m4/printf-frexpl.m4,
-	m4/printf.m4, m4/setlocale_null.m4, m4/signbit.m4, m4/size_max.m4,
-	m4/snprintf-gnu.m4, m4/snprintf-posix.m4, m4/snprintf.m4,
-	m4/stdint_h.m4, m4/threadlib.m4, m4/uchar_h.m4, m4/vasnprintf.m4,
-	m4/visibility.m4, m4/wctype_h.m4, m4/wcwidth.m4, m4/xsize.m4,
-	src/hiha/hiha.c, src/libhiha/string_t.c:
-	Save work before resting due to disability.
-	[7432da541aff]
-
-	* Makefile.am, Makefile.in, configure, configure.ac,
-	include/libhiha/parse_expression.h, include/libhiha/string_t.h,
-	include/libhiha/token_t.h, lib/Makefile.am, lib/Makefile.in,
-	lib/gl_anytree_omap.h, lib/gl_avltree_omap.c, lib/gl_avltree_omap.h,
-	lib/gl_avltree_ordered.h, lib/gl_omap.c, lib/gl_omap.h,
-	lib/gl_xomap.c, lib/gl_xomap.h, lib/unistr/u-cmp2.h,
-	lib/unistr/u32-cmp.c, lib/unistr/u32-cmp2.c, m4/gnulib-cache.m4,
-	m4/gnulib-comp.m4, src/hiha/hiha.c, src/libhiha/parse_expression.c,
-	src/libhiha/string_t.c, src/libhiha/token_t.c:
-	I think I should save the current work.
-	[331e3e3476c6]
-
-2026-04-06  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
-
-	* README.adoc:
-	A little explanation.
-	[b981a1acee77]
-
-	* include/libhiha/string_t.h, src/hiha/hiha.c, src/libhiha/string_t.c:
-	Conversion from UTF-32 to locale.
-	[fd5ec24b36a2]
-
-	* Makefile.am, Makefile.in, aclocal.m4, config.h.in, configure,
-	configure.ac, include/libhiha/parse_expression.h,
-	include/libhiha/string_t.h, include/libhiha/token_t.h,
-	include/parse_expression.h, lib/Makefile.am, lib/Makefile.in,
-	lib/basename-lgpl.c, lib/basename-lgpl.h, lib/calloc.c,
-	lib/cloexec.c, lib/cloexec.h, lib/close.c, lib/dup2.c,
-	lib/errno.in.h, lib/error.c, lib/error.in.h, lib/exitfail.c,
-	lib/exitfail.h, lib/fcntl.c, lib/fd-hook.c, lib/fd-hook.h,
-	lib/filename.h, lib/fseterr.c, lib/fseterr.h, lib/fstat.c,
-	lib/getdelim.c, lib/getdtablesize.c, lib/getline.c,
-	lib/getprogname.c, lib/getprogname.h, lib/gettext.h, lib/ialloc.c,
-	lib/ialloc.h, lib/intprops.h, lib/locale.in.h, lib/lstat.c,
-	lib/malloc.c, lib/minmax.h, lib/msvc-inval.c, lib/msvc-inval.h,
-	lib/msvc-nothrow.c, lib/msvc-nothrow.h, lib/open.c, lib/pathmax.h,
-	lib/progname.c, lib/progname.h, lib/realloc.c, lib/reallocarray.c,
-	lib/stat-time.c, lib/stat-time.h, lib/stat-w32.c, lib/stat-w32.h,
-	lib/stat.c, lib/stdio-consolesafe.c, lib/stdio-impl.h, lib/stdio-
-	read.c, lib/stdio-write.c, lib/stdio.in.h, lib/strerror-override.c,
-	lib/strerror-override.h, lib/strerror.c, lib/sys_stat.in.h,
-	lib/time.in.h, lib/uninorm/composition-table-bounds.h,
-	lib/uninorm/composition-table.gperf, lib/uninorm/composition.c,
-	lib/uninorm/nfc.c, lib/xalloc-die.c, lib/xalloc.h, lib/xmalloc.c,
-	m4/build-to-host.m4, m4/calloc.m4,
-	m4/chem_path_progs_cached_and_precious.m4, m4/close.m4, m4/double-
-	slash-root.m4, m4/dup2.m4, m4/errno_h.m4, m4/error.m4,
-	m4/error_h.m4, m4/fcntl.m4, m4/fseterr.m4, m4/fstat.m4,
-	m4/getdelim.m4, m4/getdtablesize.m4, m4/getline.m4,
-	m4/getprogname.m4, m4/gettext_h.m4, m4/gnulib-cache.m4, m4/gnulib-
-	comp.m4, m4/gnulib-i18n.m4, m4/largefile.m4, m4/locale_h.m4,
-	m4/lstat.m4, m4/minmax.m4, m4/mode_t.m4, m4/msvc-inval.m4, m4/msvc-
-	nothrow.m4, m4/musl.m4, m4/open-cloexec.m4, m4/open-slash.m4,
-	m4/open.m4, m4/pathmax.m4, m4/realloc.m4, m4/reallocarray.m4,
-	m4/stat-time.m4, m4/stat.m4, m4/stdio_h.m4, m4/strerror.m4,
-	m4/sys_socket_h.m4, m4/sys_stat_h.m4, m4/time_h.m4, m4/vararrays.m4,
-	m4/xalloc.m4, src/hiha/hiha.c, src/libhiha/parse_expression.c,
-	src/libhiha/string_t.c, src/parse_expression.c:
-	The latest.
-	[06bf42bfc0dd]
-
-2026-04-05  Barry Schwartz  <150643+chemoelectric@users.noreply.github.com>
-
-	* .dir-locals.el, .hgignore, AUTHORS, COPYING, INSTALL, Makefile.am,
-	Makefile.in, README.adoc, aclocal.m4, autogen.sh, build-aux/compile,
-	build-aux/config.guess, build-aux/config.rpath, build-
-	aux/config.sub, build-aux/depcomp, build-aux/install-sh, build-
-	aux/missing, config.h.in, configure, configure.ac, hiha-90x150.jpg,
-	include/parse_expression.h, lib/Makefile.am, lib/Makefile.in,
-	lib/_Noreturn.h, lib/alloca.in.h, lib/amemxfrm.c, lib/amemxfrm.h,
-	lib/arg-nonnull.h, lib/array-mergesort.h, lib/assert.in.h,
-	lib/attribute.h, lib/c++defs.h, lib/c-ctype.c, lib/c-ctype.h,
-	lib/c-strcase.h, lib/c-strcasecmp.c, lib/c-strcaseeq.h,
-	lib/fcntl.in.h, lib/free.c, lib/iconv.c, lib/iconv.in.h,
-	lib/iconv_close.c, lib/iconv_open-aix.gperf, lib/iconv_open-aix.h,
-	lib/iconv_open-hpux.gperf, lib/iconv_open-hpux.h, lib/iconv_open-
-	solaris.gperf, lib/iconv_open-solaris.h, lib/iconv_open-zos.gperf,
-	lib/iconv_open-zos.h, lib/iconv_open.c, lib/iconveh.h, lib/idx.h,
-	lib/intprops-internal.h, lib/inttypes.in.h, lib/limits.in.h,
-	lib/localcharset.c, lib/localcharset.h, lib/malloca.c,
-	lib/malloca.h, lib/memcmp2.c, lib/memcmp2.h, lib/stdckdint.in.h,
-	lib/stddef.in.h, lib/stdint.in.h, lib/stdlib.c, lib/stdlib.in.h,
-	lib/striconveh.c, lib/striconveh.h, lib/striconveha.c,
-	lib/striconveha.h, lib/string.c, lib/string.in.h,
-	lib/sys_types.in.h, lib/unicase.in.h, lib/unicase/cased.c,
-	lib/unicase/cased.h, lib/unicase/casefold.h, lib/unicase/caseprop.h,
-	lib/unicase/context.h, lib/unicase/empty-prefix-context.c,
-	lib/unicase/empty-suffix-context.c, lib/unicase/ignorable.c,
-	lib/unicase/ignorable.h, lib/unicase/simple-mapping.h,
-	lib/unicase/special-casing-table.gperf, lib/unicase/special-casing-
-	table.h, lib/unicase/special-casing.c, lib/unicase/special-
-	casing.in.h, lib/unicase/tocasefold.c, lib/unicase/tocasefold.h,
-	lib/unicase/u-casecoll.h, lib/unicase/u-casefold.h,
-	lib/unicase/u-casemap.h, lib/unicase/u-casexfrm.h, lib/unicase/u-ct-
-	casefold.h, lib/unicase/u32-casecoll.c, lib/unicase/u32-casefold.c,
-	lib/unicase/u32-casemap.c, lib/unicase/u32-casexfrm.c,
-	lib/unicase/u32-ct-casefold.c, lib/unicase/unicasemap.h,
-	lib/uniconv.in.h, lib/uniconv/u-conv-from-enc.h, lib/uniconv/u-conv-
-	to-enc.h, lib/uniconv/u32-conv-from-enc.c, lib/uniconv/u32-conv-to-
-	enc.c, lib/uniconv/u8-conv-from-enc.c, lib/uniconv/u8-conv-to-enc.c,
-	lib/unictype.in.h, lib/unictype/bitmap.h,
-	lib/unictype/combiningclass.c, lib/unictype/combiningclass.h,
-	lib/unictype/pr_soft_dotted.c, lib/unictype/pr_soft_dotted.h,
-	lib/uninorm.in.h, lib/uninorm/canonical-decomposition.c,
-	lib/uninorm/composition-table.h, lib/uninorm/decompose-internal.c,
-	lib/uninorm/decompose-internal.h, lib/uninorm/decomposing-form.c,
-	lib/uninorm/decomposition-table.c, lib/uninorm/decomposition-
-	table.h, lib/uninorm/decomposition-table1.h,
-	lib/uninorm/decomposition-table2.h, lib/uninorm/nfd.c,
-	lib/uninorm/normalize-internal.h, lib/uninorm/u-normalize-
-	internal.h, lib/uninorm/u32-normalize.c, lib/unistd.c,
-	lib/unistd.in.h, lib/unistr.in.h, lib/unistr/u-cpy.h,
-	lib/unistr/u32-check.c, lib/unistr/u32-cpy.c,
-	lib/unistr/u32-mblen.c, lib/unistr/u32-mbtouc-unsafe.c,
-	lib/unistr/u32-to-u8.c, lib/unistr/u32-uctomb.c,
-	lib/unistr/u8-check.c, lib/unistr/u8-mblen.c, lib/unistr/u8-mbtouc-
-	aux.c, lib/unistr/u8-mbtouc-unsafe-aux.c, lib/unistr/u8-mbtouc-
-	unsafe.c, lib/unistr/u8-mbtouc.c, lib/unistr/u8-mbtoucr.c,
-	lib/unistr/u8-prev.c, lib/unistr/u8-to-u32.c, lib/unistr/u8-uctomb-
-	aux.c, lib/unistr/u8-uctomb.c, lib/unitypes.in.h, lib/verify.h,
-	lib/warn-on-use.h, lib/wchar.in.h, lib/xalloc-oversized.h,
-	m4/00gnulib.m4, m4/absolute-header.m4, m4/alloca.m4, m4/assert_h.m4,
-	m4/ax_check_compile_flag.m4, m4/ax_check_gnu_make.m4, m4/c-bool.m4,
-	m4/chem_compiler_flags.m4, m4/chem_config_makefiles.m4,
-	m4/chem_prog_gnu_make.m4, m4/codeset.m4, m4/extensions-aix.m4,
-	m4/extensions.m4, m4/extern-inline.m4, m4/fcntl-o.m4, m4/fcntl_h.m4,
-	m4/free.m4, m4/gnulib-cache.m4, m4/gnulib-common.m4, m4/gnulib-
-	comp.m4, m4/gnulib-tool.m4, m4/host-cpu-c-abi.m4, m4/iconv.m4,
-	m4/iconv_h.m4, m4/iconv_open.m4, m4/include_next.m4, m4/inline.m4,
-	m4/inttypes.m4, m4/lib-ld.m4, m4/lib-link.m4, m4/lib-prefix.m4,
-	m4/libunistring-base.m4, m4/limits-h.m4, m4/localcharset.m4,
-	m4/locale-en.m4, m4/malloc.m4, m4/malloca.m4, m4/multiarch.m4,
-	m4/off64_t.m4, m4/off_t.m4, m4/pid_t.m4, m4/ssize_t.m4, m4/std-
-	gnu11.m4, m4/stdckdint_h.m4, m4/stddef_h.m4, m4/stdint.m4,
-	m4/stdlib_h.m4, m4/string_h.m4, m4/stringeq.m4, m4/sys_types_h.m4,
-	m4/unicase_h.m4, m4/unictype_h.m4, m4/uninorm_h.m4, m4/unistd_h.m4,
-	m4/unitypes_h.m4, m4/warn-on-use.m4, m4/wchar_h.m4, m4/wint_t.m4,
-	m4/zzgnulib.m4, silent-rules.mk, src/parse_expression.c:
-	Initial commit.
-	[e57500ce0f3e]
 

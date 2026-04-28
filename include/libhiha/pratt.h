@@ -47,14 +47,14 @@ void pratt_parse (void *state, buffered_token_getter_t getter,
                   pratt_tables_t tables, double min_power,
                   void **lhs, const char **error_message);
 
-typedef void nud_handler (void *state, pratt_tables_t tables,
-                          token_t tok, void **lhs,
-                          const char **error_message);
+typedef void nud_handler (void *state, buffered_token_getter_t getter,
+                          pratt_tables_t tables, token_t tok,
+                          void **lhs, const char **error_message);
 typedef nud_handler *nud_handler_t;
 
-typedef void led_handler (void *state, pratt_tables_t tables,
-                          token_t tok, void **lhs,
-                          const char **error_message);
+typedef void led_handler (void *state, buffered_token_getter_t getter,
+                          pratt_tables_t tables, token_t tok,
+                          void **lhs, const char **error_message);
 typedef led_handler *led_handler_t;
 
 /* Add a null denotation handler, or replace an existing one. */

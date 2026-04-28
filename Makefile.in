@@ -229,21 +229,36 @@ am__uninstall_files_from_dir = { \
        $(am__cd) "$$dir" && echo $$files | $(am__xargs_n) 40 $(am__rm_f); }; \
   }
 LTLIBRARIES = $(lib_LTLIBRARIES) $(pkg_plugins_lib_LTLIBRARIES)
-10_basic_code_point_classification_la_DEPENDENCIES = libhiha.la \
-	lib/libgnu.la $(GCVERS)/libhiha-gc.la
+10_eof_la_DEPENDENCIES = libhiha.la lib/libgnu.la \
+	$(GCVERS)/libhiha-gc.la
 am__dirstamp = $(am__leading_dot)dirstamp
-am_10_basic_code_point_classification_la_OBJECTS = src/plugins/10_basic_code_point_classification_la-10-basic-code-point-classification.lo
-10_basic_code_point_classification_la_OBJECTS =  \
-	$(am_10_basic_code_point_classification_la_OBJECTS)
+am_10_eof_la_OBJECTS = src/plugins/10_eof_la-10-eof.lo
+10_eof_la_OBJECTS = $(am_10_eof_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-10_basic_code_point_classification_la_LINK = $(LIBTOOL) $(AM_V_lt) \
-	--tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
-	$(CCLD) $(10_basic_code_point_classification_la_CFLAGS) \
-	$(CFLAGS) $(10_basic_code_point_classification_la_LDFLAGS) \
-	$(LDFLAGS) -o $@
+10_eof_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(10_eof_la_CFLAGS) \
+	$(CFLAGS) $(10_eof_la_LDFLAGS) $(LDFLAGS) -o $@
+20_white_space_la_DEPENDENCIES = libhiha.la lib/libgnu.la \
+	$(GCVERS)/libhiha-gc.la
+am_20_white_space_la_OBJECTS =  \
+	src/plugins/20_white_space_la-20-white_space.lo
+20_white_space_la_OBJECTS = $(am_20_white_space_la_OBJECTS)
+20_white_space_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(20_white_space_la_CFLAGS) $(CFLAGS) \
+	$(20_white_space_la_LDFLAGS) $(LDFLAGS) -o $@
+30_decimal_integer_la_DEPENDENCIES = libhiha.la lib/libgnu.la \
+	$(GCVERS)/libhiha-gc.la
+am_30_decimal_integer_la_OBJECTS =  \
+	src/plugins/30_decimal_integer_la-30-decimal_integer.lo
+30_decimal_integer_la_OBJECTS = $(am_30_decimal_integer_la_OBJECTS)
+30_decimal_integer_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(30_decimal_integer_la_CFLAGS) $(CFLAGS) \
+	$(30_decimal_integer_la_LDFLAGS) $(LDFLAGS) -o $@
 libhiha_la_DEPENDENCIES = lib/libgnu.la
 am__objects_1 =
 am_libhiha_la_OBJECTS = $(am__objects_1) \
@@ -287,7 +302,9 @@ am__depfiles_remade = src/hiha/$(DEPDIR)/hiha-hiha.Po \
 	src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo \
-	src/plugins/$(DEPDIR)/10_basic_code_point_classification_la-10-basic-code-point-classification.Plo
+	src/plugins/$(DEPDIR)/10_eof_la-10-eof.Plo \
+	src/plugins/$(DEPDIR)/20_white_space_la-20-white_space.Plo \
+	src/plugins/$(DEPDIR)/30_decimal_integer_la-30-decimal_integer.Plo
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -307,10 +324,12 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(10_basic_code_point_classification_la_SOURCES) \
-	$(libhiha_la_SOURCES) $(hiha_SOURCES)
-DIST_SOURCES = $(10_basic_code_point_classification_la_SOURCES) \
-	$(libhiha_la_SOURCES) $(hiha_SOURCES)
+SOURCES = $(10_eof_la_SOURCES) $(20_white_space_la_SOURCES) \
+	$(30_decimal_integer_la_SOURCES) $(libhiha_la_SOURCES) \
+	$(hiha_SOURCES)
+DIST_SOURCES = $(10_eof_la_SOURCES) $(20_white_space_la_SOURCES) \
+	$(30_decimal_integer_la_SOURCES) $(libhiha_la_SOURCES) \
+	$(hiha_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
 	install-data-recursive install-dvi-recursive \
@@ -353,8 +372,10 @@ am__define_uniq_tagged_files = \
     if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
   done | $(am__uniquify_input)`
 DIST_SUBDIRS = $(SUBDIRS)
-am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in \
-	$(srcdir)/gc-dist.am $(top_srcdir)/build-aux/compile \
+am__DIST_COMMON = $(srcdir)/10-eof.am $(srcdir)/20-white_space.am \
+	$(srcdir)/30-decimal_integer.am $(srcdir)/Makefile.in \
+	$(srcdir)/config.h.in $(srcdir)/gc-dist.am \
+	$(top_srcdir)/build-aux/compile \
 	$(top_srcdir)/build-aux/config.guess \
 	$(top_srcdir)/build-aux/config.rpath \
 	$(top_srcdir)/build-aux/config.sub \
@@ -1661,9 +1682,8 @@ pkg_libhiha_includedir = $(pkgincludedir)/libhiha
 
 #---------------------------------------------------------------------
 lib_LTLIBRARIES = libhiha.la
-
-#---------------------------------------------------------------------
-pkg_plugins_lib_LTLIBRARIES = 10-basic-code-point-classification.la
+pkg_plugins_lib_LTLIBRARIES = 10-eof.la 20-white_space.la \
+	30-decimal_integer.la
 pkginclude_HEADERS = include/gc.h
 pkg_gc_include_HEADERS = $(top_srcdir)/$(GCVERS)/include/cord.h \
 	$(top_srcdir)/$(GCVERS)/include/cord_pos.h \
@@ -1808,6 +1828,26 @@ BASICCFLAGS = -I $(abs_top_builddir) -I $(abs_top_builddir)/include -I \
 	$(abs_top_builddir)/lib -I $(abs_top_srcdir) -I \
 	$(abs_top_srcdir)/include -I $(abs_top_srcdir)/lib -I \
 	$(abs_top_srcdir)/$(GCVERS)/include
+10_eof_la_LIBADD = libhiha.la lib/libgnu.la $(GCVERS)/libhiha-gc.la
+10_eof_la_LDFLAGS = $(LIBS) $(LTLIBICONV) $(LTLIBINTL) \
+	$(LTLIBUNISTRING) -avoid-version -module -shared
+10_eof_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
+EXTRA_10_eof_la_DEPENDENCIES = 
+10_eof_la_SOURCES = src/plugins/10-eof.c
+20_white_space_la_LIBADD = libhiha.la lib/libgnu.la \
+	$(GCVERS)/libhiha-gc.la
+20_white_space_la_LDFLAGS = $(LIBS) $(LTLIBICONV) $(LTLIBINTL) \
+	$(LTLIBUNISTRING) -avoid-version -module -shared
+20_white_space_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
+EXTRA_20_white_space_la_DEPENDENCIES = 
+20_white_space_la_SOURCES = src/plugins/20-white_space.c
+30_decimal_integer_la_LIBADD = libhiha.la lib/libgnu.la \
+	$(GCVERS)/libhiha-gc.la
+30_decimal_integer_la_LDFLAGS = $(LIBS) $(LTLIBICONV) $(LTLIBINTL) \
+	$(LTLIBUNISTRING) -avoid-version -module -shared
+30_decimal_integer_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
+EXTRA_30_decimal_integer_la_DEPENDENCIES = 
+30_decimal_integer_la_SOURCES = src/plugins/30-decimal_integer.c
 hiha_LDFLAGS = -export-dynamic
 hiha_LDADD = libhiha.la $(GCVERS)/libhiha-gc.la lib/libgnu.la \
 	$(LTLIBICONV) $(LTLIBINTL) $(LTLIBUNISTRING)
@@ -1828,15 +1868,6 @@ libhiha_HDRS = include/libhiha/libhiha.h include/libhiha/spinlock.h \
 	include/libhiha/initialize_once.h include/libhiha/string_t.h \
 	include/libhiha/token_t.h include/libhiha/pratt.h \
 	include/libhiha/lexical.h include/libhiha/load_plugin.h
-10_basic_code_point_classification_la_LIBADD = libhiha.la \
-	lib/libgnu.la $(GCVERS)/libhiha-gc.la
-10_basic_code_point_classification_la_LDFLAGS = $(LIBS) $(LTLIBICONV) \
-	$(LTLIBINTL) $(LTLIBUNISTRING) -avoid-version -module -shared
-10_basic_code_point_classification_la_CFLAGS = $(BASICCFLAGS) \
-	$(CFLAGS)
-EXTRA_10_basic_code_point_classification_la_DEPENDENCIES = 
-10_basic_code_point_classification_la_SOURCES =  \
-	src/plugins/10-basic-code-point-classification.c
 DISTITEMS = $(srcdir)/README $(am__append_1)
 
 #
@@ -1855,7 +1886,7 @@ all: $(BUILT_SOURCES) config.h
 .SUFFIXES: .c .lo .o .obj
 am--refresh: GNUmakefile
 	@:
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/gc-dist.am $(am__configure_deps)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/gc-dist.am $(srcdir)/10-eof.am $(srcdir)/20-white_space.am $(srcdir)/30-decimal_integer.am $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -1877,7 +1908,7 @@ GNUmakefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__maybe_remake_depfiles)'; \
 	    cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__maybe_remake_depfiles);; \
 	esac;
-$(srcdir)/gc-dist.am $(am__empty):
+$(srcdir)/gc-dist.am $(srcdir)/10-eof.am $(srcdir)/20-white_space.am $(srcdir)/30-decimal_integer.am $(am__empty):
 
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
@@ -2018,12 +2049,23 @@ src/plugins/$(am__dirstamp):
 src/plugins/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) src/plugins/$(DEPDIR)
 	@: >>src/plugins/$(DEPDIR)/$(am__dirstamp)
-src/plugins/10_basic_code_point_classification_la-10-basic-code-point-classification.lo:  \
+src/plugins/10_eof_la-10-eof.lo: src/plugins/$(am__dirstamp) \
+	src/plugins/$(DEPDIR)/$(am__dirstamp)
+
+10-eof.la: $(10_eof_la_OBJECTS) $(10_eof_la_DEPENDENCIES) $(EXTRA_10_eof_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(10_eof_la_LINK) -rpath $(pkg_plugins_libdir) $(10_eof_la_OBJECTS) $(10_eof_la_LIBADD) $(LIBS)
+src/plugins/20_white_space_la-20-white_space.lo:  \
 	src/plugins/$(am__dirstamp) \
 	src/plugins/$(DEPDIR)/$(am__dirstamp)
 
-10-basic-code-point-classification.la: $(10_basic_code_point_classification_la_OBJECTS) $(10_basic_code_point_classification_la_DEPENDENCIES) $(EXTRA_10_basic_code_point_classification_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(10_basic_code_point_classification_la_LINK) -rpath $(pkg_plugins_libdir) $(10_basic_code_point_classification_la_OBJECTS) $(10_basic_code_point_classification_la_LIBADD) $(LIBS)
+20-white_space.la: $(20_white_space_la_OBJECTS) $(20_white_space_la_DEPENDENCIES) $(EXTRA_20_white_space_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(20_white_space_la_LINK) -rpath $(pkg_plugins_libdir) $(20_white_space_la_OBJECTS) $(20_white_space_la_LIBADD) $(LIBS)
+src/plugins/30_decimal_integer_la-30-decimal_integer.lo:  \
+	src/plugins/$(am__dirstamp) \
+	src/plugins/$(DEPDIR)/$(am__dirstamp)
+
+30-decimal_integer.la: $(30_decimal_integer_la_OBJECTS) $(30_decimal_integer_la_DEPENDENCIES) $(EXTRA_30_decimal_integer_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(30_decimal_integer_la_LINK) -rpath $(pkg_plugins_libdir) $(30_decimal_integer_la_OBJECTS) $(30_decimal_integer_la_LIBADD) $(LIBS)
 src/libhiha/$(am__dirstamp):
 	@$(MKDIR_P) src/libhiha
 	@: >>src/libhiha/$(am__dirstamp)
@@ -2076,7 +2118,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/10_basic_code_point_classification_la-10-basic-code-point-classification.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/10_eof_la-10-eof.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/20_white_space_la-20-white_space.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/30_decimal_integer_la-30-decimal_integer.Plo@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -2108,12 +2152,26 @@ am--depfiles: $(am__depfiles_remade)
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
 
-src/plugins/10_basic_code_point_classification_la-10-basic-code-point-classification.lo: src/plugins/10-basic-code-point-classification.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(10_basic_code_point_classification_la_CFLAGS) $(CFLAGS) -MT src/plugins/10_basic_code_point_classification_la-10-basic-code-point-classification.lo -MD -MP -MF src/plugins/$(DEPDIR)/10_basic_code_point_classification_la-10-basic-code-point-classification.Tpo -c -o src/plugins/10_basic_code_point_classification_la-10-basic-code-point-classification.lo `test -f 'src/plugins/10-basic-code-point-classification.c' || echo '$(srcdir)/'`src/plugins/10-basic-code-point-classification.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/plugins/$(DEPDIR)/10_basic_code_point_classification_la-10-basic-code-point-classification.Tpo src/plugins/$(DEPDIR)/10_basic_code_point_classification_la-10-basic-code-point-classification.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/plugins/10-basic-code-point-classification.c' object='src/plugins/10_basic_code_point_classification_la-10-basic-code-point-classification.lo' libtool=yes @AMDEPBACKSLASH@
+src/plugins/10_eof_la-10-eof.lo: src/plugins/10-eof.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(10_eof_la_CFLAGS) $(CFLAGS) -MT src/plugins/10_eof_la-10-eof.lo -MD -MP -MF src/plugins/$(DEPDIR)/10_eof_la-10-eof.Tpo -c -o src/plugins/10_eof_la-10-eof.lo `test -f 'src/plugins/10-eof.c' || echo '$(srcdir)/'`src/plugins/10-eof.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/plugins/$(DEPDIR)/10_eof_la-10-eof.Tpo src/plugins/$(DEPDIR)/10_eof_la-10-eof.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/plugins/10-eof.c' object='src/plugins/10_eof_la-10-eof.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(10_basic_code_point_classification_la_CFLAGS) $(CFLAGS) -c -o src/plugins/10_basic_code_point_classification_la-10-basic-code-point-classification.lo `test -f 'src/plugins/10-basic-code-point-classification.c' || echo '$(srcdir)/'`src/plugins/10-basic-code-point-classification.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(10_eof_la_CFLAGS) $(CFLAGS) -c -o src/plugins/10_eof_la-10-eof.lo `test -f 'src/plugins/10-eof.c' || echo '$(srcdir)/'`src/plugins/10-eof.c
+
+src/plugins/20_white_space_la-20-white_space.lo: src/plugins/20-white_space.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(20_white_space_la_CFLAGS) $(CFLAGS) -MT src/plugins/20_white_space_la-20-white_space.lo -MD -MP -MF src/plugins/$(DEPDIR)/20_white_space_la-20-white_space.Tpo -c -o src/plugins/20_white_space_la-20-white_space.lo `test -f 'src/plugins/20-white_space.c' || echo '$(srcdir)/'`src/plugins/20-white_space.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/plugins/$(DEPDIR)/20_white_space_la-20-white_space.Tpo src/plugins/$(DEPDIR)/20_white_space_la-20-white_space.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/plugins/20-white_space.c' object='src/plugins/20_white_space_la-20-white_space.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(20_white_space_la_CFLAGS) $(CFLAGS) -c -o src/plugins/20_white_space_la-20-white_space.lo `test -f 'src/plugins/20-white_space.c' || echo '$(srcdir)/'`src/plugins/20-white_space.c
+
+src/plugins/30_decimal_integer_la-30-decimal_integer.lo: src/plugins/30-decimal_integer.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(30_decimal_integer_la_CFLAGS) $(CFLAGS) -MT src/plugins/30_decimal_integer_la-30-decimal_integer.lo -MD -MP -MF src/plugins/$(DEPDIR)/30_decimal_integer_la-30-decimal_integer.Tpo -c -o src/plugins/30_decimal_integer_la-30-decimal_integer.lo `test -f 'src/plugins/30-decimal_integer.c' || echo '$(srcdir)/'`src/plugins/30-decimal_integer.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/plugins/$(DEPDIR)/30_decimal_integer_la-30-decimal_integer.Tpo src/plugins/$(DEPDIR)/30_decimal_integer_la-30-decimal_integer.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/plugins/30-decimal_integer.c' object='src/plugins/30_decimal_integer_la-30-decimal_integer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(30_decimal_integer_la_CFLAGS) $(CFLAGS) -c -o src/plugins/30_decimal_integer_la-30-decimal_integer.lo `test -f 'src/plugins/30-decimal_integer.c' || echo '$(srcdir)/'`src/plugins/30-decimal_integer.c
 
 src/libhiha/libhiha_la-spinlock.lo: src/libhiha/spinlock.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_la-spinlock.lo -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Tpo -c -o src/libhiha/libhiha_la-spinlock.lo `test -f 'src/libhiha/spinlock.c' || echo '$(srcdir)/'`src/libhiha/spinlock.c
@@ -2624,7 +2682,9 @@ distclean: distclean-recursive
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo
-	-rm -f src/plugins/$(DEPDIR)/10_basic_code_point_classification_la-10-basic-code-point-classification.Plo
+	-rm -f src/plugins/$(DEPDIR)/10_eof_la-10-eof.Plo
+	-rm -f src/plugins/$(DEPDIR)/20_white_space_la-20-white_space.Plo
+	-rm -f src/plugins/$(DEPDIR)/30_decimal_integer_la-30-decimal_integer.Plo
 	-rm -f GNUmakefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-libtool distclean-local distclean-tags
@@ -2682,7 +2742,9 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo
-	-rm -f src/plugins/$(DEPDIR)/10_basic_code_point_classification_la-10-basic-code-point-classification.Plo
+	-rm -f src/plugins/$(DEPDIR)/10_eof_la-10-eof.Plo
+	-rm -f src/plugins/$(DEPDIR)/20_white_space_la-20-white_space.Plo
+	-rm -f src/plugins/$(DEPDIR)/30_decimal_integer_la-30-decimal_integer.Plo
 	-rm -f GNUmakefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -2775,6 +2837,33 @@ include/gc.h: Makefile.am
 	echo '#include <gc/gc.h>' >> $(@)
 
 #---------------------------------------------------------------------
+#
+#pkg_plugins_lib_LTLIBRARIES += 10-basic-code-point-classification.la
+#
+#10_basic_code_point_classification_la_LIBADD =
+#10_basic_code_point_classification_la_LDFLAGS =
+#10_basic_code_point_classification_la_CFLAGS =
+#EXTRA_10_basic_code_point_classification_la_DEPENDENCIES =
+#10_basic_code_point_classification_la_SOURCES =
+#
+#10_basic_code_point_classification_la_LIBADD += libhiha.la
+#10_basic_code_point_classification_la_LIBADD += lib/libgnu.la
+#10_basic_code_point_classification_la_LIBADD += $(GCVERS)/libhiha-gc.la
+#
+#10_basic_code_point_classification_la_LDFLAGS += $(LIBS)
+#10_basic_code_point_classification_la_LDFLAGS += $(LTLIBICONV)
+#10_basic_code_point_classification_la_LDFLAGS += $(LTLIBINTL)
+#10_basic_code_point_classification_la_LDFLAGS += $(LTLIBUNISTRING)
+#10_basic_code_point_classification_la_LDFLAGS += -avoid-version -module
+#10_basic_code_point_classification_la_LDFLAGS += -shared
+#
+#10_basic_code_point_classification_la_CFLAGS += $(BASICCFLAGS)
+#10_basic_code_point_classification_la_CFLAGS += $(CFLAGS)
+#
+#10_basic_code_point_classification_la_SOURCES += \
+#	src/plugins/10-basic-code-point-classification.c
+#
+#---------------------------------------------------------------------
 
 .PHONY: indent
 indent:
@@ -2802,7 +2891,11 @@ indent:
 		$(addprefix $(top_srcdir)/, \
 			$(filter %.c %.h,$(hiha_SOURCES))) \
 		$(addprefix $(top_srcdir)/, \
-			$(filter %.c %.h,$(10_basic_code_point_classification_la_SOURCES)))
+			$(filter %.c %.h,$(10_eof_la_SOURCES))) \
+		$(addprefix $(top_srcdir)/, \
+			$(filter %.c %.h,$(20_white_space_la_SOURCES))) \
+		$(addprefix $(top_srcdir)/, \
+			$(filter %.c %.h,$(30_decimal_integer_la_SOURCES)))
 
 #---------------------------------------------------------------------
 

@@ -20,46 +20,47 @@
 */
 
 #include <config.h>
-#include <stddef.h>
-#include <dlfcn.h>
-#include <assert.h>
-#include <xalloc.h>
 #include <error.h>
 #include <exitfail.h>
-#include <gl_avltree_list.h>
-#include <gl_xlist.h>
-#include <libhiha/initialize_once.h>
-#include <libhiha/pratt.h>
-#include <libhiha/load_plugin.h>
+#include <unictype.h>
+#include <xalloc.h>
+#include <libhiha/libhiha.h>
 
 // Change this if using gettext.
 #define _(msgid) msgid
 
 #define VISIBLE [[gnu::visibility ("default")]]
 
-typedef void plugin_init_func_t (void);
-typedef plugin_init_func_t *plugin_init_t;
+static void
+check_code_point_token (token_t tok)
+{
+  if (tok->token_value->n != 1)
+    error (exit_failure, 0,
+           "CP token with a value of length other than 1: “%s”",
+           make_str_nul (tok->token_value));
+}
+
+static void
+code_point_handler (void *state, buffered_token_getter_t getter,
+                    pratt_tables_t tables, token_t tok, void **lhs,
+                    const char **error_message)
+{
+  check_code_point_token (tok);
+  *error_message = NULL;
+  uint32_t cp = tok->token_value->s[0];
+  if (uc_is_property (cp, UC_PROPERTY_WHITE_SPACE))
+    *lhs =
+      (void *) make_token_t (make_string_t ("SP"), tok->token_value,
+                             tok->loc);
+  else
+    *lhs = (void *) tok;
+}
 
 VISIBLE void
-load_plugin (const char *filename, const char **error_message)
+plugin_init (void)
 {
-  *error_message = NULL;
-  void *handle = dlopen (filename, RTLD_LAZY | RTLD_LOCAL);
-  if (handle == NULL)
-    *error_message = xstrdup (dlerror ());
-  else
-    {
-      // Clear any errors.
-      dlerror ();
-
-      plugin_init_t plugin_init =
-        (plugin_init_t) dlsym (handle, "plugin_init");
-
-      // If there is no plugin_init() function, just ignore this
-      // library.
-      if (plugin_init != NULL)
-        plugin_init ();
-    }
+  pratt_tables_t tables = lexical_pratt_tables ();
+  pratt_nud_put (tables, string_t_CP (), &code_point_handler);
 }
 
 /*

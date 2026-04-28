@@ -848,6 +848,15 @@ make_token_putter_with_mismatch_check (token_putter_t input_putter,
   return (token_putter_t) p;
 }
 
+VISIBLE void
+print_token_t (const token_t tok, FILE *f)
+{
+  fprintf (f, "%s:%zu:%zu %s |%s|\n", tok->loc->filename,
+           tok->loc->line_no, tok->loc->code_point_no,
+           make_str_nul (tok->token_kind),
+           make_str_nul (tok->token_value));
+}
+
 /*
   local variables:
   mode: c

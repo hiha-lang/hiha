@@ -49,6 +49,7 @@
 #  uniconv/u32-casecoll \
 #  uniconv/u32-conv-from-enc \
 #  uniconv/u32-conv-to-enc \
+#  unictype/category-Pc \
 #  unictype/category-Sm \
 #  unictype/category-test \
 #  unictype/property-id-continue \
@@ -2224,6 +2225,16 @@ MOSTLYCLEANFILES += unictype.h unictype.h-t1 unictype.h-t2 unictype.h-t3 unictyp
 EXTRA_DIST += unictype.in.h
 
 ## end   gnulib module unictype/base
+
+## begin gnulib module unictype/category-Pc
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_PC
+libgnu_la_SOURCES += unictype/categ_Pc.c
+endif
+
+EXTRA_DIST += unictype/categ_Pc.h
+
+## end   gnulib module unictype/category-Pc
 
 ## begin gnulib module unictype/category-Sm
 

@@ -1,0 +1,23 @@
+pkg_plugins_lib_LTLIBRARIES += 20-white_space.la
+
+20_white_space_la_LIBADD =
+20_white_space_la_LDFLAGS =
+20_white_space_la_CFLAGS =
+EXTRA_20_white_space_la_DEPENDENCIES =
+20_white_space_la_SOURCES =
+
+20_white_space_la_LIBADD += libhiha.la
+20_white_space_la_LIBADD += lib/libgnu.la
+20_white_space_la_LIBADD += $(GCVERS)/libhiha-gc.la
+
+20_white_space_la_LDFLAGS += $(LIBS)
+20_white_space_la_LDFLAGS += $(LTLIBICONV)
+20_white_space_la_LDFLAGS += $(LTLIBINTL)
+20_white_space_la_LDFLAGS += $(LTLIBUNISTRING)
+20_white_space_la_LDFLAGS += -avoid-version -module
+20_white_space_la_LDFLAGS += -shared
+
+20_white_space_la_CFLAGS += $(BASICCFLAGS)
+20_white_space_la_CFLAGS += $(CFLAGS)
+
+20_white_space_la_SOURCES += src/plugins/20-white_space.c

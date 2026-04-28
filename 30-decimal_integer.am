@@ -1,0 +1,23 @@
+pkg_plugins_lib_LTLIBRARIES += 30-decimal_integer.la
+
+30_decimal_integer_la_LIBADD =
+30_decimal_integer_la_LDFLAGS =
+30_decimal_integer_la_CFLAGS =
+EXTRA_30_decimal_integer_la_DEPENDENCIES =
+30_decimal_integer_la_SOURCES =
+
+30_decimal_integer_la_LIBADD += libhiha.la
+30_decimal_integer_la_LIBADD += lib/libgnu.la
+30_decimal_integer_la_LIBADD += $(GCVERS)/libhiha-gc.la
+
+30_decimal_integer_la_LDFLAGS += $(LIBS)
+30_decimal_integer_la_LDFLAGS += $(LTLIBICONV)
+30_decimal_integer_la_LDFLAGS += $(LTLIBINTL)
+30_decimal_integer_la_LDFLAGS += $(LTLIBUNISTRING)
+30_decimal_integer_la_LDFLAGS += -avoid-version -module
+30_decimal_integer_la_LDFLAGS += -shared
+
+30_decimal_integer_la_CFLAGS += $(BASICCFLAGS)
+30_decimal_integer_la_CFLAGS += $(CFLAGS)
+
+30_decimal_integer_la_SOURCES += src/plugins/30-decimal_integer.c

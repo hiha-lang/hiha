@@ -20,46 +20,31 @@
 */
 
 #include <config.h>
-#include <stddef.h>
-#include <dlfcn.h>
-#include <assert.h>
-#include <xalloc.h>
 #include <error.h>
 #include <exitfail.h>
-#include <gl_avltree_list.h>
-#include <gl_xlist.h>
-#include <libhiha/initialize_once.h>
-#include <libhiha/pratt.h>
-#include <libhiha/load_plugin.h>
+#include <unictype.h>
+#include <xalloc.h>
+#include <libhiha/libhiha.h>
 
 // Change this if using gettext.
 #define _(msgid) msgid
 
 #define VISIBLE [[gnu::visibility ("default")]]
 
-typedef void plugin_init_func_t (void);
-typedef plugin_init_func_t *plugin_init_t;
-
-VISIBLE void
-load_plugin (const char *filename, const char **error_message)
+static void
+eof_handler (void *state, buffered_token_getter_t getter,
+             pratt_tables_t tables, token_t tok, void **lhs,
+             const char **error_message)
 {
   *error_message = NULL;
-  void *handle = dlopen (filename, RTLD_LAZY | RTLD_LOCAL);
-  if (handle == NULL)
-    *error_message = xstrdup (dlerror ());
-  else
-    {
-      // Clear any errors.
-      dlerror ();
+  *lhs = (void *) tok;
+}
 
-      plugin_init_t plugin_init =
-        (plugin_init_t) dlsym (handle, "plugin_init");
-
-      // If there is no plugin_init() function, just ignore this
-      // library.
-      if (plugin_init != NULL)
-        plugin_init ();
-    }
+VISIBLE void
+plugin_init (void)
+{
+  pratt_tables_t tables = lexical_pratt_tables ();
+  pratt_nud_put (tables, string_t_EOF (), &eof_handler);
 }
 
 /*

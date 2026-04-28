@@ -180,7 +180,7 @@ execute_null_denotation (void *state, buffered_token_getter_t getter,
         //
         // Success.
         //
-        handler (state, tables, tok, lhs, error_message);
+        handler (state, getter, tables, tok, lhs, error_message);
     }
 }
 
@@ -232,7 +232,7 @@ execute_left_denotation (void *state, buffered_token_getter_t getter,
         //
         // Success.
         //
-        handler (state, tables, tok, lhs, error_message);
+        handler (state, getter, tables, tok, lhs, error_message);
     }
 }
 

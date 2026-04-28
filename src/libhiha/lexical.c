@@ -33,8 +33,6 @@
 #include <math.h>
 #include <error.h>
 #include <exitfail.h>
-#include <lib/gl_xlist.h>
-#include <lib/gl_avltree_list.h>
 #include <libhiha/lexical.h>
 #include <libhiha/initialize_once.h>
 

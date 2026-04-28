@@ -1,29 +1,16 @@
 #!/bin/sh
-# Run this script to generate or regenerate the `configure' script,
-# in cases where `autoreconf', etc., alone might not suffice,
-# for instance just after cloning one of our Git, Mercurial, or
-# Bazaar repositories.
+# Run this script to generate or regenerate the `configure' script and
+# related Automake files, in cases where `autoreconf', etc., alone
+# might not suffice,
 
-# Sorts Mill Autogen
-# <https://bitbucket.org/sortsmill/sortsmill-autogen>
+# Sorts Mill Autogen (modified for hiha)
 #
-# Copyright (C) 2013, 2015, 2021 Khaled Hosny and Barry Schwartz
+# Copyright (C) 2013, 2015, 2021, 2026 Khaled Hosny and Barry Schwartz
 # 
 # Copying and distribution of this file, with or without modification,
 # are permitted in any medium without royalty provided the copyright
 # notice and this notice are preserved.  This file is offered as-is,
 # without any warranty.
-
-
-# Sorts Mill developers: please increase the serial number when you
-# make any significant change to this script in its own repository:
-#
-# serial 3
-
-#
-# FIXME: Accept a command line and provide help and version messages
-# as usual.
-#
 
 progname=`basename "${0}"`
 
@@ -52,7 +39,7 @@ grep_word_quietly() {
         true
     elif LC_ALL=C grep "^${pattern}${not_word}" ${1+"$@"} \
         2> /dev/null > /dev/null; then
-        true
+r        true
     else
         false
     fi
@@ -201,10 +188,45 @@ run_autoreconf() {
     autoreconf --force --install --verbose || exit $?
 }
 
+plugin_automake() {
+    _number="$1"
+    _name="$2"
+    echo "Creating ${_number}-${_name}.am"
+    cat > "${_number}-${_name}.am" <<EOF
+pkg_plugins_lib_LTLIBRARIES += ${_number}-${_name}.la
+
+${_number}_${_name}_la_LIBADD =
+${_number}_${_name}_la_LDFLAGS =
+${_number}_${_name}_la_CFLAGS =
+EXTRA_${_number}_${_name}_la_DEPENDENCIES =
+${_number}_${_name}_la_SOURCES =
+
+${_number}_${_name}_la_LIBADD += libhiha.la
+${_number}_${_name}_la_LIBADD += lib/libgnu.la
+${_number}_${_name}_la_LIBADD += \$(GCVERS)/libhiha-gc.la
+
+${_number}_${_name}_la_LDFLAGS += \$(LIBS)
+${_number}_${_name}_la_LDFLAGS += \$(LTLIBICONV)
+${_number}_${_name}_la_LDFLAGS += \$(LTLIBINTL)
+${_number}_${_name}_la_LDFLAGS += \$(LTLIBUNISTRING)
+${_number}_${_name}_la_LDFLAGS += -avoid-version -module
+${_number}_${_name}_la_LDFLAGS += -shared
+
+${_number}_${_name}_la_CFLAGS += \$(BASICCFLAGS)
+${_number}_${_name}_la_CFLAGS += \$(CFLAGS)
+
+${_number}_${_name}_la_SOURCES += src/plugins/${_number}-${_name}.c
+EOF
+}
+
 # Run everything in a subshell, so the user does not get stuck in a
 # new directory if the process is interrupted.
 (
     cd "${srcdir}"
+
+    plugin_automake 10 eof
+    plugin_automake 20 white_space
+    plugin_automake 30 decimal_integer
 
     need_sortsmill_tig && require_sortsmill_tig
     need_pkg_config && require_pkg_config

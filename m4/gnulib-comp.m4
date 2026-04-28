@@ -182,6 +182,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module uniconv/u8-conv-from-enc:
   # Code from module uniconv/u8-conv-to-enc:
   # Code from module unictype/base:
+  # Code from module unictype/category-Pc:
   # Code from module unictype/category-Sm:
   # Code from module unictype/category-test:
   # Code from module unictype/combining-class:
@@ -609,6 +610,8 @@ AC_DEFUN([gl_INIT],
   gl_UNICTYPE_H
   gl_UNICTYPE_H_REQUIRE_DEFAULTS
   AC_PROG_MKDIR_P
+  gl_UNICTYPE_H_REQUIRE_DEFAULTS
+  gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [unictype/category-Pc])
   gl_UNICTYPE_H_REQUIRE_DEFAULTS
   gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [unictype/category-Sm])
   AC_REQUIRE([AC_C_INLINE])
@@ -1047,6 +1050,8 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/uniconv/u8-conv-to-enc.c
   lib/unictype.in.h
   lib/unictype/bitmap.h
+  lib/unictype/categ_Pc.c
+  lib/unictype/categ_Pc.h
   lib/unictype/categ_Sm.c
   lib/unictype/categ_Sm.h
   lib/unictype/categ_test.c

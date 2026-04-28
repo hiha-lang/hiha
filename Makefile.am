@@ -74,6 +74,9 @@ BUILT_SOURCES += config.h
 #---------------------------------------------------------------------
 
 include gc-dist.am
+include 10-eof.am
+include 20-white_space.am
+include 30-decimal_integer.am
 
 BUILT_SOURCES += $(GCVERS)/libhiha-gc.la
 
@@ -200,32 +203,32 @@ libhiha_la_SOURCES += src/libhiha/lexical.c
 libhiha_la_SOURCES += src/libhiha/load_plugin.c
 
 #---------------------------------------------------------------------
-
-pkg_plugins_lib_LTLIBRARIES += 10-basic-code-point-classification.la
-
-10_basic_code_point_classification_la_LIBADD =
-10_basic_code_point_classification_la_LDFLAGS =
-10_basic_code_point_classification_la_CFLAGS =
-EXTRA_10_basic_code_point_classification_la_DEPENDENCIES =
-10_basic_code_point_classification_la_SOURCES =
-
-10_basic_code_point_classification_la_LIBADD += libhiha.la
-10_basic_code_point_classification_la_LIBADD += lib/libgnu.la
-10_basic_code_point_classification_la_LIBADD += $(GCVERS)/libhiha-gc.la
-
-10_basic_code_point_classification_la_LDFLAGS += $(LIBS)
-10_basic_code_point_classification_la_LDFLAGS += $(LTLIBICONV)
-10_basic_code_point_classification_la_LDFLAGS += $(LTLIBINTL)
-10_basic_code_point_classification_la_LDFLAGS += $(LTLIBUNISTRING)
-10_basic_code_point_classification_la_LDFLAGS += -avoid-version -module
-10_basic_code_point_classification_la_LDFLAGS += -shared
-
-10_basic_code_point_classification_la_CFLAGS += $(BASICCFLAGS)
-10_basic_code_point_classification_la_CFLAGS += $(CFLAGS)
-
-10_basic_code_point_classification_la_SOURCES += \
-	src/plugins/10-basic-code-point-classification.c
-
+#
+#pkg_plugins_lib_LTLIBRARIES += 10-basic-code-point-classification.la
+#
+#10_basic_code_point_classification_la_LIBADD =
+#10_basic_code_point_classification_la_LDFLAGS =
+#10_basic_code_point_classification_la_CFLAGS =
+#EXTRA_10_basic_code_point_classification_la_DEPENDENCIES =
+#10_basic_code_point_classification_la_SOURCES =
+#
+#10_basic_code_point_classification_la_LIBADD += libhiha.la
+#10_basic_code_point_classification_la_LIBADD += lib/libgnu.la
+#10_basic_code_point_classification_la_LIBADD += $(GCVERS)/libhiha-gc.la
+#
+#10_basic_code_point_classification_la_LDFLAGS += $(LIBS)
+#10_basic_code_point_classification_la_LDFLAGS += $(LTLIBICONV)
+#10_basic_code_point_classification_la_LDFLAGS += $(LTLIBINTL)
+#10_basic_code_point_classification_la_LDFLAGS += $(LTLIBUNISTRING)
+#10_basic_code_point_classification_la_LDFLAGS += -avoid-version -module
+#10_basic_code_point_classification_la_LDFLAGS += -shared
+#
+#10_basic_code_point_classification_la_CFLAGS += $(BASICCFLAGS)
+#10_basic_code_point_classification_la_CFLAGS += $(CFLAGS)
+#
+#10_basic_code_point_classification_la_SOURCES += \
+#	src/plugins/10-basic-code-point-classification.c
+#
 #---------------------------------------------------------------------
 
 .PHONY: indent
@@ -254,7 +257,11 @@ indent:
 		$(addprefix $(top_srcdir)/, \
 			$(filter %.c %.h,$(hiha_SOURCES))) \
 		$(addprefix $(top_srcdir)/, \
-			$(filter %.c %.h,$(10_basic_code_point_classification_la_SOURCES)))
+			$(filter %.c %.h,$(10_eof_la_SOURCES))) \
+		$(addprefix $(top_srcdir)/, \
+			$(filter %.c %.h,$(20_white_space_la_SOURCES))) \
+		$(addprefix $(top_srcdir)/, \
+			$(filter %.c %.h,$(30_decimal_integer_la_SOURCES)))
 
 #---------------------------------------------------------------------
 

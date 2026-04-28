@@ -54,6 +54,7 @@
 #  uniconv/u32-casecoll \
 #  uniconv/u32-conv-from-enc \
 #  uniconv/u32-conv-to-enc \
+#  unictype/category-Pc \
 #  unictype/category-Sm \
 #  unictype/category-test \
 #  unictype/property-id-continue \
@@ -88,6 +89,7 @@ gl_MODULES([
   uniconv/u32-casecoll
   uniconv/u32-conv-from-enc
   uniconv/u32-conv-to-enc
+  unictype/category-Pc
   unictype/category-Sm
   unictype/category-test
   unictype/property-id-continue

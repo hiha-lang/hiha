@@ -259,6 +259,15 @@ am_30_decimal_integer_la_OBJECTS =  \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(30_decimal_integer_la_CFLAGS) $(CFLAGS) \
 	$(30_decimal_integer_la_LDFLAGS) $(LDFLAGS) -o $@
+40_identifier_la_DEPENDENCIES = libhiha.la lib/libgnu.la \
+	$(GCVERS)/libhiha-gc.la
+am_40_identifier_la_OBJECTS =  \
+	src/plugins/40_identifier_la-40-identifier.lo
+40_identifier_la_OBJECTS = $(am_40_identifier_la_OBJECTS)
+40_identifier_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(40_identifier_la_CFLAGS) $(CFLAGS) \
+	$(40_identifier_la_LDFLAGS) $(LDFLAGS) -o $@
 libhiha_la_DEPENDENCIES = lib/libgnu.la
 am__objects_1 =
 am_libhiha_la_OBJECTS = $(am__objects_1) \
@@ -304,7 +313,8 @@ am__depfiles_remade = src/hiha/$(DEPDIR)/hiha-hiha.Po \
 	src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo \
 	src/plugins/$(DEPDIR)/10_eof_la-10-eof.Plo \
 	src/plugins/$(DEPDIR)/20_white_space_la-20-white_space.Plo \
-	src/plugins/$(DEPDIR)/30_decimal_integer_la-30-decimal_integer.Plo
+	src/plugins/$(DEPDIR)/30_decimal_integer_la-30-decimal_integer.Plo \
+	src/plugins/$(DEPDIR)/40_identifier_la-40-identifier.Plo
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -325,11 +335,11 @@ am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(10_eof_la_SOURCES) $(20_white_space_la_SOURCES) \
-	$(30_decimal_integer_la_SOURCES) $(libhiha_la_SOURCES) \
-	$(hiha_SOURCES)
+	$(30_decimal_integer_la_SOURCES) $(40_identifier_la_SOURCES) \
+	$(libhiha_la_SOURCES) $(hiha_SOURCES)
 DIST_SOURCES = $(10_eof_la_SOURCES) $(20_white_space_la_SOURCES) \
-	$(30_decimal_integer_la_SOURCES) $(libhiha_la_SOURCES) \
-	$(hiha_SOURCES)
+	$(30_decimal_integer_la_SOURCES) $(40_identifier_la_SOURCES) \
+	$(libhiha_la_SOURCES) $(hiha_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
 	install-data-recursive install-dvi-recursive \
@@ -373,9 +383,9 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 DIST_SUBDIRS = $(SUBDIRS)
 am__DIST_COMMON = $(srcdir)/10-eof.am $(srcdir)/20-white_space.am \
-	$(srcdir)/30-decimal_integer.am $(srcdir)/Makefile.in \
-	$(srcdir)/config.h.in $(srcdir)/gc-dist.am \
-	$(top_srcdir)/build-aux/compile \
+	$(srcdir)/30-decimal_integer.am $(srcdir)/40-identifier.am \
+	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
+	$(srcdir)/gc-dist.am $(top_srcdir)/build-aux/compile \
 	$(top_srcdir)/build-aux/config.guess \
 	$(top_srcdir)/build-aux/config.rpath \
 	$(top_srcdir)/build-aux/config.sub \
@@ -1683,7 +1693,7 @@ pkg_libhiha_includedir = $(pkgincludedir)/libhiha
 #---------------------------------------------------------------------
 lib_LTLIBRARIES = libhiha.la
 pkg_plugins_lib_LTLIBRARIES = 10-eof.la 20-white_space.la \
-	30-decimal_integer.la
+	30-decimal_integer.la 40-identifier.la
 pkginclude_HEADERS = include/gc.h
 pkg_gc_include_HEADERS = $(top_srcdir)/$(GCVERS)/include/cord.h \
 	$(top_srcdir)/$(GCVERS)/include/cord_pos.h \
@@ -1848,6 +1858,13 @@ EXTRA_20_white_space_la_DEPENDENCIES =
 30_decimal_integer_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
 EXTRA_30_decimal_integer_la_DEPENDENCIES = 
 30_decimal_integer_la_SOURCES = src/plugins/30-decimal_integer.c
+40_identifier_la_LIBADD = libhiha.la lib/libgnu.la \
+	$(GCVERS)/libhiha-gc.la
+40_identifier_la_LDFLAGS = $(LIBS) $(LTLIBICONV) $(LTLIBINTL) \
+	$(LTLIBUNISTRING) -avoid-version -module -shared
+40_identifier_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
+EXTRA_40_identifier_la_DEPENDENCIES = 
+40_identifier_la_SOURCES = src/plugins/40-identifier.c
 hiha_LDFLAGS = -export-dynamic
 hiha_LDADD = libhiha.la $(GCVERS)/libhiha-gc.la lib/libgnu.la \
 	$(LTLIBICONV) $(LTLIBINTL) $(LTLIBUNISTRING)
@@ -1886,7 +1903,7 @@ all: $(BUILT_SOURCES) config.h
 .SUFFIXES: .c .lo .o .obj
 am--refresh: GNUmakefile
 	@:
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/gc-dist.am $(srcdir)/10-eof.am $(srcdir)/20-white_space.am $(srcdir)/30-decimal_integer.am $(am__configure_deps)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/gc-dist.am $(srcdir)/10-eof.am $(srcdir)/20-white_space.am $(srcdir)/30-decimal_integer.am $(srcdir)/40-identifier.am $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -1908,7 +1925,7 @@ GNUmakefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__maybe_remake_depfiles)'; \
 	    cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__maybe_remake_depfiles);; \
 	esac;
-$(srcdir)/gc-dist.am $(srcdir)/10-eof.am $(srcdir)/20-white_space.am $(srcdir)/30-decimal_integer.am $(am__empty):
+$(srcdir)/gc-dist.am $(srcdir)/10-eof.am $(srcdir)/20-white_space.am $(srcdir)/30-decimal_integer.am $(srcdir)/40-identifier.am $(am__empty):
 
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
@@ -2066,6 +2083,12 @@ src/plugins/30_decimal_integer_la-30-decimal_integer.lo:  \
 
 30-decimal_integer.la: $(30_decimal_integer_la_OBJECTS) $(30_decimal_integer_la_DEPENDENCIES) $(EXTRA_30_decimal_integer_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(30_decimal_integer_la_LINK) -rpath $(pkg_plugins_libdir) $(30_decimal_integer_la_OBJECTS) $(30_decimal_integer_la_LIBADD) $(LIBS)
+src/plugins/40_identifier_la-40-identifier.lo:  \
+	src/plugins/$(am__dirstamp) \
+	src/plugins/$(DEPDIR)/$(am__dirstamp)
+
+40-identifier.la: $(40_identifier_la_OBJECTS) $(40_identifier_la_DEPENDENCIES) $(EXTRA_40_identifier_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(40_identifier_la_LINK) -rpath $(pkg_plugins_libdir) $(40_identifier_la_OBJECTS) $(40_identifier_la_LIBADD) $(LIBS)
 src/libhiha/$(am__dirstamp):
 	@$(MKDIR_P) src/libhiha
 	@: >>src/libhiha/$(am__dirstamp)
@@ -2121,6 +2144,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/10_eof_la-10-eof.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/20_white_space_la-20-white_space.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/30_decimal_integer_la-30-decimal_integer.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/40_identifier_la-40-identifier.Plo@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -2172,6 +2196,13 @@ src/plugins/30_decimal_integer_la-30-decimal_integer.lo: src/plugins/30-decimal_
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/plugins/30-decimal_integer.c' object='src/plugins/30_decimal_integer_la-30-decimal_integer.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(30_decimal_integer_la_CFLAGS) $(CFLAGS) -c -o src/plugins/30_decimal_integer_la-30-decimal_integer.lo `test -f 'src/plugins/30-decimal_integer.c' || echo '$(srcdir)/'`src/plugins/30-decimal_integer.c
+
+src/plugins/40_identifier_la-40-identifier.lo: src/plugins/40-identifier.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(40_identifier_la_CFLAGS) $(CFLAGS) -MT src/plugins/40_identifier_la-40-identifier.lo -MD -MP -MF src/plugins/$(DEPDIR)/40_identifier_la-40-identifier.Tpo -c -o src/plugins/40_identifier_la-40-identifier.lo `test -f 'src/plugins/40-identifier.c' || echo '$(srcdir)/'`src/plugins/40-identifier.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/plugins/$(DEPDIR)/40_identifier_la-40-identifier.Tpo src/plugins/$(DEPDIR)/40_identifier_la-40-identifier.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/plugins/40-identifier.c' object='src/plugins/40_identifier_la-40-identifier.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(40_identifier_la_CFLAGS) $(CFLAGS) -c -o src/plugins/40_identifier_la-40-identifier.lo `test -f 'src/plugins/40-identifier.c' || echo '$(srcdir)/'`src/plugins/40-identifier.c
 
 src/libhiha/libhiha_la-spinlock.lo: src/libhiha/spinlock.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_la-spinlock.lo -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Tpo -c -o src/libhiha/libhiha_la-spinlock.lo `test -f 'src/libhiha/spinlock.c' || echo '$(srcdir)/'`src/libhiha/spinlock.c
@@ -2685,6 +2716,7 @@ distclean: distclean-recursive
 	-rm -f src/plugins/$(DEPDIR)/10_eof_la-10-eof.Plo
 	-rm -f src/plugins/$(DEPDIR)/20_white_space_la-20-white_space.Plo
 	-rm -f src/plugins/$(DEPDIR)/30_decimal_integer_la-30-decimal_integer.Plo
+	-rm -f src/plugins/$(DEPDIR)/40_identifier_la-40-identifier.Plo
 	-rm -f GNUmakefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-libtool distclean-local distclean-tags
@@ -2745,6 +2777,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/plugins/$(DEPDIR)/10_eof_la-10-eof.Plo
 	-rm -f src/plugins/$(DEPDIR)/20_white_space_la-20-white_space.Plo
 	-rm -f src/plugins/$(DEPDIR)/30_decimal_integer_la-30-decimal_integer.Plo
+	-rm -f src/plugins/$(DEPDIR)/40_identifier_la-40-identifier.Plo
 	-rm -f GNUmakefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -2895,7 +2928,9 @@ indent:
 		$(addprefix $(top_srcdir)/, \
 			$(filter %.c %.h,$(20_white_space_la_SOURCES))) \
 		$(addprefix $(top_srcdir)/, \
-			$(filter %.c %.h,$(30_decimal_integer_la_SOURCES)))
+			$(filter %.c %.h,$(30_decimal_integer_la_SOURCES))) \
+		$(addprefix $(top_srcdir)/, \
+			$(filter %.c %.h,$(40_identifier_la_SOURCES)))
 
 #---------------------------------------------------------------------
 

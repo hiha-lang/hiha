@@ -77,6 +77,7 @@ include gc-dist.am
 include 10-eof.am
 include 20-white_space.am
 include 30-decimal_integer.am
+include 40-identifier.am
 
 BUILT_SOURCES += $(GCVERS)/libhiha-gc.la
 
@@ -261,7 +262,9 @@ indent:
 		$(addprefix $(top_srcdir)/, \
 			$(filter %.c %.h,$(20_white_space_la_SOURCES))) \
 		$(addprefix $(top_srcdir)/, \
-			$(filter %.c %.h,$(30_decimal_integer_la_SOURCES)))
+			$(filter %.c %.h,$(30_decimal_integer_la_SOURCES))) \
+		$(addprefix $(top_srcdir)/, \
+			$(filter %.c %.h,$(40_identifier_la_SOURCES)))
 
 #---------------------------------------------------------------------
 

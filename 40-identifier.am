@@ -1,0 +1,23 @@
+pkg_plugins_lib_LTLIBRARIES += 40-identifier.la
+
+40_identifier_la_LIBADD =
+40_identifier_la_LDFLAGS =
+40_identifier_la_CFLAGS =
+EXTRA_40_identifier_la_DEPENDENCIES =
+40_identifier_la_SOURCES =
+
+40_identifier_la_LIBADD += libhiha.la
+40_identifier_la_LIBADD += lib/libgnu.la
+40_identifier_la_LIBADD += $(GCVERS)/libhiha-gc.la
+
+40_identifier_la_LDFLAGS += $(LIBS)
+40_identifier_la_LDFLAGS += $(LTLIBICONV)
+40_identifier_la_LDFLAGS += $(LTLIBINTL)
+40_identifier_la_LDFLAGS += $(LTLIBUNISTRING)
+40_identifier_la_LDFLAGS += -avoid-version -module
+40_identifier_la_LDFLAGS += -shared
+
+40_identifier_la_CFLAGS += $(BASICCFLAGS)
+40_identifier_la_CFLAGS += $(CFLAGS)
+
+40_identifier_la_SOURCES += src/plugins/40-identifier.c

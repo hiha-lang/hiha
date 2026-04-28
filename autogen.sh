@@ -227,6 +227,7 @@ EOF
     plugin_automake 10 eof
     plugin_automake 20 white_space
     plugin_automake 30 decimal_integer
+    plugin_automake 40 identifier
 
     need_sortsmill_tig && require_sortsmill_tig
     need_pkg_config && require_pkg_config

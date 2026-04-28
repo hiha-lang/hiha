@@ -1,5 +1,58 @@
 @  master
-|  2026-04-27 19:25 +0000
+|  2026-04-28 17:08 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:
+|  mercurial: b9e929914654586d0f240da5a74a4f3b897fb241
+|  revision:  74
+|  parents:   73
+|
+|    Remove obsolete stuff.
+|
+|
+o  2026-04-28 16:45 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       7426584ae91c3ab2a40f572a7c1fe75c86212fc7
+|  mercurial: 54be8b96837ef8531ae01ff54679dd1208d11e8e
+|  revision:  73
+|  parents:   72
+|
+|    Added a plugin for identifiers.
+|
+|
+o  2026-04-28 15:31 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       b445204a0376780f94b87bfbbc11aad512aa6c40
+|  mercurial: 826dfc55a2d7062bf5c14105e6b207e1d62099a9
+|  revision:  72
+|  parents:   71
+|
+|    A different approach to lexical analysis. So far we have scanning of
+|    white space and of decimal integers. The decimal integers can have
+|    underscores in them (or other connector punctuation such as dashed
+|    underscores).
+|
+|
+o  2026-04-27 21:24 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       b18dcf66b679023b2ad9b5f7145491c0073e772e
+|  mercurial: d533a9998f155f952d7af98a832e5a073f19a3ed
+|  revision:  71
+|  parents:   70
+|
+|    Changes to lexical categorization.
+|
+|
+o  2026-04-27 19:41 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       35ee835b449e85ebd9ae48480def4b287f5159f5
+|  mercurial: b336fd326f3bc422ab76fdab581276b4e66b5588
+|  revision:  70
+|  parents:   69
+|
+|    A slight improvement to ChangeLog style.
+|
+|
+o  2026-04-27 19:25 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       d7503af65ccb9151ff6a9c8d303abb21bcf5b21d
 |  mercurial: 58a4f22ca05a339f481ed84089ddcf482ab10bd8

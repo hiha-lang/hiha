@@ -26,6 +26,7 @@
 #include <math.h>
 #include <string.h>
 #include <limits.h>
+#include <locale.h>
 #include <errno.h>
 #include <dirent.h>
 #include <filevercmp.h>
@@ -113,7 +114,7 @@ static void
 print_version (void)
 {
   version_etc_ar (stdout, COMMAND_NAME,
-                  "an “orthogonal” programming language",
+                  _("hiha: an “orthogonal” programming language"),
                   PACKAGE_VERSION, authors);
 }
 
@@ -303,6 +304,7 @@ int
 main (int argc, char **argv)
 {
   GC_INIT ();
+  setlocale (LC_ALL, "");
   set_program_name (argv[0]);
 
   hiha_options_t opts;

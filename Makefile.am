@@ -162,6 +162,33 @@ hiha_SOURCES += src/hiha/hiha.c
 
 #---------------------------------------------------------------------
 
+bin_PROGRAMS += hiha-tokens-print
+
+hiha_tokens_print_LDFLAGS =
+hiha_tokens_print_LDADD =
+hiha_tokens_print_CFLAGS =
+EXTRA_hiha_tokens_print_DEPENDENCIES =
+hiha_tokens_print_SOURCES =
+
+hiha_tokens_print_LDFLAGS += -export-dynamic
+
+hiha_tokens_print_LDADD += libhiha.la
+hiha_tokens_print_LDADD += $(GCVERS)/libhiha-gc.la
+hiha_tokens_print_LDADD += lib/libgnu.la
+hiha_tokens_print_LDADD += $(LTLIBICONV)
+hiha_tokens_print_LDADD += $(LTLIBINTL)
+hiha_tokens_print_LDADD += $(LTLIBUNISTRING)
+
+hiha_tokens_print_CFLAGS += $(BASICCFLAGS)
+hiha_tokens_print_CFLAGS += $(CFLAGS)
+
+EXTRA_hiha_tokens_print_DEPENDENCIES += libhiha.la
+EXTRA_hiha_tokens_print_DEPENDENCIES += lib/libgnu.la
+
+hiha_tokens_print_SOURCES += src/hiha-tokens-print/hiha-tokens-print.c
+
+#---------------------------------------------------------------------
+
 lib_LTLIBRARIES += libhiha.la
 
 libhiha_la_LIBADD =
@@ -171,7 +198,6 @@ EXTRA_libhiha_la_DEPENDENCIES =
 libhiha_la_SOURCES =
 
 libhiha_la_LIBADD += lib/libgnu.la
-#libhiha_la_LIBADD += $(GCVERS)/libhiha-gc.la
 
 libhiha_la_LDFLAGS += $(LIBS)
 libhiha_la_LDFLAGS += $(LTLIBICONV)
@@ -230,6 +256,8 @@ indent:
 			$(filter %.c %.h,$(libhiha_la_SOURCES))) \
 		$(addprefix $(top_srcdir)/, \
 			$(filter %.c %.h,$(hiha_SOURCES))) \
+		$(addprefix $(top_srcdir)/, \
+			$(filter %.c %.h,$(hiha_tokens_print_SOURCES))) \
 		$(addprefix $(top_srcdir)/, \
 			$(filter %.c %.h,$(10_eof_la_SOURCES))) \
 		$(addprefix $(top_srcdir)/, \

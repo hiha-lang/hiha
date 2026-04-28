@@ -110,7 +110,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = hiha$(EXEEXT)
+bin_PROGRAMS = hiha$(EXEEXT) hiha-tokens-print$(EXEEXT)
 EXTRA_PROGRAMS =
 @HAVE_MERCURIAL_TRUE@am__append_1 = $(srcdir)/ChangeLog
 subdir = .
@@ -289,6 +289,14 @@ hiha_DEPENDENCIES = libhiha.la $(GCVERS)/libhiha-gc.la lib/libgnu.la \
 hiha_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(hiha_CFLAGS) $(CFLAGS) \
 	$(hiha_LDFLAGS) $(LDFLAGS) -o $@
+am_hiha_tokens_print_OBJECTS = src/hiha-tokens-print/hiha_tokens_print-hiha-tokens-print.$(OBJEXT)
+hiha_tokens_print_OBJECTS = $(am_hiha_tokens_print_OBJECTS)
+hiha_tokens_print_DEPENDENCIES = libhiha.la $(GCVERS)/libhiha-gc.la \
+	lib/libgnu.la $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+hiha_tokens_print_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(hiha_tokens_print_CFLAGS) $(CFLAGS) \
+	$(hiha_tokens_print_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -304,7 +312,8 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = src/hiha/$(DEPDIR)/hiha-hiha.Po \
+am__depfiles_remade = src/hiha-tokens-print/$(DEPDIR)/hiha_tokens_print-hiha-tokens-print.Po \
+	src/hiha/$(DEPDIR)/hiha-hiha.Po \
 	src/libhiha/$(DEPDIR)/libhiha_la-lexical.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-load_plugin.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-pratt.Plo \
@@ -336,10 +345,12 @@ am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(10_eof_la_SOURCES) $(20_white_space_la_SOURCES) \
 	$(30_decimal_integer_la_SOURCES) $(40_identifier_la_SOURCES) \
-	$(libhiha_la_SOURCES) $(hiha_SOURCES)
+	$(libhiha_la_SOURCES) $(hiha_SOURCES) \
+	$(hiha_tokens_print_SOURCES)
 DIST_SOURCES = $(10_eof_la_SOURCES) $(20_white_space_la_SOURCES) \
 	$(30_decimal_integer_la_SOURCES) $(40_identifier_la_SOURCES) \
-	$(libhiha_la_SOURCES) $(hiha_SOURCES)
+	$(libhiha_la_SOURCES) $(hiha_SOURCES) \
+	$(hiha_tokens_print_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
 	install-data-recursive install-dvi-recursive \
@@ -1871,8 +1882,13 @@ hiha_LDADD = libhiha.la $(GCVERS)/libhiha-gc.la lib/libgnu.la \
 hiha_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
 EXTRA_hiha_DEPENDENCIES = libhiha.la lib/libgnu.la
 hiha_SOURCES = src/hiha/hiha.c
+hiha_tokens_print_LDFLAGS = -export-dynamic
+hiha_tokens_print_LDADD = libhiha.la $(GCVERS)/libhiha-gc.la \
+	lib/libgnu.la $(LTLIBICONV) $(LTLIBINTL) $(LTLIBUNISTRING)
+hiha_tokens_print_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
+EXTRA_hiha_tokens_print_DEPENDENCIES = libhiha.la lib/libgnu.la
+hiha_tokens_print_SOURCES = src/hiha-tokens-print/hiha-tokens-print.c
 libhiha_la_LIBADD = lib/libgnu.la
-#libhiha_la_LIBADD += $(GCVERS)/libhiha-gc.la
 libhiha_la_LDFLAGS = $(LIBS) $(LTLIBICONV) $(LTLIBINTL) \
 	$(LTLIBUNISTRING) -lm -ldl -export-dynamic
 libhiha_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
@@ -2122,9 +2138,23 @@ src/hiha/hiha-hiha.$(OBJEXT): src/hiha/$(am__dirstamp) \
 hiha$(EXEEXT): $(hiha_OBJECTS) $(hiha_DEPENDENCIES) $(EXTRA_hiha_DEPENDENCIES) 
 	@rm -f hiha$(EXEEXT)
 	$(AM_V_CCLD)$(hiha_LINK) $(hiha_OBJECTS) $(hiha_LDADD) $(LIBS)
+src/hiha-tokens-print/$(am__dirstamp):
+	@$(MKDIR_P) src/hiha-tokens-print
+	@: >>src/hiha-tokens-print/$(am__dirstamp)
+src/hiha-tokens-print/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/hiha-tokens-print/$(DEPDIR)
+	@: >>src/hiha-tokens-print/$(DEPDIR)/$(am__dirstamp)
+src/hiha-tokens-print/hiha_tokens_print-hiha-tokens-print.$(OBJEXT):  \
+	src/hiha-tokens-print/$(am__dirstamp) \
+	src/hiha-tokens-print/$(DEPDIR)/$(am__dirstamp)
+
+hiha-tokens-print$(EXEEXT): $(hiha_tokens_print_OBJECTS) $(hiha_tokens_print_DEPENDENCIES) $(EXTRA_hiha_tokens_print_DEPENDENCIES) 
+	@rm -f hiha-tokens-print$(EXEEXT)
+	$(AM_V_CCLD)$(hiha_tokens_print_LINK) $(hiha_tokens_print_OBJECTS) $(hiha_tokens_print_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f src/hiha-tokens-print/*.$(OBJEXT)
 	-rm -f src/hiha/*.$(OBJEXT)
 	-rm -f src/libhiha/*.$(OBJEXT)
 	-rm -f src/libhiha/*.lo
@@ -2134,6 +2164,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@src/hiha-tokens-print/$(DEPDIR)/hiha_tokens_print-hiha-tokens-print.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/hiha/$(DEPDIR)/hiha-hiha.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-lexical.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-load_plugin.Plo@am__quote@ # am--include-marker
@@ -2259,6 +2290,20 @@ src/hiha/hiha-hiha.obj: src/hiha/hiha.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/hiha/hiha.c' object='src/hiha/hiha-hiha.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(hiha_CFLAGS) $(CFLAGS) -c -o src/hiha/hiha-hiha.obj `if test -f 'src/hiha/hiha.c'; then $(CYGPATH_W) 'src/hiha/hiha.c'; else $(CYGPATH_W) '$(srcdir)/src/hiha/hiha.c'; fi`
+
+src/hiha-tokens-print/hiha_tokens_print-hiha-tokens-print.o: src/hiha-tokens-print/hiha-tokens-print.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(hiha_tokens_print_CFLAGS) $(CFLAGS) -MT src/hiha-tokens-print/hiha_tokens_print-hiha-tokens-print.o -MD -MP -MF src/hiha-tokens-print/$(DEPDIR)/hiha_tokens_print-hiha-tokens-print.Tpo -c -o src/hiha-tokens-print/hiha_tokens_print-hiha-tokens-print.o `test -f 'src/hiha-tokens-print/hiha-tokens-print.c' || echo '$(srcdir)/'`src/hiha-tokens-print/hiha-tokens-print.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/hiha-tokens-print/$(DEPDIR)/hiha_tokens_print-hiha-tokens-print.Tpo src/hiha-tokens-print/$(DEPDIR)/hiha_tokens_print-hiha-tokens-print.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/hiha-tokens-print/hiha-tokens-print.c' object='src/hiha-tokens-print/hiha_tokens_print-hiha-tokens-print.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(hiha_tokens_print_CFLAGS) $(CFLAGS) -c -o src/hiha-tokens-print/hiha_tokens_print-hiha-tokens-print.o `test -f 'src/hiha-tokens-print/hiha-tokens-print.c' || echo '$(srcdir)/'`src/hiha-tokens-print/hiha-tokens-print.c
+
+src/hiha-tokens-print/hiha_tokens_print-hiha-tokens-print.obj: src/hiha-tokens-print/hiha-tokens-print.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(hiha_tokens_print_CFLAGS) $(CFLAGS) -MT src/hiha-tokens-print/hiha_tokens_print-hiha-tokens-print.obj -MD -MP -MF src/hiha-tokens-print/$(DEPDIR)/hiha_tokens_print-hiha-tokens-print.Tpo -c -o src/hiha-tokens-print/hiha_tokens_print-hiha-tokens-print.obj `if test -f 'src/hiha-tokens-print/hiha-tokens-print.c'; then $(CYGPATH_W) 'src/hiha-tokens-print/hiha-tokens-print.c'; else $(CYGPATH_W) '$(srcdir)/src/hiha-tokens-print/hiha-tokens-print.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/hiha-tokens-print/$(DEPDIR)/hiha_tokens_print-hiha-tokens-print.Tpo src/hiha-tokens-print/$(DEPDIR)/hiha_tokens_print-hiha-tokens-print.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/hiha-tokens-print/hiha-tokens-print.c' object='src/hiha-tokens-print/hiha_tokens_print-hiha-tokens-print.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(hiha_tokens_print_CFLAGS) $(CFLAGS) -c -o src/hiha-tokens-print/hiha_tokens_print-hiha-tokens-print.obj `if test -f 'src/hiha-tokens-print/hiha-tokens-print.c'; then $(CYGPATH_W) 'src/hiha-tokens-print/hiha-tokens-print.c'; else $(CYGPATH_W) '$(srcdir)/src/hiha-tokens-print/hiha-tokens-print.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -2687,6 +2732,8 @@ distclean-generic:
 	-$(am__rm_f) $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || $(am__rm_f) $(CONFIG_CLEAN_VPATH_FILES)
 	-$(am__rm_f) $(DISTCLEANFILES)
+	-$(am__rm_f) src/hiha-tokens-print/$(DEPDIR)/$(am__dirstamp)
+	-$(am__rm_f) src/hiha-tokens-print/$(am__dirstamp)
 	-$(am__rm_f) src/hiha/$(DEPDIR)/$(am__dirstamp)
 	-$(am__rm_f) src/hiha/$(am__dirstamp)
 	-$(am__rm_f) src/libhiha/$(DEPDIR)/$(am__dirstamp)
@@ -2706,6 +2753,7 @@ clean-am: clean-binPROGRAMS clean-generic clean-libLTLIBRARIES \
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
+	-rm -f src/hiha-tokens-print/$(DEPDIR)/hiha_tokens_print-hiha-tokens-print.Po
 	-rm -f src/hiha/$(DEPDIR)/hiha-hiha.Po
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-lexical.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-load_plugin.Plo
@@ -2767,6 +2815,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
+	-rm -f src/hiha-tokens-print/$(DEPDIR)/hiha_tokens_print-hiha-tokens-print.Po
 	-rm -f src/hiha/$(DEPDIR)/hiha-hiha.Po
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-lexical.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-load_plugin.Plo
@@ -2896,6 +2945,8 @@ indent:
 			$(filter %.c %.h,$(libhiha_la_SOURCES))) \
 		$(addprefix $(top_srcdir)/, \
 			$(filter %.c %.h,$(hiha_SOURCES))) \
+		$(addprefix $(top_srcdir)/, \
+			$(filter %.c %.h,$(hiha_tokens_print_SOURCES))) \
 		$(addprefix $(top_srcdir)/, \
 			$(filter %.c %.h,$(10_eof_la_SOURCES))) \
 		$(addprefix $(top_srcdir)/, \

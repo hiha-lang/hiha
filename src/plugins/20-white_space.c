@@ -53,14 +53,16 @@ code_point_handler (void *state, buffered_token_getter_t getter,
       (void *) make_token_t (make_string_t ("SP"), tok->token_value,
                              tok->loc);
   else
-    *lhs = (void *) tok;
+    *lhs =
+      (void *) make_token_t (make_string_t ("CP20"), tok->token_value,
+                             tok->loc);
 }
 
 VISIBLE void
 plugin_init (void)
 {
   pratt_tables_t tables = lexical_pratt_tables ();
-  pratt_nud_put (tables, string_t_CP (), &code_point_handler);
+  pratt_nud_put (tables, make_string_t ("CP"), &code_point_handler);
 }
 
 /*

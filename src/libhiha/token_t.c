@@ -148,8 +148,11 @@ fill_line_if_necessary (token_getter_from_source_file_t g)
       if (!g->eof_reached)
         {
           g->n = nread;
-          g->sbuf =
-            string_t_canonical_from_str_len (g->buf, g->n, NULL);
+          text_location_t loc = XMALLOC (struct text_location);
+          loc->filename = g->filename;
+          loc->line_no = g->line_no + 1;
+          loc->code_point_no = 0;
+          g->sbuf = string_t_canonical_from_str_len (g->buf, g->n, loc);
           g->line_no += 1;
           g->i_code_point = 0;
         }

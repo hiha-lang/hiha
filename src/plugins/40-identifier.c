@@ -198,14 +198,18 @@ code_point_handler (void *state, buffered_token_getter_t getter,
   if (is_identifier_start (cp))
     scan_identifier (state, getter, tables, tok, lhs, error_message);
   else
-    *lhs = (void *) tok;
+    *lhs =
+      (void *) make_token_t (make_string_t ("CP40"), tok->token_value,
+                             tok->loc);
 }
 
 VISIBLE void
 plugin_init (void)
 {
   pratt_tables_t tables = lexical_pratt_tables ();
-  pratt_nud_put (tables, string_t_CP (), &code_point_handler);
+  pratt_nud_put (tables, make_string_t ("CP"), &code_point_handler);
+  pratt_nud_put (tables, make_string_t ("CP20"), &code_point_handler);
+  pratt_nud_put (tables, make_string_t ("CP30"), &code_point_handler);
 }
 
 /*

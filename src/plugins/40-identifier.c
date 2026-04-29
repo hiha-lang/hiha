@@ -208,7 +208,7 @@ plugin_init (void)
 {
   pratt_tables_t tables = lexical_pratt_tables ();
   next_handler = pratt_nud_get (tables, string_t_CP ());
-  pratt_nud_put (tables, make_string_t ("CP"), &code_point_handler);
+  pratt_nud_put (tables, string_t_CP (), &code_point_handler);
 }
 
 /*

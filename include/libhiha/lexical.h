@@ -29,6 +29,8 @@ pratt_tables_t lexical_pratt_tables (void);
 
 void scan_tokens (void *state, buffered_token_getter_t getter,
                   token_putter_t putter, const char **error_message);
+void scan_serialized_tokens_until_fixed_point
+  (const char *filename[2], size_t *ifile, const char **error_message);
 
 #endif /* __LIBHAHA__LEXICAL_H__INCLUDED__ */
 

@@ -61,7 +61,8 @@
 #  version-etc \
 #  xalloc \
 #  xlist \
-#  xomap
+#  xomap \
+#  xstrerror
 
 AUTOMAKE_OPTIONS = 1.14 gnits subdir-objects
 
@@ -93,9 +94,16 @@ libgnu_la_DEPENDENCIES = $(gl_libgnu_LTLIBOBJS)
 EXTRA_libgnu_la_SOURCES =
 libgnu_la_LDFLAGS = $(AM_LDFLAGS)
 libgnu_la_LDFLAGS += -no-undefined
+libgnu_la_LDFLAGS += $(HARD_LOCALE_LIB)
+libgnu_la_LDFLAGS += $(LIBPTHREAD)
+libgnu_la_LDFLAGS += $(LIBTHREAD)
+libgnu_la_LDFLAGS += $(LTLIBC32CONV)
 libgnu_la_LDFLAGS += $(LTLIBICONV)
 libgnu_la_LDFLAGS += $(LTLIBINTL)
 libgnu_la_LDFLAGS += $(LTLIBUNISTRING)
+libgnu_la_LDFLAGS += $(MBRTOWC_LIB)
+libgnu_la_LDFLAGS += $(PTHREAD_ONCE_LIB)
+libgnu_la_LDFLAGS += $(SETLOCALE_NULL_LIB)
 
 ## begin gnulib module absolute-header
 
@@ -227,6 +235,116 @@ EXTRA_DIST += c-strcase.h
 EXTRA_DIST += c-strcaseeq.h
 
 ## end   gnulib module c-strcaseeq
+
+## begin gnulib module c32isalnum
+
+libgnu_la_SOURCES += c32isalnum.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32isalnum
+
+## begin gnulib module c32isalpha
+
+libgnu_la_SOURCES += c32isalpha.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32isalpha
+
+## begin gnulib module c32isblank
+
+libgnu_la_SOURCES += c32isblank.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32isblank
+
+## begin gnulib module c32iscntrl
+
+libgnu_la_SOURCES += c32iscntrl.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32iscntrl
+
+## begin gnulib module c32isdigit
+
+libgnu_la_SOURCES += c32isdigit.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32isdigit
+
+## begin gnulib module c32isgraph
+
+libgnu_la_SOURCES += c32isgraph.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32isgraph
+
+## begin gnulib module c32islower
+
+libgnu_la_SOURCES += c32islower.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32islower
+
+## begin gnulib module c32isprint
+
+libgnu_la_SOURCES += c32isprint.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32isprint
+
+## begin gnulib module c32ispunct
+
+libgnu_la_SOURCES += c32ispunct.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32ispunct
+
+## begin gnulib module c32isspace
+
+libgnu_la_SOURCES += c32isspace.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32isspace
+
+## begin gnulib module c32isupper
+
+libgnu_la_SOURCES += c32isupper.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32isupper
+
+## begin gnulib module c32isxdigit
+
+libgnu_la_SOURCES += c32isxdigit.c
+
+EXTRA_DIST += c32is-impl.h
+
+## end   gnulib module c32isxdigit
+
+## begin gnulib module c32tolower
+
+libgnu_la_SOURCES += c32tolower.c
+
+EXTRA_DIST += c32to-impl.h
+
+## end   gnulib module c32tolower
+
+## begin gnulib module c32width
+
+libgnu_la_SOURCES += c32width.c
+
+## end   gnulib module c32width
 
 ## begin gnulib module calloc-gnu
 
@@ -475,6 +593,40 @@ EXTRA_DIST += filevercmp.h
 
 ## end   gnulib module filevercmp
 
+## begin gnulib module float-h
+
+BUILT_SOURCES += $(FLOAT_H)
+
+# We need the following in order to create <float.h> when the system
+# doesn't have one that works with the given compiler.
+if GL_GENERATE_FLOAT_H
+float.h: float.in.h $(top_builddir)/config.status
+	$(gl_V_at)$(SED_HEADER_STDOUT) \
+	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+	      -e 's|@''NEXT_FLOAT_H''@|$(NEXT_FLOAT_H)|g' \
+	      -e 's|@''REPLACE_ITOLD''@|$(REPLACE_ITOLD)|g' \
+	      $(srcdir)/float.in.h > $@-t
+	$(AM_V_at)mv $@-t $@
+else
+float.h: $(top_builddir)/config.status
+	rm -f $@
+endif
+MOSTLYCLEANFILES += float.h float.h-t
+
+if GL_COND_OBJ_FLOAT
+libgnu_la_SOURCES += float.c
+endif
+if GL_COND_OBJ_ITOLD
+libgnu_la_SOURCES += itold.c
+endif
+
+EXTRA_DIST += float.in.h
+
+## end   gnulib module float-h
+
 ## begin gnulib module free-posix
 
 if GL_COND_OBJ_FREE
@@ -617,6 +769,14 @@ V_GPERF_ = $(V_GPERF_@AM_DEFAULT_V@)
 V_GPERF_0 = @echo "  GPERF   " $@;
 
 ## end   gnulib module gperf
+
+## begin gnulib module hard-locale
+
+libgnu_la_SOURCES += hard-locale.c
+
+EXTRA_DIST += hard-locale.h
+
+## end   gnulib module hard-locale
 
 ## begin gnulib module havelib
 
@@ -768,6 +928,38 @@ EXTRA_DIST += inttypes.in.h
 
 ## end   gnulib module inttypes-h-incomplete
 
+## begin gnulib module iswblank
+
+if GL_COND_OBJ_ISWBLANK
+libgnu_la_SOURCES += iswblank.c
+endif
+
+## end   gnulib module iswblank
+
+## begin gnulib module iswdigit
+
+if GL_COND_OBJ_ISWDIGIT
+libgnu_la_SOURCES += iswdigit.c
+endif
+
+## end   gnulib module iswdigit
+
+## begin gnulib module iswpunct
+
+if GL_COND_OBJ_ISWPUNCT
+libgnu_la_SOURCES += iswpunct.c
+endif
+
+## end   gnulib module iswpunct
+
+## begin gnulib module iswxdigit
+
+if GL_COND_OBJ_ISWXDIGIT
+libgnu_la_SOURCES += iswxdigit.c
+endif
+
+## end   gnulib module iswxdigit
+
 ## begin gnulib module limits-h
 
 BUILT_SOURCES += $(LIMITS_H)
@@ -808,6 +1000,68 @@ EXTRA_DIST += localcharset.h
 
 ## end   gnulib module localcharset
 
+## begin gnulib module locale-h
+
+BUILT_SOURCES += locale.h
+
+# We need the following in order to create <locale.h> when the system
+# doesn't have one that provides all definitions.
+locale.h: locale.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
+	$(gl_V_at)$(SED_HEADER_STDOUT) \
+	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+	      -e 's|@''NEXT_LOCALE_H''@|$(NEXT_LOCALE_H)|g' \
+	      -e 's|@''HAVE_LOCALE_T''@|$(HAVE_LOCALE_T)|g' \
+	      -e 's|@''HAVE_WINDOWS_LOCALE_T''@|$(HAVE_WINDOWS_LOCALE_T)|g' \
+	      -e 's/@''GNULIB_LOCALECONV''@/$(GL_GNULIB_LOCALECONV)/g' \
+	      -e 's/@''GNULIB_SETLOCALE''@/$(GL_GNULIB_SETLOCALE)/g' \
+	      -e 's/@''GNULIB_SETLOCALE_NULL''@/$(GL_GNULIB_SETLOCALE_NULL)/g' \
+	      -e 's/@''GNULIB_NEWLOCALE''@/$(GL_GNULIB_NEWLOCALE)/g' \
+	      -e 's/@''GNULIB_DUPLOCALE''@/$(GL_GNULIB_DUPLOCALE)/g' \
+	      -e 's/@''GNULIB_FREELOCALE''@/$(GL_GNULIB_FREELOCALE)/g' \
+	      -e 's/@''GNULIB_GETLOCALENAME_L''@/$(GL_GNULIB_GETLOCALENAME_L)/g' \
+	      -e 's/@''GNULIB_GETLOCALENAME_L_UNSAFE''@/$(GL_GNULIB_GETLOCALENAME_L_UNSAFE)/g' \
+	      -e 's/@''GNULIB_LOCALENAME_UNSAFE''@/$(GL_GNULIB_LOCALENAME_UNSAFE)/g' \
+	      -e 's|@''HAVE_NEWLOCALE''@|$(HAVE_NEWLOCALE)|g' \
+	      -e 's|@''HAVE_DUPLOCALE''@|$(HAVE_DUPLOCALE)|g' \
+	      -e 's|@''HAVE_FREELOCALE''@|$(HAVE_FREELOCALE)|g' \
+	      -e 's|@''HAVE_GETLOCALENAME_L''@|$(HAVE_GETLOCALENAME_L)|g' \
+	      -e 's|@''HAVE_XLOCALE_H''@|$(HAVE_XLOCALE_H)|g' \
+	      -e 's|@''REPLACE_LOCALECONV''@|$(REPLACE_LOCALECONV)|g' \
+	      -e 's|@''REPLACE_SETLOCALE''@|$(REPLACE_SETLOCALE)|g' \
+	      -e 's|@''REPLACE_NEWLOCALE''@|$(REPLACE_NEWLOCALE)|g' \
+	      -e 's|@''REPLACE_DUPLOCALE''@|$(REPLACE_DUPLOCALE)|g' \
+	      -e 's|@''REPLACE_FREELOCALE''@|$(REPLACE_FREELOCALE)|g' \
+	      -e 's|@''REPLACE_GETLOCALENAME_L''@|$(REPLACE_GETLOCALENAME_L)|g' \
+	      -e 's|@''REPLACE_STRUCT_LCONV''@|$(REPLACE_STRUCT_LCONV)|g' \
+	      -e 's|@''LOCALENAME_ENHANCE_LOCALE_FUNCS''@|$(LOCALENAME_ENHANCE_LOCALE_FUNCS)|g' \
+	      -e '/definitions of _GL_FUNCDECL_RPL/r $(CXXDEFS_H)' \
+	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
+	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
+	      $(srcdir)/locale.in.h > $@-t
+	$(AM_V_at)mv $@-t $@
+MOSTLYCLEANFILES += locale.h locale.h-t
+
+EXTRA_DIST += locale.in.h
+
+## end   gnulib module locale-h
+
+## begin gnulib module localeconv
+
+if GL_COND_OBJ_LOCALECONV
+libgnu_la_SOURCES += localeconv.c
+endif
+
+## end   gnulib module localeconv
+
+## begin gnulib module lock
+
+libgnu_la_SOURCES += glthread/lock.h glthread/lock.c
+
+## end   gnulib module lock
+
 ## begin gnulib module lstat
 
 if GL_COND_OBJ_LSTAT
@@ -841,6 +1095,64 @@ libgnu_la_SOURCES += malloca.c
 EXTRA_DIST += malloca.h
 
 ## end   gnulib module malloca
+
+## begin gnulib module mbchar
+
+libgnu_la_SOURCES += mbchar.c
+
+EXTRA_DIST += mbchar.h
+
+## end   gnulib module mbchar
+
+## begin gnulib module mbiterf
+
+libgnu_la_SOURCES += mbiterf.h mbiterf.c
+
+## end   gnulib module mbiterf
+
+## begin gnulib module mbrtoc32
+
+if GL_COND_OBJ_MBRTOC32
+libgnu_la_SOURCES += mbrtoc32.c
+endif
+
+EXTRA_DIST += lc-charset-dispatch.c lc-charset-dispatch.h mbrtowc-impl-utf8.h mbrtowc-impl.h mbtowc-lock.c mbtowc-lock.h windows-initguard.h
+
+EXTRA_libgnu_la_SOURCES += lc-charset-dispatch.c mbtowc-lock.c
+
+## end   gnulib module mbrtoc32
+
+## begin gnulib module mbrtowc
+
+if GL_COND_OBJ_MBRTOWC
+libgnu_la_SOURCES += mbrtowc.c
+endif
+
+EXTRA_DIST += lc-charset-dispatch.c lc-charset-dispatch.h mbrtowc-impl-utf8.h mbrtowc-impl.h mbtowc-lock.c mbtowc-lock.h windows-initguard.h
+
+EXTRA_libgnu_la_SOURCES += lc-charset-dispatch.c mbtowc-lock.c
+
+## end   gnulib module mbrtowc
+
+## begin gnulib module mbsinit
+
+if GL_COND_OBJ_MBSINIT
+libgnu_la_SOURCES += mbsinit.c
+endif
+
+## end   gnulib module mbsinit
+
+## begin gnulib module mbsnlen
+
+libgnu_la_SOURCES += mbsnlen.c
+
+## end   gnulib module mbsnlen
+
+## begin gnulib module mbszero
+
+libgnu_la_SOURCES += mbszero.c
+
+## end   gnulib module mbszero
 
 ## begin gnulib module memchr
 
@@ -898,6 +1210,12 @@ libgnu_la_SOURCES += gl_omap.h gl_omap.c
 
 ## end   gnulib module omap
 
+## begin gnulib module once
+
+libgnu_la_SOURCES += glthread/once.h glthread/once.c
+
+## end   gnulib module once
+
 ## begin gnulib module open
 
 if GL_COND_OBJ_OPEN
@@ -928,6 +1246,163 @@ EXTRA_DIST += pathmax.h
 libgnu_la_SOURCES += progname.h progname.c
 
 ## end   gnulib module progname
+
+## begin gnulib module pthread-h
+
+BUILT_SOURCES += pthread.h
+
+# We need the following in order to create <pthread.h> when the system
+# doesn't have one that works with the given compiler.
+pthread.h: pthread.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(_NORETURN_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
+	$(gl_V_at)$(SED_HEADER_STDOUT) \
+	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+	      -e 's|@''HAVE_PTHREAD_H''@|$(HAVE_PTHREAD_H)|g' \
+	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+	      -e 's|@''NEXT_PTHREAD_H''@|$(NEXT_PTHREAD_H)|g' \
+	      -e 's/@''GNULIB_PTHREAD_THREAD''@/$(GL_GNULIB_PTHREAD_THREAD)/g' \
+	      -e 's/@''GNULIB_PTHREAD_ONCE''@/$(GL_GNULIB_PTHREAD_ONCE)/g' \
+	      -e 's/@''GNULIB_PTHREAD_MUTEX''@/$(GL_GNULIB_PTHREAD_MUTEX)/g' \
+	      -e 's/@''GNULIB_PTHREAD_RWLOCK''@/$(GL_GNULIB_PTHREAD_RWLOCK)/g' \
+	      -e 's/@''GNULIB_PTHREAD_COND''@/$(GL_GNULIB_PTHREAD_COND)/g' \
+	      -e 's/@''GNULIB_PTHREAD_TSS''@/$(GL_GNULIB_PTHREAD_TSS)/g' \
+	      -e 's/@''GNULIB_PTHREAD_SPIN''@/$(GL_GNULIB_PTHREAD_SPIN)/g' \
+	      -e 's/@''GNULIB_PTHREAD_MUTEX_TIMEDLOCK''@/$(GL_GNULIB_PTHREAD_MUTEX_TIMEDLOCK)/g' \
+	      -e 's|@''HAVE_PTHREAD_T''@|$(HAVE_PTHREAD_T)|g' \
+	      -e 's|@''HAVE_PTHREAD_SPINLOCK_T''@|$(HAVE_PTHREAD_SPINLOCK_T)|g' \
+	      -e 's|@''HAVE_PTHREAD_CREATE_DETACHED''@|$(HAVE_PTHREAD_CREATE_DETACHED)|g' \
+	      -e 's|@''HAVE_PTHREAD_MUTEX_RECURSIVE''@|$(HAVE_PTHREAD_MUTEX_RECURSIVE)|g' \
+	      -e 's|@''HAVE_PTHREAD_MUTEX_ROBUST''@|$(HAVE_PTHREAD_MUTEX_ROBUST)|g' \
+	      -e 's|@''HAVE_PTHREAD_PROCESS_SHARED''@|$(HAVE_PTHREAD_PROCESS_SHARED)|g' \
+	      -e 's|@''HAVE_PTHREAD_CREATE''@|$(HAVE_PTHREAD_CREATE)|g' \
+	      -e 's|@''HAVE_PTHREAD_ATTR_INIT''@|$(HAVE_PTHREAD_ATTR_INIT)|g' \
+	      -e 's|@''HAVE_PTHREAD_ATTR_GETDETACHSTATE''@|$(HAVE_PTHREAD_ATTR_GETDETACHSTATE)|g' \
+	      -e 's|@''HAVE_PTHREAD_ATTR_SETDETACHSTATE''@|$(HAVE_PTHREAD_ATTR_SETDETACHSTATE)|g' \
+	      -e 's|@''HAVE_PTHREAD_ATTR_DESTROY''@|$(HAVE_PTHREAD_ATTR_DESTROY)|g' \
+	      -e 's|@''HAVE_PTHREAD_SELF''@|$(HAVE_PTHREAD_SELF)|g' \
+	      -e 's|@''HAVE_PTHREAD_EQUAL''@|$(HAVE_PTHREAD_EQUAL)|g' \
+	      -e 's|@''HAVE_PTHREAD_DETACH''@|$(HAVE_PTHREAD_DETACH)|g' \
+	      -e 's|@''HAVE_PTHREAD_JOIN''@|$(HAVE_PTHREAD_JOIN)|g' \
+	      -e 's|@''HAVE_PTHREAD_EXIT''@|$(HAVE_PTHREAD_EXIT)|g' \
+	      < $(srcdir)/pthread.in.h > $@-t1
+	$(AM_V_at)sed \
+	      -e 's|@''HAVE_PTHREAD_ONCE''@|$(HAVE_PTHREAD_ONCE)|g' \
+	      -e 's|@''HAVE_PTHREAD_MUTEX_INIT''@|$(HAVE_PTHREAD_MUTEX_INIT)|g' \
+	      -e 's|@''HAVE_PTHREAD_MUTEXATTR_INIT''@|$(HAVE_PTHREAD_MUTEXATTR_INIT)|g' \
+	      -e 's|@''HAVE_PTHREAD_MUTEXATTR_GETTYPE''@|$(HAVE_PTHREAD_MUTEXATTR_GETTYPE)|g' \
+	      -e 's|@''HAVE_PTHREAD_MUTEXATTR_SETTYPE''@|$(HAVE_PTHREAD_MUTEXATTR_SETTYPE)|g' \
+	      -e 's|@''HAVE_PTHREAD_MUTEXATTR_GETROBUST''@|$(HAVE_PTHREAD_MUTEXATTR_GETROBUST)|g' \
+	      -e 's|@''HAVE_PTHREAD_MUTEXATTR_SETROBUST''@|$(HAVE_PTHREAD_MUTEXATTR_SETROBUST)|g' \
+	      -e 's|@''HAVE_PTHREAD_MUTEXATTR_DESTROY''@|$(HAVE_PTHREAD_MUTEXATTR_DESTROY)|g' \
+	      -e 's|@''HAVE_PTHREAD_MUTEX_LOCK''@|$(HAVE_PTHREAD_MUTEX_LOCK)|g' \
+	      -e 's|@''HAVE_PTHREAD_MUTEX_TRYLOCK''@|$(HAVE_PTHREAD_MUTEX_TRYLOCK)|g' \
+	      -e 's|@''HAVE_PTHREAD_MUTEX_TIMEDLOCK''@|$(HAVE_PTHREAD_MUTEX_TIMEDLOCK)|g' \
+	      -e 's|@''HAVE_PTHREAD_MUTEX_UNLOCK''@|$(HAVE_PTHREAD_MUTEX_UNLOCK)|g' \
+	      -e 's|@''HAVE_PTHREAD_MUTEX_DESTROY''@|$(HAVE_PTHREAD_MUTEX_DESTROY)|g' \
+	      -e 's|@''HAVE_PTHREAD_RWLOCK_INIT''@|$(HAVE_PTHREAD_RWLOCK_INIT)|g' \
+	      -e 's|@''HAVE_PTHREAD_RWLOCKATTR_INIT''@|$(HAVE_PTHREAD_RWLOCKATTR_INIT)|g' \
+	      -e 's|@''HAVE_PTHREAD_RWLOCKATTR_DESTROY''@|$(HAVE_PTHREAD_RWLOCKATTR_DESTROY)|g' \
+	      -e 's|@''HAVE_PTHREAD_RWLOCK_RDLOCK''@|$(HAVE_PTHREAD_RWLOCK_RDLOCK)|g' \
+	      -e 's|@''HAVE_PTHREAD_RWLOCK_WRLOCK''@|$(HAVE_PTHREAD_RWLOCK_WRLOCK)|g' \
+	      -e 's|@''HAVE_PTHREAD_RWLOCK_TRYRDLOCK''@|$(HAVE_PTHREAD_RWLOCK_TRYRDLOCK)|g' \
+	      -e 's|@''HAVE_PTHREAD_RWLOCK_TRYWRLOCK''@|$(HAVE_PTHREAD_RWLOCK_TRYWRLOCK)|g' \
+	      -e 's|@''HAVE_PTHREAD_RWLOCK_TIMEDRDLOCK''@|$(HAVE_PTHREAD_RWLOCK_TIMEDRDLOCK)|g' \
+	      -e 's|@''HAVE_PTHREAD_RWLOCK_TIMEDWRLOCK''@|$(HAVE_PTHREAD_RWLOCK_TIMEDWRLOCK)|g' \
+	      -e 's|@''HAVE_PTHREAD_RWLOCK_UNLOCK''@|$(HAVE_PTHREAD_RWLOCK_UNLOCK)|g' \
+	      -e 's|@''HAVE_PTHREAD_RWLOCK_DESTROY''@|$(HAVE_PTHREAD_RWLOCK_DESTROY)|g' \
+	      -e 's|@''HAVE_PTHREAD_COND_INIT''@|$(HAVE_PTHREAD_COND_INIT)|g' \
+	      -e 's|@''HAVE_PTHREAD_CONDATTR_INIT''@|$(HAVE_PTHREAD_CONDATTR_INIT)|g' \
+	      -e 's|@''HAVE_PTHREAD_CONDATTR_DESTROY''@|$(HAVE_PTHREAD_CONDATTR_DESTROY)|g' \
+	      -e 's|@''HAVE_PTHREAD_COND_WAIT''@|$(HAVE_PTHREAD_COND_WAIT)|g' \
+	      -e 's|@''HAVE_PTHREAD_COND_TIMEDWAIT''@|$(HAVE_PTHREAD_COND_TIMEDWAIT)|g' \
+	      -e 's|@''HAVE_PTHREAD_COND_SIGNAL''@|$(HAVE_PTHREAD_COND_SIGNAL)|g' \
+	      -e 's|@''HAVE_PTHREAD_COND_BROADCAST''@|$(HAVE_PTHREAD_COND_BROADCAST)|g' \
+	      -e 's|@''HAVE_PTHREAD_COND_DESTROY''@|$(HAVE_PTHREAD_COND_DESTROY)|g' \
+	      -e 's|@''HAVE_PTHREAD_KEY_CREATE''@|$(HAVE_PTHREAD_KEY_CREATE)|g' \
+	      -e 's|@''HAVE_PTHREAD_SETSPECIFIC''@|$(HAVE_PTHREAD_SETSPECIFIC)|g' \
+	      -e 's|@''HAVE_PTHREAD_GETSPECIFIC''@|$(HAVE_PTHREAD_GETSPECIFIC)|g' \
+	      -e 's|@''HAVE_PTHREAD_KEY_DELETE''@|$(HAVE_PTHREAD_KEY_DELETE)|g' \
+	      -e 's|@''HAVE_PTHREAD_SPIN_INIT''@|$(HAVE_PTHREAD_SPIN_INIT)|g' \
+	      -e 's|@''HAVE_PTHREAD_SPIN_LOCK''@|$(HAVE_PTHREAD_SPIN_LOCK)|g' \
+	      -e 's|@''HAVE_PTHREAD_SPIN_TRYLOCK''@|$(HAVE_PTHREAD_SPIN_TRYLOCK)|g' \
+	      -e 's|@''HAVE_PTHREAD_SPIN_UNLOCK''@|$(HAVE_PTHREAD_SPIN_UNLOCK)|g' \
+	      -e 's|@''HAVE_PTHREAD_SPIN_DESTROY''@|$(HAVE_PTHREAD_SPIN_DESTROY)|g' \
+	      < $@-t1 > $@-t2
+	$(AM_V_at)sed \
+	      -e 's|@''REPLACE_PTHREAD_CREATE''@|$(REPLACE_PTHREAD_CREATE)|g' \
+	      -e 's|@''REPLACE_PTHREAD_ATTR_INIT''@|$(REPLACE_PTHREAD_ATTR_INIT)|g' \
+	      -e 's|@''REPLACE_PTHREAD_ATTR_GETDETACHSTATE''@|$(REPLACE_PTHREAD_ATTR_GETDETACHSTATE)|g' \
+	      -e 's|@''REPLACE_PTHREAD_ATTR_SETDETACHSTATE''@|$(REPLACE_PTHREAD_ATTR_SETDETACHSTATE)|g' \
+	      -e 's|@''REPLACE_PTHREAD_ATTR_DESTROY''@|$(REPLACE_PTHREAD_ATTR_DESTROY)|g' \
+	      -e 's|@''REPLACE_PTHREAD_SELF''@|$(REPLACE_PTHREAD_SELF)|g' \
+	      -e 's|@''REPLACE_PTHREAD_EQUAL''@|$(REPLACE_PTHREAD_EQUAL)|g' \
+	      -e 's|@''REPLACE_PTHREAD_DETACH''@|$(REPLACE_PTHREAD_DETACH)|g' \
+	      -e 's|@''REPLACE_PTHREAD_JOIN''@|$(REPLACE_PTHREAD_JOIN)|g' \
+	      -e 's|@''REPLACE_PTHREAD_EXIT''@|$(REPLACE_PTHREAD_EXIT)|g' \
+	      -e 's|@''REPLACE_PTHREAD_ONCE''@|$(REPLACE_PTHREAD_ONCE)|g' \
+	      -e 's|@''REPLACE_PTHREAD_MUTEX_INIT''@|$(REPLACE_PTHREAD_MUTEX_INIT)|g' \
+	      -e 's|@''REPLACE_PTHREAD_MUTEXATTR_INIT''@|$(REPLACE_PTHREAD_MUTEXATTR_INIT)|g' \
+	      -e 's|@''REPLACE_PTHREAD_MUTEXATTR_GETTYPE''@|$(REPLACE_PTHREAD_MUTEXATTR_GETTYPE)|g' \
+	      -e 's|@''REPLACE_PTHREAD_MUTEXATTR_SETTYPE''@|$(REPLACE_PTHREAD_MUTEXATTR_SETTYPE)|g' \
+	      -e 's|@''REPLACE_PTHREAD_MUTEXATTR_GETROBUST''@|$(REPLACE_PTHREAD_MUTEXATTR_GETROBUST)|g' \
+	      -e 's|@''REPLACE_PTHREAD_MUTEXATTR_SETROBUST''@|$(REPLACE_PTHREAD_MUTEXATTR_SETROBUST)|g' \
+	      -e 's|@''REPLACE_PTHREAD_MUTEXATTR_DESTROY''@|$(REPLACE_PTHREAD_MUTEXATTR_DESTROY)|g' \
+	      -e 's|@''REPLACE_PTHREAD_MUTEX_LOCK''@|$(REPLACE_PTHREAD_MUTEX_LOCK)|g' \
+	      -e 's|@''REPLACE_PTHREAD_MUTEX_TRYLOCK''@|$(REPLACE_PTHREAD_MUTEX_TRYLOCK)|g' \
+	      -e 's|@''REPLACE_PTHREAD_MUTEX_TIMEDLOCK''@|$(REPLACE_PTHREAD_MUTEX_TIMEDLOCK)|g' \
+	      -e 's|@''REPLACE_PTHREAD_MUTEX_UNLOCK''@|$(REPLACE_PTHREAD_MUTEX_UNLOCK)|g' \
+	      -e 's|@''REPLACE_PTHREAD_MUTEX_DESTROY''@|$(REPLACE_PTHREAD_MUTEX_DESTROY)|g' \
+	      -e 's|@''REPLACE_PTHREAD_RWLOCK_INIT''@|$(REPLACE_PTHREAD_RWLOCK_INIT)|g' \
+	      -e 's|@''REPLACE_PTHREAD_RWLOCKATTR_INIT''@|$(REPLACE_PTHREAD_RWLOCKATTR_INIT)|g' \
+	      -e 's|@''REPLACE_PTHREAD_RWLOCKATTR_DESTROY''@|$(REPLACE_PTHREAD_RWLOCKATTR_DESTROY)|g' \
+	      -e 's|@''REPLACE_PTHREAD_RWLOCK_RDLOCK''@|$(REPLACE_PTHREAD_RWLOCK_RDLOCK)|g' \
+	      -e 's|@''REPLACE_PTHREAD_RWLOCK_WRLOCK''@|$(REPLACE_PTHREAD_RWLOCK_WRLOCK)|g' \
+	      -e 's|@''REPLACE_PTHREAD_RWLOCK_TRYRDLOCK''@|$(REPLACE_PTHREAD_RWLOCK_TRYRDLOCK)|g' \
+	      -e 's|@''REPLACE_PTHREAD_RWLOCK_TRYWRLOCK''@|$(REPLACE_PTHREAD_RWLOCK_TRYWRLOCK)|g' \
+	      -e 's|@''REPLACE_PTHREAD_RWLOCK_TIMEDRDLOCK''@|$(REPLACE_PTHREAD_RWLOCK_TIMEDRDLOCK)|g' \
+	      -e 's|@''REPLACE_PTHREAD_RWLOCK_TIMEDWRLOCK''@|$(REPLACE_PTHREAD_RWLOCK_TIMEDWRLOCK)|g' \
+	      -e 's|@''REPLACE_PTHREAD_RWLOCK_UNLOCK''@|$(REPLACE_PTHREAD_RWLOCK_UNLOCK)|g' \
+	      -e 's|@''REPLACE_PTHREAD_RWLOCK_DESTROY''@|$(REPLACE_PTHREAD_RWLOCK_DESTROY)|g' \
+	      < $@-t2 > $@-t3
+	$(AM_V_at)sed \
+	      -e 's|@''REPLACE_PTHREAD_COND_INIT''@|$(REPLACE_PTHREAD_COND_INIT)|g' \
+	      -e 's|@''REPLACE_PTHREAD_CONDATTR_INIT''@|$(REPLACE_PTHREAD_CONDATTR_INIT)|g' \
+	      -e 's|@''REPLACE_PTHREAD_CONDATTR_DESTROY''@|$(REPLACE_PTHREAD_CONDATTR_DESTROY)|g' \
+	      -e 's|@''REPLACE_PTHREAD_COND_WAIT''@|$(REPLACE_PTHREAD_COND_WAIT)|g' \
+	      -e 's|@''REPLACE_PTHREAD_COND_TIMEDWAIT''@|$(REPLACE_PTHREAD_COND_TIMEDWAIT)|g' \
+	      -e 's|@''REPLACE_PTHREAD_COND_SIGNAL''@|$(REPLACE_PTHREAD_COND_SIGNAL)|g' \
+	      -e 's|@''REPLACE_PTHREAD_COND_BROADCAST''@|$(REPLACE_PTHREAD_COND_BROADCAST)|g' \
+	      -e 's|@''REPLACE_PTHREAD_COND_DESTROY''@|$(REPLACE_PTHREAD_COND_DESTROY)|g' \
+	      -e 's|@''REPLACE_PTHREAD_KEY_CREATE''@|$(REPLACE_PTHREAD_KEY_CREATE)|g' \
+	      -e 's|@''REPLACE_PTHREAD_SETSPECIFIC''@|$(REPLACE_PTHREAD_SETSPECIFIC)|g' \
+	      -e 's|@''REPLACE_PTHREAD_GETSPECIFIC''@|$(REPLACE_PTHREAD_GETSPECIFIC)|g' \
+	      -e 's|@''REPLACE_PTHREAD_KEY_DELETE''@|$(REPLACE_PTHREAD_KEY_DELETE)|g' \
+	      -e 's|@''REPLACE_PTHREAD_SPIN_INIT''@|$(REPLACE_PTHREAD_SPIN_INIT)|g' \
+	      -e 's|@''REPLACE_PTHREAD_SPIN_LOCK''@|$(REPLACE_PTHREAD_SPIN_LOCK)|g' \
+	      -e 's|@''REPLACE_PTHREAD_SPIN_TRYLOCK''@|$(REPLACE_PTHREAD_SPIN_TRYLOCK)|g' \
+	      -e 's|@''REPLACE_PTHREAD_SPIN_UNLOCK''@|$(REPLACE_PTHREAD_SPIN_UNLOCK)|g' \
+	      -e 's|@''REPLACE_PTHREAD_SPIN_DESTROY''@|$(REPLACE_PTHREAD_SPIN_DESTROY)|g' \
+	      -e '/definitions of _GL_FUNCDECL_RPL/r $(CXXDEFS_H)' \
+	      -e '/definition of _Noreturn/r $(_NORETURN_H)' \
+	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
+	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
+	      < $@-t3 > $@-t4
+	$(AM_V_at)rm -f $@-t1 $@-t2 $@-t3
+	$(AM_V_at)mv $@-t4 $@
+MOSTLYCLEANFILES += pthread.h pthread.h-t1 pthread.h-t2 pthread.h-t3 pthread.h-t4
+
+EXTRA_DIST += pthread.in.h
+
+## end   gnulib module pthread-h
+
+## begin gnulib module pthread-once
+
+if GL_COND_OBJ_PTHREAD_ONCE
+libgnu_la_SOURCES += pthread-once.c
+endif
+
+## end   gnulib module pthread-once
 
 ## begin gnulib module readdir
 
@@ -962,6 +1437,60 @@ libgnu_la_SOURCES += scandir.c
 endif
 
 ## end   gnulib module scandir
+
+## begin gnulib module sched-h
+
+BUILT_SOURCES += sched.h
+
+# We need the following in order to create a replacement for <sched.h> when
+# the system doesn't have one.
+sched.h: sched.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_ON_USE_H)
+	$(gl_V_at)$(SED_HEADER_STDOUT) \
+	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+	      -e 's|@''HAVE_SCHED_H''@|$(HAVE_SCHED_H)|g' \
+	      -e 's|@''HAVE_SYS_CDEFS_H''@|$(HAVE_SYS_CDEFS_H)|g' \
+	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+	      -e 's|@''NEXT_SCHED_H''@|$(NEXT_SCHED_H)|g' \
+	      -e 's|@''HAVE_STRUCT_SCHED_PARAM''@|$(HAVE_STRUCT_SCHED_PARAM)|g' \
+	      -e 's/@''GNULIB_SCHED_YIELD''@/$(GL_GNULIB_SCHED_YIELD)/g' \
+	      -e 's|@''HAVE_SCHED_YIELD''@|$(HAVE_SCHED_YIELD)|g' \
+	      -e 's|@''REPLACE_SCHED_YIELD''@|$(REPLACE_SCHED_YIELD)|g' \
+	      -e '/definitions of _GL_FUNCDECL_RPL/r $(CXXDEFS_H)' \
+	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
+	      $(srcdir)/sched.in.h > $@-t
+	$(AM_V_at)mv $@-t $@
+MOSTLYCLEANFILES += sched.h sched.h-t
+
+EXTRA_DIST += sched.in.h
+
+## end   gnulib module sched-h
+
+## begin gnulib module setlocale-null
+
+libgnu_la_SOURCES += setlocale_null.c
+if GL_COND_OBJ_SETLOCALE_LOCK
+libgnu_la_SOURCES += setlocale-lock.c
+endif
+
+EXTRA_DIST += setlocale_null.h windows-initguard.h
+
+## end   gnulib module setlocale-null
+
+## begin gnulib module setlocale-null-unlocked
+
+libgnu_la_SOURCES += setlocale_null-unlocked.c
+
+EXTRA_DIST += setlocale_null.h
+
+## end   gnulib module setlocale-null-unlocked
+
+## begin gnulib module size_max
+
+libgnu_la_SOURCES += size_max.h
+
+## end   gnulib module size_max
 
 ## begin gnulib module snippet/_Noreturn
 
@@ -1544,6 +2073,13 @@ libgnu_la_SOURCES += streq.c
 
 ## end   gnulib module streq
 
+## begin gnulib module streq-opt
+
+
+EXTRA_DIST += streq-opt.h
+
+## end   gnulib module streq-opt
+
 ## begin gnulib module strerror
 
 if GL_COND_OBJ_STRERROR
@@ -1561,6 +2097,15 @@ endif
 EXTRA_DIST += strerror-override.h
 
 ## end   gnulib module strerror-override
+
+## begin gnulib module strerror_r-posix
+
+
+EXTRA_DIST += strerror_r.c
+
+EXTRA_libgnu_la_SOURCES += strerror_r.c
+
+## end   gnulib module strerror_r-posix
 
 ## begin gnulib module striconveh
 
@@ -1817,6 +2362,12 @@ EXTRA_DIST += sys_types.in.h
 
 ## end   gnulib module sys_types-h
 
+## begin gnulib module threadlib
+
+libgnu_la_SOURCES += glthread/threadlib.c
+
+## end   gnulib module threadlib
+
 ## begin gnulib module time-h
 
 BUILT_SOURCES += time.h
@@ -1882,6 +2433,87 @@ MOSTLYCLEANFILES += time.h time.h-t
 EXTRA_DIST += time.in.h
 
 ## end   gnulib module time-h
+
+## begin gnulib module uchar-h
+
+BUILT_SOURCES += uchar.h
+
+uchar.h: uchar.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
+	$(gl_V_at)$(SED_HEADER_STDOUT) \
+	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+	      -e 's/@''HAVE_UCHAR_H''@/$(HAVE_UCHAR_H)/g' \
+	      -e 's/@''CXX_HAVE_UCHAR_H''@/$(CXX_HAVE_UCHAR_H)/g' \
+	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+	      -e 's|@''NEXT_UCHAR_H''@|$(NEXT_UCHAR_H)|g' \
+	      -e 's|@''CXX_HAS_CHAR8_TYPE''@|$(CXX_HAS_CHAR8_TYPE)|g' \
+	      -e 's|@''CXX_HAS_UCHAR_TYPES''@|$(CXX_HAS_UCHAR_TYPES)|g' \
+	      -e 's|@''SMALL_WCHAR_T''@|$(SMALL_WCHAR_T)|g' \
+	      -e 's|@''GNULIBHEADERS_OVERRIDE_CHAR8_T''@|$(GNULIBHEADERS_OVERRIDE_CHAR8_T)|g' \
+	      -e 's|@''GNULIBHEADERS_OVERRIDE_CHAR16_T''@|$(GNULIBHEADERS_OVERRIDE_CHAR16_T)|g' \
+	      -e 's|@''GNULIBHEADERS_OVERRIDE_CHAR32_T''@|$(GNULIBHEADERS_OVERRIDE_CHAR32_T)|g' \
+	      -e 's/@''GNULIB_BTOC32''@/$(GL_GNULIB_BTOC32)/g' \
+	      -e 's/@''GNULIB_BTOWC''@/$(GL_GNULIB_BTOWC)/g' \
+	      -e 's/@''GNULIB_C32ISALNUM''@/$(GL_GNULIB_C32ISALNUM)/g' \
+	      -e 's/@''GNULIB_C32ISALPHA''@/$(GL_GNULIB_C32ISALPHA)/g' \
+	      -e 's/@''GNULIB_C32ISBLANK''@/$(GL_GNULIB_C32ISBLANK)/g' \
+	      -e 's/@''GNULIB_C32ISCNTRL''@/$(GL_GNULIB_C32ISCNTRL)/g' \
+	      -e 's/@''GNULIB_C32ISDIGIT''@/$(GL_GNULIB_C32ISDIGIT)/g' \
+	      -e 's/@''GNULIB_C32ISGRAPH''@/$(GL_GNULIB_C32ISGRAPH)/g' \
+	      -e 's/@''GNULIB_C32ISLOWER''@/$(GL_GNULIB_C32ISLOWER)/g' \
+	      -e 's/@''GNULIB_C32ISPRINT''@/$(GL_GNULIB_C32ISPRINT)/g' \
+	      -e 's/@''GNULIB_C32ISPUNCT''@/$(GL_GNULIB_C32ISPUNCT)/g' \
+	      -e 's/@''GNULIB_C32ISSPACE''@/$(GL_GNULIB_C32ISSPACE)/g' \
+	      -e 's/@''GNULIB_C32ISUPPER''@/$(GL_GNULIB_C32ISUPPER)/g' \
+	      -e 's/@''GNULIB_C32ISXDIGIT''@/$(GL_GNULIB_C32ISXDIGIT)/g' \
+	      -e 's/@''GNULIB_C32TOLOWER''@/$(GL_GNULIB_C32TOLOWER)/g' \
+	      -e 's/@''GNULIB_C32TOUPPER''@/$(GL_GNULIB_C32TOUPPER)/g' \
+	      -e 's/@''GNULIB_C32WIDTH''@/$(GL_GNULIB_C32WIDTH)/g' \
+	      -e 's/@''GNULIB_C32RTOMB''@/$(GL_GNULIB_C32RTOMB)/g' \
+	      -e 's/@''GNULIB_C32SNRTOMBS''@/$(GL_GNULIB_C32SNRTOMBS)/g' \
+	      -e 's/@''GNULIB_C32SRTOMBS''@/$(GL_GNULIB_C32SRTOMBS)/g' \
+	      -e 's/@''GNULIB_C32STOMBS''@/$(GL_GNULIB_C32STOMBS)/g' \
+	      -e 's/@''GNULIB_C32SWIDTH''@/$(GL_GNULIB_C32SWIDTH)/g' \
+	      -e 's/@''GNULIB_C32TOB''@/$(GL_GNULIB_C32TOB)/g' \
+	      -e 's/@''GNULIB_C32_APPLY_MAPPING''@/$(GL_GNULIB_C32_APPLY_MAPPING)/g' \
+	      -e 's/@''GNULIB_C32_APPLY_TYPE_TEST''@/$(GL_GNULIB_C32_APPLY_TYPE_TEST)/g' \
+	      -e 's/@''GNULIB_C32_GET_MAPPING''@/$(GL_GNULIB_C32_GET_MAPPING)/g' \
+	      -e 's/@''GNULIB_C32_GET_TYPE_TEST''@/$(GL_GNULIB_C32_GET_TYPE_TEST)/g' \
+	      -e 's/@''GNULIB_ISWCTYPE''@/$(GL_GNULIB_ISWCTYPE)/g' \
+	      -e 's/@''GNULIB_ISWDIGIT''@/$(GL_GNULIB_ISWDIGIT)/g' \
+	      -e 's/@''GNULIB_ISWXDIGIT''@/$(GL_GNULIB_ISWXDIGIT)/g' \
+	      -e 's/@''GNULIB_MBRTOC16''@/$(GL_GNULIB_MBRTOC16)/g' \
+	      -e 's/@''GNULIB_MBRTOC32''@/$(GL_GNULIB_MBRTOC32)/g' \
+	      -e 's/@''GNULIB_MBSNRTOC32S''@/$(GL_GNULIB_MBSNRTOC32S)/g' \
+	      -e 's/@''GNULIB_MBSNRTOWCS''@/$(GL_GNULIB_MBSNRTOWCS)/g' \
+	      -e 's/@''GNULIB_MBSRTOC32S''@/$(GL_GNULIB_MBSRTOC32S)/g' \
+	      -e 's/@''GNULIB_MBSRTOWCS''@/$(GL_GNULIB_MBSRTOWCS)/g' \
+	      -e 's/@''GNULIB_MBSTOC32S''@/$(GL_GNULIB_MBSTOC32S)/g' \
+	      -e 's/@''GNULIB_TOWCTRANS''@/$(GL_GNULIB_TOWCTRANS)/g' \
+	      -e 's/@''GNULIB_WCSNRTOMBS''@/$(GL_GNULIB_WCSNRTOMBS)/g' \
+	      -e 's/@''GNULIB_WCSRTOMBS''@/$(GL_GNULIB_WCSRTOMBS)/g' \
+	      -e 's/@''GNULIB_WCSWIDTH''@/$(GL_GNULIB_WCSWIDTH)/g' \
+	      -e 's/@''GNULIB_WCTOB''@/$(GL_GNULIB_WCTOB)/g' \
+	      -e 's/@''GNULIB_WCTRANS''@/$(GL_GNULIB_WCTRANS)/g' \
+	      -e 's/@''GNULIB_WCTYPE''@/$(GL_GNULIB_WCTYPE)/g' \
+	      -e 's/@''GNULIB_WCWIDTH''@/$(GL_GNULIB_WCWIDTH)/g' \
+	      -e 's|@''HAVE_C32RTOMB''@|$(HAVE_C32RTOMB)|g' \
+	      -e 's|@''HAVE_MBRTOC16''@|$(HAVE_MBRTOC16)|g' \
+	      -e 's|@''HAVE_MBRTOC32''@|$(HAVE_MBRTOC32)|g' \
+	      -e 's|@''REPLACE_C32RTOMB''@|$(REPLACE_C32RTOMB)|g' \
+	      -e 's|@''REPLACE_MBRTOC16''@|$(REPLACE_MBRTOC16)|g' \
+	      -e 's|@''REPLACE_MBRTOC32''@|$(REPLACE_MBRTOC32)|g' \
+	      -e '/definitions of _GL_FUNCDECL_RPL/r $(CXXDEFS_H)' \
+	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
+	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
+	      $(srcdir)/uchar.in.h > $@-t
+	$(AM_V_at)mv $@-t $@
+MOSTLYCLEANFILES += uchar.h uchar.h-t
+
+EXTRA_DIST += uchar.in.h
+
+## end   gnulib module uchar-h
 
 ## begin gnulib module unicase/base
 
@@ -1969,6 +2601,16 @@ libgnu_la_SOURCES += unicase/tocasefold.c
 EXTRA_DIST += unicase/casefold.h unicase/simple-mapping.h unicase/tocasefold.h
 
 ## end   gnulib module unicase/tocasefold
+
+## begin gnulib module unicase/tolower
+
+if LIBUNISTRING_COMPILE_UNICASE_TOLOWER
+libgnu_la_SOURCES += unicase/tolower.c
+endif
+
+EXTRA_DIST += unicase/simple-mapping.h unicase/tolower.h
+
+## end   gnulib module unicase/tolower
 
 ## begin gnulib module unicase/u32-casecoll
 
@@ -2264,6 +2906,126 @@ endif
 EXTRA_DIST += unictype/combiningclass.h
 
 ## end   gnulib module unictype/combining-class
+
+## begin gnulib module unictype/ctype-alnum
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_ALNUM
+libgnu_la_SOURCES += unictype/ctype_alnum.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_alnum.h
+
+## end   gnulib module unictype/ctype-alnum
+
+## begin gnulib module unictype/ctype-alpha
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_ALPHA
+libgnu_la_SOURCES += unictype/ctype_alpha.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_alpha.h
+
+## end   gnulib module unictype/ctype-alpha
+
+## begin gnulib module unictype/ctype-blank
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_BLANK
+libgnu_la_SOURCES += unictype/ctype_blank.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_blank.h
+
+## end   gnulib module unictype/ctype-blank
+
+## begin gnulib module unictype/ctype-cntrl
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_CNTRL
+libgnu_la_SOURCES += unictype/ctype_cntrl.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_cntrl.h
+
+## end   gnulib module unictype/ctype-cntrl
+
+## begin gnulib module unictype/ctype-digit
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_DIGIT
+libgnu_la_SOURCES += unictype/ctype_digit.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_digit.h
+
+## end   gnulib module unictype/ctype-digit
+
+## begin gnulib module unictype/ctype-graph
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_GRAPH
+libgnu_la_SOURCES += unictype/ctype_graph.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_graph.h
+
+## end   gnulib module unictype/ctype-graph
+
+## begin gnulib module unictype/ctype-lower
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_LOWER
+libgnu_la_SOURCES += unictype/ctype_lower.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_lower.h
+
+## end   gnulib module unictype/ctype-lower
+
+## begin gnulib module unictype/ctype-print
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_PRINT
+libgnu_la_SOURCES += unictype/ctype_print.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_print.h
+
+## end   gnulib module unictype/ctype-print
+
+## begin gnulib module unictype/ctype-punct
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_PUNCT
+libgnu_la_SOURCES += unictype/ctype_punct.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_punct.h
+
+## end   gnulib module unictype/ctype-punct
+
+## begin gnulib module unictype/ctype-space
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_SPACE
+libgnu_la_SOURCES += unictype/ctype_space.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_space.h
+
+## end   gnulib module unictype/ctype-space
+
+## begin gnulib module unictype/ctype-upper
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_UPPER
+libgnu_la_SOURCES += unictype/ctype_upper.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_upper.h
+
+## end   gnulib module unictype/ctype-upper
+
+## begin gnulib module unictype/ctype-xdigit
+
+if LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_XDIGIT
+libgnu_la_SOURCES += unictype/ctype_xdigit.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/ctype_xdigit.h
+
+## end   gnulib module unictype/ctype-xdigit
 
 ## begin gnulib module unictype/property-id-continue
 
@@ -2796,6 +3558,44 @@ EXTRA_DIST += unitypes.in.h
 
 ## end   gnulib module unitypes-h
 
+## begin gnulib module uniwidth/base
+
+BUILT_SOURCES += $(LIBUNISTRING_UNIWIDTH_H)
+
+uniwidth.h: uniwidth.in.h
+	$(gl_V_at)$(SED_HEADER_TO_AT_t) $(srcdir)/uniwidth.in.h
+	$(AM_V_at)mv $@-t $@
+MOSTLYCLEANFILES += uniwidth.h uniwidth.h-t
+
+EXTRA_DIST += localcharset.h uniwidth.in.h
+
+## end   gnulib module uniwidth/base
+
+## begin gnulib module uniwidth/width
+
+if LIBUNISTRING_COMPILE_UNIWIDTH_WIDTH
+libgnu_la_SOURCES += uniwidth/width.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h uniwidth/cjk.h uniwidth/width0.h uniwidth/width2.h
+
+## end   gnulib module uniwidth/width
+
+## begin gnulib module vasnprintf
+
+
+EXTRA_DIST += asnprintf.c float+.h printf-args.c printf-args.h printf-parse.c printf-parse.h vasnprintf.c vasnprintf.h
+
+EXTRA_libgnu_la_SOURCES += asnprintf.c printf-args.c printf-parse.c vasnprintf.c
+
+## end   gnulib module vasnprintf
+
+## begin gnulib module vaszprintf
+
+libgnu_la_SOURCES += vaszprintf.c aszprintf.c
+
+## end   gnulib module vaszprintf
+
 ## begin gnulib module version-etc
 
 libgnu_la_SOURCES += version-etc.h version-etc.c
@@ -2945,6 +3745,103 @@ EXTRA_DIST += wchar.in.h
 
 ## end   gnulib module wchar-h
 
+## begin gnulib module wctype-h
+
+BUILT_SOURCES += wctype.h
+libgnu_la_SOURCES += wctype-h.c
+
+# We need the following in order to create <wctype.h> when the system
+# doesn't have one that works with the given compiler.
+wctype.h: wctype.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
+	$(gl_V_at)$(SED_HEADER_STDOUT) \
+	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+	      -e 's/@''HAVE_WCTYPE_H''@/$(HAVE_WCTYPE_H)/g' \
+	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+	      -e 's|@''NEXT_WCTYPE_H''@|$(NEXT_WCTYPE_H)|g' \
+	      -e 's/@''HAVE_CRTDEFS_H''@/$(HAVE_CRTDEFS_H)/g' \
+	      -e 's/@''GNULIBHEADERS_OVERRIDE_WINT_T''@/$(GNULIBHEADERS_OVERRIDE_WINT_T)/g' \
+	      -e 's/@''GNULIB_ISWBLANK''@/$(GL_GNULIB_ISWBLANK)/g' \
+	      -e 's/@''GNULIB_ISWDIGIT''@/$(GL_GNULIB_ISWDIGIT)/g' \
+	      -e 's/@''GNULIB_ISWPUNCT''@/$(GL_GNULIB_ISWPUNCT)/g' \
+	      -e 's/@''GNULIB_ISWXDIGIT''@/$(GL_GNULIB_ISWXDIGIT)/g' \
+	      -e 's/@''GNULIB_WCTYPE''@/$(GL_GNULIB_WCTYPE)/g' \
+	      -e 's/@''GNULIB_ISWCTYPE''@/$(GL_GNULIB_ISWCTYPE)/g' \
+	      -e 's/@''GNULIB_WCTRANS''@/$(GL_GNULIB_WCTRANS)/g' \
+	      -e 's/@''GNULIB_TOWCTRANS''@/$(GL_GNULIB_TOWCTRANS)/g' \
+	      -e 's/@''HAVE_ISWBLANK''@/$(HAVE_ISWBLANK)/g' \
+	      -e 's/@''HAVE_ISWCNTRL''@/$(HAVE_ISWCNTRL)/g' \
+	      -e 's/@''HAVE_WCTYPE_T''@/$(HAVE_WCTYPE_T)/g' \
+	      -e 's/@''HAVE_WCTRANS_T''@/$(HAVE_WCTRANS_T)/g' \
+	      -e 's/@''HAVE_WINT_T''@/$(HAVE_WINT_T)/g' \
+	      -e 's/@''REPLACE_ISWBLANK''@/$(REPLACE_ISWBLANK)/g' \
+	      -e 's/@''REPLACE_ISWDIGIT''@/$(REPLACE_ISWDIGIT)/g' \
+	      -e 's/@''REPLACE_ISWPUNCT''@/$(REPLACE_ISWPUNCT)/g' \
+	      -e 's/@''REPLACE_ISWXDIGIT''@/$(REPLACE_ISWXDIGIT)/g' \
+	      -e 's/@''REPLACE_ISWCNTRL''@/$(REPLACE_ISWCNTRL)/g' \
+	      -e 's/@''REPLACE_TOWLOWER''@/$(REPLACE_TOWLOWER)/g' \
+	      -e 's/@''REPLACE_WCTRANS''@/$(REPLACE_WCTRANS)/g' \
+	      -e 's/@''REPLACE_WCTYPE''@/$(REPLACE_WCTYPE)/g' \
+	      -e '/definitions of _GL_FUNCDECL_RPL/r $(CXXDEFS_H)' \
+	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
+	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
+	      $(srcdir)/wctype.in.h > $@-t
+	$(AM_V_at)mv $@-t $@
+MOSTLYCLEANFILES += wctype.h wctype.h-t
+
+EXTRA_DIST += wctype.in.h
+
+## end   gnulib module wctype-h
+
+## begin gnulib module wcwidth
+
+if GL_COND_OBJ_WCWIDTH
+libgnu_la_SOURCES += wcwidth.c
+endif
+
+## end   gnulib module wcwidth
+
+## begin gnulib module windows-mutex
+
+if GL_COND_OBJ_WINDOWS_MUTEX
+libgnu_la_SOURCES += windows-mutex.c
+endif
+
+EXTRA_DIST += windows-initguard.h windows-mutex.h
+
+## end   gnulib module windows-mutex
+
+## begin gnulib module windows-once
+
+if GL_COND_OBJ_WINDOWS_ONCE
+libgnu_la_SOURCES += windows-once.c
+endif
+
+EXTRA_DIST += windows-once.h
+
+## end   gnulib module windows-once
+
+## begin gnulib module windows-recmutex
+
+if GL_COND_OBJ_WINDOWS_RECMUTEX
+libgnu_la_SOURCES += windows-recmutex.c
+endif
+
+EXTRA_DIST += windows-initguard.h windows-recmutex.h
+
+## end   gnulib module windows-recmutex
+
+## begin gnulib module windows-rwlock
+
+if GL_COND_OBJ_WINDOWS_RWLOCK
+libgnu_la_SOURCES += windows-rwlock.c
+endif
+
+EXTRA_DIST += windows-initguard.h windows-rwlock.h
+
+## end   gnulib module windows-rwlock
+
 ## begin gnulib module xalloc
 
 libgnu_la_SOURCES += xmalloc.c
@@ -2979,6 +3876,28 @@ libgnu_la_SOURCES += gl_xlist.h gl_xlist.c
 libgnu_la_SOURCES += gl_xomap.h gl_xomap.c
 
 ## end   gnulib module xomap
+
+## begin gnulib module xsize
+
+libgnu_la_SOURCES += xsize.h xsize.c
+
+## end   gnulib module xsize
+
+## begin gnulib module xstrerror
+
+libgnu_la_SOURCES += xstrerror.c
+
+EXTRA_DIST += xstrerror.h
+
+## end   gnulib module xstrerror
+
+## begin gnulib module xvasprintf
+
+libgnu_la_SOURCES += xvasprintf.h xvasprintf.c xasprintf.c
+
+EXTRA_DIST += xalloc.h
+
+## end   gnulib module xvasprintf
 
 
 mostlyclean-local: mostlyclean-generic

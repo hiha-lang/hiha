@@ -47,6 +47,7 @@ EXTRA_SCRIPTS =
 BUILT_SOURCES =
 AM_CPPFLAGS =
 AM_CFLAGS =
+AM_LIBRS =
 
 EXTRA_DIST += m4/gnulib-cache.m4
 EXTRA_DIST += silent-rules.mk
@@ -69,6 +70,17 @@ BASICCFLAGS += -I $(abs_top_srcdir)/include
 BASICCFLAGS += -I $(abs_top_srcdir)/lib
 BASICCFLAGS += -I $(abs_top_srcdir)/$(GCVERS)/include
 
+AM_LIBRS += $(HARD_LOCALE_LIB)
+AM_LIBRS += $(LIBPTHREAD)
+AM_LIBRS += $(LIBTHREAD)
+AM_LIBRS += $(LIBC32CONV)
+AM_LIBRS += $(LIBICONV)
+AM_LIBRS += $(LIBINTL)
+AM_LIBRS += $(LIBUNISTRING)
+AM_LIBRS += $(MBRTOWC_LIB)
+AM_LIBRS += $(PTHREAD_ONCE_LIB)
+AM_LIBRS += $(SETLOCAL_NULL_LIB)
+
 BUILT_SOURCES += config.h
 
 #---------------------------------------------------------------------
@@ -76,6 +88,9 @@ BUILT_SOURCES += config.h
 include gc-dist.am
 include 0.1000-eof.am
 include 0.1000-cp.am
+include 0.1000-sp.am
+include 0.1000-int10.am
+include 0.1000-id.am
 include 20-white_space.am
 include 30-decimal_integer.am
 include 40-identifier.am
@@ -149,9 +164,7 @@ hiha_LDFLAGS += -export-dynamic
 hiha_LDADD += libhiha.la
 hiha_LDADD += $(GCVERS)/libhiha-gc.la
 hiha_LDADD += lib/libgnu.la
-hiha_LDADD += $(LTLIBICONV)
-hiha_LDADD += $(LTLIBINTL)
-hiha_LDADD += $(LTLIBUNISTRING)
+hiha_LDADD += $(AM_LIBRS)
 
 hiha_CFLAGS += $(BASICCFLAGS)
 hiha_CFLAGS += $(CFLAGS)
@@ -176,9 +189,7 @@ hiha_tokens_print_LDFLAGS += -export-dynamic
 hiha_tokens_print_LDADD += libhiha.la
 hiha_tokens_print_LDADD += $(GCVERS)/libhiha-gc.la
 hiha_tokens_print_LDADD += lib/libgnu.la
-hiha_tokens_print_LDADD += $(LTLIBICONV)
-hiha_tokens_print_LDADD += $(LTLIBINTL)
-hiha_tokens_print_LDADD += $(LTLIBUNISTRING)
+hiha_tokens_print_LDADD += $(AM_LIBRS)
 
 hiha_tokens_print_CFLAGS += $(BASICCFLAGS)
 hiha_tokens_print_CFLAGS += $(CFLAGS)
@@ -200,10 +211,7 @@ libhiha_la_SOURCES =
 
 libhiha_la_LIBADD += lib/libgnu.la
 
-libhiha_la_LDFLAGS += $(LIBS)
-libhiha_la_LDFLAGS += $(LTLIBICONV)
-libhiha_la_LDFLAGS += $(LTLIBINTL)
-libhiha_la_LDFLAGS += $(LTLIBUNISTRING)
+libhiha_la_LDFLAGS += $(AM_LIBRS)
 libhiha_la_LDFLAGS += -lm -ldl
 libhiha_la_LDFLAGS += -export-dynamic
 

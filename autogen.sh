@@ -227,6 +227,9 @@ EOF
 
     plugin_automake 0.1000 eof
     plugin_automake 0.1000 cp
+    plugin_automake 0.1000 sp
+    plugin_automake 0.1000 int10
+    plugin_automake 0.1000 id
     plugin_automake 20 white_space
     plugin_automake 30 decimal_integer
     plugin_automake 40 identifier

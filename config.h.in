@@ -10,6 +10,12 @@
 #define _GL_CONFIG_H_INCLUDED 1
 
 
+/* Define if building universal (internal helper macro) */
+#undef AC_APPLE_UNIVERSAL_BUILD
+
+/* Define if neither thread safety nor multithreading is desired. */
+#undef AVOID_ANY_THREADS
+
 /* Define to the number of bits in type 'ptrdiff_t'. */
 #undef BITSIZEOF_PTRDIFF_T
 
@@ -27,6 +33,13 @@
 
 /* Define to 1 if using 'alloca.c'. */
 #undef C_ALLOCA
+
+/* Define as the bit index in the word where to find bit 0 of the exponent of
+   'double'. */
+#undef DBL_EXPBIT0_BIT
+
+/* Define as the word index where to find the exponent of 'double'. */
+#undef DBL_EXPBIT0_WORD
 
 /* the name of the file descriptor member of DIR */
 #undef DIR_FD_MEMBER_NAME
@@ -56,9 +69,17 @@
    whether the gnulib module fstat shall be considered present. */
 #undef GNULIB_FSTAT
 
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module localeconv shall be considered present. */
+#undef GNULIB_LOCALECONV
+
 /* Define to the directory where to find the localizations of the translation
    domain 'gnulib', as a C string. */
 #undef GNULIB_LOCALEDIR
+
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module lock shall be considered present. */
+#undef GNULIB_LOCK
 
 /* Define to a C preprocessor expression that evaluates to 1 or 0, depending
    whether the gnulib module lstat shall be considered present. */
@@ -87,6 +108,52 @@
 /* Define to a C preprocessor expression that evaluates to 1 or 0, depending
    whether the gnulib module strerror shall be considered present. */
 #undef GNULIB_STRERROR
+
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module strerror_r-posix shall be considered present. */
+#undef GNULIB_STRERROR_R_POSIX
+
+/* Define to 1 when the gnulib module c32isalnum should be tested. */
+#undef GNULIB_TEST_C32ISALNUM
+
+/* Define to 1 when the gnulib module c32isalpha should be tested. */
+#undef GNULIB_TEST_C32ISALPHA
+
+/* Define to 1 when the gnulib module c32isblank should be tested. */
+#undef GNULIB_TEST_C32ISBLANK
+
+/* Define to 1 when the gnulib module c32iscntrl should be tested. */
+#undef GNULIB_TEST_C32ISCNTRL
+
+/* Define to 1 when the gnulib module c32isdigit should be tested. */
+#undef GNULIB_TEST_C32ISDIGIT
+
+/* Define to 1 when the gnulib module c32isgraph should be tested. */
+#undef GNULIB_TEST_C32ISGRAPH
+
+/* Define to 1 when the gnulib module c32islower should be tested. */
+#undef GNULIB_TEST_C32ISLOWER
+
+/* Define to 1 when the gnulib module c32isprint should be tested. */
+#undef GNULIB_TEST_C32ISPRINT
+
+/* Define to 1 when the gnulib module c32ispunct should be tested. */
+#undef GNULIB_TEST_C32ISPUNCT
+
+/* Define to 1 when the gnulib module c32isspace should be tested. */
+#undef GNULIB_TEST_C32ISSPACE
+
+/* Define to 1 when the gnulib module c32isupper should be tested. */
+#undef GNULIB_TEST_C32ISUPPER
+
+/* Define to 1 when the gnulib module c32isxdigit should be tested. */
+#undef GNULIB_TEST_C32ISXDIGIT
+
+/* Define to 1 when the gnulib module c32tolower should be tested. */
+#undef GNULIB_TEST_C32TOLOWER
+
+/* Define to 1 when the gnulib module c32width should be tested. */
+#undef GNULIB_TEST_C32WIDTH
 
 /* Define to 1 when the gnulib module calloc-gnu should be tested. */
 #undef GNULIB_TEST_CALLOC_GNU
@@ -163,6 +230,21 @@
 /* Define to 1 when the gnulib module getprogname should be tested. */
 #undef GNULIB_TEST_GETPROGNAME
 
+/* Define to 1 when the gnulib module iswblank should be tested. */
+#undef GNULIB_TEST_ISWBLANK
+
+/* Define to 1 when the gnulib module iswdigit should be tested. */
+#undef GNULIB_TEST_ISWDIGIT
+
+/* Define to 1 when the gnulib module iswpunct should be tested. */
+#undef GNULIB_TEST_ISWPUNCT
+
+/* Define to 1 when the gnulib module iswxdigit should be tested. */
+#undef GNULIB_TEST_ISWXDIGIT
+
+/* Define to 1 when the gnulib module localeconv should be tested. */
+#undef GNULIB_TEST_LOCALECONV
+
 /* Define to 1 when the gnulib module lstat should be tested. */
 #undef GNULIB_TEST_LSTAT
 
@@ -171,6 +253,21 @@
 
 /* Define to 1 when the gnulib module malloc-posix should be tested. */
 #undef GNULIB_TEST_MALLOC_POSIX
+
+/* Define to 1 when the gnulib module mbrtoc32 should be tested. */
+#undef GNULIB_TEST_MBRTOC32
+
+/* Define to 1 when the gnulib module mbrtowc should be tested. */
+#undef GNULIB_TEST_MBRTOWC
+
+/* Define to 1 when the gnulib module mbsinit should be tested. */
+#undef GNULIB_TEST_MBSINIT
+
+/* Define to 1 when the gnulib module mbsnlen should be tested. */
+#undef GNULIB_TEST_MBSNLEN
+
+/* Define to 1 when the gnulib module mbszero should be tested. */
+#undef GNULIB_TEST_MBSZERO
 
 /* Define to 1 when the gnulib module memchr should be tested. */
 #undef GNULIB_TEST_MEMCHR
@@ -186,6 +283,9 @@
 
 /* Define to 1 when the gnulib module printf should be tested. */
 #undef GNULIB_TEST_PRINTF
+
+/* Define to 1 when the gnulib module pthread-once should be tested. */
+#undef GNULIB_TEST_PTHREAD_ONCE
 
 /* Define to 1 when the gnulib module putc should be tested. */
 #undef GNULIB_TEST_PUTC
@@ -211,6 +311,9 @@
 /* Define to 1 when the gnulib module scanf should be tested. */
 #undef GNULIB_TEST_SCANF
 
+/* Define to 1 when the gnulib module setlocale_null should be tested. */
+#undef GNULIB_TEST_SETLOCALE_NULL
+
 /* Define to 1 when the gnulib module stat should be tested. */
 #undef GNULIB_TEST_STAT
 
@@ -220,6 +323,9 @@
 /* Define to 1 when the gnulib module strerror should be tested. */
 #undef GNULIB_TEST_STRERROR
 
+/* Define to 1 when the gnulib module strerror_r should be tested. */
+#undef GNULIB_TEST_STRERROR_R
+
 /* Define to 1 when the gnulib module strnul should be tested. */
 #undef GNULIB_TEST_STRNUL
 
@@ -227,11 +333,17 @@
    */
 #undef GNULIB_TEST_UNINORM_U32_NORMALIZE
 
+/* Define to 1 when the gnulib module vaszprintf should be tested. */
+#undef GNULIB_TEST_VASZPRINTF
+
 /* Define to 1 when the gnulib module vfprintf should be tested. */
 #undef GNULIB_TEST_VFPRINTF
 
 /* Define to 1 when the gnulib module vprintf should be tested. */
 #undef GNULIB_TEST_VPRINTF
+
+/* Define to 1 when the gnulib module wcwidth should be tested. */
+#undef GNULIB_TEST_WCWIDTH
 
 /* Define to a C preprocessor expression that evaluates to 1 or 0, depending
    whether the gnulib module unistr/u32-mbtouc-unsafe shall be considered
@@ -276,6 +388,9 @@
 
 /* Define to 1 if you have the <bp-sym.h> header file. */
 #undef HAVE_BP_SYM_H
+
+/* Define to 1 if you have the `catgets' function. */
+#undef HAVE_CATGETS
 
 /* Define to 1 if you have the 'closedir' function. */
 #undef HAVE_CLOSEDIR
@@ -336,6 +451,18 @@
    */
 #undef HAVE_DECL_GETW
 
+/* Define to 1 if you have the declaration of 'iswblank', and to 0 if you
+   don't. */
+#undef HAVE_DECL_ISWBLANK
+
+/* Define to 1 if you have the declaration of 'mbrtowc', and to 0 if you
+   don't. */
+#undef HAVE_DECL_MBRTOWC
+
+/* Define to 1 if you have the declaration of 'mbsinit', and to 0 if you
+   don't. */
+#undef HAVE_DECL_MBSINIT
+
 /* Define to 1 if you have the declaration of 'memeq', and to 0 if you don't.
    */
 #undef HAVE_DECL_MEMEQ
@@ -360,9 +487,21 @@
    don't. */
 #undef HAVE_DECL_STRERROR_R
 
+/* Define to 1 if you have the declaration of 'towlower', and to 0 if you
+   don't. */
+#undef HAVE_DECL_TOWLOWER
+
 /* Define to 1 if you have the declaration of 'wcsdup', and to 0 if you don't.
    */
 #undef HAVE_DECL_WCSDUP
+
+/* Define to 1 if you have the declaration of 'wcwidth', and to 0 if you
+   don't. */
+#undef HAVE_DECL_WCWIDTH
+
+/* Define to 1 if you have the declaration of '_snprintf', and to 0 if you
+   don't. */
+#undef HAVE_DECL__SNPRINTF
 
 /* Define to 1 if you have the declaration of '__argv', and to 0 if you don't.
    */
@@ -430,8 +569,21 @@
    */
 #undef HAVE_INLINE
 
+/* Define if you have the 'intmax_t' type in <stdint.h> or <inttypes.h>. */
+#undef HAVE_INTMAX_T
+
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
+
+/* Define if <inttypes.h> exists, doesn't clash with <sys/types.h>, and
+   declares uintmax_t. */
+#undef HAVE_INTTYPES_H_WITH_UINTMAX
+
+/* Define to 1 if you have the `iswblank' function. */
+#undef HAVE_ISWBLANK
+
+/* Define to 1 if you have the 'iswcntrl' function. */
+#undef HAVE_ISWCNTRL
 
 /* Define if you have <langinfo.h> and nl_langinfo(CODESET). */
 #undef HAVE_LANGINFO_CODESET
@@ -455,6 +607,15 @@
    PTRDIFF_MAX bytes. */
 #undef HAVE_MALLOC_PTRDIFF
 
+/* Define to 1 if you have the 'mbrtowc' function. */
+#undef HAVE_MBRTOWC
+
+/* Define to 1 if you have the 'mbsinit' function. */
+#undef HAVE_MBSINIT
+
+/* Define to 1 if <wchar.h> declares mbstate_t. */
+#undef HAVE_MBSTATE_T
+
 /* Define to 1 if you have the <minix/config.h> header file. */
 #undef HAVE_MINIX_CONFIG_H
 
@@ -474,6 +635,28 @@
 /* Define to 1 if you have the 'opendir' function. */
 #undef HAVE_OPENDIR
 
+/* Define if you have the <pthread.h> header and the POSIX threads API. */
+#undef HAVE_PTHREAD_API
+
+/* Define to 1 if you have the <pthread.h> header file. */
+#undef HAVE_PTHREAD_H
+
+/* Define if the <pthread.h> defines PTHREAD_MUTEX_RECURSIVE. */
+#undef HAVE_PTHREAD_MUTEX_RECURSIVE
+
+/* Define if the POSIX multithreading library has read/write locks. */
+#undef HAVE_PTHREAD_RWLOCK
+
+/* Define if the 'pthread_rwlock_rdlock' function prefers a writer to a
+   reader. */
+#undef HAVE_PTHREAD_RWLOCK_RDLOCK_PREFER_WRITER
+
+/* Define to 1 if the system has the type 'pthread_spinlock_t'. */
+#undef HAVE_PTHREAD_SPINLOCK_T
+
+/* Define to 1 if the system has the type 'pthread_t'. */
+#undef HAVE_PTHREAD_T
+
 /* Define to 1 if you have the 'readdir' function. */
 #undef HAVE_READDIR
 
@@ -488,6 +671,9 @@
 
 /* Define to 1 if you have the 'scandir' function. */
 #undef HAVE_SCANDIR
+
+/* Define to 1 if you have the <sched.h> header file. */
+#undef HAVE_SCHED_H
 
 /* Define to 1 if you have the <sdkddkver.h> header file. */
 #undef HAVE_SDKDDKVER_H
@@ -504,6 +690,18 @@
 /* Define to 1 if 'wint_t' is a signed integer type. */
 #undef HAVE_SIGNED_WINT_T
 
+/* Define to 1 if you have the 'snprintf' function. */
+#undef HAVE_SNPRINTF
+
+/* Define if the return value of the snprintf function is the number of of
+   bytes (excluding the terminating NUL) that would have been produced if the
+   buffer had been large enough. */
+#undef HAVE_SNPRINTF_RETVAL_C99
+
+/* Define if the string produced by the snprintf function is always NUL
+   terminated. */
+#undef HAVE_SNPRINTF_TRUNCATION_C99
+
 /* Define to 1 if you have the <stdbool.h> header file. */
 #undef HAVE_STDBOOL_H
 
@@ -516,13 +714,20 @@
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
 
+/* Define if <stdint.h> exists, doesn't clash with <sys/types.h>, and declares
+   uintmax_t. */
+#undef HAVE_STDINT_H_WITH_UINTMAX
+
 /* Define to 1 if you have the <stdio.h> header file. */
 #undef HAVE_STDIO_H
 
 /* Define to 1 if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
 
-/* Define if you have 'strerror_r'. */
+/* Define to 1 if you have the `strerrorname_np' function. */
+#undef HAVE_STRERRORNAME_NP
+
+/* Define to 1 if you have the `strerror_r' function. */
 #undef HAVE_STRERROR_R
 
 /* Define to 1 if you have the <strings.h> header file. */
@@ -530,6 +735,15 @@
 
 /* Define to 1 if you have the <string.h> header file. */
 #undef HAVE_STRING_H
+
+/* Define to 1 if you have the 'strnlen' function. */
+#undef HAVE_STRNLEN
+
+/* Define to 1 if 'decimal_point' is a member of 'struct lconv'. */
+#undef HAVE_STRUCT_LCONV_DECIMAL_POINT
+
+/* Define to 1 if 'int_p_cs_precedes' is a member of 'struct lconv'. */
+#undef HAVE_STRUCT_LCONV_INT_P_CS_PRECEDES
 
 /* Define to 1 if 'st_atimensec' is a member of 'struct stat'. */
 #undef HAVE_STRUCT_STAT_ST_ATIMENSEC
@@ -582,6 +796,18 @@
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
 
+/* Define to 1 if you have the `thrd_create' function. */
+#undef HAVE_THRD_CREATE
+
+/* Define to 1 if you have the <threads.h> header file. */
+#undef HAVE_THREADS_H
+
+/* Define to 1 if you have the 'towlower' function. */
+#undef HAVE_TOWLOWER
+
+/* Define to 1 if you have the <uchar.h> header file. */
+#undef HAVE_UCHAR_H
+
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
@@ -594,17 +820,49 @@
 /* Define if you have a global __progname variable */
 #undef HAVE_VAR___PROGNAME
 
+/* Define to 1 if you have the 'vasnprintf' function. */
+#undef HAVE_VASNPRINTF
+
 /* Define to 1 if you have the 'vasprintf' function. */
 #undef HAVE_VASPRINTF
 
+/* Define to 1 or 0, depending whether the compiler supports simple visibility
+   declarations. */
+#undef HAVE_VISIBILITY
+
 /* Define to 1 if you have the <wchar.h> header file. */
 #undef HAVE_WCHAR_H
+
+/* Define to 1 if you have the 'wcrtomb' function. */
+#undef HAVE_WCRTOMB
+
+/* Define to 1 if you have the 'wcslen' function. */
+#undef HAVE_WCSLEN
+
+/* Define to 1 if you have the <wctype.h> header file. */
+#undef HAVE_WCTYPE_H
+
+/* Define to 1 if you have the 'wcwidth' function. */
+#undef HAVE_WCWIDTH
+
+/* Define to 1 if the compiler and linker support weak declarations of
+   symbols. */
+#undef HAVE_WEAK_SYMBOLS
+
+/* Define to 1 if <locale.h> defines the _locale_t type. */
+#undef HAVE_WINDOWS_LOCALE_T
 
 /* Define to 1 if you have the <winsock2.h> header file. */
 #undef HAVE_WINSOCK2_H
 
 /* Define if you have the 'wint_t' type. */
 #undef HAVE_WINT_T
+
+/* Define if the c32rtomb function basically works. */
+#undef HAVE_WORKING_C32RTOMB
+
+/* Define if the mbrtoc32 function basically works. */
+#undef HAVE_WORKING_MBRTOC32
 
 /* Define to 1 if O_DIRECTORY works, 0 otherwise. */
 #undef HAVE_WORKING_O_DIRECTORY
@@ -614,6 +872,12 @@
 
 /* Define to 1 if O_NOFOLLOW works, 0 otherwise. */
 #undef HAVE_WORKING_O_NOFOLLOW
+
+/* Define to 1 if the function strerrorname_np exists and works. */
+#undef HAVE_WORKING_STRERRORNAME_NP
+
+/* Define to 1 if you have the <xlocale.h> header file. */
+#undef HAVE_XLOCALE_H
 
 /* Define if _mm_pause exists. */
 #undef HAVE__MM_PAUSE
@@ -749,6 +1013,9 @@
 # define _GL_INLINE_HEADER_END
 #endif
 
+/* Define to 1 if you have the '__xpg_strerror_r' function. */
+#undef HAVE___XPG_STRERROR_R
+
 /* Define as a C attribute for marking a function pure. */
 #undef HIHA_PURE
 
@@ -771,6 +1038,39 @@
 
 /* Define to a substitute value for mmap()'s MAP_ANONYMOUS flag. */
 #undef MAP_ANONYMOUS
+
+/* Define if the mbrtoc32 function does not return (size_t) -2 for empty
+   input. */
+#undef MBRTOC32_EMPTY_INPUT_BUG
+
+/* Define if the mbrtoc32 function may signal encoding errors in the C locale.
+   */
+#undef MBRTOC32_IN_C_LOCALE_MAYBE_EILSEQ
+
+/* Define if the mbrtoc32 function does not accept the input bytes one-by-one.
+   */
+#undef MBRTOC32_MULTIBYTE_LOCALE_BUG
+
+/* Define if the mbrtowc function does not return (size_t) -2 for empty input.
+   */
+#undef MBRTOWC_EMPTY_INPUT_BUG
+
+/* Define if the mbrtowc function may signal encoding errors in the C locale.
+   */
+#undef MBRTOWC_IN_C_LOCALE_MAYBE_EILSEQ
+
+/* Define if the mbrtowc function has the NULL pwc argument bug. */
+#undef MBRTOWC_NULL_ARG1_BUG
+
+/* Define if the mbrtowc function does not return 0 for a NUL character. */
+#undef MBRTOWC_NUL_RETVAL_BUG
+
+/* Define if the mbrtowc function returns a wrong return value. */
+#undef MBRTOWC_RETVAL_BUG
+
+/* Define if the mbrtowc function stores a wide character when reporting
+   incomplete input. */
+#undef MBRTOWC_STORES_INCOMPLETE_BUG
 
 /* Use GNU style printf and scanf.  */
 #ifndef __USE_MINGW_ANSI_STDIO
@@ -830,6 +1130,9 @@
    type mode_t. */
 #undef PROMOTED_MODE_T
 
+/* Define if the pthread_in_use() detection is hard. */
+#undef PTHREAD_IN_USE_DETECTION_HARD
+
 /* Define to l, ll, u, ul, ull, etc., as suitable for constants of type
    'ptrdiff_t'. */
 #undef PTRDIFF_T_SUFFIX
@@ -841,9 +1144,24 @@
 /* Define to 1 if strerror(0) does not return a message implying success. */
 #undef REPLACE_STRERROR_0
 
+/* Define if vasnprintf exists but is overridden by gnulib. */
+#undef REPLACE_VASNPRINTF
+
+/* Define to 1 if setlocale (LC_ALL, NULL) is thread-safe. */
+#undef SETLOCALE_NULL_ALL_MTSAFE
+
+/* Define to 1 if setlocale (category, NULL) is thread-safe. */
+#undef SETLOCALE_NULL_ONE_MTSAFE
+
 /* Define to l, ll, u, ul, ull, etc., as suitable for constants of type
    'sig_atomic_t'. */
 #undef SIG_ATOMIC_T_SUFFIX
+
+/* Define as the maximum value of type 'size_t', if the system doesn't define
+   it. */
+#ifndef SIZE_MAX
+# undef SIZE_MAX
+#endif
 
 /* Define to l, ll, u, ul, ull, etc., as suitable for constants of type
    'size_t'. */
@@ -872,12 +1190,30 @@
    timespec. */
 #undef TYPEOF_STRUCT_STAT_ST_ATIM_IS_STRUCT_TIMESPEC
 
+/* Define if the combination of the ISO C and POSIX multithreading APIs can be
+   used. */
+#undef USE_ISOC_AND_POSIX_THREADS
+
+/* Define if the ISO C multithreading library can be used. */
+#undef USE_ISOC_THREADS
+
 /* Define to enable the declarations of ISO C 23 Annex K types and functions.  */
 #if !(defined __STDC_WANT_LIB_EXT1__ && __STDC_WANT_LIB_EXT1__)
 #undef/**/__STDC_WANT_LIB_EXT1__
 #define __STDC_WANT_LIB_EXT1__ 1
 #endif
 
+
+/* Define if the POSIX multithreading library can be used. */
+#undef USE_POSIX_THREADS
+
+/* Define if references to the POSIX multithreading library are satisfied by
+   libc. */
+#undef USE_POSIX_THREADS_FROM_LIBC
+
+/* Define if references to the POSIX multithreading library should be made
+   weak. */
+#undef USE_POSIX_THREADS_WEAK
 
 /* Enable extensions on AIX, Interix, z/OS.  */
 #ifndef _ALL_SOURCE
@@ -971,6 +1307,9 @@
 #endif
 
 
+/* Define if the native Windows multithreading API can be used. */
+#undef USE_WINDOWS_THREADS
+
 /* Version number of package */
 #undef VERSION
 
@@ -981,6 +1320,18 @@
 /* Define to l, ll, u, ul, ull, etc., as suitable for constants of type
    'wint_t'. */
 #undef WINT_T_SUFFIX
+
+/* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
+   significant byte first (like Motorola and SPARC, unlike Intel). */
+#if defined AC_APPLE_UNIVERSAL_BUILD
+# if defined __BIG_ENDIAN__
+#  define WORDS_BIGENDIAN 1
+# endif
+#else
+# ifndef WORDS_BIGENDIAN
+#  undef WORDS_BIGENDIAN
+# endif
+#endif
 
 /* Number of bits in a file offset, on hosts where this is settable. */
 #undef _FILE_OFFSET_BITS
@@ -1011,6 +1362,9 @@
 
 /* Define to 1 on platforms where this makes off_t a 64-bit type. */
 #undef _LARGE_FILES
+
+/* Define to 1 on Solaris. */
+#undef _LCONV_C99
 
 /* Define so that AIX headers are more compatible with GNU/Linux. */
 #undef _LINUX_SOURCE_COMPAT
@@ -1939,6 +2293,9 @@
 #undef inline
 #endif
 
+/* Define to long or long long if <stdint.h> and <inttypes.h> don't define. */
+#undef intmax_t
+
 /* Work around a bug in Apple GCC 4.0.1 build 5465: In C99 mode, it supports
    the ISO C 99 semantics of 'extern inline' (unlike the GNU C semantics of
    earlier versions), but does not display it by setting __GNUC_STDC_INLINE__.
@@ -1948,6 +2305,9 @@
 #if defined __APPLE__ && defined __MACH__ && __APPLE_CC__ >= 5465 && !defined __cplusplus && __STDC_VERSION__ >= 199901L && !defined __GNUC_STDC_INLINE__
 # define __GNUC_STDC_INLINE__ 1
 #endif
+
+/* Define to a type if <wchar.h> does not define. */
+#undef mbstate_t
 
 /* _GL_CMP (n1, n2) performs a three-valued comparison on n1 vs. n2, where
    n1 and n2 are expressions without side effects, that evaluate to real
@@ -1973,6 +2333,10 @@
 
 /* Define as a signed integer type capable of holding a process identifier. */
 #undef pid_t
+
+/* Define as the type of the result of subtracting two pointers, if the system
+   doesn't define it. */
+#undef ptrdiff_t
 
 /* Define to the equivalent of the C99 'restrict' keyword, or to
    nothing if this is not supported.  Do not define if restrict is

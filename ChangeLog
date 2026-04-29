@@ -1,7 +1,57 @@
 @  master
-|  2026-04-29 13:57 +0000
+|  2026-04-29 17:22 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
-|  git:
+|  git:       a97032cc1191b623bcf4628f2e97ea4b45ea9edb
+|  mercurial: 9badf46da40d9685154a454a6fd6f9dc35594155
+|  revision:  82
+|  parents:   81
+|
+|    Add missing files to the repo. Also a minor change to the code.
+|
+|
+o  2026-04-29 14:58 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       319c0966b405eb3323598ee90181b965ba8463ab
+|  mercurial: 97d3967a6eb26e6cabdc65d7c09adcf6ef28cedc
+|  revision:  81
+|  parents:   80
+|
+|    I have figured out how to chain nud handlers for the lexer.
+|
+|
+o  2026-04-29 14:35 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       050697c97f26f5856cd37bde928d718cf6f58444
+|  mercurial: fd38193bc07263426fa662e7be5f89605908bb53
+|  revision:  80
+|  parents:   79
+|
+|    Move VISIBLE and PURE into config.h
+|
+|
+o  2026-04-29 14:04 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       5f0d4fd5eb1c62af54de40245b3cc26cae4276cd
+|  mercurial: 372a69d8da4f98e10f06297f25df319954f9894c
+|  revision:  79
+|  parents:   78
+|
+|    Give encoding and canonicalization information about text location.
+|
+|
+o  2026-04-29 13:58 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       34cb6c23e775b2e853336195c83f39d74768cccb
+|  mercurial: a2f402be554cd5a01b898ae4b8d1bdc6fd22008c
+|  revision:  78
+|  parents:   77
+|
+|    Update ChangeLog.
+|
+|
+o  2026-04-29 13:57 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       ce5a481168d6815df61c1bfd04a36181b64be8c1
 |  mercurial: f2ca54d25538ed9db1377cad662c09daf82c530f
 |  revision:  77
 |  parents:   76

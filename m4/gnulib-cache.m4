@@ -66,7 +66,8 @@
 #  version-etc \
 #  xalloc \
 #  xlist \
-#  xomap
+#  xomap \
+#  xstrerror
 
 # Specification in the form of a few gnulib-tool.m4 macro invocations:
 gl_LOCAL_DIR([])
@@ -101,6 +102,7 @@ gl_MODULES([
   xalloc
   xlist
   xomap
+  xstrerror
 ])
 gl_AVOID([])
 gl_SOURCE_BASE([lib])

@@ -92,8 +92,11 @@ ____scan_some_files (size_t n, const char *filenames[n])
   make_token_getter_with_mismatch_check (input_getter, &getter,
                                          &check_for_mismatch);
 
+  const char *fn[2] = { "hiha_tokens0", "hiha_tokens1" };
+  size_t ifn = 0;
+  FILE *h = fopen (fn[ifn], "w");
   token_putter_t input_putter =
-    make_token_putter_to_stream_serialized_t ("<stdout>", stdout);
+    make_token_putter_to_stream_serialized_t (fn[ifn], h);
   token_putter_t putter =
     make_token_putter_with_mismatch_check (input_putter, getter,
                                            check_for_mismatch);
@@ -105,8 +108,14 @@ ____scan_some_files (size_t n, const char *filenames[n])
       error (exit_failure, 0, "%s", error_message);
       abort ();
     }
-  printf ("FIXED POINT? %s\n",
-          check_for_mismatch (getter, NULL) ? "no" : "yes");
+  fclose (h);
+  if (error_message != 0)
+    error (exit_failure, 0, "%s", error_message);
+  scan_serialized_tokens_until_fixed_point (fn, &ifn, &error_message);
+  if (error_message != 0)
+    error (exit_failure, 0, "%s", error_message);
+  //printf ("FIXED POINT? %s\n",
+  //check_for_mismatch (getter, NULL) ? "no" : "yes");
 }
 
 static void

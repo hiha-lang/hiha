@@ -1,7 +1,37 @@
 @  master
-|  2026-04-28 17:08 +0000
+|  2026-04-29 13:57 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:
+|  mercurial: f2ca54d25538ed9db1377cad662c09daf82c530f
+|  revision:  77
+|  parents:   76
+|
+|    The last change neglected to canonicalize the string. Now we do so.
+|
+|
+o  2026-04-29 13:26 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       af08ac2bad556308192f1bde1c1aea146e9a6c96
+|  mercurial: 320977e817c30f559f0e39bf7c8cac22654f989d
+|  revision:  76
+|  parents:   75
+|
+|    I neglected to encode source file lines UTF-32.
+|
+|
+o  2026-04-28 21:26 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       2a9adc3187bc3314391d531fb4d41b41b8cd2e73
+|  mercurial: 0ddcbe7d2049e88ce97c3f1dae2b677a95379da8
+|  revision:  75
+|  parents:   74
+|
+|    Add hiha-tokens-print
+|
+|
+o  2026-04-28 17:08 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       4dd25e5ace1a396ea4bab10e05c22d4a1f902b0f
 |  mercurial: b9e929914654586d0f240da5a74a4f3b897fb241
 |  revision:  74
 |  parents:   73

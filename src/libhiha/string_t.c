@@ -31,9 +31,6 @@
 // Change this if using gettext.
 #define _(msgid) msgid
 
-#define VISIBLE [[gnu::visibility ("default")]]
-#define HIHA_PURE [[gnu::pure]]
-
 static initialize_once_t _string_constants_init1t =
   INITIALIZE_ONCE_T_INIT;
 static string_t _string_t_EOF;
@@ -48,7 +45,7 @@ _initialize_string_constants (void)
   _string_t_formfeed = make_string_t ("\014");
 }
 
-VISIBLE HIHA_PURE const string_t
+HIHA_VISIBLE HIHA_PURE const string_t
 string_t_EOF (void)
 {
   INITIALIZE_ONCE (_string_constants_init1t,
@@ -56,7 +53,7 @@ string_t_EOF (void)
   return _string_t_EOF;
 }
 
-VISIBLE HIHA_PURE const string_t
+HIHA_VISIBLE HIHA_PURE const string_t
 string_t_CP (void)
 {
   INITIALIZE_ONCE (_string_constants_init1t,
@@ -64,7 +61,7 @@ string_t_CP (void)
   return _string_t_CP;
 }
 
-VISIBLE HIHA_PURE const string_t
+HIHA_VISIBLE HIHA_PURE const string_t
 string_t_formfeed (void)
 {
   INITIALIZE_ONCE (_string_constants_init1t,
@@ -72,19 +69,19 @@ string_t_formfeed (void)
   return _string_t_formfeed;
 }
 
-VISIBLE int
+HIHA_VISIBLE int
 string_t_cmp (const string_t str1, const string_t str2)
 {
   return u32_cmp2 (str1->s, str1->n, str2->s, str2->n);
 }
 
-VISIBLE string_t
+HIHA_VISIBLE string_t
 make_string_t (const char *src)
 {
   return string_t_canonical_from_str_len (src, strlen (src), NULL);
 }
 
-VISIBLE string_t
+HIHA_VISIBLE string_t
 copy_string_t (const string_t str)
 {
   string_t s = XMALLOC (struct string);
@@ -95,7 +92,7 @@ copy_string_t (const string_t str)
   return s;
 }
 
-VISIBLE char *
+HIHA_VISIBLE char *
 make_str_nul (const string_t str)
 {
   char *s;
@@ -107,7 +104,7 @@ make_str_nul (const string_t str)
   return t;
 }
 
-VISIBLE string_t
+HIHA_VISIBLE string_t
 string_t_from_str_len (const char *src, size_t srclen,
                        text_location_t loc)
 {
@@ -132,7 +129,7 @@ string_t_from_str_len (const char *src, size_t srclen,
   return result;
 }
 
-VISIBLE string_t
+HIHA_VISIBLE string_t
 string_t_canonicalize (const string_t src, text_location_t loc)
 {
   size_t n;
@@ -151,7 +148,7 @@ string_t_canonicalize (const string_t src, text_location_t loc)
   return result;
 }
 
-VISIBLE string_t
+HIHA_VISIBLE string_t
 string_t_canonical_from_str_len (const char *src, size_t srclen,
                                  text_location_t loc)
 {
@@ -160,7 +157,7 @@ string_t_canonical_from_str_len (const char *src, size_t srclen,
   return str;
 }
 
-VISIBLE void
+HIHA_VISIBLE void
 str_len_from_string_t (const string_t src, char **s, size_t *n)
 {
   *s = u32_conv_to_encoding (locale_charset (),
@@ -174,7 +171,7 @@ str_len_from_string_t (const string_t src, char **s, size_t *n)
     }
 }
 
-VISIBLE char *
+HIHA_VISIBLE char *
 text_location_string (text_location_t loc)
 {
   const char *fn;
@@ -198,7 +195,7 @@ text_location_string (text_location_t loc)
   return s;
 }
 
-VISIBLE void
+HIHA_VISIBLE void
 print_string_t (const string_t str, FILE *f)
 {
   char *s;

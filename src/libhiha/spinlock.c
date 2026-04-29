@@ -26,8 +26,6 @@
 // Change this if using gettext.
 #define _(msgid) msgid
 
-#define VISIBLE [[gnu::visibility ("default")]]
-
 /* A ‘PAUSE’ instruction, at least on x86, is a hint to the CPU that
    can improve the behavior of a spinlock. What the instruction does
    may vary by specific architecture. */
@@ -49,7 +47,7 @@ spinlock_pause (void)
   CPU_PAUSE;
 }
 
-VISIBLE void
+HIHA_VISIBLE void
 acquire_spinlock (spinlock_t *lock)
 {
   size_t my_ticket = atomic_fetch_add (&lock->available, 1);
@@ -62,7 +60,7 @@ acquire_spinlock (spinlock_t *lock)
   atomic_thread_fence (memory_order_seq_cst);
 }
 
-VISIBLE void
+HIHA_VISIBLE void
 release_spinlock (spinlock_t *lock)
 {
   atomic_thread_fence (memory_order_seq_cst);

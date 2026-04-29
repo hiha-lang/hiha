@@ -749,6 +749,12 @@
 # define _GL_INLINE_HEADER_END
 #endif
 
+/* Define as a C attribute for marking a function pure. */
+#undef HIHA_PURE
+
+/* Define as a C attribute for making a symbol visible. */
+#undef HIHA_VISIBLE
+
 /* Define as const if the declaration of iconv() needs const. */
 #undef ICONV_CONST
 
@@ -2071,4 +2077,7 @@
 #endif
 
 
+
+/* A workaround for a bug in Gnulib’s stdlib.h (2026 April 19). */
 #define _GL_FUNCDECL_SYS_NAME(func) (func)
+

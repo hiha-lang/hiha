@@ -42,7 +42,7 @@
 #  avltree-list \
 #  avltree-omap \
 #  base64 \
-#  dirent \
+#  dirent-h \
 #  error \
 #  exitfail \
 #  filevercmp \
@@ -51,7 +51,6 @@
 #  progname \
 #  scandir \
 #  unicase/u32-casecoll \
-#  uniconv/u32-casecoll \
 #  uniconv/u32-conv-from-enc \
 #  uniconv/u32-conv-to-enc \
 #  unictype/category-Pc \
@@ -77,7 +76,7 @@ gl_MODULES([
   avltree-list
   avltree-omap
   base64
-  dirent
+  dirent-h
   error
   exitfail
   filevercmp
@@ -86,7 +85,6 @@ gl_MODULES([
   progname
   scandir
   unicase/u32-casecoll
-  uniconv/u32-casecoll
   uniconv/u32-conv-from-enc
   uniconv/u32-conv-to-enc
   unictype/category-Pc

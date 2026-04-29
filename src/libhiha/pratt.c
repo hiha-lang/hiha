@@ -45,8 +45,6 @@
 // Change this if using gettext.
 #define _(msgid) msgid
 
-#define VISIBLE [[gnu::visibility ("default")]]
-
 #define UNEXPECTED_TEXT _("unexpected text at %s: “%s”")
 
 struct pratt_tables
@@ -94,7 +92,7 @@ compare_strings (const void *s1, const void *s2)
   return string_t_cmp (str1, str2);
 }
 
-VISIBLE pratt_tables_t
+HIHA_VISIBLE pratt_tables_t
 make_pratt_tables_t (void)
 {
   pratt_tables_t data = XMALLOC (struct pratt_tables);
@@ -107,21 +105,21 @@ make_pratt_tables_t (void)
   return data;
 }
 
-VISIBLE void
+HIHA_VISIBLE void
 pratt_nud_put (pratt_tables_t data, string_t token_kind,
                nud_handler_t handler)
 {
   gl_omap_put (data->nud, token_kind, handler);
 }
 
-VISIBLE void
+HIHA_VISIBLE void
 pratt_led_put (pratt_tables_t data, string_t token_kind,
                led_handler_t handler)
 {
   gl_omap_put (data->led, token_kind, handler);
 }
 
-VISIBLE void
+HIHA_VISIBLE void
 pratt_lbp_put (pratt_tables_t data, string_t token_kind,
                double binding_power)
 {
@@ -130,19 +128,19 @@ pratt_lbp_put (pratt_tables_t data, string_t token_kind,
   gl_omap_put (data->lbp, token_kind, bp);
 }
 
-VISIBLE nud_handler_t
+HIHA_VISIBLE nud_handler_t
 pratt_nud_get (pratt_tables_t data, string_t token_kind)
 {
   return (nud_handler_t) gl_omap_get (data->nud, token_kind);
 }
 
-VISIBLE led_handler_t
+HIHA_VISIBLE led_handler_t
 pratt_led_get (pratt_tables_t data, string_t token_kind)
 {
   return (led_handler_t) gl_omap_get (data->nud, token_kind);
 }
 
-VISIBLE double
+HIHA_VISIBLE double
 pratt_lbp_get (pratt_tables_t data, string_t token_kind)
 {
   const void *p = gl_omap_get (data->lbp, token_kind);
@@ -236,7 +234,7 @@ execute_left_denotation (void *state, buffered_token_getter_t getter,
     }
 }
 
-VISIBLE void
+HIHA_VISIBLE void
 pratt_parse (void *state, buffered_token_getter_t getter,
              pratt_tables_t tables, double min_power,
              void **lhs, const char **error_message)
@@ -251,7 +249,7 @@ pratt_parse (void *state, buffered_token_getter_t getter,
     execute_left_denotation (state, getter, tables, lhs, error_message);
 }
 
-VISIBLE pratt_handler_reference_t
+HIHA_VISIBLE pratt_handler_reference_t
 make_pratt_handler_reference_t (size_t register_no, size_t handler_no)
 {
   pratt_handler_reference_t ref =

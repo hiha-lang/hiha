@@ -74,7 +74,8 @@ BUILT_SOURCES += config.h
 #---------------------------------------------------------------------
 
 include gc-dist.am
-include 10-eof.am
+include 0.1000-eof.am
+include 0.1000-cp.am
 include 20-white_space.am
 include 30-decimal_integer.am
 include 40-identifier.am

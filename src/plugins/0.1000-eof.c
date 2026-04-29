@@ -20,16 +20,7 @@
 */
 
 #include <config.h>
-#include <error.h>
-#include <exitfail.h>
-#include <unictype.h>
-#include <xalloc.h>
 #include <libhiha/libhiha.h>
-
-// Change this if using gettext.
-#define _(msgid) msgid
-
-#define VISIBLE [[gnu::visibility ("default")]]
 
 static void
 eof_handler (void *state, buffered_token_getter_t getter,
@@ -40,7 +31,7 @@ eof_handler (void *state, buffered_token_getter_t getter,
   *lhs = (void *) tok;
 }
 
-VISIBLE void
+HIHA_VISIBLE void
 plugin_init (void)
 {
   pratt_tables_t tables = lexical_pratt_tables ();

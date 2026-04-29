@@ -29,8 +29,6 @@
 // Change this if using gettext.
 #define _(msgid) msgid
 
-#define VISIBLE [[gnu::visibility ("default")]]
-
 static void
 check_code_point_token (token_t tok)
 {
@@ -58,7 +56,7 @@ code_point_handler (void *state, buffered_token_getter_t getter,
                              tok->loc);
 }
 
-VISIBLE void
+HIHA_VISIBLE void
 plugin_init (void)
 {
   pratt_tables_t tables = lexical_pratt_tables ();

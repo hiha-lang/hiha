@@ -39,8 +39,6 @@
 // Change this if using gettext.
 #define _(msgid) msgid
 
-#define VISIBLE [[gnu::visibility ("default")]]
-
 static initialize_once_t _lexical_tables_init1t =
   INITIALIZE_ONCE_T_INIT;
 static pratt_tables_t _lexical_tables = NULL;
@@ -51,7 +49,7 @@ _initialize_lexical_tables (void)
   _lexical_tables = make_pratt_tables_t ();
 }
 
-VISIBLE pratt_tables_t
+HIHA_VISIBLE pratt_tables_t
 lexical_pratt_tables (void)
 {
   INITIALIZE_ONCE (_lexical_tables_init1t, _initialize_lexical_tables);
@@ -64,7 +62,7 @@ lhs_to_token_t (void *lhs, const char *error_message)
   return (error_message == NULL) ? (token_t) lhs : NULL;
 }
 
-VISIBLE void
+HIHA_VISIBLE void
 scan_tokens (void *state, buffered_token_getter_t getter,
              token_putter_t putter, const char **error_message)
 {

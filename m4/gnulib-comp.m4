@@ -64,7 +64,6 @@ AC_DEFUN([gl_EARLY],
   # Code from module cloexec:
   # Code from module close:
   # Code from module closedir:
-  # Code from module dirent:
   # Code from module dirent-h:
   # Code from module dirfd:
   # Code from module double-slash-root:

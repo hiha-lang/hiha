@@ -35,12 +35,10 @@
 // Change this if using gettext.
 #define _(msgid) msgid
 
-#define VISIBLE [[gnu::visibility ("default")]]
-
 typedef void plugin_init_func_t (void);
 typedef plugin_init_func_t *plugin_init_t;
 
-VISIBLE void
+HIHA_VISIBLE void
 load_plugin (const char *filename, const char **error_message)
 {
   *error_message = NULL;

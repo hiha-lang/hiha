@@ -44,7 +44,6 @@
 // Change this if using gettext.
 #define _(msgid) msgid
 
-#define VISIBLE [[gnu::visibility ("default")]]
 #define NORETURN [[noreturn]]
 #define MAYBE_UNUSED [[maybe_unused]]
 
@@ -73,7 +72,7 @@ struct hiha_options
 };
 typedef struct hiha_options *hiha_options_t;
 
-VISIBLE const char version_etc_copyright[] =
+HIHA_VISIBLE const char version_etc_copyright[] =
   "Copyright %s %d Barry Schwartz";
 
 #define COMMAND_NAME "hiha"

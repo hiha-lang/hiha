@@ -190,32 +190,33 @@ run_autoreconf() {
 
 plugin_automake() {
     _number="$1"
+    _rebmun=`echo ${_number} | tr . _`
     _name="$2"
     echo "Creating ${_number}-${_name}.am"
     cat > "${_number}-${_name}.am" <<EOF
 pkg_plugins_lib_LTLIBRARIES += ${_number}-${_name}.la
 
-${_number}_${_name}_la_LIBADD =
-${_number}_${_name}_la_LDFLAGS =
-${_number}_${_name}_la_CFLAGS =
-EXTRA_${_number}_${_name}_la_DEPENDENCIES =
-${_number}_${_name}_la_SOURCES =
+${_rebmun}_${_name}_la_LIBADD =
+${_rebmun}_${_name}_la_LDFLAGS =
+${_rebmun}_${_name}_la_CFLAGS =
+EXTRA_${_rebmun}_${_name}_la_DEPENDENCIES =
+${_rebmun}_${_name}_la_SOURCES =
 
-${_number}_${_name}_la_LIBADD += libhiha.la
-${_number}_${_name}_la_LIBADD += lib/libgnu.la
-${_number}_${_name}_la_LIBADD += \$(GCVERS)/libhiha-gc.la
+${_rebmun}_${_name}_la_LIBADD += libhiha.la
+${_rebmun}_${_name}_la_LIBADD += lib/libgnu.la
+${_rebmun}_${_name}_la_LIBADD += \$(GCVERS)/libhiha-gc.la
 
-${_number}_${_name}_la_LDFLAGS += \$(LIBS)
-${_number}_${_name}_la_LDFLAGS += \$(LTLIBICONV)
-${_number}_${_name}_la_LDFLAGS += \$(LTLIBINTL)
-${_number}_${_name}_la_LDFLAGS += \$(LTLIBUNISTRING)
-${_number}_${_name}_la_LDFLAGS += -avoid-version -module
-${_number}_${_name}_la_LDFLAGS += -shared
+${_rebmun}_${_name}_la_LDFLAGS += \$(LIBS)
+${_rebmun}_${_name}_la_LDFLAGS += \$(LTLIBICONV)
+${_rebmun}_${_name}_la_LDFLAGS += \$(LTLIBINTL)
+${_rebmun}_${_name}_la_LDFLAGS += \$(LTLIBUNISTRING)
+${_rebmun}_${_name}_la_LDFLAGS += -avoid-version -module
+${_rebmun}_${_name}_la_LDFLAGS += -shared
 
-${_number}_${_name}_la_CFLAGS += \$(BASICCFLAGS)
-${_number}_${_name}_la_CFLAGS += \$(CFLAGS)
+${_rebmun}_${_name}_la_CFLAGS += \$(BASICCFLAGS)
+${_rebmun}_${_name}_la_CFLAGS += \$(CFLAGS)
 
-${_number}_${_name}_la_SOURCES += src/plugins/${_number}-${_name}.c
+${_rebmun}_${_name}_la_SOURCES += src/plugins/${_number}-${_name}.c
 EOF
 }
 
@@ -224,7 +225,8 @@ EOF
 (
     cd "${srcdir}"
 
-    plugin_automake 10 eof
+    plugin_automake 0.1000 eof
+    plugin_automake 0.1000 cp
     plugin_automake 20 white_space
     plugin_automake 30 decimal_integer
     plugin_automake 40 identifier

@@ -17343,7 +17343,6 @@ fi
   # Code from module cloexec:
   # Code from module close:
   # Code from module closedir:
-  # Code from module dirent:
   # Code from module dirent-h:
   # Code from module dirfd:
   # Code from module double-slash-root:
@@ -36761,7 +36760,13 @@ GCVERS=gc-8.2.12
 ac_config_commands="$ac_config_commands configure-gc"
 
 
-# A workaround for a bug in Gnulib’s stdlib.h (2026 April 19).
+
+printf "%s\n" "#define HIHA_VISIBLE [[gnu::visibility (\"default\")]]" >>confdefs.h
+
+
+printf "%s\n" "#define HIHA_PURE [[gnu::pure]]" >>confdefs.h
+
+
 
 
 cat >confcache <<\_ACEOF

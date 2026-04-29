@@ -36,8 +36,6 @@
 // Change this if using gettext.
 #define _(msgid) msgid
 
-#define VISIBLE [[gnu::visibility ("default")]]
-
 //
 // It might be prudent to be prepared to copy strings, if this code
 // ever becomes converted somehow to linear types instead of garbage
@@ -88,7 +86,7 @@ typedef struct token_getter_from_serialized_tokens
 static void get_token_from_serialized_tokens (token_getter_t, token_t *,
                                               const char **);
 
-VISIBLE token_t
+HIHA_VISIBLE token_t
 make_token_t (string_t token_kind, string_t token_value,
               text_location_t loc)
 {
@@ -111,8 +109,8 @@ _make_token_t (string_t token_kind, string_t token_value,
   return make_token_t (token_kind, token_value, loc);
 }
 
-//VISIBLE token_getter_from_source_file_t
-VISIBLE token_getter_t
+//HIHA_VISIBLE token_getter_from_source_file_t
+HIHA_VISIBLE token_getter_t
 make_token_getter_from_source_file_t (const char *filename, FILE *f)
 {
   token_getter_from_source_file_t getter =
@@ -271,7 +269,7 @@ serialized_token_values (void)
   return _serialized_token_value;
 }
 
-VISIBLE void
+HIHA_VISIBLE void
 serialize_token_t (const token_t tok, FILE *f)
 {
   /* The serialization done here is NOT interchangeable between
@@ -339,7 +337,7 @@ serialize_token_t (const token_t tok, FILE *f)
   free (buf2);
 }
 
-VISIBLE token_getter_t
+HIHA_VISIBLE token_getter_t
 make_token_getter_from_serialized_tokens_t (const char *filename,
                                             FILE *f)
 {
@@ -573,7 +571,7 @@ look_at_buffered_token (buffered_token_getter_t getter, size_t i,
     *tok = (token_t) gl_list_get_at (g->buffer, i);
 }
 
-VISIBLE buffered_token_getter_t
+HIHA_VISIBLE buffered_token_getter_t
 make_buffered_token_getter_t (token_getter_t unbuffered_getter)
 {
   _buffered_token_getter_t g = XMALLOC (struct _buffered_token_getter);
@@ -682,7 +680,7 @@ make_multiple_files_getter_t (size_t n, const char *filenames[n])
   return (token_getter_t) g;
 }
 
-VISIBLE buffered_token_getter_t
+HIHA_VISIBLE buffered_token_getter_t
 make_buffered_token_getter_from_source_files (size_t n,
                                               const char *filenames[n])
 {
@@ -690,7 +688,7 @@ make_buffered_token_getter_from_source_files (size_t n,
   return make_buffered_token_getter_t (g);
 }
 
-VISIBLE buffered_token_getter_t
+HIHA_VISIBLE buffered_token_getter_t
 make_buffered_token_getter_from_serialized_tokens (const char *filename,
                                                    FILE *f)
 {
@@ -730,7 +728,7 @@ serializing_outputter (const token_t tok, FILE *f,
   serialize_token_t (tok, f);
 }
 
-VISIBLE token_putter_t
+HIHA_VISIBLE token_putter_t
 make_token_putter_to_stream_serialized_t (const char *filename, FILE *f)
 {
   token_putter_to_stream_t p = XMALLOC (struct token_putter_to_stream);
@@ -797,7 +795,7 @@ mismatch_check (buffered_token_getter_t output_getter, token_t tok)
 }
 
 #define MAKE_TOKEN_GETTER__ make_token_getter_with_mismatch_check
-VISIBLE void
+HIHA_VISIBLE void
 MAKE_TOKEN_GETTER__ (buffered_token_getter_t input_getter,
                      buffered_token_getter_t *output_getter,
                      const bool (**check_for_mismatch)
@@ -840,7 +838,7 @@ put_with_mismatch_check (token_putter_t this_struct,
   p->input_putter->put_token (p->input_putter, tok, error_message);
 }
 
-VISIBLE token_putter_t
+HIHA_VISIBLE token_putter_t
 make_token_putter_with_mismatch_check (token_putter_t input_putter,
                                        buffered_token_getter_t
                                        output_getter,
@@ -857,7 +855,7 @@ make_token_putter_with_mismatch_check (token_putter_t input_putter,
   return (token_putter_t) p;
 }
 
-VISIBLE void
+HIHA_VISIBLE void
 print_token_t (const token_t tok, FILE *f)
 {
   fprintf (f, "%s:%zu:%zu %s |%s|\n", tok->loc->filename,

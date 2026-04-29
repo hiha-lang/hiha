@@ -230,8 +230,15 @@ AC_CONFIG_COMMANDS([configure-gc],
     psdir="${psdir}"
   ])
 
-# A workaround for a bug in Gnulib’s stdlib.h (2026 April 19).
-AH_BOTTOM([@%:@define _GL_FUNCDECL_SYS_NAME(func) (func)])
+AC_DEFINE([HIHA_VISIBLE],[[[[gnu::visibility ("default")]]]],
+  [Define as a C attribute for making a symbol visible.])
+AC_DEFINE([HIHA_PURE],[[[[gnu::pure]]]],
+  [Define as a C attribute for marking a function pure.])
+
+AH_BOTTOM([
+/* A workaround for a bug in Gnulib’s stdlib.h (2026 April 19). */
+#define _GL_FUNCDECL_SYS_NAME(func) (func)
+])
 
 AC_OUTPUT
 

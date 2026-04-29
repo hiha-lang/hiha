@@ -160,28 +160,30 @@ scan_decimal_integer (void *state, buffered_token_getter_t getter,
     }
 }
 
+nud_handler_t next_handler;
+
 static void
 code_point_handler (void *state, buffered_token_getter_t getter,
                     pratt_tables_t tables, token_t tok, void **lhs,
                     const char **error_message)
 {
-  check_code_point_token (tok);
-  *error_message = NULL;
-  uint32_t cp = tok->token_value->s[0];
-  if (is_ascii_digit (cp))
-    scan_decimal_integer (state, getter, tables, tok, lhs,
-                          error_message);
-  else
-    *lhs =
-      (void *) make_token_t (make_string_t ("CP"), tok->token_value,
-                             tok->loc);
+  if (*error_message == NULL)
+    {
+      check_code_point_token (tok);
+      if (is_ascii_digit (tok->token_value->s[0]))
+        scan_decimal_integer (state, getter, tables, tok, lhs,
+                              error_message);
+      else
+        next_handler (state, getter, tables, tok, lhs, error_message);
+    }
 }
 
 HIHA_VISIBLE void
 plugin_init (void)
 {
   pratt_tables_t tables = lexical_pratt_tables ();
-  pratt_nud_put (tables, make_string_t ("CP"), &code_point_handler);
+  next_handler = pratt_nud_get (tables, string_t_CP ());
+  pratt_nud_put (tables, string_t_CP (), &code_point_handler);
 }
 
 /*

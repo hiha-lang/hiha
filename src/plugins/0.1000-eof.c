@@ -27,8 +27,8 @@ eof_handler (void *state, buffered_token_getter_t getter,
              pratt_tables_t tables, token_t tok, void **lhs,
              const char **error_message)
 {
-  *error_message = NULL;
-  *lhs = (void *) tok;
+  if (*error_message == NULL)
+    *lhs = (void *) tok;
 }
 
 HIHA_VISIBLE void

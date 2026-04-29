@@ -23,7 +23,6 @@
 #include <error.h>
 #include <exitfail.h>
 #include <unictype.h>
-#include <xalloc.h>
 #include <libhiha/libhiha.h>
 
 // Change this if using gettext.
@@ -38,29 +37,32 @@ check_code_point_token (token_t tok)
            make_str_nul (tok->token_value));
 }
 
+nud_handler_t next_handler;
+
 static void
 code_point_handler (void *state, buffered_token_getter_t getter,
                     pratt_tables_t tables, token_t tok, void **lhs,
                     const char **error_message)
 {
-  check_code_point_token (tok);
-  *error_message = NULL;
-  uint32_t cp = tok->token_value->s[0];
-  if (uc_is_property (cp, UC_PROPERTY_WHITE_SPACE))
-    *lhs =
-      (void *) make_token_t (make_string_t ("SP"), tok->token_value,
-                             tok->loc);
-  else
-    *lhs =
-      (void *) make_token_t (make_string_t ("CP20"), tok->token_value,
-                             tok->loc);
+  if (*error_message == NULL)
+    {
+      check_code_point_token (tok);
+      if (uc_is_property
+          (tok->token_value->s[0], UC_PROPERTY_WHITE_SPACE))
+        *lhs =
+          (void *) make_token_t (make_string_t ("SP"), tok->token_value,
+                                 tok->loc);
+      else
+        next_handler (state, getter, tables, tok, lhs, error_message);
+    }
 }
 
 HIHA_VISIBLE void
 plugin_init (void)
 {
   pratt_tables_t tables = lexical_pratt_tables ();
-  pratt_nud_put (tables, make_string_t ("CP"), &code_point_handler);
+  next_handler = pratt_nud_get (tables, string_t_CP ());
+  pratt_nud_put (tables, string_t_CP (), &code_point_handler);
 }
 
 /*

@@ -58,6 +58,8 @@ struct token_getter_from_source_file
   char *buf;
   size_t nbuf;                  /* The size of the buf. */
   size_t n;                     /* How many are in the buf. */
+  uint32_t *sbuf;               /* The UTF-32 encoding of buf. */
+  size_t nsbuf;                 /* How many are in sbuf. */
   size_t line_no;               /* Starting at one. */
   size_t i_code_point;          /* Zero-based. */
   bool eof_reached;
@@ -124,8 +126,11 @@ make_token_getter_from_source_file_t (const char *filename, FILE *f)
 
   getter->nbuf = 1000;
   getter->buf = XNMALLOC (getter->nbuf, char);
-
   getter->n = 0;
+
+  getter->sbuf = NULL;
+  getter->nsbuf = 0;
+
   getter->line_no = 0;
   getter->i_code_point = 0;
 
@@ -137,13 +142,32 @@ make_token_getter_from_source_file_t (const char *filename, FILE *f)
 static void
 fill_line_if_necessary (token_getter_from_source_file_t g)
 {
-  if (!g->eof_reached && g->i_code_point == g->n)
+  if (!g->eof_reached && g->i_code_point == g->nsbuf)
     {
       const ssize_t nread = getline (&g->buf, &g->nbuf, g->f);
       g->eof_reached = (nread == -1);
       if (!g->eof_reached)
         {
           g->n = nread;
+          g->sbuf = u32_conv_from_encoding (locale_charset (),
+                                            iconveh_replacement_character,
+                                            g->buf, g->n, NULL,
+                                            NULL, &g->nsbuf);
+          if (g->sbuf == NULL)
+            {
+              //
+              // FIXME: One might prefer to return an error_message
+              // here.
+              //
+              int err_number = errno;
+              error (exit_failure, err_number, "%s at line %zu",
+                     g->filename, g->line_no + 1);
+              /* It is idiom to call abort(3) after
+                 error(exit_failure,...), to obtain the [[noreturn]]
+                 qualifier of abort(3). The abort(3) is actually never
+                 reached. */
+              abort ();
+            }
           g->line_no += 1;
           g->i_code_point = 0;
         }
@@ -157,14 +181,14 @@ get_token_from_source_file (token_getter_t getter, token_t *tok,
   token_getter_from_source_file_t g =
     (token_getter_from_source_file_t) getter;
   *error_message = NULL;
-  const bool was_end_of_line = (0 < g->line_no && g->n != 0
-                                && g->buf[g->n - 1] == '\n');
+  const bool was_end_of_line = (0 < g->line_no && g->nsbuf != 0
+                                && g->sbuf[g->nsbuf - 1] == '\n');
   fill_line_if_necessary (g);
   if (!g->eof_reached)
     {
       string_t str = XMALLOC (struct string);
       str->s = XNMALLOC (1, uint32_t);
-      str->s[0] = g->buf[g->i_code_point];
+      str->s[0] = g->sbuf[g->i_code_point];
       str->n = 1;
       *tok =
         _make_token_t (NEW_STRING (string_t_CP ()), str, g->filename,

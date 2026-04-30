@@ -115,8 +115,26 @@ _make_token_t (string_t token_kind, string_t token_value,
   return make_token_t (token_kind, token_value, loc);
 }
 
-static bool
-is_eof_eof (token_t tok)
+static token_t
+_make_token_t_eof_eof (const char *filename, size_t line_no,
+                       size_t code_point_no)
+{
+  text_location_t loc = XMALLOC (struct text_location);
+  loc->filename = filename;
+  loc->line_no = line_no;
+  loc->code_point_no = code_point_no;
+  return make_token_t_eof_eof (loc);
+}
+
+HIHA_VISIBLE token_t
+make_token_t_eof_eof (text_location_t loc)
+{
+  return make_token_t (NEW_STRING (string_t_EOF ()),
+                       NEW_STRING (string_t_EOF ()), loc);
+}
+
+HIHA_VISIBLE bool
+token_t_is_eof_eof (token_t tok)
 {
   return (0 == string_t_cmp (string_t_EOF (), tok->token_kind)
           && 0 == string_t_cmp (string_t_EOF (), tok->token_value));
@@ -191,15 +209,11 @@ get_token_from_source_file (token_getter_t getter, token_t *tok,
       g->i_code_point += 1;
     }
   else if (was_end_of_line)
-    *tok =
-      _make_token_t (NEW_STRING (string_t_EOF ()),
-                     NEW_STRING (string_t_EOF ()), g->filename,
-                     g->line_no + 1, 0);
+    *tok = _make_token_t_eof_eof (g->filename, g->line_no + 1, 0);
   else
     *tok =
-      _make_token_t (NEW_STRING (string_t_EOF ()),
-                     NEW_STRING (string_t_EOF ()), g->filename,
-                     g->line_no, g->i_code_point + 1);
+      _make_token_t_eof_eof (g->filename, g->line_no,
+                             g->i_code_point + 1);
 }
 
 static bool
@@ -462,7 +476,7 @@ get_token_from_serialized_tokens (token_getter_t getter, token_t *tok,
   *error_message = NULL;
 
   if (g->eof_reached)
-    *tok = make_token_t (string_t_EOF (), string_t_EOF (), NULL);
+    *tok = make_token_t_eof_eof (NULL);
   else
     {
       ssize_t nread = 0;
@@ -491,7 +505,7 @@ get_token_from_serialized_tokens (token_getter_t getter, token_t *tok,
           make_serialized_line_available (g, tok, &nread);
         }
       if (*tok != NULL)
-        g->eof_reached = is_eof_eof (*tok);
+        g->eof_reached = token_t_is_eof_eof (*tok);
       else
         {
           char s[1000];
@@ -607,8 +621,7 @@ get_token_from_multiple_files_getter (token_getter_t getter,
   *error_message = NULL;
 
   if (g->n == 0 || g->i == g->n)
-    *tok = make_token_t (NEW_STRING (string_t_EOF ()),
-                         NEW_STRING (string_t_EOF ()), NULL);
+    *tok = make_token_t_eof_eof (NULL);
   else
     {
       if (g->i == -1)
@@ -622,7 +635,7 @@ get_token_from_multiple_files_getter (token_getter_t getter,
 
       if (*error_message == NULL)
         {
-          if (string_t_cmp ((*tok)->token_kind, string_t_EOF ()) == 0)
+          if (token_t_is_eof_eof (*tok))
             {
               // Close the finished file.
               fclose (g->f);

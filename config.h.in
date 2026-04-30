@@ -57,6 +57,10 @@
 /* Define this to 1 if F_DUPFD behavior does not match POSIX */
 #undef FCNTL_DUPFD_BUGGY
 
+/* Define to 1 if mkdir mistakenly creates a directory given with a trailing
+   dot component. */
+#undef FUNC_MKDIR_DOT_BUG
+
 /* Define to a C preprocessor expression that evaluates to 1 or 0, depending
    whether the gnulib module close shall be considered present. */
 #undef GNULIB_CLOSE
@@ -112,6 +116,10 @@
 /* Define to a C preprocessor expression that evaluates to 1 or 0, depending
    whether the gnulib module strerror_r-posix shall be considered present. */
 #undef GNULIB_STRERROR_R_POSIX
+
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module tempname shall be considered present. */
+#undef GNULIB_TEMPNAME
 
 /* Define to 1 when the gnulib module c32isalnum should be tested. */
 #undef GNULIB_TEST_C32ISALNUM
@@ -230,6 +238,9 @@
 /* Define to 1 when the gnulib module getprogname should be tested. */
 #undef GNULIB_TEST_GETPROGNAME
 
+/* Define to 1 when the gnulib module getrandom should be tested. */
+#undef GNULIB_TEST_GETRANDOM
+
 /* Define to 1 when the gnulib module iswblank should be tested. */
 #undef GNULIB_TEST_ISWBLANK
 
@@ -274,6 +285,12 @@
 
 /* Define to 1 when the gnulib module memeq should be tested. */
 #undef GNULIB_TEST_MEMEQ
+
+/* Define to 1 when the gnulib module mkdir should be tested. */
+#undef GNULIB_TEST_MKDIR
+
+/* Define to 1 when the gnulib module mkdtemp should be tested. */
+#undef GNULIB_TEST_MKDTEMP
 
 /* Define to 1 when the gnulib module open should be tested. */
 #undef GNULIB_TEST_OPEN
@@ -386,11 +403,26 @@
 /* Define to 1 if <alloca.h> works. */
 #undef HAVE_ALLOCA_H
 
+/* Define to 1 if you have the 'atexit' function. */
+#undef HAVE_ATEXIT
+
+/* Define to 1 if you have the <bcrypt.h> header file. */
+#undef HAVE_BCRYPT_H
+
 /* Define to 1 if you have the <bp-sym.h> header file. */
 #undef HAVE_BP_SYM_H
 
 /* Define to 1 if you have the `catgets' function. */
 #undef HAVE_CATGETS
+
+/* Define to 1 if you have the 'clock_getres' function. */
+#undef HAVE_CLOCK_GETRES
+
+/* Define to 1 if you have the 'clock_gettime' function. */
+#undef HAVE_CLOCK_GETTIME
+
+/* Define to 1 if you have the 'clock_settime' function. */
+#undef HAVE_CLOCK_SETTIME
 
 /* Define to 1 if you have the 'closedir' function. */
 #undef HAVE_CLOSEDIR
@@ -558,6 +590,9 @@
 /* Define to 1 if you have the `getprogname' function. */
 #undef HAVE_GETPROGNAME
 
+/* Define to 1 if you have the `getrandom' function. */
+#undef HAVE_GETRANDOM
+
 /* Define if you have the iconv() function and it works. */
 #undef HAVE_ICONV
 
@@ -587,6 +622,9 @@
 
 /* Define if you have <langinfo.h> and nl_langinfo(CODESET). */
 #undef HAVE_LANGINFO_CODESET
+
+/* Define to 1 if the bcrypt library is guaranteed to be present. */
+#undef HAVE_LIB_BCRYPT
 
 /* Define to 1 if you have the <limits.h> header file. */
 #undef HAVE_LIMITS_H
@@ -624,6 +662,9 @@
 
 /* Define to 1 if <sys/param.h> defines the MIN and MAX macros. */
 #undef HAVE_MINMAX_IN_SYS_PARAM_H
+
+/* Define to 1 if you have the 'mkdtemp' function. */
+#undef HAVE_MKDTEMP
 
 /* Define to 1 if you have the 'mprotect' function. */
 #undef HAVE_MPROTECT
@@ -783,6 +824,9 @@
 
 /* Define to 1 if you have the <sys/process.h> header file. */
 #undef HAVE_SYS_PROCESS_H
+
+/* Define to 1 if you have the <sys/random.h> header file. */
+#undef HAVE_SYS_RANDOM_H
 
 /* Define to 1 if you have the <sys/socket.h> header file. */
 #undef HAVE_SYS_SOCKET_H
@@ -1012,6 +1056,9 @@
 # define _GL_INLINE_HEADER_BEGIN
 # define _GL_INLINE_HEADER_END
 #endif
+
+/* Define to 1 if the compiler supports the keyword '__inline'. */
+#undef HAVE___INLINE
 
 /* Define to 1 if you have the '__xpg_strerror_r' function. */
 #undef HAVE___XPG_STRERROR_R
@@ -2442,6 +2489,8 @@
 
 
 
+
 /* A workaround for a bug in Gnulib’s stdlib.h (2026 April 19). */
 #define _GL_FUNCDECL_SYS_NAME(func) (func)
+
 

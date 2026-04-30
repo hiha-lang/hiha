@@ -70,6 +70,8 @@ BASICCFLAGS += -I $(abs_top_srcdir)/include
 BASICCFLAGS += -I $(abs_top_srcdir)/lib
 BASICCFLAGS += -I $(abs_top_srcdir)/$(GCVERS)/include
 
+AM_LIBRS += $(CLOCK_TIME_LIB)
+AM_LIBRS += $(GETRANDOM_LIB)
 AM_LIBRS += $(HARD_LOCALE_LIB)
 AM_LIBRS += $(LIBPTHREAD)
 AM_LIBRS += $(LIBTHREAD)
@@ -220,6 +222,7 @@ libhiha_la_CFLAGS += $(CFLAGS)
 
 libhiha_HDRS =
 libhiha_HDRS += include/libhiha/libhiha.h
+libhiha_HDRS += include/libhiha/workspaces.h
 libhiha_HDRS += include/libhiha/spinlock.h
 libhiha_HDRS += include/libhiha/initialize_once.h
 libhiha_HDRS += include/libhiha/string_t.h
@@ -231,6 +234,7 @@ libhiha_HDRS += include/libhiha/load_plugin.h
 pkg_libhiha_include_HEADERS += $(libhiha_HDRS)
 
 libhiha_la_SOURCES += $(libhiha_HDRS)
+libhiha_la_SOURCES += src/libhiha/workspaces.c
 libhiha_la_SOURCES += src/libhiha/spinlock.c
 libhiha_la_SOURCES += src/libhiha/string_t.c
 libhiha_la_SOURCES += src/libhiha/token_t.c

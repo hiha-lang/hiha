@@ -382,7 +382,29 @@ main (int argc, char **argv)
   check_usage (argc, argv);
 
   load_command_line_plugins (opts->plugins);
-  ____scan_some_files (argc - 1, ((const char **) argv) + 1);
+  //____scan_some_files (argc - 1, ((const char **) argv) + 1);
+  const char *tokens;
+  const char *error_message;
+  scan_source_files_to_serialized_tokens (argc - 1,
+                                          ((const char **) argv) + 1,
+                                          &tokens, &error_message);
+  if (error_message != NULL)
+    {
+      error (exit_failure, 0, "%s", error_message);
+      exit (EXIT_FAILURE);
+    }
+  {
+    char buf[2048];
+    FILE *f = fopen (tokens, "rb");
+    size_t n = fread (buf, sizeof (char), 2048, f);
+    while (n == 2048)
+      {
+        fwrite (buf, sizeof (char), 2048, stdout);
+        n = fread (buf, sizeof (char), 2048, f);
+      }
+    fwrite (buf, sizeof (char), n, stdout);
+    fclose (f);
+  }
   exit (EXIT_SUCCESS);
 }
 

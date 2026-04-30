@@ -48,6 +48,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module array-mergesort:
   # Code from module assert:
   # Code from module assert-h:
+  # Code from module atexit:
   # Code from module attribute:
   # Code from module avltree-list:
   # Code from module avltree-omap:
@@ -75,11 +76,13 @@ AC_DEFUN([gl_EARLY],
   # Code from module c99:
   # Code from module calloc-gnu:
   # Code from module calloc-posix:
+  # Code from module clock-time:
   # Code from module cloexec:
   # Code from module close:
   # Code from module closedir:
   # Code from module dirent-h:
   # Code from module dirfd:
+  # Code from module dirname-lgpl:
   # Code from module double-slash-root:
   # Code from module dup2:
   # Code from module errno-h:
@@ -108,6 +111,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module getopt-gnu:
   # Code from module getopt-posix:
   # Code from module getprogname:
+  # Code from module getrandom:
   # Code from module gettext-h:
   # Code from module gnulib-i18n:
   # Code from module gperf:
@@ -128,6 +132,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module iswxdigit:
   # Code from module largefile:
   AC_REQUIRE([AC_SYS_LARGEFILE])
+  # Code from module libc-config:
   # Code from module limits-h:
   # Code from module list:
   # Code from module localcharset:
@@ -149,6 +154,8 @@ AC_DEFUN([gl_EARLY],
   # Code from module memcmp2:
   # Code from module memeq:
   # Code from module minmax:
+  # Code from module mkdir:
+  # Code from module mkdtemp:
   # Code from module msvc-inval:
   # Code from module msvc-nothrow:
   # Code from module multiarch:
@@ -199,9 +206,11 @@ AC_DEFUN([gl_EARLY],
   # Code from module striconveha:
   # Code from module string-h:
   # Code from module strnul:
+  # Code from module sys_random-h:
   # Code from module sys_stat-h:
   # Code from module sys_types-h:
   AC_REQUIRE([AC_USE_SYSTEM_EXTENSIONS])
+  # Code from module tempname:
   # Code from module threadlib:
   gl_THREADLIB_EARLY
   # Code from module time-h:
@@ -322,6 +331,11 @@ AC_DEFUN([gl_INIT],
   gl_ASSERT_H
   gl_CONDITIONAL_HEADER([assert.h])
   AC_PROG_MKDIR_P
+  gl_FUNC_ATEXIT
+  gl_CONDITIONAL([GL_COND_OBJ_ATEXIT], [test $ac_cv_func_atexit = no])
+  AM_COND_IF([GL_COND_OBJ_ATEXIT], [
+    gl_PREREQ_ATEXIT
+  ])
   gl_FUNC_BASE64
   gl_C_BOOL
   gl___BUILTIN_EXPECT
@@ -433,6 +447,7 @@ AC_DEFUN([gl_INIT],
     AC_LIBOBJ([calloc])
   fi
   gl_STDLIB_MODULE_INDICATOR([calloc-posix])
+  gl_CLOCK_TIME
   gl_MODULE_INDICATOR_FOR_TESTS([cloexec])
   gl_FUNC_CLOSE
   gl_CONDITIONAL([GL_COND_OBJ_CLOSE], [test $REPLACE_CLOSE = 1])
@@ -553,6 +568,11 @@ AC_DEFUN([gl_INIT],
     gl_PREREQ_GETPROGNAME
   ])
   gl_STDLIB_MODULE_INDICATOR([getprogname])
+  AC_REQUIRE([AC_CANONICAL_HOST])
+  gl_FUNC_GETRANDOM
+  gl_CONDITIONAL([GL_COND_OBJ_GETRANDOM],
+                 [test $HAVE_GETRANDOM = 0 || test $REPLACE_GETRANDOM = 1])
+  gl_SYS_RANDOM_MODULE_INDICATOR([getrandom])
   gl_GETTEXT_H
   GNULIB_I18N
   AC_REQUIRE([gl_FUNC_SETLOCALE_NULL])
@@ -595,6 +615,7 @@ AC_DEFUN([gl_INIT],
                  [! { test $HAVE_ISWCNTRL = 0 || test $REPLACE_ISWCNTRL = 1; } && test $REPLACE_ISWXDIGIT = 1])
   gl_WCTYPE_MODULE_INDICATOR([iswxdigit])
   AC_REQUIRE([gl_LARGEFILE])
+  gl___INLINE
   gl_LIMITS_H
   gl_CONDITIONAL_HEADER([limits.h])
   AC_PROG_MKDIR_P
@@ -679,6 +700,15 @@ AC_DEFUN([gl_INIT],
   gl_FUNC_MEMEQ
   gl_STRING_MODULE_INDICATOR([memeq])
   gl_MINMAX
+  gl_FUNC_MKDIR
+  gl_CONDITIONAL([GL_COND_OBJ_MKDIR], [test $REPLACE_MKDIR = 1])
+  gl_SYS_STAT_MODULE_INDICATOR([mkdir])
+  gl_FUNC_MKDTEMP
+  gl_CONDITIONAL([GL_COND_OBJ_MKDTEMP], [test $HAVE_MKDTEMP = 0])
+  AM_COND_IF([GL_COND_OBJ_MKDTEMP], [
+    gl_PREREQ_MKDTEMP
+  ])
+  gl_STDLIB_MODULE_INDICATOR([mkdtemp])
   AC_REQUIRE([gl_MSVC_INVAL])
   gl_CONDITIONAL([GL_COND_OBJ_MSVC_INVAL],
                  [test $HAVE_MSVC_INVALID_PARAMETER_HANDLER = 1])
@@ -849,12 +879,17 @@ AC_DEFUN([gl_INIT],
   gl_STRING_H_REQUIRE_DEFAULTS
   AC_PROG_MKDIR_P
   gl_STRING_MODULE_INDICATOR([strnul])
+  gl_SYS_RANDOM_H
+  gl_SYS_RANDOM_H_REQUIRE_DEFAULTS
+  AC_PROG_MKDIR_P
   gl_SYS_STAT_H
   gl_SYS_STAT_H_REQUIRE_DEFAULTS
   AC_PROG_MKDIR_P
   gl_SYS_TYPES_H
   gl_SYS_TYPES_H_REQUIRE_DEFAULTS
   AC_PROG_MKDIR_P
+  gl_FUNC_GEN_TEMPNAME
+  gl_MODULE_INDICATOR([tempname])
   AC_REQUIRE([gl_THREADLIB])
   gl_TIME_H
   gl_TIME_H_REQUIRE_DEFAULTS
@@ -1213,6 +1248,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/asnprintf.c
   lib/assert.in.h
   lib/aszprintf.c
+  lib/atexit.c
   lib/attribute.h
   lib/base64.c
   lib/base64.h
@@ -1241,6 +1277,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/c32tolower.c
   lib/c32width.c
   lib/calloc.c
+  lib/cdefs.h
   lib/cloexec.c
   lib/cloexec.h
   lib/close.c
@@ -1248,6 +1285,8 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/dirent-private.h
   lib/dirent.in.h
   lib/dirfd.c
+  lib/dirname-lgpl.c
+  lib/dirname.h
   lib/dup2.c
   lib/errno.in.h
   lib/error.c
@@ -1282,6 +1321,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/getopt_int.h
   lib/getprogname.c
   lib/getprogname.h
+  lib/getrandom.c
   lib/gettext.h
   lib/gl_anyavltree_list1.h
   lib/gl_anyavltree_list2.h
@@ -1330,6 +1370,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/itold.c
   lib/lc-charset-dispatch.c
   lib/lc-charset-dispatch.h
+  lib/libc-config.h
   lib/limits.in.h
   lib/localcharset.c
   lib/localcharset.h
@@ -1358,6 +1399,8 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/memcmp2.h
   lib/memeq.c
   lib/minmax.h
+  lib/mkdir.c
+  lib/mkdtemp.c
   lib/msvc-inval.c
   lib/msvc-inval.h
   lib/msvc-nothrow.c
@@ -1411,9 +1454,13 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/striconveha.c
   lib/striconveha.h
   lib/string.in.h
+  lib/stripslash.c
   lib/strnul.c
+  lib/sys_random.in.h
   lib/sys_stat.in.h
   lib/sys_types.in.h
+  lib/tempname.c
+  lib/tempname.h
   lib/time.in.h
   lib/uchar.in.h
   lib/unicase.in.h
@@ -1573,16 +1620,19 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/xvasprintf.c
   lib/xvasprintf.h
   m4/00gnulib.m4
+  m4/__inline.m4
   m4/absolute-header.m4
   m4/alloca.m4
   m4/assert.m4
   m4/assert_h.m4
+  m4/atexit.m4
   m4/base64.m4
   m4/build-to-host.m4
   m4/builtin-expect.m4
   m4/c-bool.m4
   m4/c32rtomb.m4
   m4/calloc.m4
+  m4/clock_time.m4
   m4/close.m4
   m4/closedir.m4
   m4/codeset.m4
@@ -1609,6 +1659,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/getline.m4
   m4/getopt.m4
   m4/getprogname.m4
+  m4/getrandom.m4
   m4/gettext_h.m4
   m4/gnulib-common.m4
   m4/gnulib-i18n.m4
@@ -1652,6 +1703,8 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/memchr.m4
   m4/memeq.m4
   m4/minmax.m4
+  m4/mkdir.m4
+  m4/mkdtemp.m4
   m4/mmap-anon.m4
   m4/mode_t.m4
   m4/msvc-inval.m4
@@ -1698,9 +1751,11 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/strerrorname_np.m4
   m4/string_h.m4
   m4/sys_cdefs_h.m4
+  m4/sys_random_h.m4
   m4/sys_socket_h.m4
   m4/sys_stat_h.m4
   m4/sys_types_h.m4
+  m4/tempname.m4
   m4/threadlib.m4
   m4/time_h.m4
   m4/uchar_h.m4

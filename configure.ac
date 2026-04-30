@@ -236,8 +236,10 @@ AC_DEFINE([HIHA_PURE],[[[[gnu::pure]]]],
   [Define as a C attribute for marking a function pure.])
 
 AH_BOTTOM([
+
 /* A workaround for a bug in Gnulib’s stdlib.h (2026 April 19). */
 #define _GL_FUNCDECL_SYS_NAME(func) (func)
+
 ])
 
 AC_OUTPUT

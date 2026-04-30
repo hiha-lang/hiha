@@ -38,6 +38,8 @@ typedef struct serialized_strings *serialized_strings_t;
 
 token_t make_token_t (string_t token_kind, string_t token_value,
                       text_location_t loc);
+token_t make_token_t_eof_eof (text_location_t loc);
+bool token_t_is_eof_eof (token_t tok);
 void serialize_token_t (const token_t tok, serialized_strings_t strings,
                         FILE *f);
 void print_token_t (const token_t tok, FILE *f);

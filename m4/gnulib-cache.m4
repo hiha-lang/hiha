@@ -39,6 +39,7 @@
 #  --macro-prefix=gl \
 #  assert \
 #  assert-h \
+#  atexit \
 #  avltree-list \
 #  avltree-omap \
 #  base64 \
@@ -48,6 +49,7 @@
 #  filevercmp \
 #  getline \
 #  getopt-gnu \
+#  mkdtemp \
 #  progname \
 #  scandir \
 #  unicase/u32-casecoll \
@@ -74,6 +76,7 @@ gl_LOCAL_DIR([])
 gl_MODULES([
   assert
   assert-h
+  atexit
   avltree-list
   avltree-omap
   base64
@@ -83,6 +86,7 @@ gl_MODULES([
   filevercmp
   getline
   getopt-gnu
+  mkdtemp
   progname
   scandir
   unicase/u32-casecoll

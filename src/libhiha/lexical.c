@@ -31,6 +31,7 @@
 
 #include <config.h>
 #include <assert.h>
+#include <string.h>
 #include <math.h>
 #include <error.h>
 #include <errno.h>
@@ -39,6 +40,7 @@
 #include <xstrerror.h>
 #include <libhiha/lexical.h>
 #include <libhiha/initialize_once.h>
+#include <libhiha/workspaces.h>
 
 // Change this if using gettext.
 #define _(msgid) msgid
@@ -80,8 +82,7 @@ scan_tokens (void *state, buffered_token_getter_t getter,
 
   pratt_parse (state, getter, tables, -HUGE_VAL, &lhs, error_message);
   tok = lhs_to_token_t (lhs, *error_message);
-  while (*error_message == NULL
-         && string_t_cmp (tok->token_kind, string_t_EOF ()))
+  while (*error_message == NULL && !token_t_is_eof_eof (tok))
     {
       putter->put_token (putter, tok, error_message);
       if (*error_message == NULL)
@@ -183,6 +184,63 @@ scan_serialized_tokens_until_fixed_point (const char *filename[2],
               }
           }
       }
+}
+
+static void
+get_token_stream_filenames (const char *filename[2],
+                            const char *extension)
+{
+  char s[100];
+  for (size_t i = 0; i != 2; i += 1)
+    {
+      snprintf (s, 100, "%zu.%s", i, extension);
+      size_t nwd = strlen (work_directory ());
+      size_t ns = strlen (s);
+      char *t = XCALLOC (nwd + ns + 2, char);
+      memcpy (t, work_directory, nwd * sizeof (char));
+      t[nwd] = '/';
+      memcpy (t + ((nwd + 1) * sizeof (char)), s, ns * sizeof (char));
+      filename[i] = t;
+    }
+}
+
+HIHA_VISIBLE void
+scan_source_files_to_serialized_tokens (size_t n,
+                                        const char *filenames[n],
+                                        const char **tokens,
+                                        const char **error_message)
+{
+  const char *fn[2];
+  size_t ifile;
+  buffered_token_getter_t getter;
+  const bool (*check_for_mismatch) (buffered_token_getter_t, token_t);
+  FILE *f;
+
+  buffered_token_getter_t input_getter =
+    make_buffered_token_getter_from_source_files (n, filenames);
+  make_token_getter_with_mismatch_check (input_getter, &getter,
+                                         &check_for_mismatch);
+
+  ifile = 0;
+  open_file (fn[ifile], "w", &f, error_message);
+  if (*error_message == NULL)
+    {
+      token_putter_t input_putter =
+        make_token_putter_to_stream_serialized_t (fn[ifile], f);
+      token_putter_t putter =
+        make_token_putter_with_mismatch_check (input_putter, getter,
+                                               check_for_mismatch);
+      scan_tokens (NULL, getter, putter, error_message);
+      fclose (f);
+
+      if (*error_message == NULL)
+        {
+          scan_serialized_tokens_until_fixed_point (fn, &ifile,
+                                                    error_message);
+          if (*error_message == NULL)
+            *tokens = fn[ifile];
+        }
+    }
 }
 
 /*

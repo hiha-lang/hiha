@@ -22,6 +22,7 @@
 #ifndef __LIBHAHA__LIBHIHA_H__INCLUDED__
 #define __LIBHAHA__LIBHIHA_H__INCLUDED__
 
+#include <libhiha/workspaces.h>
 #include <libhiha/spinlock.h>
 #include <libhiha/initialize_once.h>
 #include <libhiha/string_t.h>

@@ -34,6 +34,7 @@
 #  --macro-prefix=gl \
 #  assert \
 #  assert-h \
+#  atexit \
 #  avltree-list \
 #  avltree-omap \
 #  base64 \
@@ -43,6 +44,7 @@
 #  filevercmp \
 #  getline \
 #  getopt-gnu \
+#  mkdtemp \
 #  progname \
 #  scandir \
 #  unicase/u32-casecoll \
@@ -94,6 +96,8 @@ libgnu_la_DEPENDENCIES = $(gl_libgnu_LTLIBOBJS)
 EXTRA_libgnu_la_SOURCES =
 libgnu_la_LDFLAGS = $(AM_LDFLAGS)
 libgnu_la_LDFLAGS += -no-undefined
+libgnu_la_LDFLAGS += $(CLOCK_TIME_LIB)
+libgnu_la_LDFLAGS += $(GETRANDOM_LIB)
 libgnu_la_LDFLAGS += $(HARD_LOCALE_LIB)
 libgnu_la_LDFLAGS += $(LIBPTHREAD)
 libgnu_la_LDFLAGS += $(LIBTHREAD)
@@ -181,6 +185,14 @@ MOSTLYCLEANFILES += assert.h assert.h-t
 EXTRA_DIST += assert.in.h verify.h
 
 ## end   gnulib module assert-h
+
+## begin gnulib module atexit
+
+if GL_COND_OBJ_ATEXIT
+libgnu_la_SOURCES += atexit.c
+endif
+
+## end   gnulib module atexit
 
 ## begin gnulib module attribute
 
@@ -448,6 +460,14 @@ endif
 EXTRA_DIST += dirent-private.h
 
 ## end   gnulib module dirfd
+
+## begin gnulib module dirname-lgpl
+
+libgnu_la_SOURCES += dirname-lgpl.c stripslash.c
+
+EXTRA_DIST += dirname.h
+
+## end   gnulib module dirname-lgpl
 
 ## begin gnulib module dup2
 
@@ -755,6 +775,14 @@ EXTRA_DIST += getprogname.h
 
 ## end   gnulib module getprogname
 
+## begin gnulib module getrandom
+
+if GL_COND_OBJ_GETRANDOM
+libgnu_la_SOURCES += getrandom.c
+endif
+
+## end   gnulib module getrandom
+
 ## begin gnulib module gettext-h
 
 libgnu_la_SOURCES += gettext.h
@@ -959,6 +987,13 @@ libgnu_la_SOURCES += iswxdigit.c
 endif
 
 ## end   gnulib module iswxdigit
+
+## begin gnulib module libc-config
+
+
+EXTRA_DIST += cdefs.h libc-config.h
+
+## end   gnulib module libc-config
 
 ## begin gnulib module limits-h
 
@@ -1183,6 +1218,22 @@ libgnu_la_SOURCES += memeq.c
 libgnu_la_SOURCES += minmax.h
 
 ## end   gnulib module minmax
+
+## begin gnulib module mkdir
+
+if GL_COND_OBJ_MKDIR
+libgnu_la_SOURCES += mkdir.c
+endif
+
+## end   gnulib module mkdir
+
+## begin gnulib module mkdtemp
+
+if GL_COND_OBJ_MKDTEMP
+libgnu_la_SOURCES += mkdtemp.c
+endif
+
+## end   gnulib module mkdtemp
 
 ## begin gnulib module msvc-inval
 
@@ -2261,6 +2312,36 @@ libgnu_la_SOURCES += strnul.c
 
 ## end   gnulib module strnul
 
+## begin gnulib module sys_random-h
+
+BUILT_SOURCES += sys/random.h
+
+# We need the following in order to create <sys/random.h> when the system
+# doesn't have one.
+sys/random.h: sys_random.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
+	$(AM_V_GEN)$(MKDIR_P) '%reldir%/sys'
+	$(AM_V_at)$(SED_HEADER_STDOUT) \
+	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+	      -e 's|@''NEXT_SYS_RANDOM_H''@|$(NEXT_SYS_RANDOM_H)|g' \
+	      -e 's|@''HAVE_SYS_RANDOM_H''@|$(HAVE_SYS_RANDOM_H)|g' \
+	      -e 's/@''GNULIB_GETRANDOM''@/$(GL_GNULIB_GETRANDOM)/g' \
+	      -e 's/@''HAVE_GETRANDOM''@/$(HAVE_GETRANDOM)/g' \
+	      -e 's/@''REPLACE_GETRANDOM''@/$(REPLACE_GETRANDOM)/g' \
+	      -e '/definitions of _GL_FUNCDECL_RPL/r $(CXXDEFS_H)' \
+	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
+	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
+	      $(srcdir)/sys_random.in.h > $@-t
+	$(AM_V_at)mv $@-t $@
+MOSTLYCLEANFILES += sys/random.h sys/random.h-t
+MOSTLYCLEANDIRS += sys
+
+EXTRA_DIST += sys_random.in.h
+
+## end   gnulib module sys_random-h
+
 ## begin gnulib module sys_stat-h
 
 BUILT_SOURCES += sys/stat.h
@@ -2361,6 +2442,14 @@ MOSTLYCLEANDIRS += sys
 EXTRA_DIST += sys_types.in.h
 
 ## end   gnulib module sys_types-h
+
+## begin gnulib module tempname
+
+libgnu_la_SOURCES += tempname.c
+
+EXTRA_DIST += tempname.h
+
+## end   gnulib module tempname
 
 ## begin gnulib module threadlib
 

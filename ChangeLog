@@ -1,5 +1,25 @@
 @  master
-|  2026-04-30 16:10 +0000
+|  2026-04-30 16:51 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       07875684378ac630b3f5065125a440c2244cad13
+|  mercurial: 4c8b898bb8a7ab4419309c838bd85bbce2958634
+|  revision:  88
+|  parents:   87
+|
+|    Simplified indenting of plugins.
+|
+|
+o  2026-04-30 16:20 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       8eca8df0d90880a7af81d5928ad212476e7ea773
+|  mercurial: 3578053d488879274dd35dc179dadf6c6fda01ff
+|  revision:  87
+|  parents:   86
+|
+|    Changed the token_kind for decimal integer from INT10 to I10.
+|
+|
+o  2026-04-30 16:10 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       08e286e3878a1bbcd77b7dc6a8b9746d04fb1cbb
 |  mercurial: a88a3b79fb8b1a9d84efb236a8d211ee21d5e7c6

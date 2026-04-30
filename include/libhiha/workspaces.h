@@ -19,26 +19,12 @@
 
 */
 
-#ifndef __LIBHAHA__LEXICAL_H__INCLUDED__
-#define __LIBHAHA__LEXICAL_H__INCLUDED__
+#ifndef __LIBHAHA__WORKSPACES_H__INCLUDED__
+#define __LIBHAHA__WORKSPACES_H__INCLUDED__
 
-#include <libhiha/pratt.h>
-#include <libhiha/token_t.h>
+HIHA_PURE const char *work_directory (void);
 
-/* The maximum number of passes through the Pratt parser. */
-extern size_t lexical_max;
-
-pratt_tables_t lexical_pratt_tables (void);
-
-void scan_tokens (void *state, buffered_token_getter_t getter,
-                  token_putter_t putter, const char **error_message);
-void scan_serialized_tokens_until_fixed_point
-  (const char *filename[2], size_t *ifile, const char **error_message);
-void scan_source_files_to_serialized_tokens
-  (size_t n, const char *filenames[n], const char **tokens,
-   const char **error_message);
-
-#endif /* __LIBHAHA__LEXICAL_H__INCLUDED__ */
+#endif /* __LIBHAHA__WORKSPACES_H__INCLUDED__ */
 
 /*
   local variables:

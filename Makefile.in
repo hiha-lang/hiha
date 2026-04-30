@@ -116,8 +116,10 @@ EXTRA_PROGRAMS =
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
+	$(top_srcdir)/m4/__inline.m4 \
 	$(top_srcdir)/m4/absolute-header.m4 $(top_srcdir)/m4/alloca.m4 \
 	$(top_srcdir)/m4/assert.m4 $(top_srcdir)/m4/assert_h.m4 \
+	$(top_srcdir)/m4/atexit.m4 \
 	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_gnu_make.m4 \
 	$(top_srcdir)/m4/base64.m4 $(top_srcdir)/m4/build-to-host.m4 \
@@ -127,9 +129,9 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/chem_config_makefiles.m4 \
 	$(top_srcdir)/m4/chem_path_progs_cached_and_precious.m4 \
 	$(top_srcdir)/m4/chem_prog_gnu_make.m4 \
-	$(top_srcdir)/m4/close.m4 $(top_srcdir)/m4/closedir.m4 \
-	$(top_srcdir)/m4/codeset.m4 $(top_srcdir)/m4/dirent_h.m4 \
-	$(top_srcdir)/m4/dirfd.m4 \
+	$(top_srcdir)/m4/clock_time.m4 $(top_srcdir)/m4/close.m4 \
+	$(top_srcdir)/m4/closedir.m4 $(top_srcdir)/m4/codeset.m4 \
+	$(top_srcdir)/m4/dirent_h.m4 $(top_srcdir)/m4/dirfd.m4 \
 	$(top_srcdir)/m4/double-slash-root.m4 $(top_srcdir)/m4/dup2.m4 \
 	$(top_srcdir)/m4/errno_h.m4 $(top_srcdir)/m4/error.m4 \
 	$(top_srcdir)/m4/error_h.m4 $(top_srcdir)/m4/exponentd.m4 \
@@ -141,7 +143,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/fseterr.m4 $(top_srcdir)/m4/fstat.m4 \
 	$(top_srcdir)/m4/getdelim.m4 $(top_srcdir)/m4/getdtablesize.m4 \
 	$(top_srcdir)/m4/getline.m4 $(top_srcdir)/m4/getopt.m4 \
-	$(top_srcdir)/m4/getprogname.m4 $(top_srcdir)/m4/gettext_h.m4 \
+	$(top_srcdir)/m4/getprogname.m4 $(top_srcdir)/m4/getrandom.m4 \
+	$(top_srcdir)/m4/gettext_h.m4 \
 	$(top_srcdir)/m4/gnulib-common.m4 \
 	$(top_srcdir)/m4/gnulib-comp.m4 \
 	$(top_srcdir)/m4/gnulib-i18n.m4 \
@@ -167,7 +170,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/mbrtoc32.m4 $(top_srcdir)/m4/mbrtowc.m4 \
 	$(top_srcdir)/m4/mbsinit.m4 $(top_srcdir)/m4/mbstate_t.m4 \
 	$(top_srcdir)/m4/memchr.m4 $(top_srcdir)/m4/memeq.m4 \
-	$(top_srcdir)/m4/minmax.m4 $(top_srcdir)/m4/mmap-anon.m4 \
+	$(top_srcdir)/m4/minmax.m4 $(top_srcdir)/m4/mkdir.m4 \
+	$(top_srcdir)/m4/mkdtemp.m4 $(top_srcdir)/m4/mmap-anon.m4 \
 	$(top_srcdir)/m4/mode_t.m4 $(top_srcdir)/m4/msvc-inval.m4 \
 	$(top_srcdir)/m4/msvc-nothrow.m4 $(top_srcdir)/m4/multiarch.m4 \
 	$(top_srcdir)/m4/musl.m4 $(top_srcdir)/m4/nocrash.m4 \
@@ -191,19 +195,20 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/strerror_r.m4 \
 	$(top_srcdir)/m4/strerrorname_np.m4 \
 	$(top_srcdir)/m4/string_h.m4 $(top_srcdir)/m4/sys_cdefs_h.m4 \
+	$(top_srcdir)/m4/sys_random_h.m4 \
 	$(top_srcdir)/m4/sys_socket_h.m4 \
 	$(top_srcdir)/m4/sys_stat_h.m4 $(top_srcdir)/m4/sys_types_h.m4 \
-	$(top_srcdir)/m4/threadlib.m4 $(top_srcdir)/m4/time_h.m4 \
-	$(top_srcdir)/m4/uchar_h.m4 $(top_srcdir)/m4/unicase_h.m4 \
-	$(top_srcdir)/m4/unictype_h.m4 $(top_srcdir)/m4/uninorm_h.m4 \
-	$(top_srcdir)/m4/unistd_h.m4 $(top_srcdir)/m4/unitypes_h.m4 \
-	$(top_srcdir)/m4/vasnprintf.m4 $(top_srcdir)/m4/version-etc.m4 \
-	$(top_srcdir)/m4/visibility.m4 $(top_srcdir)/m4/warn-on-use.m4 \
-	$(top_srcdir)/m4/wchar_h.m4 $(top_srcdir)/m4/wctype_h.m4 \
-	$(top_srcdir)/m4/wcwidth.m4 $(top_srcdir)/m4/wint_t.m4 \
-	$(top_srcdir)/m4/xalloc.m4 $(top_srcdir)/m4/xsize.m4 \
-	$(top_srcdir)/m4/xvasprintf.m4 $(top_srcdir)/m4/zzgnulib.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/tempname.m4 $(top_srcdir)/m4/threadlib.m4 \
+	$(top_srcdir)/m4/time_h.m4 $(top_srcdir)/m4/uchar_h.m4 \
+	$(top_srcdir)/m4/unicase_h.m4 $(top_srcdir)/m4/unictype_h.m4 \
+	$(top_srcdir)/m4/uninorm_h.m4 $(top_srcdir)/m4/unistd_h.m4 \
+	$(top_srcdir)/m4/unitypes_h.m4 $(top_srcdir)/m4/vasnprintf.m4 \
+	$(top_srcdir)/m4/version-etc.m4 $(top_srcdir)/m4/visibility.m4 \
+	$(top_srcdir)/m4/warn-on-use.m4 $(top_srcdir)/m4/wchar_h.m4 \
+	$(top_srcdir)/m4/wctype_h.m4 $(top_srcdir)/m4/wcwidth.m4 \
+	$(top_srcdir)/m4/wint_t.m4 $(top_srcdir)/m4/xalloc.m4 \
+	$(top_srcdir)/m4/xsize.m4 $(top_srcdir)/m4/xvasprintf.m4 \
+	$(top_srcdir)/m4/zzgnulib.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(top_srcdir)/configure \
@@ -319,6 +324,7 @@ am_40_identifier_la_OBJECTS =  \
 libhiha_la_DEPENDENCIES = lib/libgnu.la
 am__objects_1 =
 am_libhiha_la_OBJECTS = $(am__objects_1) \
+	src/libhiha/libhiha_la-workspaces.lo \
 	src/libhiha/libhiha_la-spinlock.lo \
 	src/libhiha/libhiha_la-string_t.lo \
 	src/libhiha/libhiha_la-token_t.lo \
@@ -333,6 +339,7 @@ am_hiha_OBJECTS = src/hiha/hiha-hiha.$(OBJEXT)
 hiha_OBJECTS = $(am_hiha_OBJECTS)
 am__DEPENDENCIES_1 =
 am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
@@ -372,6 +379,7 @@ am__depfiles_remade = src/hiha-tokens-print/$(DEPDIR)/hiha_tokens_print-hiha-tok
 	src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo \
+	src/libhiha/$(DEPDIR)/libhiha_la-workspaces.Plo \
 	src/plugins/$(DEPDIR)/0_1000_cp_la-0.1000-cp.Plo \
 	src/plugins/$(DEPDIR)/0_1000_eof_la-0.1000-eof.Plo \
 	src/plugins/$(DEPDIR)/0_1000_i10_la-0.1000-i10.Plo \
@@ -538,6 +546,7 @@ CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
 CFLAG_VISIBILITY = @CFLAG_VISIBILITY@
+CLOCK_TIME_LIB = @CLOCK_TIME_LIB@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CSCOPE = @CSCOPE@
@@ -566,6 +575,7 @@ FLOAT_H = @FLOAT_H@
 GCVERS = @GCVERS@
 GETOPT_CDEFS_H = @GETOPT_CDEFS_H@
 GETOPT_H = @GETOPT_H@
+GETRANDOM_LIB = @GETRANDOM_LIB@
 GL_CFLAG_ALLOW_WARNINGS = @GL_CFLAG_ALLOW_WARNINGS@
 GL_CFLAG_GNULIB_WARNINGS = @GL_CFLAG_GNULIB_WARNINGS@
 GL_GNULIB_ABORT_DEBUG = @GL_GNULIB_ABORT_DEBUG@
@@ -685,6 +695,7 @@ GL_GNULIB_GETPAGESIZE = @GL_GNULIB_GETPAGESIZE@
 GL_GNULIB_GETPASS = @GL_GNULIB_GETPASS@
 GL_GNULIB_GETPASS_GNU = @GL_GNULIB_GETPASS_GNU@
 GL_GNULIB_GETPROGNAME = @GL_GNULIB_GETPROGNAME@
+GL_GNULIB_GETRANDOM = @GL_GNULIB_GETRANDOM@
 GL_GNULIB_GETSUBOPT = @GL_GNULIB_GETSUBOPT@
 GL_GNULIB_GETUMASK = @GL_GNULIB_GETUMASK@
 GL_GNULIB_GETUSERSHELL = @GL_GNULIB_GETUSERSHELL@
@@ -1246,6 +1257,7 @@ HAVE_GETOPT_H = @HAVE_GETOPT_H@
 HAVE_GETPAGESIZE = @HAVE_GETPAGESIZE@
 HAVE_GETPASS = @HAVE_GETPASS@
 HAVE_GETPROGNAME = @HAVE_GETPROGNAME@
+HAVE_GETRANDOM = @HAVE_GETRANDOM@
 HAVE_GETSUBOPT = @HAVE_GETSUBOPT@
 HAVE_GETUMASK = @HAVE_GETUMASK@
 HAVE_GRANTPT = @HAVE_GRANTPT@
@@ -1416,6 +1428,7 @@ HAVE_SYS_INTTYPES_H = @HAVE_SYS_INTTYPES_H@
 HAVE_SYS_LOADAVG_H = @HAVE_SYS_LOADAVG_H@
 HAVE_SYS_PARAM_H = @HAVE_SYS_PARAM_H@
 HAVE_SYS_PROCESS_H = @HAVE_SYS_PROCESS_H@
+HAVE_SYS_RANDOM_H = @HAVE_SYS_RANDOM_H@
 HAVE_SYS_TYPES_H = @HAVE_SYS_TYPES_H@
 HAVE_TIMEGM = @HAVE_TIMEGM@
 HAVE_TIMESPEC_GET = @HAVE_TIMESPEC_GET@
@@ -1510,6 +1523,8 @@ LIBUNISTRING_UNINORM_H = @LIBUNISTRING_UNINORM_H@
 LIBUNISTRING_UNISTR_H = @LIBUNISTRING_UNISTR_H@
 LIBUNISTRING_UNITYPES_H = @LIBUNISTRING_UNITYPES_H@
 LIBUNISTRING_UNIWIDTH_H = @LIBUNISTRING_UNIWIDTH_H@
+LIB_CLOCK_GETTIME = @LIB_CLOCK_GETTIME@
+LIB_GETRANDOM = @LIB_GETRANDOM@
 LIB_HARD_LOCALE = @LIB_HARD_LOCALE@
 LIB_MBRTOWC = @LIB_MBRTOWC@
 LIB_PTHREAD = @LIB_PTHREAD@
@@ -1558,6 +1573,7 @@ NEXT_AS_FIRST_DIRECTIVE_STDINT_H = @NEXT_AS_FIRST_DIRECTIVE_STDINT_H@
 NEXT_AS_FIRST_DIRECTIVE_STDIO_H = @NEXT_AS_FIRST_DIRECTIVE_STDIO_H@
 NEXT_AS_FIRST_DIRECTIVE_STDLIB_H = @NEXT_AS_FIRST_DIRECTIVE_STDLIB_H@
 NEXT_AS_FIRST_DIRECTIVE_STRING_H = @NEXT_AS_FIRST_DIRECTIVE_STRING_H@
+NEXT_AS_FIRST_DIRECTIVE_SYS_RANDOM_H = @NEXT_AS_FIRST_DIRECTIVE_SYS_RANDOM_H@
 NEXT_AS_FIRST_DIRECTIVE_SYS_STAT_H = @NEXT_AS_FIRST_DIRECTIVE_SYS_STAT_H@
 NEXT_AS_FIRST_DIRECTIVE_SYS_TYPES_H = @NEXT_AS_FIRST_DIRECTIVE_SYS_TYPES_H@
 NEXT_AS_FIRST_DIRECTIVE_TIME_H = @NEXT_AS_FIRST_DIRECTIVE_TIME_H@
@@ -1585,6 +1601,7 @@ NEXT_STDINT_H = @NEXT_STDINT_H@
 NEXT_STDIO_H = @NEXT_STDIO_H@
 NEXT_STDLIB_H = @NEXT_STDLIB_H@
 NEXT_STRING_H = @NEXT_STRING_H@
+NEXT_SYS_RANDOM_H = @NEXT_SYS_RANDOM_H@
 NEXT_SYS_STAT_H = @NEXT_SYS_STAT_H@
 NEXT_SYS_TYPES_H = @NEXT_SYS_TYPES_H@
 NEXT_TIME_H = @NEXT_TIME_H@
@@ -1685,6 +1702,7 @@ REPLACE_GETPAGESIZE = @REPLACE_GETPAGESIZE@
 REPLACE_GETPASS = @REPLACE_GETPASS@
 REPLACE_GETPASS_FOR_GETPASS_GNU = @REPLACE_GETPASS_FOR_GETPASS_GNU@
 REPLACE_GETPROGNAME = @REPLACE_GETPROGNAME@
+REPLACE_GETRANDOM = @REPLACE_GETRANDOM@
 REPLACE_GETSUBOPT = @REPLACE_GETSUBOPT@
 REPLACE_GETUSERSHELL = @REPLACE_GETUSERSHELL@
 REPLACE_GMTIME = @REPLACE_GMTIME@
@@ -2159,9 +2177,10 @@ EXTRA_SCRIPTS =
 BUILT_SOURCES = config.h $(GCVERS)/libhiha-gc.la
 AM_CPPFLAGS = 
 AM_CFLAGS = 
-AM_LIBRS = $(HARD_LOCALE_LIB) $(LIBPTHREAD) $(LIBTHREAD) $(LIBC32CONV) \
-	$(LIBICONV) $(LIBINTL) $(LIBUNISTRING) $(MBRTOWC_LIB) \
-	$(PTHREAD_ONCE_LIB) $(SETLOCAL_NULL_LIB)
+AM_LIBRS = $(CLOCK_TIME_LIB) $(GETRANDOM_LIB) $(HARD_LOCALE_LIB) \
+	$(LIBPTHREAD) $(LIBTHREAD) $(LIBC32CONV) $(LIBICONV) \
+	$(LIBINTL) $(LIBUNISTRING) $(MBRTOWC_LIB) $(PTHREAD_ONCE_LIB) \
+	$(SETLOCAL_NULL_LIB)
 BASICCFLAGS = -I $(abs_top_builddir) -I $(abs_top_builddir)/include -I \
 	$(abs_top_builddir)/lib -I $(abs_top_srcdir) -I \
 	$(abs_top_srcdir)/include -I $(abs_top_srcdir)/lib -I \
@@ -2235,14 +2254,15 @@ libhiha_la_LIBADD = lib/libgnu.la
 libhiha_la_LDFLAGS = $(AM_LIBRS) -lm -ldl -export-dynamic
 libhiha_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
 EXTRA_libhiha_la_DEPENDENCIES = 
-libhiha_la_SOURCES = $(libhiha_HDRS) src/libhiha/spinlock.c \
-	src/libhiha/string_t.c src/libhiha/token_t.c \
-	src/libhiha/pratt.c src/libhiha/lexical.c \
-	src/libhiha/load_plugin.c
-libhiha_HDRS = include/libhiha/libhiha.h include/libhiha/spinlock.h \
-	include/libhiha/initialize_once.h include/libhiha/string_t.h \
-	include/libhiha/token_t.h include/libhiha/pratt.h \
-	include/libhiha/lexical.h include/libhiha/load_plugin.h
+libhiha_la_SOURCES = $(libhiha_HDRS) src/libhiha/workspaces.c \
+	src/libhiha/spinlock.c src/libhiha/string_t.c \
+	src/libhiha/token_t.c src/libhiha/pratt.c \
+	src/libhiha/lexical.c src/libhiha/load_plugin.c
+libhiha_HDRS = include/libhiha/libhiha.h include/libhiha/workspaces.h \
+	include/libhiha/spinlock.h include/libhiha/initialize_once.h \
+	include/libhiha/string_t.h include/libhiha/token_t.h \
+	include/libhiha/pratt.h include/libhiha/lexical.h \
+	include/libhiha/load_plugin.h
 DISTITEMS = $(srcdir)/README $(am__append_1)
 
 #
@@ -2473,6 +2493,8 @@ src/libhiha/$(am__dirstamp):
 src/libhiha/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) src/libhiha/$(DEPDIR)
 	@: >>src/libhiha/$(DEPDIR)/$(am__dirstamp)
+src/libhiha/libhiha_la-workspaces.lo: src/libhiha/$(am__dirstamp) \
+	src/libhiha/$(DEPDIR)/$(am__dirstamp)
 src/libhiha/libhiha_la-spinlock.lo: src/libhiha/$(am__dirstamp) \
 	src/libhiha/$(DEPDIR)/$(am__dirstamp)
 src/libhiha/libhiha_la-string_t.lo: src/libhiha/$(am__dirstamp) \
@@ -2534,6 +2556,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-workspaces.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/0_1000_cp_la-0.1000-cp.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/0_1000_eof_la-0.1000-eof.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/0_1000_i10_la-0.1000-i10.Plo@am__quote@ # am--include-marker
@@ -2628,6 +2651,13 @@ src/plugins/40_identifier_la-40-identifier.lo: src/plugins/40-identifier.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/plugins/40-identifier.c' object='src/plugins/40_identifier_la-40-identifier.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(40_identifier_la_CFLAGS) $(CFLAGS) -c -o src/plugins/40_identifier_la-40-identifier.lo `test -f 'src/plugins/40-identifier.c' || echo '$(srcdir)/'`src/plugins/40-identifier.c
+
+src/libhiha/libhiha_la-workspaces.lo: src/libhiha/workspaces.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_la-workspaces.lo -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_la-workspaces.Tpo -c -o src/libhiha/libhiha_la-workspaces.lo `test -f 'src/libhiha/workspaces.c' || echo '$(srcdir)/'`src/libhiha/workspaces.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/libhiha/$(DEPDIR)/libhiha_la-workspaces.Tpo src/libhiha/$(DEPDIR)/libhiha_la-workspaces.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/libhiha/workspaces.c' object='src/libhiha/libhiha_la-workspaces.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -c -o src/libhiha/libhiha_la-workspaces.lo `test -f 'src/libhiha/workspaces.c' || echo '$(srcdir)/'`src/libhiha/workspaces.c
 
 src/libhiha/libhiha_la-spinlock.lo: src/libhiha/spinlock.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_la-spinlock.lo -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Tpo -c -o src/libhiha/libhiha_la-spinlock.lo `test -f 'src/libhiha/spinlock.c' || echo '$(srcdir)/'`src/libhiha/spinlock.c
@@ -3155,6 +3185,7 @@ distclean: distclean-recursive
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo
+	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-workspaces.Plo
 	-rm -f src/plugins/$(DEPDIR)/0_1000_cp_la-0.1000-cp.Plo
 	-rm -f src/plugins/$(DEPDIR)/0_1000_eof_la-0.1000-eof.Plo
 	-rm -f src/plugins/$(DEPDIR)/0_1000_i10_la-0.1000-i10.Plo
@@ -3221,6 +3252,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo
+	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-workspaces.Plo
 	-rm -f src/plugins/$(DEPDIR)/0_1000_cp_la-0.1000-cp.Plo
 	-rm -f src/plugins/$(DEPDIR)/0_1000_eof_la-0.1000-eof.Plo
 	-rm -f src/plugins/$(DEPDIR)/0_1000_i10_la-0.1000-i10.Plo

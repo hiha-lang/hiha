@@ -1,5 +1,35 @@
 @  master
-|  2026-04-29 20:34 +0000
+|  2026-04-30 16:10 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       08e286e3878a1bbcd77b7dc6a8b9746d04fb1cbb
+|  mercurial: a88a3b79fb8b1a9d84efb236a8d211ee21d5e7c6
+|  revision:  86
+|  parents:   85
+|
+|    Set a max number of lexical passes, so there will be termination.
+|
+|
+o  2026-04-30 13:41 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       3c01b31b46fd61da667568cb8aca729dbd6622d3
+|  mercurial: 1dcf29f9d7e1a040071d473428a9ca035aa2ae40
+|  revision:  85
+|  parents:   84
+|
+|    The first example code to reach a fixed point.
+|
+|
+o  2026-04-30 00:08 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       a2562e87785b2c257852664d5dda52fc83636e67
+|  mercurial: bc342ce0dce1a293f403bdaee1df7d51799c21d9
+|  revision:  84
+|  parents:   83
+|
+|    Some progress towards a working lexer. Not there yet.
+|
+|
+o  2026-04-29 20:34 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       255825c5d2f247908023d10bf75e3eac3c623759
 |  mercurial: bf6c331b71b193f9d809644c4e49ebd2661d244f

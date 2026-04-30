@@ -35,7 +35,7 @@ HIHA_VISIBLE void
 plugin_init (void)
 {
   pratt_tables_t tables = lexical_pratt_tables ();
-  pratt_nud_put (tables, make_string_t ("INT10"), &decimal_integer_handler);
+  pratt_nud_put (tables, make_string_t ("I10"), &decimal_integer_handler);
 }
 
 /*

@@ -156,7 +156,7 @@ scan_decimal_integer (void *state, buffered_token_getter_t getter,
         str->s[i] = *((const uint32_t *) gl_list_get_at (digits, i));
 
       *lhs =
-        (void *) make_token_t (make_string_t ("INT10"), str, tok->loc);
+        (void *) make_token_t (make_string_t ("I10"), str, tok->loc);
     }
 }
 

@@ -1,5 +1,18 @@
 @  master
-|  2026-04-29 17:22 +0000
+|  2026-04-29 20:34 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       255825c5d2f247908023d10bf75e3eac3c623759
+|  mercurial: bf6c331b71b193f9d809644c4e49ebd2661d244f
+|  revision:  83
+|  parents:   82
+|
+|    A lot of stuff got added by using xstrerror. Also, I have lexical
+|    fixed-point search partly working. It appears to mishandle strings,
+|    which I think is because I ridiculously used global variables, but I
+|    will have to go see.
+|
+|
+o  2026-04-29 17:22 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       a97032cc1191b623bcf4628f2e97ea4b45ea9edb
 |  mercurial: 9badf46da40d9685154a454a6fd6f9dc35594155

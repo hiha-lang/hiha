@@ -31,7 +31,6 @@
 #include <gl_avltree_list.h>
 #include <gl_xlist.h>
 #include <libhiha/token_t.h>
-#include <libhiha/initialize_once.h>
 
 // Change this if using gettext.
 #define _(msgid) msgid
@@ -43,6 +42,14 @@
 //
 #define NEW_STRING
 //#define NEW_STRING copy_string_t
+
+struct serialized_strings
+{
+  gl_list_t filenames;
+  gl_list_t token_kinds;
+  gl_list_t token_values;
+};
+typedef struct serialized_strings *serialized_strings_t;
 
 struct token_getter_from_source_file
 {
@@ -77,9 +84,7 @@ struct token_getter_from_serialized_tokens
   FILE *f;
   char *buf;
   size_t nbuf;                  /* The size of the buf. */
-  gl_list_t filenames;
-  gl_list_t token_kinds;
-  gl_list_t token_values;
+  serialized_strings_t strings;
 };
 typedef struct token_getter_from_serialized_tokens
   *token_getter_from_serialized_tokens_t;
@@ -109,7 +114,6 @@ _make_token_t (string_t token_kind, string_t token_value,
   return make_token_t (token_kind, token_value, loc);
 }
 
-//HIHA_VISIBLE token_getter_from_source_file_t
 HIHA_VISIBLE token_getter_t
 make_token_getter_from_source_file_t (const char *filename, FILE *f)
 {
@@ -206,76 +210,35 @@ str_equal (const void *s1, const void *s2)
   return b;
 }
 
-static initialize_once_t _serialized_filenames_init1t =
-  INITIALIZE_ONCE_T_INIT;
-static gl_list_t _serialized_filenames = NULL;
-
-static initialize_once_t _serialized_token_kind_init1t =
-  INITIALIZE_ONCE_T_INIT;
-static gl_list_t _serialized_token_kind = NULL;
-
-static initialize_once_t _serialized_token_value_init1t =
-  INITIALIZE_ONCE_T_INIT;
-static gl_list_t _serialized_token_value = NULL;
-
-static void
-_initialize_serialized_filenames (void)
+static serialized_strings_t
+make_serialized_strings_t (void)
 {
-  _serialized_filenames =
-    gl_list_create_empty (GL_AVLTREE_LIST, str_equal, NULL,
-                          NULL, false);
+  serialized_strings_t p = XMALLOC (struct serialized_strings);
+
+  p->filenames =
+    gl_list_create_empty (GL_AVLTREE_LIST, str_equal, NULL, NULL,
+                          false);
+  p->token_kinds =
+    gl_list_create_empty (GL_AVLTREE_LIST, str_equal, NULL, NULL,
+                          false);
+  p->token_values =
+    gl_list_create_empty (GL_AVLTREE_LIST, str_equal, NULL, NULL,
+                          false);
 
   /* The NULL filename will be represented by the index 0. */
-  gl_list_add_last (_serialized_filenames, NULL);
-}
+  gl_list_add_last (p->filenames, NULL);
 
-static gl_list_t
-serialized_filenames (void)
-{
-  INITIALIZE_ONCE (_serialized_filenames_init1t,
-                   _initialize_serialized_filenames);
-  return _serialized_filenames;
-}
-
-static void
-_initialize_serialized_token_kind (void)
-{
-  _serialized_token_kind =
-    gl_list_create_empty (GL_AVLTREE_LIST, str_equal, NULL,
-                          NULL, false);
-}
-
-static gl_list_t
-serialized_token_kinds (void)
-{
-  INITIALIZE_ONCE (_serialized_token_kind_init1t,
-                   _initialize_serialized_token_kind);
-  return _serialized_token_kind;
-}
-
-static void
-_initialize_serialized_token_value (void)
-{
-  _serialized_token_value =
-    gl_list_create_empty (GL_AVLTREE_LIST, str_equal, NULL,
-                          NULL, false);
-}
-
-static gl_list_t
-serialized_token_values (void)
-{
-  INITIALIZE_ONCE (_serialized_token_value_init1t,
-                   _initialize_serialized_token_value);
-  return _serialized_token_value;
+  return p;
 }
 
 HIHA_VISIBLE void
-serialize_token_t (const token_t tok, FILE *f)
+serialize_token_t (const token_t tok, serialized_strings_t strings,
+                   FILE *f)
 {
   /* The serialization done here is NOT interchangeable between
      machines. */
 
-  gl_list_t fnames = serialized_filenames ();
+  gl_list_t fnames = strings->filenames;
   size_t i = gl_list_indexof (fnames, tok->loc->filename);
   if (i == (size_t) (-1))
     {
@@ -299,7 +262,7 @@ serialize_token_t (const token_t tok, FILE *f)
   char *buf1 = XNMALLOC (outlen1, char);
   base64_encode ((const char *) tok->token_kind->s, inlen1, buf1,
                  outlen1);
-  gl_list_t tokkinds = serialized_token_kinds ();
+  gl_list_t tokkinds = strings->token_kinds;
   size_t j = gl_list_indexof (tokkinds, buf1);
   if (j == (size_t) (-1))
     {
@@ -317,7 +280,7 @@ serialize_token_t (const token_t tok, FILE *f)
   char *buf2 = XNMALLOC (outlen2, char);
   base64_encode ((const char *) tok->token_value->s, inlen2, buf2,
                  outlen2);
-  gl_list_t tokvals = serialized_token_values ();
+  gl_list_t tokvals = strings->token_values;
   size_t k = gl_list_indexof (tokvals, buf2);
   if (k == (size_t) (-1))
     {
@@ -352,14 +315,7 @@ make_token_getter_from_serialized_tokens_t (const char *filename,
   getter->nbuf = 1000;
   getter->buf = XNMALLOC (getter->nbuf, char);
 
-  getter->filenames =
-    gl_list_create_empty (GL_AVLTREE_LIST, NULL, NULL, NULL, true);
-  /* The NULL filename will be represented by the index 0. */
-  gl_list_add_last (getter->filenames, NULL);
-  getter->token_kinds =
-    gl_list_create_empty (GL_AVLTREE_LIST, NULL, NULL, NULL, true);
-  getter->token_values =
-    gl_list_create_empty (GL_AVLTREE_LIST, NULL, NULL, NULL, true);
+  getter->strings = make_serialized_strings_t ();
 
   return (token_getter_t) getter;
 }
@@ -375,7 +331,8 @@ deserialize_filename (token_getter_from_serialized_tokens_t g,
   int retval =
     sscanf (g->buf, "%c %zu %zu %ms", &F, &index, &string_size, &b64);
   idx_t nb64 = BASE64_LENGTH (string_size);
-  if (retval != 4 || F != 'F' || index != gl_list_size (g->filenames)
+  if (retval != 4 || F != 'F'
+      || index != gl_list_size (g->strings->filenames)
       || nb64 != strlen (b64))
     *nread = -101;
   else
@@ -384,7 +341,7 @@ deserialize_filename (token_getter_from_serialized_tokens_t g,
       idx_t outlen = string_size;
       base64_decode (b64, nb64, s, &outlen);
       free (b64);
-      gl_list_add_last (g->filenames, s);
+      gl_list_add_last (g->strings->filenames, s);
     }
 }
 
@@ -399,7 +356,8 @@ deserialize_token_kind (token_getter_from_serialized_tokens_t g,
   int retval =
     sscanf (g->buf, "%c %zu %zu %ms", &K, &index, &string_size, &b64);
   idx_t nb64 = BASE64_LENGTH (string_size * sizeof (uint32_t));
-  if (retval != 4 || K != 'K' || index != gl_list_size (g->token_kinds)
+  if (retval != 4 || K != 'K'
+      || index != gl_list_size (g->strings->token_kinds)
       || nb64 != strlen (b64))
     *nread = -102;
   else
@@ -410,7 +368,7 @@ deserialize_token_kind (token_getter_from_serialized_tokens_t g,
       idx_t outlen = s->n * sizeof (uint32_t);
       base64_decode (b64, nb64, (char *) s->s, &outlen);
       free (b64);
-      gl_list_add_last (g->token_kinds, s);
+      gl_list_add_last (g->strings->token_kinds, s);
     }
 }
 
@@ -425,7 +383,8 @@ deserialize_token_value (token_getter_from_serialized_tokens_t g,
   int retval =
     sscanf (g->buf, "%c %zu %zu %ms", &V, &index, &string_size, &b64);
   idx_t nb64 = BASE64_LENGTH (string_size * sizeof (uint32_t));
-  if (retval != 4 || V != 'V' || index != gl_list_size (g->token_values)
+  if (retval != 4 || V != 'V'
+      || index != gl_list_size (g->strings->token_values)
       || nb64 != strlen (b64))
     *nread = -103;
   else
@@ -436,7 +395,7 @@ deserialize_token_value (token_getter_from_serialized_tokens_t g,
       idx_t outlen = s->n * sizeof (uint32_t);
       base64_decode (b64, nb64, (char *) s->s, &outlen);
       free (b64);
-      gl_list_add_last (g->token_values, s);
+      gl_list_add_last (g->strings->token_values, s);
     }
 }
 
@@ -455,19 +414,22 @@ deserialize_token (token_getter_from_serialized_tokens_t g,
     sscanf (g->buf, "%c %zu %zu %zu %zu %zu", &T, &i_filename, &line_no,
             &code_point_no, &i_token_kind, &i_token_value);
   if (retval != 6 || T != 'T'
-      || gl_list_size (g->filenames) <= i_filename
-      || gl_list_size (g->token_kinds) <= i_token_kind
-      || gl_list_size (g->token_values) <= i_token_value)
+      || gl_list_size (g->strings->filenames) <= i_filename
+      || gl_list_size (g->strings->token_kinds) <= i_token_kind
+      || gl_list_size (g->strings->token_values) <= i_token_value)
     *nread = -104;
   else
     {
-      const char *filename = gl_list_get_at (g->filenames, i_filename);
+      const char *filename =
+        gl_list_get_at (g->strings->filenames, i_filename);
       string_t tokkind =
-        NEW_STRING ((string_t) gl_list_get_at (g->token_kinds,
-                                               i_token_kind));
+        NEW_STRING ((string_t)
+                    gl_list_get_at (g->strings->token_kinds,
+                                    i_token_kind));
       string_t tokvalue =
-        NEW_STRING ((string_t) gl_list_get_at (g->token_values,
-                                               i_token_value));
+        NEW_STRING ((string_t)
+                    gl_list_get_at (g->strings->token_values,
+                                    i_token_value));
       *tok =
         _make_token_t (tokkind, tokvalue, filename, line_no,
                        code_point_no);
@@ -519,7 +481,7 @@ get_token_from_serialized_tokens (token_getter_t getter, token_t *tok,
     {
       char s[1000];
       snprintf (s, 1000, _("error involving serialized tokens %s"),
-                g->filename);
+                g->strings->filenames);
       *error_message = xstrdup (s);
     }
 }
@@ -705,8 +667,11 @@ struct token_putter_to_stream
   const char *filename;
   FILE *f;
 
+  serialized_strings_t strings;
+
   // Serialize or do other output processing.
   void (*outputter) (const token_t tok, FILE *f,
+                     serialized_strings_t strings,
                      const char **error_message);
 };
 typedef struct token_putter_to_stream *token_putter_to_stream_t;
@@ -717,15 +682,16 @@ put_token_to_stream (token_putter_t this_struct,
 {
   token_putter_to_stream_t p = (token_putter_to_stream_t) this_struct;
   *error_message = NULL;
-  p->outputter (tok, p->f, error_message);
+  p->outputter (tok, p->f, p->strings, error_message);
 }
 
 static void
 serializing_outputter (const token_t tok, FILE *f,
+                       serialized_strings_t strings,
                        const char **error_message)
 {
   *error_message = NULL;
-  serialize_token_t (tok, f);
+  serialize_token_t (tok, strings, f);
 }
 
 HIHA_VISIBLE token_putter_t
@@ -735,6 +701,7 @@ make_token_putter_to_stream_serialized_t (const char *filename, FILE *f)
   p->put_token = put_token_to_stream;
   p->filename = filename;
   p->f = f;
+  p->strings = make_serialized_strings_t ();
   p->outputter = serializing_outputter;
   return (token_putter_t) p;
 }

@@ -33,9 +33,13 @@ struct token
 };
 typedef struct token *token_t;
 
+struct serialized_strings;
+typedef struct serialized_strings *serialized_strings_t;
+
 token_t make_token_t (string_t token_kind, string_t token_value,
                       text_location_t loc);
-void serialize_token_t (const token_t tok, FILE *f);
+void serialize_token_t (const token_t tok, serialized_strings_t strings,
+                        FILE *f);
 void print_token_t (const token_t tok, FILE *f);
 
 struct token_getter;

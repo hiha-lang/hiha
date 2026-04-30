@@ -85,6 +85,7 @@ struct token_getter_from_serialized_tokens
   char *buf;
   size_t nbuf;                  /* The size of the buf. */
   serialized_strings_t strings;
+  bool eof_reached;
 };
 typedef struct token_getter_from_serialized_tokens
   *token_getter_from_serialized_tokens_t;
@@ -112,6 +113,13 @@ _make_token_t (string_t token_kind, string_t token_value,
   loc->line_no = line_no;
   loc->code_point_no = code_point_no;
   return make_token_t (token_kind, token_value, loc);
+}
+
+static bool
+is_eof_eof (token_t tok)
+{
+  return (0 == string_t_cmp (string_t_EOF (), tok->token_kind)
+          && 0 == string_t_cmp (string_t_EOF (), tok->token_value));
 }
 
 HIHA_VISIBLE token_getter_t
@@ -317,6 +325,8 @@ make_token_getter_from_serialized_tokens_t (const char *filename,
 
   getter->strings = make_serialized_strings_t ();
 
+  getter->eof_reached = false;
+
   return (token_getter_t) getter;
 }
 
@@ -423,13 +433,11 @@ deserialize_token (token_getter_from_serialized_tokens_t g,
       const char *filename =
         gl_list_get_at (g->strings->filenames, i_filename);
       string_t tokkind =
-        NEW_STRING ((string_t)
-                    gl_list_get_at (g->strings->token_kinds,
-                                    i_token_kind));
+        NEW_STRING ((string_t) gl_list_get_at (g->strings->token_kinds,
+                                               i_token_kind));
       string_t tokvalue =
-        NEW_STRING ((string_t)
-                    gl_list_get_at (g->strings->token_values,
-                                    i_token_value));
+        NEW_STRING ((string_t) gl_list_get_at (g->strings->token_values,
+                                               i_token_value));
       *tok =
         _make_token_t (tokkind, tokvalue, filename, line_no,
                        code_point_no);
@@ -450,39 +458,46 @@ get_token_from_serialized_tokens (token_getter_t getter, token_t *tok,
 {
   token_getter_from_serialized_tokens_t g =
     (token_getter_from_serialized_tokens_t) getter;
+
   *error_message = NULL;
 
-  ssize_t nread = 0;
-  *tok = NULL;
-  make_serialized_line_available (g, tok, &nread);
-  while (0 <= nread && *tok == NULL)
+  if (g->eof_reached)
+    *tok = make_token_t (string_t_EOF (), string_t_EOF (), NULL);
+  else
     {
-      switch (g->buf[0])
-        {
-        case 'F':
-          deserialize_filename (g, &nread);
-          break;
-        case 'K':
-          deserialize_token_kind (g, &nread);
-          break;
-        case 'V':
-          deserialize_token_value (g, &nread);
-          break;
-        case 'T':
-          deserialize_token (g, tok, &nread);
-          break;
-        default:
-          nread = -100;
-          break;
-        }
+      ssize_t nread = 0;
+      *tok = NULL;
       make_serialized_line_available (g, tok, &nread);
-    }
-  if (*tok == NULL)
-    {
-      char s[1000];
-      snprintf (s, 1000, _("error involving serialized tokens %s"),
-                g->strings->filenames);
-      *error_message = xstrdup (s);
+      while (0 <= nread && *tok == NULL)
+        {
+          switch (g->buf[0])
+            {
+            case 'F':
+              deserialize_filename (g, &nread);
+              break;
+            case 'K':
+              deserialize_token_kind (g, &nread);
+              break;
+            case 'V':
+              deserialize_token_value (g, &nread);
+              break;
+            case 'T':
+              deserialize_token (g, tok, &nread);
+              break;
+            default:
+              nread = -100;
+              break;
+            }
+          make_serialized_line_available (g, tok, &nread);
+        }
+      if (*tok != NULL)
+        g->eof_reached = is_eof_eof (*tok);
+      else
+        {
+          char s[1000];
+          snprintf (s, 1000, _("error involving serialized tokens"));
+          *error_message = xstrdup (s);
+        }
     }
 }
 

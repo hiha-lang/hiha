@@ -136,6 +136,8 @@ scan_serialized_tokens_until_fixed_point (const char *filename[2],
           FILE *g;
           open_file (filename[1 - *ifile], "w", &g, error_message);
           done = (*error_message != NULL);
+          if (done)
+            fclose (f);
           if (!done)
             {
               buffered_token_getter_t input_getter =
@@ -157,10 +159,11 @@ scan_serialized_tokens_until_fixed_point (const char *filename[2],
               scan_tokens (NULL, getter, putter, error_message);
               done = (*error_message != NULL
                       || !check_for_mismatch (getter, NULL));
+
+              fclose (f);
+              fclose (g);
             }
-          fclose (g);
         }
-      fclose (f);
     }
 }
 

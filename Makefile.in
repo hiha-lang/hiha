@@ -3349,14 +3349,7 @@ indent:
 			$(filter %.c %.h,$(hiha_SOURCES))) \
 		$(addprefix $(top_srcdir)/, \
 			$(filter %.c %.h,$(hiha_tokens_print_SOURCES))) \
-		$(addprefix $(top_srcdir)/, \
-			$(filter %.c %.h,$(10_eof_la_SOURCES))) \
-		$(addprefix $(top_srcdir)/, \
-			$(filter %.c %.h,$(20_white_space_la_SOURCES))) \
-		$(addprefix $(top_srcdir)/, \
-			$(filter %.c %.h,$(30_decimal_integer_la_SOURCES))) \
-		$(addprefix $(top_srcdir)/, \
-			$(filter %.c %.h,$(40_identifier_la_SOURCES)))
+		$(top_srcdir)/src/plugins/*.c
 
 #---------------------------------------------------------------------
 

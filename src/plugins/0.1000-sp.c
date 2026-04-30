@@ -24,8 +24,8 @@
 
 static void
 white_space_handler (void *state, buffered_token_getter_t getter,
-                    pratt_tables_t tables, token_t tok, void **lhs,
-                    const char **error_message)
+                     pratt_tables_t tables, token_t tok, void **lhs,
+                     const char **error_message)
 {
   if (*error_message == NULL)
     *lhs = (void *) tok;

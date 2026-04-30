@@ -23,6 +23,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <inttypes.h>
 #include <math.h>
 #include <string.h>
 #include <limits.h>
@@ -51,6 +52,7 @@
 #define GETOPT_VERSION_CHAR (CHAR_MIN - 3)
 #define GETOPT_PLUGIN_CHAR (CHAR_MAX + 1)
 #define GETOPT_PLUGINDIR_CHAR (CHAR_MAX + 2)
+#define GETOPT_LEXICAL_MAX_CHAR (CHAR_MAX + 3)
 
 enum hiha_plugin_tag_t
 {
@@ -148,11 +150,22 @@ print_usage (void)
   usage_puts (_("Do something not yet implemented "
                 "with hiha source FILES...\n"));
   usage_puts ("\n");
-  usage_puts (_("      --plugin=PLUGIN     load a plugin\n"));
-  usage_puts (_("      --plugindir=DIR     "
+  usage_puts (_("  --plugin=PLUGIN      load a plugin\n"));
+  usage_puts (_("  --plugindir=DIR      "
                 "load plugins from a directory\n"));
-  usage_puts (_("      --help        display this help and exit\n"));
-  usage_puts (_("      --version     "
+  usage_puts (_("  --lexical-max=NUM    "
+                "maximum number of passes through lexical\n"
+                "                       "
+                "  analysis to reach a fixed point ["));
+  {
+    char s[100];
+    snprintf (s, 100, "%zu", lexical_max);
+    usage_puts (s);
+  }
+  usage_puts (_("]\n"));
+  usage_puts (_("  --help               "
+                "display this help and exit\n"));
+  usage_puts (_("  --version            "
                 "output version information and exit\n"));
   usage_puts ("\n");
   usage_puts (_("hiha homepage: "
@@ -176,6 +189,7 @@ check_usage (int argc, MAYBE_UNUSED char **argv)
 static struct option const long_opts[] = {
   {"plugin", required_argument, NULL, GETOPT_PLUGIN_CHAR},
   {"plugindir", required_argument, NULL, GETOPT_PLUGINDIR_CHAR},
+  {"lexical-max", required_argument, NULL, GETOPT_LEXICAL_MAX_CHAR},
   {"help", no_argument, NULL, GETOPT_HELP_CHAR},
   {"version", no_argument, NULL, GETOPT_VERSION_CHAR},
   {NULL, 0, NULL, 0}
@@ -187,7 +201,7 @@ getopt_for_this_program (int argc, char **argv)
   return getopt_long (argc, argv, "", long_opts, NULL);
 }
 
-hiha_plugin_t
+static hiha_plugin_t
 make_hiha_plugin_t (hiha_plugin_tag_t tag, const char *locator)
 {
   hiha_plugin_t p = XMALLOC (struct hiha_plugin);
@@ -195,6 +209,47 @@ make_hiha_plugin_t (hiha_plugin_tag_t tag, const char *locator)
   p->locator = xstrdup (locator);
   return p;
 };
+
+static void
+require_a_digit_and_only_digits (const char *option, const char *s)
+{
+  size_t i = 0;
+  while ('0' <= s[i] && s[i] <= '9')
+    i += 1;
+  if (i == 0 || s[i] != '\0')
+    {
+      error (exit_failure, 0, _("%s: expected digits but got “%s”"),
+             option, s);
+      abort ();
+    }
+}
+
+static void
+set_lexical_max (const char *s)
+{
+  const char *option = "--lexical-max";
+  require_a_digit_and_only_digits (option, s);
+  errno = 0;
+  uintmax_t umax = strtoumax (s, NULL, 10);
+  int err_number = errno;
+  if (umax == UINTMAX_MAX && err_number != 0)
+    {
+      error (exit_failure, err_number, "%s: %s", option, s);
+      abort ();
+    }
+  else if (SIZE_MAX < umax)
+    {
+      error (exit_failure, ERANGE, "%s: %s", option, s);
+      abort ();
+    }
+  else if (umax == 0)
+    {
+      error (exit_failure, 0, _("%s: there must be at least one pass"),
+             option);
+      abort ();
+    }
+  lexical_max = (size_t) umax;
+}
 
 static void
 get_options (int argc, char **argv, hiha_options_t *opts)
@@ -216,6 +271,10 @@ get_options (int argc, char **argv, hiha_options_t *opts)
         case GETOPT_PLUGINDIR_CHAR:
           gl_list_add_last ((*opts)->plugins,
                             make_hiha_plugin_t (TAG_PLUGINDIR, optarg));
+          break;
+
+        case GETOPT_LEXICAL_MAX_CHAR:
+          set_lexical_max (optarg);
           break;
 
         case GETOPT_VERSION_CHAR:

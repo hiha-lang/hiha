@@ -25,6 +25,9 @@
 #include <libhiha/pratt.h>
 #include <libhiha/token_t.h>
 
+/* The maximum number of passes through the Pratt parser. */
+extern size_t lexical_max;
+
 pratt_tables_t lexical_pratt_tables (void);
 
 void scan_tokens (void *state, buffered_token_getter_t getter,

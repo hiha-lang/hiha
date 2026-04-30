@@ -43,6 +43,8 @@
 // Change this if using gettext.
 #define _(msgid) msgid
 
+HIHA_VISIBLE size_t lexical_max = 100;
+
 static initialize_once_t _lexical_tables_init1t =
   INITIALIZE_ONCE_T_INIT;
 static pratt_tables_t _lexical_tables = NULL;
@@ -122,49 +124,65 @@ scan_serialized_tokens_until_fixed_point (const char *filename[2],
 
   *error_message = NULL;
 
+  /* One pass for having read the source files. */
+  size_t ipass = 1;
+
   bool done = false;
   while (!done)
-    {
-      assert (*ifile <= 1);
-      *ifile = 1 - *ifile;
+    if (ipass == lexical_max)
+      {
+        char s[1000];
+        snprintf (s, 1000,
+                  _("lexical fixed point not reached within %zu %s"),
+                  lexical_max,
+                  (lexical_max == 1) ? _("pass") : _("passes"));
+        *error_message = xstrdup (s);
+        done = true;
+      }
+    else
+      {
+        assert (*ifile <= 1);
+        *ifile = 1 - *ifile;
 
-      FILE *f;
-      open_file (filename[*ifile], "r", &f, error_message);
-      done = (*error_message != NULL);
-      if (!done)
-        {
-          FILE *g;
-          open_file (filename[1 - *ifile], "w", &g, error_message);
-          done = (*error_message != NULL);
-          if (done)
-            fclose (f);
-          if (!done)
-            {
-              buffered_token_getter_t input_getter =
-                make_buffered_token_getter_from_serialized_tokens
-                (filename[*ifile], f);
-              buffered_token_getter_t getter;
-              const bool (*check_for_mismatch)
-                (buffered_token_getter_t, token_t);
-              make_token_getter_with_mismatch_check
-                (input_getter, &getter, &check_for_mismatch);
-
-              token_putter_t input_putter =
-                make_token_putter_to_stream_serialized_t
-                (filename[1 - *ifile], g);
-              token_putter_t putter =
-                make_token_putter_with_mismatch_check
-                (input_putter, getter, check_for_mismatch);
-
-              scan_tokens (NULL, getter, putter, error_message);
-              done = (*error_message != NULL
-                      || !check_for_mismatch (getter, NULL));
-
+        FILE *f;
+        open_file (filename[*ifile], "r", &f, error_message);
+        done = (*error_message != NULL);
+        if (!done)
+          {
+            FILE *g;
+            open_file (filename[1 - *ifile], "w", &g, error_message);
+            done = (*error_message != NULL);
+            if (done)
               fclose (f);
-              fclose (g);
-            }
-        }
-    }
+            if (!done)
+              {
+                buffered_token_getter_t input_getter =
+                  make_buffered_token_getter_from_serialized_tokens
+                  (filename[*ifile], f);
+                buffered_token_getter_t getter;
+                const bool (*check_for_mismatch)
+                  (buffered_token_getter_t, token_t);
+                make_token_getter_with_mismatch_check
+                  (input_getter, &getter, &check_for_mismatch);
+
+                token_putter_t input_putter =
+                  make_token_putter_to_stream_serialized_t
+                  (filename[1 - *ifile], g);
+                token_putter_t putter =
+                  make_token_putter_with_mismatch_check
+                  (input_putter, getter, check_for_mismatch);
+
+                scan_tokens (NULL, getter, putter, error_message);
+                done = (*error_message != NULL
+                        || !check_for_mismatch (getter, NULL));
+
+                fclose (f);
+                fclose (g);
+
+                ipass += 1;
+              }
+          }
+      }
 }
 
 /*

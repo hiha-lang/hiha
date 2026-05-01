@@ -221,19 +221,49 @@ ${_rebmun}_${_eman}_la_SOURCES += src/plugins/${_number}-${_name}.c
 EOF
 }
 
+lexical_end_cap_automake() {
+    _number="$1"
+    _name="$2"
+    _NAME=`echo ${_name} | tr '[:lower:]' '[:upper:]'`
+    plugin_automake "${_number}" "${_name}"
+    echo "Creating src/plugins/${_number}-${_name}.c"
+    cat > "src/plugins/${_number}-${_name}.c" <<EOF
+#include <config.h>
+#include <libhiha/libhiha.h>
+
+static void
+handler (void *state, buffered_token_getter_t getter,
+         pratt_tables_t tables, token_t tok, void **lhs,
+         const char **error_message)
+{
+  if (*error_message == NULL)
+    *lhs = (void *) tok;
+}
+
+HIHA_VISIBLE void
+plugin_init (void)
+{
+  pratt_tables_t tables = lexical_pratt_tables ();
+  pratt_nud_put (tables, make_string_t ("${_NAME}"), &handler);
+}
+EOF
+}
+
+
 # Run everything in a subshell, so the user does not get stuck in a
 # new directory if the process is interrupted.
 (
     cd "${srcdir}"
 
-    plugin_automake 0.1000 eof
-    plugin_automake 0.1000 cp
-    plugin_automake 0.1000 sp
-    plugin_automake 0.1000 i10
-    plugin_automake 0.1000 id
-    plugin_automake 0.1000 f10
-    plugin_automake 0.1000 i.i10
-    plugin_automake 0.1000 r10
+    lexical_end_cap_automake 0.1000 eof
+    lexical_end_cap_automake 0.1000 cp
+    lexical_end_cap_automake 0.1000 sp
+    lexical_end_cap_automake 0.1000 i10
+    lexical_end_cap_automake 0.1000 id
+    lexical_end_cap_automake 0.1000 f10
+    lexical_end_cap_automake 0.1000 i.i10
+    lexical_end_cap_automake 0.1000 r10
+
     plugin_automake 20 white_space
     plugin_automake 30 decimal_integer
     plugin_automake 40 identifier

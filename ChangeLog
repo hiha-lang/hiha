@@ -1,5 +1,35 @@
 @  master
-|  2026-05-01 01:45 +0000
+|  2026-05-01 19:32 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       94b881d218bbdef13b7e3d74dc9c11203d216854
+|  mercurial: ec42dce022d6924eeeeb01957228d3da2119dcf7
+|  revision:  94
+|  parents:   93
+|
+|    Added missing files.
+|
+|
+o  2026-05-01 19:32 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       53314f623523a9d710bd9aa8edf6e4d6532eae32
+|  mercurial: 05cff76246445a88497f7266ac27319e488bf53f
+|  revision:  93
+|  parents:   92
+|
+|    Added exact fractions.
+|
+|
+o  2026-05-01 18:26 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       53110b96e48997fef329a10f3ca88593e6827b80
+|  mercurial: 3e22a32e68f2233585138589692bc08d5b56ea46
+|  revision:  92
+|  parents:   91
+|
+|    Added lexing for numbers with exponents.
+|
+|
+o  2026-05-01 01:45 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       f5577e87bdba42b022d97ae2d0809d3cc6209ae1
 |  mercurial: b6d7f498a0201feb40a55f4ac8f1774e31ef7c4d

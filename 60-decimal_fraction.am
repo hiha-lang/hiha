@@ -1,0 +1,23 @@
+pkg_plugins_lib_LTLIBRARIES += 60-decimal_fraction.la
+
+60_decimal_fraction_la_LIBADD =
+60_decimal_fraction_la_LDFLAGS =
+60_decimal_fraction_la_CFLAGS =
+EXTRA_60_decimal_fraction_la_DEPENDENCIES =
+60_decimal_fraction_la_SOURCES =
+
+60_decimal_fraction_la_LIBADD += libhiha.la
+60_decimal_fraction_la_LIBADD += lib/libgnu.la
+60_decimal_fraction_la_LIBADD += $(GCVERS)/libhiha-gc.la
+
+60_decimal_fraction_la_LDFLAGS += $(LIBS)
+60_decimal_fraction_la_LDFLAGS += $(LTLIBICONV)
+60_decimal_fraction_la_LDFLAGS += $(LTLIBINTL)
+60_decimal_fraction_la_LDFLAGS += $(LTLIBUNISTRING)
+60_decimal_fraction_la_LDFLAGS += -avoid-version -module
+60_decimal_fraction_la_LDFLAGS += -shared
+
+60_decimal_fraction_la_CFLAGS += $(BASICCFLAGS)
+60_decimal_fraction_la_CFLAGS += $(CFLAGS)
+
+60_decimal_fraction_la_SOURCES += src/plugins/60-decimal_fraction.c

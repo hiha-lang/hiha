@@ -199,7 +199,7 @@ get_token_stream_filenames (const char *filename[2],
       char *t = XCALLOC (nwd + ns + 2, char);
       memcpy (t, work_directory, nwd * sizeof (char));
       t[nwd] = '/';
-      memcpy (t + ((nwd + 1) * sizeof (char)), s, ns * sizeof (char));
+      memcpy (t + (nwd + 1), s, ns * sizeof (char));
       filename[i] = t;
     }
 }

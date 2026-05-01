@@ -233,10 +233,12 @@ EOF
     plugin_automake 0.1000 id
     plugin_automake 0.1000 f10
     plugin_automake 0.1000 i.i10
+    plugin_automake 0.1000 r10
     plugin_automake 20 white_space
     plugin_automake 30 decimal_integer
     plugin_automake 40 identifier
     plugin_automake 50 decimal_float
+    plugin_automake 60 decimal_fraction
 
     need_sortsmill_tig && require_sortsmill_tig
     need_pkg_config && require_pkg_config

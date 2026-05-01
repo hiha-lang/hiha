@@ -1,5 +1,15 @@
 @  master
-|  2026-05-01 19:32 +0000
+|  2026-05-01 19:48 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:
+|  mercurial: 46a8e2e4b56349d7935421eb7218db46a78ac747
+|  revision:  95
+|  parents:   94
+|
+|    Automate the creation of ‘lexical end caps’.
+|
+|
+o  2026-05-01 19:32 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       94b881d218bbdef13b7e3d74dc9c11203d216854
 |  mercurial: ec42dce022d6924eeeeb01957228d3da2119dcf7

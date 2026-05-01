@@ -59,6 +59,7 @@ int string_t_cmp (const string_t str1, const string_t str2);
 
 string_t make_string_t (const char *src);
 string_t copy_string_t (const string_t str);
+string_t concat_string_t (...); /* The sentinel argument is NULL. */
 char *make_str_nul (const string_t str);
 
 string_t string_t_from_str_len (const char *src, size_t srclen,

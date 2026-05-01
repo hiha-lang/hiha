@@ -18544,6 +18544,11 @@ printf "%s\n" "$ac_cv_path_EGREP" >&6; }
  ac_cv_path_EGREP_TRADITIONAL=$EGREP
 
 
+#
+# FIXME: MAKE AUTOCONF ARCHIVE ENTRIES FOR SETTING C STANDARDS FLAGS
+# FOR C23 or C2Y.
+#
+# List C standards, with the most preferred last.
 { :;
    if test x"${GCC}" = xyes; then
       ac_ext=c
@@ -18553,7 +18558,136 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
       { :;
-   { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether the C compiler accepts -std=gnu23" >&5
+   { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether the C compiler accepts -std=c2x" >&5
+printf %s "checking whether the C compiler accepts -std=c2x... " >&6; }
+if test ${ax_cv_check_cflags___std_c2x+y}
+then :
+  printf %s "(cached) " >&6
+else case e in #(
+  e)
+  ax_check_save_flags=$CFLAGS
+  if test x"$GCC" = xyes ; then
+    add_gnu_werror="-Werror"
+  fi
+  CFLAGS="$CFLAGS  -std=c2x $add_gnu_werror"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main (void)
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"
+then :
+  ax_cv_check_cflags___std_c2x=yes
+else case e in #(
+  e) ax_cv_check_cflags___std_c2x=no ;;
+esac
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
+  CFLAGS=$ax_check_save_flags ;;
+esac
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags___std_c2x" >&5
+printf "%s\n" "$ax_cv_check_cflags___std_c2x" >&6; }
+if test "x$ax_cv_check_cflags___std_c2x" = xyes
+then :
+  __c_compiler_flags="${__c_compiler_flags} -std=c2x"
+else case e in #(
+  e) : ;;
+esac
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether the C compiler accepts -std=c23" >&5
+printf %s "checking whether the C compiler accepts -std=c23... " >&6; }
+if test ${ax_cv_check_cflags___std_c23+y}
+then :
+  printf %s "(cached) " >&6
+else case e in #(
+  e)
+  ax_check_save_flags=$CFLAGS
+  if test x"$GCC" = xyes ; then
+    add_gnu_werror="-Werror"
+  fi
+  CFLAGS="$CFLAGS  -std=c23 $add_gnu_werror"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main (void)
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"
+then :
+  ax_cv_check_cflags___std_c23=yes
+else case e in #(
+  e) ax_cv_check_cflags___std_c23=no ;;
+esac
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
+  CFLAGS=$ax_check_save_flags ;;
+esac
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags___std_c23" >&5
+printf "%s\n" "$ax_cv_check_cflags___std_c23" >&6; }
+if test "x$ax_cv_check_cflags___std_c23" = xyes
+then :
+  __c_compiler_flags="${__c_compiler_flags} -std=c23"
+else case e in #(
+  e) : ;;
+esac
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether the C compiler accepts -std=gnu2x" >&5
+printf %s "checking whether the C compiler accepts -std=gnu2x... " >&6; }
+if test ${ax_cv_check_cflags___std_gnu2x+y}
+then :
+  printf %s "(cached) " >&6
+else case e in #(
+  e)
+  ax_check_save_flags=$CFLAGS
+  if test x"$GCC" = xyes ; then
+    add_gnu_werror="-Werror"
+  fi
+  CFLAGS="$CFLAGS  -std=gnu2x $add_gnu_werror"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main (void)
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"
+then :
+  ax_cv_check_cflags___std_gnu2x=yes
+else case e in #(
+  e) ax_cv_check_cflags___std_gnu2x=no ;;
+esac
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
+  CFLAGS=$ax_check_save_flags ;;
+esac
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags___std_gnu2x" >&5
+printf "%s\n" "$ax_cv_check_cflags___std_gnu2x" >&6; }
+if test "x$ax_cv_check_cflags___std_gnu2x" = xyes
+then :
+  __c_compiler_flags="${__c_compiler_flags} -std=gnu2x"
+else case e in #(
+  e) : ;;
+esac
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether the C compiler accepts -std=gnu23" >&5
 printf %s "checking whether the C compiler accepts -std=gnu23... " >&6; }
 if test ${ax_cv_check_cflags___std_gnu23+y}
 then :
@@ -18592,6 +18726,49 @@ printf "%s\n" "$ax_cv_check_cflags___std_gnu23" >&6; }
 if test "x$ax_cv_check_cflags___std_gnu23" = xyes
 then :
   __c_compiler_flags="${__c_compiler_flags} -std=gnu23"
+else case e in #(
+  e) : ;;
+esac
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether the C compiler accepts -fPIC" >&5
+printf %s "checking whether the C compiler accepts -fPIC... " >&6; }
+if test ${ax_cv_check_cflags___fPIC+y}
+then :
+  printf %s "(cached) " >&6
+else case e in #(
+  e)
+  ax_check_save_flags=$CFLAGS
+  if test x"$GCC" = xyes ; then
+    add_gnu_werror="-Werror"
+  fi
+  CFLAGS="$CFLAGS  -fPIC $add_gnu_werror"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main (void)
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"
+then :
+  ax_cv_check_cflags___fPIC=yes
+else case e in #(
+  e) ax_cv_check_cflags___fPIC=no ;;
+esac
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
+  CFLAGS=$ax_check_save_flags ;;
+esac
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags___fPIC" >&5
+printf "%s\n" "$ax_cv_check_cflags___fPIC" >&6; }
+if test "x$ax_cv_check_cflags___fPIC" = xyes
+then :
+  __c_compiler_flags="${__c_compiler_flags} -fPIC"
 else case e in #(
   e) : ;;
 esac
@@ -18650,6 +18827,16 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
    fi
 }
+#
+# Clean up the C standards flags, even though they are in
+# preferred-last order.
+echo ${__c_compiler_flags} | ${GREP} -F -q std=gnu && \
+  __c_compiler_flags=`echo ${__c_compiler_flags} | \
+                           sed -e 's/-std=c2x//g' -e 's/-std=c23//g'`
+echo ${__c_compiler_flags} | ${GREP} -F -q 23 && \
+  __c_compiler_flags=`echo ${__c_compiler_flags} | \
+                           sed -e 's/-std=c2x//g' -e 's/-std=gnu2x//g'`
+#
 CFLAGS="${CFLAGS}${CFLAGS+ }${__c_compiler_flags}"
 
 { :;
@@ -25096,8 +25283,8 @@ rm -f core conftest.err conftest.$ac_objext conftest.beam \
         LIBS="$saved_LIBS"
         test $gl_pthread_api = yes && break
       done
-      echo "$as_me:25099: gl_pthread_api=$gl_pthread_api" >&5
-      echo "$as_me:25100: LIBPTHREAD=$LIBPTHREAD" >&5
+      echo "$as_me:25286: gl_pthread_api=$gl_pthread_api" >&5
+      echo "$as_me:25287: LIBPTHREAD=$LIBPTHREAD" >&5
 
       gl_pthread_in_glibc=no
       # On Linux with glibc >= 2.34, libc contains the fully functional
@@ -25126,7 +25313,7 @@ rm -rf conftest*
   *) :
      ;;
 esac
-      echo "$as_me:25129: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
+      echo "$as_me:25316: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
 
       # Test for libpthread by looking for pthread_kill.
       if test $gl_pthread_api = yes && test -z "$LIBPTHREAD"
@@ -25378,7 +25565,7 @@ fi
 fi
 
 fi
-      echo "$as_me:25381: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
+      echo "$as_me:25568: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
 
 fi
     { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether POSIX threads API is available" >&5
@@ -29750,8 +29937,8 @@ rm -f core conftest.err conftest.$ac_objext conftest.beam \
         LIBS="$saved_LIBS"
         test $gl_pthread_api = yes && break
       done
-      echo "$as_me:29753: gl_pthread_api=$gl_pthread_api" >&5
-      echo "$as_me:29754: LIBPTHREAD=$LIBPTHREAD" >&5
+      echo "$as_me:29940: gl_pthread_api=$gl_pthread_api" >&5
+      echo "$as_me:29941: LIBPTHREAD=$LIBPTHREAD" >&5
 
       gl_pthread_in_glibc=no
       # On Linux with glibc >= 2.34, libc contains the fully functional
@@ -29780,7 +29967,7 @@ rm -rf conftest*
   *) :
      ;;
 esac
-      echo "$as_me:29783: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
+      echo "$as_me:29970: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
 
       # Test for libpthread by looking for pthread_kill.
       if test $gl_pthread_api = yes && test -z "$LIBPTHREAD"
@@ -30032,7 +30219,7 @@ fi
 fi
 
 fi
-      echo "$as_me:30035: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
+      echo "$as_me:30222: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
 
 fi
     { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether POSIX threads API is available" >&5
@@ -30322,8 +30509,8 @@ rm -f core conftest.err conftest.$ac_objext conftest.beam \
         LIBS="$saved_LIBS"
         test $gl_pthread_api = yes && break
       done
-      echo "$as_me:30325: gl_pthread_api=$gl_pthread_api" >&5
-      echo "$as_me:30326: LIBPTHREAD=$LIBPTHREAD" >&5
+      echo "$as_me:30512: gl_pthread_api=$gl_pthread_api" >&5
+      echo "$as_me:30513: LIBPTHREAD=$LIBPTHREAD" >&5
 
       gl_pthread_in_glibc=no
       # On Linux with glibc >= 2.34, libc contains the fully functional
@@ -30352,7 +30539,7 @@ rm -rf conftest*
   *) :
      ;;
 esac
-      echo "$as_me:30355: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
+      echo "$as_me:30542: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
 
       # Test for libpthread by looking for pthread_kill.
       if test $gl_pthread_api = yes && test -z "$LIBPTHREAD"
@@ -30604,7 +30791,7 @@ fi
 fi
 
 fi
-      echo "$as_me:30607: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
+      echo "$as_me:30794: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
 
 fi
     { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether POSIX threads API is available" >&5

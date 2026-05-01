@@ -20,11 +20,14 @@
 */
 
 #include <config.h>
+#include <stdarg.h>
 #include <string.h>
 #include <errno.h>
 #include <error.h>
 #include <xalloc.h>
 #include <exitfail.h>
+#include <gl_xlist.h>
+#include <gl_avltree_list.h>
 #include <libhiha/string_t.h>
 #include <libhiha/initialize_once.h>
 
@@ -90,6 +93,47 @@ copy_string_t (const string_t str)
   memcpy (s->s, ((const struct string *) str)->s,
           s->n * sizeof (uint32_t));
   return s;
+}
+
+HIHA_VISIBLE string_t
+concat_string_t (...)
+{
+  va_list args;
+  size_t i;
+  size_t j;
+
+  va_start (args);
+
+  gl_list_t lst =
+    gl_list_create_empty (GL_AVLTREE_LIST, NULL, NULL, NULL, true);
+  string_t str = va_arg (args, string_t);
+  while (str != NULL)
+    {
+      gl_list_add_last (lst, str);
+      str = va_arg (args, string_t);
+    }
+
+  string_t result = XMALLOC (struct string);
+
+  result->n = 0;
+  for (i = 0; i != gl_list_size (lst); i += 1)
+    {
+      str = (string_t) gl_list_get_at (lst, i);
+      result->n += str->n;
+    }
+  result->s = XNMALLOC (result->n, uint32_t);
+
+  j = 0;
+  for (i = 0; i != gl_list_size (lst); i += 1)
+    {
+      str = (string_t) gl_list_get_at (lst, i);
+      memcpy (result->s + j, str->s, str->n * sizeof (uint32_t));
+      j += str->n;
+    }
+
+  va_end (args);
+
+  return result;
 }
 
 HIHA_VISIBLE char *

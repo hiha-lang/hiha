@@ -50,15 +50,29 @@ AC_PROG_GREP
 AC_PROG_FGREP
 AC_PROG_EGREP
 
+#
+# FIXME: MAKE AUTOCONF ARCHIVE ENTRIES FOR SETTING C STANDARDS FLAGS
+# FOR C23 or C2Y.
+#
+# List C standards, with the most preferred last.
 CHEM_GNU_C_FLAGS([__c_compiler_flags],[
-  -std=gnu23
-  -fvisibility=hidden
+  -std=c2x -std=c23 -std=gnu2x -std=gnu23
+  -fPIC -fvisibility=hidden
 ])
+#
+# Clean up the C standards flags, even though they are in
+# preferred-last order.
+echo ${__c_compiler_flags} | ${GREP} -F -q std=gnu && \
+  __c_compiler_flags=`echo ${__c_compiler_flags} | \
+                           sed -e 's/-std=c2x//g' -e 's/-std=c23//g'`
+echo ${__c_compiler_flags} | ${GREP} -F -q 23 && \
+  __c_compiler_flags=`echo ${__c_compiler_flags} | \
+                           sed -e 's/-std=c2x//g' -e 's/-std=gnu2x//g'`
+#
 CFLAGS="${CFLAGS}${CFLAGS+ }${__c_compiler_flags}"
 
 CHEM_GNU_C_FLAGS([__visible_flags],[
-  -fPIC
-  -fvisibility=default
+  -fPIC -fvisibility=default
 ])
 AC_SUBST([VISIBLE_CFLAGS],["${__visible_flags}"])
 

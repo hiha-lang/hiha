@@ -59,6 +59,12 @@ is_ascii_digit (uint32_t cp)
   return ('0' <= cp && cp <= '9');
 }
 
+static bool
+token_is_i10 (token_t tok)
+{
+  return (string_t_cmp (tok->token_kind, make_string_t ("I10")) == 0);
+}
+
 static void
 consume_tokens (buffered_token_getter_t getter, size_t num_to_consume,
                 const char **error_message)
@@ -160,29 +166,33 @@ scan_decimal_integer (void *state, buffered_token_getter_t getter,
     }
 }
 
-nud_handler_t next_handler;
+nud_handler_t next_cp_handler;
 
 static void
 code_point_handler (void *state, buffered_token_getter_t getter,
                     pratt_tables_t tables, token_t tok, void **lhs,
                     const char **error_message)
 {
-  if (*error_message == NULL)
+  bool done = (*error_message != NULL);
+  if (!done)
     {
       check_code_point_token (tok);
       if (is_ascii_digit (tok->token_value->s[0]))
-        scan_decimal_integer (state, getter, tables, tok, lhs,
-                              error_message);
-      else
-        next_handler (state, getter, tables, tok, lhs, error_message);
+        {
+          scan_decimal_integer (state, getter, tables, tok, lhs,
+                                error_message);
+          done = true;
+        }
     }
+  if (!done)
+    next_cp_handler (state, getter, tables, tok, lhs, error_message);
 }
 
 HIHA_VISIBLE void
 plugin_init (void)
 {
   pratt_tables_t tables = lexical_pratt_tables ();
-  next_handler = pratt_nud_get (tables, string_t_CP ());
+  next_cp_handler = pratt_nud_get (tables, string_t_CP ());
   pratt_nud_put (tables, string_t_CP (), &code_point_handler);
 }
 

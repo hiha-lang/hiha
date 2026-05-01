@@ -1,5 +1,35 @@
 @  master
-|  2026-04-30 16:51 +0000
+|  2026-05-01 01:45 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       f5577e87bdba42b022d97ae2d0809d3cc6209ae1
+|  mercurial: b6d7f498a0201feb40a55f4ac8f1774e31ef7c4d
+|  revision:  91
+|  parents:   90
+|
+|    Implemented decimal floating point up to things like 123.456
+|
+|
+o  2026-05-01 01:10 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       47afb7546ec411abe8cabfb0070f0e723ab31f2b
+|  mercurial: 08c1f2f87e0b8c6fa9617f209f16f31b238c61bb
+|  revision:  90
+|  parents:   89
+|
+|    Removed an incorrect multiplication by sizeof (char)
+|
+|
+o  2026-04-30 19:35 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       40b349c17765ce7cfae072af410e6d54ce74d3d6
+|  mercurial: b2f41b6a2355bc691839b192f0e39c2fac21a78b
+|  revision:  89
+|  parents:   88
+|
+|    Now hiha will read source files and output tokens to stdout.
+|
+|
+o  2026-04-30 16:51 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       07875684378ac630b3f5065125a440c2244cad13
 |  mercurial: 4c8b898bb8a7ab4419309c838bd85bbce2958634

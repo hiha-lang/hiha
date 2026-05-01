@@ -273,6 +273,22 @@ am_0_1000_eof_la_OBJECTS = src/plugins/0_1000_eof_la-0.1000-eof.lo
 0_1000_eof_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(0_1000_eof_la_CFLAGS) \
 	$(CFLAGS) $(0_1000_eof_la_LDFLAGS) $(LDFLAGS) -o $@
+0_1000_f10_la_DEPENDENCIES = libhiha.la lib/libgnu.la \
+	$(GCVERS)/libhiha-gc.la
+am_0_1000_f10_la_OBJECTS = src/plugins/0_1000_f10_la-0.1000-f10.lo
+0_1000_f10_la_OBJECTS = $(am_0_1000_f10_la_OBJECTS)
+0_1000_f10_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(0_1000_f10_la_CFLAGS) \
+	$(CFLAGS) $(0_1000_f10_la_LDFLAGS) $(LDFLAGS) -o $@
+0_1000_i_i10_la_DEPENDENCIES = libhiha.la lib/libgnu.la \
+	$(GCVERS)/libhiha-gc.la
+am_0_1000_i_i10_la_OBJECTS =  \
+	src/plugins/0_1000_i_i10_la-0.1000-i.i10.lo
+0_1000_i_i10_la_OBJECTS = $(am_0_1000_i_i10_la_OBJECTS)
+0_1000_i_i10_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(0_1000_i_i10_la_CFLAGS) $(CFLAGS) $(0_1000_i_i10_la_LDFLAGS) \
+	$(LDFLAGS) -o $@
 0_1000_i10_la_DEPENDENCIES = libhiha.la lib/libgnu.la \
 	$(GCVERS)/libhiha-gc.la
 am_0_1000_i10_la_OBJECTS = src/plugins/0_1000_i10_la-0.1000-i10.lo
@@ -321,6 +337,15 @@ am_40_identifier_la_OBJECTS =  \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(40_identifier_la_CFLAGS) $(CFLAGS) \
 	$(40_identifier_la_LDFLAGS) $(LDFLAGS) -o $@
+50_decimal_float_la_DEPENDENCIES = libhiha.la lib/libgnu.la \
+	$(GCVERS)/libhiha-gc.la
+am_50_decimal_float_la_OBJECTS =  \
+	src/plugins/50_decimal_float_la-50-decimal_float.lo
+50_decimal_float_la_OBJECTS = $(am_50_decimal_float_la_OBJECTS)
+50_decimal_float_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(50_decimal_float_la_CFLAGS) $(CFLAGS) \
+	$(50_decimal_float_la_LDFLAGS) $(LDFLAGS) -o $@
 libhiha_la_DEPENDENCIES = lib/libgnu.la
 am__objects_1 =
 am_libhiha_la_OBJECTS = $(am__objects_1) \
@@ -382,12 +407,15 @@ am__depfiles_remade = src/hiha-tokens-print/$(DEPDIR)/hiha_tokens_print-hiha-tok
 	src/libhiha/$(DEPDIR)/libhiha_la-workspaces.Plo \
 	src/plugins/$(DEPDIR)/0_1000_cp_la-0.1000-cp.Plo \
 	src/plugins/$(DEPDIR)/0_1000_eof_la-0.1000-eof.Plo \
+	src/plugins/$(DEPDIR)/0_1000_f10_la-0.1000-f10.Plo \
 	src/plugins/$(DEPDIR)/0_1000_i10_la-0.1000-i10.Plo \
+	src/plugins/$(DEPDIR)/0_1000_i_i10_la-0.1000-i.i10.Plo \
 	src/plugins/$(DEPDIR)/0_1000_id_la-0.1000-id.Plo \
 	src/plugins/$(DEPDIR)/0_1000_sp_la-0.1000-sp.Plo \
 	src/plugins/$(DEPDIR)/20_white_space_la-20-white_space.Plo \
 	src/plugins/$(DEPDIR)/30_decimal_integer_la-30-decimal_integer.Plo \
-	src/plugins/$(DEPDIR)/40_identifier_la-40-identifier.Plo
+	src/plugins/$(DEPDIR)/40_identifier_la-40-identifier.Plo \
+	src/plugins/$(DEPDIR)/50_decimal_float_la-50-decimal_float.Plo
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -408,17 +436,19 @@ am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(0_1000_cp_la_SOURCES) $(0_1000_eof_la_SOURCES) \
+	$(0_1000_f10_la_SOURCES) $(0_1000_i_i10_la_SOURCES) \
 	$(0_1000_i10_la_SOURCES) $(0_1000_id_la_SOURCES) \
 	$(0_1000_sp_la_SOURCES) $(20_white_space_la_SOURCES) \
 	$(30_decimal_integer_la_SOURCES) $(40_identifier_la_SOURCES) \
-	$(libhiha_la_SOURCES) $(hiha_SOURCES) \
-	$(hiha_tokens_print_SOURCES)
+	$(50_decimal_float_la_SOURCES) $(libhiha_la_SOURCES) \
+	$(hiha_SOURCES) $(hiha_tokens_print_SOURCES)
 DIST_SOURCES = $(0_1000_cp_la_SOURCES) $(0_1000_eof_la_SOURCES) \
+	$(0_1000_f10_la_SOURCES) $(0_1000_i_i10_la_SOURCES) \
 	$(0_1000_i10_la_SOURCES) $(0_1000_id_la_SOURCES) \
 	$(0_1000_sp_la_SOURCES) $(20_white_space_la_SOURCES) \
 	$(30_decimal_integer_la_SOURCES) $(40_identifier_la_SOURCES) \
-	$(libhiha_la_SOURCES) $(hiha_SOURCES) \
-	$(hiha_tokens_print_SOURCES)
+	$(50_decimal_float_la_SOURCES) $(libhiha_la_SOURCES) \
+	$(hiha_SOURCES) $(hiha_tokens_print_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
 	install-data-recursive install-dvi-recursive \
@@ -462,11 +492,13 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 DIST_SUBDIRS = $(SUBDIRS)
 am__DIST_COMMON = $(srcdir)/0.1000-cp.am $(srcdir)/0.1000-eof.am \
+	$(srcdir)/0.1000-f10.am $(srcdir)/0.1000-i.i10.am \
 	$(srcdir)/0.1000-i10.am $(srcdir)/0.1000-id.am \
 	$(srcdir)/0.1000-sp.am $(srcdir)/20-white_space.am \
 	$(srcdir)/30-decimal_integer.am $(srcdir)/40-identifier.am \
-	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
-	$(srcdir)/gc-dist.am $(top_srcdir)/build-aux/compile \
+	$(srcdir)/50-decimal_float.am $(srcdir)/Makefile.in \
+	$(srcdir)/config.h.in $(srcdir)/gc-dist.am \
+	$(top_srcdir)/build-aux/compile \
 	$(top_srcdir)/build-aux/config.guess \
 	$(top_srcdir)/build-aux/config.rpath \
 	$(top_srcdir)/build-aux/config.sub \
@@ -2035,8 +2067,9 @@ pkg_libhiha_includedir = $(pkgincludedir)/libhiha
 #---------------------------------------------------------------------
 lib_LTLIBRARIES = libhiha.la
 pkg_plugins_lib_LTLIBRARIES = 0.1000-eof.la 0.1000-cp.la 0.1000-sp.la \
-	0.1000-i10.la 0.1000-id.la 20-white_space.la \
-	30-decimal_integer.la 40-identifier.la
+	0.1000-i10.la 0.1000-id.la 0.1000-f10.la 0.1000-i.i10.la \
+	20-white_space.la 30-decimal_integer.la 40-identifier.la \
+	50-decimal_float.la
 pkginclude_HEADERS = include/gc.h
 pkg_gc_include_HEADERS = $(top_srcdir)/$(GCVERS)/include/cord.h \
 	$(top_srcdir)/$(GCVERS)/include/cord_pos.h \
@@ -2217,6 +2250,20 @@ EXTRA_0_1000_i10_la_DEPENDENCIES =
 0_1000_id_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
 EXTRA_0_1000_id_la_DEPENDENCIES = 
 0_1000_id_la_SOURCES = src/plugins/0.1000-id.c
+0_1000_f10_la_LIBADD = libhiha.la lib/libgnu.la \
+	$(GCVERS)/libhiha-gc.la
+0_1000_f10_la_LDFLAGS = $(LIBS) $(LTLIBICONV) $(LTLIBINTL) \
+	$(LTLIBUNISTRING) -avoid-version -module -shared
+0_1000_f10_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
+EXTRA_0_1000_f10_la_DEPENDENCIES = 
+0_1000_f10_la_SOURCES = src/plugins/0.1000-f10.c
+0_1000_i_i10_la_LIBADD = libhiha.la lib/libgnu.la \
+	$(GCVERS)/libhiha-gc.la
+0_1000_i_i10_la_LDFLAGS = $(LIBS) $(LTLIBICONV) $(LTLIBINTL) \
+	$(LTLIBUNISTRING) -avoid-version -module -shared
+0_1000_i_i10_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
+EXTRA_0_1000_i_i10_la_DEPENDENCIES = 
+0_1000_i_i10_la_SOURCES = src/plugins/0.1000-i.i10.c
 20_white_space_la_LIBADD = libhiha.la lib/libgnu.la \
 	$(GCVERS)/libhiha-gc.la
 20_white_space_la_LDFLAGS = $(LIBS) $(LTLIBICONV) $(LTLIBINTL) \
@@ -2238,6 +2285,13 @@ EXTRA_30_decimal_integer_la_DEPENDENCIES =
 40_identifier_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
 EXTRA_40_identifier_la_DEPENDENCIES = 
 40_identifier_la_SOURCES = src/plugins/40-identifier.c
+50_decimal_float_la_LIBADD = libhiha.la lib/libgnu.la \
+	$(GCVERS)/libhiha-gc.la
+50_decimal_float_la_LDFLAGS = $(LIBS) $(LTLIBICONV) $(LTLIBINTL) \
+	$(LTLIBUNISTRING) -avoid-version -module -shared
+50_decimal_float_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
+EXTRA_50_decimal_float_la_DEPENDENCIES = 
+50_decimal_float_la_SOURCES = src/plugins/50-decimal_float.c
 hiha_LDFLAGS = -export-dynamic
 hiha_LDADD = libhiha.la $(GCVERS)/libhiha-gc.la lib/libgnu.la \
 	$(AM_LIBRS)
@@ -2281,7 +2335,7 @@ all: $(BUILT_SOURCES) config.h
 .SUFFIXES: .c .lo .o .obj
 am--refresh: GNUmakefile
 	@:
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/gc-dist.am $(srcdir)/0.1000-eof.am $(srcdir)/0.1000-cp.am $(srcdir)/0.1000-sp.am $(srcdir)/0.1000-i10.am $(srcdir)/0.1000-id.am $(srcdir)/20-white_space.am $(srcdir)/30-decimal_integer.am $(srcdir)/40-identifier.am $(am__configure_deps)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/gc-dist.am $(srcdir)/0.1000-eof.am $(srcdir)/0.1000-cp.am $(srcdir)/0.1000-sp.am $(srcdir)/0.1000-i10.am $(srcdir)/0.1000-id.am $(srcdir)/0.1000-f10.am $(srcdir)/0.1000-i.i10.am $(srcdir)/20-white_space.am $(srcdir)/30-decimal_integer.am $(srcdir)/40-identifier.am $(srcdir)/50-decimal_float.am $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -2303,7 +2357,7 @@ GNUmakefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__maybe_remake_depfiles)'; \
 	    cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__maybe_remake_depfiles);; \
 	esac;
-$(srcdir)/gc-dist.am $(srcdir)/0.1000-eof.am $(srcdir)/0.1000-cp.am $(srcdir)/0.1000-sp.am $(srcdir)/0.1000-i10.am $(srcdir)/0.1000-id.am $(srcdir)/20-white_space.am $(srcdir)/30-decimal_integer.am $(srcdir)/40-identifier.am $(am__empty):
+$(srcdir)/gc-dist.am $(srcdir)/0.1000-eof.am $(srcdir)/0.1000-cp.am $(srcdir)/0.1000-sp.am $(srcdir)/0.1000-i10.am $(srcdir)/0.1000-id.am $(srcdir)/0.1000-f10.am $(srcdir)/0.1000-i.i10.am $(srcdir)/20-white_space.am $(srcdir)/30-decimal_integer.am $(srcdir)/40-identifier.am $(srcdir)/50-decimal_float.am $(am__empty):
 
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
@@ -2454,6 +2508,17 @@ src/plugins/0_1000_eof_la-0.1000-eof.lo: src/plugins/$(am__dirstamp) \
 
 0.1000-eof.la: $(0_1000_eof_la_OBJECTS) $(0_1000_eof_la_DEPENDENCIES) $(EXTRA_0_1000_eof_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(0_1000_eof_la_LINK) -rpath $(pkg_plugins_libdir) $(0_1000_eof_la_OBJECTS) $(0_1000_eof_la_LIBADD) $(LIBS)
+src/plugins/0_1000_f10_la-0.1000-f10.lo: src/plugins/$(am__dirstamp) \
+	src/plugins/$(DEPDIR)/$(am__dirstamp)
+
+0.1000-f10.la: $(0_1000_f10_la_OBJECTS) $(0_1000_f10_la_DEPENDENCIES) $(EXTRA_0_1000_f10_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(0_1000_f10_la_LINK) -rpath $(pkg_plugins_libdir) $(0_1000_f10_la_OBJECTS) $(0_1000_f10_la_LIBADD) $(LIBS)
+src/plugins/0_1000_i_i10_la-0.1000-i.i10.lo:  \
+	src/plugins/$(am__dirstamp) \
+	src/plugins/$(DEPDIR)/$(am__dirstamp)
+
+0.1000-i.i10.la: $(0_1000_i_i10_la_OBJECTS) $(0_1000_i_i10_la_DEPENDENCIES) $(EXTRA_0_1000_i_i10_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(0_1000_i_i10_la_LINK) -rpath $(pkg_plugins_libdir) $(0_1000_i_i10_la_OBJECTS) $(0_1000_i_i10_la_LIBADD) $(LIBS)
 src/plugins/0_1000_i10_la-0.1000-i10.lo: src/plugins/$(am__dirstamp) \
 	src/plugins/$(DEPDIR)/$(am__dirstamp)
 
@@ -2487,6 +2552,12 @@ src/plugins/40_identifier_la-40-identifier.lo:  \
 
 40-identifier.la: $(40_identifier_la_OBJECTS) $(40_identifier_la_DEPENDENCIES) $(EXTRA_40_identifier_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(40_identifier_la_LINK) -rpath $(pkg_plugins_libdir) $(40_identifier_la_OBJECTS) $(40_identifier_la_LIBADD) $(LIBS)
+src/plugins/50_decimal_float_la-50-decimal_float.lo:  \
+	src/plugins/$(am__dirstamp) \
+	src/plugins/$(DEPDIR)/$(am__dirstamp)
+
+50-decimal_float.la: $(50_decimal_float_la_OBJECTS) $(50_decimal_float_la_DEPENDENCIES) $(EXTRA_50_decimal_float_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(50_decimal_float_la_LINK) -rpath $(pkg_plugins_libdir) $(50_decimal_float_la_OBJECTS) $(50_decimal_float_la_LIBADD) $(LIBS)
 src/libhiha/$(am__dirstamp):
 	@$(MKDIR_P) src/libhiha
 	@: >>src/libhiha/$(am__dirstamp)
@@ -2559,12 +2630,15 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-workspaces.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/0_1000_cp_la-0.1000-cp.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/0_1000_eof_la-0.1000-eof.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/0_1000_f10_la-0.1000-f10.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/0_1000_i10_la-0.1000-i10.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/0_1000_i_i10_la-0.1000-i.i10.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/0_1000_id_la-0.1000-id.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/0_1000_sp_la-0.1000-sp.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/20_white_space_la-20-white_space.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/30_decimal_integer_la-30-decimal_integer.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/40_identifier_la-40-identifier.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/50_decimal_float_la-50-decimal_float.Plo@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -2610,6 +2684,20 @@ src/plugins/0_1000_eof_la-0.1000-eof.lo: src/plugins/0.1000-eof.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(0_1000_eof_la_CFLAGS) $(CFLAGS) -c -o src/plugins/0_1000_eof_la-0.1000-eof.lo `test -f 'src/plugins/0.1000-eof.c' || echo '$(srcdir)/'`src/plugins/0.1000-eof.c
 
+src/plugins/0_1000_f10_la-0.1000-f10.lo: src/plugins/0.1000-f10.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(0_1000_f10_la_CFLAGS) $(CFLAGS) -MT src/plugins/0_1000_f10_la-0.1000-f10.lo -MD -MP -MF src/plugins/$(DEPDIR)/0_1000_f10_la-0.1000-f10.Tpo -c -o src/plugins/0_1000_f10_la-0.1000-f10.lo `test -f 'src/plugins/0.1000-f10.c' || echo '$(srcdir)/'`src/plugins/0.1000-f10.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/plugins/$(DEPDIR)/0_1000_f10_la-0.1000-f10.Tpo src/plugins/$(DEPDIR)/0_1000_f10_la-0.1000-f10.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/plugins/0.1000-f10.c' object='src/plugins/0_1000_f10_la-0.1000-f10.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(0_1000_f10_la_CFLAGS) $(CFLAGS) -c -o src/plugins/0_1000_f10_la-0.1000-f10.lo `test -f 'src/plugins/0.1000-f10.c' || echo '$(srcdir)/'`src/plugins/0.1000-f10.c
+
+src/plugins/0_1000_i_i10_la-0.1000-i.i10.lo: src/plugins/0.1000-i.i10.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(0_1000_i_i10_la_CFLAGS) $(CFLAGS) -MT src/plugins/0_1000_i_i10_la-0.1000-i.i10.lo -MD -MP -MF src/plugins/$(DEPDIR)/0_1000_i_i10_la-0.1000-i.i10.Tpo -c -o src/plugins/0_1000_i_i10_la-0.1000-i.i10.lo `test -f 'src/plugins/0.1000-i.i10.c' || echo '$(srcdir)/'`src/plugins/0.1000-i.i10.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/plugins/$(DEPDIR)/0_1000_i_i10_la-0.1000-i.i10.Tpo src/plugins/$(DEPDIR)/0_1000_i_i10_la-0.1000-i.i10.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/plugins/0.1000-i.i10.c' object='src/plugins/0_1000_i_i10_la-0.1000-i.i10.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(0_1000_i_i10_la_CFLAGS) $(CFLAGS) -c -o src/plugins/0_1000_i_i10_la-0.1000-i.i10.lo `test -f 'src/plugins/0.1000-i.i10.c' || echo '$(srcdir)/'`src/plugins/0.1000-i.i10.c
+
 src/plugins/0_1000_i10_la-0.1000-i10.lo: src/plugins/0.1000-i10.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(0_1000_i10_la_CFLAGS) $(CFLAGS) -MT src/plugins/0_1000_i10_la-0.1000-i10.lo -MD -MP -MF src/plugins/$(DEPDIR)/0_1000_i10_la-0.1000-i10.Tpo -c -o src/plugins/0_1000_i10_la-0.1000-i10.lo `test -f 'src/plugins/0.1000-i10.c' || echo '$(srcdir)/'`src/plugins/0.1000-i10.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/plugins/$(DEPDIR)/0_1000_i10_la-0.1000-i10.Tpo src/plugins/$(DEPDIR)/0_1000_i10_la-0.1000-i10.Plo
@@ -2651,6 +2739,13 @@ src/plugins/40_identifier_la-40-identifier.lo: src/plugins/40-identifier.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/plugins/40-identifier.c' object='src/plugins/40_identifier_la-40-identifier.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(40_identifier_la_CFLAGS) $(CFLAGS) -c -o src/plugins/40_identifier_la-40-identifier.lo `test -f 'src/plugins/40-identifier.c' || echo '$(srcdir)/'`src/plugins/40-identifier.c
+
+src/plugins/50_decimal_float_la-50-decimal_float.lo: src/plugins/50-decimal_float.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(50_decimal_float_la_CFLAGS) $(CFLAGS) -MT src/plugins/50_decimal_float_la-50-decimal_float.lo -MD -MP -MF src/plugins/$(DEPDIR)/50_decimal_float_la-50-decimal_float.Tpo -c -o src/plugins/50_decimal_float_la-50-decimal_float.lo `test -f 'src/plugins/50-decimal_float.c' || echo '$(srcdir)/'`src/plugins/50-decimal_float.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/plugins/$(DEPDIR)/50_decimal_float_la-50-decimal_float.Tpo src/plugins/$(DEPDIR)/50_decimal_float_la-50-decimal_float.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/plugins/50-decimal_float.c' object='src/plugins/50_decimal_float_la-50-decimal_float.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(50_decimal_float_la_CFLAGS) $(CFLAGS) -c -o src/plugins/50_decimal_float_la-50-decimal_float.lo `test -f 'src/plugins/50-decimal_float.c' || echo '$(srcdir)/'`src/plugins/50-decimal_float.c
 
 src/libhiha/libhiha_la-workspaces.lo: src/libhiha/workspaces.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_la-workspaces.lo -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_la-workspaces.Tpo -c -o src/libhiha/libhiha_la-workspaces.lo `test -f 'src/libhiha/workspaces.c' || echo '$(srcdir)/'`src/libhiha/workspaces.c
@@ -3188,12 +3283,15 @@ distclean: distclean-recursive
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-workspaces.Plo
 	-rm -f src/plugins/$(DEPDIR)/0_1000_cp_la-0.1000-cp.Plo
 	-rm -f src/plugins/$(DEPDIR)/0_1000_eof_la-0.1000-eof.Plo
+	-rm -f src/plugins/$(DEPDIR)/0_1000_f10_la-0.1000-f10.Plo
 	-rm -f src/plugins/$(DEPDIR)/0_1000_i10_la-0.1000-i10.Plo
+	-rm -f src/plugins/$(DEPDIR)/0_1000_i_i10_la-0.1000-i.i10.Plo
 	-rm -f src/plugins/$(DEPDIR)/0_1000_id_la-0.1000-id.Plo
 	-rm -f src/plugins/$(DEPDIR)/0_1000_sp_la-0.1000-sp.Plo
 	-rm -f src/plugins/$(DEPDIR)/20_white_space_la-20-white_space.Plo
 	-rm -f src/plugins/$(DEPDIR)/30_decimal_integer_la-30-decimal_integer.Plo
 	-rm -f src/plugins/$(DEPDIR)/40_identifier_la-40-identifier.Plo
+	-rm -f src/plugins/$(DEPDIR)/50_decimal_float_la-50-decimal_float.Plo
 	-rm -f GNUmakefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-libtool distclean-local distclean-tags
@@ -3255,12 +3353,15 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-workspaces.Plo
 	-rm -f src/plugins/$(DEPDIR)/0_1000_cp_la-0.1000-cp.Plo
 	-rm -f src/plugins/$(DEPDIR)/0_1000_eof_la-0.1000-eof.Plo
+	-rm -f src/plugins/$(DEPDIR)/0_1000_f10_la-0.1000-f10.Plo
 	-rm -f src/plugins/$(DEPDIR)/0_1000_i10_la-0.1000-i10.Plo
+	-rm -f src/plugins/$(DEPDIR)/0_1000_i_i10_la-0.1000-i.i10.Plo
 	-rm -f src/plugins/$(DEPDIR)/0_1000_id_la-0.1000-id.Plo
 	-rm -f src/plugins/$(DEPDIR)/0_1000_sp_la-0.1000-sp.Plo
 	-rm -f src/plugins/$(DEPDIR)/20_white_space_la-20-white_space.Plo
 	-rm -f src/plugins/$(DEPDIR)/30_decimal_integer_la-30-decimal_integer.Plo
 	-rm -f src/plugins/$(DEPDIR)/40_identifier_la-40-identifier.Plo
+	-rm -f src/plugins/$(DEPDIR)/50_decimal_float_la-50-decimal_float.Plo
 	-rm -f GNUmakefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

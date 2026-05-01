@@ -190,33 +190,34 @@ run_autoreconf() {
 
 plugin_automake() {
     _number="$1"
-    _rebmun=`echo ${_number} | tr . _`
+    _rebmun=`echo ${_number} | tr '.' '_'`
     _name="$2"
+    _eman=`echo ${_name} | tr '.-' '__'`
     echo "Creating ${_number}-${_name}.am"
     cat > "${_number}-${_name}.am" <<EOF
 pkg_plugins_lib_LTLIBRARIES += ${_number}-${_name}.la
 
-${_rebmun}_${_name}_la_LIBADD =
-${_rebmun}_${_name}_la_LDFLAGS =
-${_rebmun}_${_name}_la_CFLAGS =
-EXTRA_${_rebmun}_${_name}_la_DEPENDENCIES =
-${_rebmun}_${_name}_la_SOURCES =
+${_rebmun}_${_eman}_la_LIBADD =
+${_rebmun}_${_eman}_la_LDFLAGS =
+${_rebmun}_${_eman}_la_CFLAGS =
+EXTRA_${_rebmun}_${_eman}_la_DEPENDENCIES =
+${_rebmun}_${_eman}_la_SOURCES =
 
-${_rebmun}_${_name}_la_LIBADD += libhiha.la
-${_rebmun}_${_name}_la_LIBADD += lib/libgnu.la
-${_rebmun}_${_name}_la_LIBADD += \$(GCVERS)/libhiha-gc.la
+${_rebmun}_${_eman}_la_LIBADD += libhiha.la
+${_rebmun}_${_eman}_la_LIBADD += lib/libgnu.la
+${_rebmun}_${_eman}_la_LIBADD += \$(GCVERS)/libhiha-gc.la
 
-${_rebmun}_${_name}_la_LDFLAGS += \$(LIBS)
-${_rebmun}_${_name}_la_LDFLAGS += \$(LTLIBICONV)
-${_rebmun}_${_name}_la_LDFLAGS += \$(LTLIBINTL)
-${_rebmun}_${_name}_la_LDFLAGS += \$(LTLIBUNISTRING)
-${_rebmun}_${_name}_la_LDFLAGS += -avoid-version -module
-${_rebmun}_${_name}_la_LDFLAGS += -shared
+${_rebmun}_${_eman}_la_LDFLAGS += \$(LIBS)
+${_rebmun}_${_eman}_la_LDFLAGS += \$(LTLIBICONV)
+${_rebmun}_${_eman}_la_LDFLAGS += \$(LTLIBINTL)
+${_rebmun}_${_eman}_la_LDFLAGS += \$(LTLIBUNISTRING)
+${_rebmun}_${_eman}_la_LDFLAGS += -avoid-version -module
+${_rebmun}_${_eman}_la_LDFLAGS += -shared
 
-${_rebmun}_${_name}_la_CFLAGS += \$(BASICCFLAGS)
-${_rebmun}_${_name}_la_CFLAGS += \$(CFLAGS)
+${_rebmun}_${_eman}_la_CFLAGS += \$(BASICCFLAGS)
+${_rebmun}_${_eman}_la_CFLAGS += \$(CFLAGS)
 
-${_rebmun}_${_name}_la_SOURCES += src/plugins/${_number}-${_name}.c
+${_rebmun}_${_eman}_la_SOURCES += src/plugins/${_number}-${_name}.c
 EOF
 }
 
@@ -230,9 +231,12 @@ EOF
     plugin_automake 0.1000 sp
     plugin_automake 0.1000 i10
     plugin_automake 0.1000 id
+    plugin_automake 0.1000 f10
+    plugin_automake 0.1000 i.i10
     plugin_automake 20 white_space
     plugin_automake 30 decimal_integer
     plugin_automake 40 identifier
+    plugin_automake 50 decimal_float
 
     need_sortsmill_tig && require_sortsmill_tig
     need_pkg_config && require_pkg_config

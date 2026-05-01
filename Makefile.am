@@ -93,9 +93,12 @@ include 0.1000-cp.am
 include 0.1000-sp.am
 include 0.1000-i10.am
 include 0.1000-id.am
+include 0.1000-f10.am
+include 0.1000-i.i10.am
 include 20-white_space.am
 include 30-decimal_integer.am
 include 40-identifier.am
+include 50-decimal_float.am
 
 BUILT_SOURCES += $(GCVERS)/libhiha-gc.la
 

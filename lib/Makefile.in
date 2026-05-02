@@ -61,6 +61,7 @@
 #  mkdtemp \
 #  progname \
 #  scandir \
+#  tmpdir \
 #  unicase/u32-casecoll \
 #  uniconv/u32-conv-from-enc \
 #  uniconv/u32-conv-to-enc \
@@ -200,73 +201,74 @@ host_triplet = @host@
 @GL_COND_OBJ_REALLOC_POSIX_TRUE@am__append_39 = realloc.c
 @GL_COND_OBJ_REALLOCARRAY_TRUE@am__append_40 = reallocarray.c
 @GL_COND_OBJ_SCANDIR_TRUE@am__append_41 = scandir.c
-@GL_COND_OBJ_SETLOCALE_LOCK_TRUE@am__append_42 = setlocale-lock.c
-@GL_COND_OBJ_STAT_TRUE@am__append_43 = stat.c
-@GL_COND_OBJ_STDIO_READ_TRUE@am__append_44 = stdio-read.c
-@GL_COND_OBJ_STDIO_WRITE_TRUE@am__append_45 = stdio-write.c
-@GL_COND_OBJ_STDIO_CONSOLESAFE_TRUE@am__append_46 = stdio-consolesafe.c
-@GL_COND_OBJ_STRERROR_TRUE@am__append_47 = strerror.c
-@GL_COND_OBJ_STRERROR_OVERRIDE_TRUE@am__append_48 = strerror-override.c
-@LIBUNISTRING_COMPILE_UNICASE_EMPTY_PREFIX_CONTEXT_TRUE@am__append_49 = unicase/empty-prefix-context.c
-@LIBUNISTRING_COMPILE_UNICASE_EMPTY_SUFFIX_CONTEXT_TRUE@am__append_50 = unicase/empty-suffix-context.c
-@LIBUNISTRING_COMPILE_UNICASE_TOLOWER_TRUE@am__append_51 = unicase/tolower.c
-@LIBUNISTRING_COMPILE_UNICASE_U32_CASECOLL_TRUE@am__append_52 = unicase/u32-casecoll.c
-@LIBUNISTRING_COMPILE_UNICASE_U32_CASEFOLD_TRUE@am__append_53 = unicase/u32-casefold.c
-@LIBUNISTRING_COMPILE_UNICASE_U32_CASEXFRM_TRUE@am__append_54 = unicase/u32-casexfrm.c
-@LIBUNISTRING_COMPILE_UNICASE_U32_CT_CASEFOLD_TRUE@am__append_55 = unicase/u32-ct-casefold.c
-@LIBUNISTRING_COMPILE_UNICONV_U32_CONV_FROM_ENC_TRUE@am__append_56 = uniconv/u32-conv-from-enc.c
-@LIBUNISTRING_COMPILE_UNICONV_U32_CONV_TO_ENC_TRUE@am__append_57 = uniconv/u32-conv-to-enc.c
-@LIBUNISTRING_COMPILE_UNICONV_U8_CONV_FROM_ENC_TRUE@am__append_58 = uniconv/u8-conv-from-enc.c
-@LIBUNISTRING_COMPILE_UNICONV_U8_CONV_TO_ENC_TRUE@am__append_59 = uniconv/u8-conv-to-enc.c
-@LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_PC_TRUE@am__append_60 = unictype/categ_Pc.c
-@LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_SM_TRUE@am__append_61 = unictype/categ_Sm.c
-@LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_TEST_TRUE@am__append_62 = unictype/categ_test.c
-@LIBUNISTRING_COMPILE_UNICTYPE_COMBINING_CLASS_TRUE@am__append_63 = unictype/combiningclass.c
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_ALNUM_TRUE@am__append_64 = unictype/ctype_alnum.c
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_ALPHA_TRUE@am__append_65 = unictype/ctype_alpha.c
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_BLANK_TRUE@am__append_66 = unictype/ctype_blank.c
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_CNTRL_TRUE@am__append_67 = unictype/ctype_cntrl.c
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_DIGIT_TRUE@am__append_68 = unictype/ctype_digit.c
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_GRAPH_TRUE@am__append_69 = unictype/ctype_graph.c
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_LOWER_TRUE@am__append_70 = unictype/ctype_lower.c
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_PRINT_TRUE@am__append_71 = unictype/ctype_print.c
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_PUNCT_TRUE@am__append_72 = unictype/ctype_punct.c
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_SPACE_TRUE@am__append_73 = unictype/ctype_space.c
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_UPPER_TRUE@am__append_74 = unictype/ctype_upper.c
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_XDIGIT_TRUE@am__append_75 = unictype/ctype_xdigit.c
-@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ID_CONTINUE_TRUE@am__append_76 = unictype/pr_id_continue.c
-@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ID_START_TRUE@am__append_77 = unictype/pr_id_start.c
-@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_SOFT_DOTTED_TRUE@am__append_78 = unictype/pr_soft_dotted.c
-@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_TEST_TRUE@am__append_79 = unictype/pr_test.c
-@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_WHITE_SPACE_TRUE@am__append_80 = unictype/pr_white_space.c
-@LIBUNISTRING_COMPILE_UNINORM_CANONICAL_DECOMPOSITION_TRUE@am__append_81 = uninorm/canonical-decomposition.c
-@LIBUNISTRING_COMPILE_UNINORM_COMPOSITION_TRUE@am__append_82 = uninorm/composition.c
-@LIBUNISTRING_COMPILE_UNINORM_DECOMPOSING_FORM_TRUE@am__append_83 = uninorm/decomposing-form.c
-@LIBUNISTRING_COMPILE_UNINORM_NFC_TRUE@am__append_84 = uninorm/nfc.c
-@LIBUNISTRING_COMPILE_UNINORM_NFD_TRUE@am__append_85 = uninorm/nfd.c
-@LIBUNISTRING_COMPILE_UNINORM_U32_NORMALIZE_TRUE@am__append_86 = uninorm/u32-normalize.c
-@LIBUNISTRING_COMPILE_UNISTR_U32_CHECK_TRUE@am__append_87 = unistr/u32-check.c
-@LIBUNISTRING_COMPILE_UNISTR_U32_CMP_TRUE@am__append_88 = unistr/u32-cmp.c
-@LIBUNISTRING_COMPILE_UNISTR_U32_CMP2_TRUE@am__append_89 = unistr/u32-cmp2.c
-@LIBUNISTRING_COMPILE_UNISTR_U32_CPY_TRUE@am__append_90 = unistr/u32-cpy.c
-@LIBUNISTRING_COMPILE_UNISTR_U32_MBLEN_TRUE@am__append_91 = unistr/u32-mblen.c
-@LIBUNISTRING_COMPILE_UNISTR_U32_MBTOUC_UNSAFE_TRUE@am__append_92 = unistr/u32-mbtouc-unsafe.c
-@LIBUNISTRING_COMPILE_UNISTR_U32_TO_U8_TRUE@am__append_93 = unistr/u32-to-u8.c
-@LIBUNISTRING_COMPILE_UNISTR_U32_UCTOMB_TRUE@am__append_94 = unistr/u32-uctomb.c
-@LIBUNISTRING_COMPILE_UNISTR_U8_CHECK_TRUE@am__append_95 = unistr/u8-check.c
-@LIBUNISTRING_COMPILE_UNISTR_U8_MBLEN_TRUE@am__append_96 = unistr/u8-mblen.c
-@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC_TRUE@am__append_97 = unistr/u8-mbtouc.c unistr/u8-mbtouc-aux.c
-@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC_UNSAFE_TRUE@am__append_98 = unistr/u8-mbtouc-unsafe.c unistr/u8-mbtouc-unsafe-aux.c
-@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUCR_TRUE@am__append_99 = unistr/u8-mbtoucr.c
-@LIBUNISTRING_COMPILE_UNISTR_U8_PREV_TRUE@am__append_100 = unistr/u8-prev.c
-@LIBUNISTRING_COMPILE_UNISTR_U8_TO_U32_TRUE@am__append_101 = unistr/u8-to-u32.c
-@LIBUNISTRING_COMPILE_UNISTR_U8_UCTOMB_TRUE@am__append_102 = unistr/u8-uctomb.c unistr/u8-uctomb-aux.c
-@LIBUNISTRING_COMPILE_UNIWIDTH_WIDTH_TRUE@am__append_103 = uniwidth/width.c
-@GL_COND_OBJ_WCWIDTH_TRUE@am__append_104 = wcwidth.c
-@GL_COND_OBJ_WINDOWS_MUTEX_TRUE@am__append_105 = windows-mutex.c
-@GL_COND_OBJ_WINDOWS_ONCE_TRUE@am__append_106 = windows-once.c
-@GL_COND_OBJ_WINDOWS_RECMUTEX_TRUE@am__append_107 = windows-recmutex.c
-@GL_COND_OBJ_WINDOWS_RWLOCK_TRUE@am__append_108 = windows-rwlock.c
+@GL_COND_OBJ_SECURE_GETENV_TRUE@am__append_42 = secure_getenv.c
+@GL_COND_OBJ_SETLOCALE_LOCK_TRUE@am__append_43 = setlocale-lock.c
+@GL_COND_OBJ_STAT_TRUE@am__append_44 = stat.c
+@GL_COND_OBJ_STDIO_READ_TRUE@am__append_45 = stdio-read.c
+@GL_COND_OBJ_STDIO_WRITE_TRUE@am__append_46 = stdio-write.c
+@GL_COND_OBJ_STDIO_CONSOLESAFE_TRUE@am__append_47 = stdio-consolesafe.c
+@GL_COND_OBJ_STRERROR_TRUE@am__append_48 = strerror.c
+@GL_COND_OBJ_STRERROR_OVERRIDE_TRUE@am__append_49 = strerror-override.c
+@LIBUNISTRING_COMPILE_UNICASE_EMPTY_PREFIX_CONTEXT_TRUE@am__append_50 = unicase/empty-prefix-context.c
+@LIBUNISTRING_COMPILE_UNICASE_EMPTY_SUFFIX_CONTEXT_TRUE@am__append_51 = unicase/empty-suffix-context.c
+@LIBUNISTRING_COMPILE_UNICASE_TOLOWER_TRUE@am__append_52 = unicase/tolower.c
+@LIBUNISTRING_COMPILE_UNICASE_U32_CASECOLL_TRUE@am__append_53 = unicase/u32-casecoll.c
+@LIBUNISTRING_COMPILE_UNICASE_U32_CASEFOLD_TRUE@am__append_54 = unicase/u32-casefold.c
+@LIBUNISTRING_COMPILE_UNICASE_U32_CASEXFRM_TRUE@am__append_55 = unicase/u32-casexfrm.c
+@LIBUNISTRING_COMPILE_UNICASE_U32_CT_CASEFOLD_TRUE@am__append_56 = unicase/u32-ct-casefold.c
+@LIBUNISTRING_COMPILE_UNICONV_U32_CONV_FROM_ENC_TRUE@am__append_57 = uniconv/u32-conv-from-enc.c
+@LIBUNISTRING_COMPILE_UNICONV_U32_CONV_TO_ENC_TRUE@am__append_58 = uniconv/u32-conv-to-enc.c
+@LIBUNISTRING_COMPILE_UNICONV_U8_CONV_FROM_ENC_TRUE@am__append_59 = uniconv/u8-conv-from-enc.c
+@LIBUNISTRING_COMPILE_UNICONV_U8_CONV_TO_ENC_TRUE@am__append_60 = uniconv/u8-conv-to-enc.c
+@LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_PC_TRUE@am__append_61 = unictype/categ_Pc.c
+@LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_SM_TRUE@am__append_62 = unictype/categ_Sm.c
+@LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_TEST_TRUE@am__append_63 = unictype/categ_test.c
+@LIBUNISTRING_COMPILE_UNICTYPE_COMBINING_CLASS_TRUE@am__append_64 = unictype/combiningclass.c
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_ALNUM_TRUE@am__append_65 = unictype/ctype_alnum.c
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_ALPHA_TRUE@am__append_66 = unictype/ctype_alpha.c
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_BLANK_TRUE@am__append_67 = unictype/ctype_blank.c
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_CNTRL_TRUE@am__append_68 = unictype/ctype_cntrl.c
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_DIGIT_TRUE@am__append_69 = unictype/ctype_digit.c
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_GRAPH_TRUE@am__append_70 = unictype/ctype_graph.c
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_LOWER_TRUE@am__append_71 = unictype/ctype_lower.c
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_PRINT_TRUE@am__append_72 = unictype/ctype_print.c
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_PUNCT_TRUE@am__append_73 = unictype/ctype_punct.c
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_SPACE_TRUE@am__append_74 = unictype/ctype_space.c
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_UPPER_TRUE@am__append_75 = unictype/ctype_upper.c
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_XDIGIT_TRUE@am__append_76 = unictype/ctype_xdigit.c
+@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ID_CONTINUE_TRUE@am__append_77 = unictype/pr_id_continue.c
+@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ID_START_TRUE@am__append_78 = unictype/pr_id_start.c
+@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_SOFT_DOTTED_TRUE@am__append_79 = unictype/pr_soft_dotted.c
+@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_TEST_TRUE@am__append_80 = unictype/pr_test.c
+@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_WHITE_SPACE_TRUE@am__append_81 = unictype/pr_white_space.c
+@LIBUNISTRING_COMPILE_UNINORM_CANONICAL_DECOMPOSITION_TRUE@am__append_82 = uninorm/canonical-decomposition.c
+@LIBUNISTRING_COMPILE_UNINORM_COMPOSITION_TRUE@am__append_83 = uninorm/composition.c
+@LIBUNISTRING_COMPILE_UNINORM_DECOMPOSING_FORM_TRUE@am__append_84 = uninorm/decomposing-form.c
+@LIBUNISTRING_COMPILE_UNINORM_NFC_TRUE@am__append_85 = uninorm/nfc.c
+@LIBUNISTRING_COMPILE_UNINORM_NFD_TRUE@am__append_86 = uninorm/nfd.c
+@LIBUNISTRING_COMPILE_UNINORM_U32_NORMALIZE_TRUE@am__append_87 = uninorm/u32-normalize.c
+@LIBUNISTRING_COMPILE_UNISTR_U32_CHECK_TRUE@am__append_88 = unistr/u32-check.c
+@LIBUNISTRING_COMPILE_UNISTR_U32_CMP_TRUE@am__append_89 = unistr/u32-cmp.c
+@LIBUNISTRING_COMPILE_UNISTR_U32_CMP2_TRUE@am__append_90 = unistr/u32-cmp2.c
+@LIBUNISTRING_COMPILE_UNISTR_U32_CPY_TRUE@am__append_91 = unistr/u32-cpy.c
+@LIBUNISTRING_COMPILE_UNISTR_U32_MBLEN_TRUE@am__append_92 = unistr/u32-mblen.c
+@LIBUNISTRING_COMPILE_UNISTR_U32_MBTOUC_UNSAFE_TRUE@am__append_93 = unistr/u32-mbtouc-unsafe.c
+@LIBUNISTRING_COMPILE_UNISTR_U32_TO_U8_TRUE@am__append_94 = unistr/u32-to-u8.c
+@LIBUNISTRING_COMPILE_UNISTR_U32_UCTOMB_TRUE@am__append_95 = unistr/u32-uctomb.c
+@LIBUNISTRING_COMPILE_UNISTR_U8_CHECK_TRUE@am__append_96 = unistr/u8-check.c
+@LIBUNISTRING_COMPILE_UNISTR_U8_MBLEN_TRUE@am__append_97 = unistr/u8-mblen.c
+@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC_TRUE@am__append_98 = unistr/u8-mbtouc.c unistr/u8-mbtouc-aux.c
+@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC_UNSAFE_TRUE@am__append_99 = unistr/u8-mbtouc-unsafe.c unistr/u8-mbtouc-unsafe-aux.c
+@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUCR_TRUE@am__append_100 = unistr/u8-mbtoucr.c
+@LIBUNISTRING_COMPILE_UNISTR_U8_PREV_TRUE@am__append_101 = unistr/u8-prev.c
+@LIBUNISTRING_COMPILE_UNISTR_U8_TO_U32_TRUE@am__append_102 = unistr/u8-to-u32.c
+@LIBUNISTRING_COMPILE_UNISTR_U8_UCTOMB_TRUE@am__append_103 = unistr/u8-uctomb.c unistr/u8-uctomb-aux.c
+@LIBUNISTRING_COMPILE_UNIWIDTH_WIDTH_TRUE@am__append_104 = uniwidth/width.c
+@GL_COND_OBJ_WCWIDTH_TRUE@am__append_105 = wcwidth.c
+@GL_COND_OBJ_WINDOWS_MUTEX_TRUE@am__append_106 = windows-mutex.c
+@GL_COND_OBJ_WINDOWS_ONCE_TRUE@am__append_107 = windows-once.c
+@GL_COND_OBJ_WINDOWS_RECMUTEX_TRUE@am__append_108 = windows-recmutex.c
+@GL_COND_OBJ_WINDOWS_RWLOCK_TRUE@am__append_109 = windows-rwlock.c
 subdir = lib
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
@@ -339,7 +341,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/pthread_rwlock_rdlock.m4 \
 	$(top_srcdir)/m4/readdir.m4 $(top_srcdir)/m4/realloc.m4 \
 	$(top_srcdir)/m4/reallocarray.m4 $(top_srcdir)/m4/scandir.m4 \
-	$(top_srcdir)/m4/sched_h.m4 $(top_srcdir)/m4/setlocale_null.m4 \
+	$(top_srcdir)/m4/sched_h.m4 $(top_srcdir)/m4/secure_getenv.m4 \
+	$(top_srcdir)/m4/setlocale_null.m4 \
 	$(top_srcdir)/m4/size_max.m4 $(top_srcdir)/m4/ssize_t.m4 \
 	$(top_srcdir)/m4/stat-time.m4 $(top_srcdir)/m4/stat.m4 \
 	$(top_srcdir)/m4/stdarg.m4 $(top_srcdir)/m4/stdckdint_h.m4 \
@@ -354,16 +357,17 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/sys_socket_h.m4 \
 	$(top_srcdir)/m4/sys_stat_h.m4 $(top_srcdir)/m4/sys_types_h.m4 \
 	$(top_srcdir)/m4/tempname.m4 $(top_srcdir)/m4/threadlib.m4 \
-	$(top_srcdir)/m4/time_h.m4 $(top_srcdir)/m4/uchar_h.m4 \
-	$(top_srcdir)/m4/unicase_h.m4 $(top_srcdir)/m4/unictype_h.m4 \
-	$(top_srcdir)/m4/uninorm_h.m4 $(top_srcdir)/m4/unistd_h.m4 \
-	$(top_srcdir)/m4/unitypes_h.m4 $(top_srcdir)/m4/vasnprintf.m4 \
-	$(top_srcdir)/m4/version-etc.m4 $(top_srcdir)/m4/visibility.m4 \
-	$(top_srcdir)/m4/warn-on-use.m4 $(top_srcdir)/m4/wchar_h.m4 \
-	$(top_srcdir)/m4/wctype_h.m4 $(top_srcdir)/m4/wcwidth.m4 \
-	$(top_srcdir)/m4/wint_t.m4 $(top_srcdir)/m4/xalloc.m4 \
-	$(top_srcdir)/m4/xsize.m4 $(top_srcdir)/m4/xvasprintf.m4 \
-	$(top_srcdir)/m4/zzgnulib.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/time_h.m4 $(top_srcdir)/m4/tmpdir.m4 \
+	$(top_srcdir)/m4/uchar_h.m4 $(top_srcdir)/m4/unicase_h.m4 \
+	$(top_srcdir)/m4/unictype_h.m4 $(top_srcdir)/m4/uninorm_h.m4 \
+	$(top_srcdir)/m4/unistd_h.m4 $(top_srcdir)/m4/unitypes_h.m4 \
+	$(top_srcdir)/m4/vasnprintf.m4 $(top_srcdir)/m4/version-etc.m4 \
+	$(top_srcdir)/m4/visibility.m4 $(top_srcdir)/m4/warn-on-use.m4 \
+	$(top_srcdir)/m4/wchar_h.m4 $(top_srcdir)/m4/wctype_h.m4 \
+	$(top_srcdir)/m4/wcwidth.m4 $(top_srcdir)/m4/wint_t.m4 \
+	$(top_srcdir)/m4/xalloc.m4 $(top_srcdir)/m4/xsize.m4 \
+	$(top_srcdir)/m4/xvasprintf.m4 $(top_srcdir)/m4/zzgnulib.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(noinst_HEADERS) \
@@ -397,15 +401,15 @@ am__libgnu_la_SOURCES_DIST = amemxfrm.c atexit.c gl_avltree_list.h \
 	msvc-nothrow.c gl_omap.h gl_omap.c glthread/once.h \
 	glthread/once.c open.c opendir.c progname.h progname.c \
 	pthread-once.c readdir.c realloc.c reallocarray.c scandir.c \
-	setlocale_null.c setlocale-lock.c setlocale_null-unlocked.c \
-	size_max.h stat.c stat-time.c stdio-read.c stdio-write.c \
-	stdio-consolesafe.c stdlib.c streq.c strerror.c \
-	strerror-override.c striconveh.h striconveh.c striconveha.h \
-	striconveha.c strnul.c tempname.c glthread/threadlib.c \
-	unicase/cased.c unicase/empty-prefix-context.c \
-	unicase/empty-suffix-context.c unicase/ignorable.c \
-	unicase/special-casing.c unicase/tocasefold.c \
-	unicase/tolower.c unicase/u32-casecoll.c \
+	secure_getenv.c setlocale_null.c setlocale-lock.c \
+	setlocale_null-unlocked.c size_max.h stat.c stat-time.c \
+	stdio-read.c stdio-write.c stdio-consolesafe.c stdlib.c \
+	streq.c strerror.c strerror-override.c striconveh.h \
+	striconveh.c striconveha.h striconveha.c strnul.c tempname.c \
+	glthread/threadlib.c tmpdir.h tmpdir.c unicase/cased.c \
+	unicase/empty-prefix-context.c unicase/empty-suffix-context.c \
+	unicase/ignorable.c unicase/special-casing.c \
+	unicase/tocasefold.c unicase/tolower.c unicase/u32-casecoll.c \
 	unicase/u32-casefold.c unicase/u32-casemap.c \
 	unicase/u32-casexfrm.c unicase/u32-ct-casefold.c \
 	uniconv/u32-conv-from-enc.c uniconv/u32-conv-to-enc.c \
@@ -485,80 +489,82 @@ am__dirstamp = $(am__leading_dot)dirstamp
 @GL_COND_OBJ_REALLOCARRAY_TRUE@am__objects_40 =  \
 @GL_COND_OBJ_REALLOCARRAY_TRUE@	libgnu_la-reallocarray.lo
 @GL_COND_OBJ_SCANDIR_TRUE@am__objects_41 = libgnu_la-scandir.lo
-@GL_COND_OBJ_SETLOCALE_LOCK_TRUE@am__objects_42 =  \
+@GL_COND_OBJ_SECURE_GETENV_TRUE@am__objects_42 =  \
+@GL_COND_OBJ_SECURE_GETENV_TRUE@	libgnu_la-secure_getenv.lo
+@GL_COND_OBJ_SETLOCALE_LOCK_TRUE@am__objects_43 =  \
 @GL_COND_OBJ_SETLOCALE_LOCK_TRUE@	libgnu_la-setlocale-lock.lo
-@GL_COND_OBJ_STAT_TRUE@am__objects_43 = libgnu_la-stat.lo
-@GL_COND_OBJ_STDIO_READ_TRUE@am__objects_44 = libgnu_la-stdio-read.lo
-@GL_COND_OBJ_STDIO_WRITE_TRUE@am__objects_45 =  \
+@GL_COND_OBJ_STAT_TRUE@am__objects_44 = libgnu_la-stat.lo
+@GL_COND_OBJ_STDIO_READ_TRUE@am__objects_45 = libgnu_la-stdio-read.lo
+@GL_COND_OBJ_STDIO_WRITE_TRUE@am__objects_46 =  \
 @GL_COND_OBJ_STDIO_WRITE_TRUE@	libgnu_la-stdio-write.lo
-@GL_COND_OBJ_STDIO_CONSOLESAFE_TRUE@am__objects_46 = libgnu_la-stdio-consolesafe.lo
-@GL_COND_OBJ_STRERROR_TRUE@am__objects_47 = libgnu_la-strerror.lo
-@GL_COND_OBJ_STRERROR_OVERRIDE_TRUE@am__objects_48 = libgnu_la-strerror-override.lo
-@LIBUNISTRING_COMPILE_UNICASE_EMPTY_PREFIX_CONTEXT_TRUE@am__objects_49 = unicase/libgnu_la-empty-prefix-context.lo
-@LIBUNISTRING_COMPILE_UNICASE_EMPTY_SUFFIX_CONTEXT_TRUE@am__objects_50 = unicase/libgnu_la-empty-suffix-context.lo
-@LIBUNISTRING_COMPILE_UNICASE_TOLOWER_TRUE@am__objects_51 = unicase/libgnu_la-tolower.lo
-@LIBUNISTRING_COMPILE_UNICASE_U32_CASECOLL_TRUE@am__objects_52 = unicase/libgnu_la-u32-casecoll.lo
-@LIBUNISTRING_COMPILE_UNICASE_U32_CASEFOLD_TRUE@am__objects_53 = unicase/libgnu_la-u32-casefold.lo
-@LIBUNISTRING_COMPILE_UNICASE_U32_CASEXFRM_TRUE@am__objects_54 = unicase/libgnu_la-u32-casexfrm.lo
-@LIBUNISTRING_COMPILE_UNICASE_U32_CT_CASEFOLD_TRUE@am__objects_55 = unicase/libgnu_la-u32-ct-casefold.lo
-@LIBUNISTRING_COMPILE_UNICONV_U32_CONV_FROM_ENC_TRUE@am__objects_56 = uniconv/libgnu_la-u32-conv-from-enc.lo
-@LIBUNISTRING_COMPILE_UNICONV_U32_CONV_TO_ENC_TRUE@am__objects_57 = uniconv/libgnu_la-u32-conv-to-enc.lo
-@LIBUNISTRING_COMPILE_UNICONV_U8_CONV_FROM_ENC_TRUE@am__objects_58 = uniconv/libgnu_la-u8-conv-from-enc.lo
-@LIBUNISTRING_COMPILE_UNICONV_U8_CONV_TO_ENC_TRUE@am__objects_59 = uniconv/libgnu_la-u8-conv-to-enc.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_PC_TRUE@am__objects_60 = unictype/libgnu_la-categ_Pc.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_SM_TRUE@am__objects_61 = unictype/libgnu_la-categ_Sm.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_TEST_TRUE@am__objects_62 = unictype/libgnu_la-categ_test.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_COMBINING_CLASS_TRUE@am__objects_63 = unictype/libgnu_la-combiningclass.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_ALNUM_TRUE@am__objects_64 = unictype/libgnu_la-ctype_alnum.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_ALPHA_TRUE@am__objects_65 = unictype/libgnu_la-ctype_alpha.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_BLANK_TRUE@am__objects_66 = unictype/libgnu_la-ctype_blank.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_CNTRL_TRUE@am__objects_67 = unictype/libgnu_la-ctype_cntrl.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_DIGIT_TRUE@am__objects_68 = unictype/libgnu_la-ctype_digit.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_GRAPH_TRUE@am__objects_69 = unictype/libgnu_la-ctype_graph.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_LOWER_TRUE@am__objects_70 = unictype/libgnu_la-ctype_lower.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_PRINT_TRUE@am__objects_71 = unictype/libgnu_la-ctype_print.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_PUNCT_TRUE@am__objects_72 = unictype/libgnu_la-ctype_punct.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_SPACE_TRUE@am__objects_73 = unictype/libgnu_la-ctype_space.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_UPPER_TRUE@am__objects_74 = unictype/libgnu_la-ctype_upper.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_XDIGIT_TRUE@am__objects_75 = unictype/libgnu_la-ctype_xdigit.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ID_CONTINUE_TRUE@am__objects_76 = unictype/libgnu_la-pr_id_continue.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ID_START_TRUE@am__objects_77 = unictype/libgnu_la-pr_id_start.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_SOFT_DOTTED_TRUE@am__objects_78 = unictype/libgnu_la-pr_soft_dotted.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_TEST_TRUE@am__objects_79 = unictype/libgnu_la-pr_test.lo
-@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_WHITE_SPACE_TRUE@am__objects_80 = unictype/libgnu_la-pr_white_space.lo
-@LIBUNISTRING_COMPILE_UNINORM_CANONICAL_DECOMPOSITION_TRUE@am__objects_81 = uninorm/libgnu_la-canonical-decomposition.lo
-@LIBUNISTRING_COMPILE_UNINORM_COMPOSITION_TRUE@am__objects_82 = uninorm/libgnu_la-composition.lo
-@LIBUNISTRING_COMPILE_UNINORM_DECOMPOSING_FORM_TRUE@am__objects_83 = uninorm/libgnu_la-decomposing-form.lo
-@LIBUNISTRING_COMPILE_UNINORM_NFC_TRUE@am__objects_84 = uninorm/libgnu_la-nfc.lo
-@LIBUNISTRING_COMPILE_UNINORM_NFD_TRUE@am__objects_85 = uninorm/libgnu_la-nfd.lo
-@LIBUNISTRING_COMPILE_UNINORM_U32_NORMALIZE_TRUE@am__objects_86 = uninorm/libgnu_la-u32-normalize.lo
-@LIBUNISTRING_COMPILE_UNISTR_U32_CHECK_TRUE@am__objects_87 = unistr/libgnu_la-u32-check.lo
-@LIBUNISTRING_COMPILE_UNISTR_U32_CMP_TRUE@am__objects_88 = unistr/libgnu_la-u32-cmp.lo
-@LIBUNISTRING_COMPILE_UNISTR_U32_CMP2_TRUE@am__objects_89 = unistr/libgnu_la-u32-cmp2.lo
-@LIBUNISTRING_COMPILE_UNISTR_U32_CPY_TRUE@am__objects_90 = unistr/libgnu_la-u32-cpy.lo
-@LIBUNISTRING_COMPILE_UNISTR_U32_MBLEN_TRUE@am__objects_91 = unistr/libgnu_la-u32-mblen.lo
-@LIBUNISTRING_COMPILE_UNISTR_U32_MBTOUC_UNSAFE_TRUE@am__objects_92 = unistr/libgnu_la-u32-mbtouc-unsafe.lo
-@LIBUNISTRING_COMPILE_UNISTR_U32_TO_U8_TRUE@am__objects_93 = unistr/libgnu_la-u32-to-u8.lo
-@LIBUNISTRING_COMPILE_UNISTR_U32_UCTOMB_TRUE@am__objects_94 = unistr/libgnu_la-u32-uctomb.lo
-@LIBUNISTRING_COMPILE_UNISTR_U8_CHECK_TRUE@am__objects_95 = unistr/libgnu_la-u8-check.lo
-@LIBUNISTRING_COMPILE_UNISTR_U8_MBLEN_TRUE@am__objects_96 = unistr/libgnu_la-u8-mblen.lo
-@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC_TRUE@am__objects_97 = unistr/libgnu_la-u8-mbtouc.lo \
+@GL_COND_OBJ_STDIO_CONSOLESAFE_TRUE@am__objects_47 = libgnu_la-stdio-consolesafe.lo
+@GL_COND_OBJ_STRERROR_TRUE@am__objects_48 = libgnu_la-strerror.lo
+@GL_COND_OBJ_STRERROR_OVERRIDE_TRUE@am__objects_49 = libgnu_la-strerror-override.lo
+@LIBUNISTRING_COMPILE_UNICASE_EMPTY_PREFIX_CONTEXT_TRUE@am__objects_50 = unicase/libgnu_la-empty-prefix-context.lo
+@LIBUNISTRING_COMPILE_UNICASE_EMPTY_SUFFIX_CONTEXT_TRUE@am__objects_51 = unicase/libgnu_la-empty-suffix-context.lo
+@LIBUNISTRING_COMPILE_UNICASE_TOLOWER_TRUE@am__objects_52 = unicase/libgnu_la-tolower.lo
+@LIBUNISTRING_COMPILE_UNICASE_U32_CASECOLL_TRUE@am__objects_53 = unicase/libgnu_la-u32-casecoll.lo
+@LIBUNISTRING_COMPILE_UNICASE_U32_CASEFOLD_TRUE@am__objects_54 = unicase/libgnu_la-u32-casefold.lo
+@LIBUNISTRING_COMPILE_UNICASE_U32_CASEXFRM_TRUE@am__objects_55 = unicase/libgnu_la-u32-casexfrm.lo
+@LIBUNISTRING_COMPILE_UNICASE_U32_CT_CASEFOLD_TRUE@am__objects_56 = unicase/libgnu_la-u32-ct-casefold.lo
+@LIBUNISTRING_COMPILE_UNICONV_U32_CONV_FROM_ENC_TRUE@am__objects_57 = uniconv/libgnu_la-u32-conv-from-enc.lo
+@LIBUNISTRING_COMPILE_UNICONV_U32_CONV_TO_ENC_TRUE@am__objects_58 = uniconv/libgnu_la-u32-conv-to-enc.lo
+@LIBUNISTRING_COMPILE_UNICONV_U8_CONV_FROM_ENC_TRUE@am__objects_59 = uniconv/libgnu_la-u8-conv-from-enc.lo
+@LIBUNISTRING_COMPILE_UNICONV_U8_CONV_TO_ENC_TRUE@am__objects_60 = uniconv/libgnu_la-u8-conv-to-enc.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_PC_TRUE@am__objects_61 = unictype/libgnu_la-categ_Pc.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_SM_TRUE@am__objects_62 = unictype/libgnu_la-categ_Sm.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_TEST_TRUE@am__objects_63 = unictype/libgnu_la-categ_test.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_COMBINING_CLASS_TRUE@am__objects_64 = unictype/libgnu_la-combiningclass.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_ALNUM_TRUE@am__objects_65 = unictype/libgnu_la-ctype_alnum.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_ALPHA_TRUE@am__objects_66 = unictype/libgnu_la-ctype_alpha.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_BLANK_TRUE@am__objects_67 = unictype/libgnu_la-ctype_blank.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_CNTRL_TRUE@am__objects_68 = unictype/libgnu_la-ctype_cntrl.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_DIGIT_TRUE@am__objects_69 = unictype/libgnu_la-ctype_digit.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_GRAPH_TRUE@am__objects_70 = unictype/libgnu_la-ctype_graph.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_LOWER_TRUE@am__objects_71 = unictype/libgnu_la-ctype_lower.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_PRINT_TRUE@am__objects_72 = unictype/libgnu_la-ctype_print.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_PUNCT_TRUE@am__objects_73 = unictype/libgnu_la-ctype_punct.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_SPACE_TRUE@am__objects_74 = unictype/libgnu_la-ctype_space.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_UPPER_TRUE@am__objects_75 = unictype/libgnu_la-ctype_upper.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_CTYPE_XDIGIT_TRUE@am__objects_76 = unictype/libgnu_la-ctype_xdigit.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ID_CONTINUE_TRUE@am__objects_77 = unictype/libgnu_la-pr_id_continue.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ID_START_TRUE@am__objects_78 = unictype/libgnu_la-pr_id_start.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_SOFT_DOTTED_TRUE@am__objects_79 = unictype/libgnu_la-pr_soft_dotted.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_TEST_TRUE@am__objects_80 = unictype/libgnu_la-pr_test.lo
+@LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_WHITE_SPACE_TRUE@am__objects_81 = unictype/libgnu_la-pr_white_space.lo
+@LIBUNISTRING_COMPILE_UNINORM_CANONICAL_DECOMPOSITION_TRUE@am__objects_82 = uninorm/libgnu_la-canonical-decomposition.lo
+@LIBUNISTRING_COMPILE_UNINORM_COMPOSITION_TRUE@am__objects_83 = uninorm/libgnu_la-composition.lo
+@LIBUNISTRING_COMPILE_UNINORM_DECOMPOSING_FORM_TRUE@am__objects_84 = uninorm/libgnu_la-decomposing-form.lo
+@LIBUNISTRING_COMPILE_UNINORM_NFC_TRUE@am__objects_85 = uninorm/libgnu_la-nfc.lo
+@LIBUNISTRING_COMPILE_UNINORM_NFD_TRUE@am__objects_86 = uninorm/libgnu_la-nfd.lo
+@LIBUNISTRING_COMPILE_UNINORM_U32_NORMALIZE_TRUE@am__objects_87 = uninorm/libgnu_la-u32-normalize.lo
+@LIBUNISTRING_COMPILE_UNISTR_U32_CHECK_TRUE@am__objects_88 = unistr/libgnu_la-u32-check.lo
+@LIBUNISTRING_COMPILE_UNISTR_U32_CMP_TRUE@am__objects_89 = unistr/libgnu_la-u32-cmp.lo
+@LIBUNISTRING_COMPILE_UNISTR_U32_CMP2_TRUE@am__objects_90 = unistr/libgnu_la-u32-cmp2.lo
+@LIBUNISTRING_COMPILE_UNISTR_U32_CPY_TRUE@am__objects_91 = unistr/libgnu_la-u32-cpy.lo
+@LIBUNISTRING_COMPILE_UNISTR_U32_MBLEN_TRUE@am__objects_92 = unistr/libgnu_la-u32-mblen.lo
+@LIBUNISTRING_COMPILE_UNISTR_U32_MBTOUC_UNSAFE_TRUE@am__objects_93 = unistr/libgnu_la-u32-mbtouc-unsafe.lo
+@LIBUNISTRING_COMPILE_UNISTR_U32_TO_U8_TRUE@am__objects_94 = unistr/libgnu_la-u32-to-u8.lo
+@LIBUNISTRING_COMPILE_UNISTR_U32_UCTOMB_TRUE@am__objects_95 = unistr/libgnu_la-u32-uctomb.lo
+@LIBUNISTRING_COMPILE_UNISTR_U8_CHECK_TRUE@am__objects_96 = unistr/libgnu_la-u8-check.lo
+@LIBUNISTRING_COMPILE_UNISTR_U8_MBLEN_TRUE@am__objects_97 = unistr/libgnu_la-u8-mblen.lo
+@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC_TRUE@am__objects_98 = unistr/libgnu_la-u8-mbtouc.lo \
 @LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC_TRUE@	unistr/libgnu_la-u8-mbtouc-aux.lo
-@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC_UNSAFE_TRUE@am__objects_98 = unistr/libgnu_la-u8-mbtouc-unsafe.lo \
+@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC_UNSAFE_TRUE@am__objects_99 = unistr/libgnu_la-u8-mbtouc-unsafe.lo \
 @LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUC_UNSAFE_TRUE@	unistr/libgnu_la-u8-mbtouc-unsafe-aux.lo
-@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUCR_TRUE@am__objects_99 = unistr/libgnu_la-u8-mbtoucr.lo
-@LIBUNISTRING_COMPILE_UNISTR_U8_PREV_TRUE@am__objects_100 = unistr/libgnu_la-u8-prev.lo
-@LIBUNISTRING_COMPILE_UNISTR_U8_TO_U32_TRUE@am__objects_101 = unistr/libgnu_la-u8-to-u32.lo
-@LIBUNISTRING_COMPILE_UNISTR_U8_UCTOMB_TRUE@am__objects_102 = unistr/libgnu_la-u8-uctomb.lo \
+@LIBUNISTRING_COMPILE_UNISTR_U8_MBTOUCR_TRUE@am__objects_100 = unistr/libgnu_la-u8-mbtoucr.lo
+@LIBUNISTRING_COMPILE_UNISTR_U8_PREV_TRUE@am__objects_101 = unistr/libgnu_la-u8-prev.lo
+@LIBUNISTRING_COMPILE_UNISTR_U8_TO_U32_TRUE@am__objects_102 = unistr/libgnu_la-u8-to-u32.lo
+@LIBUNISTRING_COMPILE_UNISTR_U8_UCTOMB_TRUE@am__objects_103 = unistr/libgnu_la-u8-uctomb.lo \
 @LIBUNISTRING_COMPILE_UNISTR_U8_UCTOMB_TRUE@	unistr/libgnu_la-u8-uctomb-aux.lo
-@LIBUNISTRING_COMPILE_UNIWIDTH_WIDTH_TRUE@am__objects_103 = uniwidth/libgnu_la-width.lo
-@GL_COND_OBJ_WCWIDTH_TRUE@am__objects_104 = libgnu_la-wcwidth.lo
-@GL_COND_OBJ_WINDOWS_MUTEX_TRUE@am__objects_105 =  \
+@LIBUNISTRING_COMPILE_UNIWIDTH_WIDTH_TRUE@am__objects_104 = uniwidth/libgnu_la-width.lo
+@GL_COND_OBJ_WCWIDTH_TRUE@am__objects_105 = libgnu_la-wcwidth.lo
+@GL_COND_OBJ_WINDOWS_MUTEX_TRUE@am__objects_106 =  \
 @GL_COND_OBJ_WINDOWS_MUTEX_TRUE@	libgnu_la-windows-mutex.lo
-@GL_COND_OBJ_WINDOWS_ONCE_TRUE@am__objects_106 =  \
+@GL_COND_OBJ_WINDOWS_ONCE_TRUE@am__objects_107 =  \
 @GL_COND_OBJ_WINDOWS_ONCE_TRUE@	libgnu_la-windows-once.lo
-@GL_COND_OBJ_WINDOWS_RECMUTEX_TRUE@am__objects_107 = libgnu_la-windows-recmutex.lo
-@GL_COND_OBJ_WINDOWS_RWLOCK_TRUE@am__objects_108 =  \
+@GL_COND_OBJ_WINDOWS_RECMUTEX_TRUE@am__objects_108 = libgnu_la-windows-recmutex.lo
+@GL_COND_OBJ_WINDOWS_RWLOCK_TRUE@am__objects_109 =  \
 @GL_COND_OBJ_WINDOWS_RWLOCK_TRUE@	libgnu_la-windows-rwlock.lo
 am_libgnu_la_OBJECTS = libgnu_la-amemxfrm.lo $(am__objects_1) \
 	libgnu_la-gl_avltree_list.lo libgnu_la-gl_avltree_omap.lo \
@@ -592,42 +598,43 @@ am_libgnu_la_OBJECTS = libgnu_la-amemxfrm.lo $(am__objects_1) \
 	libgnu_la-gl_omap.lo glthread/libgnu_la-once.lo \
 	$(am__objects_35) $(am__objects_36) libgnu_la-progname.lo \
 	$(am__objects_37) $(am__objects_38) $(am__objects_39) \
-	$(am__objects_40) $(am__objects_41) \
-	libgnu_la-setlocale_null.lo $(am__objects_42) \
-	libgnu_la-setlocale_null-unlocked.lo $(am__objects_43) \
-	libgnu_la-stat-time.lo $(am__objects_44) $(am__objects_45) \
-	$(am__objects_46) libgnu_la-stdlib.lo libgnu_la-streq.lo \
-	$(am__objects_47) $(am__objects_48) libgnu_la-striconveh.lo \
+	$(am__objects_40) $(am__objects_41) $(am__objects_42) \
+	libgnu_la-setlocale_null.lo $(am__objects_43) \
+	libgnu_la-setlocale_null-unlocked.lo $(am__objects_44) \
+	libgnu_la-stat-time.lo $(am__objects_45) $(am__objects_46) \
+	$(am__objects_47) libgnu_la-stdlib.lo libgnu_la-streq.lo \
+	$(am__objects_48) $(am__objects_49) libgnu_la-striconveh.lo \
 	libgnu_la-striconveha.lo libgnu_la-strnul.lo \
 	libgnu_la-tempname.lo glthread/libgnu_la-threadlib.lo \
-	unicase/libgnu_la-cased.lo $(am__objects_49) $(am__objects_50) \
+	libgnu_la-tmpdir.lo unicase/libgnu_la-cased.lo \
+	$(am__objects_50) $(am__objects_51) \
 	unicase/libgnu_la-ignorable.lo \
 	unicase/libgnu_la-special-casing.lo \
-	unicase/libgnu_la-tocasefold.lo $(am__objects_51) \
-	$(am__objects_52) $(am__objects_53) \
-	unicase/libgnu_la-u32-casemap.lo $(am__objects_54) \
-	$(am__objects_55) $(am__objects_56) $(am__objects_57) \
-	$(am__objects_58) $(am__objects_59) $(am__objects_60) \
-	$(am__objects_61) $(am__objects_62) $(am__objects_63) \
-	$(am__objects_64) $(am__objects_65) $(am__objects_66) \
-	$(am__objects_67) $(am__objects_68) $(am__objects_69) \
-	$(am__objects_70) $(am__objects_71) $(am__objects_72) \
-	$(am__objects_73) $(am__objects_74) $(am__objects_75) \
-	$(am__objects_76) $(am__objects_77) $(am__objects_78) \
-	$(am__objects_79) $(am__objects_80) $(am__objects_81) \
-	$(am__objects_82) uninorm/libgnu_la-decompose-internal.lo \
-	$(am__objects_83) uninorm/libgnu_la-decomposition-table.lo \
-	$(am__objects_84) $(am__objects_85) $(am__objects_86) \
-	libgnu_la-unistd.lo $(am__objects_87) $(am__objects_88) \
-	$(am__objects_89) $(am__objects_90) $(am__objects_91) \
-	$(am__objects_92) $(am__objects_93) $(am__objects_94) \
-	$(am__objects_95) $(am__objects_96) $(am__objects_97) \
-	$(am__objects_98) $(am__objects_99) $(am__objects_100) \
-	$(am__objects_101) $(am__objects_102) $(am__objects_103) \
+	unicase/libgnu_la-tocasefold.lo $(am__objects_52) \
+	$(am__objects_53) $(am__objects_54) \
+	unicase/libgnu_la-u32-casemap.lo $(am__objects_55) \
+	$(am__objects_56) $(am__objects_57) $(am__objects_58) \
+	$(am__objects_59) $(am__objects_60) $(am__objects_61) \
+	$(am__objects_62) $(am__objects_63) $(am__objects_64) \
+	$(am__objects_65) $(am__objects_66) $(am__objects_67) \
+	$(am__objects_68) $(am__objects_69) $(am__objects_70) \
+	$(am__objects_71) $(am__objects_72) $(am__objects_73) \
+	$(am__objects_74) $(am__objects_75) $(am__objects_76) \
+	$(am__objects_77) $(am__objects_78) $(am__objects_79) \
+	$(am__objects_80) $(am__objects_81) $(am__objects_82) \
+	$(am__objects_83) uninorm/libgnu_la-decompose-internal.lo \
+	$(am__objects_84) uninorm/libgnu_la-decomposition-table.lo \
+	$(am__objects_85) $(am__objects_86) $(am__objects_87) \
+	libgnu_la-unistd.lo $(am__objects_88) $(am__objects_89) \
+	$(am__objects_90) $(am__objects_91) $(am__objects_92) \
+	$(am__objects_93) $(am__objects_94) $(am__objects_95) \
+	$(am__objects_96) $(am__objects_97) $(am__objects_98) \
+	$(am__objects_99) $(am__objects_100) $(am__objects_101) \
+	$(am__objects_102) $(am__objects_103) $(am__objects_104) \
 	libgnu_la-vaszprintf.lo libgnu_la-aszprintf.lo \
 	libgnu_la-version-etc.lo libgnu_la-wctype-h.lo \
-	$(am__objects_104) $(am__objects_105) $(am__objects_106) \
-	$(am__objects_107) $(am__objects_108) libgnu_la-xmalloc.lo \
+	$(am__objects_105) $(am__objects_106) $(am__objects_107) \
+	$(am__objects_108) $(am__objects_109) libgnu_la-xmalloc.lo \
 	libgnu_la-xalloc-die.lo libgnu_la-gl_xlist.lo \
 	libgnu_la-gl_xomap.lo libgnu_la-xsize.lo \
 	libgnu_la-xstrerror.lo libgnu_la-xvasprintf.lo \
@@ -745,6 +752,7 @@ am__depfiles_remade = ./$(DEPDIR)/libgnu_la-amemxfrm.Plo \
 	./$(DEPDIR)/libgnu_la-realloc.Plo \
 	./$(DEPDIR)/libgnu_la-reallocarray.Plo \
 	./$(DEPDIR)/libgnu_la-scandir.Plo \
+	./$(DEPDIR)/libgnu_la-secure_getenv.Plo \
 	./$(DEPDIR)/libgnu_la-setlocale-lock.Plo \
 	./$(DEPDIR)/libgnu_la-setlocale_null-unlocked.Plo \
 	./$(DEPDIR)/libgnu_la-setlocale_null.Plo \
@@ -764,6 +772,7 @@ am__depfiles_remade = ./$(DEPDIR)/libgnu_la-amemxfrm.Plo \
 	./$(DEPDIR)/libgnu_la-stripslash.Plo \
 	./$(DEPDIR)/libgnu_la-strnul.Plo \
 	./$(DEPDIR)/libgnu_la-tempname.Plo \
+	./$(DEPDIR)/libgnu_la-tmpdir.Plo \
 	./$(DEPDIR)/libgnu_la-unistd.Plo \
 	./$(DEPDIR)/libgnu_la-vasnprintf.Plo \
 	./$(DEPDIR)/libgnu_la-vaszprintf.Plo \
@@ -2625,16 +2634,16 @@ libgnu_la_SOURCES = amemxfrm.c $(am__append_1) gl_avltree_list.h \
 	$(am__append_34) gl_omap.h gl_omap.c glthread/once.h \
 	glthread/once.c $(am__append_35) $(am__append_36) progname.h \
 	progname.c $(am__append_37) $(am__append_38) $(am__append_39) \
-	$(am__append_40) $(am__append_41) setlocale_null.c \
-	$(am__append_42) setlocale_null-unlocked.c size_max.h \
-	$(am__append_43) stat-time.c $(am__append_44) $(am__append_45) \
-	$(am__append_46) stdlib.c streq.c $(am__append_47) \
-	$(am__append_48) striconveh.h striconveh.c striconveha.h \
-	striconveha.c strnul.c tempname.c glthread/threadlib.c \
-	unicase/cased.c $(am__append_49) $(am__append_50) \
-	unicase/ignorable.c unicase/special-casing.c \
-	unicase/tocasefold.c $(am__append_51) $(am__append_52) \
-	$(am__append_53) unicase/u32-casemap.c $(am__append_54) \
+	$(am__append_40) $(am__append_41) $(am__append_42) \
+	setlocale_null.c $(am__append_43) setlocale_null-unlocked.c \
+	size_max.h $(am__append_44) stat-time.c $(am__append_45) \
+	$(am__append_46) $(am__append_47) stdlib.c streq.c \
+	$(am__append_48) $(am__append_49) striconveh.h striconveh.c \
+	striconveha.h striconveha.c strnul.c tempname.c \
+	glthread/threadlib.c tmpdir.h tmpdir.c unicase/cased.c \
+	$(am__append_50) $(am__append_51) unicase/ignorable.c \
+	unicase/special-casing.c unicase/tocasefold.c $(am__append_52) \
+	$(am__append_53) $(am__append_54) unicase/u32-casemap.c \
 	$(am__append_55) $(am__append_56) $(am__append_57) \
 	$(am__append_58) $(am__append_59) $(am__append_60) \
 	$(am__append_61) $(am__append_62) $(am__append_63) \
@@ -2644,19 +2653,19 @@ libgnu_la_SOURCES = amemxfrm.c $(am__append_1) gl_avltree_list.h \
 	$(am__append_73) $(am__append_74) $(am__append_75) \
 	$(am__append_76) $(am__append_77) $(am__append_78) \
 	$(am__append_79) $(am__append_80) $(am__append_81) \
-	$(am__append_82) uninorm/decompose-internal.c $(am__append_83) \
-	uninorm/decomposition-table.c $(am__append_84) \
-	$(am__append_85) $(am__append_86) unistd.c $(am__append_87) \
+	$(am__append_82) $(am__append_83) uninorm/decompose-internal.c \
+	$(am__append_84) uninorm/decomposition-table.c \
+	$(am__append_85) $(am__append_86) $(am__append_87) unistd.c \
 	$(am__append_88) $(am__append_89) $(am__append_90) \
 	$(am__append_91) $(am__append_92) $(am__append_93) \
 	$(am__append_94) $(am__append_95) $(am__append_96) \
 	$(am__append_97) $(am__append_98) $(am__append_99) \
 	$(am__append_100) $(am__append_101) $(am__append_102) \
-	$(am__append_103) vaszprintf.c aszprintf.c version-etc.h \
-	version-etc.c wctype-h.c $(am__append_104) $(am__append_105) \
+	$(am__append_103) $(am__append_104) vaszprintf.c aszprintf.c \
+	version-etc.h version-etc.c wctype-h.c $(am__append_105) \
 	$(am__append_106) $(am__append_107) $(am__append_108) \
-	xmalloc.c xalloc-die.c gl_xlist.h gl_xlist.c gl_xomap.h \
-	gl_xomap.c xsize.h xsize.c xstrerror.c xvasprintf.h \
+	$(am__append_109) xmalloc.c xalloc-die.c gl_xlist.h gl_xlist.c \
+	gl_xomap.h gl_xomap.c xsize.h xsize.c xstrerror.c xvasprintf.h \
 	xvasprintf.c xasprintf.c
 libgnu_la_CFLAGS = $(AM_CFLAGS) $(GL_CFLAG_GNULIB_WARNINGS) $(GL_CFLAG_ALLOW_WARNINGS)
 libgnu_la_LIBADD = $(gl_libgnu_LTLIBOBJS)
@@ -3055,6 +3064,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-realloc.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-reallocarray.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-scandir.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-secure_getenv.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-setlocale-lock.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-setlocale_null-unlocked.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-setlocale_null.Plo@am__quote@ # am--include-marker
@@ -3074,6 +3084,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-stripslash.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-strnul.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-tempname.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-tmpdir.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-unistd.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-vasnprintf.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-vaszprintf.Plo@am__quote@ # am--include-marker
@@ -3784,6 +3795,13 @@ libgnu_la-scandir.lo: scandir.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -c -o libgnu_la-scandir.lo `test -f 'scandir.c' || echo '$(srcdir)/'`scandir.c
 
+libgnu_la-secure_getenv.lo: secure_getenv.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -MT libgnu_la-secure_getenv.lo -MD -MP -MF $(DEPDIR)/libgnu_la-secure_getenv.Tpo -c -o libgnu_la-secure_getenv.lo `test -f 'secure_getenv.c' || echo '$(srcdir)/'`secure_getenv.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgnu_la-secure_getenv.Tpo $(DEPDIR)/libgnu_la-secure_getenv.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='secure_getenv.c' object='libgnu_la-secure_getenv.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -c -o libgnu_la-secure_getenv.lo `test -f 'secure_getenv.c' || echo '$(srcdir)/'`secure_getenv.c
+
 libgnu_la-setlocale_null.lo: setlocale_null.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -MT libgnu_la-setlocale_null.lo -MD -MP -MF $(DEPDIR)/libgnu_la-setlocale_null.Tpo -c -o libgnu_la-setlocale_null.lo `test -f 'setlocale_null.c' || echo '$(srcdir)/'`setlocale_null.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgnu_la-setlocale_null.Tpo $(DEPDIR)/libgnu_la-setlocale_null.Plo
@@ -3902,6 +3920,13 @@ glthread/libgnu_la-threadlib.lo: glthread/threadlib.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='glthread/threadlib.c' object='glthread/libgnu_la-threadlib.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -c -o glthread/libgnu_la-threadlib.lo `test -f 'glthread/threadlib.c' || echo '$(srcdir)/'`glthread/threadlib.c
+
+libgnu_la-tmpdir.lo: tmpdir.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -MT libgnu_la-tmpdir.lo -MD -MP -MF $(DEPDIR)/libgnu_la-tmpdir.Tpo -c -o libgnu_la-tmpdir.lo `test -f 'tmpdir.c' || echo '$(srcdir)/'`tmpdir.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgnu_la-tmpdir.Tpo $(DEPDIR)/libgnu_la-tmpdir.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='tmpdir.c' object='libgnu_la-tmpdir.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -c -o libgnu_la-tmpdir.lo `test -f 'tmpdir.c' || echo '$(srcdir)/'`tmpdir.c
 
 unicase/libgnu_la-cased.lo: unicase/cased.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -MT unicase/libgnu_la-cased.lo -MD -MP -MF unicase/$(DEPDIR)/libgnu_la-cased.Tpo -c -o unicase/libgnu_la-cased.lo `test -f 'unicase/cased.c' || echo '$(srcdir)/'`unicase/cased.c
@@ -4903,6 +4928,7 @@ distclean: distclean-recursive
 	-rm -f ./$(DEPDIR)/libgnu_la-realloc.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-reallocarray.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-scandir.Plo
+	-rm -f ./$(DEPDIR)/libgnu_la-secure_getenv.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-setlocale-lock.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-setlocale_null-unlocked.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-setlocale_null.Plo
@@ -4922,6 +4948,7 @@ distclean: distclean-recursive
 	-rm -f ./$(DEPDIR)/libgnu_la-stripslash.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-strnul.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-tempname.Plo
+	-rm -f ./$(DEPDIR)/libgnu_la-tmpdir.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-unistd.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-vasnprintf.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-vaszprintf.Plo
@@ -5143,6 +5170,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f ./$(DEPDIR)/libgnu_la-realloc.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-reallocarray.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-scandir.Plo
+	-rm -f ./$(DEPDIR)/libgnu_la-secure_getenv.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-setlocale-lock.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-setlocale_null-unlocked.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-setlocale_null.Plo
@@ -5162,6 +5190,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f ./$(DEPDIR)/libgnu_la-stripslash.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-strnul.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-tempname.Plo
+	-rm -f ./$(DEPDIR)/libgnu_la-tmpdir.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-unistd.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-vasnprintf.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-vaszprintf.Plo

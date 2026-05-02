@@ -1,5 +1,15 @@
 @  master
-|  2026-05-02 14:34 +0000
+|  2026-05-02 15:08 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       a3d341af57f807410a32eb66aa9ffeee1d0d77bd
+|  mercurial: 616fa98c43e5ddea1b381d6dd2c99b7d65c7464d
+|  revision:  100
+|  parents:   99
+|
+|    Moved best C23 check to the autoconf archive.
+|
+|
+o  2026-05-02 14:34 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       01ad21a84659b600e377bd6eb416a1aef936720f
 |  mercurial: 167705f864e453e9c89be62301340e2ec0129b60

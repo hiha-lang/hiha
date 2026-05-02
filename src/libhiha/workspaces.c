@@ -21,12 +21,14 @@
 
 #include <config.h>
 #include <ftw.h>
+#include <limits.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
 #include <error.h>
 #include <exitfail.h>
 #include <xalloc.h>
+#include <tmpdir.h>
 #include <libhiha/initialize_once.h>
 #include <libhiha/workspaces.h>
 
@@ -54,12 +56,28 @@ _remove_work_directory (void)
 static void
 _initialize_work_directory (void)
 {
-  //
-  // FIXME: Allow an alternate TMPDIR.
-  //
-  char template[] = "/tmp/hiha.XXXXXX";
+  int err_number;
+  int retval;
+  char *template = NULL;
+  size_t sz = 20;
+
+  do
+    {
+      sz *= 2;
+      free (template);
+      template = XCALLOC (sz, char);
+      retval = path_search (template, sz - 1, NULL, "hiha.", true);
+      err_number = errno;
+    }
+  while (retval == -1 && err_number == EINVAL);
+  if (retval == -1)
+    {
+      error (exit_failure, err_number,
+             "failed to make temporary directory");
+      abort ();
+    }
   char *dirname = mkdtemp (template);
-  int err_number = errno;
+  err_number = errno;
   if (dirname == NULL)
     {
       error (exit_failure, err_number,
@@ -67,6 +85,7 @@ _initialize_work_directory (void)
       abort ();
     }
   _work_directory = xstrdup (dirname);
+  free (dirname);
   atexit (_remove_work_directory);
 }
 

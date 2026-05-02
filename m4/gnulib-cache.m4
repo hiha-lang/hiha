@@ -52,6 +52,7 @@
 #  mkdtemp \
 #  progname \
 #  scandir \
+#  tmpdir \
 #  unicase/u32-casecoll \
 #  uniconv/u32-conv-from-enc \
 #  uniconv/u32-conv-to-enc \
@@ -89,6 +90,7 @@ gl_MODULES([
   mkdtemp
   progname
   scandir
+  tmpdir
   unicase/u32-casecoll
   uniconv/u32-conv-from-enc
   uniconv/u32-conv-to-enc

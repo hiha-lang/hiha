@@ -47,6 +47,7 @@
 #  mkdtemp \
 #  progname \
 #  scandir \
+#  tmpdir \
 #  unicase/u32-casecoll \
 #  uniconv/u32-conv-from-enc \
 #  uniconv/u32-conv-to-enc \
@@ -1518,6 +1519,14 @@ EXTRA_DIST += sched.in.h
 
 ## end   gnulib module sched-h
 
+## begin gnulib module secure_getenv
+
+if GL_COND_OBJ_SECURE_GETENV
+libgnu_la_SOURCES += secure_getenv.c
+endif
+
+## end   gnulib module secure_getenv
+
 ## begin gnulib module setlocale-null
 
 libgnu_la_SOURCES += setlocale_null.c
@@ -2522,6 +2531,12 @@ MOSTLYCLEANFILES += time.h time.h-t
 EXTRA_DIST += time.in.h
 
 ## end   gnulib module time-h
+
+## begin gnulib module tmpdir
+
+libgnu_la_SOURCES += tmpdir.h tmpdir.c
+
+## end   gnulib module tmpdir
 
 ## begin gnulib module uchar-h
 

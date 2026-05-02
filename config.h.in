@@ -328,6 +328,9 @@
 /* Define to 1 when the gnulib module scanf should be tested. */
 #undef GNULIB_TEST_SCANF
 
+/* Define to 1 when the gnulib module secure_getenv should be tested. */
+#undef GNULIB_TEST_SECURE_GETENV
+
 /* Define to 1 when the gnulib module setlocale_null should be tested. */
 #undef GNULIB_TEST_SETLOCALE_NULL
 
@@ -575,8 +578,17 @@
 /* Define to 1 if you have the 'getdtablesize' function. */
 #undef HAVE_GETDTABLESIZE
 
+/* Define to 1 if you have the 'getegid' function. */
+#undef HAVE_GETEGID
+
+/* Define to 1 if you have the 'geteuid' function. */
+#undef HAVE_GETEUID
+
 /* Define to 1 if you have the 'getexecname' function. */
 #undef HAVE_GETEXECNAME
+
+/* Define to 1 if you have the 'getgid' function. */
+#undef HAVE_GETGID
 
 /* Define to 1 if you have the `getline' function. */
 #undef HAVE_GETLINE
@@ -592,6 +604,9 @@
 
 /* Define to 1 if you have the `getrandom' function. */
 #undef HAVE_GETRANDOM
+
+/* Define to 1 if you have the 'getuid' function. */
+#undef HAVE_GETUID
 
 /* Define if you have the iconv() function and it works. */
 #undef HAVE_ICONV
@@ -613,6 +628,9 @@
 /* Define if <inttypes.h> exists, doesn't clash with <sys/types.h>, and
    declares uintmax_t. */
 #undef HAVE_INTTYPES_H_WITH_UINTMAX
+
+/* Define to 1 if you have the `issetugid' function. */
+#undef HAVE_ISSETUGID
 
 /* Define to 1 if you have the `iswblank' function. */
 #undef HAVE_ISWBLANK
@@ -718,6 +736,9 @@
 
 /* Define to 1 if you have the <sdkddkver.h> header file. */
 #undef HAVE_SDKDDKVER_H
+
+/* Define to 1 if you have the 'secure_getenv' function. */
+#undef HAVE_SECURE_GETENV
 
 /* Define to 1 if you have the 'setdtablesize' function. */
 #undef HAVE_SETDTABLESIZE
@@ -1059,6 +1080,9 @@
 
 /* Define to 1 if the compiler supports the keyword '__inline'. */
 #undef HAVE___INLINE
+
+/* Define to 1 if you have the '__secure_getenv' function. */
+#undef HAVE___SECURE_GETENV
 
 /* Define to 1 if you have the '__xpg_strerror_r' function. */
 #undef HAVE___XPG_STRERROR_R

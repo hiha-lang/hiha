@@ -1058,6 +1058,8 @@ GL_COND_OBJ_STAT_FALSE
 GL_COND_OBJ_STAT_TRUE
 GL_COND_OBJ_SETLOCALE_LOCK_FALSE
 GL_COND_OBJ_SETLOCALE_LOCK_TRUE
+GL_COND_OBJ_SECURE_GETENV_FALSE
+GL_COND_OBJ_SECURE_GETENV_TRUE
 GL_GNULIB_SCHED_YIELD
 HAVE_STRUCT_SCHED_PARAM
 HAVE_SCHED_H
@@ -4516,6 +4518,11 @@ as_fn_append ac_header_c_list " sys/mman.h sys_mman_h HAVE_SYS_MMAN_H"
 as_fn_append ac_func_c_list " mprotect HAVE_MPROTECT"
 as_fn_append ac_header_c_list " sys/param.h sys_param_h HAVE_SYS_PARAM_H"
 as_fn_append ac_header_c_list " pthread.h pthread_h HAVE_PTHREAD_H"
+as_fn_append ac_func_c_list " secure_getenv HAVE_SECURE_GETENV"
+as_fn_append ac_func_c_list " getuid HAVE_GETUID"
+as_fn_append ac_func_c_list " geteuid HAVE_GETEUID"
+as_fn_append ac_func_c_list " getgid HAVE_GETGID"
+as_fn_append ac_func_c_list " getegid HAVE_GETEGID"
 as_fn_append ac_header_c_list " sys/time.h sys_time_h HAVE_SYS_TIME_H"
 as_fn_append ac_header_c_list " stdckdint.h stdckdint_h HAVE_STDCKDINT_H"
 as_fn_append ac_header_c_list " stdcountof.h stdcountof_h HAVE_STDCOUNTOF_H"
@@ -17887,6 +17894,7 @@ esac
   # Code from module reallocarray:
   # Code from module scandir:
   # Code from module sched-h:
+  # Code from module secure_getenv:
   # Code from module setlocale-null:
   # Code from module setlocale-null-unlocked:
   # Code from module size_max:
@@ -17933,6 +17941,7 @@ esac
 
 
   # Code from module time-h:
+  # Code from module tmpdir:
   # Code from module uchar-h:
   # Code from module unicase/base:
   # Code from module unicase/cased:
@@ -25293,8 +25302,8 @@ rm -f core conftest.err conftest.$ac_objext conftest.beam \
         LIBS="$saved_LIBS"
         test $gl_pthread_api = yes && break
       done
-      echo "$as_me:25296: gl_pthread_api=$gl_pthread_api" >&5
-      echo "$as_me:25297: LIBPTHREAD=$LIBPTHREAD" >&5
+      echo "$as_me:25305: gl_pthread_api=$gl_pthread_api" >&5
+      echo "$as_me:25306: LIBPTHREAD=$LIBPTHREAD" >&5
 
       gl_pthread_in_glibc=no
       # On Linux with glibc >= 2.34, libc contains the fully functional
@@ -25323,7 +25332,7 @@ rm -rf conftest*
   *) :
      ;;
 esac
-      echo "$as_me:25326: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
+      echo "$as_me:25335: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
 
       # Test for libpthread by looking for pthread_kill.
       if test $gl_pthread_api = yes && test -z "$LIBPTHREAD"
@@ -25575,7 +25584,7 @@ fi
 fi
 
 fi
-      echo "$as_me:25578: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
+      echo "$as_me:25587: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
 
 fi
     { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether POSIX threads API is available" >&5
@@ -29947,8 +29956,8 @@ rm -f core conftest.err conftest.$ac_objext conftest.beam \
         LIBS="$saved_LIBS"
         test $gl_pthread_api = yes && break
       done
-      echo "$as_me:29950: gl_pthread_api=$gl_pthread_api" >&5
-      echo "$as_me:29951: LIBPTHREAD=$LIBPTHREAD" >&5
+      echo "$as_me:29959: gl_pthread_api=$gl_pthread_api" >&5
+      echo "$as_me:29960: LIBPTHREAD=$LIBPTHREAD" >&5
 
       gl_pthread_in_glibc=no
       # On Linux with glibc >= 2.34, libc contains the fully functional
@@ -29977,7 +29986,7 @@ rm -rf conftest*
   *) :
      ;;
 esac
-      echo "$as_me:29980: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
+      echo "$as_me:29989: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
 
       # Test for libpthread by looking for pthread_kill.
       if test $gl_pthread_api = yes && test -z "$LIBPTHREAD"
@@ -30229,7 +30238,7 @@ fi
 fi
 
 fi
-      echo "$as_me:30232: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
+      echo "$as_me:30241: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
 
 fi
     { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether POSIX threads API is available" >&5
@@ -30519,8 +30528,8 @@ rm -f core conftest.err conftest.$ac_objext conftest.beam \
         LIBS="$saved_LIBS"
         test $gl_pthread_api = yes && break
       done
-      echo "$as_me:30522: gl_pthread_api=$gl_pthread_api" >&5
-      echo "$as_me:30523: LIBPTHREAD=$LIBPTHREAD" >&5
+      echo "$as_me:30531: gl_pthread_api=$gl_pthread_api" >&5
+      echo "$as_me:30532: LIBPTHREAD=$LIBPTHREAD" >&5
 
       gl_pthread_in_glibc=no
       # On Linux with glibc >= 2.34, libc contains the fully functional
@@ -30549,7 +30558,7 @@ rm -rf conftest*
   *) :
      ;;
 esac
-      echo "$as_me:30552: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
+      echo "$as_me:30561: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
 
       # Test for libpthread by looking for pthread_kill.
       if test $gl_pthread_api = yes && test -z "$LIBPTHREAD"
@@ -30801,7 +30810,7 @@ fi
 fi
 
 fi
-      echo "$as_me:30804: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
+      echo "$as_me:30813: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
 
 fi
     { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether POSIX threads API is available" >&5
@@ -32595,6 +32604,11 @@ fi
 
 
   GL_GNULIB_SCHED_YIELD=0
+
+
+
+
+
 
 
 
@@ -44169,6 +44183,133 @@ printf "%s\n" "#define GNULIB_TEST_SCANDIR 1" >>confdefs.h
 
 
 
+
+
+
+  if test $ac_cv_func_secure_getenv = no; then
+    HAVE_SECURE_GETENV=0
+  fi
+
+
+     if test $HAVE_SECURE_GETENV = 0; then
+  GL_COND_OBJ_SECURE_GETENV_TRUE=
+  GL_COND_OBJ_SECURE_GETENV_FALSE='#'
+else
+  GL_COND_OBJ_SECURE_GETENV_TRUE='#'
+  GL_COND_OBJ_SECURE_GETENV_FALSE=
+fi
+:
+    if test -z "${GL_COND_OBJ_SECURE_GETENV_TRUE}" && test -z "${GL_COND_OBJ_SECURE_GETENV_FALSE}"; then
+    GL_COND_OBJ_SECURE_GETENV_TRUE='#'
+    GL_COND_OBJ_SECURE_GETENV_FALSE='#'
+  fi
+
+  if test -z "$GL_COND_OBJ_SECURE_GETENV_TRUE"; then :
+
+
+  ac_fn_c_check_func "$LINENO" "__secure_getenv" "ac_cv_func___secure_getenv"
+if test "x$ac_cv_func___secure_getenv" = xyes
+then :
+  printf "%s\n" "#define HAVE___SECURE_GETENV 1" >>confdefs.h
+
+fi
+
+  if test $ac_cv_func___secure_getenv = no; then
+
+
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for issetugid" >&5
+printf %s "checking for issetugid... " >&6; }
+if test ${gl_cv_onwards_func_issetugid+y}
+then :
+  printf %s "(cached) " >&6
+else case e in #(
+  e)
+  exec 9>&6 6>/dev/null
+
+       case "$host_os" in
+
+         linux*-android*)
+           ac_fn_check_decl "$LINENO" "issetugid" "ac_cv_have_decl_issetugid" "#include <unistd.h>
+" "$ac_c_undeclared_builtin_options" "CFLAGS"
+if test "x$ac_cv_have_decl_issetugid" = xyes
+then :
+
+fi
+           if test $ac_cv_have_decl_issetugid = yes; then
+             ac_fn_c_check_func "$LINENO" "issetugid" "ac_cv_func_issetugid"
+if test "x$ac_cv_func_issetugid" = xyes
+then :
+
+fi
+
+             if test $ac_cv_func_issetugid = yes; then
+               gl_cv_onwards_func_issetugid=yes
+             else
+                                                            gl_cv_onwards_func_issetugid='future OS version'
+             fi
+           else
+             gl_cv_onwards_func_issetugid='future OS version'
+           fi
+           ;;
+
+
+         *)
+           ac_fn_c_check_func "$LINENO" "issetugid" "ac_cv_func_issetugid"
+if test "x$ac_cv_func_issetugid" = xyes
+then :
+
+fi
+
+           gl_cv_onwards_func_issetugid=$ac_cv_func_issetugid
+           ;;
+
+       esac
+
+  exec 6>&9 9>&-
+
+     ;;
+esac
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $gl_cv_onwards_func_issetugid" >&5
+printf "%s\n" "$gl_cv_onwards_func_issetugid" >&6; }
+
+  case "$gl_cv_onwards_func_issetugid" in
+    future*) ac_cv_func_issetugid=no ;;
+    *)       ac_cv_func_issetugid=$gl_cv_onwards_func_issetugid ;;
+  esac
+  if test $ac_cv_func_issetugid = yes; then
+
+printf "%s\n" "#define HAVE_ISSETUGID 1" >>confdefs.h
+
+  fi
+
+
+  fi
+
+
+
+fi
+
+
+
+
+
+
+
+
+
+          GL_GNULIB_SECURE_GETENV=1
+
+
+
+
+
+printf "%s\n" "#define GNULIB_TEST_SECURE_GETENV 1" >>confdefs.h
+
+
+
+
+
      if test $SETLOCALE_NULL_ALL_MTSAFE = 0 || test $SETLOCALE_NULL_ONE_MTSAFE = 0; then
   GL_COND_OBJ_SETLOCALE_LOCK_TRUE=
   GL_COND_OBJ_SETLOCALE_LOCK_FALSE='#'
@@ -46059,6 +46200,7 @@ printf "%s\n" "#define GNULIB_TEMPNAME 1" >>confdefs.h
 
 
 
+  :
 
 
 

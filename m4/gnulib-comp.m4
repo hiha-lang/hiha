@@ -174,6 +174,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module reallocarray:
   # Code from module scandir:
   # Code from module sched-h:
+  # Code from module secure_getenv:
   # Code from module setlocale-null:
   # Code from module setlocale-null-unlocked:
   # Code from module size_max:
@@ -214,6 +215,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module threadlib:
   gl_THREADLIB_EARLY
   # Code from module time-h:
+  # Code from module tmpdir:
   # Code from module uchar-h:
   # Code from module unicase/base:
   # Code from module unicase/cased:
@@ -764,6 +766,12 @@ AC_DEFUN([gl_INIT],
   gl_SCHED_H
   gl_SCHED_H_REQUIRE_DEFAULTS
   AC_PROG_MKDIR_P
+  gl_FUNC_SECURE_GETENV
+  gl_CONDITIONAL([GL_COND_OBJ_SECURE_GETENV], [test $HAVE_SECURE_GETENV = 0])
+  AM_COND_IF([GL_COND_OBJ_SECURE_GETENV], [
+    gl_PREREQ_SECURE_GETENV
+  ])
+  gl_STDLIB_MODULE_INDICATOR([secure_getenv])
   gl_FUNC_SETLOCALE_NULL
   gl_CONDITIONAL([GL_COND_OBJ_SETLOCALE_LOCK],
                  [test $SETLOCALE_NULL_ALL_MTSAFE = 0 || test $SETLOCALE_NULL_ONE_MTSAFE = 0])
@@ -894,6 +902,7 @@ AC_DEFUN([gl_INIT],
   gl_TIME_H
   gl_TIME_H_REQUIRE_DEFAULTS
   AC_PROG_MKDIR_P
+  gt_TMPDIR
   gl_UCHAR_H
   gl_UCHAR_H_REQUIRE_DEFAULTS
   AC_PROG_MKDIR_P
@@ -1421,6 +1430,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/reallocarray.c
   lib/scandir.c
   lib/sched.in.h
+  lib/secure_getenv.c
   lib/setlocale-lock.c
   lib/setlocale_null-unlocked.c
   lib/setlocale_null.c
@@ -1462,6 +1472,8 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/tempname.c
   lib/tempname.h
   lib/time.in.h
+  lib/tmpdir.c
+  lib/tmpdir.h
   lib/uchar.in.h
   lib/unicase.in.h
   lib/unicase/cased.c
@@ -1731,6 +1743,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/reallocarray.m4
   m4/scandir.m4
   m4/sched_h.m4
+  m4/secure_getenv.m4
   m4/setlocale_null.m4
   m4/size_max.m4
   m4/ssize_t.m4
@@ -1758,6 +1771,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/tempname.m4
   m4/threadlib.m4
   m4/time_h.m4
+  m4/tmpdir.m4
   m4/uchar_h.m4
   m4/unicase_h.m4
   m4/unictype_h.m4

@@ -1,0 +1,23 @@
+pkg_plugins_lib_LTLIBRARIES += 10-string.la
+
+10_string_la_LIBADD =
+10_string_la_LDFLAGS =
+10_string_la_CFLAGS =
+EXTRA_10_string_la_DEPENDENCIES =
+10_string_la_SOURCES =
+
+10_string_la_LIBADD += libhiha.la
+10_string_la_LIBADD += lib/libgnu.la
+10_string_la_LIBADD += $(GCVERS)/libhiha-gc.la
+
+10_string_la_LDFLAGS += $(LIBS)
+10_string_la_LDFLAGS += $(LTLIBICONV)
+10_string_la_LDFLAGS += $(LTLIBINTL)
+10_string_la_LDFLAGS += $(LTLIBUNISTRING)
+10_string_la_LDFLAGS += -avoid-version -module
+10_string_la_LDFLAGS += -shared
+
+10_string_la_CFLAGS += $(BASICCFLAGS)
+10_string_la_CFLAGS += $(CFLAGS)
+
+10_string_la_SOURCES += src/plugins/10-string.c

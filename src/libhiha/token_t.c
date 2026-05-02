@@ -32,8 +32,7 @@
 #include <gl_xlist.h>
 #include <libhiha/token_t.h>
 
-// Change this if using gettext.
-#define _(msgid) msgid
+#define _(msgid) HIHA_GETTEXT (msgid)
 
 //
 // It might be prudent to be prepared to copy strings, if this code

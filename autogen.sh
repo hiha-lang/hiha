@@ -257,12 +257,14 @@ EOF
     lexical_end_cap_automake 0.1000 eof   # end of file
     lexical_end_cap_automake 0.1000 cp    # code points
     lexical_end_cap_automake 0.1000 sp    # white space
+    lexical_end_cap_automake 0.1000 str   # strings
     lexical_end_cap_automake 0.1000 i10   # decimal integers
     lexical_end_cap_automake 0.1000 id    # identifiers
     lexical_end_cap_automake 0.1000 f10   # decimal floating point
     lexical_end_cap_automake 0.1000 i.i10 # decimal fixed and floating
     lexical_end_cap_automake 0.1000 r10   # decimal exact fractions
 
+    plugin_automake 10 string
     plugin_automake 20 white_space
     plugin_automake 30 decimal_integer
     plugin_automake 40 identifier

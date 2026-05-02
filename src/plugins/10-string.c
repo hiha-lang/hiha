@@ -37,24 +37,13 @@ check_code_point_token (token_t tok)
 }
 
 static void
-scan_comment (buffered_token_getter_t getter, token_t tok, void **lhs,
-              const char **error_message)
+scan_string (buffered_token_getter_t getter, token_t tok, void **lhs,
+             const char **error_message)
 {
-  string_t str = tok->token_value;
-  token_t t;
-  do
-    {
-      getter->get_token (getter, &t, error_message);
-      if (*error_message == NULL)
-        str = concat_string_t (str, t->token_value, NULL);
-    }
-  while (*error_message == NULL
-         && 0 != string_t_cmp (t->token_value, make_string_t ("\n")));
-  if (*error_message == NULL)
-    *lhs = (void *) make_token_t (make_string_t ("SP"), str, tok->loc);
+  // FIXME // FIXME // FIXME // FIXME // FIXME // FIXME // FIXME // FIXME // FIXME // FIXME // FIXME // FIXME // FIXME // FIXME
 }
 
-nud_handler_t next_handler;
+nud_handler_t next_cp_handler;
 
 static void
 code_point_handler (void *state, buffered_token_getter_t getter,
@@ -64,15 +53,10 @@ code_point_handler (void *state, buffered_token_getter_t getter,
   if (*error_message == NULL)
     {
       check_code_point_token (tok);
-      if (uc_is_property
-          (tok->token_value->s[0], UC_PROPERTY_WHITE_SPACE))
-        *lhs =
-          (void *) make_token_t (make_string_t ("SP"), tok->token_value,
-                                 tok->loc);
-      else if (tok->token_value->s[0] == '%')
-        scan_comment (getter, tok, lhs, error_message);
-      else
-        next_handler (state, getter, tables, tok, lhs, error_message);
+      /*if (tok->token_value->s[0] == '"')
+         scan_string (getter, tok, lhs, error_message);
+         else */
+      next_cp_handler (state, getter, tables, tok, lhs, error_message);
     }
 }
 
@@ -80,7 +64,7 @@ HIHA_VISIBLE void
 plugin_init (void)
 {
   pratt_tables_t tables = lexical_pratt_tables ();
-  next_handler = pratt_nud_get (tables, string_t_CP ());
+  next_cp_handler = pratt_nud_get (tables, string_t_CP ());
   pratt_nud_put (tables, string_t_CP (), &code_point_handler);
 }
 

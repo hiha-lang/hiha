@@ -42,8 +42,7 @@
 #include <libhiha/load_plugin.h>
 #include <libhiha/pratt.h>
 
-// Change this if using gettext.
-#define _(msgid) msgid
+#define _(msgid) HIHA_GETTEXT (msgid)
 
 #define UNEXPECTED_TEXT _("unexpected text at %s: “%s”")
 

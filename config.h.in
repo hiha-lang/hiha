@@ -2493,4 +2493,7 @@
 /* A workaround for a bug in Gnulib’s stdlib.h (2026 April 19). */
 #define _GL_FUNCDECL_SYS_NAME(func) (func)
 
+/* Define this as something different if using gettext. */
+#define HIHA_GETTEXT(msgid) msgid
+
 

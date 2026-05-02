@@ -31,8 +31,7 @@
 #include <libhiha/string_t.h>
 #include <libhiha/initialize_once.h>
 
-// Change this if using gettext.
-#define _(msgid) msgid
+#define _(msgid) HIHA_GETTEXT (msgid)
 
 static initialize_once_t _string_constants_init1t =
   INITIALIZE_ONCE_T_INIT;

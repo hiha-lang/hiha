@@ -1,5 +1,16 @@
 @  master
-|  2026-05-02 09:29 +0000
+|  2026-05-02 12:22 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       623e67563f89051297d81ddf5907fc74f0fadc41
+|  mercurial: 33159c7be04b0be150cefb4dc02d9c7d6d4802fb
+|  revision:  98
+|  parents:   97
+|
+|    Fixed temporary file creation, which was BADLY broken. Added
+|    comments tokenization.
+|
+|
+o  2026-05-02 09:29 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       eb4af6951fd1ad756c5da71aba7f1efbbd0fce0e
 |  mercurial: 306f00074d436ef614851fe67e776a74fdf5fb33

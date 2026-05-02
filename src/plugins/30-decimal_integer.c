@@ -41,8 +41,7 @@
 #include <gl_avltree_list.h>
 #include <libhiha/libhiha.h>
 
-// Change this if using gettext.
-#define _(msgid) msgid
+#define _(msgid) HIHA_GETTEXT (msgid)
 
 static void
 check_code_point_token (token_t tok)

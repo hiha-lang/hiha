@@ -30,8 +30,7 @@
 #include <libhiha/initialize_once.h>
 #include <libhiha/workspaces.h>
 
-/* Change this if using gettext. */
-#define _(msgid) msgid
+#define _(msgid) HIHA_GETTEXT (msgid)
 
 static initialize_once_t _work_directory_init1t =
   INITIALIZE_ONCE_T_INIT;

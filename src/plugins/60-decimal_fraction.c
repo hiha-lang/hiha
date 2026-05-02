@@ -34,8 +34,7 @@
 #include <exitfail.h>
 #include <libhiha/libhiha.h>
 
-// Change this if using gettext.
-#define _(msgid) msgid
+#define _(msgid) HIHA_GETTEXT (msgid)
 
 static bool
 token_is_fraction_slash (token_t tok)

@@ -37,8 +37,7 @@
 #include <gl_xlist.h>
 #include <libhiha/libhiha.h>
 
-// Change this if using gettext.
-#define _(msgid) msgid
+#define _(msgid) HIHA_GETTEXT (msgid)
 
 #define NORETURN [[noreturn]]
 #define MAYBE_UNUSED [[maybe_unused]]

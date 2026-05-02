@@ -23,8 +23,7 @@
 #include <stdlib.h>
 #include <libhiha/spinlock.h>
 
-// Change this if using gettext.
-#define _(msgid) msgid
+#define _(msgid) HIHA_GETTEXT (msgid)
 
 /* A ‘PAUSE’ instruction, at least on x86, is a hint to the CPU that
    can improve the behavior of a spinlock. What the instruction does

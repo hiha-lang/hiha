@@ -42,8 +42,7 @@
 #include <libhiha/initialize_once.h>
 #include <libhiha/workspaces.h>
 
-// Change this if using gettext.
-#define _(msgid) msgid
+#define _(msgid) HIHA_GETTEXT (msgid)
 
 HIHA_VISIBLE size_t lexical_max = 100;
 

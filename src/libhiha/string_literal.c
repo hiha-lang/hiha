@@ -19,20 +19,17 @@
 
 */
 
-#ifndef __LIBHAHA__LIBHIHA_H__INCLUDED__
-#define __LIBHAHA__LIBHIHA_H__INCLUDED__
-
-#include <libhiha/workspaces.h>
-#include <libhiha/spinlock.h>
-#include <libhiha/initialize_once.h>
-#include <libhiha/string_t.h>
+#include <config.h>
+#include <xalloc.h>
+#include <gl_xlist.h>
+#include <gl_avltree_list.h>
 #include <libhiha/token_t.h>
-#include <libhiha/pratt.h>
-#include <libhiha/lexical.h>
+#include <libhiha/string_t.h>
 #include <libhiha/string_literal.h>
-#include <libhiha/load_plugin.h>
 
-#endif /* __LIBHAHA__LIBHIHA_H__INCLUDED__ */
+#define _(msgid) HIHA_GETTEXT (msgid)
+
+
 
 /*
   local variables:
@@ -40,3 +37,4 @@
   coding: utf-8
   end:
 */
+

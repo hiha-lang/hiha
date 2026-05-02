@@ -32,8 +32,7 @@
 #include <libhiha/pratt.h>
 #include <libhiha/load_plugin.h>
 
-// Change this if using gettext.
-#define _(msgid) msgid
+#define _(msgid) HIHA_GETTEXT (msgid)
 
 typedef void plugin_init_func_t (void);
 typedef plugin_init_func_t *plugin_init_t;

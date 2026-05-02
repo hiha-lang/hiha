@@ -48,7 +48,6 @@ AC_DEFUN([gl_EARLY],
   # Code from module array-mergesort:
   # Code from module assert:
   # Code from module assert-h:
-  # Code from module atexit:
   # Code from module attribute:
   # Code from module avltree-list:
   # Code from module avltree-omap:
@@ -107,6 +106,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module gen-header:
   # Code from module getdelim:
   # Code from module getdtablesize:
+  # Code from module getentropy:
   # Code from module getline:
   # Code from module getopt-gnu:
   # Code from module getopt-posix:
@@ -333,11 +333,6 @@ AC_DEFUN([gl_INIT],
   gl_ASSERT_H
   gl_CONDITIONAL_HEADER([assert.h])
   AC_PROG_MKDIR_P
-  gl_FUNC_ATEXIT
-  gl_CONDITIONAL([GL_COND_OBJ_ATEXIT], [test $ac_cv_func_atexit = no])
-  AM_COND_IF([GL_COND_OBJ_ATEXIT], [
-    gl_PREREQ_ATEXIT
-  ])
   gl_FUNC_BASE64
   gl_C_BOOL
   gl___BUILTIN_EXPECT
@@ -540,6 +535,10 @@ AC_DEFUN([gl_INIT],
     gl_PREREQ_GETDTABLESIZE
   ])
   gl_UNISTD_MODULE_INDICATOR([getdtablesize])
+  gl_FUNC_GETENTROPY
+  gl_CONDITIONAL([GL_COND_OBJ_GETENTROPY],
+                 [test $HAVE_GETENTROPY = 0 || test $REPLACE_GETENTROPY = 1])
+  gl_UNISTD_MODULE_INDICATOR([getentropy])
   gl_FUNC_GETLINE
   gl_CONDITIONAL([GL_COND_OBJ_GETLINE], [test $REPLACE_GETLINE = 1])
   AM_COND_IF([GL_COND_OBJ_GETLINE], [
@@ -1257,7 +1256,6 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/asnprintf.c
   lib/assert.in.h
   lib/aszprintf.c
-  lib/atexit.c
   lib/attribute.h
   lib/base64.c
   lib/base64.h
@@ -1318,6 +1316,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/fstat.c
   lib/getdelim.c
   lib/getdtablesize.c
+  lib/getentropy.c
   lib/getline.c
   lib/getopt-cdefs.in.h
   lib/getopt-core.h
@@ -1637,7 +1636,6 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/alloca.m4
   m4/assert.m4
   m4/assert_h.m4
-  m4/atexit.m4
   m4/base64.m4
   m4/build-to-host.m4
   m4/builtin-expect.m4
@@ -1668,6 +1666,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/fstat.m4
   m4/getdelim.m4
   m4/getdtablesize.m4
+  m4/getentropy.m4
   m4/getline.m4
   m4/getopt.m4
   m4/getprogname.m4

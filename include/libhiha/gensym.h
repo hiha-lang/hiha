@@ -19,21 +19,12 @@
 
 */
 
-#ifndef __LIBHAHA__LIBHIHA_H__INCLUDED__
-#define __LIBHAHA__LIBHIHA_H__INCLUDED__
+#ifndef __LIBHAHA__GENSYM_H__INCLUDED__
+#define __LIBHAHA__GENSYM_H__INCLUDED__
 
-#include <libhiha/workspaces.h>
-#include <libhiha/spinlock.h>
-#include <libhiha/initialize_once.h>
-#include <libhiha/string_t.h>
-#include <libhiha/token_t.h>
-#include <libhiha/pratt.h>
-#include <libhiha/lexical.h>
-#include <libhiha/string_literal.h>
-#include <libhiha/gensym.h>
-#include <libhiha/load_plugin.h>
+const char *gensym (const char *prefix);
 
-#endif /* __LIBHAHA__LIBHIHA_H__INCLUDED__ */
+#endif /* __LIBHAHA__GENSYM_H__INCLUDED__ */
 
 /*
   local variables:

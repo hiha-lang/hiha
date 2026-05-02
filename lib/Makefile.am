@@ -34,7 +34,6 @@
 #  --macro-prefix=gl \
 #  assert \
 #  assert-h \
-#  atexit \
 #  avltree-list \
 #  avltree-omap \
 #  base64 \
@@ -42,6 +41,7 @@
 #  error \
 #  exitfail \
 #  filevercmp \
+#  getentropy \
 #  getline \
 #  getopt-gnu \
 #  mkdtemp \
@@ -186,14 +186,6 @@ MOSTLYCLEANFILES += assert.h assert.h-t
 EXTRA_DIST += assert.in.h verify.h
 
 ## end   gnulib module assert-h
-
-## begin gnulib module atexit
-
-if GL_COND_OBJ_ATEXIT
-libgnu_la_SOURCES += atexit.c
-endif
-
-## end   gnulib module atexit
 
 ## begin gnulib module attribute
 
@@ -713,6 +705,14 @@ libgnu_la_SOURCES += getdtablesize.c
 endif
 
 ## end   gnulib module getdtablesize
+
+## begin gnulib module getentropy
+
+if GL_COND_OBJ_GETENTROPY
+libgnu_la_SOURCES += getentropy.c
+endif
+
+## end   gnulib module getentropy
 
 ## begin gnulib module getline
 

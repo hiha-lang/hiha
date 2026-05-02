@@ -1,5 +1,15 @@
 @  master
-|  2026-05-02 15:08 +0000
+|  2026-05-02 15:45 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       77acf82185e19c65bab54e9921c158788b533eda
+|  mercurial: e74dd4a5ec356755a57073aff6e327f8dab7f9bc
+|  revision:  101
+|  parents:   100
+|
+|    Use Gnulib tmpnam.h
+|
+|
+o  2026-05-02 15:08 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       a3d341af57f807410a32eb66aa9ffeee1d0d77bd
 |  mercurial: 616fa98c43e5ddea1b381d6dd2c99b7d65c7464d

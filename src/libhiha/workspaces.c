@@ -21,7 +21,6 @@
 
 #include <config.h>
 #include <ftw.h>
-#include <limits.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>

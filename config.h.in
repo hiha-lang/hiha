@@ -229,6 +229,9 @@
 /* Define to 1 when the gnulib module getdtablesize should be tested. */
 #undef GNULIB_TEST_GETDTABLESIZE
 
+/* Define to 1 when the gnulib module getentropy should be tested. */
+#undef GNULIB_TEST_GETENTROPY
+
 /* Define to 1 when the gnulib module getline should be tested. */
 #undef GNULIB_TEST_GETLINE
 
@@ -406,9 +409,6 @@
 /* Define to 1 if <alloca.h> works. */
 #undef HAVE_ALLOCA_H
 
-/* Define to 1 if you have the 'atexit' function. */
-#undef HAVE_ATEXIT
-
 /* Define to 1 if you have the <bcrypt.h> header file. */
 #undef HAVE_BCRYPT_H
 
@@ -580,6 +580,9 @@
 
 /* Define to 1 if you have the 'getegid' function. */
 #undef HAVE_GETEGID
+
+/* Define to 1 if you have the `getentropy' function. */
+#undef HAVE_GETENTROPY
 
 /* Define to 1 if you have the 'geteuid' function. */
 #undef HAVE_GETEUID

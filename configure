@@ -1548,6 +1548,8 @@ NEXT_AS_FIRST_DIRECTIVE_GETOPT_H
 NEXT_GETOPT_H
 GL_COND_OBJ_GETLINE_FALSE
 GL_COND_OBJ_GETLINE_TRUE
+GL_COND_OBJ_GETENTROPY_FALSE
+GL_COND_OBJ_GETENTROPY_TRUE
 GL_COND_OBJ_GETDTABLESIZE_FALSE
 GL_COND_OBJ_GETDTABLESIZE_TRUE
 GL_GNULIB_MDA_TEMPNAM
@@ -2261,8 +2263,6 @@ REPLACE_C32RTOMB
 HAVE_MBRTOC32
 HAVE_MBRTOC16
 HAVE_C32RTOMB
-GL_COND_OBJ_ATEXIT_FALSE
-GL_COND_OBJ_ATEXIT_TRUE
 GL_GENERATE_ASSERT_H_FALSE
 GL_GENERATE_ASSERT_H_TRUE
 ASSERT_H
@@ -17752,7 +17752,6 @@ esac
   # Code from module array-mergesort:
   # Code from module assert:
   # Code from module assert-h:
-  # Code from module atexit:
   # Code from module attribute:
   # Code from module avltree-list:
   # Code from module avltree-omap:
@@ -17811,6 +17810,7 @@ esac
   # Code from module gen-header:
   # Code from module getdelim:
   # Code from module getdtablesize:
+  # Code from module getentropy:
   # Code from module getline:
   # Code from module getopt-gnu:
   # Code from module getopt-posix:
@@ -36749,36 +36749,6 @@ fi
 
 
 
-  ac_fn_c_check_func "$LINENO" "atexit" "ac_cv_func_atexit"
-if test "x$ac_cv_func_atexit" = xyes
-then :
-  printf "%s\n" "#define HAVE_ATEXIT 1" >>confdefs.h
-
-fi
-
-
-
-     if test $ac_cv_func_atexit = no; then
-  GL_COND_OBJ_ATEXIT_TRUE=
-  GL_COND_OBJ_ATEXIT_FALSE='#'
-else
-  GL_COND_OBJ_ATEXIT_TRUE='#'
-  GL_COND_OBJ_ATEXIT_FALSE=
-fi
-:
-    if test -z "${GL_COND_OBJ_ATEXIT_TRUE}" && test -z "${GL_COND_OBJ_ATEXIT_FALSE}"; then
-    GL_COND_OBJ_ATEXIT_TRUE='#'
-    GL_COND_OBJ_ATEXIT_FALSE='#'
-  fi
-
-  if test -z "$GL_COND_OBJ_ATEXIT_TRUE"; then :
-
-
-  :
-
-
-fi
-
 
 
 
@@ -39162,6 +39132,123 @@ fi
 
 
 printf "%s\n" "#define GNULIB_TEST_GETDTABLESIZE 1" >>confdefs.h
+
+
+
+
+
+
+
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for getentropy" >&5
+printf %s "checking for getentropy... " >&6; }
+if test ${gl_cv_onwards_func_getentropy+y}
+then :
+  printf %s "(cached) " >&6
+else case e in #(
+  e)
+  exec 9>&6 6>/dev/null
+
+       case "$host_os" in
+
+         linux*-android*)
+           ac_fn_check_decl "$LINENO" "getentropy" "ac_cv_have_decl_getentropy" "#include <unistd.h>
+      /* Additional includes are needed before <sys/random.h> on uClibc
+         and Mac OS X.  */
+      #include <sys/types.h>
+      #include <stdlib.h>
+      #include <sys/random.h>
+
+" "$ac_c_undeclared_builtin_options" "CFLAGS"
+if test "x$ac_cv_have_decl_getentropy" = xyes
+then :
+
+fi
+           if test $ac_cv_have_decl_getentropy = yes; then
+             ac_fn_c_check_func "$LINENO" "getentropy" "ac_cv_func_getentropy"
+if test "x$ac_cv_func_getentropy" = xyes
+then :
+
+fi
+
+             if test $ac_cv_func_getentropy = yes; then
+               gl_cv_onwards_func_getentropy=yes
+             else
+                                                            gl_cv_onwards_func_getentropy='future OS version'
+             fi
+           else
+             gl_cv_onwards_func_getentropy='future OS version'
+           fi
+           ;;
+
+
+         *)
+           ac_fn_c_check_func "$LINENO" "getentropy" "ac_cv_func_getentropy"
+if test "x$ac_cv_func_getentropy" = xyes
+then :
+
+fi
+
+           gl_cv_onwards_func_getentropy=$ac_cv_func_getentropy
+           ;;
+
+       esac
+
+  exec 6>&9 9>&-
+
+     ;;
+esac
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $gl_cv_onwards_func_getentropy" >&5
+printf "%s\n" "$gl_cv_onwards_func_getentropy" >&6; }
+
+  case "$gl_cv_onwards_func_getentropy" in
+    future*) ac_cv_func_getentropy=no ;;
+    *)       ac_cv_func_getentropy=$gl_cv_onwards_func_getentropy ;;
+  esac
+  if test $ac_cv_func_getentropy = yes; then
+
+printf "%s\n" "#define HAVE_GETENTROPY 1" >>confdefs.h
+
+  fi
+
+
+  if test $ac_cv_func_getentropy = no; then
+    HAVE_GETENTROPY=0
+    case "$gl_cv_onwards_func_getentropy" in
+      future*) REPLACE_GETENTROPY=1 ;;
+    esac
+  fi
+
+
+     if test $HAVE_GETENTROPY = 0 || test $REPLACE_GETENTROPY = 1; then
+  GL_COND_OBJ_GETENTROPY_TRUE=
+  GL_COND_OBJ_GETENTROPY_FALSE='#'
+else
+  GL_COND_OBJ_GETENTROPY_TRUE='#'
+  GL_COND_OBJ_GETENTROPY_FALSE=
+fi
+:
+    if test -z "${GL_COND_OBJ_GETENTROPY_TRUE}" && test -z "${GL_COND_OBJ_GETENTROPY_FALSE}"; then
+    GL_COND_OBJ_GETENTROPY_TRUE='#'
+    GL_COND_OBJ_GETENTROPY_FALSE='#'
+  fi
+
+
+
+
+
+
+
+
+
+
+          GL_GNULIB_GETENTROPY=1
+
+
+
+
+
+printf "%s\n" "#define GNULIB_TEST_GETENTROPY 1" >>confdefs.h
 
 
 

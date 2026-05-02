@@ -119,7 +119,6 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/__inline.m4 \
 	$(top_srcdir)/m4/absolute-header.m4 $(top_srcdir)/m4/alloca.m4 \
 	$(top_srcdir)/m4/assert.m4 $(top_srcdir)/m4/assert_h.m4 \
-	$(top_srcdir)/m4/atexit.m4 \
 	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_gnu_make.m4 \
 	$(top_srcdir)/m4/base64.m4 $(top_srcdir)/m4/build-to-host.m4 \
@@ -143,9 +142,9 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/float_h.m4 $(top_srcdir)/m4/free.m4 \
 	$(top_srcdir)/m4/fseterr.m4 $(top_srcdir)/m4/fstat.m4 \
 	$(top_srcdir)/m4/getdelim.m4 $(top_srcdir)/m4/getdtablesize.m4 \
-	$(top_srcdir)/m4/getline.m4 $(top_srcdir)/m4/getopt.m4 \
-	$(top_srcdir)/m4/getprogname.m4 $(top_srcdir)/m4/getrandom.m4 \
-	$(top_srcdir)/m4/gettext_h.m4 \
+	$(top_srcdir)/m4/getentropy.m4 $(top_srcdir)/m4/getline.m4 \
+	$(top_srcdir)/m4/getopt.m4 $(top_srcdir)/m4/getprogname.m4 \
+	$(top_srcdir)/m4/getrandom.m4 $(top_srcdir)/m4/gettext_h.m4 \
 	$(top_srcdir)/m4/gnulib-common.m4 \
 	$(top_srcdir)/m4/gnulib-comp.m4 \
 	$(top_srcdir)/m4/gnulib-i18n.m4 \
@@ -389,6 +388,7 @@ am_libhiha_la_OBJECTS = $(am__objects_1) \
 	src/libhiha/libhiha_la-pratt.lo \
 	src/libhiha/libhiha_la-lexical.lo \
 	src/libhiha/libhiha_la-string_literal.lo \
+	src/libhiha/libhiha_la-gensym.lo \
 	src/libhiha/libhiha_la-load_plugin.lo
 libhiha_la_OBJECTS = $(am_libhiha_la_OBJECTS)
 libhiha_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
@@ -432,6 +432,7 @@ depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = src/hiha-tokens-print/$(DEPDIR)/hiha_tokens_print-hiha-tokens-print.Po \
 	src/hiha/$(DEPDIR)/hiha-hiha.Po \
+	src/libhiha/$(DEPDIR)/libhiha_la-gensym.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-lexical.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-load_plugin.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-pratt.Plo \
@@ -2385,12 +2386,13 @@ libhiha_la_SOURCES = $(libhiha_HDRS) src/libhiha/workspaces.c \
 	src/libhiha/spinlock.c src/libhiha/string_t.c \
 	src/libhiha/token_t.c src/libhiha/pratt.c \
 	src/libhiha/lexical.c src/libhiha/string_literal.c \
-	src/libhiha/load_plugin.c
+	src/libhiha/gensym.c src/libhiha/load_plugin.c
 libhiha_HDRS = include/libhiha/libhiha.h include/libhiha/workspaces.h \
 	include/libhiha/spinlock.h include/libhiha/initialize_once.h \
 	include/libhiha/string_t.h include/libhiha/token_t.h \
 	include/libhiha/pratt.h include/libhiha/lexical.h \
-	include/libhiha/string_literal.h include/libhiha/load_plugin.h
+	include/libhiha/string_literal.h include/libhiha/gensym.h \
+	include/libhiha/load_plugin.h
 DISTITEMS = $(srcdir)/README $(am__append_1)
 
 #
@@ -2673,6 +2675,8 @@ src/libhiha/libhiha_la-lexical.lo: src/libhiha/$(am__dirstamp) \
 	src/libhiha/$(DEPDIR)/$(am__dirstamp)
 src/libhiha/libhiha_la-string_literal.lo: src/libhiha/$(am__dirstamp) \
 	src/libhiha/$(DEPDIR)/$(am__dirstamp)
+src/libhiha/libhiha_la-gensym.lo: src/libhiha/$(am__dirstamp) \
+	src/libhiha/$(DEPDIR)/$(am__dirstamp)
 src/libhiha/libhiha_la-load_plugin.lo: src/libhiha/$(am__dirstamp) \
 	src/libhiha/$(DEPDIR)/$(am__dirstamp)
 
@@ -2718,6 +2722,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@src/hiha-tokens-print/$(DEPDIR)/hiha_tokens_print-hiha-tokens-print.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/hiha/$(DEPDIR)/hiha-hiha.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-gensym.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-lexical.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-load_plugin.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-pratt.Plo@am__quote@ # am--include-marker
@@ -2925,6 +2930,13 @@ src/libhiha/libhiha_la-string_literal.lo: src/libhiha/string_literal.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/libhiha/string_literal.c' object='src/libhiha/libhiha_la-string_literal.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -c -o src/libhiha/libhiha_la-string_literal.lo `test -f 'src/libhiha/string_literal.c' || echo '$(srcdir)/'`src/libhiha/string_literal.c
+
+src/libhiha/libhiha_la-gensym.lo: src/libhiha/gensym.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_la-gensym.lo -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_la-gensym.Tpo -c -o src/libhiha/libhiha_la-gensym.lo `test -f 'src/libhiha/gensym.c' || echo '$(srcdir)/'`src/libhiha/gensym.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/libhiha/$(DEPDIR)/libhiha_la-gensym.Tpo src/libhiha/$(DEPDIR)/libhiha_la-gensym.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/libhiha/gensym.c' object='src/libhiha/libhiha_la-gensym.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -c -o src/libhiha/libhiha_la-gensym.lo `test -f 'src/libhiha/gensym.c' || echo '$(srcdir)/'`src/libhiha/gensym.c
 
 src/libhiha/libhiha_la-load_plugin.lo: src/libhiha/load_plugin.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_la-load_plugin.lo -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_la-load_plugin.Tpo -c -o src/libhiha/libhiha_la-load_plugin.lo `test -f 'src/libhiha/load_plugin.c' || echo '$(srcdir)/'`src/libhiha/load_plugin.c
@@ -3411,6 +3423,7 @@ distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -f src/hiha-tokens-print/$(DEPDIR)/hiha_tokens_print-hiha-tokens-print.Po
 	-rm -f src/hiha/$(DEPDIR)/hiha-hiha.Po
+	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-gensym.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-lexical.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-load_plugin.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-pratt.Plo
@@ -3486,6 +3499,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -rf $(top_srcdir)/autom4te.cache
 	-rm -f src/hiha-tokens-print/$(DEPDIR)/hiha_tokens_print-hiha-tokens-print.Po
 	-rm -f src/hiha/$(DEPDIR)/hiha-hiha.Po
+	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-gensym.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-lexical.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-load_plugin.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-pratt.Plo

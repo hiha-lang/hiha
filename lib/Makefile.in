@@ -48,7 +48,6 @@
 #  --macro-prefix=gl \
 #  assert \
 #  assert-h \
-#  atexit \
 #  avltree-list \
 #  avltree-omap \
 #  base64 \
@@ -56,6 +55,7 @@
 #  error \
 #  exitfail \
 #  filevercmp \
+#  getentropy \
 #  getline \
 #  getopt-gnu \
 #  mkdtemp \
@@ -160,20 +160,20 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@GL_COND_OBJ_ATEXIT_TRUE@am__append_1 = atexit.c
-@GL_COND_OBJ_CLOSE_TRUE@am__append_2 = close.c
-@GL_COND_OBJ_CLOSEDIR_TRUE@am__append_3 = closedir.c
-@GL_COND_OBJ_DIRFD_TRUE@am__append_4 = dirfd.c
-@GL_COND_OBJ_DUP2_TRUE@am__append_5 = dup2.c
-@GL_COND_OBJ_ERROR_TRUE@am__append_6 = error.c
-@GL_COND_OBJ_FCNTL_TRUE@am__append_7 = fcntl.c
-@GL_COND_OBJ_FLOAT_TRUE@am__append_8 = float.c
-@GL_COND_OBJ_ITOLD_TRUE@am__append_9 = itold.c
-@GL_COND_OBJ_FREE_TRUE@am__append_10 = free.c
-@GL_COND_OBJ_FSETERR_TRUE@am__append_11 = fseterr.c
-@GL_COND_OBJ_FSTAT_TRUE@am__append_12 = fstat.c
-@GL_COND_OBJ_GETDELIM_TRUE@am__append_13 = getdelim.c
-@GL_COND_OBJ_GETDTABLESIZE_TRUE@am__append_14 = getdtablesize.c
+@GL_COND_OBJ_CLOSE_TRUE@am__append_1 = close.c
+@GL_COND_OBJ_CLOSEDIR_TRUE@am__append_2 = closedir.c
+@GL_COND_OBJ_DIRFD_TRUE@am__append_3 = dirfd.c
+@GL_COND_OBJ_DUP2_TRUE@am__append_4 = dup2.c
+@GL_COND_OBJ_ERROR_TRUE@am__append_5 = error.c
+@GL_COND_OBJ_FCNTL_TRUE@am__append_6 = fcntl.c
+@GL_COND_OBJ_FLOAT_TRUE@am__append_7 = float.c
+@GL_COND_OBJ_ITOLD_TRUE@am__append_8 = itold.c
+@GL_COND_OBJ_FREE_TRUE@am__append_9 = free.c
+@GL_COND_OBJ_FSETERR_TRUE@am__append_10 = fseterr.c
+@GL_COND_OBJ_FSTAT_TRUE@am__append_11 = fstat.c
+@GL_COND_OBJ_GETDELIM_TRUE@am__append_12 = getdelim.c
+@GL_COND_OBJ_GETDTABLESIZE_TRUE@am__append_13 = getdtablesize.c
+@GL_COND_OBJ_GETENTROPY_TRUE@am__append_14 = getentropy.c
 @GL_COND_OBJ_GETLINE_TRUE@am__append_15 = getline.c
 @GL_COND_OBJ_GETOPT_TRUE@am__append_16 = getopt.c getopt1.c
 @GL_COND_OBJ_GETPROGNAME_TRUE@am__append_17 = getprogname.c
@@ -275,7 +275,6 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/__inline.m4 \
 	$(top_srcdir)/m4/absolute-header.m4 $(top_srcdir)/m4/alloca.m4 \
 	$(top_srcdir)/m4/assert.m4 $(top_srcdir)/m4/assert_h.m4 \
-	$(top_srcdir)/m4/atexit.m4 \
 	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_gnu_make.m4 \
 	$(top_srcdir)/m4/base64.m4 $(top_srcdir)/m4/build-to-host.m4 \
@@ -299,9 +298,9 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/float_h.m4 $(top_srcdir)/m4/free.m4 \
 	$(top_srcdir)/m4/fseterr.m4 $(top_srcdir)/m4/fstat.m4 \
 	$(top_srcdir)/m4/getdelim.m4 $(top_srcdir)/m4/getdtablesize.m4 \
-	$(top_srcdir)/m4/getline.m4 $(top_srcdir)/m4/getopt.m4 \
-	$(top_srcdir)/m4/getprogname.m4 $(top_srcdir)/m4/getrandom.m4 \
-	$(top_srcdir)/m4/gettext_h.m4 \
+	$(top_srcdir)/m4/getentropy.m4 $(top_srcdir)/m4/getline.m4 \
+	$(top_srcdir)/m4/getopt.m4 $(top_srcdir)/m4/getprogname.m4 \
+	$(top_srcdir)/m4/getrandom.m4 $(top_srcdir)/m4/gettext_h.m4 \
 	$(top_srcdir)/m4/gnulib-common.m4 \
 	$(top_srcdir)/m4/gnulib-comp.m4 \
 	$(top_srcdir)/m4/gnulib-i18n.m4 \
@@ -379,7 +378,7 @@ CONFIG_CLEAN_VPATH_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 am__DEPENDENCIES_1 =
-am__libgnu_la_SOURCES_DIST = amemxfrm.c atexit.c gl_avltree_list.h \
+am__libgnu_la_SOURCES_DIST = amemxfrm.c gl_avltree_list.h \
 	gl_avltree_list.c gl_anyavltree_list1.h gl_anyavltree_list2.h \
 	gl_anytree_list1.h gl_anytree_list2.h gl_avltree_omap.h \
 	gl_avltree_omap.c gl_avltree_ordered.h gl_anytree_omap.h \
@@ -390,18 +389,18 @@ am__libgnu_la_SOURCES_DIST = amemxfrm.c atexit.c gl_avltree_list.h \
 	c32isxdigit.c c32tolower.c c32width.c cloexec.c close.c \
 	closedir.c dirfd.c dirname-lgpl.c stripslash.c dup2.c error.c \
 	exitfail.c fcntl.c fd-hook.c filevercmp.c float.c itold.c \
-	free.c fseterr.c fstat.c getdelim.c getdtablesize.c getline.c \
-	getopt.c getopt1.c getprogname.c getrandom.c gettext.h \
-	hard-locale.c ialloc.c iconv_open.c iconv.c iconv_close.c \
-	idx.h iswblank.c iswdigit.c iswpunct.c iswxdigit.c gl_list.h \
-	gl_list.c localcharset.c localeconv.c glthread/lock.h \
-	glthread/lock.c lstat.c malloca.c mbchar.c mbiterf.h mbiterf.c \
-	mbrtoc32.c mbrtowc.c mbsinit.c mbsnlen.c mbszero.c memchr.c \
-	memcmp2.c memeq.c minmax.h mkdir.c mkdtemp.c msvc-inval.c \
-	msvc-nothrow.c gl_omap.h gl_omap.c glthread/once.h \
-	glthread/once.c open.c opendir.c progname.h progname.c \
-	pthread-once.c readdir.c realloc.c reallocarray.c scandir.c \
-	secure_getenv.c setlocale_null.c setlocale-lock.c \
+	free.c fseterr.c fstat.c getdelim.c getdtablesize.c \
+	getentropy.c getline.c getopt.c getopt1.c getprogname.c \
+	getrandom.c gettext.h hard-locale.c ialloc.c iconv_open.c \
+	iconv.c iconv_close.c idx.h iswblank.c iswdigit.c iswpunct.c \
+	iswxdigit.c gl_list.h gl_list.c localcharset.c localeconv.c \
+	glthread/lock.h glthread/lock.c lstat.c malloca.c mbchar.c \
+	mbiterf.h mbiterf.c mbrtoc32.c mbrtowc.c mbsinit.c mbsnlen.c \
+	mbszero.c memchr.c memcmp2.c memeq.c minmax.h mkdir.c \
+	mkdtemp.c msvc-inval.c msvc-nothrow.c gl_omap.h gl_omap.c \
+	glthread/once.h glthread/once.c open.c opendir.c progname.h \
+	progname.c pthread-once.c readdir.c realloc.c reallocarray.c \
+	scandir.c secure_getenv.c setlocale_null.c setlocale-lock.c \
 	setlocale_null-unlocked.c size_max.h stat.c stat-time.c \
 	stdio-read.c stdio-write.c stdio-consolesafe.c stdlib.c \
 	streq.c strerror.c strerror-override.c striconveh.h \
@@ -440,21 +439,21 @@ am__libgnu_la_SOURCES_DIST = amemxfrm.c atexit.c gl_avltree_list.h \
 	windows-recmutex.c windows-rwlock.c xmalloc.c xalloc-die.c \
 	gl_xlist.h gl_xlist.c gl_xomap.h gl_xomap.c xsize.h xsize.c \
 	xstrerror.c xvasprintf.h xvasprintf.c xasprintf.c
-@GL_COND_OBJ_ATEXIT_TRUE@am__objects_1 = libgnu_la-atexit.lo
-@GL_COND_OBJ_CLOSE_TRUE@am__objects_2 = libgnu_la-close.lo
-@GL_COND_OBJ_CLOSEDIR_TRUE@am__objects_3 = libgnu_la-closedir.lo
-@GL_COND_OBJ_DIRFD_TRUE@am__objects_4 = libgnu_la-dirfd.lo
-@GL_COND_OBJ_DUP2_TRUE@am__objects_5 = libgnu_la-dup2.lo
-@GL_COND_OBJ_ERROR_TRUE@am__objects_6 = libgnu_la-error.lo
-@GL_COND_OBJ_FCNTL_TRUE@am__objects_7 = libgnu_la-fcntl.lo
-@GL_COND_OBJ_FLOAT_TRUE@am__objects_8 = libgnu_la-float.lo
-@GL_COND_OBJ_ITOLD_TRUE@am__objects_9 = libgnu_la-itold.lo
-@GL_COND_OBJ_FREE_TRUE@am__objects_10 = libgnu_la-free.lo
-@GL_COND_OBJ_FSETERR_TRUE@am__objects_11 = libgnu_la-fseterr.lo
-@GL_COND_OBJ_FSTAT_TRUE@am__objects_12 = libgnu_la-fstat.lo
-@GL_COND_OBJ_GETDELIM_TRUE@am__objects_13 = libgnu_la-getdelim.lo
-@GL_COND_OBJ_GETDTABLESIZE_TRUE@am__objects_14 =  \
+@GL_COND_OBJ_CLOSE_TRUE@am__objects_1 = libgnu_la-close.lo
+@GL_COND_OBJ_CLOSEDIR_TRUE@am__objects_2 = libgnu_la-closedir.lo
+@GL_COND_OBJ_DIRFD_TRUE@am__objects_3 = libgnu_la-dirfd.lo
+@GL_COND_OBJ_DUP2_TRUE@am__objects_4 = libgnu_la-dup2.lo
+@GL_COND_OBJ_ERROR_TRUE@am__objects_5 = libgnu_la-error.lo
+@GL_COND_OBJ_FCNTL_TRUE@am__objects_6 = libgnu_la-fcntl.lo
+@GL_COND_OBJ_FLOAT_TRUE@am__objects_7 = libgnu_la-float.lo
+@GL_COND_OBJ_ITOLD_TRUE@am__objects_8 = libgnu_la-itold.lo
+@GL_COND_OBJ_FREE_TRUE@am__objects_9 = libgnu_la-free.lo
+@GL_COND_OBJ_FSETERR_TRUE@am__objects_10 = libgnu_la-fseterr.lo
+@GL_COND_OBJ_FSTAT_TRUE@am__objects_11 = libgnu_la-fstat.lo
+@GL_COND_OBJ_GETDELIM_TRUE@am__objects_12 = libgnu_la-getdelim.lo
+@GL_COND_OBJ_GETDTABLESIZE_TRUE@am__objects_13 =  \
 @GL_COND_OBJ_GETDTABLESIZE_TRUE@	libgnu_la-getdtablesize.lo
+@GL_COND_OBJ_GETENTROPY_TRUE@am__objects_14 = libgnu_la-getentropy.lo
 @GL_COND_OBJ_GETLINE_TRUE@am__objects_15 = libgnu_la-getline.lo
 @GL_COND_OBJ_GETOPT_TRUE@am__objects_16 = libgnu_la-getopt.lo \
 @GL_COND_OBJ_GETOPT_TRUE@	libgnu_la-getopt1.lo
@@ -566,7 +565,7 @@ am__dirstamp = $(am__leading_dot)dirstamp
 @GL_COND_OBJ_WINDOWS_RECMUTEX_TRUE@am__objects_108 = libgnu_la-windows-recmutex.lo
 @GL_COND_OBJ_WINDOWS_RWLOCK_TRUE@am__objects_109 =  \
 @GL_COND_OBJ_WINDOWS_RWLOCK_TRUE@	libgnu_la-windows-rwlock.lo
-am_libgnu_la_OBJECTS = libgnu_la-amemxfrm.lo $(am__objects_1) \
+am_libgnu_la_OBJECTS = libgnu_la-amemxfrm.lo \
 	libgnu_la-gl_avltree_list.lo libgnu_la-gl_avltree_omap.lo \
 	libgnu_la-base64.lo libgnu_la-basename-lgpl.lo \
 	libgnu_la-c-ctype.lo libgnu_la-c-strcasecmp.lo \
@@ -577,19 +576,19 @@ am_libgnu_la_OBJECTS = libgnu_la-amemxfrm.lo $(am__objects_1) \
 	libgnu_la-c32ispunct.lo libgnu_la-c32isspace.lo \
 	libgnu_la-c32isupper.lo libgnu_la-c32isxdigit.lo \
 	libgnu_la-c32tolower.lo libgnu_la-c32width.lo \
-	libgnu_la-cloexec.lo $(am__objects_2) $(am__objects_3) \
-	$(am__objects_4) libgnu_la-dirname-lgpl.lo \
-	libgnu_la-stripslash.lo $(am__objects_5) $(am__objects_6) \
-	libgnu_la-exitfail.lo $(am__objects_7) libgnu_la-fd-hook.lo \
-	libgnu_la-filevercmp.lo $(am__objects_8) $(am__objects_9) \
-	$(am__objects_10) $(am__objects_11) $(am__objects_12) \
-	$(am__objects_13) $(am__objects_14) $(am__objects_15) \
-	$(am__objects_16) $(am__objects_17) $(am__objects_18) \
-	libgnu_la-hard-locale.lo libgnu_la-ialloc.lo $(am__objects_19) \
-	$(am__objects_20) $(am__objects_21) $(am__objects_22) \
-	$(am__objects_23) $(am__objects_24) libgnu_la-gl_list.lo \
-	libgnu_la-localcharset.lo $(am__objects_25) \
-	glthread/libgnu_la-lock.lo $(am__objects_26) \
+	libgnu_la-cloexec.lo $(am__objects_1) $(am__objects_2) \
+	$(am__objects_3) libgnu_la-dirname-lgpl.lo \
+	libgnu_la-stripslash.lo $(am__objects_4) $(am__objects_5) \
+	libgnu_la-exitfail.lo $(am__objects_6) libgnu_la-fd-hook.lo \
+	libgnu_la-filevercmp.lo $(am__objects_7) $(am__objects_8) \
+	$(am__objects_9) $(am__objects_10) $(am__objects_11) \
+	$(am__objects_12) $(am__objects_13) $(am__objects_14) \
+	$(am__objects_15) $(am__objects_16) $(am__objects_17) \
+	$(am__objects_18) libgnu_la-hard-locale.lo libgnu_la-ialloc.lo \
+	$(am__objects_19) $(am__objects_20) $(am__objects_21) \
+	$(am__objects_22) $(am__objects_23) $(am__objects_24) \
+	libgnu_la-gl_list.lo libgnu_la-localcharset.lo \
+	$(am__objects_25) glthread/libgnu_la-lock.lo $(am__objects_26) \
 	libgnu_la-malloca.lo libgnu_la-mbchar.lo libgnu_la-mbiterf.lo \
 	$(am__objects_27) $(am__objects_28) $(am__objects_29) \
 	libgnu_la-mbsnlen.lo libgnu_la-mbszero.lo $(am__objects_30) \
@@ -665,7 +664,6 @@ am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/libgnu_la-amemxfrm.Plo \
 	./$(DEPDIR)/libgnu_la-asnprintf.Plo \
 	./$(DEPDIR)/libgnu_la-aszprintf.Plo \
-	./$(DEPDIR)/libgnu_la-atexit.Plo \
 	./$(DEPDIR)/libgnu_la-base64.Plo \
 	./$(DEPDIR)/libgnu_la-basename-lgpl.Plo \
 	./$(DEPDIR)/libgnu_la-c-ctype.Plo \
@@ -700,6 +698,7 @@ am__depfiles_remade = ./$(DEPDIR)/libgnu_la-amemxfrm.Plo \
 	./$(DEPDIR)/libgnu_la-fstat.Plo \
 	./$(DEPDIR)/libgnu_la-getdelim.Plo \
 	./$(DEPDIR)/libgnu_la-getdtablesize.Plo \
+	./$(DEPDIR)/libgnu_la-getentropy.Plo \
 	./$(DEPDIR)/libgnu_la-getline.Plo \
 	./$(DEPDIR)/libgnu_la-getopt.Plo \
 	./$(DEPDIR)/libgnu_la-getopt1.Plo \
@@ -2608,18 +2607,18 @@ MAINTAINERCLEANFILES = iconv_open-aix.h iconv_open-hpux.h \
 # No GNU Make output.
 AM_CPPFLAGS = 
 AM_CFLAGS = 
-libgnu_la_SOURCES = amemxfrm.c $(am__append_1) gl_avltree_list.h \
-	gl_avltree_list.c gl_anyavltree_list1.h gl_anyavltree_list2.h \
-	gl_anytree_list1.h gl_anytree_list2.h gl_avltree_omap.h \
-	gl_avltree_omap.c gl_avltree_ordered.h gl_anytree_omap.h \
-	base64.h base64.c basename-lgpl.c c-ctype.h c-ctype.c \
-	c-strcasecmp.c c32isalnum.c c32isalpha.c c32isblank.c \
-	c32iscntrl.c c32isdigit.c c32isgraph.c c32islower.c \
-	c32isprint.c c32ispunct.c c32isspace.c c32isupper.c \
-	c32isxdigit.c c32tolower.c c32width.c cloexec.c \
-	$(am__append_2) $(am__append_3) $(am__append_4) dirname-lgpl.c \
-	stripslash.c $(am__append_5) $(am__append_6) exitfail.c \
-	$(am__append_7) fd-hook.c filevercmp.c $(am__append_8) \
+libgnu_la_SOURCES = amemxfrm.c gl_avltree_list.h gl_avltree_list.c \
+	gl_anyavltree_list1.h gl_anyavltree_list2.h gl_anytree_list1.h \
+	gl_anytree_list2.h gl_avltree_omap.h gl_avltree_omap.c \
+	gl_avltree_ordered.h gl_anytree_omap.h base64.h base64.c \
+	basename-lgpl.c c-ctype.h c-ctype.c c-strcasecmp.c \
+	c32isalnum.c c32isalpha.c c32isblank.c c32iscntrl.c \
+	c32isdigit.c c32isgraph.c c32islower.c c32isprint.c \
+	c32ispunct.c c32isspace.c c32isupper.c c32isxdigit.c \
+	c32tolower.c c32width.c cloexec.c $(am__append_1) \
+	$(am__append_2) $(am__append_3) dirname-lgpl.c stripslash.c \
+	$(am__append_4) $(am__append_5) exitfail.c $(am__append_6) \
+	fd-hook.c filevercmp.c $(am__append_7) $(am__append_8) \
 	$(am__append_9) $(am__append_10) $(am__append_11) \
 	$(am__append_12) $(am__append_13) $(am__append_14) \
 	$(am__append_15) $(am__append_16) $(am__append_17) \
@@ -2975,7 +2974,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-amemxfrm.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-asnprintf.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-aszprintf.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-atexit.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-base64.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-basename-lgpl.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-c-ctype.Plo@am__quote@ # am--include-marker
@@ -3012,6 +3010,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-fstat.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-getdelim.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-getdtablesize.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-getentropy.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-getline.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-getopt.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-getopt1.Plo@am__quote@ # am--include-marker
@@ -3206,13 +3205,6 @@ libgnu_la-amemxfrm.lo: amemxfrm.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='amemxfrm.c' object='libgnu_la-amemxfrm.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -c -o libgnu_la-amemxfrm.lo `test -f 'amemxfrm.c' || echo '$(srcdir)/'`amemxfrm.c
-
-libgnu_la-atexit.lo: atexit.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -MT libgnu_la-atexit.lo -MD -MP -MF $(DEPDIR)/libgnu_la-atexit.Tpo -c -o libgnu_la-atexit.lo `test -f 'atexit.c' || echo '$(srcdir)/'`atexit.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgnu_la-atexit.Tpo $(DEPDIR)/libgnu_la-atexit.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='atexit.c' object='libgnu_la-atexit.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -c -o libgnu_la-atexit.lo `test -f 'atexit.c' || echo '$(srcdir)/'`atexit.c
 
 libgnu_la-gl_avltree_list.lo: gl_avltree_list.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -MT libgnu_la-gl_avltree_list.lo -MD -MP -MF $(DEPDIR)/libgnu_la-gl_avltree_list.Tpo -c -o libgnu_la-gl_avltree_list.lo `test -f 'gl_avltree_list.c' || echo '$(srcdir)/'`gl_avltree_list.c
@@ -3486,6 +3478,13 @@ libgnu_la-getdtablesize.lo: getdtablesize.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='getdtablesize.c' object='libgnu_la-getdtablesize.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -c -o libgnu_la-getdtablesize.lo `test -f 'getdtablesize.c' || echo '$(srcdir)/'`getdtablesize.c
+
+libgnu_la-getentropy.lo: getentropy.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -MT libgnu_la-getentropy.lo -MD -MP -MF $(DEPDIR)/libgnu_la-getentropy.Tpo -c -o libgnu_la-getentropy.lo `test -f 'getentropy.c' || echo '$(srcdir)/'`getentropy.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgnu_la-getentropy.Tpo $(DEPDIR)/libgnu_la-getentropy.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='getentropy.c' object='libgnu_la-getentropy.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -c -o libgnu_la-getentropy.lo `test -f 'getentropy.c' || echo '$(srcdir)/'`getentropy.c
 
 libgnu_la-getline.lo: getline.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -MT libgnu_la-getline.lo -MD -MP -MF $(DEPDIR)/libgnu_la-getline.Tpo -c -o libgnu_la-getline.lo `test -f 'getline.c' || echo '$(srcdir)/'`getline.c
@@ -4839,7 +4838,6 @@ distclean: distclean-recursive
 	-rm -f ./$(DEPDIR)/libgnu_la-amemxfrm.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-asnprintf.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-aszprintf.Plo
-	-rm -f ./$(DEPDIR)/libgnu_la-atexit.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-base64.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-basename-lgpl.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-c-ctype.Plo
@@ -4876,6 +4874,7 @@ distclean: distclean-recursive
 	-rm -f ./$(DEPDIR)/libgnu_la-fstat.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-getdelim.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-getdtablesize.Plo
+	-rm -f ./$(DEPDIR)/libgnu_la-getentropy.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-getline.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-getopt.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-getopt1.Plo
@@ -5081,7 +5080,6 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f ./$(DEPDIR)/libgnu_la-amemxfrm.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-asnprintf.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-aszprintf.Plo
-	-rm -f ./$(DEPDIR)/libgnu_la-atexit.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-base64.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-basename-lgpl.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-c-ctype.Plo
@@ -5118,6 +5116,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f ./$(DEPDIR)/libgnu_la-fstat.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-getdelim.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-getdtablesize.Plo
+	-rm -f ./$(DEPDIR)/libgnu_la-getentropy.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-getline.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-getopt.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-getopt1.Plo

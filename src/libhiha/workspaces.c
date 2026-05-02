@@ -20,6 +20,7 @@
 */
 
 #include <config.h>
+#include <ftw.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
@@ -36,16 +37,28 @@ static initialize_once_t _work_directory_init1t =
   INITIALIZE_ONCE_T_INIT;
 static const char *_work_directory = NULL;
 
+static int
+_remove_work_directory_callback (const char *fpath,
+                                 const struct stat *sb, int typeflag,
+                                 struct FTW *ftwbuf)
+{
+  return remove (fpath);
+}
+
 static void
 _remove_work_directory (void)
 {
-  remove (_work_directory);
+  nftw (_work_directory, _remove_work_directory_callback, 64,
+        FTW_DEPTH | FTW_PHYS);
 }
 
 static void
 _initialize_work_directory (void)
 {
-  char template[] = "hiha.XXXXXX";
+  //
+  // FIXME: Allow an alternate TMPDIR.
+  //
+  char template[] = "/tmp/hiha.XXXXXX";
   char *dirname = mkdtemp (template);
   int err_number = errno;
   if (dirname == NULL)

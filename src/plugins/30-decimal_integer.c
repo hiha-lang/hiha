@@ -73,7 +73,7 @@ consume_tokens (buffered_token_getter_t getter, size_t num_to_consume,
   size_t i = 0;
   while (*error_message == NULL && i != num_to_consume)
     {
-      (void) getter->get_token (getter, &t, error_message);
+      getter->get_token (getter, &t, error_message);
       i += 1;
     }
 }

@@ -193,11 +193,11 @@ get_token_stream_filenames (const char *filename[2],
   char s[100];
   for (size_t i = 0; i != 2; i += 1)
     {
-      snprintf (s, 100, "%zu.%s", i, extension);
+      snprintf (s, 100, "%zu%s", i, extension);
       size_t nwd = strlen (work_directory ());
       size_t ns = strlen (s);
       char *t = XCALLOC (nwd + ns + 2, char);
-      memcpy (t, work_directory, nwd * sizeof (char));
+      memcpy (t, work_directory (), nwd * sizeof (char));
       t[nwd] = '/';
       memcpy (t + (nwd + 1), s, ns * sizeof (char));
       filename[i] = t;
@@ -215,6 +215,8 @@ scan_source_files_to_serialized_tokens (size_t n,
   buffered_token_getter_t getter;
   const bool (*check_for_mismatch) (buffered_token_getter_t, token_t);
   FILE *f;
+
+  get_token_stream_filenames (fn, ".hiha-serialized-tokens");
 
   buffered_token_getter_t input_getter =
     make_buffered_token_getter_from_source_files (n, filenames);

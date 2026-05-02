@@ -42,20 +42,21 @@ token_is_fraction_slash (token_t tok)
 {
   /*
 
-    The solidus /, DIVISION SLASH “∕” U+2215, or FRACTION SLASH “⁄”
-    U+2044
+     The solidus /, DIVISION SLASH “∕” U+2215, or FRACTION SLASH “⁄”
+     U+2044
 
-    The fraction slash might be useful for pretty printing, depending
-    on how one’s typesetting system works. Otherwise I would not
-    recommend it, because numerals written with the fraction slash
-    could get mistaken for Unicode predefined fractions, which are not
-    treated by hiha as numerals.
+     The fraction slash might be useful for pretty printing, depending
+     on how one’s typesetting system works. Otherwise I would not
+     recommend it, because numerals written with the fraction slash
+     could get mistaken for Unicode predefined fractions, which are not
+     treated by hiha as numerals.
 
-  */
+   */
 
   return (string_t_cmp (tok->token_value, make_string_t ("/")) == 0
           || string_t_cmp (tok->token_value, make_string_t ("∕")) == 0
-          || string_t_cmp (tok->token_value, make_string_t ("⁄")) == 0);
+          || string_t_cmp (tok->token_value,
+                           make_string_t ("⁄")) == 0);
 }
 
 static bool

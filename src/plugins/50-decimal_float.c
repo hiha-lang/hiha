@@ -53,7 +53,8 @@ static bool
 token_is_exponent_start (token_t tok)
 {
   return (string_t_cmp (tok->token_value, make_string_t ("^")) == 0
-          || string_t_cmp (tok->token_value, make_string_t ("↑")) == 0);
+          || string_t_cmp (tok->token_value,
+                           make_string_t ("↑")) == 0);
 }
 
 static bool
@@ -67,8 +68,8 @@ token_is_sign (token_t tok)
 
 static void
 scan_exponent (buffered_token_getter_t getter, bool *is_a_match,
-               token_t *tok_expstart, token_t *tok_sign, token_t *tok_exponent,
-               const char **error_message)
+               token_t *tok_expstart, token_t *tok_sign,
+               token_t *tok_exponent, const char **error_message)
 {
   /*
 
@@ -231,10 +232,11 @@ i_i10_handler (void *state, buffered_token_getter_t getter,
       done = (*error_message != NULL);
       if (!done && is_a_match)
         {
-          string_t str =
-            concat_string_t (tok->token_value, tok_expstart->token_value,
-                             tok_sign->token_value,
-                             tok_exponent->token_value, NULL);
+          string_t str = concat_string_t (tok->token_value,
+                                          tok_expstart->token_value,
+                                          tok_sign->token_value,
+                                          tok_exponent->token_value,
+                                          NULL);
           *lhs =
             (void *) make_token_t (make_string_t ("F10"), str,
                                    tok->loc);

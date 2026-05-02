@@ -1,5 +1,15 @@
 @  master
-|  2026-05-02 12:22 +0000
+|  2026-05-02 14:34 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       01ad21a84659b600e377bd6eb416a1aef936720f
+|  mercurial: 167705f864e453e9c89be62301340e2ec0129b60
+|  revision:  99
+|  parents:   98
+|
+|    Prepare to scan string literals. Prepare better for gettext.
+|
+|
+o  2026-05-02 12:22 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       623e67563f89051297d81ddf5907fc74f0fadc41
 |  mercurial: 33159c7be04b0be150cefb4dc02d9c7d6d4802fb

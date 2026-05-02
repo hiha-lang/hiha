@@ -279,6 +279,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/base64.m4 $(top_srcdir)/m4/build-to-host.m4 \
 	$(top_srcdir)/m4/builtin-expect.m4 $(top_srcdir)/m4/c-bool.m4 \
 	$(top_srcdir)/m4/c32rtomb.m4 $(top_srcdir)/m4/calloc.m4 \
+	$(top_srcdir)/m4/chem_c_std_flags.m4 \
 	$(top_srcdir)/m4/chem_compiler_flags.m4 \
 	$(top_srcdir)/m4/chem_config_makefiles.m4 \
 	$(top_srcdir)/m4/chem_path_progs_cached_and_precious.m4 \

@@ -249,20 +249,19 @@ plugin_init (void)
 EOF
 }
 
-
 # Run everything in a subshell, so the user does not get stuck in a
 # new directory if the process is interrupted.
 (
     cd "${srcdir}"
 
-    lexical_end_cap_automake 0.1000 eof
-    lexical_end_cap_automake 0.1000 cp
-    lexical_end_cap_automake 0.1000 sp
-    lexical_end_cap_automake 0.1000 i10
-    lexical_end_cap_automake 0.1000 id
-    lexical_end_cap_automake 0.1000 f10
-    lexical_end_cap_automake 0.1000 i.i10
-    lexical_end_cap_automake 0.1000 r10
+    lexical_end_cap_automake 0.1000 eof   # end of file
+    lexical_end_cap_automake 0.1000 cp    # code points
+    lexical_end_cap_automake 0.1000 sp    # white space
+    lexical_end_cap_automake 0.1000 i10   # decimal integers
+    lexical_end_cap_automake 0.1000 id    # identifiers
+    lexical_end_cap_automake 0.1000 f10   # decimal floating point
+    lexical_end_cap_automake 0.1000 i.i10 # decimal fixed and floating
+    lexical_end_cap_automake 0.1000 r10   # decimal exact fractions
 
     plugin_automake 20 white_space
     plugin_automake 30 decimal_integer

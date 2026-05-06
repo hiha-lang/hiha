@@ -2387,7 +2387,8 @@ libhiha_la_SOURCES = $(libhiha_HDRS) src/libhiha/workspaces.c \
 	src/libhiha/token_t.c src/libhiha/pratt.c \
 	src/libhiha/lexical.c src/libhiha/string_literal.c \
 	src/libhiha/gensym.c src/libhiha/load_plugin.c
-libhiha_HDRS = include/libhiha/libhiha.h include/libhiha/workspaces.h \
+libhiha_HDRS = include/libhiha/libhiha.h \
+	include/libhiha/persistent_avl.h include/libhiha/workspaces.h \
 	include/libhiha/spinlock.h include/libhiha/initialize_once.h \
 	include/libhiha/string_t.h include/libhiha/token_t.h \
 	include/libhiha/pratt.h include/libhiha/lexical.h \

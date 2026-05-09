@@ -20,6 +20,7 @@
 */
 
 #include <config.h>
+#include <gc/gc.h>
 #include <libhiha/libhiha.h>
 
 HIHA_VISIBLE const char version_etc_copyright[] =
@@ -30,6 +31,7 @@ HIHA_INT_TRIE_TEST_DEFN (trie_test, 10000);
 int
 main (void)
 {
+  GC_INIT ();
   trie_test ();
   return 0;
 }

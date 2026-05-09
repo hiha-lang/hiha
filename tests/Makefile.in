@@ -220,10 +220,16 @@ check_persistent_integer_trie_SOURCES =  \
 	check_persistent_integer_trie.c
 check_persistent_integer_trie_OBJECTS = check_persistent_integer_trie-check_persistent_integer_trie.$(OBJEXT)
 check_persistent_integer_trie_LDADD = $(LDADD)
+am__DEPENDENCIES_1 =
+am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 check_persistent_integer_trie_DEPENDENCIES =  \
 	$(top_builddir)/libhiha.la \
 	$(top_builddir)/$(GCVERS)/libhiha-gc.la \
-	$(top_builddir)/lib/libgnu.la
+	$(top_builddir)/lib/libgnu.la $(am__DEPENDENCIES_2)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -1802,9 +1808,13 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 z_execstack = @z_execstack@
 AUTOMAKE_OPTIONS = -Wno-portability
+AM_LIBRS = $(CLOCK_TIME_LIB) $(GETRANDOM_LIB) $(HARD_LOCALE_LIB) \
+	$(LIBPTHREAD) $(LIBTHREAD) $(LIBC32CONV) $(LIBICONV) \
+	$(LIBINTL) $(LIBUNISTRING) $(MBRTOWC_LIB) $(PTHREAD_ONCE_LIB) \
+	$(SETLOCAL_NULL_LIB)
 LDADD = $(top_builddir)/libhiha.la \
 	$(top_builddir)/$(GCVERS)/libhiha-gc.la \
-	$(top_builddir)/lib/libgnu.la
+	$(top_builddir)/lib/libgnu.la $(AM_LIBRS)
 EXTRA_DIST = testsuite.at $(srcdir)/package.m4 $(TESTSUITE) atlocal.in
 BUILT_SOURCES = 
 CLEANFILES = *.tmp tmp.*

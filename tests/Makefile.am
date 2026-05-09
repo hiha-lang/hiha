@@ -23,6 +23,7 @@ AUTOMAKE_OPTIONS += -Wno-portability
 
 @GNU@ include $(top_srcdir)/silent-rules.mk
 
+AM_LIBRS =
 LDADD =
 EXTRA_DIST =
 BUILT_SOURCES =
@@ -103,9 +104,23 @@ $(TESTSUITE): $(TESTSUITE_DEPS)
 	$(AUTOTEST) -I '$(srcdir)' -o $(@).tmp $(srcdir)/testsuite.at \
 	    && mv $(@){.tmp,}
 
+AM_LIBRS += $(CLOCK_TIME_LIB)
+AM_LIBRS += $(GETRANDOM_LIB)
+AM_LIBRS += $(HARD_LOCALE_LIB)
+AM_LIBRS += $(LIBPTHREAD)
+AM_LIBRS += $(LIBTHREAD)
+AM_LIBRS += $(LIBC32CONV)
+AM_LIBRS += $(LIBICONV)
+AM_LIBRS += $(LIBINTL)
+AM_LIBRS += $(LIBUNISTRING)
+AM_LIBRS += $(MBRTOWC_LIB)
+AM_LIBRS += $(PTHREAD_ONCE_LIB)
+AM_LIBRS += $(SETLOCAL_NULL_LIB)
+
 LDADD += $(top_builddir)/libhiha.la
 LDADD += $(top_builddir)/$(GCVERS)/libhiha-gc.la
 LDADD += $(top_builddir)/lib/libgnu.la
+LDADD += $(AM_LIBRS)
 
 BASICCFLAGS =
 BASICCFLAGS += -I $(abs_top_builddir)

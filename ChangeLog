@@ -1,5 +1,17 @@
 @  master
-|  2026-05-08 17:47 +0000
+|  2026-05-08 23:44 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       65c0cdf71200cfe59181c227d6408a308dd2a713
+|  mercurial: 36bb6cf19a6c226d6c2eadbca4a7590f4606b869
+|  revision:  106
+|  parents:   105
+|
+|    A bit of a fix for persistent integer trie so the test is self
+|    sufficient. Added autotest support and a test for persistent integer
+|    trie.
+|
+|
+o  2026-05-08 17:47 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       821b9fe1c819cce65c29f37bd95b11d54be59b22
 |  mercurial: f02f8096a962221415d80928a120e806c9ffa699

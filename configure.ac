@@ -37,6 +37,13 @@ AM_MAINTAINER_MODE
 LT_PREREQ([2.5.4])
 LT_INIT([pic-only,dlopen])
 
+AC_ARG_ENABLE([color],
+  [AS_HELP_STRING([--disable-color],
+    [disable color in test outputs])],
+  [enable_color="${enableval}"],
+  [enable_color=yes])
+AC_SUBST([enable_color])
+
 AC_PROG_CC
 gl_EARLY
 AC_PROG_CC_C_O

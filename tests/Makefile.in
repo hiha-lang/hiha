@@ -108,7 +108,8 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 check_PROGRAMS = $(am__EXEEXT_1)
-@ALLOW_NESTED_C_FUNCTIONS_TRUE@am__append_1 = check_persistent_integer_trie
+@ALLOW_NESTED_C_FUNCTIONS_TRUE@am__append_1 = check_persistent_avl \
+@ALLOW_NESTED_C_FUNCTIONS_TRUE@	check_persistent_integer_trie
 subdir = tests
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
@@ -215,25 +216,38 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES = atlocal
 CONFIG_CLEAN_VPATH_FILES =
-@ALLOW_NESTED_C_FUNCTIONS_TRUE@am__EXEEXT_1 = check_persistent_integer_trie$(EXEEXT)
-check_persistent_integer_trie_SOURCES =  \
-	check_persistent_integer_trie.c
-check_persistent_integer_trie_OBJECTS = check_persistent_integer_trie-check_persistent_integer_trie.$(OBJEXT)
-check_persistent_integer_trie_LDADD = $(LDADD)
+@ALLOW_NESTED_C_FUNCTIONS_TRUE@am__EXEEXT_1 =  \
+@ALLOW_NESTED_C_FUNCTIONS_TRUE@	check_persistent_avl$(EXEEXT) \
+@ALLOW_NESTED_C_FUNCTIONS_TRUE@	check_persistent_integer_trie$(EXEEXT)
+check_persistent_avl_SOURCES = check_persistent_avl.c
+check_persistent_avl_OBJECTS =  \
+	check_persistent_avl-check_persistent_avl.$(OBJEXT)
+check_persistent_avl_LDADD = $(LDADD)
 am__DEPENDENCIES_1 =
 am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
-check_persistent_integer_trie_DEPENDENCIES =  \
-	$(top_builddir)/libhiha.la \
+check_persistent_avl_DEPENDENCIES = $(top_builddir)/libhiha.la \
 	$(top_builddir)/$(GCVERS)/libhiha-gc.la \
 	$(top_builddir)/lib/libgnu.la $(am__DEPENDENCIES_2)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
+check_persistent_avl_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(check_persistent_avl_CFLAGS) $(CFLAGS) \
+	$(check_persistent_avl_LDFLAGS) $(LDFLAGS) -o $@
+check_persistent_integer_trie_SOURCES =  \
+	check_persistent_integer_trie.c
+check_persistent_integer_trie_OBJECTS = check_persistent_integer_trie-check_persistent_integer_trie.$(OBJEXT)
+check_persistent_integer_trie_LDADD = $(LDADD)
+check_persistent_integer_trie_DEPENDENCIES =  \
+	$(top_builddir)/libhiha.la \
+	$(top_builddir)/$(GCVERS)/libhiha-gc.la \
+	$(top_builddir)/lib/libgnu.la $(am__DEPENDENCIES_2)
 check_persistent_integer_trie_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(check_persistent_integer_trie_CFLAGS) $(CFLAGS) \
@@ -253,7 +267,9 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/check_persistent_integer_trie-check_persistent_integer_trie.Po
+am__depfiles_remade =  \
+	./$(DEPDIR)/check_persistent_avl-check_persistent_avl.Po \
+	./$(DEPDIR)/check_persistent_integer_trie-check_persistent_integer_trie.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -273,8 +289,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = check_persistent_integer_trie.c
-DIST_SOURCES = check_persistent_integer_trie.c
+SOURCES = check_persistent_avl.c check_persistent_integer_trie.c
+DIST_SOURCES = check_persistent_avl.c check_persistent_integer_trie.c
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -1757,6 +1773,7 @@ datadir = @datadir@
 datarootdir = @datarootdir@
 docdir = @docdir@
 dvidir = @dvidir@
+enable_color = @enable_color@
 exec_prefix = @exec_prefix@
 gl_LIBOBJDEPS = @gl_LIBOBJDEPS@
 gl_LIBOBJS = @gl_LIBOBJS@
@@ -1830,6 +1847,11 @@ BASICCFLAGS = -I $(abs_top_builddir) -I $(abs_top_builddir)/include -I \
 	$(abs_top_builddir)/lib -I $(abs_top_srcdir) -I \
 	$(abs_top_srcdir)/include -I $(abs_top_srcdir)/lib -I \
 	$(abs_top_srcdir)/$(GCVERS)/include
+@ALLOW_NESTED_C_FUNCTIONS_TRUE@check_persistent_avl_CFLAGS =  \
+@ALLOW_NESTED_C_FUNCTIONS_TRUE@	$(BASICCFLAGS) $(CFLAGS)
+@ALLOW_NESTED_C_FUNCTIONS_TRUE@check_persistent_avl_LDFLAGS =  \
+@ALLOW_NESTED_C_FUNCTIONS_TRUE@	$(AM_LDFLAGS) \
+@ALLOW_NESTED_C_FUNCTIONS_TRUE@	$(EXECSTACK_FLAGS)
 @ALLOW_NESTED_C_FUNCTIONS_TRUE@check_persistent_integer_trie_CFLAGS =  \
 @ALLOW_NESTED_C_FUNCTIONS_TRUE@	$(BASICCFLAGS) $(CFLAGS)
 @ALLOW_NESTED_C_FUNCTIONS_TRUE@check_persistent_integer_trie_LDFLAGS =  \
@@ -1876,6 +1898,10 @@ clean-checkPROGRAMS:
 	$(am__rm_f) $(check_PROGRAMS)
 	test -z "$(EXEEXT)" || $(am__rm_f) $(check_PROGRAMS:$(EXEEXT)=)
 
+check_persistent_avl$(EXEEXT): $(check_persistent_avl_OBJECTS) $(check_persistent_avl_DEPENDENCIES) $(EXTRA_check_persistent_avl_DEPENDENCIES) 
+	@rm -f check_persistent_avl$(EXEEXT)
+	$(AM_V_CCLD)$(check_persistent_avl_LINK) $(check_persistent_avl_OBJECTS) $(check_persistent_avl_LDADD) $(LIBS)
+
 check_persistent_integer_trie$(EXEEXT): $(check_persistent_integer_trie_OBJECTS) $(check_persistent_integer_trie_DEPENDENCIES) $(EXTRA_check_persistent_integer_trie_DEPENDENCIES) 
 	@rm -f check_persistent_integer_trie$(EXEEXT)
 	$(AM_V_CCLD)$(check_persistent_integer_trie_LINK) $(check_persistent_integer_trie_OBJECTS) $(check_persistent_integer_trie_LDADD) $(LIBS)
@@ -1886,6 +1912,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_persistent_avl-check_persistent_avl.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_persistent_integer_trie-check_persistent_integer_trie.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
@@ -1914,6 +1941,20 @@ am--depfiles: $(am__depfiles_remade)
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
+
+check_persistent_avl-check_persistent_avl.o: check_persistent_avl.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_persistent_avl_CFLAGS) $(CFLAGS) -MT check_persistent_avl-check_persistent_avl.o -MD -MP -MF $(DEPDIR)/check_persistent_avl-check_persistent_avl.Tpo -c -o check_persistent_avl-check_persistent_avl.o `test -f 'check_persistent_avl.c' || echo '$(srcdir)/'`check_persistent_avl.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/check_persistent_avl-check_persistent_avl.Tpo $(DEPDIR)/check_persistent_avl-check_persistent_avl.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='check_persistent_avl.c' object='check_persistent_avl-check_persistent_avl.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_persistent_avl_CFLAGS) $(CFLAGS) -c -o check_persistent_avl-check_persistent_avl.o `test -f 'check_persistent_avl.c' || echo '$(srcdir)/'`check_persistent_avl.c
+
+check_persistent_avl-check_persistent_avl.obj: check_persistent_avl.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_persistent_avl_CFLAGS) $(CFLAGS) -MT check_persistent_avl-check_persistent_avl.obj -MD -MP -MF $(DEPDIR)/check_persistent_avl-check_persistent_avl.Tpo -c -o check_persistent_avl-check_persistent_avl.obj `if test -f 'check_persistent_avl.c'; then $(CYGPATH_W) 'check_persistent_avl.c'; else $(CYGPATH_W) '$(srcdir)/check_persistent_avl.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/check_persistent_avl-check_persistent_avl.Tpo $(DEPDIR)/check_persistent_avl-check_persistent_avl.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='check_persistent_avl.c' object='check_persistent_avl-check_persistent_avl.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_persistent_avl_CFLAGS) $(CFLAGS) -c -o check_persistent_avl-check_persistent_avl.obj `if test -f 'check_persistent_avl.c'; then $(CYGPATH_W) 'check_persistent_avl.c'; else $(CYGPATH_W) '$(srcdir)/check_persistent_avl.c'; fi`
 
 check_persistent_integer_trie-check_persistent_integer_trie.o: check_persistent_integer_trie.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_persistent_integer_trie_CFLAGS) $(CFLAGS) -MT check_persistent_integer_trie-check_persistent_integer_trie.o -MD -MP -MF $(DEPDIR)/check_persistent_integer_trie-check_persistent_integer_trie.Tpo -c -o check_persistent_integer_trie-check_persistent_integer_trie.o `test -f 'check_persistent_integer_trie.c' || echo '$(srcdir)/'`check_persistent_integer_trie.c
@@ -2068,6 +2109,7 @@ clean-am: clean-checkPROGRAMS clean-generic clean-libtool clean-local \
 	mostlyclean-am
 
 distclean: distclean-am
+	-rm -f ./$(DEPDIR)/check_persistent_avl-check_persistent_avl.Po
 	-rm -f ./$(DEPDIR)/check_persistent_integer_trie-check_persistent_integer_trie.Po
 	-rm -f GNUmakefile
 distclean-am: clean-am distclean-compile distclean-generic \
@@ -2114,6 +2156,7 @@ install-ps-am:
 installcheck-am: installcheck-local
 
 maintainer-clean: maintainer-clean-am
+	-rm -f ./$(DEPDIR)/check_persistent_avl-check_persistent_avl.Po
 	-rm -f ./$(DEPDIR)/check_persistent_integer_trie-check_persistent_integer_trie.Po
 	-rm -f GNUmakefile
 maintainer-clean-am: distclean-am maintainer-clean-generic

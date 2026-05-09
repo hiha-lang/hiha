@@ -132,6 +132,16 @@ BASICCFLAGS += -I $(abs_top_srcdir)/lib
 BASICCFLAGS += -I $(abs_top_srcdir)/$(GCVERS)/include
 
 if ALLOW_NESTED_C_FUNCTIONS
+check_PROGRAMS += check_persistent_avl
+check_persistent_avl_CFLAGS =
+check_persistent_avl_LDFLAGS =
+check_persistent_avl_CFLAGS += $(BASICCFLAGS)
+check_persistent_avl_CFLAGS += $(CFLAGS)
+check_persistent_avl_LDFLAGS += $(AM_LDFLAGS)
+check_persistent_avl_LDFLAGS += $(EXECSTACK_FLAGS)
+endif ALLOW_NESTED_C_FUNCTIONS
+
+if ALLOW_NESTED_C_FUNCTIONS
 check_PROGRAMS += check_persistent_integer_trie
 check_persistent_integer_trie_CFLAGS =
 check_persistent_integer_trie_LDFLAGS =

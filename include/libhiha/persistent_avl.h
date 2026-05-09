@@ -404,6 +404,10 @@
       {                                                                 \
         tree = (avl_int_delete) (tree, buf[i], (int_cmp));              \
         assert (0 <= (avl_int_verify) (tree));                          \
+        for (j = 0; j != i + 1; j += 1)                                 \
+          assert ((avl_int_search) (tree, buf[j], (int_cmp)) == NULL);  \
+        for (j = i + 1; j != (BUFSIZE); j += 1)                         \
+          assert ((avl_int_search) (tree, buf[j], (int_cmp)) != NULL);  \
       }                                                                 \
     assert (tree == NULL);                                              \
                                                                         \
@@ -423,6 +427,8 @@
       {                                                                 \
         tree = (avl_int_delete) (tree, i, (int_cmp));                   \
         assert (0 <= (avl_int_verify) (tree));                          \
+        for (j = 0; j != i + 1; j += 1)                                 \
+          assert ((avl_int_search) (tree, j, (int_cmp)) == NULL);       \
         for (j = i + 1; j != (BUFSIZE); j += 1)                         \
           assert ((avl_int_search) (tree, j, (int_cmp)) != NULL);       \
       }                                                                 \

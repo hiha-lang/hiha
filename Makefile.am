@@ -295,7 +295,8 @@ indent:
 			$(filter %.c %.h,$(hiha_SOURCES))) \
 		$(addprefix $(top_srcdir)/, \
 			$(filter %.c %.h,$(hiha_tokens_print_SOURCES))) \
-		$(top_srcdir)/src/plugins/*.c
+		$(top_srcdir)/src/plugins/*.c \
+		$(top_srcdir)/tests/*.c
 
 #---------------------------------------------------------------------
 

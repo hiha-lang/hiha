@@ -1,5 +1,56 @@
 @  master
-|  2026-05-09 11:41 +0000
+|  2026-05-14 10:12 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       f4806c18284df9e8f264b6e73c024d12eefc5168
+|  mercurial: 57252ea5da33c0e810eb5b7f0b8932ee72782b9e
+|  revision:  112
+|  parents:   111
+|
+|    We are going to have to account for endianness.
+|
+|
+o  2026-05-14 01:35 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       157aeb4212ab9b434ac490515464ec178b6b007b
+|  mercurial: 98c03e0f41a0cb13d206d9fc879b694eff8f98bf
+|  revision:  111
+|  parents:   110
+|
+|    Add a warning.
+|
+|
+o  2026-05-14 01:31 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       4e10d1884250dc0e4dbb59da97a928cf683d4d15
+|  mercurial: 0aae03eece322821be4ec05b2d1081f4b5b4a47a
+|  revision:  110
+|  parents:   109
+|
+|    Added SpookyHash and part of the implementation of tests for it.
+|
+|
+o  2026-05-09 12:25 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       5721c7e35bf3b59694e051ca81c7812680e90a71
+|  mercurial: b01014e97c1e7048b61cc0df6da43724c41831c4
+|  revision:  109
+|  parents:   108
+|
+|    A little enhancement of the AVL test.
+|
+|
+o  2026-05-09 12:16 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       cc0e8343b83dd079872a5c50e695ede26d155de9
+|  mercurial: 068830aed0b7182d857a9106b52e74c90563766a
+|  revision:  108
+|  parents:   107
+|
+|    Added the persistent AVL test. Added the configure option for non-
+|    color tests.
+|
+|
+o  2026-05-09 11:41 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       c8e4470b8582cbe2a0bf84b353e0d606b9d1f8d0
 |  mercurial: ccc9b7b867c8d98b4266434d784ce2ca4a5d2b24

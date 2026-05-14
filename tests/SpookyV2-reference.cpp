@@ -110,9 +110,9 @@ main (int argc, char *argv[])
     (3 <= argc) ? strtoull (argv[2], NULL, 16) : 0;
   const size_t length_max = (4 <= argc) ? atoll (argv[3]) : 0;
 
-  char *message = new char[length_max];
+  char *message = new char[length_max + 1];
 
-  for (size_t length = 0; length != length_max; length += 1)
+  for (size_t length = 0; length != length_max + 1; length += 1)
     {
       fill_message (message, length, 0);
 

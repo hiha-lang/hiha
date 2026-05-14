@@ -140,11 +140,15 @@ check_spookyhash_CFLAGS += $(CFLAGS)
 # The SpookyHash reference implementation is written for i386/x86-64,
 # and so should not be run on other architectures unless you know what
 # you are doing.
-$(srcdir)/spookyhash-reference.txt: SpookyV2-reference
-	-rm -f $(@)
-	touch $(@)
-	./SpookyV2-reference 1 2 10000 >> $(@)
-	./SpookyV2-reference 3 4 10000 >> $(@)
+.PHONY: spookyhash-reference
+spookyhash-reference: SpookyV2-reference
+	ref="$(srcdir)/spookyhash-reference.txt" && \
+	rm -f "$${ref}" && \
+	touch "$${ref}" && \
+	./SpookyV2-reference 1 2 99999 >> "$${ref}" && \
+	./SpookyV2-reference 3 4 99999 >> "$${ref}"
+
+EXTRA_DIST += $(srcdir)/spookyhash-reference.txt
 
 EXTRA_PROGRAMS += SpookyV2-reference
 CLEANFILES += SpookyV2-reference

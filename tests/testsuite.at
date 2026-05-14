@@ -19,6 +19,11 @@ AT_COPYRIGHT([Copyright © 2026 Barry Schwartz])
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+AT_SETUP([SpookyHash])
+AT_KEYWORDS([spookyhash SpookyHash hash])
+AT_CHECK_UNQUOTED([check_spookyhash "${srcdir}"/spookyhash-reference.txt])
+AT_CLEANUP
+
 AT_SETUP([persistent AVL tree])
 AT_KEYWORDS([persistent AVL avl tree])
 AT_SKIP_IF([test "${allow_nested_c_functions}" != yes])

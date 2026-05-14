@@ -123,7 +123,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/ax_check_gnu_make.m4 \
 	$(top_srcdir)/m4/ax_check_link_flag.m4 \
 	$(top_srcdir)/m4/base64.m4 $(top_srcdir)/m4/build-to-host.m4 \
-	$(top_srcdir)/m4/builtin-expect.m4 $(top_srcdir)/m4/c-bool.m4 \
+	$(top_srcdir)/m4/builtin-expect.m4 \
+	$(top_srcdir)/m4/byteswap.m4 $(top_srcdir)/m4/c-bool.m4 \
 	$(top_srcdir)/m4/c32rtomb.m4 $(top_srcdir)/m4/calloc.m4 \
 	$(top_srcdir)/m4/chem_c_std_flags.m4 \
 	$(top_srcdir)/m4/chem_compiler_flags.m4 \
@@ -134,8 +135,9 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/closedir.m4 $(top_srcdir)/m4/codeset.m4 \
 	$(top_srcdir)/m4/dirent_h.m4 $(top_srcdir)/m4/dirfd.m4 \
 	$(top_srcdir)/m4/double-slash-root.m4 $(top_srcdir)/m4/dup2.m4 \
-	$(top_srcdir)/m4/errno_h.m4 $(top_srcdir)/m4/error.m4 \
-	$(top_srcdir)/m4/error_h.m4 $(top_srcdir)/m4/exponentd.m4 \
+	$(top_srcdir)/m4/endian_h.m4 $(top_srcdir)/m4/errno_h.m4 \
+	$(top_srcdir)/m4/error.m4 $(top_srcdir)/m4/error_h.m4 \
+	$(top_srcdir)/m4/exponentd.m4 \
 	$(top_srcdir)/m4/extensions-aix.m4 \
 	$(top_srcdir)/m4/extensions.m4 \
 	$(top_srcdir)/m4/extern-inline.m4 $(top_srcdir)/m4/fcntl-o.m4 \
@@ -189,7 +191,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/setlocale_null.m4 \
 	$(top_srcdir)/m4/size_max.m4 $(top_srcdir)/m4/ssize_t.m4 \
 	$(top_srcdir)/m4/stat-time.m4 $(top_srcdir)/m4/stat.m4 \
-	$(top_srcdir)/m4/stdarg.m4 $(top_srcdir)/m4/stdckdint_h.m4 \
+	$(top_srcdir)/m4/stdarg.m4 $(top_srcdir)/m4/stdbit_h.m4 \
+	$(top_srcdir)/m4/stdckdint_h.m4 \
 	$(top_srcdir)/m4/stdcountof_h.m4 $(top_srcdir)/m4/stddef_h.m4 \
 	$(top_srcdir)/m4/stdint.m4 $(top_srcdir)/m4/stdint_h.m4 \
 	$(top_srcdir)/m4/stdio_h.m4 $(top_srcdir)/m4/stdlib_h.m4 \
@@ -382,6 +385,7 @@ am_60_decimal_fraction_la_OBJECTS =  \
 libhiha_la_DEPENDENCIES = lib/libgnu.la
 am__objects_1 =
 am_libhiha_la_OBJECTS = $(am__objects_1) \
+	src/libhiha/libhiha_la-spookyhash.lo \
 	src/libhiha/libhiha_la-workspaces.lo \
 	src/libhiha/libhiha_la-spinlock.lo \
 	src/libhiha/libhiha_la-string_t.lo \
@@ -438,6 +442,7 @@ am__depfiles_remade = src/hiha-tokens-print/$(DEPDIR)/hiha_tokens_print-hiha-tok
 	src/libhiha/$(DEPDIR)/libhiha_la-load_plugin.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-pratt.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo \
+	src/libhiha/$(DEPDIR)/libhiha_la-spookyhash.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-string_literal.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo \
@@ -620,6 +625,7 @@ BITSIZEOF_SIG_ATOMIC_T = @BITSIZEOF_SIG_ATOMIC_T@
 BITSIZEOF_SIZE_T = @BITSIZEOF_SIZE_T@
 BITSIZEOF_WCHAR_T = @BITSIZEOF_WCHAR_T@
 BITSIZEOF_WINT_T = @BITSIZEOF_WINT_T@
+BYTESWAP_H = @BYTESWAP_H@
 CAN_PRINT_STACK_TRACE = @CAN_PRINT_STACK_TRACE@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
@@ -630,6 +636,10 @@ CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CSCOPE = @CSCOPE@
 CTAGS = @CTAGS@
+CXX = @CXX@
+CXXCPP = @CXXCPP@
+CXXDEPMODE = @CXXDEPMODE@
+CXXFLAGS = @CXXFLAGS@
 CXX_HAS_CHAR8_TYPE = @CXX_HAS_CHAR8_TYPE@
 CXX_HAS_UCHAR_TYPES = @CXX_HAS_UCHAR_TYPES@
 CXX_HAVE_STDCOUNTOF_H = @CXX_HAVE_STDCOUNTOF_H@
@@ -645,6 +655,8 @@ ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
+ENDIAN_H = @ENDIAN_H@
+ENDIAN_H_JUST_MISSING_STDINT = @ENDIAN_H_JUST_MISSING_STDINT@
 ERRNO_H = @ERRNO_H@
 ETAGS = @ETAGS@
 EXECSTACK_FLAGS = @EXECSTACK_FLAGS@
@@ -959,6 +971,28 @@ GL_GNULIB_SNZPRINTF = @GL_GNULIB_SNZPRINTF@
 GL_GNULIB_SPRINTF_POSIX = @GL_GNULIB_SPRINTF_POSIX@
 GL_GNULIB_STACK_TRACE = @GL_GNULIB_STACK_TRACE@
 GL_GNULIB_STAT = @GL_GNULIB_STAT@
+GL_GNULIB_STDC_BIT_CEIL = @GL_GNULIB_STDC_BIT_CEIL@
+GL_GNULIB_STDC_BIT_FLOOR = @GL_GNULIB_STDC_BIT_FLOOR@
+GL_GNULIB_STDC_BIT_WIDTH = @GL_GNULIB_STDC_BIT_WIDTH@
+GL_GNULIB_STDC_COUNT_ONES = @GL_GNULIB_STDC_COUNT_ONES@
+GL_GNULIB_STDC_COUNT_ZEROS = @GL_GNULIB_STDC_COUNT_ZEROS@
+GL_GNULIB_STDC_FIRST_LEADING_ONE = @GL_GNULIB_STDC_FIRST_LEADING_ONE@
+GL_GNULIB_STDC_FIRST_LEADING_ZERO = @GL_GNULIB_STDC_FIRST_LEADING_ZERO@
+GL_GNULIB_STDC_FIRST_TRAILING_ONE = @GL_GNULIB_STDC_FIRST_TRAILING_ONE@
+GL_GNULIB_STDC_FIRST_TRAILING_ZERO = @GL_GNULIB_STDC_FIRST_TRAILING_ZERO@
+GL_GNULIB_STDC_HAS_SINGLE_BIT = @GL_GNULIB_STDC_HAS_SINGLE_BIT@
+GL_GNULIB_STDC_LEADING_ONES = @GL_GNULIB_STDC_LEADING_ONES@
+GL_GNULIB_STDC_LEADING_ZEROS = @GL_GNULIB_STDC_LEADING_ZEROS@
+GL_GNULIB_STDC_LOAD8 = @GL_GNULIB_STDC_LOAD8@
+GL_GNULIB_STDC_LOAD8_ALIGNED = @GL_GNULIB_STDC_LOAD8_ALIGNED@
+GL_GNULIB_STDC_MEMREVERSE8 = @GL_GNULIB_STDC_MEMREVERSE8@
+GL_GNULIB_STDC_MEMREVERSE8U = @GL_GNULIB_STDC_MEMREVERSE8U@
+GL_GNULIB_STDC_ROTATE_LEFT = @GL_GNULIB_STDC_ROTATE_LEFT@
+GL_GNULIB_STDC_ROTATE_RIGHT = @GL_GNULIB_STDC_ROTATE_RIGHT@
+GL_GNULIB_STDC_STORE8 = @GL_GNULIB_STDC_STORE8@
+GL_GNULIB_STDC_STORE8_ALIGNED = @GL_GNULIB_STDC_STORE8_ALIGNED@
+GL_GNULIB_STDC_TRAILING_ONES = @GL_GNULIB_STDC_TRAILING_ONES@
+GL_GNULIB_STDC_TRAILING_ZEROS = @GL_GNULIB_STDC_TRAILING_ZEROS@
 GL_GNULIB_STDIO_H_NONBLOCKING = @GL_GNULIB_STDIO_H_NONBLOCKING@
 GL_GNULIB_STDIO_H_SIGPIPE = @GL_GNULIB_STDIO_H_SIGPIPE@
 GL_GNULIB_STPCPY = @GL_GNULIB_STPCPY@
@@ -1304,6 +1338,7 @@ HAVE_DIRENT_H = @HAVE_DIRENT_H@
 HAVE_DPRINTF = @HAVE_DPRINTF@
 HAVE_DUP3 = @HAVE_DUP3@
 HAVE_DUPLOCALE = @HAVE_DUPLOCALE@
+HAVE_ENDIAN_H = @HAVE_ENDIAN_H@
 HAVE_ERROR = @HAVE_ERROR@
 HAVE_ERROR_AT_LINE = @HAVE_ERROR_AT_LINE@
 HAVE_ERROR_H = @HAVE_ERROR_H@
@@ -1478,6 +1513,7 @@ HAVE_SIGNED_SIG_ATOMIC_T = @HAVE_SIGNED_SIG_ATOMIC_T@
 HAVE_SIGNED_WCHAR_T = @HAVE_SIGNED_WCHAR_T@
 HAVE_SIGNED_WINT_T = @HAVE_SIGNED_WINT_T@
 HAVE_SLEEP = @HAVE_SLEEP@
+HAVE_STDBIT_H = @HAVE_STDBIT_H@
 HAVE_STDCKDINT_H = @HAVE_STDCKDINT_H@
 HAVE_STDCOUNTOF_H = @HAVE_STDCOUNTOF_H@
 HAVE_STDINT_H = @HAVE_STDINT_H@
@@ -1504,6 +1540,7 @@ HAVE_SYMLINK = @HAVE_SYMLINK@
 HAVE_SYMLINKAT = @HAVE_SYMLINKAT@
 HAVE_SYS_BITYPES_H = @HAVE_SYS_BITYPES_H@
 HAVE_SYS_CDEFS_H = @HAVE_SYS_CDEFS_H@
+HAVE_SYS_ENDIAN_H = @HAVE_SYS_ENDIAN_H@
 HAVE_SYS_INTTYPES_H = @HAVE_SYS_INTTYPES_H@
 HAVE_SYS_LOADAVG_H = @HAVE_SYS_LOADAVG_H@
 HAVE_SYS_PARAM_H = @HAVE_SYS_PARAM_H@
@@ -1634,6 +1671,7 @@ MKDIR_P = @MKDIR_P@
 NEXT_ASSERT_H = @NEXT_ASSERT_H@
 NEXT_AS_FIRST_DIRECTIVE_ASSERT_H = @NEXT_AS_FIRST_DIRECTIVE_ASSERT_H@
 NEXT_AS_FIRST_DIRECTIVE_DIRENT_H = @NEXT_AS_FIRST_DIRECTIVE_DIRENT_H@
+NEXT_AS_FIRST_DIRECTIVE_ENDIAN_H = @NEXT_AS_FIRST_DIRECTIVE_ENDIAN_H@
 NEXT_AS_FIRST_DIRECTIVE_ERRNO_H = @NEXT_AS_FIRST_DIRECTIVE_ERRNO_H@
 NEXT_AS_FIRST_DIRECTIVE_ERROR_H = @NEXT_AS_FIRST_DIRECTIVE_ERROR_H@
 NEXT_AS_FIRST_DIRECTIVE_FCNTL_H = @NEXT_AS_FIRST_DIRECTIVE_FCNTL_H@
@@ -1646,6 +1684,7 @@ NEXT_AS_FIRST_DIRECTIVE_LOCALE_H = @NEXT_AS_FIRST_DIRECTIVE_LOCALE_H@
 NEXT_AS_FIRST_DIRECTIVE_PTHREAD_H = @NEXT_AS_FIRST_DIRECTIVE_PTHREAD_H@
 NEXT_AS_FIRST_DIRECTIVE_SCHED_H = @NEXT_AS_FIRST_DIRECTIVE_SCHED_H@
 NEXT_AS_FIRST_DIRECTIVE_STDARG_H = @NEXT_AS_FIRST_DIRECTIVE_STDARG_H@
+NEXT_AS_FIRST_DIRECTIVE_STDBIT_H = @NEXT_AS_FIRST_DIRECTIVE_STDBIT_H@
 NEXT_AS_FIRST_DIRECTIVE_STDCKDINT_H = @NEXT_AS_FIRST_DIRECTIVE_STDCKDINT_H@
 NEXT_AS_FIRST_DIRECTIVE_STDCOUNTOF_H = @NEXT_AS_FIRST_DIRECTIVE_STDCOUNTOF_H@
 NEXT_AS_FIRST_DIRECTIVE_STDDEF_H = @NEXT_AS_FIRST_DIRECTIVE_STDDEF_H@
@@ -1662,6 +1701,7 @@ NEXT_AS_FIRST_DIRECTIVE_UNISTD_H = @NEXT_AS_FIRST_DIRECTIVE_UNISTD_H@
 NEXT_AS_FIRST_DIRECTIVE_WCHAR_H = @NEXT_AS_FIRST_DIRECTIVE_WCHAR_H@
 NEXT_AS_FIRST_DIRECTIVE_WCTYPE_H = @NEXT_AS_FIRST_DIRECTIVE_WCTYPE_H@
 NEXT_DIRENT_H = @NEXT_DIRENT_H@
+NEXT_ENDIAN_H = @NEXT_ENDIAN_H@
 NEXT_ERRNO_H = @NEXT_ERRNO_H@
 NEXT_ERROR_H = @NEXT_ERROR_H@
 NEXT_FCNTL_H = @NEXT_FCNTL_H@
@@ -1674,6 +1714,7 @@ NEXT_LOCALE_H = @NEXT_LOCALE_H@
 NEXT_PTHREAD_H = @NEXT_PTHREAD_H@
 NEXT_SCHED_H = @NEXT_SCHED_H@
 NEXT_STDARG_H = @NEXT_STDARG_H@
+NEXT_STDBIT_H = @NEXT_STDBIT_H@
 NEXT_STDCKDINT_H = @NEXT_STDCKDINT_H@
 NEXT_STDCOUNTOF_H = @NEXT_STDCOUNTOF_H@
 NEXT_STDDEF_H = @NEXT_STDDEF_H@
@@ -2009,6 +2050,7 @@ SIG_ATOMIC_T_SUFFIX = @SIG_ATOMIC_T_SUFFIX@
 SIZE_T_SUFFIX = @SIZE_T_SUFFIX@
 SMALL_WCHAR_T = @SMALL_WCHAR_T@
 STDARG_H = @STDARG_H@
+STDBIT_H = @STDBIT_H@
 STDCKDINT_H = @STDCKDINT_H@
 STDCOUNTOF_H = @STDCOUNTOF_H@
 STDDEF_H = @STDDEF_H@
@@ -2039,6 +2081,7 @@ abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
 ac_ct_AR = @ac_ct_AR@
 ac_ct_CC = @ac_ct_CC@
+ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
 allow_nested_c_functions = @allow_nested_c_functions@
 am__include = @am__include@
@@ -2389,12 +2432,13 @@ libhiha_la_LIBADD = lib/libgnu.la
 libhiha_la_LDFLAGS = $(AM_LIBRS) -lm -ldl -export-dynamic
 libhiha_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
 EXTRA_libhiha_la_DEPENDENCIES = 
-libhiha_la_SOURCES = $(libhiha_HDRS) src/libhiha/workspaces.c \
-	src/libhiha/spinlock.c src/libhiha/string_t.c \
-	src/libhiha/token_t.c src/libhiha/pratt.c \
-	src/libhiha/lexical.c src/libhiha/string_literal.c \
-	src/libhiha/gensym.c src/libhiha/load_plugin.c
-libhiha_HDRS = include/libhiha/libhiha.h \
+libhiha_la_SOURCES = $(libhiha_HDRS) src/libhiha/spookyhash.c \
+	src/libhiha/workspaces.c src/libhiha/spinlock.c \
+	src/libhiha/string_t.c src/libhiha/token_t.c \
+	src/libhiha/pratt.c src/libhiha/lexical.c \
+	src/libhiha/string_literal.c src/libhiha/gensym.c \
+	src/libhiha/load_plugin.c
+libhiha_HDRS = include/libhiha/libhiha.h include/libhiha/spookyhash.h \
 	include/libhiha/persistent_avl.h \
 	include/libhiha/persistent_integer_trie.h \
 	include/libhiha/workspaces.h include/libhiha/spinlock.h \
@@ -2670,6 +2714,8 @@ src/libhiha/$(am__dirstamp):
 src/libhiha/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) src/libhiha/$(DEPDIR)
 	@: >>src/libhiha/$(DEPDIR)/$(am__dirstamp)
+src/libhiha/libhiha_la-spookyhash.lo: src/libhiha/$(am__dirstamp) \
+	src/libhiha/$(DEPDIR)/$(am__dirstamp)
 src/libhiha/libhiha_la-workspaces.lo: src/libhiha/$(am__dirstamp) \
 	src/libhiha/$(DEPDIR)/$(am__dirstamp)
 src/libhiha/libhiha_la-spinlock.lo: src/libhiha/$(am__dirstamp) \
@@ -2736,6 +2782,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-load_plugin.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-pratt.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-spookyhash.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-string_literal.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo@am__quote@ # am--include-marker
@@ -2890,6 +2937,13 @@ src/plugins/60_decimal_fraction_la-60-decimal_fraction.lo: src/plugins/60-decima
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/plugins/60-decimal_fraction.c' object='src/plugins/60_decimal_fraction_la-60-decimal_fraction.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(60_decimal_fraction_la_CFLAGS) $(CFLAGS) -c -o src/plugins/60_decimal_fraction_la-60-decimal_fraction.lo `test -f 'src/plugins/60-decimal_fraction.c' || echo '$(srcdir)/'`src/plugins/60-decimal_fraction.c
+
+src/libhiha/libhiha_la-spookyhash.lo: src/libhiha/spookyhash.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_la-spookyhash.lo -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_la-spookyhash.Tpo -c -o src/libhiha/libhiha_la-spookyhash.lo `test -f 'src/libhiha/spookyhash.c' || echo '$(srcdir)/'`src/libhiha/spookyhash.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/libhiha/$(DEPDIR)/libhiha_la-spookyhash.Tpo src/libhiha/$(DEPDIR)/libhiha_la-spookyhash.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/libhiha/spookyhash.c' object='src/libhiha/libhiha_la-spookyhash.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -c -o src/libhiha/libhiha_la-spookyhash.lo `test -f 'src/libhiha/spookyhash.c' || echo '$(srcdir)/'`src/libhiha/spookyhash.c
 
 src/libhiha/libhiha_la-workspaces.lo: src/libhiha/workspaces.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_la-workspaces.lo -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_la-workspaces.Tpo -c -o src/libhiha/libhiha_la-workspaces.lo `test -f 'src/libhiha/workspaces.c' || echo '$(srcdir)/'`src/libhiha/workspaces.c
@@ -3437,6 +3491,7 @@ distclean: distclean-recursive
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-load_plugin.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-pratt.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo
+	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-spookyhash.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_literal.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo
@@ -3513,6 +3568,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-load_plugin.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-pratt.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-spinlock.Plo
+	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-spookyhash.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_literal.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo

@@ -26,6 +26,7 @@ AUTOMAKE_OPTIONS += -Wno-portability
 AM_LIBRS =
 LDADD =
 EXTRA_DIST =
+EXTRA_PROGRAMS =
 BUILT_SOURCES =
 CLEANFILES =
 DISTCLEANFILES =
@@ -130,6 +131,30 @@ BASICCFLAGS += -I $(abs_top_srcdir)
 BASICCFLAGS += -I $(abs_top_srcdir)/include
 BASICCFLAGS += -I $(abs_top_srcdir)/lib
 BASICCFLAGS += -I $(abs_top_srcdir)/$(GCVERS)/include
+
+check_PROGRAMS += check_spookyhash
+check_spookyhash_CFLAGS =
+check_spookyhash_CFLAGS += $(BASICCFLAGS)
+check_spookyhash_CFLAGS += $(CFLAGS)
+
+$(srcdir)/spookyhash-reference.txt: SpookyV2-reference
+	-rm -f $(@)
+	touch $(@)
+	./SpookyV2-reference 1 2 10000 >> $(@)
+	./SpookyV2-reference 3 4 10000 >> $(@)
+
+EXTRA_PROGRAMS += SpookyV2-reference
+CLEANFILES += SpookyV2-reference
+SpookyV2_reference_SOURCES =
+SpookyV2_reference_CXXFLAGS =
+SpookyV2_reference_CXXFLAGS += $(BASICCFLAGS)
+SpookyV2_reference_CXXFLAGS += $(VISIBLE_CFLAGS)
+SpookyV2_reference_LDADD =
+SpookyV2_reference_LDADD += $(top_builddir)/lib/libgnu.la
+SpookyV2_reference_LDADD += $(AM_LIBRS)
+SpookyV2_reference_SOURCES += SpookyV2-reference.cpp
+SpookyV2_reference_SOURCES += SpookyV2.cpp
+SpookyV2_reference_SOURCES += SpookyV2.h
 
 if ALLOW_NESTED_C_FUNCTIONS
 check_PROGRAMS += check_persistent_avl

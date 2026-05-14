@@ -37,7 +37,9 @@
 #  avltree-list \
 #  avltree-omap \
 #  base64 \
+#  byteswap \
 #  dirent-h \
+#  endian \
 #  error \
 #  exitfail \
 #  filevercmp \
@@ -219,6 +221,27 @@ libgnu_la_SOURCES += basename-lgpl.c
 EXTRA_DIST += basename-lgpl.h
 
 ## end   gnulib module basename-lgpl
+
+## begin gnulib module byteswap
+
+BUILT_SOURCES += $(BYTESWAP_H)
+
+# We need the following in order to create <byteswap.h> when the system
+# doesn't have one.
+if GL_GENERATE_BYTESWAP_H
+byteswap.h: byteswap.in.h $(top_builddir)/config.status
+	$(gl_V_at)$(SED_HEADER_TO_AT_t) $(srcdir)/byteswap.in.h
+	$(AM_V_at)mv $@-t $@
+libgnu_la_SOURCES += byteswap.c
+else
+byteswap.h: $(top_builddir)/config.status
+	rm -f $@
+endif
+MOSTLYCLEANFILES += byteswap.h byteswap.h-t
+
+EXTRA_DIST += byteswap.in.h
+
+## end   gnulib module byteswap
 
 ## begin gnulib module c-ctype
 
@@ -469,6 +492,36 @@ libgnu_la_SOURCES += dup2.c
 endif
 
 ## end   gnulib module dup2
+
+## begin gnulib module endian
+
+BUILT_SOURCES += $(ENDIAN_H)
+
+# We need the following in order to create <endian.h> when the system
+# doesn't have one.
+if GL_GENERATE_ENDIAN_H
+endian.h: endian.in.h $(top_builddir)/config.status
+	$(gl_V_at)$(SED_HEADER_STDOUT) \
+	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+	      -e 's|@''HAVE_ENDIAN_H''@|$(HAVE_ENDIAN_H)|g' \
+	      -e 's|@''NEXT_ENDIAN_H''@|$(NEXT_ENDIAN_H)|g' \
+	      -e 's|@''HAVE_SYS_ENDIAN_H''@|$(HAVE_SYS_ENDIAN_H)|g' \
+	      -e 's|@''ENDIAN_H_JUST_MISSING_STDINT''@|$(ENDIAN_H_JUST_MISSING_STDINT)|g' \
+	$(srcdir)/endian.in.h > $@-t
+	$(AM_V_at)mv $@-t $@
+libgnu_la_SOURCES += endian.c
+else
+endian.h: $(top_builddir)/config.status
+	rm -f $@
+endif
+MOSTLYCLEANFILES += endian.h endian.h-t
+
+EXTRA_DIST += endian.in.h
+
+## end   gnulib module endian
 
 ## begin gnulib module errno-h
 
@@ -1645,6 +1698,63 @@ MOSTLYCLEANFILES += stdarg.h stdarg.h-t
 EXTRA_DIST += stdarg.in.h
 
 ## end   gnulib module stdarg-h
+
+## begin gnulib module stdbit-h
+
+BUILT_SOURCES += $(STDBIT_H)
+
+# We need the following in order to create <stdbit.h> when the system
+# doesn't have one that works with the given compiler.
+if GL_GENERATE_STDBIT_H
+stdbit.h: stdbit.in.h $(top_builddir)/config.status
+	$(gl_V_at)$(SED_HEADER_STDOUT) \
+	  -e 's/@''HAVE_STDBIT_H''@/$(HAVE_STDBIT_H)/g' \
+	  -e 's/@''GUARD_PREFIX''@/$(GUARD_PREFIX)/g' \
+	  -e 's/@''PRAGMA_SYSTEM_HEADER''@/$(PRAGMA_SYSTEM_HEADER)/g' \
+	  -e 's/@''PRAGMA_COLUMNS''@/$(PRAGMA_COLUMNS)/g' \
+	  -e 's/@''INCLUDE_NEXT''@/$(INCLUDE_NEXT)/g' \
+	  -e 's/@''NEXT_STDBIT_H''@/$(NEXT_STDBIT_H)/g' \
+	  -e 's/@''GNULIB_STDC_LEADING_ZEROS''@/$(GL_GNULIB_STDC_LEADING_ZEROS)/g' \
+	  -e 's/@''GNULIB_STDC_LEADING_ONES''@/$(GL_GNULIB_STDC_LEADING_ONES)/g' \
+	  -e 's/@''GNULIB_STDC_TRAILING_ZEROS''@/$(GL_GNULIB_STDC_TRAILING_ZEROS)/g' \
+	  -e 's/@''GNULIB_STDC_TRAILING_ONES''@/$(GL_GNULIB_STDC_TRAILING_ONES)/g' \
+	  -e 's/@''GNULIB_STDC_FIRST_LEADING_ZERO''@/$(GL_GNULIB_STDC_FIRST_LEADING_ZERO)/g' \
+	  -e 's/@''GNULIB_STDC_FIRST_LEADING_ONE''@/$(GL_GNULIB_STDC_FIRST_LEADING_ONE)/g' \
+	  -e 's/@''GNULIB_STDC_FIRST_TRAILING_ZERO''@/$(GL_GNULIB_STDC_FIRST_TRAILING_ZERO)/g' \
+	  -e 's/@''GNULIB_STDC_FIRST_TRAILING_ONE''@/$(GL_GNULIB_STDC_FIRST_TRAILING_ONE)/g' \
+	  -e 's/@''GNULIB_STDC_COUNT_ZEROS''@/$(GL_GNULIB_STDC_COUNT_ZEROS)/g' \
+	  -e 's/@''GNULIB_STDC_COUNT_ONES''@/$(GL_GNULIB_STDC_COUNT_ONES)/g' \
+	  -e 's/@''GNULIB_STDC_HAS_SINGLE_BIT''@/$(GL_GNULIB_STDC_HAS_SINGLE_BIT)/g' \
+	  -e 's/@''GNULIB_STDC_BIT_WIDTH''@/$(GL_GNULIB_STDC_BIT_WIDTH)/g' \
+	  -e 's/@''GNULIB_STDC_BIT_FLOOR''@/$(GL_GNULIB_STDC_BIT_FLOOR)/g' \
+	  -e 's/@''GNULIB_STDC_BIT_CEIL''@/$(GL_GNULIB_STDC_BIT_CEIL)/g' \
+	  -e 's/@''GNULIB_STDC_ROTATE_LEFT''@/$(GL_GNULIB_STDC_ROTATE_LEFT)/g' \
+	  -e 's/@''GNULIB_STDC_ROTATE_RIGHT''@/$(GL_GNULIB_STDC_ROTATE_RIGHT)/g' \
+	  -e 's/@''GNULIB_STDC_MEMREVERSE8''@/$(GL_GNULIB_STDC_MEMREVERSE8)/g' \
+	  -e 's/@''GNULIB_STDC_MEMREVERSE8U''@/$(GL_GNULIB_STDC_MEMREVERSE8U)/g' \
+	  -e 's/@''GNULIB_STDC_LOAD8_ALIGNED''@/$(GL_GNULIB_STDC_LOAD8_ALIGNED)/g' \
+	  -e 's/@''GNULIB_STDC_LOAD8''@/$(GL_GNULIB_STDC_LOAD8)/g' \
+	  -e 's/@''GNULIB_STDC_STORE8_ALIGNED''@/$(GL_GNULIB_STDC_STORE8_ALIGNED)/g' \
+	  -e 's/@''GNULIB_STDC_STORE8''@/$(GL_GNULIB_STDC_STORE8)/g' \
+	  $(srcdir)/stdbit.in.h > $@-t
+	$(AM_V_at)mv $@-t $@
+else
+stdbit.h: $(top_builddir)/config.status
+	rm -f $@
+endif
+MOSTLYCLEANFILES += stdbit.h stdbit.h-t
+
+EXTRA_DIST += stdbit.in.h
+
+## end   gnulib module stdbit-h
+
+## begin gnulib module stdc_memreverse8u
+
+if GL_GENERATE_STDBIT_H
+libgnu_la_SOURCES += stdc_memreverse8u.c
+endif
+
+## end   gnulib module stdc_memreverse8u
 
 ## begin gnulib module stdckdint-h
 

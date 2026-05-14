@@ -229,6 +229,7 @@ libhiha_la_CFLAGS += $(CFLAGS)
 
 libhiha_HDRS =
 libhiha_HDRS += include/libhiha/libhiha.h
+libhiha_HDRS += include/libhiha/spookyhash.h
 libhiha_HDRS += include/libhiha/persistent_avl.h
 libhiha_HDRS += include/libhiha/persistent_integer_trie.h
 libhiha_HDRS += include/libhiha/workspaces.h
@@ -245,6 +246,7 @@ libhiha_HDRS += include/libhiha/load_plugin.h
 pkg_libhiha_include_HEADERS += $(libhiha_HDRS)
 
 libhiha_la_SOURCES += $(libhiha_HDRS)
+libhiha_la_SOURCES += src/libhiha/spookyhash.c
 libhiha_la_SOURCES += src/libhiha/workspaces.c
 libhiha_la_SOURCES += src/libhiha/spinlock.c
 libhiha_la_SOURCES += src/libhiha/string_t.c

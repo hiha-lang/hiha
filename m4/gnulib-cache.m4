@@ -42,7 +42,9 @@
 #  avltree-list \
 #  avltree-omap \
 #  base64 \
+#  byteswap \
 #  dirent-h \
+#  endian \
 #  error \
 #  exitfail \
 #  filevercmp \
@@ -80,7 +82,9 @@ gl_MODULES([
   avltree-list
   avltree-omap
   base64
+  byteswap
   dirent-h
+  endian
   error
   exitfail
   filevercmp

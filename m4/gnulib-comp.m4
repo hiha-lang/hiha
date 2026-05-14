@@ -55,6 +55,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module basename-lgpl:
   # Code from module bool:
   # Code from module builtin-expect:
+  # Code from module byteswap:
   # Code from module c-ctype:
   # Code from module c-strcasecmp:
   # Code from module c-strcaseeq:
@@ -84,6 +85,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module dirname-lgpl:
   # Code from module double-slash-root:
   # Code from module dup2:
+  # Code from module endian:
   # Code from module errno-h:
   # Code from module error:
   # Code from module error-h:
@@ -190,6 +192,8 @@ AC_DEFUN([gl_EARLY],
   dnl Some compilers (e.g., AIX 5.3 cc) need to be in c99 mode
   dnl for the builtin va_copy to work.  gl_PROG_CC_C99 arranges for this.
   gl_PROG_CC_C99
+  # Code from module stdbit-h:
+  # Code from module stdc_memreverse8u:
   # Code from module stdckdint-h:
   # Code from module stdcountof-h:
   # Code from module stddef-h:
@@ -336,6 +340,9 @@ AC_DEFUN([gl_INIT],
   gl_FUNC_BASE64
   gl_C_BOOL
   gl___BUILTIN_EXPECT
+  gl_BYTESWAP
+  gl_CONDITIONAL_HEADER([byteswap.h])
+  AC_PROG_MKDIR_P
   AC_REQUIRE([gl_UCHAR_H])
   dnl Determine REPLACE_MBSTATE_T, from which GNULIB_defined_mbstate_t is
   dnl determined.  It describes how mbrtoc32 is implemented.
@@ -471,6 +478,9 @@ AC_DEFUN([gl_INIT],
     gl_PREREQ_DUP2
   ])
   gl_UNISTD_MODULE_INDICATOR([dup2])
+  gl_ENDIAN_H
+  gl_CONDITIONAL_HEADER([endian.h])
+  AC_PROG_MKDIR_P
   gl_HEADER_ERRNO_H
   gl_CONDITIONAL_HEADER([errno.h])
   AC_PROG_MKDIR_P
@@ -797,6 +807,11 @@ AC_DEFUN([gl_INIT],
   gl_STDARG_H
   gl_CONDITIONAL_HEADER([stdarg.h])
   AC_PROG_MKDIR_P
+  gl_STDBIT_H
+  gl_CONDITIONAL_HEADER([stdbit.h])
+  AC_PROG_MKDIR_P
+  AC_REQUIRE([gl_STDBIT_H])
+  gl_STDBIT_MODULE_INDICATOR([stdc_memreverse8u])
   gl_STDCKDINT_H
   gl_CONDITIONAL_HEADER([stdckdint.h])
   AC_PROG_MKDIR_P
@@ -1261,6 +1276,8 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/base64.h
   lib/basename-lgpl.c
   lib/basename-lgpl.h
+  lib/byteswap.c
+  lib/byteswap.in.h
   lib/c++defs.h
   lib/c-ctype.c
   lib/c-ctype.h
@@ -1295,6 +1312,8 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/dirname-lgpl.c
   lib/dirname.h
   lib/dup2.c
+  lib/endian.c
+  lib/endian.in.h
   lib/errno.in.h
   lib/error.c
   lib/error.in.h
@@ -1441,6 +1460,8 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/stat-w32.h
   lib/stat.c
   lib/stdarg.in.h
+  lib/stdbit.in.h
+  lib/stdc_memreverse8u.c
   lib/stdckdint.in.h
   lib/stdcountof.in.h
   lib/stddef.in.h
@@ -1639,6 +1660,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/base64.m4
   m4/build-to-host.m4
   m4/builtin-expect.m4
+  m4/byteswap.m4
   m4/c-bool.m4
   m4/c32rtomb.m4
   m4/calloc.m4
@@ -1650,6 +1672,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/dirfd.m4
   m4/double-slash-root.m4
   m4/dup2.m4
+  m4/endian_h.m4
   m4/errno_h.m4
   m4/error.m4
   m4/error_h.m4
@@ -1750,6 +1773,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/stat.m4
   m4/std-gnu11.m4
   m4/stdarg.m4
+  m4/stdbit_h.m4
   m4/stdckdint_h.m4
   m4/stdcountof_h.m4
   m4/stddef_h.m4

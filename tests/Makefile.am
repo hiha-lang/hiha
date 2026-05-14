@@ -137,6 +137,9 @@ check_spookyhash_CFLAGS =
 check_spookyhash_CFLAGS += $(BASICCFLAGS)
 check_spookyhash_CFLAGS += $(CFLAGS)
 
+# The SpookyHash reference implementation is written for i386/x86-64,
+# and so should not be run on other architectures unless you know what
+# you are doing.
 $(srcdir)/spookyhash-reference.txt: SpookyV2-reference
 	-rm -f $(@)
 	touch $(@)

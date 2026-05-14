@@ -21,7 +21,7 @@ AT_COPYRIGHT([Copyright © 2026 Barry Schwartz])
 
 AT_SETUP([SpookyHash])
 AT_KEYWORDS([spookyhash SpookyHash hash])
-AT_CHECK_UNQUOTED([check_spookyhash "${srcdir}"/spookyhash-reference.txt])
+AT_CHECK_UNQUOTED([check_spookyhash])
 AT_CLEANUP
 
 AT_SETUP([persistent AVL tree])

@@ -350,7 +350,7 @@ spookyhash_end_partial (uint64_t h[SPOOKYHASH_NUMVARS])
 
 SPOOKYHASH_INLINE void
 spookyhash_final_end (uint64_t h[SPOOKYHASH_NUMVARS],
-                      uint64_t data[SPOOKYHASH_NUMVARS])
+                      const uint64_t data[SPOOKYHASH_NUMVARS])
 {
   h[0] += spookyhash_fix_byte_order_64 (data[0]);
   h[1] += spookyhash_fix_byte_order_64 (data[1]);
@@ -493,7 +493,8 @@ spookyhash_short_end (uint64_t abcd[4])
 }
 
 SPOOKYHASH_INLINE void
-spookyhash_short_last_bytes (uint64_t abcd[4], const void *data,
+spookyhash_short_last_bytes (uint64_t abcd[4],
+                             const void *data,
                              uint8_t num_bytes)
 {
   uint64_t a = abcd[0];
@@ -811,19 +812,13 @@ spookyhash_final (spookyhash_context_t *context,
 }
 
 SPOOKYHASH_VISIBLE void
-spookyhash_little_endian (uint64_t hash,
-                          uint8_t hash_bytes[sizeof (uint64_t)])
+spookyhash_little_endian (uint64_t hash1, uint64_t hash2,
+                          uint8_t hash_bytes[2 * sizeof (uint64_t)])
 {
-  const uint64_t hsh = spookyhash_fix_byte_order_64 (hash);
-  memcpy (hash_bytes, &hsh, sizeof hsh);
-}
-
-SPOOKYHASH_VISIBLE void
-spookyhash_big_endian (uint64_t hash,
-                       uint8_t hash_bytes[sizeof (uint64_t)])
-{
-  const uint64_t hsh = spookyhash_fix_byte_order_64 (bswap_64 (hash));
-  memcpy (hash_bytes, &hsh, sizeof hsh);
+  const uint64_t hsh1 = spookyhash_fix_byte_order_64 (hash1);
+  const uint64_t hsh2 = spookyhash_fix_byte_order_64 (hash2);
+  memcpy (&hash_bytes[0], &hsh1, sizeof hsh1);
+  memcpy (&hash_bytes[sizeof (uint64_t)], &hsh2, sizeof hsh2);
 }
 
 /*--------------------------------------------------------------------*/

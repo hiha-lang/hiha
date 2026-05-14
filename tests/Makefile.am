@@ -134,21 +134,24 @@ BASICCFLAGS += -I $(abs_top_srcdir)/$(GCVERS)/include
 
 check_PROGRAMS += check_spookyhash
 check_spookyhash_CFLAGS =
+check_spookyhash_SOURCES =
 check_spookyhash_CFLAGS += $(BASICCFLAGS)
 check_spookyhash_CFLAGS += $(CFLAGS)
+check_spookyhash_SOURCES += check_spookyhash.c
+check_spookyhash_SOURCES += spookyhash-reference.h
 
 # The SpookyHash reference implementation is written for i386/x86-64,
 # and so should not be run on other architectures unless you know what
 # you are doing.
 .PHONY: spookyhash-reference
 spookyhash-reference: SpookyV2-reference
-	ref="$(srcdir)/spookyhash-reference.txt" && \
+	ref="$(srcdir)/spookyhash-reference.h" && \
 	rm -f "$${ref}" && \
 	touch "$${ref}" && \
-	./SpookyV2-reference 1 2 99999 >> "$${ref}" && \
-	./SpookyV2-reference 3 4 99999 >> "$${ref}"
-
-EXTRA_DIST += $(srcdir)/spookyhash-reference.txt
+	echo "static const uint8_t reference[][16] = {" >> "$${ref}" && \
+	./SpookyV2-reference 1 2 9999 >> "$${ref}" && \
+	./SpookyV2-reference 3 4 9999 >> "$${ref}" && \
+	echo "};" >> "$${ref}"
 
 EXTRA_PROGRAMS += SpookyV2-reference
 CLEANFILES += SpookyV2-reference
@@ -162,6 +165,7 @@ SpookyV2_reference_LDADD += $(AM_LIBRS)
 SpookyV2_reference_SOURCES += SpookyV2-reference.cpp
 SpookyV2_reference_SOURCES += SpookyV2.cpp
 SpookyV2_reference_SOURCES += SpookyV2.h
+EXTRA_DIST += $(SpookyV2_reference_SOURCES)
 
 if ALLOW_NESTED_C_FUNCTIONS
 check_PROGRAMS += check_persistent_avl

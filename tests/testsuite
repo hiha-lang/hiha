@@ -1996,9 +1996,9 @@ at_xfail=no
 
 
 { set +x
-printf "%s\n" "$at_srcdir/testsuite.at:24: check_spookyhash \"\${srcdir}\"/spookyhash-reference.txt"
-at_fn_check_prepare_notrace 'a ${...} parameter expansion' "testsuite.at:24"
-( $at_check_trace; check_spookyhash "${srcdir}"/spookyhash-reference.txt
+printf "%s\n" "$at_srcdir/testsuite.at:24: check_spookyhash"
+at_fn_check_prepare_trace "testsuite.at:24"
+( $at_check_trace; check_spookyhash
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter

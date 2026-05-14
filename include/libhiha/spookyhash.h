@@ -75,24 +75,11 @@ void spookyhash_final (spookyhash_context_t *context,
 /*
   spookyhash_little_endian:
 
-  Fills hash_bytes with bits of the (native byte order) hash value, in
-  little-endian order.
-
-  (This is actually a general uint64_t to little-endian converter.)
+  Fills hash_bytes with bits of the (native byte order) 128-bit hash
+  value, in little-endian order.
 */
-void spookyhash_little_endian (uint64_t hash,
+void spookyhash_little_endian (uint64_t hash1, uint64_t hash2,
                                uint8_t hash_bytes[sizeof (uint64_t)]);
-
-/*
-  spookyhash_big_endian:
-
-  Fills hash_bytes with bits of the (native byte order) hash value, in
-  big-endian order.
-
-  (This is actually a general uint64_t to big-endian converter.)
-*/
-void spookyhash_big_endian (uint64_t hash,
-                            uint8_t hash_bytes[sizeof (uint64_t)]);
 
 #endif /* __LIBHAHA__SPOOKYHASH_H__INCLUDED__ */
 

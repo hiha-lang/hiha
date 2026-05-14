@@ -266,9 +266,9 @@ check_persistent_integer_trie_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(check_persistent_integer_trie_CFLAGS) $(CFLAGS) \
 	$(check_persistent_integer_trie_LDFLAGS) $(LDFLAGS) -o $@
-check_spookyhash_SOURCES = check_spookyhash.c
-check_spookyhash_OBJECTS =  \
+am_check_spookyhash_OBJECTS =  \
 	check_spookyhash-check_spookyhash.$(OBJEXT)
+check_spookyhash_OBJECTS = $(am_check_spookyhash_OBJECTS)
 check_spookyhash_LDADD = $(LDADD)
 check_spookyhash_DEPENDENCIES = $(top_builddir)/libhiha.la \
 	$(top_builddir)/$(GCVERS)/libhiha-gc.la \
@@ -336,9 +336,9 @@ am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
 SOURCES = $(SpookyV2_reference_SOURCES) check_persistent_avl.c \
-	check_persistent_integer_trie.c check_spookyhash.c
+	check_persistent_integer_trie.c $(check_spookyhash_SOURCES)
 DIST_SOURCES = $(SpookyV2_reference_SOURCES) check_persistent_avl.c \
-	check_persistent_integer_trie.c check_spookyhash.c
+	check_persistent_integer_trie.c $(check_spookyhash_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -1919,7 +1919,7 @@ LDADD = $(top_builddir)/libhiha.la \
 	$(top_builddir)/$(GCVERS)/libhiha-gc.la \
 	$(top_builddir)/lib/libgnu.la $(AM_LIBRS)
 EXTRA_DIST = testsuite.at $(srcdir)/package.m4 $(TESTSUITE) atlocal.in \
-	$(srcdir)/spookyhash-reference.txt
+	$(SpookyV2_reference_SOURCES)
 BUILT_SOURCES = 
 CLEANFILES = *.tmp tmp.* SpookyV2-reference
 DISTCLEANFILES = Makefile GNUmakefile atconfig
@@ -1935,6 +1935,7 @@ BASICCFLAGS = -I $(abs_top_builddir) -I $(abs_top_builddir)/include -I \
 	$(abs_top_srcdir)/include -I $(abs_top_srcdir)/lib -I \
 	$(abs_top_srcdir)/$(GCVERS)/include
 check_spookyhash_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
+check_spookyhash_SOURCES = check_spookyhash.c spookyhash-reference.h
 SpookyV2_reference_SOURCES = SpookyV2-reference.cpp SpookyV2.cpp \
 	SpookyV2.h
 SpookyV2_reference_CXXFLAGS = $(BASICCFLAGS) $(VISIBLE_CFLAGS)
@@ -2424,11 +2425,13 @@ $(TESTSUITE): $(TESTSUITE_DEPS)
 # you are doing.
 .PHONY: spookyhash-reference
 spookyhash-reference: SpookyV2-reference
-	ref="$(srcdir)/spookyhash-reference.txt" && \
+	ref="$(srcdir)/spookyhash-reference.h" && \
 	rm -f "$${ref}" && \
 	touch "$${ref}" && \
-	./SpookyV2-reference 1 2 99999 >> "$${ref}" && \
-	./SpookyV2-reference 3 4 99999 >> "$${ref}"
+	echo "static const uint8_t reference[][16] = {" >> "$${ref}" && \
+	./SpookyV2-reference 1 2 9999 >> "$${ref}" && \
+	./SpookyV2-reference 3 4 9999 >> "$${ref}" && \
+	echo "};" >> "$${ref}"
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -121,22 +121,24 @@ main (int argc, char *argv[])
 
       SpookyHash::Hash128(message, length, &hash1, &hash2);
 
-      const char *separator = "";
+      const char *separator;
 
+      printf ("{ ");
+      separator = "";
       for (size_t i = 0; i != 8; i += 1)
         {
-          printf ("%s%02x", separator, hash1 % 256);
-          separator = " ";
+          printf ("%s0x%02x", separator, hash1 % 256);
+          separator = ", ";
           hash1 /= 256;
         }
 
       for (size_t i = 0; i != 8; i += 1)
         {
-          printf ("%s%02x", separator, hash2 % 256);
+          printf ("%s0x%02x", separator, hash2 % 256);
           hash2 /= 256;
         }
 
-      printf("\n");
+      printf(" },\n");
     }
 
   return 0;

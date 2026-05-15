@@ -265,8 +265,8 @@ static const uint64_t string_t_hash_this_first[2] = {
        head -c 16 /dev/urandom | xxd -p
 
   */
-  [0] = 0xdaed2779ca1a993bULL,
-  [1] = 0xa47a8894e94fda75ULL
+  [0] = 0xdaed2779ca1a993b,
+  [1] = 0xa47a8894e94fda75
 };
 
 HIHA_VISIBLE string_t_hash_context_t

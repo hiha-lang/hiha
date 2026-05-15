@@ -69,8 +69,9 @@ wife’s copy of _A Discipline of Programming_ to remind myself what it
 was.footnote:[I read _A Discipline of Programming_ circa 1981 from the
 copy in my county college library. From 1981 to now is a long time. By
 the way I studied electrical engineering, not computer science. There
-is not the least regret.] Nondeterminism lets you apply the _weakest_
-precondition when proving a snippet of code.
+is not the least regret. My TRS-80 was a soldering iron project.]
+Nondeterminism lets you apply the _weakest_ precondition when proving
+a snippet of code.
 
 ***
 

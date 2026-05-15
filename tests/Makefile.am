@@ -23,6 +23,8 @@ AUTOMAKE_OPTIONS += -Wno-portability
 
 @GNU@ include $(top_srcdir)/silent-rules.mk
 
+#-----------------------------------------------------------------------
+
 AM_LIBRS =
 LDADD =
 EXTRA_DIST =
@@ -30,6 +32,7 @@ EXTRA_PROGRAMS =
 BUILT_SOURCES =
 CLEANFILES =
 DISTCLEANFILES =
+CPPFLAGS =
 
 check_PROGRAMS =
 check_SCRIPTS =
@@ -131,14 +134,45 @@ BASICCFLAGS += -I $(abs_top_srcdir)
 BASICCFLAGS += -I $(abs_top_srcdir)/include
 BASICCFLAGS += -I $(abs_top_srcdir)/lib
 BASICCFLAGS += -I $(abs_top_srcdir)/$(GCVERS)/include
+CPPFLAGS += $(BASICCFLAGS)
+
+#-----------------------------------------------------------------------
+
+check_PROGRAMS += check_string_t_hash
 
 check_PROGRAMS += check_spookyhash
-check_spookyhash_CFLAGS =
 check_spookyhash_SOURCES =
-check_spookyhash_CFLAGS += $(BASICCFLAGS)
-check_spookyhash_CFLAGS += $(CFLAGS)
 check_spookyhash_SOURCES += check_spookyhash.c
 check_spookyhash_SOURCES += spookyhash-reference.h
+
+if ALLOW_NESTED_C_FUNCTIONS
+check_PROGRAMS += check_persistent_avl
+check_persistent_avl_LDFLAGS =
+check_persistent_avl_LDFLAGS += $(AM_LDFLAGS)
+check_persistent_avl_LDFLAGS += $(EXECSTACK_FLAGS)
+endif ALLOW_NESTED_C_FUNCTIONS
+
+if ALLOW_NESTED_C_FUNCTIONS
+check_PROGRAMS += check_persistent_integer_trie
+check_persistent_integer_trie_LDFLAGS =
+check_persistent_integer_trie_LDFLAGS += $(AM_LDFLAGS)
+check_persistent_integer_trie_LDFLAGS += $(EXECSTACK_FLAGS)
+endif ALLOW_NESTED_C_FUNCTIONS
+
+#-----------------------------------------------------------------------
+#
+# To reconstruct spookyhash-reference.h, you can make the target
+# spookyhash-reference on an Intel/AMD CPU. You should not need to do
+# this unless you have a special reason.
+#
+# spookyhash-reference.h is made by a slightly modified copy of the
+# C++ reference implementation of SpookyHash version 2.
+#
+# The built-in constant may not be the same as in the original
+# sources, and so you may not get the same results as from ‘stock’
+# SpookyHash. We may have chosen something we thought was better, or
+# at least did not require salting to preserve it on whaling voyages.
+#
 
 # The SpookyHash reference implementation is written for i386/x86-64,
 # and so should not be run on other architectures unless you know what
@@ -167,22 +201,4 @@ SpookyV2_reference_SOURCES += SpookyV2.cpp
 SpookyV2_reference_SOURCES += SpookyV2.h
 EXTRA_DIST += $(SpookyV2_reference_SOURCES)
 
-if ALLOW_NESTED_C_FUNCTIONS
-check_PROGRAMS += check_persistent_avl
-check_persistent_avl_CFLAGS =
-check_persistent_avl_LDFLAGS =
-check_persistent_avl_CFLAGS += $(BASICCFLAGS)
-check_persistent_avl_CFLAGS += $(CFLAGS)
-check_persistent_avl_LDFLAGS += $(AM_LDFLAGS)
-check_persistent_avl_LDFLAGS += $(EXECSTACK_FLAGS)
-endif ALLOW_NESTED_C_FUNCTIONS
-
-if ALLOW_NESTED_C_FUNCTIONS
-check_PROGRAMS += check_persistent_integer_trie
-check_persistent_integer_trie_CFLAGS =
-check_persistent_integer_trie_LDFLAGS =
-check_persistent_integer_trie_CFLAGS += $(BASICCFLAGS)
-check_persistent_integer_trie_CFLAGS += $(CFLAGS)
-check_persistent_integer_trie_LDFLAGS += $(AM_LDFLAGS)
-check_persistent_integer_trie_LDFLAGS += $(EXECSTACK_FLAGS)
-endif ALLOW_NESTED_C_FUNCTIONS
+#-----------------------------------------------------------------------

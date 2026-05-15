@@ -614,8 +614,9 @@ at_color=no
 at_format='?'
 # Description of all the test groups.
 at_help_all="1;testsuite.at:22;SpookyHash;spookyhash hash;
-2;testsuite.at:27;persistent AVL tree;persistent avl tree;
-3;testsuite.at:33;persistent integer trie;trie persistent radix tree;
+2;testsuite.at:27;string_t_hash;string_t_hash string_t hash;
+3;testsuite.at:32;persistent AVL tree;persistent avl tree;
+4;testsuite.at:38;persistent integer trie;trie persistent radix tree;
 "
 # List of the all the test groups.
 at_groups_all=`printf "%s\n" "$at_help_all" | sed 's/;.*//'`
@@ -629,7 +630,7 @@ at_fn_validate_ranges ()
   for at_grp
   do
     eval at_value=\$$at_grp
-    if test $at_value -lt 1 || test $at_value -gt 3; then
+    if test $at_value -lt 1 || test $at_value -gt 4; then
       printf "%s\n" "invalid test group: $at_value" >&2
       exit 1
     fi
@@ -2015,26 +2016,23 @@ read at_status <"$at_status_file"
 #AT_STOP_1
 #AT_START_2
 at_fn_group_banner 2 'testsuite.at:27' \
-  "persistent AVL tree" "                            "
+  "string_t_hash" "                                  "
 at_xfail=no
 (
   printf "%s\n" "2. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
-printf "%s\n" "testsuite.at:29" >"$at_check_line_file"
-(test "${allow_nested_c_functions}" != yes) \
-  && at_fn_check_skip 77 "$at_srcdir/testsuite.at:29"
 { set +x
-printf "%s\n" "$at_srcdir/testsuite.at:30: check_persistent_avl"
-at_fn_check_prepare_trace "testsuite.at:30"
-( $at_check_trace; check_persistent_avl
+printf "%s\n" "$at_srcdir/testsuite.at:29: check_string_t_hash"
+at_fn_check_prepare_trace "testsuite.at:29"
+( $at_check_trace; check_string_t_hash
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/testsuite.at:30"
+at_fn_check_status 0 $at_status "$at_srcdir/testsuite.at:29"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
@@ -2044,27 +2042,27 @@ $at_traceon; }
 read at_status <"$at_status_file"
 #AT_STOP_2
 #AT_START_3
-at_fn_group_banner 3 'testsuite.at:33' \
-  "persistent integer trie" "                        "
+at_fn_group_banner 3 'testsuite.at:32' \
+  "persistent AVL tree" "                            "
 at_xfail=no
 (
   printf "%s\n" "3. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
-printf "%s\n" "testsuite.at:35" >"$at_check_line_file"
+printf "%s\n" "testsuite.at:34" >"$at_check_line_file"
 (test "${allow_nested_c_functions}" != yes) \
-  && at_fn_check_skip 77 "$at_srcdir/testsuite.at:35"
+  && at_fn_check_skip 77 "$at_srcdir/testsuite.at:34"
 { set +x
-printf "%s\n" "$at_srcdir/testsuite.at:36: check_persistent_integer_trie"
-at_fn_check_prepare_trace "testsuite.at:36"
-( $at_check_trace; check_persistent_integer_trie
+printf "%s\n" "$at_srcdir/testsuite.at:35: check_persistent_avl"
+at_fn_check_prepare_trace "testsuite.at:35"
+( $at_check_trace; check_persistent_avl
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/testsuite.at:36"
+at_fn_check_status 0 $at_status "$at_srcdir/testsuite.at:35"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
@@ -2073,3 +2071,33 @@ $at_traceon; }
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
 #AT_STOP_3
+#AT_START_4
+at_fn_group_banner 4 'testsuite.at:38' \
+  "persistent integer trie" "                        "
+at_xfail=no
+(
+  printf "%s\n" "4. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+printf "%s\n" "testsuite.at:40" >"$at_check_line_file"
+(test "${allow_nested_c_functions}" != yes) \
+  && at_fn_check_skip 77 "$at_srcdir/testsuite.at:40"
+{ set +x
+printf "%s\n" "$at_srcdir/testsuite.at:41: check_persistent_integer_trie"
+at_fn_check_prepare_trace "testsuite.at:41"
+( $at_check_trace; check_persistent_integer_trie
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/testsuite.at:41"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_4

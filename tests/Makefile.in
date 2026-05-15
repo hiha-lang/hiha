@@ -108,7 +108,8 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 EXTRA_PROGRAMS = SpookyV2-reference$(EXEEXT)
-check_PROGRAMS = check_spookyhash$(EXEEXT) $(am__EXEEXT_1)
+check_PROGRAMS = check_string_t_hash$(EXEEXT) \
+	check_spookyhash$(EXEEXT) $(am__EXEEXT_1)
 @ALLOW_NESTED_C_FUNCTIONS_TRUE@am__append_1 = check_persistent_avl \
 @ALLOW_NESTED_C_FUNCTIONS_TRUE@	check_persistent_integer_trie
 subdir = tests
@@ -244,19 +245,19 @@ SpookyV2_reference_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(SpookyV2_reference_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
 check_persistent_avl_SOURCES = check_persistent_avl.c
-check_persistent_avl_OBJECTS =  \
-	check_persistent_avl-check_persistent_avl.$(OBJEXT)
+check_persistent_avl_OBJECTS = check_persistent_avl.$(OBJEXT)
 check_persistent_avl_LDADD = $(LDADD)
 check_persistent_avl_DEPENDENCIES = $(top_builddir)/libhiha.la \
 	$(top_builddir)/$(GCVERS)/libhiha-gc.la \
 	$(top_builddir)/lib/libgnu.la $(am__DEPENDENCIES_2)
 check_persistent_avl_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(check_persistent_avl_CFLAGS) $(CFLAGS) \
-	$(check_persistent_avl_LDFLAGS) $(LDFLAGS) -o $@
+	$(AM_CFLAGS) $(CFLAGS) $(check_persistent_avl_LDFLAGS) \
+	$(LDFLAGS) -o $@
 check_persistent_integer_trie_SOURCES =  \
 	check_persistent_integer_trie.c
-check_persistent_integer_trie_OBJECTS = check_persistent_integer_trie-check_persistent_integer_trie.$(OBJEXT)
+check_persistent_integer_trie_OBJECTS =  \
+	check_persistent_integer_trie.$(OBJEXT)
 check_persistent_integer_trie_LDADD = $(LDADD)
 check_persistent_integer_trie_DEPENDENCIES =  \
 	$(top_builddir)/libhiha.la \
@@ -264,19 +265,20 @@ check_persistent_integer_trie_DEPENDENCIES =  \
 	$(top_builddir)/lib/libgnu.la $(am__DEPENDENCIES_2)
 check_persistent_integer_trie_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(check_persistent_integer_trie_CFLAGS) $(CFLAGS) \
+	$(AM_CFLAGS) $(CFLAGS) \
 	$(check_persistent_integer_trie_LDFLAGS) $(LDFLAGS) -o $@
-am_check_spookyhash_OBJECTS =  \
-	check_spookyhash-check_spookyhash.$(OBJEXT)
+am_check_spookyhash_OBJECTS = check_spookyhash.$(OBJEXT)
 check_spookyhash_OBJECTS = $(am_check_spookyhash_OBJECTS)
 check_spookyhash_LDADD = $(LDADD)
 check_spookyhash_DEPENDENCIES = $(top_builddir)/libhiha.la \
 	$(top_builddir)/$(GCVERS)/libhiha-gc.la \
 	$(top_builddir)/lib/libgnu.la $(am__DEPENDENCIES_2)
-check_spookyhash_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(check_spookyhash_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
-	-o $@
+check_string_t_hash_SOURCES = check_string_t_hash.c
+check_string_t_hash_OBJECTS = check_string_t_hash.$(OBJEXT)
+check_string_t_hash_LDADD = $(LDADD)
+check_string_t_hash_DEPENDENCIES = $(top_builddir)/libhiha.la \
+	$(top_builddir)/$(GCVERS)/libhiha-gc.la \
+	$(top_builddir)/lib/libgnu.la $(am__DEPENDENCIES_2)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -295,9 +297,10 @@ am__maybe_remake_depfiles = depfiles
 am__depfiles_remade =  \
 	./$(DEPDIR)/SpookyV2_reference-SpookyV2-reference.Po \
 	./$(DEPDIR)/SpookyV2_reference-SpookyV2.Po \
-	./$(DEPDIR)/check_persistent_avl-check_persistent_avl.Po \
-	./$(DEPDIR)/check_persistent_integer_trie-check_persistent_integer_trie.Po \
-	./$(DEPDIR)/check_spookyhash-check_spookyhash.Po
+	./$(DEPDIR)/check_persistent_avl.Po \
+	./$(DEPDIR)/check_persistent_integer_trie.Po \
+	./$(DEPDIR)/check_spookyhash.Po \
+	./$(DEPDIR)/check_string_t_hash.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -336,9 +339,11 @@ am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
 SOURCES = $(SpookyV2_reference_SOURCES) check_persistent_avl.c \
-	check_persistent_integer_trie.c $(check_spookyhash_SOURCES)
+	check_persistent_integer_trie.c $(check_spookyhash_SOURCES) \
+	check_string_t_hash.c
 DIST_SOURCES = $(SpookyV2_reference_SOURCES) check_persistent_avl.c \
-	check_persistent_integer_trie.c $(check_spookyhash_SOURCES)
+	check_persistent_integer_trie.c $(check_spookyhash_SOURCES) \
+	check_string_t_hash.c
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -390,7 +395,7 @@ CFLAGS = @CFLAGS@
 CFLAG_VISIBILITY = @CFLAG_VISIBILITY@
 CLOCK_TIME_LIB = @CLOCK_TIME_LIB@
 CPP = @CPP@
-CPPFLAGS = @CPPFLAGS@
+CPPFLAGS = $(BASICCFLAGS)
 CSCOPE = @CSCOPE@
 CTAGS = @CTAGS@
 CXX = @CXX@
@@ -1911,6 +1916,8 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 z_execstack = @z_execstack@
 AUTOMAKE_OPTIONS = -Wno-portability
+
+#-----------------------------------------------------------------------
 AM_LIBRS = $(CLOCK_TIME_LIB) $(GETRANDOM_LIB) $(HARD_LOCALE_LIB) \
 	$(LIBPTHREAD) $(LIBTHREAD) $(LIBC32CONV) $(LIBICONV) \
 	$(LIBINTL) $(LIBUNISTRING) $(MBRTOWC_LIB) $(PTHREAD_ONCE_LIB) \
@@ -1934,22 +1941,17 @@ BASICCFLAGS = -I $(abs_top_builddir) -I $(abs_top_builddir)/include -I \
 	$(abs_top_builddir)/lib -I $(abs_top_srcdir) -I \
 	$(abs_top_srcdir)/include -I $(abs_top_srcdir)/lib -I \
 	$(abs_top_srcdir)/$(GCVERS)/include
-check_spookyhash_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
 check_spookyhash_SOURCES = check_spookyhash.c spookyhash-reference.h
+@ALLOW_NESTED_C_FUNCTIONS_TRUE@check_persistent_avl_LDFLAGS =  \
+@ALLOW_NESTED_C_FUNCTIONS_TRUE@	$(AM_LDFLAGS) \
+@ALLOW_NESTED_C_FUNCTIONS_TRUE@	$(EXECSTACK_FLAGS)
+@ALLOW_NESTED_C_FUNCTIONS_TRUE@check_persistent_integer_trie_LDFLAGS =  \
+@ALLOW_NESTED_C_FUNCTIONS_TRUE@	$(AM_LDFLAGS) \
+@ALLOW_NESTED_C_FUNCTIONS_TRUE@	$(EXECSTACK_FLAGS)
 SpookyV2_reference_SOURCES = SpookyV2-reference.cpp SpookyV2.cpp \
 	SpookyV2.h
 SpookyV2_reference_CXXFLAGS = $(BASICCFLAGS) $(VISIBLE_CFLAGS)
 SpookyV2_reference_LDADD = $(top_builddir)/lib/libgnu.la $(AM_LIBRS)
-@ALLOW_NESTED_C_FUNCTIONS_TRUE@check_persistent_avl_CFLAGS =  \
-@ALLOW_NESTED_C_FUNCTIONS_TRUE@	$(BASICCFLAGS) $(CFLAGS)
-@ALLOW_NESTED_C_FUNCTIONS_TRUE@check_persistent_avl_LDFLAGS =  \
-@ALLOW_NESTED_C_FUNCTIONS_TRUE@	$(AM_LDFLAGS) \
-@ALLOW_NESTED_C_FUNCTIONS_TRUE@	$(EXECSTACK_FLAGS)
-@ALLOW_NESTED_C_FUNCTIONS_TRUE@check_persistent_integer_trie_CFLAGS =  \
-@ALLOW_NESTED_C_FUNCTIONS_TRUE@	$(BASICCFLAGS) $(CFLAGS)
-@ALLOW_NESTED_C_FUNCTIONS_TRUE@check_persistent_integer_trie_LDFLAGS =  \
-@ALLOW_NESTED_C_FUNCTIONS_TRUE@	$(AM_LDFLAGS) \
-@ALLOW_NESTED_C_FUNCTIONS_TRUE@	$(EXECSTACK_FLAGS)
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -2005,7 +2007,11 @@ check_persistent_integer_trie$(EXEEXT): $(check_persistent_integer_trie_OBJECTS)
 
 check_spookyhash$(EXEEXT): $(check_spookyhash_OBJECTS) $(check_spookyhash_DEPENDENCIES) $(EXTRA_check_spookyhash_DEPENDENCIES) 
 	@rm -f check_spookyhash$(EXEEXT)
-	$(AM_V_CCLD)$(check_spookyhash_LINK) $(check_spookyhash_OBJECTS) $(check_spookyhash_LDADD) $(LIBS)
+	$(AM_V_CCLD)$(LINK) $(check_spookyhash_OBJECTS) $(check_spookyhash_LDADD) $(LIBS)
+
+check_string_t_hash$(EXEEXT): $(check_string_t_hash_OBJECTS) $(check_string_t_hash_DEPENDENCIES) $(EXTRA_check_string_t_hash_DEPENDENCIES) 
+	@rm -f check_string_t_hash$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(check_string_t_hash_OBJECTS) $(check_string_t_hash_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -2015,9 +2021,10 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SpookyV2_reference-SpookyV2-reference.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SpookyV2_reference-SpookyV2.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_persistent_avl-check_persistent_avl.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_persistent_integer_trie-check_persistent_integer_trie.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_spookyhash-check_spookyhash.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_persistent_avl.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_persistent_integer_trie.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_spookyhash.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_string_t_hash.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -2045,48 +2052,6 @@ am--depfiles: $(am__depfiles_remade)
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
-
-check_persistent_avl-check_persistent_avl.o: check_persistent_avl.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_persistent_avl_CFLAGS) $(CFLAGS) -MT check_persistent_avl-check_persistent_avl.o -MD -MP -MF $(DEPDIR)/check_persistent_avl-check_persistent_avl.Tpo -c -o check_persistent_avl-check_persistent_avl.o `test -f 'check_persistent_avl.c' || echo '$(srcdir)/'`check_persistent_avl.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/check_persistent_avl-check_persistent_avl.Tpo $(DEPDIR)/check_persistent_avl-check_persistent_avl.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='check_persistent_avl.c' object='check_persistent_avl-check_persistent_avl.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_persistent_avl_CFLAGS) $(CFLAGS) -c -o check_persistent_avl-check_persistent_avl.o `test -f 'check_persistent_avl.c' || echo '$(srcdir)/'`check_persistent_avl.c
-
-check_persistent_avl-check_persistent_avl.obj: check_persistent_avl.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_persistent_avl_CFLAGS) $(CFLAGS) -MT check_persistent_avl-check_persistent_avl.obj -MD -MP -MF $(DEPDIR)/check_persistent_avl-check_persistent_avl.Tpo -c -o check_persistent_avl-check_persistent_avl.obj `if test -f 'check_persistent_avl.c'; then $(CYGPATH_W) 'check_persistent_avl.c'; else $(CYGPATH_W) '$(srcdir)/check_persistent_avl.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/check_persistent_avl-check_persistent_avl.Tpo $(DEPDIR)/check_persistent_avl-check_persistent_avl.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='check_persistent_avl.c' object='check_persistent_avl-check_persistent_avl.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_persistent_avl_CFLAGS) $(CFLAGS) -c -o check_persistent_avl-check_persistent_avl.obj `if test -f 'check_persistent_avl.c'; then $(CYGPATH_W) 'check_persistent_avl.c'; else $(CYGPATH_W) '$(srcdir)/check_persistent_avl.c'; fi`
-
-check_persistent_integer_trie-check_persistent_integer_trie.o: check_persistent_integer_trie.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_persistent_integer_trie_CFLAGS) $(CFLAGS) -MT check_persistent_integer_trie-check_persistent_integer_trie.o -MD -MP -MF $(DEPDIR)/check_persistent_integer_trie-check_persistent_integer_trie.Tpo -c -o check_persistent_integer_trie-check_persistent_integer_trie.o `test -f 'check_persistent_integer_trie.c' || echo '$(srcdir)/'`check_persistent_integer_trie.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/check_persistent_integer_trie-check_persistent_integer_trie.Tpo $(DEPDIR)/check_persistent_integer_trie-check_persistent_integer_trie.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='check_persistent_integer_trie.c' object='check_persistent_integer_trie-check_persistent_integer_trie.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_persistent_integer_trie_CFLAGS) $(CFLAGS) -c -o check_persistent_integer_trie-check_persistent_integer_trie.o `test -f 'check_persistent_integer_trie.c' || echo '$(srcdir)/'`check_persistent_integer_trie.c
-
-check_persistent_integer_trie-check_persistent_integer_trie.obj: check_persistent_integer_trie.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_persistent_integer_trie_CFLAGS) $(CFLAGS) -MT check_persistent_integer_trie-check_persistent_integer_trie.obj -MD -MP -MF $(DEPDIR)/check_persistent_integer_trie-check_persistent_integer_trie.Tpo -c -o check_persistent_integer_trie-check_persistent_integer_trie.obj `if test -f 'check_persistent_integer_trie.c'; then $(CYGPATH_W) 'check_persistent_integer_trie.c'; else $(CYGPATH_W) '$(srcdir)/check_persistent_integer_trie.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/check_persistent_integer_trie-check_persistent_integer_trie.Tpo $(DEPDIR)/check_persistent_integer_trie-check_persistent_integer_trie.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='check_persistent_integer_trie.c' object='check_persistent_integer_trie-check_persistent_integer_trie.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_persistent_integer_trie_CFLAGS) $(CFLAGS) -c -o check_persistent_integer_trie-check_persistent_integer_trie.obj `if test -f 'check_persistent_integer_trie.c'; then $(CYGPATH_W) 'check_persistent_integer_trie.c'; else $(CYGPATH_W) '$(srcdir)/check_persistent_integer_trie.c'; fi`
-
-check_spookyhash-check_spookyhash.o: check_spookyhash.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_spookyhash_CFLAGS) $(CFLAGS) -MT check_spookyhash-check_spookyhash.o -MD -MP -MF $(DEPDIR)/check_spookyhash-check_spookyhash.Tpo -c -o check_spookyhash-check_spookyhash.o `test -f 'check_spookyhash.c' || echo '$(srcdir)/'`check_spookyhash.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/check_spookyhash-check_spookyhash.Tpo $(DEPDIR)/check_spookyhash-check_spookyhash.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='check_spookyhash.c' object='check_spookyhash-check_spookyhash.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_spookyhash_CFLAGS) $(CFLAGS) -c -o check_spookyhash-check_spookyhash.o `test -f 'check_spookyhash.c' || echo '$(srcdir)/'`check_spookyhash.c
-
-check_spookyhash-check_spookyhash.obj: check_spookyhash.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_spookyhash_CFLAGS) $(CFLAGS) -MT check_spookyhash-check_spookyhash.obj -MD -MP -MF $(DEPDIR)/check_spookyhash-check_spookyhash.Tpo -c -o check_spookyhash-check_spookyhash.obj `if test -f 'check_spookyhash.c'; then $(CYGPATH_W) 'check_spookyhash.c'; else $(CYGPATH_W) '$(srcdir)/check_spookyhash.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/check_spookyhash-check_spookyhash.Tpo $(DEPDIR)/check_spookyhash-check_spookyhash.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='check_spookyhash.c' object='check_spookyhash-check_spookyhash.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_spookyhash_CFLAGS) $(CFLAGS) -c -o check_spookyhash-check_spookyhash.obj `if test -f 'check_spookyhash.c'; then $(CYGPATH_W) 'check_spookyhash.c'; else $(CYGPATH_W) '$(srcdir)/check_spookyhash.c'; fi`
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -2278,9 +2243,10 @@ clean-am: clean-checkPROGRAMS clean-generic clean-libtool clean-local \
 distclean: distclean-am
 	-rm -f ./$(DEPDIR)/SpookyV2_reference-SpookyV2-reference.Po
 	-rm -f ./$(DEPDIR)/SpookyV2_reference-SpookyV2.Po
-	-rm -f ./$(DEPDIR)/check_persistent_avl-check_persistent_avl.Po
-	-rm -f ./$(DEPDIR)/check_persistent_integer_trie-check_persistent_integer_trie.Po
-	-rm -f ./$(DEPDIR)/check_spookyhash-check_spookyhash.Po
+	-rm -f ./$(DEPDIR)/check_persistent_avl.Po
+	-rm -f ./$(DEPDIR)/check_persistent_integer_trie.Po
+	-rm -f ./$(DEPDIR)/check_spookyhash.Po
+	-rm -f ./$(DEPDIR)/check_string_t_hash.Po
 	-rm -f GNUmakefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -2328,9 +2294,10 @@ installcheck-am: installcheck-local
 maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/SpookyV2_reference-SpookyV2-reference.Po
 	-rm -f ./$(DEPDIR)/SpookyV2_reference-SpookyV2.Po
-	-rm -f ./$(DEPDIR)/check_persistent_avl-check_persistent_avl.Po
-	-rm -f ./$(DEPDIR)/check_persistent_integer_trie-check_persistent_integer_trie.Po
-	-rm -f ./$(DEPDIR)/check_spookyhash-check_spookyhash.Po
+	-rm -f ./$(DEPDIR)/check_persistent_avl.Po
+	-rm -f ./$(DEPDIR)/check_persistent_integer_trie.Po
+	-rm -f ./$(DEPDIR)/check_spookyhash.Po
+	-rm -f ./$(DEPDIR)/check_string_t_hash.Po
 	-rm -f GNUmakefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -2420,6 +2387,21 @@ $(TESTSUITE): $(TESTSUITE_DEPS)
 	$(AUTOTEST) -I '$(srcdir)' -o $(@).tmp $(srcdir)/testsuite.at \
 	    && mv $(@){.tmp,}
 
+#-----------------------------------------------------------------------
+#
+# To reconstruct spookyhash-reference.h, you can make the target
+# spookyhash-reference on an Intel/AMD CPU. You should not need to do
+# this unless you have a special reason.
+#
+# spookyhash-reference.h is made by a slightly modified copy of the
+# C++ reference implementation of SpookyHash version 2.
+#
+# The built-in constant may not be the same as in the original
+# sources, and so you may not get the same results as from ‘stock’
+# SpookyHash. We may have chosen something we thought was better, or
+# at least did not require salting to preserve it on whaling voyages.
+#
+
 # The SpookyHash reference implementation is written for i386/x86-64,
 # and so should not be run on other architectures unless you know what
 # you are doing.
@@ -2432,6 +2414,8 @@ spookyhash-reference: SpookyV2-reference
 	./SpookyV2-reference 1 2 9999 >> "$${ref}" && \
 	./SpookyV2-reference 3 4 9999 >> "$${ref}" && \
 	echo "};" >> "$${ref}"
+
+#-----------------------------------------------------------------------
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

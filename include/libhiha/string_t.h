@@ -81,6 +81,8 @@ char *text_location_string (text_location_t);
 void print_string_t (const string_t str, FILE *f);
 
 string_t_hash_context_t string_t_hash_init (string_t str);
+uint64_t string_t_hash (string_t_hash_context_t context,
+                        unsigned int i);
 
 #endif /* __LIBHAHA__STRING_T_H__INCLUDED__ */
 

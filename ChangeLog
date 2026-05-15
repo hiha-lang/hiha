@@ -1,5 +1,16 @@
 @  master
-|  2026-05-15 13:35 +0000
+|  2026-05-15 16:26 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       1142e012cbaa4c93b7debe7ec6564f449c9c49de
+|  mercurial: c0a8b116c389b41452a206ac432e57f7c74ef994
+|  revision:  119
+|  parents:   118
+|
+|    I wrote a memoizing ideal hash function for string_t, but have no
+|    test for it yet.
+|
+|
+o  2026-05-15 13:35 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       d7bc4121f8df3755f55796b947477387f0d1a601
 |  mercurial: e4fa7d7832c3eb783d527c40c301b6a9c91facd2

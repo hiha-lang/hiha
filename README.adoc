@@ -64,3 +64,9 @@ Also the type of data in hiha should probably belong to the data and
 not to the variable. Thus variables probably will not need type
 declarations. However, casts probably will be needed strictly. Being
 an ATS programmer, I am not a big fan of loose typechecking.
+
+***
+
+I am not a young man. Should I drop dead, feel free to take over the
+project. Or not. I might take over such a thing from someone, but that
+does not mean someone else would.

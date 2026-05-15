@@ -1,5 +1,57 @@
 @  master
-|  2026-05-15 16:26 +0000
+|  2026-05-15 20:25 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:
+|  mercurial: a9fd9058f838a71661b28070eb9d53dec51eea2f
+|  revision:  124
+|  parents:   123
+|
+|    A rewording.
+|
+|
+o  2026-05-15 20:21 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       ea37ac93355ad75541737a5bcc5edde741466d18
+|  mercurial: c68a1eeb21d49a96b742cc8be78570060f4fb03a
+|  revision:  123
+|  parents:   122
+|
+|    More README
+|
+|
+o  2026-05-15 20:05 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       a1dd716c0f55d91bf5bd822fd8ad50a24c23a68e
+|  mercurial: dee3a134e6bee851fce2c42a2ed22d64d26721fa
+|  revision:  122
+|  parents:   121
+|
+|    Add a final note.
+|
+|
+o  2026-05-15 20:00 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       34d052e693d8d3c88dc57362ded4d28be42364f7
+|  mercurial: b6d61836f702525652813860620f3130ca95a27c
+|  revision:  121
+|  parents:   120
+|
+|    Updates to README.
+|
+|
+o  2026-05-15 19:20 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       c165dc7f49d28fcb2c1520c59b61076b68f9ba3f
+|  mercurial: ce0a1d5668e96fb6d289285ef3b80663ffb6a30b
+|  revision:  120
+|  parents:   119
+|
+|    Fixes to string_t_hash(), and changes to make its results
+|    reproducible. A test for string_t_hash(), making use of the
+|    reproducibility.
+|
+|
+o  2026-05-15 16:26 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       1142e012cbaa4c93b7debe7ec6564f449c9c49de
 |  mercurial: c0a8b116c389b41452a206ac432e57f7c74ef994

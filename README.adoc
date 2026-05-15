@@ -87,7 +87,7 @@ When I took over ANT and made kompostilo typesetter from it, I
 converted from Revised Syntax for OCaml to standard syntax, simply so
 I could use Emacs Tuareg mode. But I recommend using my style. You may
 like it, should you actually try it. C is a difficult language to be
-disciplined in. OpenBSD tries to be displined in it by using only a
+disciplined in. OpenBSD tries to be disciplined in it by using only a
 restricted set of functions, and by flinging insults at everyone else.
 They write good code but theirs is not my approach. I try to be
 disciplined in C by using “ancient” methods of disciplined

@@ -147,6 +147,29 @@ spookyhash_store_hash_bits (uint64_t *dest, uint64_t src)
     *dest = src;
 }
 
+SPOOKYHASH_INLINE uint64_t
+ref8 (const void *p, unsigned int i)
+{
+  /* Reference of storage as a uint8_t array, returning a uint64_t. */
+  return (uint64_t) (((const uint8_t *) p)[i]);
+}
+
+SPOOKYHASH_INLINE uint64_t
+ref32 (const void *p, unsigned int i)
+{
+  /* Reference of storage as a uint32_t array, returning a
+     uint64_t. */
+  return (uint64_t) (((const uint32_t *) p)[i]);
+}
+
+SPOOKYHASH_INLINE uint64_t
+ref64 (const void *p, unsigned int i)
+{
+  /* Reference of storage as a uint64_t array, returning a
+     uint64_t. */
+  return ((const uint64_t *) p)[i];
+}
+
 /*--------------------------------------------------------------------*/
 
 SPOOKYHASH_INLINE void
@@ -501,10 +524,6 @@ spookyhash_short_last_bytes (uint64_t abcd[4],
   uint64_t c = abcd[2];
   uint64_t d = abcd[3];
 
-  const uint8_t *p = data;
-  const uint32_t *q = data;
-  const uint64_t *r = data;
-
   switch (num_bytes)
     {
     case 0:
@@ -512,74 +531,74 @@ spookyhash_short_last_bytes (uint64_t abcd[4],
       d += SPOOKYHASH_CONST;
       break;
     case 1:
-      c += (uint64_t) p[0];
+      c += ref8 (data, 0);
       break;
     case 2:
-      c += ((uint64_t) p[1]) << 8;
-      c += (uint64_t) p[0];
+      c += ref8 (data, 1) << 8;
+      c += ref8 (data, 0);
       break;
     case 3:
-      c += ((uint64_t) p[2]) << 16;
-      c += ((uint64_t) p[1]) << 8;
-      c += (uint64_t) p[0];
+      c += ref8 (data, 2) << 16;
+      c += ref8 (data, 1) << 8;
+      c += ref8 (data, 0);
       break;
     case 4:
-      c += spookyhash_fix_byte_order_32 (q[0]);
+      c += spookyhash_fix_byte_order_32 (ref32 (data, 0));
       break;
     case 5:
-      c += ((uint64_t) p[4]) << 32;
-      c += spookyhash_fix_byte_order_32 (q[0]);
+      c += ref8 (data, 4) << 32;
+      c += spookyhash_fix_byte_order_32 (ref32 (data, 0));
       break;
     case 6:
-      c += ((uint64_t) p[5]) << 40;
-      c += ((uint64_t) p[4]) << 32;
-      c += spookyhash_fix_byte_order_32 (q[0]);
+      c += ref8 (data, 5) << 40;
+      c += ref8 (data, 4) << 32;
+      c += spookyhash_fix_byte_order_32 (ref32 (data, 0));
       break;
     case 7:
-      c += ((uint64_t) p[6]) << 48;
-      c += ((uint64_t) p[5]) << 40;
-      c += ((uint64_t) p[4]) << 32;
-      c += spookyhash_fix_byte_order_32 (q[0]);
+      c += ref8 (data, 6) << 48;
+      c += ref8 (data, 5) << 40;
+      c += ref8 (data, 4) << 32;
+      c += spookyhash_fix_byte_order_32 (ref32 (data, 0));
       break;
     case 8:
-      c += spookyhash_fix_byte_order_64 (r[0]);
+      c += spookyhash_fix_byte_order_64 (ref64 (data, 0));
       break;
     case 9:
-      d += (uint64_t) p[8];
-      c += spookyhash_fix_byte_order_64 (r[0]);
+      d += ref8 (data, 8);
+      c += spookyhash_fix_byte_order_64 (ref64 (data, 0));
       break;
     case 10:
-      d += ((uint64_t) p[9]) << 8;
-      d += (uint64_t) p[8];
-      c += spookyhash_fix_byte_order_64 (r[0]);
+      d += ref8 (data, 9) << 8;
+      d += ref8 (data, 8);
+      c += spookyhash_fix_byte_order_64 (ref64 (data, 0));
       break;
     case 11:
-      d += ((uint64_t) p[10]) << 16;
-      d += ((uint64_t) p[9]) << 8;
-      d += (uint64_t) p[8];
-      c += spookyhash_fix_byte_order_64 (r[0]);
+      d += ref8 (data, 10) << 16;
+      d += ref8 (data, 9) << 8;
+      d += ref8 (data, 8);
+      c += spookyhash_fix_byte_order_64 (ref64 (data, 0));
       break;
     case 12:
-      d += spookyhash_fix_byte_order_32 (q[2]);
-      c += spookyhash_fix_byte_order_64 (r[0]);
+      d += spookyhash_fix_byte_order_32 (ref32 (data, 2));
+      c += spookyhash_fix_byte_order_64 (ref64 (data, 0));
       break;
     case 13:
-      d += ((uint64_t) p[12]) << 32;
-      d += spookyhash_fix_byte_order_32 (q[2]);
-      c += spookyhash_fix_byte_order_64 (r[0]);
+      d += ref8 (data, 12) << 32;
+      d += spookyhash_fix_byte_order_32 (ref32 (data, 2));
+      c += spookyhash_fix_byte_order_64 (ref64 (data, 0));
       break;
     case 14:
-      d += ((uint64_t) p[13]) << 40;
-      d += ((uint64_t) p[12]) << 32;
-      d += spookyhash_fix_byte_order_32 (q[2]);
-      c += spookyhash_fix_byte_order_64 (r[0]);
+      d += ref8 (data, 13) << 40;
+      d += ref8 (data, 12) << 32;
+      d += spookyhash_fix_byte_order_32 (ref32 (data, 2));
+      c += spookyhash_fix_byte_order_64 (ref64 (data, 0));
       break;
     case 15:
-      d += ((uint64_t) p[14]) << 48;
-      d += ((uint64_t) p[13]) << 40;
-      d += ((uint64_t) p[12]) << 32;
-      d += spookyhash_fix_byte_order_32 (q[2]);
-      c += spookyhash_fix_byte_order_64 (r[0]);
+      d += ref8 (data, 14) << 48;
+      d += ref8 (data, 13) << 40;
+      d += ref8 (data, 12) << 32;
+      d += spookyhash_fix_byte_order_32 (ref32 (data, 2));
+      c += spookyhash_fix_byte_order_64 (ref64 (data, 0));
       break;
     default:
       SPOOKYHASH_ASSERT (0);
@@ -802,7 +821,8 @@ spookyhash_final (spookyhash_context_t *context,
       memcpy (data_block,
               context->data + (block_num * SPOOKYHASH_NUMVARS),
               remainder);
-      p_8[SPOOKYHASH_BLOCKSIZE - 1] = remainder;
+      memcpy (p_8 + SPOOKYHASH_BLOCKSIZE - 1, &remainder,
+              sizeof (uint8_t));
       spookyhash_final_end (h, data_block);
 
       spookyhash_store_hash_bits (hash1, h[0]);

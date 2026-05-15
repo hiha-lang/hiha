@@ -3700,6 +3700,7 @@ indent:
 		-Tnud_handler_t \
 		-Tled_handler_t \
 		-Tstring_t \
+		-Tstring_t_hash_context_t \
 		-Ttoken_t \
 		-Ttext_location_t \
 		-Ttoken_getter_t \

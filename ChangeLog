@@ -1,5 +1,16 @@
 @  master
-|  2026-05-15 13:33 +0000
+|  2026-05-15 13:35 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       d7bc4121f8df3755f55796b947477387f0d1a601
+|  mercurial: e4fa7d7832c3eb783d527c40c301b6a9c91facd2
+|  revision:  118
+|  parents:   117
+|
+|    Be sure we still pass ‘make distcheck’, and in the process update
+|    ChangeLog.
+|
+|
+o  2026-05-15 13:33 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       fec2db002eb491d01adad647fe0e5cbd4f27b46f
 |  mercurial: 29e7e8253dfb8c5b8f7eeaa505e8fb92018351d3

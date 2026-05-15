@@ -21,6 +21,7 @@
 
 #include <config.h>
 #include <stdarg.h>
+#include <limits.h>
 #include <string.h>
 #include <errno.h>
 #include <error.h>
@@ -247,6 +248,103 @@ print_string_t (const string_t str, FILE *f)
   fwrite (s, sizeof (char), n, f);
 }
 
+/*--------------------------------------------------------------------*/
+
+struct string_t_hash_context
+{
+  string_t str;
+  uint64_t seeds[2];
+  uint64_t *hashes;             /* Memoized hashes. */
+  size_t num_hashes;
+};
+
+static const void *const string_t_hash_unique_address = "";
+static const void *const string_t_hash_this_first[1] = {
+  [0] = string_t_hash_unique_address
+};
+
+HIHA_VISIBLE string_t_hash_context_t
+string_t_hash_init (string_t str)
+{
+  string_t_hash_context_t context =
+    XMALLOC (struct string_t_hash_context);
+  context->str = str;
+  context->hashes = NULL;
+  context->num_hashes = 0;
+  return context;
+}
+
+static inline void
+check_string_t_hash_index (unsigned int i)
+{
+  /* Put this here to make the program “terminating in principle” when
+     things like ideal hashmaps do the practically impossible. */
+  if (i == ((unsigned int) INT_MAX) + 1)
+    {
+      error (exit_failure, 0,
+             "string_t_hash index out of bounds: %u", i);
+      abort ();
+    }
+}
+
+static void
+copy_old_string_t_hashes (uint64_t *new_hashes,
+                          string_t_hash_context_t context)
+{
+  if (context->hashes != NULL)
+    memcpy (new_hashes, context->hashes,
+            context->num_hashes * sizeof (uint64_t));
+}
+
+static void
+compute_new_string_t_hashes (uint64_t *new_hashes,
+                             size_t new_num_hashes,
+                             string_t_hash_context_t context)
+{
+  /* Memoize all the hashes up to new_num_hashes.
+
+     Memoizing all the hashes (rather than doing anything more
+     complicated) presumes algorithms will go progressively from hash
+     0, to hash 1, to hash 2, and so on. Thus, in practice, there will
+     be no hashes computed and simply thrown away. */
+
+  spookyhash_context_t boo;
+
+  for (size_t i = context->num_hashes; i != new_num_hashes; i += 2)
+    {
+      uint64_t seed1 = i / 2;
+      uint64_t seed2 = seed1;
+      spookyhash_init (&boo, seed1, seed2);
+      spookyhash_update (&boo, string_t_hash_this_first,
+                         sizeof (const void *const));
+      spookyhash_update (&boo, context->str->s,
+                         context->str->n * sizeof (uint32_t));
+      spookyhash_final (&boo, &new_hashes[i], &new_hashes[i + 1]);
+    }
+}
+
+HIHA_VISIBLE uint64_t
+string_t_hash (string_t_hash_context_t context, unsigned int i)
+{
+  check_string_t_hash_index (i);
+
+  /* j = i rounded to the next higher even, if it originally be
+     odd. Otherwise kept the same. */
+  unsigned int j = (i + 1) & (~1U);
+
+  if (context->num_hashes < j)
+    {
+      uint64_t *new_hashes = XNMALLOC (j, uint64_t);
+      copy_old_string_t_hashes (new_hashes, context);
+      compute_new_string_t_hashes (new_hashes, j, context);
+      context->hashes = new_hashes;
+      context->num_hashes = j;
+    }
+
+  return context->hashes[i];
+}
+
+/*--------------------------------------------------------------------*/
 /*
   local variables:
   mode: c

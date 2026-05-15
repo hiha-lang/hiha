@@ -93,4 +93,5 @@ They write good code but theirs is not my approach. I try to be
 disciplined in C by using “ancient” methods of disciplined
 programming—and by keeping the cyclometric complexity not only to a
 minimum, but visually obvious.footnote:[Also, one must must admit,
-there is the experience of visualizing proofs in ATS code.]
+there is the experience of writing “memcpy” calls that satisfied
+proofs in ATS code.]

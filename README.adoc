@@ -160,18 +160,18 @@ style can be done as a syntactic operation.
 Other matters start by seeming complicated, but then a path to
 simplicity becomes apparent.
 
-For example, Scheme lets one write “1.0+3.0i” for a complex number,
+For example, Scheme lets one write “+1.0+3.0i+” for a complex number,
 but we want to generalize that. A person should be able to write
-“1.0+3.0e₁e₂” to mean roughly the same thing, but as geometric
+“+1.0+3.0e₁e₂+” to mean roughly the same thing, but as geometric
 algebra. So at first we think of adding a syntax of vector components,
 but to do so would be the usual way in which people complicate a
 language. Instead we give the language a general syntax of
 juxtaposition! You can juxtapose things, and what the juxtaposition
 means depends on what is juxtaposed to what.
 
-Thus one might write “1.0 + 3.0 e₁ e₂”, and the juxtaposition of e₁
-and e₂ represents the geometric product we previously wrote as a
-precomputed bivector e₁e₂. Or we might write
+Thus one might write “+1.0 + 3.0 e₁ e₂+”, and the juxtaposition of
++e₁+ and +e₂+ represents the geometric product we previously wrote as
+a precomputed bivector +e₁e₂+. Or we might write
 
 [source]
 ----

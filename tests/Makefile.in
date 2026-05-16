@@ -109,7 +109,8 @@ build_triplet = @build@
 host_triplet = @host@
 EXTRA_PROGRAMS = SpookyV2-reference$(EXEEXT)
 check_PROGRAMS = check_string_t_hash$(EXEEXT) \
-	check_spookyhash$(EXEEXT) $(am__EXEEXT_1)
+	check_token_t_hash$(EXEEXT) check_spookyhash$(EXEEXT) \
+	$(am__EXEEXT_1)
 @ALLOW_NESTED_C_FUNCTIONS_TRUE@am__append_1 = check_persistent_avl \
 @ALLOW_NESTED_C_FUNCTIONS_TRUE@	check_persistent_integer_trie
 subdir = tests
@@ -279,6 +280,12 @@ check_string_t_hash_LDADD = $(LDADD)
 check_string_t_hash_DEPENDENCIES = $(top_builddir)/libhiha.la \
 	$(top_builddir)/$(GCVERS)/libhiha-gc.la \
 	$(top_builddir)/lib/libgnu.la $(am__DEPENDENCIES_2)
+check_token_t_hash_SOURCES = check_token_t_hash.c
+check_token_t_hash_OBJECTS = check_token_t_hash.$(OBJEXT)
+check_token_t_hash_LDADD = $(LDADD)
+check_token_t_hash_DEPENDENCIES = $(top_builddir)/libhiha.la \
+	$(top_builddir)/$(GCVERS)/libhiha-gc.la \
+	$(top_builddir)/lib/libgnu.la $(am__DEPENDENCIES_2)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -300,7 +307,8 @@ am__depfiles_remade =  \
 	./$(DEPDIR)/check_persistent_avl.Po \
 	./$(DEPDIR)/check_persistent_integer_trie.Po \
 	./$(DEPDIR)/check_spookyhash.Po \
-	./$(DEPDIR)/check_string_t_hash.Po
+	./$(DEPDIR)/check_string_t_hash.Po \
+	./$(DEPDIR)/check_token_t_hash.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -340,10 +348,10 @@ am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
 SOURCES = $(SpookyV2_reference_SOURCES) check_persistent_avl.c \
 	check_persistent_integer_trie.c $(check_spookyhash_SOURCES) \
-	check_string_t_hash.c
+	check_string_t_hash.c check_token_t_hash.c
 DIST_SOURCES = $(SpookyV2_reference_SOURCES) check_persistent_avl.c \
 	check_persistent_integer_trie.c $(check_spookyhash_SOURCES) \
-	check_string_t_hash.c
+	check_string_t_hash.c check_token_t_hash.c
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -2013,6 +2021,10 @@ check_string_t_hash$(EXEEXT): $(check_string_t_hash_OBJECTS) $(check_string_t_ha
 	@rm -f check_string_t_hash$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(check_string_t_hash_OBJECTS) $(check_string_t_hash_LDADD) $(LIBS)
 
+check_token_t_hash$(EXEEXT): $(check_token_t_hash_OBJECTS) $(check_token_t_hash_DEPENDENCIES) $(EXTRA_check_token_t_hash_DEPENDENCIES) 
+	@rm -f check_token_t_hash$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(check_token_t_hash_OBJECTS) $(check_token_t_hash_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -2025,6 +2037,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_persistent_integer_trie.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_spookyhash.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_string_t_hash.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_token_t_hash.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -2247,6 +2260,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/check_persistent_integer_trie.Po
 	-rm -f ./$(DEPDIR)/check_spookyhash.Po
 	-rm -f ./$(DEPDIR)/check_string_t_hash.Po
+	-rm -f ./$(DEPDIR)/check_token_t_hash.Po
 	-rm -f GNUmakefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -2298,6 +2312,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/check_persistent_integer_trie.Po
 	-rm -f ./$(DEPDIR)/check_spookyhash.Po
 	-rm -f ./$(DEPDIR)/check_string_t_hash.Po
+	-rm -f ./$(DEPDIR)/check_token_t_hash.Po
 	-rm -f GNUmakefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

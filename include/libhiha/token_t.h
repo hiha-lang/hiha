@@ -25,6 +25,8 @@
 #include <stdio.h>
 #include <libhiha/string_t.h>
 
+/*--------------------------------------------------------------------*/
+
 struct token
 {
   string_t token_kind;
@@ -106,6 +108,17 @@ token_putter_t make_token_putter_to_stream_serialized_t
 token_putter_t make_token_putter_with_mismatch_check
   (token_putter_t input_putter, buffered_token_getter_t output_getter,
    bool (*check_for_mismatch) (buffered_token_getter_t, token_t));
+
+
+/*--------------------------------------------------------------------*/
+
+struct token_t_hash_context;
+typedef struct token_t_hash_context *token_t_hash_context_t;
+
+token_t_hash_context_t token_t_hash_init (token_t str);
+uint64_t token_t_hash (token_t_hash_context_t context, unsigned int i);
+
+/*--------------------------------------------------------------------*/
 
 #endif /* __LIBHAHA__TOKEN_T_H__INCLUDED__ */
 

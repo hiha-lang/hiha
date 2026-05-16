@@ -139,6 +139,7 @@ CPPFLAGS += $(BASICCFLAGS)
 #-----------------------------------------------------------------------
 
 check_PROGRAMS += check_string_t_hash
+check_PROGRAMS += check_token_t_hash
 
 check_PROGRAMS += check_spookyhash
 check_spookyhash_SOURCES =

@@ -29,9 +29,10 @@
 #include <unicase.h>
 #include <uniconv.h>
 #include <uninorm.h>
-#include <libhiha/spookyhash.h>
 
 #define HIHA_PURE [[gnu::pure]]
+
+/*--------------------------------------------------------------------*/
 
 struct string
 {
@@ -50,9 +51,6 @@ struct text_location
   size_t code_point_no;         /* Starting at 1, after canonicalization. */
 };
 typedef struct text_location *text_location_t;
-
-struct string_t_hash_context;
-typedef struct string_t_hash_context *string_t_hash_context_t;
 
 /* Some string constants. */
 HIHA_PURE const string_t string_t_EOF (void);   /* “EOF” */
@@ -80,9 +78,16 @@ char *text_location_string (text_location_t);
 
 void print_string_t (const string_t str, FILE *f);
 
+/*--------------------------------------------------------------------*/
+
+struct string_t_hash_context;
+typedef struct string_t_hash_context *string_t_hash_context_t;
+
 string_t_hash_context_t string_t_hash_init (string_t str);
 uint64_t string_t_hash (string_t_hash_context_t context,
                         unsigned int i);
+
+/*--------------------------------------------------------------------*/
 
 #endif /* __LIBHAHA__STRING_T_H__INCLUDED__ */
 

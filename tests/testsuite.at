@@ -29,6 +29,11 @@ AT_KEYWORDS([string_t_hash string_t hash])
 AT_CHECK_UNQUOTED([check_string_t_hash])
 AT_CLEANUP
 
+AT_SETUP([token_t_hash])
+AT_KEYWORDS([token_t_hash token_t hash])
+AT_CHECK_UNQUOTED([check_token_t_hash])
+AT_CLEANUP
+
 AT_SETUP([persistent AVL tree])
 AT_KEYWORDS([persistent AVL avl tree])
 AT_SKIP_IF([test "${allow_nested_c_functions}" != yes])

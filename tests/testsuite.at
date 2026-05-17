@@ -36,13 +36,11 @@ AT_CLEANUP
 
 AT_SETUP([persistent AVL tree])
 AT_KEYWORDS([persistent AVL avl tree])
-AT_SKIP_IF([test "${allow_nested_c_functions}" != yes])
 AT_CHECK_UNQUOTED([check_persistent_avl])
 AT_CLEANUP
 
 AT_SETUP([persistent integer trie])
 AT_KEYWORDS([trie persistent radix tree])
-AT_SKIP_IF([test "${allow_nested_c_functions}" != yes])
 AT_CHECK_UNQUOTED([check_persistent_integer_trie])
 AT_CLEANUP
 

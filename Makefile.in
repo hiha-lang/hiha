@@ -121,7 +121,6 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/assert.m4 $(top_srcdir)/m4/assert_h.m4 \
 	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_check_gnu_make.m4 \
-	$(top_srcdir)/m4/ax_check_link_flag.m4 \
 	$(top_srcdir)/m4/base64.m4 $(top_srcdir)/m4/build-to-host.m4 \
 	$(top_srcdir)/m4/builtin-expect.m4 \
 	$(top_srcdir)/m4/byteswap.m4 $(top_srcdir)/m4/c-bool.m4 \
@@ -659,7 +658,6 @@ ENDIAN_H = @ENDIAN_H@
 ENDIAN_H_JUST_MISSING_STDINT = @ENDIAN_H_JUST_MISSING_STDINT@
 ERRNO_H = @ERRNO_H@
 ETAGS = @ETAGS@
-EXECSTACK_FLAGS = @EXECSTACK_FLAGS@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
 FILECMD = @FILECMD@
@@ -2083,7 +2081,6 @@ ac_ct_AR = @ac_ct_AR@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
-allow_nested_c_functions = @allow_nested_c_functions@
 am__include = @am__include@
 am__leading_dot = @am__leading_dot@
 am__quote = @am__quote@
@@ -2136,8 +2133,6 @@ localedir = @localedir@
 localstatedir = @localstatedir@
 mandir = @mandir@
 mkdir_p = @mkdir_p@
-nested_c_functions = @nested_c_functions@
-no_warn_execstack = @no_warn_execstack@
 oldincludedir = @oldincludedir@
 pdfdir = @pdfdir@
 prefix = @prefix@
@@ -2152,7 +2147,6 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-z_execstack = @z_execstack@
 SUBDIRS = lib . tests
 ACLOCAL_AMFLAGS = -I m4 --install
 AUTOMAKE_OPTIONS = subdir-objects -Wno-portability
@@ -2441,6 +2435,7 @@ libhiha_la_SOURCES = $(libhiha_HDRS) src/libhiha/spookyhash.c \
 libhiha_HDRS = include/libhiha/libhiha.h include/libhiha/spookyhash.h \
 	include/libhiha/persistent_avl.h \
 	include/libhiha/persistent_integer_trie.h \
+	include/libhiha/persistent_hash_map.h \
 	include/libhiha/workspaces.h include/libhiha/spinlock.h \
 	include/libhiha/initialize_once.h include/libhiha/string_t.h \
 	include/libhiha/token_t.h include/libhiha/pratt.h \

@@ -2324,13 +2324,6 @@ HAVE_MERCURIAL_FALSE
 HAVE_MERCURIAL_TRUE
 MERCURIAL
 INDENT
-EXECSTACK_FLAGS
-ALLOW_NESTED_C_FUNCTIONS_FALSE
-ALLOW_NESTED_C_FUNCTIONS_TRUE
-allow_nested_c_functions
-nested_c_functions
-no_warn_execstack
-z_execstack
 VISIBLE_CFLAGS
 CXXCPP
 am__fastdepCXX_FALSE
@@ -23815,148 +23808,6 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 VISIBLE_CFLAGS="${_visible_flags}"
 
 
-z_execstack=no
-no_warn_execstack=no
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether the linker accepts -Wl,-z,execstack" >&5
-printf %s "checking whether the linker accepts -Wl,-z,execstack... " >&6; }
-if test ${ax_cv_check_ldflags___Wl__z_execstack+y}
-then :
-  printf %s "(cached) " >&6
-else case e in #(
-  e)
-  ax_check_save_flags=$LDFLAGS
-  LDFLAGS="$LDFLAGS  -Wl,-z,execstack"
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-int
-main (void)
-{
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"
-then :
-  ax_cv_check_ldflags___Wl__z_execstack=yes
-else case e in #(
-  e) ax_cv_check_ldflags___Wl__z_execstack=no ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam \
-    conftest$ac_exeext conftest.$ac_ext
-  LDFLAGS=$ax_check_save_flags ;;
-esac
-fi
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_ldflags___Wl__z_execstack" >&5
-printf "%s\n" "$ax_cv_check_ldflags___Wl__z_execstack" >&6; }
-if test "x$ax_cv_check_ldflags___Wl__z_execstack" = xyes
-then :
-  z_execstack=yes
-else case e in #(
-  e) : ;;
-esac
-fi
-
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether the linker accepts -Wl,--no-warn-execstack" >&5
-printf %s "checking whether the linker accepts -Wl,--no-warn-execstack... " >&6; }
-if test ${ax_cv_check_ldflags___Wl___no_warn_execstack+y}
-then :
-  printf %s "(cached) " >&6
-else case e in #(
-  e)
-  ax_check_save_flags=$LDFLAGS
-  LDFLAGS="$LDFLAGS  -Wl,--no-warn-execstack"
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-int
-main (void)
-{
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"
-then :
-  ax_cv_check_ldflags___Wl___no_warn_execstack=yes
-else case e in #(
-  e) ax_cv_check_ldflags___Wl___no_warn_execstack=no ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam \
-    conftest$ac_exeext conftest.$ac_ext
-  LDFLAGS=$ax_check_save_flags ;;
-esac
-fi
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_ldflags___Wl___no_warn_execstack" >&5
-printf "%s\n" "$ax_cv_check_ldflags___Wl___no_warn_execstack" >&6; }
-if test "x$ax_cv_check_ldflags___Wl___no_warn_execstack" = xyes
-then :
-  no_warn_execstack=yes
-else case e in #(
-  e) : ;;
-esac
-fi
-
-
-
-
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether the C compiler supports nested functions" >&5
-printf %s "checking whether the C compiler supports nested functions... " >&6; }
-if test ${hiha_cv_c_have_nested_c_functions+y}
-then :
-  printf %s "(cached) " >&6
-else case e in #(
-  e) hiha_cv_c_have_nested_c_functions=no
-   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-
-int
-main (void)
-{
-void func1 (void) { void func2 (void) { } }
-  ;
-  return 0;
-}
-
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"
-then :
-  hiha_cv_c_have_nested_c_functions=yes
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext ;;
-esac
-fi
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $hiha_cv_c_have_nested_c_functions" >&5
-printf "%s\n" "$hiha_cv_c_have_nested_c_functions" >&6; }
-nested_c_functions="${hiha_cv_c_have_nested_c_functions}"
-
-
-if test "${nested_c_functions}" = yes && test "${z_execstack}" = yes; then
-  allow_nested_c_functions=yes
-else
-  allow_nested_c_functions=no
-fi
-
- if test "${allow_nested_c_functions}" = yes; then
-  ALLOW_NESTED_C_FUNCTIONS_TRUE=
-  ALLOW_NESTED_C_FUNCTIONS_FALSE='#'
-else
-  ALLOW_NESTED_C_FUNCTIONS_TRUE='#'
-  ALLOW_NESTED_C_FUNCTIONS_FALSE=
-fi
-
-EXECSTACK_FLAGS=
-test "${z_execstack}" = yes \
-  && EXECSTACK_FLAGS="${EXECSTACK_FLAGS}${EXECSTACK_FLAGS+ }-Wl,-z,execstack"
-test "${no_warn_execstack}" = yes \
-  && EXECSTACK_FLAGS="${EXECSTACK_FLAGS}${EXECSTACK_FLAGS+ }-Wl,--no-warn-execstack"
-
-
 { :;
 
 # Override the cache if the precious variable INDENT is set.
@@ -30617,8 +30468,8 @@ rm -f core conftest.err conftest.$ac_objext conftest.beam \
         LIBS="$saved_LIBS"
         test $gl_pthread_api = yes && break
       done
-      echo "$as_me:30620: gl_pthread_api=$gl_pthread_api" >&5
-      echo "$as_me:30621: LIBPTHREAD=$LIBPTHREAD" >&5
+      echo "$as_me:30471: gl_pthread_api=$gl_pthread_api" >&5
+      echo "$as_me:30472: LIBPTHREAD=$LIBPTHREAD" >&5
 
       gl_pthread_in_glibc=no
       # On Linux with glibc >= 2.34, libc contains the fully functional
@@ -30647,7 +30498,7 @@ rm -rf conftest*
   *) :
      ;;
 esac
-      echo "$as_me:30650: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
+      echo "$as_me:30501: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
 
       # Test for libpthread by looking for pthread_kill.
       if test $gl_pthread_api = yes && test -z "$LIBPTHREAD"
@@ -30899,7 +30750,7 @@ fi
 fi
 
 fi
-      echo "$as_me:30902: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
+      echo "$as_me:30753: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
 
 fi
     { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether POSIX threads API is available" >&5
@@ -35271,8 +35122,8 @@ rm -f core conftest.err conftest.$ac_objext conftest.beam \
         LIBS="$saved_LIBS"
         test $gl_pthread_api = yes && break
       done
-      echo "$as_me:35274: gl_pthread_api=$gl_pthread_api" >&5
-      echo "$as_me:35275: LIBPTHREAD=$LIBPTHREAD" >&5
+      echo "$as_me:35125: gl_pthread_api=$gl_pthread_api" >&5
+      echo "$as_me:35126: LIBPTHREAD=$LIBPTHREAD" >&5
 
       gl_pthread_in_glibc=no
       # On Linux with glibc >= 2.34, libc contains the fully functional
@@ -35301,7 +35152,7 @@ rm -rf conftest*
   *) :
      ;;
 esac
-      echo "$as_me:35304: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
+      echo "$as_me:35155: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
 
       # Test for libpthread by looking for pthread_kill.
       if test $gl_pthread_api = yes && test -z "$LIBPTHREAD"
@@ -35553,7 +35404,7 @@ fi
 fi
 
 fi
-      echo "$as_me:35556: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
+      echo "$as_me:35407: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
 
 fi
     { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether POSIX threads API is available" >&5
@@ -35843,8 +35694,8 @@ rm -f core conftest.err conftest.$ac_objext conftest.beam \
         LIBS="$saved_LIBS"
         test $gl_pthread_api = yes && break
       done
-      echo "$as_me:35846: gl_pthread_api=$gl_pthread_api" >&5
-      echo "$as_me:35847: LIBPTHREAD=$LIBPTHREAD" >&5
+      echo "$as_me:35697: gl_pthread_api=$gl_pthread_api" >&5
+      echo "$as_me:35698: LIBPTHREAD=$LIBPTHREAD" >&5
 
       gl_pthread_in_glibc=no
       # On Linux with glibc >= 2.34, libc contains the fully functional
@@ -35873,7 +35724,7 @@ rm -rf conftest*
   *) :
      ;;
 esac
-      echo "$as_me:35876: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
+      echo "$as_me:35727: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
 
       # Test for libpthread by looking for pthread_kill.
       if test $gl_pthread_api = yes && test -z "$LIBPTHREAD"
@@ -36125,7 +35976,7 @@ fi
 fi
 
 fi
-      echo "$as_me:36128: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
+      echo "$as_me:35979: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
 
 fi
     { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether POSIX threads API is available" >&5
@@ -55383,10 +55234,6 @@ fi
 
 if test -z "${am__fastdepCXX_TRUE}" && test -z "${am__fastdepCXX_FALSE}"; then
   as_fn_error $? "conditional \"am__fastdepCXX\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${ALLOW_NESTED_C_FUNCTIONS_TRUE}" && test -z "${ALLOW_NESTED_C_FUNCTIONS_FALSE}"; then
-  as_fn_error $? "conditional \"ALLOW_NESTED_C_FUNCTIONS\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${HAVE_MERCURIAL_TRUE}" && test -z "${HAVE_MERCURIAL_FALSE}"; then

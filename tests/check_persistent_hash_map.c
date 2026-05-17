@@ -19,29 +19,17 @@
 
 */
 
-#ifndef __LIBHAHA__LIBHIHA_H__INCLUDED__
-#define __LIBHAHA__LIBHIHA_H__INCLUDED__
+#include <config.h>
+#include <gc/gc.h>
+#include <libhiha/libhiha.h>
 
-#include <libhiha/spookyhash.h>
-#include <libhiha/persistent_avl.h>
-#include <libhiha/persistent_integer_trie.h>
-#include <libhiha/persistent_hash_map.h>
-#include <libhiha/workspaces.h>
-#include <libhiha/spinlock.h>
-#include <libhiha/initialize_once.h>
-#include <libhiha/string_t.h>
-#include <libhiha/token_t.h>
-#include <libhiha/pratt.h>
-#include <libhiha/lexical.h>
-#include <libhiha/string_literal.h>
-#include <libhiha/gensym.h>
-#include <libhiha/load_plugin.h>
+HIHA_VISIBLE const char version_etc_copyright[] =
+  "Copyright %s %d Barry Schwartz";
 
-#endif /* __LIBHAHA__LIBHIHA_H__INCLUDED__ */
-
-/*
-  local variables:
-  mode: c
-  coding: utf-8
-  end:
-*/
+int
+main (void)
+{
+  GC_INIT ();
+  //hash_map_test ();
+  return 0;
+}

@@ -617,7 +617,7 @@ at_help_all="1;testsuite.at:22;SpookyHash;spookyhash hash;
 2;testsuite.at:27;string_t_hash;string_t_hash string_t hash;
 3;testsuite.at:32;token_t_hash;token_t_hash token_t hash;
 4;testsuite.at:37;persistent AVL tree;persistent avl tree;
-5;testsuite.at:43;persistent integer trie;trie persistent radix tree;
+5;testsuite.at:42;persistent integer trie;trie persistent radix tree;
 "
 # List of the all the test groups.
 at_groups_all=`printf "%s\n" "$at_help_all" | sed 's/;.*//'`
@@ -2078,19 +2078,16 @@ at_xfail=no
   $at_traceon
 
 
-printf "%s\n" "testsuite.at:39" >"$at_check_line_file"
-(test "${allow_nested_c_functions}" != yes) \
-  && at_fn_check_skip 77 "$at_srcdir/testsuite.at:39"
 { set +x
-printf "%s\n" "$at_srcdir/testsuite.at:40: check_persistent_avl"
-at_fn_check_prepare_trace "testsuite.at:40"
+printf "%s\n" "$at_srcdir/testsuite.at:39: check_persistent_avl"
+at_fn_check_prepare_trace "testsuite.at:39"
 ( $at_check_trace; check_persistent_avl
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/testsuite.at:40"
+at_fn_check_status 0 $at_status "$at_srcdir/testsuite.at:39"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
@@ -2100,7 +2097,7 @@ $at_traceon; }
 read at_status <"$at_status_file"
 #AT_STOP_4
 #AT_START_5
-at_fn_group_banner 5 'testsuite.at:43' \
+at_fn_group_banner 5 'testsuite.at:42' \
   "persistent integer trie" "                        "
 at_xfail=no
 (
@@ -2108,19 +2105,16 @@ at_xfail=no
   $at_traceon
 
 
-printf "%s\n" "testsuite.at:45" >"$at_check_line_file"
-(test "${allow_nested_c_functions}" != yes) \
-  && at_fn_check_skip 77 "$at_srcdir/testsuite.at:45"
 { set +x
-printf "%s\n" "$at_srcdir/testsuite.at:46: check_persistent_integer_trie"
-at_fn_check_prepare_trace "testsuite.at:46"
+printf "%s\n" "$at_srcdir/testsuite.at:44: check_persistent_integer_trie"
+at_fn_check_prepare_trace "testsuite.at:44"
 ( $at_check_trace; check_persistent_integer_trie
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/testsuite.at:46"
+at_fn_check_status 0 $at_status "$at_srcdir/testsuite.at:44"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 

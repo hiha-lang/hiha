@@ -1,5 +1,37 @@
 @  master
-|  2026-05-16 19:31 +0000
+|  2026-05-17 01:38 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:
+|  mercurial: 042c14de0960274c0f52d0bb0eea9533e0a76b37
+|  revision:  144
+|  parents:   143
+|
+|    Copy the test from the one function requiring nested functions to
+|    here, so nested functions are not needed.
+|
+|
+o  2026-05-17 01:32 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:
+|  mercurial: 888682269b93b9bc81d27de8e13cf1039ec495c7
+|  revision:  143
+|  parents:   142
+|
+|    Move the nested functions test all here, so you do not need nested
+|    functions.
+|
+|
+o  2026-05-17 00:43 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       fd3fbe260afef1f346473756ce889acf126b5f10
+|  mercurial: 4d0fc28e740fff0801801213d1c78f1d0b3a265b
+|  revision:  142
+|  parents:   141
+|
+|    Test the memoization.
+|
+|
+o  2026-05-16 19:31 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       e063758b076e3f43e2b4d7e9787e4702df4bc8ba
 |  mercurial: b6032788a9c9cc6b66f20e05905371e4779cf25c

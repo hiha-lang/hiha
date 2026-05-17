@@ -66,38 +66,6 @@ CFLAGS="${CFLAGS}${CFLAGS+ }${_hidden_flags}"
 CHEM_GNU_C_FLAGS([_visible_flags],[-fPIC -fvisibility=default])
 AC_SUBST([VISIBLE_CFLAGS],["${_visible_flags}"])
 
-z_execstack=no
-no_warn_execstack=no
-AX_CHECK_LINK_FLAG([-Wl,-z,execstack],[z_execstack=yes])
-AX_CHECK_LINK_FLAG([-Wl,--no-warn-execstack],[no_warn_execstack=yes])
-AC_SUBST([z_execstack])
-AC_SUBST([no_warn_execstack])
-
-AC_CACHE_CHECK([whether the C compiler supports nested functions],
-  [hiha_cv_c_have_nested_c_functions],
-  [hiha_cv_c_have_nested_c_functions=no
-   AC_COMPILE_IFELSE([
-     AC_LANG_PROGRAM([[]],[[void func1 (void) { void func2 (void) { } }]])
-   ],
-   [hiha_cv_c_have_nested_c_functions=yes])])
-nested_c_functions="${hiha_cv_c_have_nested_c_functions}"
-AC_SUBST([nested_c_functions])
-
-if test "${nested_c_functions}" = yes && test "${z_execstack}" = yes; then
-  allow_nested_c_functions=yes
-else
-  allow_nested_c_functions=no
-fi
-AC_SUBST([allow_nested_c_functions])
-AM_CONDITIONAL([ALLOW_NESTED_C_FUNCTIONS],
-  [test "${allow_nested_c_functions}" = yes])
-EXECSTACK_FLAGS=
-test "${z_execstack}" = yes \
-  && EXECSTACK_FLAGS="${EXECSTACK_FLAGS}${EXECSTACK_FLAGS+ }-Wl,-z,execstack"
-test "${no_warn_execstack}" = yes \
-  && EXECSTACK_FLAGS="${EXECSTACK_FLAGS}${EXECSTACK_FLAGS+ }-Wl,--no-warn-execstack"
-AC_SUBST([EXECSTACK_FLAGS])
-
 CHEM_PATH_PROGS_CACHED_AND_PRECIOUS([INDENT],
   [GNU indent],[indent],
   [

@@ -138,7 +138,7 @@
   FUNC (NAME##_t _Node, UINTKEY _Key)                           \
   {                                                             \
     NAME##_leaf_t _result;                                      \
-    HIHA_INT_TRIE_SEARCH(_result, NAME, UINTKEY, _Node, _Key);  \
+    HIHA_INT_TRIE_SEARCH (_result, NAME, UINTKEY, _Node, _Key); \
     return _result;                                             \
   }
 

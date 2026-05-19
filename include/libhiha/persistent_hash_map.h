@@ -255,10 +255,10 @@ typedef enum
   void                                                                  \
   FUNC (NAME##_t _Node, const ELEMTYPE *_Element,                       \
         hiha_hash_map_mode_t _Mode,                                     \
-        NAME##_t *_Result_node, int *_Size_change)                      \
+        NAME##_t *_Result_node, ssize_t *_Size_change)                  \
   {                                                                     \
     NAME##_leaf_t _leaf;                                                \
-    int _sz_change;                                                     \
+    ssize_t _sz_change;                                                 \
     void *_key_context = (HASHINIT) (_Element);                         \
     HIHA_HASH_MAP_SEARCH (_leaf, NAME, ELEMTYPE,                        \
                           _Node, _Element, _key_context,                \
@@ -350,7 +350,7 @@ typedef enum
                                                                         \
   void                                                                  \
   FUNC (NAME##_t _Node, const ELEMTYPE *_Key,                           \
-        NAME##_t *_Result_node, int *_Size_change)                      \
+        NAME##_t *_Result_node, ssize_t *_Size_change)                  \
   {                                                                     \
     NAME##_t _result = _Node;                                           \
     NAME##_leaf_t _leaf;                                                \

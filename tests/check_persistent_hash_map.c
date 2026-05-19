@@ -107,7 +107,7 @@ main (void)
         .str = make_string_t (buf),
         .i = i
       };
-      int size_change;
+      ssize_t size_change;
       string2int_hash_map_insert
         (hm, &elem, hiha_hash_map_insert_or_replace, &hm, &size_change);
       size += size_change;
@@ -132,7 +132,7 @@ main (void)
         .str = make_string_t (buf),
         .i = -i
       };
-      int size_change;
+      ssize_t size_change;
       string2int_hash_map_insert
         (hm, &elem, hiha_hash_map_insert_or_replace, &hm, &size_change);
       size += size_change;
@@ -157,7 +157,7 @@ main (void)
       struct string2int keyNNNNNN = {
         .str = make_string_t (buf)
       };
-      int size_change;
+      ssize_t size_change;
       string2int_hash_map_delete (hm, &keyNNNNNN, &hm, &size_change);
       size += size_change;
     }
@@ -197,7 +197,7 @@ main (void)
         .str = make_string_t (buf),
         .i = (2 * how_many) + i
       };
-      int size_change;
+      ssize_t size_change;
       string2int_hash_map_insert
         (hm, &elem, hiha_hash_map_replace_only, &hm, &size_change);
       size += size_change;
@@ -228,7 +228,7 @@ main (void)
         .str = make_string_t (buf),
         .i = -5 * i
       };
-      int size_change;
+      ssize_t size_change;
       string2int_hash_map_insert
         (hm, &elem, hiha_hash_map_insert_only, &hm, &size_change);
       size += size_change;

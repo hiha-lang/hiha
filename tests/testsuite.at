@@ -44,6 +44,11 @@ AT_KEYWORDS([trie persistent radix tree])
 AT_CHECK_UNQUOTED([check_persistent_integer_trie])
 AT_CLEANUP
 
+AT_SETUP([persistent hash map])
+AT_KEYWORDS([persistent hash map hashmap])
+AT_CHECK_UNQUOTED([check_persistent_hash_map])
+AT_CLEANUP
+
 # local variables:
 # mode: autoconf
 # coding: utf-8

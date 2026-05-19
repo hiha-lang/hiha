@@ -230,8 +230,8 @@
   NAME##_t                                                              \
   FUNC (NAME##_t _Node, UINTKEY _Key, VALTYPE _Value)                   \
   {                                                                     \
-    return (FUNC##_86732d50_79a7_4c27_90a4_a295bf8822e2)                \
-      (_Node, _Key, _Value, (UINTKEY) 1);                               \
+    return ((FUNC##_86732d50_79a7_4c27_90a4_a295bf8822e2)               \
+            (_Node, _Key, _Value, (UINTKEY) 1));                        \
   }
 
 /* Delete a leaf node, nondestructively. */

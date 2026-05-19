@@ -97,7 +97,7 @@
       while (_SOUGHT_ND__ != NULL && !_SOUGHT_ND__->is_leaf)    \
         {                                                       \
           _SOUGHT_ND__ =                                        \
-            (((HASHBIT) (CONTEXT, _BIT_NUMBER__))               \
+            (((HASHBIT) (CONTEXT, _BIT_NUMBER__) == 0)          \
              ? ((NAME##_internal_t) _SOUGHT_ND__)->left         \
              : ((NAME##_internal_t) _SOUGHT_ND__)->right);      \
           _BIT_NUMBER__ += 1;                                   \
@@ -126,6 +126,105 @@
     return ((__sought_node_ == NULL)                            \
             ? NULL                                              \
             : &__sought_node_->element);                        \
+  }
+
+/* Insert a leaf node, nondestructively. */
+#define HIHA_HASH_MAP_INSERT_DEFN(FUNC, NAME, ELEMTYPE,                 \
+                                  HASHINIT, HASHBIT, EQUALS)            \
+                                                                        \
+  NAME##_t                                                              \
+  FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7                           \
+  (NAME##_t _Node, const ELEMTYPE *_Element, void *_Key_context,        \
+   unsigned int _Bit_number)                                            \
+  {                                                                     \
+    NAME##_t _result;                                                   \
+    NAME##_t _nd;                                                       \
+    if (_Node == NULL)                                                  \
+      /* A new leaf. */                                                 \
+      HIHA_HASH_MAP_MAKE_LEAF (_result, NAME, *_Element);               \
+    else if (_Node->is_leaf)                                            \
+      {                                                                 \
+        NAME##_leaf_t _Leaf = (NAME##_leaf_t) _Node;                    \
+        if ((EQUALS) (_Element, &_Leaf->element))                       \
+          /* An equal key, but a new value. */                          \
+          HIHA_HASH_MAP_MAKE_LEAF (_result, NAME, *_Element);           \
+        else                                                            \
+          {                                                             \
+            /* Branch out. */                                           \
+            bool _key_is_left =                                         \
+              ((HASHBIT) (_Key_context, _Bit_number) == 0);             \
+            void *_leaf_context = (HASHINIT) (&_Leaf->element);         \
+            bool _leaf_is_left =                                        \
+              ((HASHBIT) (_leaf_context, _Bit_number) == 0);            \
+            if (_key_is_left)                                           \
+              {                                                         \
+                if (_leaf_is_left)                                      \
+                  {                                                     \
+                    _nd =                                               \
+                      ((FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7)    \
+                       (_Node, _Element, _Key_context,                  \
+                        _Bit_number + 1));                              \
+                    HIHA_HASH_MAP_MAKE_INTERNAL                         \
+                      (_result, NAME, _nd, NULL);                       \
+                  }                                                     \
+                else                                                    \
+                  {                                                     \
+                    HIHA_HASH_MAP_MAKE_LEAF                             \
+                      (_nd, NAME, *_Element);                           \
+                    HIHA_HASH_MAP_MAKE_INTERNAL                         \
+                      (_result, NAME, _nd, _Node);                      \
+                  }                                                     \
+              }                                                         \
+            else                                                        \
+              {                                                         \
+                if (_leaf_is_left)                                      \
+                  {                                                     \
+                    HIHA_HASH_MAP_MAKE_LEAF                             \
+                      (_nd, NAME, *_Element);                           \
+                    HIHA_HASH_MAP_MAKE_INTERNAL                         \
+                      (_result, NAME, _Node, _nd);                      \
+                  }                                                     \
+                else                                                    \
+                  {                                                     \
+                    _nd =                                               \
+                      ((FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7)    \
+                       (_Node, _Element, _Key_context,                  \
+                        _Bit_number + 1));                              \
+                    HIHA_HASH_MAP_MAKE_INTERNAL                         \
+                      (_result, NAME, NULL, _nd);                       \
+                  }                                                     \
+              }                                                         \
+          }                                                             \
+      }                                                                 \
+    else                                                                \
+      {                                                                 \
+        /* Continue looking for the insertion point. */                 \
+        NAME##_internal_t _Internal = (NAME##_internal_t) _Node;        \
+        if ((HASHBIT) (_Key_context, _Bit_number) == 0)                 \
+          {                                                             \
+            _nd = ((FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7)        \
+                   (_Internal->left, _Element, _Key_context,            \
+                    _Bit_number + 1));                                  \
+            HIHA_HASH_MAP_MAKE_INTERNAL                                 \
+              (_result, NAME, _nd, _Internal->right);                   \
+          }                                                             \
+        else                                                            \
+          {                                                             \
+            _nd = ((FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7)        \
+                   (_Internal->right, _Element, _Key_context,           \
+                    _Bit_number + 1));                                  \
+            HIHA_HASH_MAP_MAKE_INTERNAL                                 \
+              (_result, NAME, _Internal->left, _nd);                    \
+          }                                                             \
+      }                                                                 \
+    return _result;                                                     \
+  }                                                                     \
+                                                                        \
+  NAME##_t                                                              \
+  FUNC (NAME##_t _Node, const ELEMTYPE *_Element)                       \
+  {                                                                     \
+    return ((FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7)               \
+            (_Node, _Element, (HASHINIT) (_Element), 0));               \
   }
 
 #endif /* __LIBHAHA__PERSISTENT_HASH_MAP_H__INCLUDED__ */

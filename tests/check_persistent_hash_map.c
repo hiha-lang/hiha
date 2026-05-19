@@ -21,6 +21,7 @@
 
 #include <config.h>
 #include <gc/gc.h>
+#include <assert.h>
 #include <libhiha/libhiha.h>
 
 HIHA_VISIBLE const char version_etc_copyright[] =
@@ -60,11 +61,22 @@ HIHA_HASH_MAP_SEARCH_DEFN (string2int_hash_map_search,
                            string2int_hash_map, struct string2int,
                            string2int_hash_init, string2int_hash_bit,
                            string2int_equals);
+HIHA_HASH_MAP_INSERT_DEFN (string2int_hash_map_insert,
+                           string2int_hash_map, struct string2int,
+                           string2int_hash_init, string2int_hash_bit,
+                           string2int_equals);
 
 int
 main (void)
 {
   GC_INIT ();
-  //hash_map_test ();
+
+  string2int_hash_map_t hm = NULL;
+
+  struct string2int key = {
+    .str = make_string_t ("anything")
+  };
+  assert (string2int_hash_map_search (hm, &key) == NULL);
+
   return 0;
 }

@@ -30,6 +30,7 @@
 
 #include <stdlib.h>
 #include <stdint.h>
+#include <assert.h>
 
 #ifndef HIHA_HASH_MAP_ALLOC
 #include <xalloc.h>
@@ -140,35 +141,19 @@ typedef enum {
   NAME##_t                                                              \
   FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7                           \
   (NAME##_t _Node, const ELEMTYPE *_Element,                            \
-   hiha_hash_map_mode_t _Mode,                                          \
-   void *_Key_context, unsigned int _Bit_number)                        \
+    void *_Key_context, unsigned int _Bit_number)                       \
   {                                                                     \
     NAME##_t _result;                                                   \
     NAME##_t _nd;                                                       \
     if (_Node == NULL)                                                  \
-      {                                                                 \
-        if (_Mode == hiha_hash_map_replace_only)                        \
-          /* Signal that there is no change to the map. */              \
-          _result = NULL;                                               \
-        else                                                            \
-          /* A new leaf. */                                             \
-          HIHA_HASH_MAP_MAKE_LEAF (_result, NAME, *_Element);           \
-      }                                                                 \
+      /* A new leaf. */                                                 \
+      HIHA_HASH_MAP_MAKE_LEAF (_result, NAME, *_Element);               \
     else if (_Node->is_leaf)                                            \
       {                                                                 \
         NAME##_leaf_t _Leaf = (NAME##_leaf_t) _Node;                    \
         if ((EQUALS) (_Element, &_Leaf->element))                       \
-          {                                                             \
-            if (_Mode == hiha_hash_map_insert_only)                     \
-              /* Signal that there is no change to the map. */          \
-              _result = NULL;                                           \
-            else                                                        \
-              /* An equal key, but a new value. */                      \
-              HIHA_HASH_MAP_MAKE_LEAF (_result, NAME, *_Element);       \
-          }                                                             \
-        else if (_Mode == hiha_hash_map_replace_only)                   \
-          /* Signal that there is no change to the map. */              \
-          _result = NULL;                                               \
+          /* An equal key, but a new value. */                          \
+          HIHA_HASH_MAP_MAKE_LEAF (_result, NAME, *_Element);           \
         else                                                            \
           {                                                             \
             /* Branch out. */                                           \
@@ -182,9 +167,8 @@ typedef enum {
                 if (_leaf_is_left)                                      \
                   {                                                     \
                     _nd =                                               \
-                      ((FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7)    \
-                       (_Node, _Element, _Mode, _Key_context,           \
-                        _Bit_number + 1));                              \
+                      (FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7)     \
+                      (_Node, _Element, _Key_context, _Bit_number + 1); \
                     HIHA_HASH_MAP_MAKE_INTERNAL                         \
                       (_result, NAME, _nd, NULL);                       \
                   }                                                     \
@@ -208,9 +192,8 @@ typedef enum {
                 else                                                    \
                   {                                                     \
                     _nd =                                               \
-                      ((FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7)    \
-                       (_Node, _Element, _Mode, _Key_context,           \
-                        _Bit_number + 1));                              \
+                      (FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7)     \
+                      (_Node, _Element, _Key_context, _Bit_number + 1); \
                     HIHA_HASH_MAP_MAKE_INTERNAL                         \
                       (_result, NAME, NULL, _nd);                       \
                   }                                                     \
@@ -224,7 +207,7 @@ typedef enum {
         if ((HASHBIT) (_Key_context, _Bit_number) == 0)                 \
           {                                                             \
             _nd = ((FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7)        \
-                   (_Internal->left, _Element, _Mode, _Key_context,     \
+                   (_Internal->left, _Element, _Key_context,            \
                     _Bit_number + 1));                                  \
             HIHA_HASH_MAP_MAKE_INTERNAL                                 \
               (_result, NAME, _nd, _Internal->right);                   \
@@ -232,7 +215,7 @@ typedef enum {
         else                                                            \
           {                                                             \
             _nd = ((FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7)        \
-                   (_Internal->right, _Element, _Mode, _Key_context,    \
+                   (_Internal->right, _Element, _Key_context,           \
                     _Bit_number + 1));                                  \
             HIHA_HASH_MAP_MAKE_INTERNAL                                 \
               (_result, NAME, _Internal->left, _nd);                    \
@@ -241,14 +224,120 @@ typedef enum {
     return _result;                                                     \
   }                                                                     \
                                                                         \
-  NAME##_t                                                              \
+  void                                                                  \
   FUNC (NAME##_t _Node, const ELEMTYPE *_Element,                       \
-        hiha_hash_map_mode_t _Mode)                                     \
+        hiha_hash_map_mode_t _Mode,                                     \
+        NAME##_t *_Result_node, int *_Size_change)                      \
   {                                                                     \
-    NAME##_t _result =                                                  \
-      ((FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7)                    \
-       (_Node, _Element, _Mode, (HASHINIT) (_Element), 0));             \
-    return (_result == NULL) ? _Node : _result;                         \
+    NAME##_leaf_t _leaf;                                                \
+    int _sz_change;                                                     \
+    void *_key_context = (HASHINIT) (_Element);                         \
+    HIHA_HASH_MAP_SEARCH (_leaf, NAME, ELEMTYPE,                        \
+                          _Node, _Element, _key_context,                \
+                          (HASHBIT), (EQUALS));                         \
+    bool _do_insertion;                                                 \
+    switch (_Mode)                                                      \
+      {                                                                 \
+      case hiha_hash_map_insert_or_replace:                             \
+        _do_insertion = true;                                           \
+        _sz_change = (_leaf == NULL) ? 1 : 0;                           \
+        break;                                                          \
+      case hiha_hash_map_insert_only:                                   \
+        _do_insertion = (_leaf == NULL);                                \
+        _sz_change = (_leaf == NULL) ? 1 : 0;                           \
+        break;                                                          \
+      case hiha_hash_map_replace_only:                                  \
+        _do_insertion = (_leaf != NULL);                                \
+        _sz_change = 0;                                                 \
+        break;                                                          \
+      default:                                                          \
+        assert (0);                                                     \
+        abort ();                                                       \
+      }                                                                 \
+    if (_Size_change != NULL)                                           \
+      *_Size_change = _sz_change;                                       \
+    if (_Result_node != NULL)                                           \
+      {                                                                 \
+        if (_do_insertion)                                              \
+          *_Result_node =                                               \
+            (FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7)               \
+            (_Node, _Element, _key_context, 0);                         \
+        else                                                            \
+          *_Result_node = _Node;                                        \
+      }                                                                 \
+  }
+
+/* Delete a leaf node, nondestructively. */
+#define HIHA_HASH_MAP_DELETE_DEFN(FUNC, NAME, ELEMTYPE,                 \
+                                  HASHINIT, HASHBIT, EQUALS)            \
+                                                                        \
+  NAME##_t                                                              \
+  FUNC##_49436463_853f_4e2e_8c23_97e67636e7d8                           \
+  (NAME##_t _Node, const ELEMTYPE *_Key,                                \
+   void *_Key_context, unsigned int _Bit_number)                        \
+  {                                                                     \
+    assert (_Node != NULL);                                             \
+    NAME##_t _nd;                                                       \
+    NAME##_t _result = NULL;                                            \
+    if (!_Node->is_leaf)                                                \
+      {                                                                 \
+        NAME##_internal_t _Internal = (NAME##_internal_t) _Node;        \
+        if ((HASHBIT) (_Key_context, _Bit_number) == 0)                 \
+          {                                                             \
+            _nd = ((FUNC##_49436463_853f_4e2e_8c23_97e67636e7d8)        \
+                   (_Internal->left, _Key,                              \
+                    _Key_context, _Bit_number + 1));                    \
+            if (_nd != NULL                                             \
+                && _nd->is_leaf                                         \
+                && _Internal->right == NULL)                            \
+              _result = _nd;                                            \
+            else if (_nd == NULL &&                                     \
+                     _Internal->right != NULL                           \
+                     && _Internal->right->is_leaf)                      \
+              _result = _Internal->right;                               \
+            else                                                        \
+              HIHA_HASH_MAP_MAKE_INTERNAL                               \
+                (_result, NAME, _nd, _Internal->right);                 \
+          }                                                             \
+        else                                                            \
+          {                                                             \
+            _nd = ((FUNC##_49436463_853f_4e2e_8c23_97e67636e7d8)        \
+                   (_Internal->right, _Key,                             \
+                    _Key_context, _Bit_number + 1));                    \
+            if (_nd != NULL                                             \
+                && _nd->is_leaf                                         \
+                && _Internal->left == NULL)                             \
+              _result = _nd;                                            \
+            else if (_nd == NULL                                        \
+                     && _Internal->left != NULL                         \
+                     && _Internal->left->is_leaf)                       \
+              _result = _Internal->left;                                \
+            else                                                        \
+              HIHA_HASH_MAP_MAKE_INTERNAL                               \
+                (_result, NAME, _Internal->left, _nd);                  \
+          }                                                             \
+      }                                                                 \
+    return _result;                                                     \
+  }                                                                     \
+                                                                        \
+  void                                                                  \
+  FUNC (NAME##_t _Node, const ELEMTYPE *_Key,                           \
+        NAME##_t *_Result_node, int *_Size_change)                      \
+  {                                                                     \
+    NAME##_t _result = _Node;                                           \
+    NAME##_leaf_t _leaf;                                                \
+    void *_key_context = (HASHINIT) (_Key);                             \
+    HIHA_HASH_MAP_SEARCH (_leaf, NAME, ELEMTYPE,                        \
+                          _Node, _Key, _key_context,                    \
+                          (HASHBIT), (EQUALS));                         \
+    if (_leaf != NULL)                                                  \
+      _result =                                                         \
+        (FUNC##_49436463_853f_4e2e_8c23_97e67636e7d8)                   \
+        (_Node, _Key, _key_context, 0);                                 \
+    if (_Result_node != NULL)                                           \
+      *_Result_node = _result;                                          \
+    if (_Size_change != NULL)                                           \
+      *_Size_change = (_leaf != NULL) ? -1 : 0;                         \
   }
 
 #endif /* __LIBHAHA__PERSISTENT_HASH_MAP_H__INCLUDED__ */

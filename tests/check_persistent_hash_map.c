@@ -65,6 +65,10 @@ HIHA_HASH_MAP_INSERT_DEFN (string2int_hash_map_insert,
                            string2int_hash_map, struct string2int,
                            string2int_hash_init, string2int_hash_bit,
                            string2int_equals);
+HIHA_HASH_MAP_DELETE_DEFN (string2int_hash_map_delete,
+                           string2int_hash_map, struct string2int,
+                           string2int_hash_init, string2int_hash_bit,
+                           string2int_equals);
 
 int
 main (void)
@@ -79,6 +83,7 @@ main (void)
   assert (string2int_hash_map_search (hm, &anything) == NULL);
 
   const int how_many = 10000;
+  size_t size = 0;
   for (int i = 1; i != how_many + 1; i += 1)
     {
       char buf[100];
@@ -87,9 +92,13 @@ main (void)
         .str = make_string_t (buf),
         .i = i
       };
-      hm = (string2int_hash_map_insert
-            (hm, &elem, hiha_hash_map_insert_or_replace));
+      int size_change;
+      string2int_hash_map_insert
+        (hm, &elem, hiha_hash_map_insert_or_replace,
+         &hm, &size_change);
+      size += size_change;
     }
+  assert (size == how_many);
   assert (string2int_hash_map_search (hm, &anything) == NULL);
   for (int i = 1; i != how_many + 1; i += 1)
     {
@@ -100,6 +109,32 @@ main (void)
       };
       assert (string2int_hash_map_search (hm, &keyNNNNNN) != NULL);
       assert (string2int_hash_map_search (hm, &keyNNNNNN)->i == i);
+    };
+  for (int i = how_many; i != 0; i -= 1)
+    {
+      char buf[100];
+      snprintf (buf, 100, "elem%06d", i);
+      struct string2int elem = {
+        .str = make_string_t (buf),
+        .i = -i
+      };
+      int size_change;
+      string2int_hash_map_insert
+        (hm, &elem, hiha_hash_map_insert_or_replace,
+         &hm, &size_change);
+      size += size_change;
+    }
+  assert (size == how_many);
+  assert (string2int_hash_map_search (hm, &anything) == NULL);
+  for (int i = 1; i != how_many + 1; i += 1)
+    {
+      char buf[100];
+      snprintf (buf, 100, "elem%06d", i);
+      struct string2int keyNNNNNN = {
+        .str = make_string_t (buf)
+      };
+      assert (string2int_hash_map_search (hm, &keyNNNNNN) != NULL);
+      assert (string2int_hash_map_search (hm, &keyNNNNNN)->i == -i);
     };
 
   return 0;

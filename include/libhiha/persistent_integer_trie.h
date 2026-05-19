@@ -289,7 +289,7 @@
   {                                                                     \
     NAME##_t _result = _Node;                                           \
     NAME##_leaf_t _leaf;                                                \
-    HIHA_INT_TRIE_SEARCH(_leaf, NAME, UINTKEY, _Node, _Key);            \
+    HIHA_INT_TRIE_SEARCH (_leaf, NAME, UINTKEY, _Node, _Key);           \
     if (_leaf != NULL)                                                  \
       _result =                                                         \
         (FUNC##_86732d50_79a7_4c27_90a4_a295bf8822e2) (_Node, _Key, 1); \

@@ -186,5 +186,68 @@ main (void)
     else
       assert (int_array[i] == -i);
 
+  //
+  // Test ‘hiha_hash_map_replace_only’
+  //
+  for (int i = 1; i != how_many + 1; i += 1)
+    {
+      char buf[100];
+      snprintf (buf, 100, "elem%06d", i);
+      struct string2int elem = {
+        .str = make_string_t (buf),
+        .i = (2 * how_many) + i
+      };
+      int size_change;
+      string2int_hash_map_insert
+        (hm, &elem, hiha_hash_map_replace_only, &hm, &size_change);
+      size += size_change;
+    }
+  assert (size == how_many / 2 || size == (how_many / 2) + 1);
+  for (int i = 1; i != how_many + 1; i += 1)
+    {
+      char buf[100];
+      snprintf (buf, 100, "elem%06d", i);
+      struct string2int keyNNNNNN = {
+        .str = make_string_t (buf)
+      };
+      if (i % 2 != 0)
+        assert (string2int_hash_map_search (hm, &keyNNNNNN) == NULL);
+      else
+        assert (string2int_hash_map_search (hm, &keyNNNNNN)->i
+                == (2 * how_many) + i);
+    };
+
+  //
+  // Test ‘hiha_hash_map_insert_only’
+  //
+  for (int i = 1; i != how_many + 1; i += 1)
+    {
+      char buf[100];
+      snprintf (buf, 100, "elem%06d", i);
+      struct string2int elem = {
+        .str = make_string_t (buf),
+        .i = -5 * i
+      };
+      int size_change;
+      string2int_hash_map_insert
+        (hm, &elem, hiha_hash_map_insert_only, &hm, &size_change);
+      size += size_change;
+    }
+  assert (size == how_many);
+  for (int i = 1; i != how_many + 1; i += 1)
+    {
+      char buf[100];
+      snprintf (buf, 100, "elem%06d", i);
+      struct string2int keyNNNNNN = {
+        .str = make_string_t (buf)
+      };
+      if (i % 2 != 0)
+        assert (string2int_hash_map_search (hm, &keyNNNNNN)->i
+                == -5 * i);
+      else
+        assert (string2int_hash_map_search (hm, &keyNNNNNN)->i
+                == (2 * how_many) + i);
+    };
+
   return 0;
 }

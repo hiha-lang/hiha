@@ -1,7 +1,139 @@
 @  master
-|  2026-05-17 01:38 +0000
+|  2026-05-19 17:54 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
-|  git:
+|  git:       d66d1cf0e1f5befd66eff567dcc07aac38743732
+|  mercurial: 4d5d4f6e2438b34d057f427b50fb91f937e5c94f
+|  revision:  157
+|  parents:   156
+|
+|    Change some int to ssize_t because they represent size changes.
+|
+|
+o  2026-05-19 17:33 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       c91023d743f2efa3c07565d9459486603415b5e0
+|  mercurial: 4dbbb60e6fd4bad64934d9018e824c91498245fd
+|  revision:  156
+|  parents:   155
+|
+|    More hash map tests.
+|
+|
+o  2026-05-19 14:01 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       f3e32b9e97766332c73a88460ae3744f5c536c65
+|  mercurial: 0d8ecc6099439d76448d3c0e51abdba024ae9ed8
+|  revision:  155
+|  parents:   154
+|
+|    Added walks to the hash map.
+|
+|
+o  2026-05-19 13:02 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       82a4d524fe2d16e0aaf274b2bf469ddf0ecf7662
+|  mercurial: 6c58e7d41b4bc6a2515adb10b66cd466f4aa0de2
+|  revision:  154
+|  parents:   153
+|
+|    Test of hash map delete.
+|
+|
+o  2026-05-19 12:17 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       a2764ee6da8b2c349dba6cac33665031cf48a489
+|  mercurial: f15bdd211dd0ade9cc1108f2dc4e4472417dc171
+|  revision:  153
+|  parents:   152
+|
+|    More work on the hash map.
+|
+|
+o  2026-05-19 10:11 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       ebf5f1087fabad4761f14d0c2df6249cf6fc9517
+|  mercurial: 20378a83a27fd63c55d78622f05a813f9665d3e5
+|  revision:  152
+|  parents:   151
+|
+|    Add insertion modes.
+|
+|
+o  2026-05-19 09:47 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       7339681cb94e19d8a11006dabcfce4af034f95ca
+|  mercurial: e637f656981b18b2d7208778f399de837bff951e
+|  revision:  151
+|  parents:   150
+|
+|    Some testing for hash map.
+|
+|
+o  2026-05-19 01:13 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       74a5b5cb09422baac453b6ecc1a2a2467172560e
+|  mercurial: 85f9589770c1eab2f5d8ecea57003f0b9e709345
+|  revision:  150
+|  parents:   149
+|
+|    I wrote insertion for hash map. Not tested yet.
+|
+|
+o  2026-05-18 20:46 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       d5975e8aa43527b71bc37ddb87c3d7d1de854dd0
+|  mercurial: a217b3965fbf0c851256f4e9dbcf91317619e4ac
+|  revision:  149
+|  parents:   148
+|
+|    A new approach to the hash map implementation: modifying the integer
+|    trie implementation to make hash maps, rather than using it
+|    directly.
+|
+|
+o  2026-05-18 20:23 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       dac0770c82c76fefc766fcef174f6d772606484a
+|  mercurial: 501ea2f20ae285ee923d733e44f2c2f428ce1420
+|  revision:  148
+|  parents:   147
+|
+|    Another minor formatting change.
+|
+|
+o  2026-05-18 19:59 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       665484e44193a232a2700716e1c00388c1133f40
+|  mercurial: 78732cc82f6bc8e0cee1e53938ab18ac30af7302
+|  revision:  147
+|  parents:   146
+|
+|    A small reformatting.
+|
+|
+o  2026-05-17 14:29 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       908decb92307913a7cd5d6db1d4569f65c1c36dd
+|  mercurial: 7d1b5d5515ca646daa5545245f02c669a0247999
+|  revision:  146
+|  parents:   145
+|
+|    A start of the persistent hash map implementation.
+|
+|
+o  2026-05-17 01:55 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       c18cb23c96d849f2cded231e35b31ae51811d3ff
+|  mercurial: 736c5acf854521d024ad54cd579799554570f92a
+|  revision:  145
+|  parents:   144
+|
+|    Remove any need for nested functions. Also, start writing hash maps.
+|
+|
+o  2026-05-17 01:38 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       abab7aa6dcd4f817c2f451f7ff75d483c6a84f39
 |  mercurial: 042c14de0960274c0f52d0bb0eea9533e0a76b37
 |  revision:  144
 |  parents:   143
@@ -12,7 +144,7 @@
 |
 o  2026-05-17 01:32 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
-|  git:
+|  git:       32be0e01b68bc10f75947bad168127c25488bb49
 |  mercurial: 888682269b93b9bc81d27de8e13cf1039ec495c7
 |  revision:  143
 |  parents:   142

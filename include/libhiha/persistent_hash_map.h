@@ -36,6 +36,12 @@
 #define HIHA_HASH_MAP_ALLOC(T) XMALLOC (T)
 #endif
 
+typedef enum {
+  hiha_hash_map_insert_or_replace = 0,
+  hiha_hash_map_insert_only = 1,
+  hiha_hash_map_replace_only = 2
+} hiha_hash_map_mode_t;
+
 #define HIHA_HASH_MAP_NODE_DECL(NAME)           \
   typedef struct NAME                           \
   {                                             \
@@ -133,20 +139,36 @@
                                                                         \
   NAME##_t                                                              \
   FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7                           \
-  (NAME##_t _Node, const ELEMTYPE *_Element, void *_Key_context,        \
-   unsigned int _Bit_number)                                            \
+  (NAME##_t _Node, const ELEMTYPE *_Element,                            \
+   hiha_hash_map_mode_t _Mode,                                          \
+   void *_Key_context, unsigned int _Bit_number)                        \
   {                                                                     \
     NAME##_t _result;                                                   \
     NAME##_t _nd;                                                       \
     if (_Node == NULL)                                                  \
-      /* A new leaf. */                                                 \
-      HIHA_HASH_MAP_MAKE_LEAF (_result, NAME, *_Element);               \
+      {                                                                 \
+        if (_Mode == hiha_hash_map_replace_only)                        \
+          /* Signal that there is no change to the map. */              \
+          _result = NULL;                                               \
+        else                                                            \
+          /* A new leaf. */                                             \
+          HIHA_HASH_MAP_MAKE_LEAF (_result, NAME, *_Element);           \
+      }                                                                 \
     else if (_Node->is_leaf)                                            \
       {                                                                 \
         NAME##_leaf_t _Leaf = (NAME##_leaf_t) _Node;                    \
         if ((EQUALS) (_Element, &_Leaf->element))                       \
-          /* An equal key, but a new value. */                          \
-          HIHA_HASH_MAP_MAKE_LEAF (_result, NAME, *_Element);           \
+          {                                                             \
+            if (_Mode == hiha_hash_map_insert_only)                     \
+              /* Signal that there is no change to the map. */          \
+              _result = NULL;                                           \
+            else                                                        \
+              /* An equal key, but a new value. */                      \
+              HIHA_HASH_MAP_MAKE_LEAF (_result, NAME, *_Element);       \
+          }                                                             \
+        else if (_Mode == hiha_hash_map_replace_only)                   \
+          /* Signal that there is no change to the map. */              \
+          _result = NULL;                                               \
         else                                                            \
           {                                                             \
             /* Branch out. */                                           \
@@ -161,7 +183,7 @@
                   {                                                     \
                     _nd =                                               \
                       ((FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7)    \
-                       (_Node, _Element, _Key_context,                  \
+                       (_Node, _Element, _Mode, _Key_context,           \
                         _Bit_number + 1));                              \
                     HIHA_HASH_MAP_MAKE_INTERNAL                         \
                       (_result, NAME, _nd, NULL);                       \
@@ -187,7 +209,7 @@
                   {                                                     \
                     _nd =                                               \
                       ((FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7)    \
-                       (_Node, _Element, _Key_context,                  \
+                       (_Node, _Element, _Mode, _Key_context,           \
                         _Bit_number + 1));                              \
                     HIHA_HASH_MAP_MAKE_INTERNAL                         \
                       (_result, NAME, NULL, _nd);                       \
@@ -202,7 +224,7 @@
         if ((HASHBIT) (_Key_context, _Bit_number) == 0)                 \
           {                                                             \
             _nd = ((FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7)        \
-                   (_Internal->left, _Element, _Key_context,            \
+                   (_Internal->left, _Element, _Mode, _Key_context,     \
                     _Bit_number + 1));                                  \
             HIHA_HASH_MAP_MAKE_INTERNAL                                 \
               (_result, NAME, _nd, _Internal->right);                   \
@@ -210,7 +232,7 @@
         else                                                            \
           {                                                             \
             _nd = ((FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7)        \
-                   (_Internal->right, _Element, _Key_context,           \
+                   (_Internal->right, _Element, _Mode, _Key_context,    \
                     _Bit_number + 1));                                  \
             HIHA_HASH_MAP_MAKE_INTERNAL                                 \
               (_result, NAME, _Internal->left, _nd);                    \
@@ -220,10 +242,13 @@
   }                                                                     \
                                                                         \
   NAME##_t                                                              \
-  FUNC (NAME##_t _Node, const ELEMTYPE *_Element)                       \
+  FUNC (NAME##_t _Node, const ELEMTYPE *_Element,                       \
+        hiha_hash_map_mode_t _Mode)                                     \
   {                                                                     \
-    return ((FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7)               \
-            (_Node, _Element, (HASHINIT) (_Element), 0));               \
+    NAME##_t _result =                                                  \
+      ((FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7)                    \
+       (_Node, _Element, _Mode, (HASHINIT) (_Element), 0));             \
+    return (_result == NULL) ? _Node : _result;                         \
   }
 
 #endif /* __LIBHAHA__PERSISTENT_HASH_MAP_H__INCLUDED__ */

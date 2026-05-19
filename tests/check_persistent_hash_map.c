@@ -87,7 +87,8 @@ main (void)
         .str = make_string_t (buf),
         .i = i
       };
-      hm = string2int_hash_map_insert (hm, &elem);
+      hm = (string2int_hash_map_insert
+            (hm, &elem, hiha_hash_map_insert_or_replace));
     }
   assert (string2int_hash_map_search (hm, &anything) == NULL);
   for (int i = 1; i != how_many + 1; i += 1)

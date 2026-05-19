@@ -20,8 +20,8 @@
 */
 
 #include <config.h>
-#include <gc/gc.h>
 #include <assert.h>
+#include <gc/gc.h>
 #include <libhiha/libhiha.h>
 
 HIHA_VISIBLE const char version_etc_copyright[] =
@@ -32,13 +32,6 @@ struct string2int
   string_t str;
   int i;
 };
-
-static bool
-string2int_equals (const struct string2int *key,
-                   const struct string2int *stored)
-{
-  return (string_t_cmp (key->str, stored->str) == 0);
-}
 
 string_t_hash_context_t
 string2int_hash_init (const struct string2int *element)
@@ -54,6 +47,13 @@ string2int_hash_bit (string_t_hash_context_t context, unsigned int i)
   const uint64_t hash = string_t_hash (context, j);
   const uint64_t mask = ((uint64_t) 1) << k;
   return ((hash & mask) != 0);
+}
+
+static bool
+string2int_equals (const struct string2int *key,
+                   const struct string2int *stored)
+{
+  return (string_t_cmp (key->str, stored->str) == 0);
 }
 
 HIHA_HASH_MAP_NODES_DECL (string2int_hash_map, struct string2int);
@@ -73,10 +73,33 @@ main (void)
 
   string2int_hash_map_t hm = NULL;
 
-  struct string2int key = {
+  struct string2int anything = {
     .str = make_string_t ("anything")
   };
-  assert (string2int_hash_map_search (hm, &key) == NULL);
+  assert (string2int_hash_map_search (hm, &anything) == NULL);
+
+  const int how_many = 10000;
+  for (int i = 1; i != how_many + 1; i += 1)
+    {
+      char buf[100];
+      snprintf (buf, 100, "elem%06d", i);
+      struct string2int elem = {
+        .str = make_string_t (buf),
+        .i = i
+      };
+      hm = string2int_hash_map_insert (hm, &elem);
+    }
+  assert (string2int_hash_map_search (hm, &anything) == NULL);
+  for (int i = 1; i != how_many + 1; i += 1)
+    {
+      char buf[100];
+      snprintf (buf, 100, "elem%06d", i);
+      struct string2int keyNNNNNN = {
+        .str = make_string_t (buf)
+      };
+      assert (string2int_hash_map_search (hm, &keyNNNNNN) != NULL);
+      assert (string2int_hash_map_search (hm, &keyNNNNNN)->i == i);
+    };
 
   return 0;
 }

@@ -30,7 +30,6 @@
 
 #include <stdlib.h>
 #include <stdint.h>
-#include <assert.h>
 
 #ifndef HIHA_HASH_MAP_ALLOC
 #include <xalloc.h>

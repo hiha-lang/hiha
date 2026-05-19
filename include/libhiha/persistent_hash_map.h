@@ -26,6 +26,10 @@
 
   Ideal hash maps.
 
+  The implementation below uses bit-indexing and thus does not require
+  population counts nor arrays. The tree is binary. The price paid is
+  that there will be more nodes in the tree.
+
 */
 
 #include <stdlib.h>
@@ -118,6 +122,29 @@ typedef enum
     }                                                           \
   while (0)
 
+/* A walk of the leaf nodes, with callbacks. The order of the walk
+   depends on the hash function, among other things, and should be
+   considered arbitrary. */
+#define HIHA_HASH_MAP_WALK_DEFN(FUNC, NAME, ELEMTYPE)           \
+  void                                                          \
+  FUNC (NAME##_t _Node,                                         \
+        void (*_Do_something) (const ELEMTYPE *, void *),       \
+        void *_Possibly_some_data)                              \
+  {                                                             \
+    if (_Node == NULL)                                          \
+      ; /* Do nothing. */                                       \
+    else if (_Node->is_leaf)                                    \
+      (_Do_something) (&((NAME##_leaf_t) _Node)->element,       \
+                       _Possibly_some_data);                    \
+    else                                                        \
+      {                                                         \
+        (FUNC) (((NAME##_internal_t) _Node)->left,              \
+                (_Do_something), _Possibly_some_data);          \
+        (FUNC) (((NAME##_internal_t) _Node)->right,             \
+                (_Do_something), _Possibly_some_data);          \
+      }                                                         \
+  }
+
 /* Search for a matching element. Return a pointer to it if found,
    NULL if not found. */
 #define HIHA_HASH_MAP_SEARCH_DEFN(FUNC, NAME, ELEMTYPE,         \
@@ -142,7 +169,7 @@ typedef enum
   NAME##_t                                                              \
   FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7                           \
   (NAME##_t _Node, const ELEMTYPE *_Element,                            \
-    void *_Key_context, unsigned int _Bit_number)                       \
+   void *_Key_context, unsigned int _Bit_number)                        \
   {                                                                     \
     NAME##_t _result;                                                   \
     NAME##_t _nd;                                                       \

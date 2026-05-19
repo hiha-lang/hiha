@@ -69,6 +69,21 @@ HIHA_HASH_MAP_DELETE_DEFN (string2int_hash_map_delete,
                            string2int_hash_map, struct string2int,
                            string2int_hash_init, string2int_hash_bit,
                            string2int_equals);
+HIHA_HASH_MAP_WALK_DEFN (string2int_hash_map_walk,
+                         string2int_hash_map, struct string2int);
+
+static void
+string2int_callback (const struct string2int *element, void *data)
+{
+  int *int_array = data;
+  int n = int_array[0];
+  int *buf = int_array + 1;
+  int j = 0;
+  while (j != n && element->i != buf[j])
+    j += 1;
+  assert (j != n);
+  buf[j] = 9999999;
+}
 
 int
 main (void)
@@ -159,6 +174,17 @@ main (void)
       else
         assert (string2int_hash_map_search (hm, &keyNNNNNN)->i == -i);
     };
+
+  int *int_array = XNMALLOC (how_many + 1, int);
+  int_array[0] = how_many;
+  for (int i = 1; i != how_many + 1; i += 1)
+    int_array[i] = -i;
+  string2int_hash_map_walk (hm, string2int_callback, int_array);
+  for (int i = 1; i != how_many + 1; i += 1)
+    if ((i % 2) == 0)
+      assert (int_array[i] == 9999999);
+    else
+      assert (int_array[i] == -i);
 
   return 0;
 }

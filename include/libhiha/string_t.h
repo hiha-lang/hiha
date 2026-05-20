@@ -104,6 +104,7 @@ string_t_map_t string_t_map_insert_only (string_t_map_t map,
 string_t_map_t string_t_map_replace_only (string_t_map_t map,
                                           string_t key,
                                           const void *value);
+string_t_map_t string_t_map_delete (string_t_map_t map, string_t key);
 
 /*--------------------------------------------------------------------*/
 

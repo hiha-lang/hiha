@@ -251,7 +251,10 @@ libhiha_la_SOURCES += src/libhiha/spookyhash.c
 libhiha_la_SOURCES += src/libhiha/workspaces.c
 libhiha_la_SOURCES += src/libhiha/spinlock.c
 libhiha_la_SOURCES += src/libhiha/string_t.c
+libhiha_la_SOURCES += src/libhiha/string_t_hash.c
+libhiha_la_SOURCES += src/libhiha/string_t_map.c
 libhiha_la_SOURCES += src/libhiha/token_t.c
+libhiha_la_SOURCES += src/libhiha/token_t_hash.c
 libhiha_la_SOURCES += src/libhiha/pratt.c
 libhiha_la_SOURCES += src/libhiha/lexical.c
 libhiha_la_SOURCES += src/libhiha/string_literal.c
@@ -281,6 +284,7 @@ indent:
 		-Tled_handler_t \
 		-Tstring_t \
 		-Tstring_t_hash_context_t \
+		-Tstring_t_map_t \
 		-Ttoken_t \
 		-Ttext_location_t \
 		-Ttoken_getter_t \

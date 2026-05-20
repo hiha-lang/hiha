@@ -41,6 +41,18 @@ int_negate (int n)
   return -n;
 }
 
+static bool
+int_is_odd (int n)
+{
+  return ((n % 2) != 0);
+}
+
+static bool
+int_is_even (int n)
+{
+  return ((n % 2) == 0);
+}
+
 static string_t_map_t
 insert_into_map (string_t_map_t map, int (*f) (int))
 {
@@ -89,6 +101,21 @@ insert_into_or_replace_in_map (string_t_map_t map, int (*f) (int))
   return result;
 }
 
+static string_t_map_t
+delete_from_map (string_t_map_t map, bool (*pred) (int))
+{
+  string_t_map_t result = map;
+  for (int i = 1; i != HOW_MANY + 1; i += 1)
+    if (pred (i))
+      {
+        char buf[100];
+        snprintf (buf, 100, "key%06d", i);
+        string_t key = make_string_t (buf);
+        result = string_t_map_delete (result, key);
+      }
+  return result;
+}
+
 static void
 check_map (string_t_map_t map, int (*f) (int))
 {
@@ -116,6 +143,8 @@ main (void)
 {
   GC_INIT ();
 
+  assert ((HOW_MANY % 2) == 0);
+
   string_t_map_t map = NULL;
   assert (string_t_map_size (map) == 0);
 
@@ -131,6 +160,12 @@ main (void)
   map = insert_into_or_replace_in_map (map, &int_identity);
   assert (string_t_map_size (map) == HOW_MANY);
   check_map (map, &int_identity);
+
+  string_t_map_t map_even = delete_from_map (map, &int_is_odd);
+  assert (2 * string_t_map_size (map_even) == HOW_MANY);
+  assert (string_t_map_size (map) == HOW_MANY);
+  string_t_map_t map_odd = delete_from_map (map, &int_is_even);
+  assert (2 * string_t_map_size (map_odd) == HOW_MANY);
 
   return 0;
 }

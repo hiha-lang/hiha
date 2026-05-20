@@ -1,5 +1,25 @@
 @  master
-|  2026-05-19 17:54 +0000
+|  2026-05-19 18:21 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       294f42e01c42f70f1f5461b0b0f80d96bb67f0b0
+|  mercurial: d8a6377da6c388c715feb432cbf658ae63630fd5
+|  revision:  159
+|  parents:   158
+|
+|    Avoid a search that isn’t needed.
+|
+|
+o  2026-05-19 17:56 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       074cc8c2a55efeb26e9794e21145ff1fa1d562c8
+|  mercurial: b6e6c3971e8c9e40d0c8a651a2383aff5efd2c12
+|  revision:  158
+|  parents:   157
+|
+|    Verify it still passes ‘make distcheck’
+|
+|
+o  2026-05-19 17:54 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       d66d1cf0e1f5befd66eff567dcc07aac38743732
 |  mercurial: 4d5d4f6e2438b34d057f427b50fb91f937e5c94f

@@ -88,6 +88,24 @@ uint64_t string_t_hash (string_t_hash_context_t context,
                         unsigned int i);
 
 /*--------------------------------------------------------------------*/
+/* Persistent maps. */
+
+struct string_t_map;
+typedef struct string_t_map *string_t_map_t;
+
+size_t string_t_map_size (string_t_map_t map);
+const void *string_t_map_search (string_t_map_t map, string_t key);
+string_t_map_t string_t_map_insert_or_replace (string_t_map_t map,
+                                               string_t key,
+                                               const void *value);
+string_t_map_t string_t_map_insert_only (string_t_map_t map,
+                                         string_t key,
+                                         const void *value);
+string_t_map_t string_t_map_replace_only (string_t_map_t map,
+                                          string_t key,
+                                          const void *value);
+
+/*--------------------------------------------------------------------*/
 
 #endif /* __LIBHAHA__STRING_T_H__INCLUDED__ */
 

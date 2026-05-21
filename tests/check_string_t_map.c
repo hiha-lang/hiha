@@ -218,5 +218,40 @@ main (void)
   check_map (map4, &int_is_odd, &int_negate);
   check_missing (map4, &int_is_even);
 
+  string_t_vector_t vec4k = string_t_map_keys (map4);
+  string_t_map_t map4a = map4;
+  for (size_t i = 0; i != string_t_vector_length (vec4k); i += 1)
+    map4a = string_t_map_delete (map4a, string_t_vector_ref (vec4k, i));
+  assert (map4a == NULL);
+
+  voidp_vector_t vec4v = string_t_map_values (map4);
+  for (size_t i = 0; i != string_t_vector_length (vec4k); i += 1)
+    {
+      string_t key = string_t_vector_ref (vec4k, i);
+      const void *value = string_t_map_search (map4, key);
+      const size_t n = voidp_vector_length (vec4v);
+      size_t j = 0;
+      while (j != n && (*((const int *) voidp_vector_ref (vec4v, j))
+                        != *((const int *) value)))
+        j += 1;
+      assert (j != n);
+      const void **buf = XNMALLOC (n - 1, const void *);
+      voidp_vector_refs (vec4v, 0, j, buf);
+      voidp_vector_refs (vec4v, j + 1, n - j - 1, buf + j);
+      vec4v = voidp_vector_pushes (NULL, n - 1, buf);
+    }
+  assert (vec4v == NULL);
+
+  string_t_keyval_vector_t vec4kv = string_t_map_associations (map4);
+  for (size_t i = 0; i != string_t_keyval_vector_length (vec4kv);
+       i += 1)
+    {
+      string_t key = string_t_keyval_vector_ref (vec4kv, i)->key;
+      const void *value = string_t_keyval_vector_ref (vec4kv, i)->value;
+      int val1 = *((const int *) value);
+      int val2 = *((const int *) string_t_map_search (map4, key));
+      assert (val1 == val2);
+    }
+
   return 0;
 }

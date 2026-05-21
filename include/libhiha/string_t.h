@@ -29,6 +29,7 @@
 #include <unicase.h>
 #include <uniconv.h>
 #include <uninorm.h>
+#include <libhiha/persistent_vector.h>
 
 #define HIHA_PURE [[gnu::pure]]
 
@@ -80,6 +81,20 @@ void print_string_t (const string_t str, FILE *f);
 
 /*--------------------------------------------------------------------*/
 
+struct string_t_keyval
+{
+  string_t key;
+  const void *value;
+};
+typedef const struct string_t_keyval *string_t_keyval_t;
+
+DECLARE_HIHA_PERSISTENT_VECTOR_DATATYPE (, string_t_vector,
+                                         string_t, 5);
+DECLARE_HIHA_PERSISTENT_VECTOR_DATATYPE (, string_t_keyval_vector,
+                                         string_t_keyval_t, 5);
+
+/*--------------------------------------------------------------------*/
+
 struct string_t_hash_context;
 typedef struct string_t_hash_context *string_t_hash_context_t;
 
@@ -94,7 +109,9 @@ struct string_t_map;
 typedef struct string_t_map *string_t_map_t;
 
 size_t string_t_map_size (string_t_map_t map);
+
 const void *string_t_map_search (string_t_map_t map, string_t key);
+
 string_t_map_t string_t_map_insert_or_replace (string_t_map_t map,
                                                string_t key,
                                                const void *value);
@@ -104,7 +121,12 @@ string_t_map_t string_t_map_insert_only (string_t_map_t map,
 string_t_map_t string_t_map_replace_only (string_t_map_t map,
                                           string_t key,
                                           const void *value);
+
 string_t_map_t string_t_map_delete (string_t_map_t map, string_t key);
+
+string_t_vector_t string_t_map_keys (string_t_map_t map);
+voidp_vector_t string_t_map_values (string_t_map_t map);
+string_t_keyval_vector_t string_t_map_associations (string_t_map_t map);
 
 /*--------------------------------------------------------------------*/
 

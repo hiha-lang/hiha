@@ -27,14 +27,8 @@
 
 #define _(msgid) HIHA_GETTEXT (msgid)
 
-struct string_t_map_contents
-{
-  string_t key;
-  const void *value;
-};
-
 string_t_hash_context_t
-string_t_map_hash_init (const struct string_t_map_contents *element)
+string_t_map_hash_init (const struct string_t_keyval *element)
 {
   return string_t_hash_init (element->key);
 }
@@ -50,30 +44,30 @@ string_t_map_hash_bit (string_t_hash_context_t context, unsigned int i)
 }
 
 static bool
-  string_t_map_contents_equals
-  (const struct string_t_map_contents *key,
-   const struct string_t_map_contents *stored)
+string_t_keyval_equals (const struct string_t_keyval *key,
+                        const struct string_t_keyval *stored)
 {
   return (string_t_cmp (key->key, stored->key) == 0);
 }
 
-HIHA_HASH_MAP_NODES_DECL (string_t_map_node,
-                          struct string_t_map_contents);
+HIHA_HASH_MAP_NODES_DECL (string_t_map_node, struct string_t_keyval);
 HIHA_HASH_MAP_SEARCH_DEFN (string_t_map_node_search, string_t_map_node,
-                           struct string_t_map_contents,
+                           struct string_t_keyval,
                            string_t_map_hash_init,
                            string_t_map_hash_bit,
-                           string_t_map_contents_equals);
+                           string_t_keyval_equals);
 HIHA_HASH_MAP_INSERT_DEFN (string_t_map_node_insert, string_t_map_node,
-                           struct string_t_map_contents,
+                           struct string_t_keyval,
                            string_t_map_hash_init,
                            string_t_map_hash_bit,
-                           string_t_map_contents_equals);
+                           string_t_keyval_equals);
 HIHA_HASH_MAP_DELETE_DEFN (string_t_map_node_delete, string_t_map_node,
-                           struct string_t_map_contents,
+                           struct string_t_keyval,
                            string_t_map_hash_init,
                            string_t_map_hash_bit,
-                           string_t_map_contents_equals);
+                           string_t_keyval_equals);
+HIHA_HASH_MAP_WALK_DEFN (string_t_map_node_walk, string_t_map_node,
+                         struct string_t_keyval);
 
 struct string_t_map
 {
@@ -93,10 +87,10 @@ string_t_map_search (string_t_map_t map, const string_t key)
   const void *result = NULL;
   if (map != NULL)
     {
-      struct string_t_map_contents element = {
+      struct string_t_keyval element = {
         .key = key
       };
-      const struct string_t_map_contents *contents =
+      const struct string_t_keyval *contents =
         string_t_map_node_search (map->_trie, &element);
       if (contents != NULL)
         result = contents->value;
@@ -114,7 +108,7 @@ string_t_map_insert (string_t_map_t map, string_t key,
       result->_trie = map->_trie;
       result->_size = map->_size;
     }
-  struct string_t_map_contents element = {
+  struct string_t_keyval element = {
     .key = key,
     .value = value
   };
@@ -159,7 +153,7 @@ string_t_map_delete (string_t_map_t map, string_t key)
   if (map != NULL)
     {
       assert (map->_size != 0);
-      struct string_t_map_contents element = {
+      struct string_t_keyval element = {
         .key = key
       };
       string_t_map_node_t trie = map->_trie;
@@ -175,6 +169,58 @@ string_t_map_delete (string_t_map_t map, string_t key)
           result->_size = size;
         }
     }
+  return result;
+}
+
+static void
+list_another_key (const struct string_t_keyval *element, void *data)
+{
+  string_t_vector_t vec = *((string_t_vector_t *) data);
+  *((string_t_vector_t *) data) =
+    string_t_vector_push (vec, element->key);
+}
+
+static void
+list_another_value (const struct string_t_keyval *element, void *data)
+{
+  voidp_vector_t vec = *((voidp_vector_t *) data);
+  *((voidp_vector_t *) data) = voidp_vector_push (vec, element->value);
+}
+
+static void
+list_another_association (const struct string_t_keyval *element,
+                          void *data)
+{
+  string_t_keyval_vector_t vec = *((string_t_keyval_vector_t *) data);
+  *((string_t_keyval_vector_t *) data) =
+    string_t_keyval_vector_push (vec, element);
+}
+
+HIHA_VISIBLE string_t_vector_t
+string_t_map_keys (string_t_map_t map)
+{
+  string_t_vector_t result = NULL;
+  if (map != NULL)
+    string_t_map_node_walk (map->_trie, list_another_key, &result);
+  return result;
+}
+
+HIHA_VISIBLE voidp_vector_t
+string_t_map_values (string_t_map_t map)
+{
+  voidp_vector_t result = NULL;
+  if (map != NULL)
+    string_t_map_node_walk (map->_trie, list_another_value, &result);
+  return result;
+}
+
+HIHA_VISIBLE string_t_keyval_vector_t
+string_t_map_associations (string_t_map_t map)
+{
+  string_t_keyval_vector_t result = NULL;
+  if (map != NULL)
+    string_t_map_node_walk (map->_trie, list_another_association,
+                            &result);
   return result;
 }
 

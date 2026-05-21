@@ -19,27 +19,14 @@
 
 */
 
-#ifndef __LIBHAHA__LIBHIHA_H__INCLUDED__
-#define __LIBHAHA__LIBHIHA_H__INCLUDED__
-
-#include <libhiha/spookyhash.h>
-#include <libhiha/persistent_avl.h>
-#include <libhiha/persistent_integer_trie.h>
-#include <libhiha/persistent_hash_map.h>
-#include <libhiha/persistent_vector.h>
-#include <libhiha/indexed_deque.h>
-#include <libhiha/workspaces.h>
-#include <libhiha/spinlock.h>
-#include <libhiha/initialize_once.h>
+#include <config.h>
 #include <libhiha/string_t.h>
-#include <libhiha/token_t.h>
-#include <libhiha/pratt.h>
-#include <libhiha/lexical.h>
-#include <libhiha/string_literal.h>
-#include <libhiha/gensym.h>
-#include <libhiha/load_plugin.h>
 
-#endif /* __LIBHAHA__LIBHIHA_H__INCLUDED__ */
+DEFINE_HIHA_PERSISTENT_VECTOR_DATATYPE (HIHA_VISIBLE, string_t_vector,
+                                        string_t, 5);
+DEFINE_HIHA_PERSISTENT_VECTOR_DATATYPE (HIHA_VISIBLE,
+                                        string_t_keyval_vector,
+                                        string_t_keyval_t, 5);
 
 /*
   local variables:

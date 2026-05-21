@@ -1,5 +1,25 @@
 @  master
-|  2026-05-20 15:56 +0000
+|  2026-05-21 13:20 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       26b7a5cec9cfd218bdb456ea9e3ee0af9fa56be5
+|  mercurial: 41780bfe6523b588344b0ee801511a9f434a11a2
+|  revision:  164
+|  parents:   163
+|
+|    Filled out deque functionality.
+|
+|
+o  2026-05-20 21:31 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       d8bfde189bff78b00b5b4356d40f5b3c7affaa11
+|  mercurial: 5b579fdfbbac5124d2033d12321f52e5efe784d2
+|  revision:  163
+|  parents:   162
+|
+|    The start of work on indexed deques.
+|
+|
+o  2026-05-20 15:56 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       725b66da9e9157f35f1cd20d4b6ca8611fb9e52b
 |  mercurial: ee738488c49ed49a9abf6c1a693b3b2a3c4362bd

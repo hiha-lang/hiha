@@ -72,7 +72,7 @@ string_t_formfeed (void)
 }
 
 HIHA_VISIBLE int
-string_t_cmp (const string_t str1, const string_t str2)
+string_t_cmp (string_t str1, string_t str2)
 {
   return u32_cmp2 (str1->s, str1->n, str2->s, str2->n);
 }
@@ -84,7 +84,7 @@ make_string_t (const char *src)
 }
 
 HIHA_VISIBLE string_t
-copy_string_t (const string_t str)
+copy_string_t (string_t str)
 {
   struct string *s = XMALLOC (struct string);
   s->n = str->n;
@@ -136,7 +136,7 @@ concat_string_t (...)
 }
 
 HIHA_VISIBLE char *
-make_str_nul (const string_t str)
+make_str_nul (string_t str)
 {
   char *s;
   size_t n;

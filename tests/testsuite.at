@@ -29,9 +29,14 @@ AT_KEYWORDS([string_t_hash string_t hash])
 AT_CHECK_UNQUOTED([check_string_t_hash])
 AT_CLEANUP
 
-AT_SETUP([string_t_map])
+AT_SETUP([string_t unordered map])
 AT_KEYWORDS([string_t_map string_t map])
 AT_CHECK_UNQUOTED([check_string_t_map])
+AT_CLEANUP
+
+AT_SETUP([string_t ordered map])
+AT_KEYWORDS([string_t_omap string_t map omap ordered])
+AT_CHECK_UNQUOTED([check_string_t_omap])
 AT_CLEANUP
 
 AT_SETUP([token_t_hash])

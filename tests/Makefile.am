@@ -140,6 +140,7 @@ AM_CPPFLAGS += $(BASICCFLAGS)
 
 check_PROGRAMS += check_string_t_hash
 check_PROGRAMS += check_string_t_map
+check_PROGRAMS += check_string_t_omap
 check_PROGRAMS += check_token_t_hash
 check_PROGRAMS += check_persistent_avl
 check_PROGRAMS += check_persistent_integer_trie

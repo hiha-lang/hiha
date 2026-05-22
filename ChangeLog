@@ -1,5 +1,15 @@
 @  master
-|  2026-05-21 20:21 +0000
+|  2026-05-22 14:36 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       fb45bbebcbd94e137338ecfb22f4729f66cb9847
+|  mercurial: 43d947117d6ac32f167146ab16d8897ac202ee8e
+|  revision:  166
+|  parents:   165
+|
+|    Make some things ‘const’.
+|
+|
+o  2026-05-21 20:21 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       178ac1a9d85d297d3fad13c16e56db1b4d18eb13
 |  mercurial: 46a9d75149273869fe7d7102602765a92d8d58b8

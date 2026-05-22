@@ -392,6 +392,7 @@ am_libhiha_la_OBJECTS = $(am__objects_1) \
 	src/libhiha/libhiha_la-string_t.lo \
 	src/libhiha/libhiha_la-string_t_hash.lo \
 	src/libhiha/libhiha_la-string_t_map.lo \
+	src/libhiha/libhiha_la-string_t_omap.lo \
 	src/libhiha/libhiha_la-string_t_vector.lo \
 	src/libhiha/libhiha_la-token_t.lo \
 	src/libhiha/libhiha_la-token_t_hash.lo \
@@ -454,6 +455,7 @@ am__depfiles_remade = src/hiha-tokens-print/$(DEPDIR)/hiha_tokens_print-hiha-tok
 	src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-string_t_hash.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-string_t_map.Plo \
+	src/libhiha/$(DEPDIR)/libhiha_la-string_t_omap.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-string_t_vector.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-token_t_hash.Plo \
@@ -2442,11 +2444,11 @@ libhiha_la_SOURCES = $(libhiha_HDRS) src/libhiha/spookyhash.c \
 	src/libhiha/persistent_vector.c src/libhiha/workspaces.c \
 	src/libhiha/spinlock.c src/libhiha/indexed_deque.c \
 	src/libhiha/string_t.c src/libhiha/string_t_hash.c \
-	src/libhiha/string_t_map.c src/libhiha/string_t_vector.c \
-	src/libhiha/token_t.c src/libhiha/token_t_hash.c \
-	src/libhiha/pratt.c src/libhiha/lexical.c \
-	src/libhiha/string_literal.c src/libhiha/gensym.c \
-	src/libhiha/load_plugin.c
+	src/libhiha/string_t_map.c src/libhiha/string_t_omap.c \
+	src/libhiha/string_t_vector.c src/libhiha/token_t.c \
+	src/libhiha/token_t_hash.c src/libhiha/pratt.c \
+	src/libhiha/lexical.c src/libhiha/string_literal.c \
+	src/libhiha/gensym.c src/libhiha/load_plugin.c
 libhiha_HDRS = include/libhiha/libhiha.h include/libhiha/spookyhash.h \
 	include/libhiha/persistent_avl.h \
 	include/libhiha/persistent_integer_trie.h \
@@ -2743,6 +2745,8 @@ src/libhiha/libhiha_la-string_t_hash.lo: src/libhiha/$(am__dirstamp) \
 	src/libhiha/$(DEPDIR)/$(am__dirstamp)
 src/libhiha/libhiha_la-string_t_map.lo: src/libhiha/$(am__dirstamp) \
 	src/libhiha/$(DEPDIR)/$(am__dirstamp)
+src/libhiha/libhiha_la-string_t_omap.lo: src/libhiha/$(am__dirstamp) \
+	src/libhiha/$(DEPDIR)/$(am__dirstamp)
 src/libhiha/libhiha_la-string_t_vector.lo:  \
 	src/libhiha/$(am__dirstamp) \
 	src/libhiha/$(DEPDIR)/$(am__dirstamp)
@@ -2815,6 +2819,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-string_t_hash.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-string_t_map.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-string_t_omap.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-string_t_vector.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-token_t_hash.Plo@am__quote@ # am--include-marker
@@ -3025,6 +3030,13 @@ src/libhiha/libhiha_la-string_t_map.lo: src/libhiha/string_t_map.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/libhiha/string_t_map.c' object='src/libhiha/libhiha_la-string_t_map.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -c -o src/libhiha/libhiha_la-string_t_map.lo `test -f 'src/libhiha/string_t_map.c' || echo '$(srcdir)/'`src/libhiha/string_t_map.c
+
+src/libhiha/libhiha_la-string_t_omap.lo: src/libhiha/string_t_omap.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_la-string_t_omap.lo -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_la-string_t_omap.Tpo -c -o src/libhiha/libhiha_la-string_t_omap.lo `test -f 'src/libhiha/string_t_omap.c' || echo '$(srcdir)/'`src/libhiha/string_t_omap.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/libhiha/$(DEPDIR)/libhiha_la-string_t_omap.Tpo src/libhiha/$(DEPDIR)/libhiha_la-string_t_omap.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/libhiha/string_t_omap.c' object='src/libhiha/libhiha_la-string_t_omap.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -c -o src/libhiha/libhiha_la-string_t_omap.lo `test -f 'src/libhiha/string_t_omap.c' || echo '$(srcdir)/'`src/libhiha/string_t_omap.c
 
 src/libhiha/libhiha_la-string_t_vector.lo: src/libhiha/string_t_vector.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_la-string_t_vector.lo -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_la-string_t_vector.Tpo -c -o src/libhiha/libhiha_la-string_t_vector.lo `test -f 'src/libhiha/string_t_vector.c' || echo '$(srcdir)/'`src/libhiha/string_t_vector.c
@@ -3572,6 +3584,7 @@ distclean: distclean-recursive
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t_hash.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t_map.Plo
+	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t_omap.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t_vector.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t_hash.Plo
@@ -3655,6 +3668,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t_hash.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t_map.Plo
+	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t_omap.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-string_t_vector.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t_hash.Plo

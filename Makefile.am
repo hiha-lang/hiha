@@ -257,6 +257,7 @@ libhiha_la_SOURCES += src/libhiha/indexed_deque.c
 libhiha_la_SOURCES += src/libhiha/string_t.c
 libhiha_la_SOURCES += src/libhiha/string_t_hash.c
 libhiha_la_SOURCES += src/libhiha/string_t_map.c
+libhiha_la_SOURCES += src/libhiha/string_t_omap.c
 libhiha_la_SOURCES += src/libhiha/string_t_vector.c
 libhiha_la_SOURCES += src/libhiha/token_t.c
 libhiha_la_SOURCES += src/libhiha/token_t_hash.c

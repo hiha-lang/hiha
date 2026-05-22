@@ -58,12 +58,12 @@ HIHA_PURE const string_t string_t_EOF (void);   /* “EOF” */
 HIHA_PURE const string_t string_t_CP (void);    /* “CP” (code point) */
 HIHA_PURE const string_t string_t_formfeed (void);      /* "\014" */
 
-int string_t_cmp (const string_t str1, const string_t str2);
+int string_t_cmp (string_t str1, string_t str2);
 
 string_t make_string_t (const char *src);
-string_t copy_string_t (const string_t str);
+string_t copy_string_t (string_t str);
 string_t concat_string_t (...); /* The sentinel argument is NULL. */
-char *make_str_nul (const string_t str);
+char *make_str_nul (string_t str);
 
 string_t string_t_from_str_len (const char *src, size_t srclen,
                                 text_location_t loc);
@@ -127,6 +127,40 @@ string_t_map_t string_t_map_delete (string_t_map_t map, string_t key);
 string_t_vector_t string_t_map_keys (string_t_map_t map);
 voidp_vector_t string_t_map_values (string_t_map_t map);
 string_t_keyval_vector_t string_t_map_associations (string_t_map_t map);
+
+/*--------------------------------------------------------------------*/
+/* Persistent ordered maps. */
+
+struct string_t_omap;
+typedef const struct string_t_omap *string_t_omap_t;
+
+size_t string_t_omap_size (string_t_omap_t omap);
+
+const void *string_t_omap_search (string_t_omap_t omap, string_t key);
+
+/* string_t_omap_init creates a new empty map with a custom order.
+   (The default order, which is string_t_cmp applied to the keys, is
+   obtained by using NULL as the empty map.) */
+string_t_omap_t string_t_omap_init (int (*compare) (string_t_keyval_t,
+                                                    string_t_keyval_t));
+
+string_t_omap_t string_t_omap_insert_or_replace (string_t_omap_t omap,
+                                                 string_t key,
+                                                 const void *value);
+string_t_omap_t string_t_omap_insert_only (string_t_omap_t omap,
+                                           string_t key,
+                                           const void *value);
+string_t_omap_t string_t_omap_replace_only (string_t_omap_t omap,
+                                            string_t key,
+                                            const void *value);
+
+string_t_omap_t string_t_omap_delete (string_t_omap_t omap,
+                                      string_t key);
+
+string_t_vector_t string_t_omap_keys (string_t_omap_t omap);
+voidp_vector_t string_t_omap_values (string_t_omap_t omap);
+string_t_keyval_vector_t string_t_omap_associations (string_t_omap_t
+                                                     omap);
 
 /*--------------------------------------------------------------------*/
 

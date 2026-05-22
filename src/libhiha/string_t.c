@@ -26,8 +26,6 @@
 #include <error.h>
 #include <xalloc.h>
 #include <exitfail.h>
-#include <gl_xlist.h>
-#include <gl_avltree_list.h>
 #include <libhiha/string_t.h>
 #include <libhiha/initialize_once.h>
 
@@ -103,29 +101,28 @@ concat_string_t (...)
 
   va_start (args);
 
-  gl_list_t lst =
-    gl_list_create_empty (GL_AVLTREE_LIST, NULL, NULL, NULL, true);
+  string_t_vector_t lst = NULL;
   string_t str = va_arg (args, string_t);
   while (str != NULL)
     {
-      gl_list_add_last (lst, str);
+      lst = string_t_vector_push (lst, str);
       str = va_arg (args, string_t);
     }
 
   struct string *result = XMALLOC (struct string);
 
   result->n = 0;
-  for (i = 0; i != gl_list_size (lst); i += 1)
+  for (i = 0; i != string_t_vector_length (lst); i += 1)
     {
-      str = (string_t) gl_list_get_at (lst, i);
+      str = string_t_vector_ref (lst, i);
       result->n += str->n;
     }
   result->s = XNMALLOC (result->n, uint32_t);
 
   j = 0;
-  for (i = 0; i != gl_list_size (lst); i += 1)
+  for (i = 0; i != string_t_vector_length (lst); i += 1)
     {
-      str = (string_t) gl_list_get_at (lst, i);
+      str = string_t_vector_ref (lst, i);
       memcpy (result->s + j, str->s, str->n * sizeof (uint32_t));
       j += str->n;
     }

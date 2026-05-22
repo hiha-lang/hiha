@@ -34,7 +34,6 @@
 #  --macro-prefix=gl \
 #  assert \
 #  assert-h \
-#  avltree-list \
 #  avltree-omap \
 #  base64 \
 #  byteswap \
@@ -65,7 +64,6 @@
 #  unistr/u32-cmp2 \
 #  version-etc \
 #  xalloc \
-#  xlist \
 #  xomap \
 #  xstrerror
 
@@ -195,12 +193,6 @@ EXTRA_DIST += assert.in.h verify.h
 EXTRA_DIST += attribute.h
 
 ## end   gnulib module attribute
-
-## begin gnulib module avltree-list
-
-libgnu_la_SOURCES += gl_avltree_list.h gl_avltree_list.c gl_anyavltree_list1.h gl_anyavltree_list2.h gl_anytree_list1.h gl_anytree_list2.h
-
-## end   gnulib module avltree-list
 
 ## begin gnulib module avltree-omap
 
@@ -1074,12 +1066,6 @@ MOSTLYCLEANFILES += limits.h limits.h-t
 EXTRA_DIST += limits.in.h
 
 ## end   gnulib module limits-h
-
-## begin gnulib module list
-
-libgnu_la_SOURCES += gl_list.h gl_list.c
-
-## end   gnulib module list
 
 ## begin gnulib module localcharset
 
@@ -4078,12 +4064,6 @@ EXTRA_DIST += xalloc.h
 EXTRA_DIST += xalloc-oversized.h
 
 ## end   gnulib module xalloc-oversized
-
-## begin gnulib module xlist
-
-libgnu_la_SOURCES += gl_xlist.h gl_xlist.c
-
-## end   gnulib module xlist
 
 ## begin gnulib module xomap
 

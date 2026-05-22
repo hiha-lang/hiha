@@ -33,8 +33,6 @@
 #include <getopt.h>
 #include <version-etc.h>
 #include <gc/gc.h>
-#include <gl_avltree_list.h>
-#include <gl_xlist.h>
 #include <libhiha/libhiha.h>
 
 #define _(msgid) HIHA_GETTEXT (msgid)
@@ -47,7 +45,7 @@
 
 struct hiha_options
 {
-  gl_list_t plugins;
+  voidp_vector_t plugins;
 };
 typedef struct hiha_options *hiha_options_t;
 
@@ -130,8 +128,7 @@ static void
 get_options (int argc, char **argv, hiha_options_t *opts)
 {
   *opts = XMALLOC (struct hiha_options);
-  (*opts)->plugins = gl_list_create_empty (GL_AVLTREE_LIST, NULL, NULL,
-                                           NULL, true);
+  (*opts)->plugins = NULL;
 
   int c = getopt_for_this_program (argc, argv);
   while (c != -1)

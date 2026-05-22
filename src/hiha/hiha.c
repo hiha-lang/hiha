@@ -38,8 +38,6 @@
 #include <getopt.h>
 #include <version-etc.h>
 #include <gc/gc.h>
-#include <gl_avltree_list.h>
-#include <gl_xlist.h>
 #include <libhiha/libhiha.h>
 
 #define _(msgid) HIHA_GETTEXT (msgid)
@@ -69,7 +67,7 @@ typedef struct hiha_plugin *hiha_plugin_t;
 
 struct hiha_options
 {
-  gl_list_t plugins;
+  voidp_vector_t plugins;
 };
 typedef struct hiha_options *hiha_options_t;
 
@@ -254,8 +252,7 @@ static void
 get_options (int argc, char **argv, hiha_options_t *opts)
 {
   *opts = XMALLOC (struct hiha_options);
-  (*opts)->plugins = gl_list_create_empty (GL_AVLTREE_LIST, NULL, NULL,
-                                           NULL, true);
+  (*opts)->plugins = NULL;
 
   int c = getopt_for_this_program (argc, argv);
   while (c != -1)
@@ -263,13 +260,16 @@ get_options (int argc, char **argv, hiha_options_t *opts)
       switch (c)
         {
         case GETOPT_PLUGIN_CHAR:
-          gl_list_add_last ((*opts)->plugins,
-                            make_hiha_plugin_t (TAG_PLUGIN, optarg));
+          (*opts)->plugins =
+            voidp_vector_push ((*opts)->plugins,
+                               make_hiha_plugin_t (TAG_PLUGIN, optarg));
           break;
 
         case GETOPT_PLUGINDIR_CHAR:
-          gl_list_add_last ((*opts)->plugins,
-                            make_hiha_plugin_t (TAG_PLUGINDIR, optarg));
+          (*opts)->plugins =
+            voidp_vector_push ((*opts)->plugins,
+                               make_hiha_plugin_t (TAG_PLUGINDIR,
+                                                   optarg));
           break;
 
         case GETOPT_LEXICAL_MAX_CHAR:
@@ -348,12 +348,12 @@ load_one_plugindir (const char *dirname)
 }
 
 static void
-load_command_line_plugins (gl_list_t plugins)
+load_command_line_plugins (voidp_vector_t plugins)
 {
-  for (size_t i = 0; i != gl_list_size (plugins); i += 1)
+  for (size_t i = 0; i != voidp_vector_length (plugins); i += 1)
     {
       const hiha_plugin_t p =
-        (hiha_plugin_t) gl_list_get_at (plugins, i);
+        (hiha_plugin_t) voidp_vector_ref (plugins, i);
       switch (p->tag)
         {
         case TAG_PLUGIN:

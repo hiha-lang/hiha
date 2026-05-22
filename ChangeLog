@@ -1,5 +1,86 @@
 @  master
-|  2026-05-22 17:34 +0000
+|  2026-05-22 23:41 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:
+|  mercurial: f43f09ff001a742c7d6a1b7f38bed3f33a041c37
+|  revision:  175
+|  parents:   174
+|
+|    Remove some unused includes.
+|
+|
+o  2026-05-22 23:41 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:
+|  mercurial: a7c3c93d1a3d7eaae60e2e5570dc7a0ae50198fc
+|  revision:  174
+|  parents:   173
+|
+|    Remove Gnulib string includes that will not be used.
+|
+|
+o  2026-05-22 23:38 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       01cdf1a5a72f8805e33057eb27b3fba711162d96
+|  mercurial: 6ba0e592528b82126aa2b8bc89f421f8e1996171
+|  revision:  173
+|  parents:   172
+|
+|    Use indexed deques in place of gl_avltree_list
+|
+|
+o  2026-05-22 23:27 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       9f7c96f456ff57a6642bc01ce34176cab9a03f31
+|  mercurial: 936a68d371c22d2c6304944076351bdd37500447
+|  revision:  172
+|  parents:   171
+|
+|    Replace Gnulib lists with our lists and maps in token serialization
+|    and deserialization.
+|
+|
+o  2026-05-22 22:06 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       4f5d4c81b10e99a5cbd082e1e2543633d64dc93a
+|  mercurial: 354070c708d19530d9cef9f0bc6b5adc039fe9f3
+|  revision:  171
+|  parents:   170
+|
+|    Eliminate Gnulib lists from string_t.c
+|
+|
+o  2026-05-22 21:56 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       fe8df4610a5076af45e74f794c6b3645bd4f7bbd
+|  mercurial: bd81932cf340ef22d8a645fb2c64f37d0301146b
+|  revision:  170
+|  parents:   169
+|
+|    Use voidp_vector_t instead of Gnulib lists.
+|
+|
+o  2026-05-22 21:51 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       e1981a741d39e0c3bce97a51f59e255dcd94d4c1
+|  mercurial: 94364aab3f3564a605e363d59578c0761b6580dd
+|  revision:  169
+|  parents:   168
+|
+|    Use voidp_vector_t instead of Gnulib lists.
+|
+|
+o  2026-05-22 18:42 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       6c0e5855701996ae8efb1d2225c764653f03f834
+|  mercurial: 42b416f962150397e595043d2fed0d6b15992436
+|  revision:  168
+|  parents:   167
+|
+|    Filled out implementation of ordered string_t maps.
+|
+|
+o  2026-05-22 17:34 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       7f1b9a7e785b852097f3225318ace1d7d1143142
 |  mercurial: fa17d5876ac079c8071dede30b05599596637da6

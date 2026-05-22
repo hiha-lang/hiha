@@ -39,7 +39,6 @@
 #  --macro-prefix=gl \
 #  assert \
 #  assert-h \
-#  avltree-list \
 #  avltree-omap \
 #  base64 \
 #  byteswap \
@@ -70,7 +69,6 @@
 #  unistr/u32-cmp2 \
 #  version-etc \
 #  xalloc \
-#  xlist \
 #  xomap \
 #  xstrerror
 
@@ -79,7 +77,6 @@ gl_LOCAL_DIR([])
 gl_MODULES([
   assert
   assert-h
-  avltree-list
   avltree-omap
   base64
   byteswap
@@ -110,7 +107,6 @@ gl_MODULES([
   unistr/u32-cmp2
   version-etc
   xalloc
-  xlist
   xomap
   xstrerror
 ])

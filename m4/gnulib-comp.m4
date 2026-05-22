@@ -49,7 +49,6 @@ AC_DEFUN([gl_EARLY],
   # Code from module assert:
   # Code from module assert-h:
   # Code from module attribute:
-  # Code from module avltree-list:
   # Code from module avltree-omap:
   # Code from module base64:
   # Code from module basename-lgpl:
@@ -136,7 +135,6 @@ AC_DEFUN([gl_EARLY],
   AC_REQUIRE([AC_SYS_LARGEFILE])
   # Code from module libc-config:
   # Code from module limits-h:
-  # Code from module list:
   # Code from module localcharset:
   # Code from module locale-h:
   # Code from module localeconv:
@@ -305,7 +303,6 @@ AC_DEFUN([gl_EARLY],
   # Code from module xalloc:
   # Code from module xalloc-die:
   # Code from module xalloc-oversized:
-  # Code from module xlist:
   # Code from module xomap:
   # Code from module xsize:
   # Code from module xstrerror:
@@ -1350,22 +1347,12 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/getprogname.h
   lib/getrandom.c
   lib/gettext.h
-  lib/gl_anyavltree_list1.h
-  lib/gl_anyavltree_list2.h
-  lib/gl_anytree_list1.h
-  lib/gl_anytree_list2.h
   lib/gl_anytree_omap.h
-  lib/gl_avltree_list.c
-  lib/gl_avltree_list.h
   lib/gl_avltree_omap.c
   lib/gl_avltree_omap.h
   lib/gl_avltree_ordered.h
-  lib/gl_list.c
-  lib/gl_list.h
   lib/gl_omap.c
   lib/gl_omap.h
-  lib/gl_xlist.c
-  lib/gl_xlist.h
   lib/gl_xomap.c
   lib/gl_xomap.h
   lib/glthread/lock.c

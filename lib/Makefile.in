@@ -48,7 +48,6 @@
 #  --macro-prefix=gl \
 #  assert \
 #  assert-h \
-#  avltree-list \
 #  avltree-omap \
 #  base64 \
 #  byteswap \
@@ -79,7 +78,6 @@
 #  unistr/u32-cmp2 \
 #  version-etc \
 #  xalloc \
-#  xlist \
 #  xomap \
 #  xstrerror
 
@@ -386,9 +384,7 @@ CONFIG_CLEAN_VPATH_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 am__DEPENDENCIES_1 =
-am__libgnu_la_SOURCES_DIST = amemxfrm.c gl_avltree_list.h \
-	gl_avltree_list.c gl_anyavltree_list1.h gl_anyavltree_list2.h \
-	gl_anytree_list1.h gl_anytree_list2.h gl_avltree_omap.h \
+am__libgnu_la_SOURCES_DIST = amemxfrm.c gl_avltree_omap.h \
 	gl_avltree_omap.c gl_avltree_ordered.h gl_anytree_omap.h \
 	base64.h base64.c basename-lgpl.c byteswap.c c-ctype.h \
 	c-ctype.c c-strcasecmp.c c32isalnum.c c32isalpha.c \
@@ -401,16 +397,16 @@ am__libgnu_la_SOURCES_DIST = amemxfrm.c gl_avltree_list.h \
 	getdtablesize.c getentropy.c getline.c getopt.c getopt1.c \
 	getprogname.c getrandom.c gettext.h hard-locale.c ialloc.c \
 	iconv_open.c iconv.c iconv_close.c idx.h iswblank.c iswdigit.c \
-	iswpunct.c iswxdigit.c gl_list.h gl_list.c localcharset.c \
-	localeconv.c glthread/lock.h glthread/lock.c lstat.c malloca.c \
-	mbchar.c mbiterf.h mbiterf.c mbrtoc32.c mbrtowc.c mbsinit.c \
-	mbsnlen.c mbszero.c memchr.c memcmp2.c memeq.c minmax.h \
-	mkdir.c mkdtemp.c msvc-inval.c msvc-nothrow.c gl_omap.h \
-	gl_omap.c glthread/once.h glthread/once.c open.c opendir.c \
-	progname.h progname.c pthread-once.c readdir.c realloc.c \
-	reallocarray.c scandir.c secure_getenv.c setlocale_null.c \
-	setlocale-lock.c setlocale_null-unlocked.c size_max.h stat.c \
-	stat-time.c stdc_memreverse8u.c stdio-read.c stdio-write.c \
+	iswpunct.c iswxdigit.c localcharset.c localeconv.c \
+	glthread/lock.h glthread/lock.c lstat.c malloca.c mbchar.c \
+	mbiterf.h mbiterf.c mbrtoc32.c mbrtowc.c mbsinit.c mbsnlen.c \
+	mbszero.c memchr.c memcmp2.c memeq.c minmax.h mkdir.c \
+	mkdtemp.c msvc-inval.c msvc-nothrow.c gl_omap.h gl_omap.c \
+	glthread/once.h glthread/once.c open.c opendir.c progname.h \
+	progname.c pthread-once.c readdir.c realloc.c reallocarray.c \
+	scandir.c secure_getenv.c setlocale_null.c setlocale-lock.c \
+	setlocale_null-unlocked.c size_max.h stat.c stat-time.c \
+	stdc_memreverse8u.c stdio-read.c stdio-write.c \
 	stdio-consolesafe.c stdlib.c streq.c strerror.c \
 	strerror-override.c striconveh.h striconveh.c striconveha.h \
 	striconveha.c strnul.c tempname.c glthread/threadlib.c \
@@ -446,8 +442,8 @@ am__libgnu_la_SOURCES_DIST = amemxfrm.c gl_avltree_list.h \
 	vaszprintf.c aszprintf.c version-etc.h version-etc.c \
 	wctype-h.c wcwidth.c windows-mutex.c windows-once.c \
 	windows-recmutex.c windows-rwlock.c xmalloc.c xalloc-die.c \
-	gl_xlist.h gl_xlist.c gl_xomap.h gl_xomap.c xsize.h xsize.c \
-	xstrerror.c xvasprintf.h xvasprintf.c xasprintf.c
+	gl_xomap.h gl_xomap.c xsize.h xsize.c xstrerror.c xvasprintf.h \
+	xvasprintf.c xasprintf.c
 @GL_GENERATE_BYTESWAP_H_TRUE@am__objects_1 = libgnu_la-byteswap.lo
 @GL_COND_OBJ_CLOSE_TRUE@am__objects_2 = libgnu_la-close.lo
 @GL_COND_OBJ_CLOSEDIR_TRUE@am__objects_3 = libgnu_la-closedir.lo
@@ -579,18 +575,18 @@ am__dirstamp = $(am__leading_dot)dirstamp
 @GL_COND_OBJ_WINDOWS_RWLOCK_TRUE@am__objects_112 =  \
 @GL_COND_OBJ_WINDOWS_RWLOCK_TRUE@	libgnu_la-windows-rwlock.lo
 am_libgnu_la_OBJECTS = libgnu_la-amemxfrm.lo \
-	libgnu_la-gl_avltree_list.lo libgnu_la-gl_avltree_omap.lo \
-	libgnu_la-base64.lo libgnu_la-basename-lgpl.lo \
-	$(am__objects_1) libgnu_la-c-ctype.lo \
-	libgnu_la-c-strcasecmp.lo libgnu_la-c32isalnum.lo \
-	libgnu_la-c32isalpha.lo libgnu_la-c32isblank.lo \
-	libgnu_la-c32iscntrl.lo libgnu_la-c32isdigit.lo \
-	libgnu_la-c32isgraph.lo libgnu_la-c32islower.lo \
-	libgnu_la-c32isprint.lo libgnu_la-c32ispunct.lo \
-	libgnu_la-c32isspace.lo libgnu_la-c32isupper.lo \
-	libgnu_la-c32isxdigit.lo libgnu_la-c32tolower.lo \
-	libgnu_la-c32width.lo libgnu_la-cloexec.lo $(am__objects_2) \
-	$(am__objects_3) $(am__objects_4) libgnu_la-dirname-lgpl.lo \
+	libgnu_la-gl_avltree_omap.lo libgnu_la-base64.lo \
+	libgnu_la-basename-lgpl.lo $(am__objects_1) \
+	libgnu_la-c-ctype.lo libgnu_la-c-strcasecmp.lo \
+	libgnu_la-c32isalnum.lo libgnu_la-c32isalpha.lo \
+	libgnu_la-c32isblank.lo libgnu_la-c32iscntrl.lo \
+	libgnu_la-c32isdigit.lo libgnu_la-c32isgraph.lo \
+	libgnu_la-c32islower.lo libgnu_la-c32isprint.lo \
+	libgnu_la-c32ispunct.lo libgnu_la-c32isspace.lo \
+	libgnu_la-c32isupper.lo libgnu_la-c32isxdigit.lo \
+	libgnu_la-c32tolower.lo libgnu_la-c32width.lo \
+	libgnu_la-cloexec.lo $(am__objects_2) $(am__objects_3) \
+	$(am__objects_4) libgnu_la-dirname-lgpl.lo \
 	libgnu_la-stripslash.lo $(am__objects_5) $(am__objects_6) \
 	$(am__objects_7) libgnu_la-exitfail.lo $(am__objects_8) \
 	libgnu_la-fd-hook.lo libgnu_la-filevercmp.lo $(am__objects_9) \
@@ -600,8 +596,7 @@ am_libgnu_la_OBJECTS = libgnu_la-amemxfrm.lo \
 	$(am__objects_19) $(am__objects_20) libgnu_la-hard-locale.lo \
 	libgnu_la-ialloc.lo $(am__objects_21) $(am__objects_22) \
 	$(am__objects_23) $(am__objects_24) $(am__objects_25) \
-	$(am__objects_26) libgnu_la-gl_list.lo \
-	libgnu_la-localcharset.lo $(am__objects_27) \
+	$(am__objects_26) libgnu_la-localcharset.lo $(am__objects_27) \
 	glthread/libgnu_la-lock.lo $(am__objects_28) \
 	libgnu_la-malloca.lo libgnu_la-mbchar.lo libgnu_la-mbiterf.lo \
 	$(am__objects_29) $(am__objects_30) $(am__objects_31) \
@@ -648,10 +643,9 @@ am_libgnu_la_OBJECTS = libgnu_la-amemxfrm.lo \
 	libgnu_la-version-etc.lo libgnu_la-wctype-h.lo \
 	$(am__objects_108) $(am__objects_109) $(am__objects_110) \
 	$(am__objects_111) $(am__objects_112) libgnu_la-xmalloc.lo \
-	libgnu_la-xalloc-die.lo libgnu_la-gl_xlist.lo \
-	libgnu_la-gl_xomap.lo libgnu_la-xsize.lo \
-	libgnu_la-xstrerror.lo libgnu_la-xvasprintf.lo \
-	libgnu_la-xasprintf.lo
+	libgnu_la-xalloc-die.lo libgnu_la-gl_xomap.lo \
+	libgnu_la-xsize.lo libgnu_la-xstrerror.lo \
+	libgnu_la-xvasprintf.lo libgnu_la-xasprintf.lo
 libgnu_la_OBJECTS = $(am_libgnu_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -721,11 +715,8 @@ am__depfiles_remade = ./$(DEPDIR)/libgnu_la-amemxfrm.Plo \
 	./$(DEPDIR)/libgnu_la-getopt1.Plo \
 	./$(DEPDIR)/libgnu_la-getprogname.Plo \
 	./$(DEPDIR)/libgnu_la-getrandom.Plo \
-	./$(DEPDIR)/libgnu_la-gl_avltree_list.Plo \
 	./$(DEPDIR)/libgnu_la-gl_avltree_omap.Plo \
-	./$(DEPDIR)/libgnu_la-gl_list.Plo \
 	./$(DEPDIR)/libgnu_la-gl_omap.Plo \
-	./$(DEPDIR)/libgnu_la-gl_xlist.Plo \
 	./$(DEPDIR)/libgnu_la-gl_xomap.Plo \
 	./$(DEPDIR)/libgnu_la-hard-locale.Plo \
 	./$(DEPDIR)/libgnu_la-ialloc.Plo \
@@ -2667,9 +2658,7 @@ MAINTAINERCLEANFILES = iconv_open-aix.h iconv_open-hpux.h \
 # No GNU Make output.
 AM_CPPFLAGS = 
 AM_CFLAGS = 
-libgnu_la_SOURCES = amemxfrm.c gl_avltree_list.h gl_avltree_list.c \
-	gl_anyavltree_list1.h gl_anyavltree_list2.h gl_anytree_list1.h \
-	gl_anytree_list2.h gl_avltree_omap.h gl_avltree_omap.c \
+libgnu_la_SOURCES = amemxfrm.c gl_avltree_omap.h gl_avltree_omap.c \
 	gl_avltree_ordered.h gl_anytree_omap.h base64.h base64.c \
 	basename-lgpl.c $(am__append_1) c-ctype.h c-ctype.c \
 	c-strcasecmp.c c32isalnum.c c32isalpha.c c32isblank.c \
@@ -2685,21 +2674,21 @@ libgnu_la_SOURCES = amemxfrm.c gl_avltree_list.h gl_avltree_list.c \
 	$(am__append_18) $(am__append_19) $(am__append_20) gettext.h \
 	hard-locale.c ialloc.c $(am__append_21) $(am__append_22) idx.h \
 	$(am__append_23) $(am__append_24) $(am__append_25) \
-	$(am__append_26) gl_list.h gl_list.c localcharset.c \
-	$(am__append_27) glthread/lock.h glthread/lock.c \
-	$(am__append_28) malloca.c mbchar.c mbiterf.h mbiterf.c \
-	$(am__append_29) $(am__append_30) $(am__append_31) mbsnlen.c \
-	mbszero.c $(am__append_32) memcmp2.c memeq.c minmax.h \
-	$(am__append_33) $(am__append_34) $(am__append_35) \
-	$(am__append_36) gl_omap.h gl_omap.c glthread/once.h \
-	glthread/once.c $(am__append_37) $(am__append_38) progname.h \
-	progname.c $(am__append_39) $(am__append_40) $(am__append_41) \
-	$(am__append_42) $(am__append_43) $(am__append_44) \
-	setlocale_null.c $(am__append_45) setlocale_null-unlocked.c \
-	size_max.h $(am__append_46) stat-time.c $(am__append_47) \
-	$(am__append_48) $(am__append_49) $(am__append_50) stdlib.c \
-	streq.c $(am__append_51) $(am__append_52) striconveh.h \
-	striconveh.c striconveha.h striconveha.c strnul.c tempname.c \
+	$(am__append_26) localcharset.c $(am__append_27) \
+	glthread/lock.h glthread/lock.c $(am__append_28) malloca.c \
+	mbchar.c mbiterf.h mbiterf.c $(am__append_29) $(am__append_30) \
+	$(am__append_31) mbsnlen.c mbszero.c $(am__append_32) \
+	memcmp2.c memeq.c minmax.h $(am__append_33) $(am__append_34) \
+	$(am__append_35) $(am__append_36) gl_omap.h gl_omap.c \
+	glthread/once.h glthread/once.c $(am__append_37) \
+	$(am__append_38) progname.h progname.c $(am__append_39) \
+	$(am__append_40) $(am__append_41) $(am__append_42) \
+	$(am__append_43) $(am__append_44) setlocale_null.c \
+	$(am__append_45) setlocale_null-unlocked.c size_max.h \
+	$(am__append_46) stat-time.c $(am__append_47) $(am__append_48) \
+	$(am__append_49) $(am__append_50) stdlib.c streq.c \
+	$(am__append_51) $(am__append_52) striconveh.h striconveh.c \
+	striconveha.h striconveha.c strnul.c tempname.c \
 	glthread/threadlib.c tmpdir.h tmpdir.c unicase/cased.c \
 	$(am__append_53) $(am__append_54) unicase/ignorable.c \
 	unicase/special-casing.c unicase/tocasefold.c $(am__append_55) \
@@ -2724,9 +2713,9 @@ libgnu_la_SOURCES = amemxfrm.c gl_avltree_list.h gl_avltree_list.c \
 	$(am__append_106) $(am__append_107) vaszprintf.c aszprintf.c \
 	version-etc.h version-etc.c wctype-h.c $(am__append_108) \
 	$(am__append_109) $(am__append_110) $(am__append_111) \
-	$(am__append_112) xmalloc.c xalloc-die.c gl_xlist.h gl_xlist.c \
-	gl_xomap.h gl_xomap.c xsize.h xsize.c xstrerror.c xvasprintf.h \
-	xvasprintf.c xasprintf.c
+	$(am__append_112) xmalloc.c xalloc-die.c gl_xomap.h gl_xomap.c \
+	xsize.h xsize.c xstrerror.c xvasprintf.h xvasprintf.c \
+	xasprintf.c
 libgnu_la_CFLAGS = $(AM_CFLAGS) $(GL_CFLAG_GNULIB_WARNINGS) $(GL_CFLAG_ALLOW_WARNINGS)
 libgnu_la_LIBADD = $(gl_libgnu_LTLIBOBJS)
 libgnu_la_DEPENDENCIES = $(gl_libgnu_LTLIBOBJS)
@@ -3079,11 +3068,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-getopt1.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-getprogname.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-getrandom.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-gl_avltree_list.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-gl_avltree_omap.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-gl_list.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-gl_omap.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-gl_xlist.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-gl_xomap.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-hard-locale.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-ialloc.Plo@am__quote@ # am--include-marker
@@ -3269,13 +3255,6 @@ libgnu_la-amemxfrm.lo: amemxfrm.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='amemxfrm.c' object='libgnu_la-amemxfrm.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -c -o libgnu_la-amemxfrm.lo `test -f 'amemxfrm.c' || echo '$(srcdir)/'`amemxfrm.c
-
-libgnu_la-gl_avltree_list.lo: gl_avltree_list.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -MT libgnu_la-gl_avltree_list.lo -MD -MP -MF $(DEPDIR)/libgnu_la-gl_avltree_list.Tpo -c -o libgnu_la-gl_avltree_list.lo `test -f 'gl_avltree_list.c' || echo '$(srcdir)/'`gl_avltree_list.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgnu_la-gl_avltree_list.Tpo $(DEPDIR)/libgnu_la-gl_avltree_list.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='gl_avltree_list.c' object='libgnu_la-gl_avltree_list.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -c -o libgnu_la-gl_avltree_list.lo `test -f 'gl_avltree_list.c' || echo '$(srcdir)/'`gl_avltree_list.c
 
 libgnu_la-gl_avltree_omap.lo: gl_avltree_omap.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -MT libgnu_la-gl_avltree_omap.lo -MD -MP -MF $(DEPDIR)/libgnu_la-gl_avltree_omap.Tpo -c -o libgnu_la-gl_avltree_omap.lo `test -f 'gl_avltree_omap.c' || echo '$(srcdir)/'`gl_avltree_omap.c
@@ -3661,13 +3640,6 @@ libgnu_la-iswxdigit.lo: iswxdigit.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='iswxdigit.c' object='libgnu_la-iswxdigit.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -c -o libgnu_la-iswxdigit.lo `test -f 'iswxdigit.c' || echo '$(srcdir)/'`iswxdigit.c
-
-libgnu_la-gl_list.lo: gl_list.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -MT libgnu_la-gl_list.lo -MD -MP -MF $(DEPDIR)/libgnu_la-gl_list.Tpo -c -o libgnu_la-gl_list.lo `test -f 'gl_list.c' || echo '$(srcdir)/'`gl_list.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgnu_la-gl_list.Tpo $(DEPDIR)/libgnu_la-gl_list.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='gl_list.c' object='libgnu_la-gl_list.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -c -o libgnu_la-gl_list.lo `test -f 'gl_list.c' || echo '$(srcdir)/'`gl_list.c
 
 libgnu_la-localcharset.lo: localcharset.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -MT libgnu_la-localcharset.lo -MD -MP -MF $(DEPDIR)/libgnu_la-localcharset.Tpo -c -o libgnu_la-localcharset.lo `test -f 'localcharset.c' || echo '$(srcdir)/'`localcharset.c
@@ -4551,13 +4523,6 @@ libgnu_la-xalloc-die.lo: xalloc-die.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -c -o libgnu_la-xalloc-die.lo `test -f 'xalloc-die.c' || echo '$(srcdir)/'`xalloc-die.c
 
-libgnu_la-gl_xlist.lo: gl_xlist.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -MT libgnu_la-gl_xlist.lo -MD -MP -MF $(DEPDIR)/libgnu_la-gl_xlist.Tpo -c -o libgnu_la-gl_xlist.lo `test -f 'gl_xlist.c' || echo '$(srcdir)/'`gl_xlist.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgnu_la-gl_xlist.Tpo $(DEPDIR)/libgnu_la-gl_xlist.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='gl_xlist.c' object='libgnu_la-gl_xlist.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -c -o libgnu_la-gl_xlist.lo `test -f 'gl_xlist.c' || echo '$(srcdir)/'`gl_xlist.c
-
 libgnu_la-gl_xomap.lo: gl_xomap.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -MT libgnu_la-gl_xomap.lo -MD -MP -MF $(DEPDIR)/libgnu_la-gl_xomap.Tpo -c -o libgnu_la-gl_xomap.lo `test -f 'gl_xomap.c' || echo '$(srcdir)/'`gl_xomap.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgnu_la-gl_xomap.Tpo $(DEPDIR)/libgnu_la-gl_xomap.Plo
@@ -4967,11 +4932,8 @@ distclean: distclean-recursive
 	-rm -f ./$(DEPDIR)/libgnu_la-getopt1.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-getprogname.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-getrandom.Plo
-	-rm -f ./$(DEPDIR)/libgnu_la-gl_avltree_list.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-gl_avltree_omap.Plo
-	-rm -f ./$(DEPDIR)/libgnu_la-gl_list.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-gl_omap.Plo
-	-rm -f ./$(DEPDIR)/libgnu_la-gl_xlist.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-gl_xomap.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-hard-locale.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-ialloc.Plo
@@ -5212,11 +5174,8 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f ./$(DEPDIR)/libgnu_la-getopt1.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-getprogname.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-getrandom.Plo
-	-rm -f ./$(DEPDIR)/libgnu_la-gl_avltree_list.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-gl_avltree_omap.Plo
-	-rm -f ./$(DEPDIR)/libgnu_la-gl_list.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-gl_omap.Plo
-	-rm -f ./$(DEPDIR)/libgnu_la-gl_xlist.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-gl_xomap.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-hard-locale.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-ialloc.Plo

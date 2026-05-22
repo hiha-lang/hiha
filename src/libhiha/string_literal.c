@@ -21,8 +21,6 @@
 
 #include <config.h>
 #include <xalloc.h>
-#include <gl_xlist.h>
-#include <gl_avltree_list.h>
 #include <libhiha/token_t.h>
 #include <libhiha/string_t.h>
 #include <libhiha/string_literal.h>

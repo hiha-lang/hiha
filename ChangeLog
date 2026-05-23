@@ -1,7 +1,18 @@
 @  master
-|  2026-05-23 16:38 +0000
+|  2026-05-23 17:57 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
-|  git:
+|  git:       9cff095a99752ff230020e25172f33dbac9e647a
+|  mercurial: 35937a21864e6a2e0252d8b389449a87631ec841
+|  revision:  183
+|  parents:   182
+|
+|    Generalize the ordered map code, and extend it to nul-terminated
+|    strings.
+|
+|
+o  2026-05-23 16:38 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       19daec7b523507067f221d94015d4f6b5c005a87
 |  mercurial: 1630d9cef3e588f9a409684d30c6b677546f0e38
 |  revision:  182
 |  parents:   181

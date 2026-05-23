@@ -1,7 +1,18 @@
 @  master
-|  2026-05-23 15:16 +0000
+|  2026-05-23 16:29 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
-|  git:
+|  git:       637893c9e1ce32e889bef1366a33e00fbe5b39c4
+|  mercurial: de07868777003633f7daf058b05346111fa77d5e
+|  revision:  180
+|  parents:   179
+|
+|    Allow for NULL strings in hash maps, and use that to improve the
+|    token serialization/deserialization code.
+|
+|
+o  2026-05-23 15:16 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       73bfefbd9ee99263b89be3e76b1b79826b0c896b
 |  mercurial: fd5a8955b93af238d8c435c732652fcfc261a26e
 |  revision:  179
 |  parents:   178

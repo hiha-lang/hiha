@@ -228,29 +228,6 @@ get_token_from_source_file (token_getter_t getter, token_t *tok,
                              g->i_code_point + 1);
 }
 
-static str_nul_map_t str_nul_insert_index (str_nul_map_t map,
-                                           const char *str, size_t i);
-
-static serialized_strings_t
-make_serialized_strings_t (void)
-{
-  serialized_strings_t p = XMALLOC (struct serialized_strings);
-
-  p->filenames_index = 0;
-  p->token_kinds_index = 0;
-  p->token_values_index = 0;
-
-  p->filename_to_index = NULL;
-  p->token_kind_to_index = NULL;
-  p->token_value_to_index = NULL;
-
-  /* The NULL filename will be represented by the index 0. */
-  p->filename_to_index =
-    str_nul_insert_index (p->filename_to_index, NULL, 0);
-
-  return p;
-}
-
 static str_nul_map_t
 str_nul_insert_index (str_nul_map_t map, const char *str, size_t i)
 {
@@ -279,6 +256,26 @@ string_t_retrieve_index (string_t_map_t map, string_t str)
 {
   const void *p = string_t_map_search (map, str);
   return (p != NULL) ? *((const size_t *) p) : ((size_t) -1);
+}
+
+static serialized_strings_t
+make_serialized_strings_t (void)
+{
+  serialized_strings_t p = XMALLOC (struct serialized_strings);
+
+  p->filenames_index = 0;
+  p->token_kinds_index = 0;
+  p->token_values_index = 0;
+
+  p->filename_to_index = NULL;
+  p->token_kind_to_index = NULL;
+  p->token_value_to_index = NULL;
+
+  /* The NULL filename will be represented by the index 0. */
+  p->filename_to_index =
+    str_nul_insert_index (p->filename_to_index, NULL, 0);
+
+  return p;
 }
 
 HIHA_VISIBLE void

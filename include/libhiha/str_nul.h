@@ -61,7 +61,16 @@ str_nul_hash_context_t str_nul_hash_init (const char *);
 uint64_t str_nul_hash (str_nul_hash_context_t context, unsigned int i);
 
 /*--------------------------------------------------------------------*/
-/* Persistent unordered maps. */
+/*
+
+  Persistent unordered maps.
+
+  Be sure string keys you insert are not ephemeral or volatile. For
+  instance they may be global constants or copies made with xstrdup().
+
+  The NULL pointer IS allowed as a key.
+
+*/
 
 struct str_nul_map;
 typedef const struct str_nul_map *str_nul_map_t;
@@ -85,6 +94,52 @@ str_nul_map_t str_nul_map_delete (str_nul_map_t map, const char *key);
 str_nul_vector_t str_nul_map_keys (str_nul_map_t map);
 voidp_vector_t str_nul_map_values (str_nul_map_t map);
 str_nul_keyval_vector_t str_nul_map_associations (str_nul_map_t map);
+
+/*--------------------------------------------------------------------*/
+/*
+
+  Persistent ordered maps.
+
+  Be sure string keys you insert are not ephemeral or volatile. For
+  instance they may be global constants or copies made with xstrdup().
+
+  The NULL pointer is allowed as a key ONLY if you use a custom
+  “compare” function that can handle it. The default “compare” is
+  strcmp(3) applied to the keys, which CANNOT handle the NULL pointer.
+
+*/
+
+struct str_nul_omap;
+typedef const struct str_nul_omap *str_nul_omap_t;
+
+size_t str_nul_omap_size (str_nul_omap_t omap);
+
+const void *str_nul_omap_search (str_nul_omap_t omap, const char *key);
+
+/* str_nul_omap_init creates a new empty map with a custom order. (The
+   default order, which is strcmp(3) applied to the keys, is obtained
+   by using NULL as the empty map.) */
+str_nul_omap_t str_nul_omap_init (int (*compare) (str_nul_keyval_t,
+                                                  str_nul_keyval_t));
+
+str_nul_omap_t str_nul_omap_insert_or_replace (str_nul_omap_t omap,
+                                               const char *key,
+                                               const void *value);
+str_nul_omap_t str_nul_omap_insert_only (str_nul_omap_t omap,
+                                         const char *key,
+                                         const void *value);
+str_nul_omap_t str_nul_omap_replace_only (str_nul_omap_t omap,
+                                          const char *key,
+                                          const void *value);
+
+str_nul_omap_t str_nul_omap_delete (str_nul_omap_t omap,
+                                    const char *key);
+
+/* direction = 1 forwards, -1 backwards */
+str_nul_vector_t str_nul_omap_keys (str_nul_omap_t omap, int direction);
+voidp_vector_t str_nul_omap_values (str_nul_omap_t omap, int direction);
+str_nul_keyval_vector_t str_nul_omap_associations (str_nul_omap_t omap,
+                                                   int direction);
 
 /*--------------------------------------------------------------------*/
 

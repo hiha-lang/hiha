@@ -620,10 +620,11 @@ at_help_all="1;testsuite.at:22;SpookyHash;spookyhash hash;
 5;testsuite.at:42;token_t_hash;token_t_hash token_t hash;
 6;testsuite.at:47;str_nul_hash;str_nul_hash str_nul string char nul hash;
 7;testsuite.at:52;str_nul unordered map;str_nul_map str_nul map char string nul;
-8;testsuite.at:57;persistent AVL tree;persistent avl tree;
-9;testsuite.at:62;persistent integer trie;trie persistent radix tree;
-10;testsuite.at:67;persistent hash map;persistent hash map hashmap;
-11;testsuite.at:72;indexed deque;indexed deque queue stack;
+8;testsuite.at:57;str_nul ordered map;str_nul_omap str_nul map omap char string nul;
+9;testsuite.at:62;persistent AVL tree;persistent avl tree;
+10;testsuite.at:67;persistent integer trie;trie persistent radix tree;
+11;testsuite.at:72;persistent hash map;persistent hash map hashmap;
+12;testsuite.at:77;indexed deque;indexed deque queue stack;
 "
 # List of the all the test groups.
 at_groups_all=`printf "%s\n" "$at_help_all" | sed 's/;.*//'`
@@ -637,7 +638,7 @@ at_fn_validate_ranges ()
   for at_grp
   do
     eval at_value=\$$at_grp
-    if test $at_value -lt 1 || test $at_value -gt 11; then
+    if test $at_value -lt 1 || test $at_value -gt 12; then
       printf "%s\n" "invalid test group: $at_value" >&2
       exit 1
     fi
@@ -2185,7 +2186,7 @@ read at_status <"$at_status_file"
 #AT_STOP_7
 #AT_START_8
 at_fn_group_banner 8 'testsuite.at:57' \
-  "persistent AVL tree" "                            "
+  "str_nul ordered map" "                            "
 at_xfail=no
 (
   printf "%s\n" "8. $at_setup_line: testing $at_desc ..."
@@ -2193,9 +2194,9 @@ at_xfail=no
 
 
 { set +x
-printf "%s\n" "$at_srcdir/testsuite.at:59: check_persistent_avl"
+printf "%s\n" "$at_srcdir/testsuite.at:59: check_str_nul_omap"
 at_fn_check_prepare_trace "testsuite.at:59"
-( $at_check_trace; check_persistent_avl
+( $at_check_trace; check_str_nul_omap
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2212,7 +2213,7 @@ read at_status <"$at_status_file"
 #AT_STOP_8
 #AT_START_9
 at_fn_group_banner 9 'testsuite.at:62' \
-  "persistent integer trie" "                        "
+  "persistent AVL tree" "                            "
 at_xfail=no
 (
   printf "%s\n" "9. $at_setup_line: testing $at_desc ..."
@@ -2220,9 +2221,9 @@ at_xfail=no
 
 
 { set +x
-printf "%s\n" "$at_srcdir/testsuite.at:64: check_persistent_integer_trie"
+printf "%s\n" "$at_srcdir/testsuite.at:64: check_persistent_avl"
 at_fn_check_prepare_trace "testsuite.at:64"
-( $at_check_trace; check_persistent_integer_trie
+( $at_check_trace; check_persistent_avl
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2239,7 +2240,7 @@ read at_status <"$at_status_file"
 #AT_STOP_9
 #AT_START_10
 at_fn_group_banner 10 'testsuite.at:67' \
-  "persistent hash map" "                            "
+  "persistent integer trie" "                        "
 at_xfail=no
 (
   printf "%s\n" "10. $at_setup_line: testing $at_desc ..."
@@ -2247,9 +2248,9 @@ at_xfail=no
 
 
 { set +x
-printf "%s\n" "$at_srcdir/testsuite.at:69: check_persistent_hash_map"
+printf "%s\n" "$at_srcdir/testsuite.at:69: check_persistent_integer_trie"
 at_fn_check_prepare_trace "testsuite.at:69"
-( $at_check_trace; check_persistent_hash_map
+( $at_check_trace; check_persistent_integer_trie
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2266,7 +2267,7 @@ read at_status <"$at_status_file"
 #AT_STOP_10
 #AT_START_11
 at_fn_group_banner 11 'testsuite.at:72' \
-  "indexed deque" "                                  "
+  "persistent hash map" "                            "
 at_xfail=no
 (
   printf "%s\n" "11. $at_setup_line: testing $at_desc ..."
@@ -2274,9 +2275,9 @@ at_xfail=no
 
 
 { set +x
-printf "%s\n" "$at_srcdir/testsuite.at:74: check_indexed_deque"
+printf "%s\n" "$at_srcdir/testsuite.at:74: check_persistent_hash_map"
 at_fn_check_prepare_trace "testsuite.at:74"
-( $at_check_trace; check_indexed_deque
+( $at_check_trace; check_persistent_hash_map
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2291,3 +2292,30 @@ $at_traceon; }
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
 #AT_STOP_11
+#AT_START_12
+at_fn_group_banner 12 'testsuite.at:77' \
+  "indexed deque" "                                  "
+at_xfail=no
+(
+  printf "%s\n" "12. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+{ set +x
+printf "%s\n" "$at_srcdir/testsuite.at:79: check_indexed_deque"
+at_fn_check_prepare_trace "testsuite.at:79"
+( $at_check_trace; check_indexed_deque
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/testsuite.at:79"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_12

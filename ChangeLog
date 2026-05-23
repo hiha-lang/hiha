@@ -1,5 +1,25 @@
 @  master
-|  2026-05-23 16:29 +0000
+|  2026-05-23 16:38 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:
+|  mercurial: 1630d9cef3e588f9a409684d30c6b677546f0e38
+|  revision:  182
+|  parents:   181
+|
+|    Deleted commented-out code.
+|
+|
+o  2026-05-23 16:36 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       60e72ef2a0e9d0fe10736103718d96ddb8a561f5
+|  mercurial: 370726ad78d9e782965102873a745c5f3ab6872a
+|  revision:  181
+|  parents:   180
+|
+|    Reordered the code to eliminate the need for a prototype.
+|
+|
+o  2026-05-23 16:29 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       637893c9e1ce32e889bef1366a33e00fbe5b39c4
 |  mercurial: de07868777003633f7daf058b05346111fa77d5e

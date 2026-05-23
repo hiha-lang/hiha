@@ -258,7 +258,6 @@ libhiha_la_SOURCES += src/libhiha/spinlock.c
 libhiha_la_SOURCES += src/libhiha/indexed_deque.c
 libhiha_la_SOURCES += src/libhiha/string_t.c
 libhiha_la_SOURCES += src/libhiha/string_t_hash.c
-libhiha_la_SOURCES += src/libhiha/string_t_omap.c
 libhiha_la_SOURCES += src/libhiha/string_t_vector.c
 libhiha_la_SOURCES += src/libhiha/token_t.c
 libhiha_la_SOURCES += src/libhiha/token_t_hash.c
@@ -271,7 +270,9 @@ libhiha_la_SOURCES += src/libhiha/string_literal.c
 libhiha_la_SOURCES += src/libhiha/gensym.c
 libhiha_la_SOURCES += src/libhiha/load_plugin.c
 nodist_libhiha_la_SOURCES += src/libhiha/string_t_map.c
+nodist_libhiha_la_SOURCES += src/libhiha/string_t_omap.c
 nodist_libhiha_la_SOURCES += src/libhiha/str_nul_map.c
+nodist_libhiha_la_SOURCES += src/libhiha/str_nul_omap.c
 
 BUILT_SOURCES += src/libhiha/string_t_map.c
 DISTCLEANFILES += src/libhiha/string_t_map.c
@@ -281,6 +282,16 @@ src/libhiha/string_t_map.c: src/libhiha/typed_map.c.in Makefile.am
            -e 's|@TYPENAME@|string_t|g' \
            -e 's|@TYPE@|string_t|g' \
            -e 's|@EQUALS@|do { return (string_t_cmp (key->key, stored->key) == 0); } while (0)|' \
+           $(<) > $(@).tmp && mv $(@){.tmp,}
+
+BUILT_SOURCES += src/libhiha/string_t_omap.c
+DISTCLEANFILES += src/libhiha/string_t_omap.c
+src/libhiha/string_t_omap.c: src/libhiha/typed_omap.c.in Makefile.am
+	$(call v,GEN)mkdir -p $(@D) && \
+	$(SED) -e 's|@INCLUDES@|#include <libhiha/string_t.h>|g' \
+           -e 's|@TYPENAME@|string_t|g' \
+           -e 's|@TYPE@|string_t|g' \
+           -e 's|@COMPARE@|do { return string_t_cmp (kv1->key, kv2->key); } while (0)|' \
            $(<) > $(@).tmp && mv $(@){.tmp,}
 
 BUILT_SOURCES += src/libhiha/str_nul_map.c
@@ -293,7 +304,18 @@ src/libhiha/str_nul_map.c: src/libhiha/typed_map.c.in Makefile.am
            -e 's|@EQUALS@|do { return str_nul_equal (key->key, stored->key); } while (0)|' \
            $(<) > $(@).tmp && mv $(@){.tmp,}
 
+BUILT_SOURCES += src/libhiha/str_nul_omap.c
+DISTCLEANFILES += src/libhiha/str_nul_omap.c
+src/libhiha/str_nul_omap.c: src/libhiha/typed_omap.c.in Makefile.am
+	$(call v,GEN)mkdir -p $(@D) && \
+	$(SED) -e 's|@INCLUDES@|#include <libhiha/str_nul.h>|g' \
+           -e 's|@TYPENAME@|str_nul|g' \
+           -e 's|@TYPE@|const char *|g' \
+           -e 's|@COMPARE@|do { return strcmp (kv1->key, kv2->key); } while (0)|' \
+           $(<) > $(@).tmp && mv $(@){.tmp,}
+
 EXTRA_DIST += src/libhiha/typed_map.c.in
+EXTRA_DIST += src/libhiha/typed_omap.c.in
 
 #---------------------------------------------------------------------
 

@@ -54,6 +54,11 @@ AT_KEYWORDS([str_nul_map str_nul map char string nul NUL])
 AT_CHECK_UNQUOTED([check_str_nul_map])
 AT_CLEANUP
 
+AT_SETUP([str_nul ordered map])
+AT_KEYWORDS([str_nul_omap str_nul map omap char string nul NUL])
+AT_CHECK_UNQUOTED([check_str_nul_omap])
+AT_CLEANUP
+
 AT_SETUP([persistent AVL tree])
 AT_KEYWORDS([persistent AVL avl tree])
 AT_CHECK_UNQUOTED([check_persistent_avl])

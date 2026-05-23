@@ -1,0 +1,283 @@
+/*
+
+  The hiha programming language
+
+  Copyright © 2026 Barry Schwartz
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+*/
+
+#include <config.h>
+#include <string.h>
+#include <xalloc.h>
+#include <libhiha/initialize_once.h>
+#include <libhiha/persistent_avl.h>
+@INCLUDES@
+
+#define _(msgid) HIHA_GETTEXT (msgid)
+
+HIHA_AVL_NODE_DECL (@TYPENAME@_omap_node, struct @TYPENAME@_keyval);
+HIHA_AVL_SEARCH_DEFN (@TYPENAME@_omap_node_search, @TYPENAME@_omap_node,
+                      struct @TYPENAME@_keyval);
+HIHA_AVL_INSERT_DEFN (@TYPENAME@_omap_node_insert, @TYPENAME@_omap_node,
+                      struct @TYPENAME@_keyval);
+HIHA_AVL_DELETE_DEFN (@TYPENAME@_omap_node_delete, @TYPENAME@_omap_node,
+                      struct @TYPENAME@_keyval);
+HIHA_AVL_INORDER_DEFN (@TYPENAME@_omap_node_inorder, @TYPENAME@_omap_node);
+
+struct @TYPENAME@_omap
+{
+  @TYPENAME@_omap_node_t _tree;
+  size_t _size;
+  int (*_compare) (@TYPENAME@_keyval_t, @TYPENAME@_keyval_t);
+};
+
+static int
+default_compare (@TYPENAME@_keyval_t kv1, @TYPENAME@_keyval_t kv2)
+{
+  @COMPARE@;
+}
+
+static initialize_once_t _default_empty_@TYPENAME@_omap_init1t =
+  INITIALIZE_ONCE_T_INIT;
+static @TYPENAME@_omap_t _default_empty_@TYPENAME@_omap;
+
+static void
+_initialize_default_empty_@TYPENAME@_omap (void)
+{
+  _default_empty_@TYPENAME@_omap =
+    @TYPENAME@_omap_init (&default_compare);
+}
+
+static @TYPENAME@_omap_t
+default_empty_omap (void)
+{
+  INITIALIZE_ONCE (_default_empty_@TYPENAME@_omap_init1t,
+                   _initialize_default_empty_@TYPENAME@_omap);
+  return _default_empty_@TYPENAME@_omap;
+}
+
+static inline @TYPENAME@_omap_t
+allocated_omap (@TYPENAME@_omap_t omap)
+{
+  return (omap != NULL) ? omap : default_empty_omap ();
+}
+
+HIHA_VISIBLE size_t
+@TYPENAME@_omap_size (@TYPENAME@_omap_t omap)
+{
+  return (omap != NULL) ? omap->_size : 0;
+}
+
+HIHA_VISIBLE const void *
+@TYPENAME@_omap_search (@TYPENAME@_omap_t omap, @TYPE@ key)
+{
+  const void *retval = NULL;
+  if (omap != NULL && omap->_size != 0)
+    {
+      struct @TYPENAME@_keyval kv = {
+        .key = key,
+        .value = NULL
+      };
+      @TYPENAME@_omap_node_t p =
+        @TYPENAME@_omap_node_search (omap->_tree, kv, omap->_compare);
+      if (p != NULL)
+        retval = p->data.value;
+    }
+  return retval;
+}
+
+HIHA_VISIBLE @TYPENAME@_omap_t
+@TYPENAME@_omap_init (int (*compare) (@TYPENAME@_keyval_t,
+                                      @TYPENAME@_keyval_t))
+{
+  struct @TYPENAME@_omap *result = XMALLOC (struct @TYPENAME@_omap);
+  result->_tree = NULL;
+  result->_size = 0;
+  result->_compare = compare;
+  return result;
+}
+
+HIHA_VISIBLE @TYPENAME@_omap_t
+@TYPENAME@_omap_insert_or_replace (@TYPENAME@_omap_t omap,
+                                   @TYPE@ key, const void *value)
+{
+  @TYPENAME@_omap_t om = allocated_omap (omap);
+  struct @TYPENAME@_keyval kv = {
+    .key = key,
+    .value = value
+  };
+  @TYPENAME@_omap_node_t p =
+    @TYPENAME@_omap_node_search (om->_tree, kv, om->_compare);
+  ssize_t size_change = (p == NULL) ? 1 : 0;
+  struct @TYPENAME@_omap *result = XMALLOC (struct @TYPENAME@_omap);
+  result->_tree =
+    @TYPENAME@_omap_node_insert (om->_tree, kv, om->_compare);
+  result->_size = om->_size + size_change;
+  result->_compare = om->_compare;
+  return result;
+}
+
+HIHA_VISIBLE @TYPENAME@_omap_t
+@TYPENAME@_omap_insert_only (@TYPENAME@_omap_t omap,
+                             @TYPE@ key, const void *value)
+{
+  @TYPENAME@_omap_t om = allocated_omap (omap);
+  struct @TYPENAME@_keyval kv = {
+    .key = key,
+    .value = value
+  };
+  @TYPENAME@_omap_node_t p =
+    @TYPENAME@_omap_node_search (om->_tree, kv, om->_compare);
+  @TYPENAME@_omap_t retval;
+  if (p != NULL)
+    retval = omap;
+  else
+    {
+      struct @TYPENAME@_omap *result = XMALLOC (struct @TYPENAME@_omap);
+      result->_tree =
+        @TYPENAME@_omap_node_insert (om->_tree, kv, om->_compare);
+      result->_size = om->_size + 1;
+      result->_compare = om->_compare;
+      retval = result;
+    }
+  return retval;
+}
+
+HIHA_VISIBLE @TYPENAME@_omap_t
+@TYPENAME@_omap_replace_only (@TYPENAME@_omap_t omap,
+                              @TYPE@ key, const void *value)
+{
+  @TYPENAME@_omap_t retval;
+  if (omap == NULL || omap->_size == 0)
+    retval = omap;
+  else
+    {
+      struct @TYPENAME@_keyval kv = {
+        .key = key,
+        .value = value
+      };
+      @TYPENAME@_omap_node_t p =
+        @TYPENAME@_omap_node_search (omap->_tree, kv, omap->_compare);
+      if (p == NULL)
+        retval = omap;
+      else
+        {
+          struct @TYPENAME@_omap *result = XMALLOC (struct @TYPENAME@_omap);
+          result->_tree =
+            @TYPENAME@_omap_node_insert (omap->_tree, kv, omap->_compare);
+          result->_size = omap->_size;
+          result->_compare = omap->_compare;
+          retval = result;
+        }
+    }
+  return retval;
+}
+
+HIHA_VISIBLE @TYPENAME@_omap_t
+@TYPENAME@_omap_delete (@TYPENAME@_omap_t omap, @TYPE@ key)
+{
+  @TYPENAME@_omap_t retval;
+  if (omap == NULL || omap->_size == 0)
+    retval = omap;
+  else
+    {
+      struct @TYPENAME@_keyval kv = {
+        .key = key,
+        .value = NULL
+      };
+      @TYPENAME@_omap_node_t p =
+        @TYPENAME@_omap_node_search (omap->_tree, kv, omap->_compare);
+      if (p == NULL)
+        retval = omap;
+      else if (omap->_size != 1)
+        {
+          struct @TYPENAME@_omap *result = XMALLOC (struct @TYPENAME@_omap);
+          result->_tree =
+            @TYPENAME@_omap_node_delete (omap->_tree, kv, omap->_compare);
+          result->_size = omap->_size - 1;
+          result->_compare = omap->_compare;
+          retval = result;
+        }
+      else if (omap->_compare == &default_compare)
+        retval = NULL;
+      else
+        retval = @TYPENAME@_omap_init (omap->_compare);
+    }
+  return retval;
+}
+
+static void
+list_another_key (@TYPENAME@_omap_node_t node, void *data)
+{
+  @TYPENAME@_vector_t vec = *((@TYPENAME@_vector_t *) data);
+  *((@TYPENAME@_vector_t *) data) =
+    @TYPENAME@_vector_push (vec, node->data.key);
+}
+
+static void
+list_another_value (@TYPENAME@_omap_node_t node, void *data)
+{
+  voidp_vector_t vec = *((voidp_vector_t *) data);
+  *((voidp_vector_t *) data) =
+    voidp_vector_push (vec, node->data.value);
+}
+
+static void
+list_another_association (@TYPENAME@_omap_node_t node, void *data)
+{
+  @TYPENAME@_keyval_vector_t vec = *((@TYPENAME@_keyval_vector_t *) data);
+  struct @TYPENAME@_keyval *kv = XMALLOC (struct @TYPENAME@_keyval);
+  *kv = node->data;
+  *((@TYPENAME@_keyval_vector_t *) data) =
+    @TYPENAME@_keyval_vector_push (vec, kv);
+}
+
+HIHA_VISIBLE @TYPENAME@_vector_t
+@TYPENAME@_omap_keys (@TYPENAME@_omap_t omap, int direction)
+{
+  @TYPENAME@_vector_t result = NULL;
+  if (omap != NULL)
+    @TYPENAME@_omap_node_inorder (omap->_tree, direction,
+                                  list_another_key, &result);
+  return result;
+}
+
+HIHA_VISIBLE voidp_vector_t
+@TYPENAME@_omap_values (@TYPENAME@_omap_t omap, int direction)
+{
+  voidp_vector_t result = NULL;
+  if (omap != NULL)
+    @TYPENAME@_omap_node_inorder (omap->_tree, direction,
+                                  list_another_value, &result);
+  return result;
+}
+
+HIHA_VISIBLE @TYPENAME@_keyval_vector_t
+@TYPENAME@_omap_associations (@TYPENAME@_omap_t omap, int direction)
+{
+  @TYPENAME@_keyval_vector_t result = NULL;
+  if (omap != NULL)
+    @TYPENAME@_omap_node_inorder (omap->_tree, direction,
+                                  list_another_association, &result);
+  return result;
+}
+
+/*
+  local variables:
+  mode: c
+  coding: utf-8
+  end:
+*/

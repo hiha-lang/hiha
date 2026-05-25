@@ -1,3 +1,5 @@
+# Modified for hiha and © 2026 Barry Schwartz
+
 # Copyright (c) 1999-2001 by Red Hat, Inc. All rights reserved.
 # Copyright (c) 2005-2009 Hewlett-Packard Development Company, L.P.
 # Copyright (c) 2009-2025 Ivan Maidanski
@@ -27,6 +29,14 @@ AC_CONFIG_HEADERS([include/config.h])
 AM_MAINTAINER_MODE
 
 AC_SUBST(PACKAGE)
+
+# AC_TRY_COMPILE has been dropped. So replace it with this.
+AC_DEFINE([HIHA_TRY_COMPILE],
+[AC_COMPILE_IFELSE(
+  [AC_LANG_PROGRAM([[includes]],
+    [[function-body]])],
+     [action-if-true],
+     [action-if-false])])
 
 AM_PROG_CC_C_O
 AC_PROG_CXX
@@ -391,13 +401,13 @@ if test "$GCC" = yes; then
   AC_MSG_CHECKING([whether compiler supports -Wextra])
   old_CFLAGS="$CFLAGS"
   CFLAGS="-Wextra $CFLAGS"
-  AC_TRY_COMPILE([],[], [ac_cv_cc_wextra=yes], [ac_cv_cc_wextra=no])
+  HIHA_TRY_COMPILE([],[], [ac_cv_cc_wextra=yes], [ac_cv_cc_wextra=no])
   CFLAGS="$old_CFLAGS"
   AC_MSG_RESULT($ac_cv_cc_wextra)
   AS_IF([test "$ac_cv_cc_wextra" = yes], [WEXTRA="-Wextra"], [WEXTRA="-W"])
   AC_MSG_CHECKING([whether compiler supports -Wpedantic])
   CFLAGS="-Wpedantic -Wno-long-long $CFLAGS"
-  AC_TRY_COMPILE([],[
+  HIHA_TRY_COMPILE([],[
     extern int quiet;
   ], [ac_cv_cc_pedantic=yes], [ac_cv_cc_pedantic=no])
   CFLAGS="$old_CFLAGS"
@@ -410,7 +420,7 @@ if test "$GCC" = yes; then
 fi
 
 AC_MSG_CHECKING(for xlc)
-AC_TRY_COMPILE([],[
+HIHA_TRY_COMPILE([],[
  #ifndef __xlC__
  # error
  #endif
@@ -442,7 +452,7 @@ if test "$GCC" = yes; then
   if test "$ac_cv_fno_strict_aliasing" != skipped; then
     old_CFLAGS="$CFLAGS"
     CFLAGS="$CFLAGS -fno-strict-aliasing"
-    AC_TRY_COMPILE([],[], [ac_cv_fno_strict_aliasing=yes], [])
+    HIHA_TRY_COMPILE([],[], [ac_cv_fno_strict_aliasing=yes], [])
     CFLAGS="$old_CFLAGS"
     AS_IF([test "$ac_cv_fno_strict_aliasing" = yes],
           [CFLAGS="$CFLAGS -fno-strict-aliasing"], [])
@@ -565,7 +575,7 @@ if test "${enable_shared}" != no -a "${enable_static}" != yes; then
       AC_MSG_CHECKING([whether compiler supports -fvisibility])
       old_CFLAGS="$CFLAGS"
       CFLAGS="-Werror -fvisibility=hidden $CFLAGS"
-      AC_TRY_COMPILE([],[], [ac_cv_fvisibility_hidden=yes],
+      HIHA_TRY_COMPILE([],[], [ac_cv_fvisibility_hidden=yes],
                      [ac_cv_fvisibility_hidden=no])
       CFLAGS="$old_CFLAGS"
       AS_IF([test "$ac_cv_fvisibility_hidden" = yes],
@@ -787,7 +797,7 @@ AC_MSG_CHECKING([whether -Wno-frame-address works])
 use_wno_error_frame_address=no
 old_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -Werror -Wno-frame-address $CFLAGS_EXTRA"
-AC_TRY_COMPILE([], [{
+HIHA_TRY_COMPILE([], [{
     if (!__builtin_return_address(1)) return 1;
 }], [ use_wno_error_frame_address=yes ])
 CFLAGS="$old_CFLAGS"
@@ -801,7 +811,7 @@ AC_MSG_CHECKING(for dladdr)
 have_dladdr=no
 old_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS $CFLAGS_EXTRA"
-AC_TRY_COMPILE([
+HIHA_TRY_COMPILE([
 #define _GNU_SOURCE 1
 #include <dlfcn.h>], [{
     Dl_info info;
@@ -829,14 +839,14 @@ AS_IF([test "$THREADS" = posix],
   [AC_MSG_CHECKING(for pthread_setname_np)
    old_CFLAGS="$CFLAGS"
    CFLAGS="$CFLAGS $CFLAGS_EXTRA -Werror"
-   AC_TRY_COMPILE([
+   HIHA_TRY_COMPILE([
 #         define _GNU_SOURCE 1
 #         include <pthread.h>
         ], [pthread_setname_np("thread-name")],
      [AC_MSG_RESULT([yes (w/o tid)])
       AC_DEFINE([HAVE_PTHREAD_SETNAME_NP_WITHOUT_TID], [1],
                 [Define to use 'pthread_setname_np(const char*)' function.])],
-     [AC_TRY_COMPILE([
+     [HIHA_TRY_COMPILE([
 #         define _GNU_SOURCE 1
 #         include <pthread.h>
         ], [pthread_setname_np(pthread_self(), "thread-name-%u", 0)],
@@ -844,7 +854,7 @@ AS_IF([test "$THREADS" = posix],
         AC_DEFINE([HAVE_PTHREAD_SETNAME_NP_WITH_TID_AND_ARG], [1],
          [Define to use 'pthread_setname_np(pthread_t, const char*, void *)'
           function.])],
-       [AC_TRY_COMPILE([
+       [HIHA_TRY_COMPILE([
 #             define _GNU_SOURCE 1
 #             include <pthread.h>
             ], [pthread_setname_np(pthread_self(), "thread-name")],

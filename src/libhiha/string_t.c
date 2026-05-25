@@ -194,6 +194,12 @@ string_t_from_str_len (const char *src, size_t srclen,
                                           src, srclen, NULL,
                                           NULL, &n);
   int err_number = errno;
+
+  /* An empty string requires no storage, but we want storage
+     anyway. Allocate an array of length one. */
+  if (u32 == NULL && err_number == 0)
+    u32 = XCALLOC (1, uint32_t);
+
   if (u32 == NULL)
     {
       char *locstr = text_location_string (loc);

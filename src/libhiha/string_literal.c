@@ -213,6 +213,32 @@ scan_the_hex (token_t tok, string_t_vector_t v, uint32_t *code_point,
 }
 
 static void
+hex_ending_semicolon (buffered_token_getter_t getter,
+                      string_t_vector_t v, string_t *tokval,
+                      uint32_t *code_point, const char **error_message)
+{
+  token_t t;
+  look_at_token (getter, 0, &t, error_message);
+  if (*error_message == NULL)
+    {
+      if (token_is_char (t, ';'))
+        {
+          getter->get_token (getter, &t, error_message);
+          if (*error_message == NULL)
+            {
+              *tokval = concat_string_t (*tokval, t->token_value, NULL);
+              if (string_t_vector_length (v) == 0)
+                *error_message = empty_hex_escape (t->loc);
+              else
+                scan_the_hex (t, v, code_point, error_message);
+            }
+        }
+      else
+        hex_ends_badly (t, error_message);
+    }
+}
+
+static void
 hex_until_semicolon (buffered_token_getter_t getter, string_t *tokval,
                      uint32_t *code_point, const char **error_message)
 {
@@ -234,17 +260,8 @@ hex_until_semicolon (buffered_token_getter_t getter, string_t *tokval,
             }
         }
       if (*error_message == NULL)
-        {
-          if (token_is_char (t, ';'))
-            {
-              if (string_t_vector_length (v) == 0)
-                *error_message = empty_hex_escape (t->loc);
-              else
-                scan_the_hex (t, v, code_point, error_message);
-            }
-          else
-            hex_ends_badly (t, error_message);
-        }
+        hex_ending_semicolon (getter, v, tokval, code_point,
+                              error_message);
     }
 }
 
@@ -468,6 +485,7 @@ scan_string_literal (buffered_token_getter_t getter, token_t *tok,
         {
           tokval = concat_string_t (tokval, subtokval, NULL);
           *tok = make_token_t (make_string_t ("STR"), tokval, t->loc);
+          *string = concat_string_t (*string, substring, NULL);
         }
     }
 }
@@ -500,6 +518,7 @@ HIHA_VISIBLE void
 dequote_string_literal (string_t literal, string_t *result,
                         const char **error_message)
 {
+  *result = empty_string_t ();
   *error_message = NULL;
   check_quoting (literal, error_message);
   if (*error_message == NULL)

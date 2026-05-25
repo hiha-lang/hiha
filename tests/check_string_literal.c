@@ -53,6 +53,14 @@ main (void)
   assert (string_t_cmp (str, make_string_t ("eĥoŝanĝo ĉiuĵaŭde"))
           == 0);
 
+  /* A string of sparkles. */
+  dequote_string_literal (make_string_t
+                          ("\"\\x2728;\\x2728;\\x2728;\""),
+                          &str, &error_message);
+  assert (error_message == NULL);
+  //printf ("%s\n", make_str_nul (str));
+  assert (string_t_cmp (str, make_string_t ("✨✨✨")) == 0);
+
   return EXIT_SUCCESS;
 }
 

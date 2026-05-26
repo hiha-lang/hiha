@@ -40,6 +40,7 @@ static string_t _string_t_space;
 static string_t _string_t_tab;
 static string_t _string_t_newline;
 static string_t _string_t_formfeed;
+static string_t _string_t_zerowidth;
 
 static void
 _initialize_string_constants (void)
@@ -51,6 +52,7 @@ _initialize_string_constants (void)
   _string_t_tab = make_string_t ("\t");
   _string_t_newline = make_string_t ("\n");
   _string_t_formfeed = make_string_t ("\014");
+  _string_t_zerowidth = make_string_t ("\342\200\213");
 }
 
 HIHA_VISIBLE HIHA_PURE string_t
@@ -107,6 +109,14 @@ string_t_formfeed (void)
   INITIALIZE_ONCE (_string_constants_init1t,
                    _initialize_string_constants);
   return _string_t_formfeed;
+}
+
+HIHA_VISIBLE HIHA_PURE string_t
+string_t_zerowidth (void)
+{
+  INITIALIZE_ONCE (_string_constants_init1t,
+                   _initialize_string_constants);
+  return _string_t_zerowidth;
 }
 
 HIHA_VISIBLE int

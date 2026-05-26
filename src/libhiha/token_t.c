@@ -629,6 +629,10 @@ struct _buffered_token_getter
                      token_t *tok, const char **error_message);
   void (*look_at_token) (buffered_token_getter_t this_struct, size_t,
                          token_t *tok, const char **error_message);
+  void (*push_back_token) (buffered_token_getter_t this_struct,
+                           token_t tok);
+  void (*push_back_string) (buffered_token_getter_t this_struct,
+                            string_t str, text_location_t loc);
   token_getter_t getter;
   indexed_deque_t buffer;
 };
@@ -670,6 +674,31 @@ look_at_buffered_token (buffered_token_getter_t getter, size_t i,
     *tok = (token_t) indexed_deque_get (g->buffer, i);
 }
 
+static void
+push_back_token_into_buffered_getter (buffered_token_getter_t getter,
+                                      token_t tok)
+{
+  _buffered_token_getter_t g = (_buffered_token_getter_t) getter;
+  g->buffer = indexed_deque_put_before_first (g->buffer, tok);
+}
+
+static void
+push_back_string_into_buffered_getter (buffered_token_getter_t getter,
+                                       string_t str,
+                                       text_location_t loc)
+{
+  _buffered_token_getter_t g = (_buffered_token_getter_t) getter;
+  for (size_t i = 0; i != str->n; i += 1)
+    {
+      struct string *cstr = XMALLOC (struct string);
+      cstr->n = 1;
+      cstr->s = XNMALLOC (1, uint32_t);
+      cstr->s[0] = str->s[str->n - 1 - i];
+      token_t tok = make_token_t (string_t_CP (), cstr, loc);
+      push_back_token_into_buffered_getter (getter, tok);
+    }
+}
+
 HIHA_VISIBLE buffered_token_getter_t
 make_buffered_token_getter_t (token_getter_t unbuffered_getter)
 {
@@ -678,6 +707,8 @@ make_buffered_token_getter_t (token_getter_t unbuffered_getter)
   g->buffer = NULL;
   g->get_token = &get_token_from_buffered_getter;
   g->look_at_token = &look_at_buffered_token;
+  g->push_back_token = &push_back_token_into_buffered_getter;
+  g->push_back_string = &push_back_string_into_buffered_getter;
   return (buffered_token_getter_t) g;
 }
 
@@ -846,6 +877,10 @@ struct _getter_with_mismatch_check
                      token_t *tok, const char **error_message);
   void (*look_at_token) (buffered_token_getter_t this_struct, size_t,
                          token_t *tok, const char **error_message);
+  void (*push_back_token) (buffered_token_getter_t this_struct,
+                           token_t tok);
+  void (*push_back_string) (buffered_token_getter_t this_struct,
+                            string_t str, text_location_t loc);
 
   buffered_token_getter_t getter;
   indexed_deque_t queue;
@@ -873,6 +908,25 @@ peek_for_mismatch_check (buffered_token_getter_t this_struct,
   _getter_with_mismatch_check_t g =
     (_getter_with_mismatch_check_t) this_struct;
   g->getter->look_at_token (g->getter, i, tok, error_message);
+}
+
+static void
+push_back_token_for_mismatch_check (buffered_token_getter_t this_struct,
+                                    token_t tok)
+{
+  _getter_with_mismatch_check_t g =
+    (_getter_with_mismatch_check_t) this_struct;
+  g->getter->push_back_token (g->getter, tok);
+}
+
+static void
+push_back_string_for_mismatch_check (buffered_token_getter_t
+                                     this_struct, string_t str,
+                                     text_location_t loc)
+{
+  _getter_with_mismatch_check_t g =
+    (_getter_with_mismatch_check_t) this_struct;
+  g->getter->push_back_string (g->getter, str, loc);
 }
 
 static bool
@@ -911,6 +965,8 @@ MAKE_TOKEN_GETTER__ (buffered_token_getter_t input_getter,
 
   p->get_token = &get_for_mismatch_check;
   p->look_at_token = &peek_for_mismatch_check;
+  p->push_back_token = &push_back_token_for_mismatch_check;
+  p->push_back_string = &push_back_string_for_mismatch_check;
 
   *output_getter = (buffered_token_getter_t) p;
   *check_for_mismatch = &mismatch_check;

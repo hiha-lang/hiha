@@ -1,5 +1,15 @@
 @  string-literals-work
-|  2026-05-26 14:40 +0000
+|  2026-05-26 15:00 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       dd7df44a896e9776fa7c4a27a72228442c49f553
+|  mercurial: 837ff32449eaa0f0b47e330681b4611a8893a896
+|  revision:  194
+|  parents:   193
+|
+|    Some tests for bad quoting.
+|
+|
+o  2026-05-26 14:40 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       7fe1f47c41be6d2702a25629870dfdd6b8917366
 |  mercurial: 3ccddaa37e8fe2e700ac4bf02be540d3c47cfe0c

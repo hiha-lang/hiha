@@ -61,6 +61,7 @@ HIHA_PURE string_t string_t_space (void);       //  " "
 HIHA_PURE string_t string_t_tab (void); //////////  "\t"
 HIHA_PURE string_t string_t_newline (void);     //  "\n"
 HIHA_PURE string_t string_t_formfeed (void);    //  "\014"
+HIHA_PURE string_t string_t_zerowidth (void);   //  "\342\200\213"
 
 int string_t_cmp (string_t str1, string_t str2);
 

@@ -39,26 +39,38 @@
     }                                           \
   while (0)
 
-static const char *
-multiple_code_points (text_location_t loc)
-{
-  char buf[1000];
-  snprintf (buf, 1000,
-            _
-            ("%s: lexer problem: multiple code-point token in string literal"),
-            text_location_string (loc));
-  return xstrdup (buf);
-}
-
 static void
 look_at_token (buffered_token_getter_t getter, size_t i,
                token_t *tok, const char **error_message)
 {
   getter->look_at_token (getter, i, tok, error_message);
   if (*error_message == NULL)
-    if (string_t_cmp ((*tok)->token_kind, string_t_EOF ()) != 0
-        && (*tok)->token_value->n != 1)
-      *error_message = multiple_code_points ((*tok)->loc);
+    if (string_t_cmp ((*tok)->token_kind, string_t_EOF ()) != 0)
+      switch ((*tok)->token_value->n)
+        {
+        case 0:
+          {
+            // In place of an empty value, push back U+200B ZERO WIDTH
+            // SPACE.
+            token_t t;
+            getter->get_token (getter, &t, error_message);
+            if (*error_message == NULL)
+              getter->push_back_string (getter, string_t_zerowidth (),
+                                        t->loc);
+          }
+          break;
+        case 1:
+          // Do nothing.
+          break;
+        default:
+          {
+            token_t t;
+            getter->get_token (getter, &t, error_message);
+            if (*error_message == NULL)
+              getter->push_back_string (getter, t->token_value, t->loc);
+          }
+          break;
+        }
 }
 
 static const char *

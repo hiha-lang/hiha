@@ -1,5 +1,86 @@
-@  master string-literals-work
-|  2026-05-24 14:55 +0000
+@  string-literals-work
+|  2026-05-26 14:40 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       7fe1f47c41be6d2702a25629870dfdd6b8917366
+|  mercurial: 3ccddaa37e8fe2e700ac4bf02be540d3c47cfe0c
+|  revision:  193
+|  parents:   192
+|
+|    Fixes for the backslash-newline code.
+|
+|
+o  2026-05-25 21:50 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       47e626fa707e04a85a937c091452c093e6c50b6b
+|  mercurial: ffb24d4261b37639895280f076b96ca9742d06a1
+|  revision:  192
+|  parents:   191
+|
+|    A bug fix in hex escapes.
+|
+|
+o  2026-05-25 21:09 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       768b2be3716bfa6f714d2143f3c3d6bb6048b03c
+|  mercurial: 573a531d4919715b635e71df7d67204e1dfca5bd
+|  revision:  191
+|  parents:   187
+|
+|    Getting tokens from strings. Using that to unquote strings.
+|
+|
+| o  master
+| |  2026-05-25 18:50 +0000
+| |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+| |  git:       61df98fd94e3b4b673c6dabf226bae2b94e0e317
+| |  mercurial: 994ba17e746906d06d21ad181afff17a5cc608d3
+| |  revision:  190
+| |  parents:   189
+| |
+| |    Autoupdate the garbage collector autotooling.
+| |
+| |
+| o  2026-05-25 18:37 +0000
+| |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+| |  git:       0c2f313e15bf0b739866f113cbbfc11315b50ff6
+| |  mercurial: 5dbdb0ad8b2fc0493dcf940f47fddbdcc9d0d2ef
+| |  revision:  189
+| |  parents:   188
+| |
+| |    Allocate storage even for an empty string.
+| |
+| |
+| o  2026-05-25 18:36 +0000
+| |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+| |  git:       e2923d977f50f8cb8d14d9a888864430114e8d49
+| |  mercurial: 50f15e4d6e89006f5643dfa38afa18658f1e8414
+| |  revision:  188
+| |  parents:   185
+| |
+| |    Replace AC_TRY_COMPILE.
+| |
+| |
+o |  2026-05-25 18:15 +0000
+| |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+| |  git:       3f39213c7d196c6ba2a768bf27587bd262d77af1
+| |  mercurial: fddf973990b1ff8863876f8fdb204f39a309d4bc
+| |  revision:  187
+| |  parents:   186
+| |
+| |    Allocate storage even for an empty string.
+| |
+| |
+o |  2026-05-24 22:08 +0000
+|/   Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|    git:       5c85a0ba3e76f8974a21c1f72be8dab6b312a554
+|    mercurial: a18eafb88cdb67bbcf6e7e4302b04569cac35da4
+|    revision:  186
+|    parents:   185
+|
+|      Some string literals code. Not entirely satisfactory.
+|
+|
+o  2026-05-24 14:55 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       ffb518a047ed3aa32f3229fe2481e1ebabdde38c
 |  mercurial: b802f66a14f3f82279e874bfa8f2ddfe9f318c80

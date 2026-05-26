@@ -110,6 +110,26 @@ main (void)
            ("\"interr\\ \302\240\t\n  \t \302\240 uption\"")) == 0);
   assert (string_t_cmp (str, make_string_t ("interruption")) == 0);
 
+  /* Some badly quoted strings. */
+  dequote_string_literal (empty_string_t (), &tok, &str,
+                          &error_message);
+  assert (error_message != NULL);
+  dequote_string_literal (make_string_t ("abc"), &tok, &str,
+                          &error_message);
+  assert (error_message != NULL);
+  dequote_string_literal (make_string_t ("\"abc"), &tok, &str,
+                          &error_message);
+  assert (error_message != NULL);
+  dequote_string_literal (make_string_t ("abc\""), &tok, &str,
+                          &error_message);
+  assert (error_message != NULL);
+  dequote_string_literal (make_string_t ("\"ab\"c\""), &tok, &str,
+                          &error_message);
+  assert (error_message != NULL);
+  dequote_string_literal (make_string_t ("\"ab\"c"), &tok, &str,
+                          &error_message);
+  assert (error_message != NULL);
+
   return EXIT_SUCCESS;
 }
 

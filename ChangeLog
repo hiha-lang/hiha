@@ -1,5 +1,16 @@
 @  master
-|  2026-05-27 12:58 +0000
+|  2026-05-27 14:52 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       81789c0092c63d31cea3c04e6191764e7625ee07
+|  mercurial: a35c993949e65079dbf98cf190aedd95e1b97864
+|  revision:  203
+|  parents:   202
+|
+|    Added a plugin for symbol tokens. Used this scanning phase to
+|    simplify and improve F10 scanning.
+|
+|
+o  2026-05-27 12:58 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       3b6a741641c28f23ff185f430688a3b72472337c
 |  mercurial: 90afae087877c58b2441eb82ce73b803b0b290f1

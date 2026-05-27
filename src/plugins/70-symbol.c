@@ -29,17 +29,32 @@
 #define _(msgid) HIHA_GETTEXT (msgid)
 
 static bool
-is_symbol_part (token_t tok)
+is_idiomatic_symbol_part (token_t tok)
 {
-  /* Any symbol with the mathematics property, or the hyphen (which
-     often is used as an ugly minus sign, and which hiha is not using
-     as a hyphen). */
   return
     (tok->token_value->n == 1
-     && ((uc_is_property (tok->token_value->s[0], UC_PROPERTY_MATH)
-          && uc_is_general_category (tok->token_value->s[0],
-                                     UC_CATEGORY_S))
-         || tok->token_value->s[0] == '-'));
+     && (tok->token_value->s[0] == '-'
+         || tok->token_value->s[0] == '*'
+         || tok->token_value->s[0] == '/'
+         || tok->token_value->s[0] == '.'
+         || tok->token_value->s[0] == ':'
+         || tok->token_value->s[0] == '|'));
+}
+
+static bool
+is_mathematical_symbol_part (token_t tok)
+{
+  return
+    (tok->token_value->n == 1
+     && uc_is_property (tok->token_value->s[0], UC_PROPERTY_MATH)
+     && uc_is_general_category (tok->token_value->s[0], UC_CATEGORY_S));
+}
+
+static bool
+is_symbol_part (token_t tok)
+{
+  return (is_idiomatic_symbol_part (tok)
+          || is_mathematical_symbol_part (tok));
 }
 
 static void

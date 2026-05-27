@@ -20,10 +20,7 @@
 */
 
 #include <config.h>
-#include <error.h>
-#include <exitfail.h>
 #include <unictype.h>
-#include <xalloc.h>
 #include <libhiha/libhiha.h>
 
 #define _(msgid) HIHA_GETTEXT (msgid)

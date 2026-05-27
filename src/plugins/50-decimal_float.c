@@ -28,11 +28,6 @@
 */
 
 #include <config.h>
-#include <string.h>
-#include <xalloc.h>
-#include <error.h>
-#include <exitfail.h>
-#include <libhiha/initialize_once.h>
 #include <libhiha/libhiha.h>
 
 #define _(msgid) HIHA_GETTEXT (msgid)
@@ -49,41 +44,39 @@ token_is_i10 (token_t tok)
   return (string_t_cmp (tok->token_kind, make_string_t ("I10")) == 0);
 }
 
-static initialize_once_t _exp_starts_init1t = INITIALIZE_ONCE_T_INIT;
-static string_t _exp_start_01;
-static string_t _exp_start_02;
-static string_t _exp_start_03;
-static string_t _exp_start_04;
-static string_t _exp_start_05;
-static string_t _exp_start_06;
-static string_t _exp_start_07;
-static string_t _exp_start_08;
+static string_t exp_start_01;
+static string_t exp_start_02;
+static string_t exp_start_03;
+static string_t exp_start_04;
+static string_t exp_start_05;
+static string_t exp_start_06;
+static string_t exp_start_07;
+static string_t exp_start_08;
 
 static void
-_initialize_exp_starts (void)
+initialize_exp_starts (void)
 {
-  _exp_start_01 = make_string_t ("^+");
-  _exp_start_02 = make_string_t ("^-");
-  _exp_start_03 = make_string_t ("^−");
-  _exp_start_04 = make_string_t ("↑+");
-  _exp_start_05 = make_string_t ("↑-");
-  _exp_start_06 = make_string_t ("↑−");
-  _exp_start_07 = make_string_t ("^");
-  _exp_start_08 = make_string_t ("↑");
+  exp_start_01 = make_string_t ("^+");
+  exp_start_02 = make_string_t ("^-");
+  exp_start_03 = make_string_t ("^−");
+  exp_start_04 = make_string_t ("↑+");
+  exp_start_05 = make_string_t ("↑-");
+  exp_start_06 = make_string_t ("↑−");
+  exp_start_07 = make_string_t ("^");
+  exp_start_08 = make_string_t ("↑");
 }
 
 static bool
 token_is_exponent_start (token_t tok)
 {
-  INITIALIZE_ONCE (_exp_starts_init1t, _initialize_exp_starts);
-  return (string_t_cmp (tok->token_value, _exp_start_01) == 0
-          || string_t_cmp (tok->token_value, _exp_start_02) == 0
-          || string_t_cmp (tok->token_value, _exp_start_03) == 0
-          || string_t_cmp (tok->token_value, _exp_start_04) == 0
-          || string_t_cmp (tok->token_value, _exp_start_05) == 0
-          || string_t_cmp (tok->token_value, _exp_start_06) == 0
-          || string_t_cmp (tok->token_value, _exp_start_07) == 0
-          || string_t_cmp (tok->token_value, _exp_start_08) == 0);
+  return (string_t_cmp (tok->token_value, exp_start_01) == 0
+          || string_t_cmp (tok->token_value, exp_start_02) == 0
+          || string_t_cmp (tok->token_value, exp_start_03) == 0
+          || string_t_cmp (tok->token_value, exp_start_04) == 0
+          || string_t_cmp (tok->token_value, exp_start_05) == 0
+          || string_t_cmp (tok->token_value, exp_start_06) == 0
+          || string_t_cmp (tok->token_value, exp_start_07) == 0
+          || string_t_cmp (tok->token_value, exp_start_08) == 0);
 }
 
 static void
@@ -259,6 +252,7 @@ i_i10_handler (void *state, buffered_token_getter_t getter,
 HIHA_VISIBLE void
 plugin_init (void)
 {
+  initialize_exp_starts ();
   pratt_tables_t tables = lexical_pratt_tables ();
   next_i10_handler = pratt_nud_get (tables, make_string_t ("I10"));
   pratt_nud_put (tables, make_string_t ("I10"), &i10_handler);

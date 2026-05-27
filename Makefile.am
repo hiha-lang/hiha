@@ -98,6 +98,7 @@ include 0.1000-f10.am
 include 0.1000-i.i10.am
 include 0.1000-r10.am
 include 0.1000-sy.am
+include 0.1000-kw.am
 include 10-string.am
 include 20-white_space.am
 include 30-decimal_integer.am
@@ -105,6 +106,7 @@ include 40-identifier.am
 include 50-decimal_float.am
 include 60-decimal_fraction.am
 include 70-symbol.am
+include 80-keyword.am
 
 BUILT_SOURCES += $(GCVERS)/libhiha-gc.la
 

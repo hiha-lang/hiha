@@ -32,6 +32,7 @@
 #include <xalloc.h>
 #include <error.h>
 #include <exitfail.h>
+#include <libhiha/initialize_once.h>
 #include <libhiha/libhiha.h>
 
 #define _(msgid) HIHA_GETTEXT (msgid)
@@ -48,42 +49,62 @@ token_is_i10 (token_t tok)
   return (string_t_cmp (tok->token_kind, make_string_t ("I10")) == 0);
 }
 
-static bool
-token_is_exponent_start (token_t tok)
+static initialize_once_t _exp_starts_init1t = INITIALIZE_ONCE_T_INIT;
+static string_t _exp_start_01;
+static string_t _exp_start_02;
+static string_t _exp_start_03;
+static string_t _exp_start_04;
+static string_t _exp_start_05;
+static string_t _exp_start_06;
+static string_t _exp_start_07;
+static string_t _exp_start_08;
+
+static void
+_initialize_exp_starts (void)
 {
-  return (string_t_cmp (tok->token_value, make_string_t ("^")) == 0
-          || string_t_cmp (tok->token_value,
-                           make_string_t ("↑")) == 0);
+  _exp_start_01 = make_string_t ("^+");
+  _exp_start_02 = make_string_t ("^-");
+  _exp_start_03 = make_string_t ("^−");
+  _exp_start_04 = make_string_t ("↑+");
+  _exp_start_05 = make_string_t ("↑-");
+  _exp_start_06 = make_string_t ("↑−");
+  _exp_start_07 = make_string_t ("^");
+  _exp_start_08 = make_string_t ("↑");
 }
 
 static bool
-token_is_sign (token_t tok)
+token_is_exponent_start (token_t tok)
 {
-  return (string_t_cmp (tok->token_value, make_string_t ("+")) == 0
-          || string_t_cmp (tok->token_value, make_string_t ("-")) == 0
-          || string_t_cmp (tok->token_value,
-                           make_string_t ("−")) == 0);
+  INITIALIZE_ONCE (_exp_starts_init1t, _initialize_exp_starts);
+  return (string_t_cmp (tok->token_value, _exp_start_01) == 0
+          || string_t_cmp (tok->token_value, _exp_start_02) == 0
+          || string_t_cmp (tok->token_value, _exp_start_03) == 0
+          || string_t_cmp (tok->token_value, _exp_start_04) == 0
+          || string_t_cmp (tok->token_value, _exp_start_05) == 0
+          || string_t_cmp (tok->token_value, _exp_start_06) == 0
+          || string_t_cmp (tok->token_value, _exp_start_07) == 0
+          || string_t_cmp (tok->token_value, _exp_start_08) == 0);
 }
 
 static void
 scan_exponent (buffered_token_getter_t getter, bool *is_a_match,
-               token_t *tok_expstart, token_t *tok_sign,
-               token_t *tok_exponent, const char **error_message)
+               token_t *tok_expstart, token_t *tok_exponent,
+               const char **error_message)
 {
   /*
 
-     Exponents start with ^+ ^- or ^− (MINUS_SIGN U+2212) or the same
-     with the UPWARDS ARROW “↑” U+2191, and not with a lowercase e or
-     any identifier. This is because the lowercase e is often used to
-     represent a unit vector, and we want to use things like 123.45e10
-     + 234.56f5 as vector expressions. This is how we plan to handle,
-     for instance, complex number literals, using I as a unit bivector
-     and complex numbers as multivectors (syntactically, even if not
-     in any “rigorous” sense). Literals of quaternions, Grassmann
-     multivectors, and ordinary Gibbs-Heaviside vectors (and of
-     Hilbert state space points that are obfuscated representations of
-     probability theory propositions, but which physicists mistake for
-     logically impossible states of matter), could be handled
+     Exponents start with ^ ^+ ^- or ^− (MINUS_SIGN U+2212) or the
+     same with the UPWARDS ARROW “↑” U+2191, and not with a lowercase
+     e or any identifier. This is because the lowercase e is often
+     used to represent a unit vector, and we want to use things like
+     123.45e10 + 234.56f5 as vector expressions. This is how we plan
+     to handle, for instance, complex number literals, using I as a
+     unit bivector and complex numbers as multivectors (syntactically,
+     even if not in any “rigorous” sense). Literals of quaternions,
+     Grassmann multivectors, and ordinary Gibbs-Heaviside vectors (and
+     of Hilbert state space points that are obfuscated representations
+     of probability theory propositions, but which physicists mistake
+     for logically impossible states of matter), could be handled
      similarly.
 
      Because hiha is an “orthogonal” language, more will be gained
@@ -148,28 +169,19 @@ scan_exponent (buffered_token_getter_t getter, bool *is_a_match,
 
   *is_a_match = false;
   *tok_expstart = NULL;
-  *tok_sign = NULL;
 
   getter->look_at_token (getter, 0, tok_expstart, error_message);
   if (*error_message == NULL && token_is_exponent_start (*tok_expstart))
     {
-      getter->look_at_token (getter, 1, tok_sign, error_message);
-      if (*error_message == NULL && token_is_sign (*tok_sign))
+      getter->look_at_token (getter, 1, tok_exponent, error_message);
+      if (*error_message == NULL && token_is_i10 (*tok_exponent))
         {
-          getter->look_at_token (getter, 2, tok_exponent,
-                                 error_message);
-          if (*error_message == NULL && token_is_i10 (*tok_exponent))
-            {
-              (void) getter->get_token (getter, tok_exponent,
-                                        error_message);
-              if (*error_message == NULL)
-                (void) getter->get_token (getter, tok_exponent,
-                                          error_message);
-              if (*error_message == NULL)
-                (void) getter->get_token (getter, tok_exponent,
-                                          error_message);
-              *is_a_match = (*error_message == NULL);
-            }
+          (void) getter->get_token (getter, tok_exponent,
+                                    error_message);
+          if (*error_message == NULL)
+            (void) getter->get_token (getter, tok_exponent,
+                                      error_message);
+          *is_a_match = (*error_message == NULL);
         }
     }
 }
@@ -224,16 +236,14 @@ i_i10_handler (void *state, buffered_token_getter_t getter,
     {
       bool is_a_match;
       token_t tok_expstart;
-      token_t tok_sign;
       token_t tok_exponent;
-      scan_exponent (getter, &is_a_match, &tok_expstart, &tok_sign,
-                     &tok_exponent, error_message);
+      scan_exponent (getter, &is_a_match, &tok_expstart, &tok_exponent,
+                     error_message);
       done = (*error_message != NULL);
       if (!done && is_a_match)
         {
           string_t str = concat_string_t (tok->token_value,
                                           tok_expstart->token_value,
-                                          tok_sign->token_value,
                                           tok_exponent->token_value,
                                           NULL);
           *lhs =

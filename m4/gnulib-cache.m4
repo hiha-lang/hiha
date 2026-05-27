@@ -57,12 +57,13 @@
 #  uniconv/u32-conv-from-enc \
 #  uniconv/u32-conv-to-enc \
 #  unictype/category-Pc \
-#  unictype/category-Sm \
+#  unictype/category-S \
 #  unictype/category-Zs \
 #  unictype/category-test \
 #  unictype/property-ascii-hex-digit \
 #  unictype/property-id-continue \
 #  unictype/property-id-start \
+#  unictype/property-math \
 #  unictype/property-test \
 #  unictype/property-white-space \
 #  uninorm/nfc \
@@ -95,12 +96,13 @@ gl_MODULES([
   uniconv/u32-conv-from-enc
   uniconv/u32-conv-to-enc
   unictype/category-Pc
-  unictype/category-Sm
+  unictype/category-S
   unictype/category-Zs
   unictype/category-test
   unictype/property-ascii-hex-digit
   unictype/property-id-continue
   unictype/property-id-start
+  unictype/property-math
   unictype/property-test
   unictype/property-white-space
   uninorm/nfc

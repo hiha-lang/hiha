@@ -1,0 +1,23 @@
+pkg_plugins_lib_LTLIBRARIES += 70-symbol.la
+
+70_symbol_la_LIBADD =
+70_symbol_la_LDFLAGS =
+70_symbol_la_CFLAGS =
+EXTRA_70_symbol_la_DEPENDENCIES =
+70_symbol_la_SOURCES =
+
+70_symbol_la_LIBADD += libhiha.la
+70_symbol_la_LIBADD += lib/libgnu.la
+70_symbol_la_LIBADD += $(GCVERS)/libhiha-gc.la
+
+70_symbol_la_LDFLAGS += $(LIBS)
+70_symbol_la_LDFLAGS += $(LTLIBICONV)
+70_symbol_la_LDFLAGS += $(LTLIBINTL)
+70_symbol_la_LDFLAGS += $(LTLIBUNISTRING)
+70_symbol_la_LDFLAGS += -avoid-version -module
+70_symbol_la_LDFLAGS += -shared
+
+70_symbol_la_CFLAGS += $(BASICCFLAGS)
+70_symbol_la_CFLAGS += $(CFLAGS)
+
+70_symbol_la_SOURCES += src/plugins/70-symbol.c

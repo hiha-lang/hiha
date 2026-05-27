@@ -52,12 +52,13 @@
 #  uniconv/u32-conv-from-enc \
 #  uniconv/u32-conv-to-enc \
 #  unictype/category-Pc \
-#  unictype/category-Sm \
+#  unictype/category-S \
 #  unictype/category-Zs \
 #  unictype/category-test \
 #  unictype/property-ascii-hex-digit \
 #  unictype/property-id-continue \
 #  unictype/property-id-start \
+#  unictype/property-math \
 #  unictype/property-test \
 #  unictype/property-white-space \
 #  uninorm/nfc \
@@ -3065,15 +3066,15 @@ EXTRA_DIST += unictype/categ_Pc.h
 
 ## end   gnulib module unictype/category-Pc
 
-## begin gnulib module unictype/category-Sm
+## begin gnulib module unictype/category-S
 
-if LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_SM
-libgnu_la_SOURCES += unictype/categ_Sm.c
+if LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_S
+libgnu_la_SOURCES += unictype/categ_S.c
 endif
 
-EXTRA_DIST += unictype/categ_Sm.h
+EXTRA_DIST += unictype/categ_S.h
 
-## end   gnulib module unictype/category-Sm
+## end   gnulib module unictype/category-S
 
 ## begin gnulib module unictype/category-Zs
 
@@ -3254,6 +3255,16 @@ endif
 EXTRA_DIST += unictype/bitmap.h unictype/pr_id_start.h
 
 ## end   gnulib module unictype/property-id-start
+
+## begin gnulib module unictype/property-math
+
+if LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_MATH
+libgnu_la_SOURCES += unictype/pr_math.c
+endif
+
+EXTRA_DIST += unictype/bitmap.h unictype/pr_math.h
+
+## end   gnulib module unictype/property-math
 
 ## begin gnulib module unictype/property-soft-dotted
 

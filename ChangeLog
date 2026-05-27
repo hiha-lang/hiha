@@ -1,5 +1,15 @@
 @  master
-|  2026-05-27 09:40 +0000
+|  2026-05-27 12:58 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       3b6a741641c28f23ff185f430688a3b72472337c
+|  mercurial: 90afae087877c58b2441eb82ce73b803b0b290f1
+|  revision:  202
+|  parents:   201
+|
+|    Added a plugin for string literals.
+|
+|
+o  2026-05-27 09:40 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       24c984157e0d988b66ebee509f47773d3f8868e7
 |  mercurial: 2bf59ea298f161b63de102d90e0e783fd482c6ea

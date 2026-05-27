@@ -1,4 +1,4 @@
-/* Categories of Unicode characters.
+/* Properties of Unicode characters.
    Copyright (C) 2002, 2006-2007, 2009-2026 Free Software Foundation, Inc.
    Written by Bruno Haible <bruno@clisp.org>, 2002.
 
@@ -28,8 +28,16 @@
 /* Specification.  */
 #include "unictype.h"
 
-/* Define u_categ_Sm table.  */
-#include "categ_Sm.h"
+#include "bitmap.h"
 
-const uc_general_category_t UC_CATEGORY_Sm =
-  { UC_CATEGORY_MASK_Sm, 0, { &u_categ_Sm } };
+/* Define u_property_math table.  */
+#include "pr_math.h"
+
+bool
+uc_is_property_math (ucs4_t uc)
+{
+  return bitmap_lookup (&u_property_math, uc);
+}
+
+const uc_property_t UC_PROPERTY_MATH =
+  { &uc_is_property_math };

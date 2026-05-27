@@ -237,7 +237,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module uniconv/u8-conv-to-enc:
   # Code from module unictype/base:
   # Code from module unictype/category-Pc:
-  # Code from module unictype/category-Sm:
+  # Code from module unictype/category-S:
   # Code from module unictype/category-Zs:
   # Code from module unictype/category-test:
   # Code from module unictype/combining-class:
@@ -256,6 +256,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module unictype/property-ascii-hex-digit:
   # Code from module unictype/property-id-continue:
   # Code from module unictype/property-id-start:
+  # Code from module unictype/property-math:
   # Code from module unictype/property-soft-dotted:
   # Code from module unictype/property-test:
   # Code from module unictype/property-white-space:
@@ -945,7 +946,7 @@ AC_DEFUN([gl_INIT],
   gl_UNICTYPE_H_REQUIRE_DEFAULTS
   gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [unictype/category-Pc])
   gl_UNICTYPE_H_REQUIRE_DEFAULTS
-  gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [unictype/category-Sm])
+  gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [unictype/category-S])
   gl_UNICTYPE_H_REQUIRE_DEFAULTS
   gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [unictype/category-Zs])
   AC_REQUIRE([AC_C_INLINE])
@@ -984,6 +985,9 @@ AC_DEFUN([gl_INIT],
   AC_REQUIRE([AC_C_INLINE])
   gl_UNICTYPE_H_REQUIRE_DEFAULTS
   gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [unictype/property-id-start])
+  AC_REQUIRE([AC_C_INLINE])
+  gl_UNICTYPE_H_REQUIRE_DEFAULTS
+  gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [unictype/property-math])
   AC_REQUIRE([AC_C_INLINE])
   gl_UNICTYPE_H_REQUIRE_DEFAULTS
   gl_LIBUNISTRING_MODULE_WITH_VARIABLE([1.4], [unictype/property-soft-dotted])
@@ -1518,8 +1522,8 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/unictype/bitmap.h
   lib/unictype/categ_Pc.c
   lib/unictype/categ_Pc.h
-  lib/unictype/categ_Sm.c
-  lib/unictype/categ_Sm.h
+  lib/unictype/categ_S.c
+  lib/unictype/categ_S.h
   lib/unictype/categ_Zs.c
   lib/unictype/categ_Zs.h
   lib/unictype/categ_test.c
@@ -1555,6 +1559,8 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/unictype/pr_id_continue.h
   lib/unictype/pr_id_start.c
   lib/unictype/pr_id_start.h
+  lib/unictype/pr_math.c
+  lib/unictype/pr_math.h
   lib/unictype/pr_soft_dotted.c
   lib/unictype/pr_soft_dotted.h
   lib/unictype/pr_test.c

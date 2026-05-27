@@ -263,6 +263,7 @@ EOF
     lexical_end_cap_automake 0.1000 f10   # decimal floating point
     lexical_end_cap_automake 0.1000 i.i10 # decimal fixed and floating
     lexical_end_cap_automake 0.1000 r10   # decimal exact fractions
+    lexical_end_cap_automake 0.1000 sy    # symbols
 
     plugin_automake 10 string
     plugin_automake 20 white_space
@@ -270,6 +271,7 @@ EOF
     plugin_automake 40 identifier
     plugin_automake 50 decimal_float
     plugin_automake 60 decimal_fraction
+    plugin_automake 70 symbol
 
     need_sortsmill_tig && require_sortsmill_tig
     need_pkg_config && require_pkg_config

@@ -757,6 +757,8 @@ LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_TEST_FALSE
 LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_TEST_TRUE
 LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_SOFT_DOTTED_FALSE
 LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_SOFT_DOTTED_TRUE
+LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_MATH_FALSE
+LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_MATH_TRUE
 LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ID_START_FALSE
 LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ID_START_TRUE
 LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ID_CONTINUE_FALSE
@@ -793,8 +795,8 @@ LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_TEST_FALSE
 LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_TEST_TRUE
 LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_ZS_FALSE
 LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_ZS_TRUE
-LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_SM_FALSE
-LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_SM_TRUE
+LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_S_FALSE
+LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_S_TRUE
 LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_PC_FALSE
 LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_PC_TRUE
 GL_GNULIB_UNICTYPE_PROPERTY_REGIONAL_INDICATOR_DLL_VARIABLE
@@ -18385,7 +18387,7 @@ esac
   # Code from module uniconv/u8-conv-to-enc:
   # Code from module unictype/base:
   # Code from module unictype/category-Pc:
-  # Code from module unictype/category-Sm:
+  # Code from module unictype/category-S:
   # Code from module unictype/category-Zs:
   # Code from module unictype/category-test:
   # Code from module unictype/combining-class:
@@ -18404,6 +18406,7 @@ esac
   # Code from module unictype/property-ascii-hex-digit:
   # Code from module unictype/property-id-continue:
   # Code from module unictype/property-id-start:
+  # Code from module unictype/property-math:
   # Code from module unictype/property-soft-dotted:
   # Code from module unictype/property-test:
   # Code from module unictype/property-white-space:
@@ -30469,8 +30472,8 @@ rm -f core conftest.err conftest.$ac_objext conftest.beam \
         LIBS="$saved_LIBS"
         test $gl_pthread_api = yes && break
       done
-      echo "$as_me:30472: gl_pthread_api=$gl_pthread_api" >&5
-      echo "$as_me:30473: LIBPTHREAD=$LIBPTHREAD" >&5
+      echo "$as_me:30475: gl_pthread_api=$gl_pthread_api" >&5
+      echo "$as_me:30476: LIBPTHREAD=$LIBPTHREAD" >&5
 
       gl_pthread_in_glibc=no
       # On Linux with glibc >= 2.34, libc contains the fully functional
@@ -30499,7 +30502,7 @@ rm -rf conftest*
   *) :
      ;;
 esac
-      echo "$as_me:30502: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
+      echo "$as_me:30505: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
 
       # Test for libpthread by looking for pthread_kill.
       if test $gl_pthread_api = yes && test -z "$LIBPTHREAD"
@@ -30751,7 +30754,7 @@ fi
 fi
 
 fi
-      echo "$as_me:30754: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
+      echo "$as_me:30757: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
 
 fi
     { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether POSIX threads API is available" >&5
@@ -35123,8 +35126,8 @@ rm -f core conftest.err conftest.$ac_objext conftest.beam \
         LIBS="$saved_LIBS"
         test $gl_pthread_api = yes && break
       done
-      echo "$as_me:35126: gl_pthread_api=$gl_pthread_api" >&5
-      echo "$as_me:35127: LIBPTHREAD=$LIBPTHREAD" >&5
+      echo "$as_me:35129: gl_pthread_api=$gl_pthread_api" >&5
+      echo "$as_me:35130: LIBPTHREAD=$LIBPTHREAD" >&5
 
       gl_pthread_in_glibc=no
       # On Linux with glibc >= 2.34, libc contains the fully functional
@@ -35153,7 +35156,7 @@ rm -rf conftest*
   *) :
      ;;
 esac
-      echo "$as_me:35156: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
+      echo "$as_me:35159: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
 
       # Test for libpthread by looking for pthread_kill.
       if test $gl_pthread_api = yes && test -z "$LIBPTHREAD"
@@ -35405,7 +35408,7 @@ fi
 fi
 
 fi
-      echo "$as_me:35408: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
+      echo "$as_me:35411: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
 
 fi
     { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether POSIX threads API is available" >&5
@@ -35695,8 +35698,8 @@ rm -f core conftest.err conftest.$ac_objext conftest.beam \
         LIBS="$saved_LIBS"
         test $gl_pthread_api = yes && break
       done
-      echo "$as_me:35698: gl_pthread_api=$gl_pthread_api" >&5
-      echo "$as_me:35699: LIBPTHREAD=$LIBPTHREAD" >&5
+      echo "$as_me:35701: gl_pthread_api=$gl_pthread_api" >&5
+      echo "$as_me:35702: LIBPTHREAD=$LIBPTHREAD" >&5
 
       gl_pthread_in_glibc=no
       # On Linux with glibc >= 2.34, libc contains the fully functional
@@ -35725,7 +35728,7 @@ rm -rf conftest*
   *) :
      ;;
 esac
-      echo "$as_me:35728: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
+      echo "$as_me:35731: gl_pthread_in_glibc=$gl_pthread_in_glibc" >&5
 
       # Test for libpthread by looking for pthread_kill.
       if test $gl_pthread_api = yes && test -z "$LIBPTHREAD"
@@ -35977,7 +35980,7 @@ fi
 fi
 
 fi
-      echo "$as_me:35980: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
+      echo "$as_me:35983: LIBPMULTITHREAD=$LIBPMULTITHREAD" >&5
 
 fi
     { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether POSIX threads API is available" >&5
@@ -52428,21 +52431,21 @@ fi
 
        }
   }; then
-  LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_SM_TRUE=
-  LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_SM_FALSE='#'
+  LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_S_TRUE=
+  LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_S_FALSE='#'
 else
-  LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_SM_TRUE='#'
-  LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_SM_FALSE=
+  LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_S_TRUE='#'
+  LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_S_FALSE=
 fi
 :
-    if test -z "${LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_SM_TRUE}" && test -z "${LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_SM_FALSE}"; then
-    LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_SM_TRUE='#'
-    LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_SM_FALSE='#'
+    if test -z "${LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_S_TRUE}" && test -z "${LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_S_FALSE}"; then
+    LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_S_TRUE='#'
+    LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_S_FALSE='#'
   fi
 
 
-  if test -z "${LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_SM_TRUE}"; then
-       GL_GNULIB_UNICTYPE_CATEGORY_SM_DLL_VARIABLE=$GL_GNULIB_LIBUNISTRING_DLL_VARIABLE_NAME
+  if test -z "${LIBUNISTRING_COMPILE_UNICTYPE_CATEGORY_S_TRUE}"; then
+       GL_GNULIB_UNICTYPE_CATEGORY_S_DLL_VARIABLE=$GL_GNULIB_LIBUNISTRING_DLL_VARIABLE_NAME
      fi
 
 
@@ -53133,6 +53136,53 @@ fi
 
   if test -z "${LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_ID_START_TRUE}"; then
        GL_GNULIB_UNICTYPE_PROPERTY_ID_START_DLL_VARIABLE=$GL_GNULIB_LIBUNISTRING_DLL_VARIABLE_NAME
+     fi
+
+
+
+
+
+
+
+
+
+
+
+
+     if  { test "$HAVE_LIBUNISTRING" != yes \
+    || {
+
+
+
+            test $LIBUNISTRING_VERSION_MAJOR -lt 1 \
+            || { test $LIBUNISTRING_VERSION_MAJOR -eq 1 \
+                 && { test $LIBUNISTRING_VERSION_MINOR -lt 4 \
+                      || { test $LIBUNISTRING_VERSION_MINOR -eq 4 \
+                           && test $LIBUNISTRING_VERSION_SUBMINOR -lt 0
+                         }
+                    }
+               }
+
+
+
+
+       }
+  }; then
+  LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_MATH_TRUE=
+  LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_MATH_FALSE='#'
+else
+  LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_MATH_TRUE='#'
+  LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_MATH_FALSE=
+fi
+:
+    if test -z "${LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_MATH_TRUE}" && test -z "${LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_MATH_FALSE}"; then
+    LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_MATH_TRUE='#'
+    LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_MATH_FALSE='#'
+  fi
+
+
+  if test -z "${LIBUNISTRING_COMPILE_UNICTYPE_PROPERTY_MATH_TRUE}"; then
+       GL_GNULIB_UNICTYPE_PROPERTY_MATH_DLL_VARIABLE=$GL_GNULIB_LIBUNISTRING_DLL_VARIABLE_NAME
      fi
 
 

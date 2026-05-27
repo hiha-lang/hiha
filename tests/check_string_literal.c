@@ -219,6 +219,28 @@ main (void)
                           &error_message);
   assert (error_message != NULL);
 
+  /* Errors involving surrogates. */
+  dequote_string_literal (make_string_t ("\"a\\uDD97b\""),
+                          &tok, &str, &error_message);
+  assert (error_message != NULL);
+  dequote_string_literal (make_string_t ("\"\\uDD97\\uD800\""),
+                          &tok, &str, &error_message);
+  assert (error_message != NULL);
+  dequote_string_literal (make_string_t ("\"\\uD800\\xDD97;\""),
+                          &tok, &str, &error_message);
+  assert (error_message != NULL);
+  dequote_string_literal (make_string_t ("\"\\uD800\\u00A0\""),
+                          &tok, &str, &error_message);
+  assert (error_message != NULL);
+
+  /* Errors in \u notation. */
+  dequote_string_literal (make_string_t ("\"\\uD80\""),
+                          &tok, &str, &error_message);
+  assert (error_message != NULL);
+  dequote_string_literal (make_string_t ("\"\\uD80G\""),
+                          &tok, &str, &error_message);
+  assert (error_message != NULL);
+
   check_pushed_back_token ();
   check_pushed_back_string ();
 

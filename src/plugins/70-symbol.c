@@ -61,15 +61,13 @@ scan_symbol (void *state, buffered_token_getter_t getter,
 {
   string_t tokval = tok->token_value;
   token_t t;
-  getter->look_at_token (getter, 0, &t, error_message);
+  getter->look_at_and_get_token (getter, 0, &is_symbol_part, &t,
+                                 error_message);
   while (*error_message == NULL && is_symbol_part (t))
     {
-      getter->get_token (getter, &t, error_message);
-      if (*error_message == NULL)
-        {
-          tokval = concat_string_t (tokval, t->token_value, NULL);
-          getter->look_at_token (getter, 0, &t, error_message);
-        }
+      tokval = concat_string_t (tokval, t->token_value, NULL);
+      getter->look_at_and_get_token (getter, 0, &is_symbol_part, &t,
+                                     error_message);
     }
   if (*error_message == NULL)
     *lhs =

@@ -166,16 +166,10 @@ scan_exponent (buffered_token_getter_t getter, bool *is_a_match,
   getter->look_at_token (getter, 0, tok_expstart, error_message);
   if (*error_message == NULL && token_is_exponent_start (*tok_expstart))
     {
-      getter->look_at_token (getter, 1, tok_exponent, error_message);
+      getter->look_at_and_get_token (getter, 1, token_is_i10,
+                                     tok_exponent, error_message);
       if (*error_message == NULL && token_is_i10 (*tok_exponent))
-        {
-          (void) getter->get_token (getter, tok_exponent,
-                                    error_message);
-          if (*error_message == NULL)
-            (void) getter->get_token (getter, tok_exponent,
-                                      error_message);
-          *is_a_match = (*error_message == NULL);
-        }
+        *is_a_match = true;
     }
 }
 

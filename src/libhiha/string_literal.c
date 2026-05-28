@@ -40,38 +40,51 @@
   while (0)
 
 static void
-look_at_token (buffered_token_getter_t getter, size_t i,
-               token_t *tok, const char **error_message)
+look_at_token (buffered_token_getter_t getter, token_t *tok,
+               const char **error_message)
 {
-  getter->look_at_token (getter, i, tok, error_message);
-  if (*error_message == NULL)
-    if (string_t_cmp ((*tok)->token_kind, string_t_EOF ()) != 0)
-      switch ((*tok)->token_value->n)
+  getter->look_at_token (getter, 0, tok, error_message);
+  if (*error_message == NULL
+      && string_t_cmp ((*tok)->token_kind, string_t_EOF ()) != 0)
+    switch ((*tok)->token_value->n)
+      {
+      case 0:
         {
-        case 0:
-          {
-            // In place of an empty value, push back U+200B ZERO WIDTH
-            // SPACE.
-            token_t t;
-            getter->get_token (getter, &t, error_message);
-            if (*error_message == NULL)
-              getter->push_back_string (getter, string_t_zerowidth (),
-                                        t->loc, error_message);
-          }
-          break;
-        case 1:
-          // Do nothing.
-          break;
-        default:
-          {
-            token_t t;
-            getter->get_token (getter, &t, error_message);
-            if (*error_message == NULL)
-              getter->push_back_string (getter, t->token_value, t->loc,
-                                        error_message);
-          }
-          break;
+          // In place of an empty value, push back U+200B ZERO WIDTH
+          // SPACE.
+          token_t t;
+          getter->get_token (getter, &t, error_message);
+          if (*error_message == NULL)
+            getter->push_back_string (getter, string_t_zerowidth (),
+                                      t->loc, error_message);
         }
+        break;
+      case 1:
+        // Do nothing.
+        break;
+      default:
+        {
+          token_t t;
+          getter->get_token (getter, &t, error_message);
+          if (*error_message == NULL)
+            getter->push_back_string (getter, t->token_value, t->loc,
+                                      error_message);
+        }
+        break;
+      }
+}
+
+static void
+look_at_and_get_token (buffered_token_getter_t getter,
+                       bool (*pred) (token_t), token_t *tok,
+                       const char **error_message)
+{
+  look_at_token (getter, tok, error_message);
+  if (*error_message == NULL && pred (*tok))
+    {
+      token_t t;
+      getter->get_token (getter, &t, error_message);
+    }
 }
 
 static const char *
@@ -194,16 +207,15 @@ skip_blanks (buffered_token_getter_t getter, string_t *tokval,
       *substring = empty_string_t ();
       *tokval = empty_string_t ();
       token_t t;
-      look_at_token (getter, 0, &t, error_message);
+      look_at_and_get_token (getter, &token_is_space_separator_or_tab,
+                             &t, error_message);
       while (*error_message == NULL
              && token_is_space_separator_or_tab (t))
         {
-          getter->get_token (getter, &t, error_message);
-          if (*error_message == NULL)
-            {
-              *tokval = concat_string_t (*tokval, t->token_value, NULL);
-              look_at_token (getter, 0, &t, error_message);
-            }
+          *tokval = concat_string_t (*tokval, t->token_value, NULL);
+          look_at_and_get_token (getter,
+                                 &token_is_space_separator_or_tab, &t,
+                                 error_message);
         }
       if (*error_message != NULL && token_is_EOF (t))
         *error_message = eof_in_open_string (t->loc);
@@ -223,7 +235,7 @@ skip_blanks_newline_blanks (buffered_token_getter_t getter,
   if (*error_message == NULL)
     {
       token_t t;
-      look_at_token (getter, 0, &t, error_message);
+      look_at_token (getter, &t, error_message);
       if (!token_is_char (t, '\n'))
         *error_message = bad_newline_escape (t->loc);
       else
@@ -271,7 +283,7 @@ hex_ending_semicolon (buffered_token_getter_t getter,
                       uint32_t *code_point, const char **error_message)
 {
   token_t t;
-  look_at_token (getter, 0, &t, error_message);
+  look_at_token (getter, &t, error_message);
   if (*error_message == NULL)
     {
       if (token_is_char (t, ';'))
@@ -301,16 +313,14 @@ hex_until_semicolon (buffered_token_getter_t getter, string_t *tokval,
       *code_point = 0xFFFD;     /* U+FFFD REPLACEMENT CHARACTER */
       string_t_vector_t v = NULL;
       token_t t;
-      look_at_token (getter, 0, &t, error_message);
+      look_at_and_get_token (getter, &token_is_ascii_hex_digit, &t,
+                             error_message);
       while (*error_message == NULL && token_is_ascii_hex_digit (t))
         {
-          getter->get_token (getter, &t, error_message);
-          if (*error_message == NULL)
-            {
-              *tokval = concat_string_t (*tokval, t->token_value, NULL);
-              v = string_t_vector_push (v, t->token_value);
-              look_at_token (getter, 0, &t, error_message);
-            }
+          *tokval = concat_string_t (*tokval, t->token_value, NULL);
+          v = string_t_vector_push (v, t->token_value);
+          look_at_and_get_token (getter, &token_is_ascii_hex_digit, &t,
+                                 error_message);
         }
       if (*error_message == NULL)
         hex_ending_semicolon (getter, v, tokval, code_point,
@@ -360,7 +370,7 @@ four_digit_hex (buffered_token_getter_t getter,
   size_t i = 0;
   while (*error_message == NULL && i != 4)
     {
-      look_at_token (getter, 0, &t, error_message);
+      look_at_token (getter, &t, error_message);
       if (*error_message == NULL)
         {
           loc[i] = t->loc;
@@ -373,7 +383,7 @@ four_digit_hex (buffered_token_getter_t getter,
                   *tokval =
                     concat_string_t (*tokval, t->token_value, NULL);
                   buf[i] = t->token_value->s[0];
-                  look_at_token (getter, 0, &t, error_message);
+                  look_at_token (getter, &t, error_message);
                 }
             }
         }
@@ -395,7 +405,7 @@ the_u_of_backslash_u (buffered_token_getter_t getter, string_t *tokval,
   if (*error_message == NULL)
     {
       token_t t;
-      look_at_token (getter, 0, &t, error_message);
+      look_at_token (getter, &t, error_message);
       if (*error_message == NULL)
         {
           if (token_is_EOF (t))
@@ -419,7 +429,7 @@ backslash_u (buffered_token_getter_t getter, string_t *tokval,
   if (*error_message == NULL)
     {
       token_t t;
-      look_at_token (getter, 0, &t, error_message);
+      look_at_token (getter, &t, error_message);
       if (*error_message == NULL)
         {
           if (token_is_EOF (t))
@@ -604,7 +614,7 @@ scan_escape (buffered_token_getter_t getter, string_t *tokval,
   if (*error_message == NULL)
     {
       *tokval = t->token_value;
-      look_at_token (getter, 0, &t, error_message);
+      look_at_token (getter, &t, error_message);
       if (token_is_EOF (t))
         *error_message = eof_in_open_string (t->loc);
       else if (token_is_space_separator_or_tab (t))
@@ -685,7 +695,7 @@ scan_string_portion (buffered_token_getter_t getter, bool *done,
     {
       token_t t;
       *tokval = empty_string_t ();
-      look_at_token (getter, 0, &t, error_message);
+      look_at_token (getter, &t, error_message);
       if (token_is_EOF (t))
         *error_message = eof_in_open_string (t->loc);
       else if (token_is_char (t, '\\'))

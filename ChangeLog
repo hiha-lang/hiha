@@ -1,5 +1,26 @@
 @  master
-|  2026-05-27 19:58 +0000
+|  2026-05-28 12:56 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       ae98f36868bc94fa16a99ace6f8d2afe18e8297f
+|  mercurial: 65d644d47af610dc7234925979aca6bf84613b99
+|  revision:  207
+|  parents:   206
+|
+|    Some rework.
+|
+|
+o  2026-05-28 11:51 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       f07829d443d7a7c424b9e3767124d264ad7bc246
+|  mercurial: 0635a08d074ed458cf16bd6c5c3cb0ebb3b91e9e
+|  revision:  206
+|  parents:   205
+|
+|    Some files were left out of the last commit. Also, I have added
+|    checking to push backs.
+|
+|
+o  2026-05-27 19:58 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       fd95b7d4a75a9d12604b04f120ce9044fb60edab
 |  mercurial: 4cc1868a59702f5b09c6420740ef64d537c246a1

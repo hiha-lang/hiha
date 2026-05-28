@@ -687,7 +687,15 @@ look_at_and_get_from_buffered_token (buffered_token_getter_t getter,
 {
   getter->look_at_token (getter, i, tok, error_message);
   if (*error_message == NULL && pred (*tok))
-    getter->get_token (getter, tok, error_message);
+    {
+      size_t j = 0;
+      while (*error_message == NULL && j != i + 1)
+        {
+          token_t t;
+          getter->get_token (getter, &t, error_message);
+          j += 1;
+        }
+    }
 }
 
 static void

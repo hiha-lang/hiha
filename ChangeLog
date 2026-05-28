@@ -1,5 +1,26 @@
 @  master
-|  2026-05-28 12:56 +0000
+|  2026-05-28 16:52 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       c9211fe1256cb5d11dbd74531f7bf409c88c51d6
+|  mercurial: b011d00bb6165a5866f769f46b9029915f1f56ad
+|  revision:  209
+|  parents:   208
+|
+|    The start of a more general way of writing data to files (without
+|    resorting to gdbm).
+|
+|
+o  2026-05-28 13:44 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       e040425f0598d9bbb15a27c2d576f2612ee56252
+|  mercurial: e1f00372f94653663a028effb8cf10b8aadb169b
+|  revision:  208
+|  parents:   207
+|
+|    More rework.
+|
+|
+o  2026-05-28 12:56 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       ae98f36868bc94fa16a99ace6f8d2afe18e8297f
 |  mercurial: 65d644d47af610dc7234925979aca6bf84613b99

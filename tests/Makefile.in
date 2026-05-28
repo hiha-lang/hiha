@@ -117,7 +117,7 @@ check_PROGRAMS = check_string_t_hash$(EXEEXT) \
 	check_persistent_integer_trie$(EXEEXT) \
 	check_persistent_hash_map$(EXEEXT) \
 	check_indexed_deque$(EXEEXT) check_string_literal$(EXEEXT) \
-	check_spookyhash$(EXEEXT)
+	check_indexed_data_file$(EXEEXT) check_spookyhash$(EXEEXT)
 subdir = tests
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
@@ -246,6 +246,12 @@ SpookyV2_reference_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(SpookyV2_reference_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
+check_indexed_data_file_SOURCES = check_indexed_data_file.c
+check_indexed_data_file_OBJECTS = check_indexed_data_file.$(OBJEXT)
+check_indexed_data_file_LDADD = $(LDADD)
+check_indexed_data_file_DEPENDENCIES = $(top_builddir)/libhiha.la \
+	$(top_builddir)/$(GCVERS)/libhiha-gc.la \
+	$(top_builddir)/lib/libgnu.la $(am__DEPENDENCIES_2)
 check_indexed_deque_SOURCES = check_indexed_deque.c
 check_indexed_deque_OBJECTS = check_indexed_deque.$(OBJEXT)
 check_indexed_deque_LDADD = $(LDADD)
@@ -358,6 +364,7 @@ am__maybe_remake_depfiles = depfiles
 am__depfiles_remade =  \
 	./$(DEPDIR)/SpookyV2_reference-SpookyV2-reference.Po \
 	./$(DEPDIR)/SpookyV2_reference-SpookyV2.Po \
+	./$(DEPDIR)/check_indexed_data_file.Po \
 	./$(DEPDIR)/check_indexed_deque.Po \
 	./$(DEPDIR)/check_persistent_avl.Po \
 	./$(DEPDIR)/check_persistent_hash_map.Po \
@@ -410,17 +417,19 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(SpookyV2_reference_SOURCES) check_indexed_deque.c \
-	check_persistent_avl.c check_persistent_hash_map.c \
-	check_persistent_integer_trie.c $(check_spookyhash_SOURCES) \
-	check_str_nul_hash.c check_str_nul_map.c check_str_nul_omap.c \
+SOURCES = $(SpookyV2_reference_SOURCES) check_indexed_data_file.c \
+	check_indexed_deque.c check_persistent_avl.c \
+	check_persistent_hash_map.c check_persistent_integer_trie.c \
+	$(check_spookyhash_SOURCES) check_str_nul_hash.c \
+	check_str_nul_map.c check_str_nul_omap.c \
 	check_string_literal.c check_string_t_hash.c \
 	check_string_t_map.c check_string_t_omap.c \
 	check_token_t_hash.c check_token_t_map.c check_token_t_omap.c
-DIST_SOURCES = $(SpookyV2_reference_SOURCES) check_indexed_deque.c \
-	check_persistent_avl.c check_persistent_hash_map.c \
-	check_persistent_integer_trie.c $(check_spookyhash_SOURCES) \
-	check_str_nul_hash.c check_str_nul_map.c check_str_nul_omap.c \
+DIST_SOURCES = $(SpookyV2_reference_SOURCES) check_indexed_data_file.c \
+	check_indexed_deque.c check_persistent_avl.c \
+	check_persistent_hash_map.c check_persistent_integer_trie.c \
+	$(check_spookyhash_SOURCES) check_str_nul_hash.c \
+	check_str_nul_map.c check_str_nul_omap.c \
 	check_string_literal.c check_string_t_hash.c \
 	check_string_t_map.c check_string_t_omap.c \
 	check_token_t_hash.c check_token_t_map.c check_token_t_omap.c
@@ -2006,7 +2015,7 @@ EXTRA_DIST = testsuite.at $(srcdir)/package.m4 $(TESTSUITE) atlocal.in \
 BUILT_SOURCES = 
 CLEANFILES = *.tmp tmp.* SpookyV2-reference
 DISTCLEANFILES = Makefile GNUmakefile atconfig
-AM_CPPFLAGS = $(BASICCFLAGS)
+AM_CPPFLAGS = $(BASICCFLAGS) -DABS_TOP_BUILDDIR='$(abs_top_builddir)'
 check_SCRIPTS = 
 BUNCHOFFLAGS = $(color-flag) $(jobs-flag) $(TESTSUITEFLAGS)
 AUTOM4TE = $(SHELL) $(top_srcdir)/build-aux/missing --run autom4te
@@ -2067,6 +2076,10 @@ clean-checkPROGRAMS:
 SpookyV2-reference$(EXEEXT): $(SpookyV2_reference_OBJECTS) $(SpookyV2_reference_DEPENDENCIES) $(EXTRA_SpookyV2_reference_DEPENDENCIES) 
 	@rm -f SpookyV2-reference$(EXEEXT)
 	$(AM_V_CXXLD)$(SpookyV2_reference_LINK) $(SpookyV2_reference_OBJECTS) $(SpookyV2_reference_LDADD) $(LIBS)
+
+check_indexed_data_file$(EXEEXT): $(check_indexed_data_file_OBJECTS) $(check_indexed_data_file_DEPENDENCIES) $(EXTRA_check_indexed_data_file_DEPENDENCIES) 
+	@rm -f check_indexed_data_file$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(check_indexed_data_file_OBJECTS) $(check_indexed_data_file_LDADD) $(LIBS)
 
 check_indexed_deque$(EXEEXT): $(check_indexed_deque_OBJECTS) $(check_indexed_deque_DEPENDENCIES) $(EXTRA_check_indexed_deque_DEPENDENCIES) 
 	@rm -f check_indexed_deque$(EXEEXT)
@@ -2136,6 +2149,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SpookyV2_reference-SpookyV2-reference.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SpookyV2_reference-SpookyV2.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_indexed_data_file.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_indexed_deque.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_persistent_avl.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_persistent_hash_map.Po@am__quote@ # am--include-marker
@@ -2369,6 +2383,7 @@ clean-am: clean-checkPROGRAMS clean-generic clean-libtool clean-local \
 distclean: distclean-am
 	-rm -f ./$(DEPDIR)/SpookyV2_reference-SpookyV2-reference.Po
 	-rm -f ./$(DEPDIR)/SpookyV2_reference-SpookyV2.Po
+	-rm -f ./$(DEPDIR)/check_indexed_data_file.Po
 	-rm -f ./$(DEPDIR)/check_indexed_deque.Po
 	-rm -f ./$(DEPDIR)/check_persistent_avl.Po
 	-rm -f ./$(DEPDIR)/check_persistent_hash_map.Po
@@ -2431,6 +2446,7 @@ installcheck-am: installcheck-local
 maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/SpookyV2_reference-SpookyV2-reference.Po
 	-rm -f ./$(DEPDIR)/SpookyV2_reference-SpookyV2.Po
+	-rm -f ./$(DEPDIR)/check_indexed_data_file.Po
 	-rm -f ./$(DEPDIR)/check_indexed_deque.Po
 	-rm -f ./$(DEPDIR)/check_persistent_avl.Po
 	-rm -f ./$(DEPDIR)/check_persistent_hash_map.Po

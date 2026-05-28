@@ -39,6 +39,7 @@
 #include <libhiha/string_literal.h>
 #include <libhiha/gensym.h>
 #include <libhiha/load_plugin.h>
+#include <libhiha/indexed_data_file.h>
 
 #endif /* __LIBHAHA__LIBHIHA_H__INCLUDED__ */
 

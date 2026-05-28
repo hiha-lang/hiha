@@ -94,6 +94,11 @@ AT_KEYWORDS([string_literal string literal])
 AT_CHECK([check_string_literal])
 AT_CLEANUP
 
+AT_SETUP([indexed data file])
+AT_KEYWORDS([indexed_data_file indexed data random access])
+AT_CHECK([check_indexed_data_file])
+AT_CLEANUP
+
 # local variables:
 # mode: autoconf
 # coding: utf-8

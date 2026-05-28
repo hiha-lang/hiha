@@ -21,7 +21,6 @@
 
 #include <config.h>
 #include <assert.h>
-#include <sys/stat.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -52,7 +51,6 @@ struct indexed_data_file
   const char *filename_index;
   FILE *f_data;
   FILE *f_index;
-  size_t next_index;
 };
 
 static void
@@ -68,7 +66,20 @@ require_open (indexed_data_file_t df)
     }
 }
 
-static int64_t
+static size_t
+next_index (indexed_data_file_t df)
+{
+  require_open (df);
+
+  int retval = fseek (df->f_index, 0, SEEK_END);
+  CHECK_FILE_ERROR (retval != 0, df->filename_index);
+  long pos = ftell (df->f_index);
+  CHECK_FILE_ERROR (pos == -1, df->filename_index);
+
+  return ((size_t) ((intmax_t) pos) / (intmax_t) sizeof (intmax_t));
+}
+
+static intmax_t
 next_offset (indexed_data_file_t df)
 {
   /* The current size of the data file is the offset to the next
@@ -76,12 +87,27 @@ next_offset (indexed_data_file_t df)
 
   require_open (df);
 
-  struct stat st;
+  int retval = fseek (df->f_data, 0, SEEK_END);
+  CHECK_FILE_ERROR (retval != 0, df->filename_data);
+  long pos = ftell (df->f_data);
+  CHECK_FILE_ERROR (pos == -1, df->filename_data);
 
-  int retval = fstat (fileno (df->f_data), &st);
-  CHECK_FILE_ERROR (retval < 0, df->filename_data);
+  return (intmax_t) pos;
+}
 
-  return (int64_t) (st.st_size);
+static void
+_open_indexed_data_file (indexed_data_file_t df, const char *mode)
+{
+  /* Open the file. It must not be open already. */
+
+  assert ((df->f_data == NULL) == (df->f_index == NULL));
+  assert (df->f_data == NULL);
+
+  df->f_data = fopen (df->filename_data, mode);
+  CHECK_FILE_ERROR (df->f_data == NULL, df->filename_data);
+
+  df->f_index = fopen (df->filename_index, mode);
+  CHECK_FILE_ERROR (df->f_index == NULL, df->filename_index);
 }
 
 HIHA_VISIBLE indexed_data_file_t
@@ -92,16 +118,16 @@ create_indexed_data_file (const char *filename_root)
   char *filename_index = XCALLOC (n_root + 7, char);
   memcpy (filename_data, filename_root, n_root * sizeof (char));
   memcpy (filename_data + n_root, ".data", 5 * sizeof (char));
-  memcpy (filename_data, filename_root, n_root * sizeof (char));
-  memcpy (filename_data + n_root, ".index", 6 * sizeof (char));
+  memcpy (filename_index, filename_root, n_root * sizeof (char));
+  memcpy (filename_index + n_root, ".index", 6 * sizeof (char));
 
   indexed_data_file_t df = XMALLOC (struct indexed_data_file);
   df->filename_data = filename_data;
   df->filename_index = filename_index;
 
-  reopen_indexed_data_file (df);
-
-  df->next_index = 0;
+  df->f_data = NULL;
+  df->f_index = NULL;
+  _open_indexed_data_file (df, "wb+");
 
   return df;
 }
@@ -130,14 +156,8 @@ reopen_indexed_data_file (indexed_data_file_t df)
 
   assert ((df->f_data == NULL) == (df->f_index == NULL));
 
-  if (df->f_data != NULL)
-    {
-      df->f_data = fopen (df->filename_data, "a+b");
-      CHECK_FILE_ERROR (df->f_data == NULL, df->filename_data);
-
-      df->f_index = fopen (df->filename_index, "a+b");
-      CHECK_FILE_ERROR (df->f_index == NULL, df->filename_index);
-    }
+  if (df->f_data == NULL)
+    _open_indexed_data_file (df, "ab+");
 }
 
 HIHA_VISIBLE void
@@ -146,31 +166,24 @@ write_to_indexed_data_file (indexed_data_file_t df, const void *data,
 {
   require_open (df);
 
+  int retval;
   size_t num_written;
 
-  int64_t offset = next_offset (df);
+  intmax_t offset = next_offset (df);
 
+  retval = fseek (df->f_data, 0, SEEK_END);
+  CHECK_FILE_ERROR (retval != 0, df->filename_data);
   num_written = fwrite (&n_data, sizeof (size_t), 1, df->f_data);
   CHECK_FILE_ERROR (num_written != 1, df->filename_data);
-
   num_written = fwrite (data, 1, n_data, df->f_data);
   CHECK_FILE_ERROR (num_written != n_data, df->filename_data);
 
-  num_written = fwrite (&offset, sizeof (int64_t), 1, df->f_index);
+  *index = next_index (df);
+
+  retval = fseek (df->f_index, 0, SEEK_END);
+  CHECK_FILE_ERROR (retval != 0, df->filename_index);
+  num_written = fwrite (&offset, sizeof (intmax_t), 1, df->f_index);
   CHECK_FILE_ERROR (num_written != 1, df->filename_index);
-
-  *index = df->next_index;
-  df->next_index += 1;
-}
-
-static void
-check_index (indexed_data_file_t df, size_t index)
-{
-  if (df->next_index <= index)
-    {
-      error (exit_failure, 0, "index out of range: %zu", index);
-      abort ();
-    }
 }
 
 HIHA_VISIBLE void
@@ -178,24 +191,42 @@ read_from_indexed_data_file (indexed_data_file_t df, size_t index,
                              void **data, size_t *n_data)
 {
   require_open (df);
-  check_index (df, index);
 
   int retval;
   int num_read;
-  int64_t offset;
+  intmax_t offset;
 
-  retval = fseek (df->f_index, index * sizeof (int64_t), SEEK_SET);
-  CHECK_FILE_ERROR (retval < 0, df->filename_index);
-  num_read = fread (&offset, sizeof (int64_t), 1, df->f_index);
+  retval = fseek (df->f_index, index * sizeof (intmax_t), SEEK_SET);
+  CHECK_FILE_ERROR (retval != 0, df->filename_index);
+  num_read = fread (&offset, sizeof (intmax_t), 1, df->f_index);
   CHECK_FILE_ERROR (num_read != 1, df->filename_index);
 
   retval = fseek (df->f_data, offset, SEEK_SET);
-  CHECK_FILE_ERROR (retval < 0, df->filename_data);
+  CHECK_FILE_ERROR (retval != 0, df->filename_data);
   num_read = fread (n_data, sizeof (size_t), 1, df->f_data);
   CHECK_FILE_ERROR (num_read != 1, df->filename_data);
   *data = xmalloc (*n_data);
   num_read = fread (*data, 1, *n_data, df->f_data);
   CHECK_FILE_ERROR (num_read != *n_data, df->filename_data);
+}
+
+HIHA_VISIBLE void
+remove_indexed_data_file (indexed_data_file_t df)
+{
+  assert ((df->f_data == NULL) == (df->f_index == NULL));
+
+  if (df->f_data != NULL)
+    close_indexed_data_file (df);
+
+  int retval;
+
+  retval = remove (df->filename_data);
+  CHECK_FILE_ERROR (retval != 0, df->filename_data);
+  retval = remove (df->filename_index);
+  CHECK_FILE_ERROR (retval != 0, df->filename_index);
+
+  df->filename_data = NULL;
+  df->filename_index = NULL;
 }
 
 /*

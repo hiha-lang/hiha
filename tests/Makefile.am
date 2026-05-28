@@ -135,6 +135,7 @@ BASICCFLAGS += -I $(abs_top_srcdir)/include
 BASICCFLAGS += -I $(abs_top_srcdir)/lib
 BASICCFLAGS += -I $(abs_top_srcdir)/$(GCVERS)/include
 AM_CPPFLAGS += $(BASICCFLAGS)
+AM_CPPFLAGS += -DABS_TOP_BUILDDIR='$(abs_top_builddir)'
 
 #-----------------------------------------------------------------------
 
@@ -152,6 +153,7 @@ check_PROGRAMS += check_persistent_integer_trie
 check_PROGRAMS += check_persistent_hash_map
 check_PROGRAMS += check_indexed_deque
 check_PROGRAMS += check_string_literal
+check_PROGRAMS += check_indexed_data_file
 
 check_PROGRAMS += check_spookyhash
 check_spookyhash_SOURCES =

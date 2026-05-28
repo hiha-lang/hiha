@@ -628,6 +628,7 @@ at_help_all="1;testsuite.at:22;SpookyHash;spookyhash hash;
 13;testsuite.at:82;persistent hash map;persistent hash map hashmap;
 14;testsuite.at:87;indexed deque;indexed deque queue stack;
 15;testsuite.at:92;string literal;string_literal string literal;
+16;testsuite.at:97;indexed data file;indexed_data_file indexed data random access;
 "
 # List of the all the test groups.
 at_groups_all=`printf "%s\n" "$at_help_all" | sed 's/;.*//'`
@@ -641,7 +642,7 @@ at_fn_validate_ranges ()
   for at_grp
   do
     eval at_value=\$$at_grp
-    if test $at_value -lt 1 || test $at_value -gt 15; then
+    if test $at_value -lt 1 || test $at_value -gt 16; then
       printf "%s\n" "invalid test group: $at_value" >&2
       exit 1
     fi
@@ -2403,3 +2404,30 @@ $at_traceon; }
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
 #AT_STOP_15
+#AT_START_16
+at_fn_group_banner 16 'testsuite.at:97' \
+  "indexed data file" "                              "
+at_xfail=no
+(
+  printf "%s\n" "16. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+{ set +x
+printf "%s\n" "$at_srcdir/testsuite.at:99: check_indexed_data_file"
+at_fn_check_prepare_trace "testsuite.at:99"
+( $at_check_trace; check_indexed_data_file
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/testsuite.at:99"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_16

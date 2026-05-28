@@ -36,6 +36,9 @@ void write_to_indexed_data_file (indexed_data_file_t df,
 void read_from_indexed_data_file (indexed_data_file_t df, size_t index,
                                   void **data, size_t *n_data);
 
+/* The following will close the files if they are open. */
+void remove_indexed_data_file (indexed_data_file_t df);
+
 #endif /* __LIBHAHA__INDEXED_DATA_FILE_H__INCLUDED__ */
 
 /*

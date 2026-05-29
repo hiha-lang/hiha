@@ -221,52 +221,10 @@ ${_rebmun}_${_eman}_la_SOURCES += src/plugins/${_number}-${_name}.c
 EOF
 }
 
-lexical_end_cap_automake() {
-    _number="$1"
-    _name="$2"
-    _NAME=`echo ${_name} | tr '[:lower:]' '[:upper:]'`
-    plugin_automake "${_number}" "${_name}"
-    echo "Creating src/plugins/${_number}-${_name}.c"
-    cat > "src/plugins/${_number}-${_name}.c" <<EOF
-#include <config.h>
-#include <libhiha/libhiha.h>
-
-static void
-handler (void *state, buffered_token_getter_t getter,
-         pratt_tables_t tables, token_t tok, void **lhs,
-         const char **error_message)
-{
-  if (*error_message == NULL)
-    *lhs = (void *) tok;
-}
-
-HIHA_VISIBLE void
-plugin_init (void)
-{
-  pratt_tables_t tables = lexical_pratt_tables ();
-  pratt_nud_put (tables, make_string_t ("${_NAME}"), &handler);
-}
-EOF
-}
-
 # Run everything in a subshell, so the user does not get stuck in a
 # new directory if the process is interrupted.
 (
     cd "${srcdir}"
-
-    lexical_end_cap_automake 0.1000 eof   # end of file
-    lexical_end_cap_automake 0.1000 cp    # code points
-    lexical_end_cap_automake 0.1000 sp    # white space
-    lexical_end_cap_automake 0.1000 co    # comments
-    lexical_end_cap_automake 0.1000 fsep  # source file separators
-    lexical_end_cap_automake 0.1000 str   # strings
-    lexical_end_cap_automake 0.1000 i10   # decimal integers
-    lexical_end_cap_automake 0.1000 id    # identifiers
-    lexical_end_cap_automake 0.1000 f10   # decimal floating point
-    lexical_end_cap_automake 0.1000 i.i10 # decimal fixed and floating
-    lexical_end_cap_automake 0.1000 r10   # decimal exact fractions
-    lexical_end_cap_automake 0.1000 sy    # symbols
-    lexical_end_cap_automake 0.1000 kw    # keywords
 
     plugin_automake 10 string
     plugin_automake 20 white_space

@@ -24,12 +24,8 @@
   Pratt parsing
   -------------
 
-  We use Pratt ‘parsing’ not only for parsing but also for lexical
-  analysis. For parsing, we run the Pratt parser in the usual way:
-  tokens in, parse tree out. For lexical analysis, we feed tokens in
-  and get tokens out, and do this repeatedly until the token stream
-  reaches a fixed point. The initial token stream consists of Unicode
-  code points (in NFC canonical form), and end-of-file markers.
+  We use Pratt parsing in passes, starting from Unicode code points
+  (in NFC canonical form).
 
 */
 
@@ -38,6 +34,9 @@
 #include <inttypes.h>
 #include <libhiha/string_t.h>
 #include <libhiha/load_plugin.h>
+#include <libhiha/initialize_once.h>
+#include <libhiha/persistent_integer_trie.h>
+#include <libhiha/spinlock.h>
 #include <libhiha/pratt.h>
 
 #define _(msgid) HIHA_GETTEXT (msgid)
@@ -91,6 +90,53 @@ make_pratt_tables_t (void)
   return data;
 }
 
+HIHA_INT_TRIE_NODES_DECL (_pratt_tables_map_node, unsigned int,
+                          pratt_tables_t);
+HIHA_INT_TRIE_INSERT_DEFN (_pratt_tables_map_insert,
+                           _pratt_tables_map_node, unsigned int,
+                           pratt_tables_t);
+HIHA_INT_TRIE_SEARCH_DEFN (_pratt_tables_map_search,
+                           _pratt_tables_map_node, unsigned int);
+
+static initialize_once_t _pratt_tables_map_init1t =
+  INITIALIZE_ONCE_T_INIT;
+_pratt_tables_map_node_t _pratt_tables_map;
+spinlock_t _pratt_tables_map_spinlock = SPINLOCK_T_INIT;
+
+static void
+_initialize_pratt_tables_map (void)
+{
+  _pratt_tables_map = NULL;
+}
+
+HIHA_VISIBLE pratt_tables_t
+get_pratt_tables_for_pass (unsigned int pass_number)
+{
+  acquire_spinlock (&_pratt_tables_map_spinlock);
+  _pratt_tables_map_node_leaf_t leaf =
+    _pratt_tables_map_search (_pratt_tables_map, pass_number);
+  if (leaf == NULL)
+    {
+      _pratt_tables_map =
+        _pratt_tables_map_insert (_pratt_tables_map, pass_number,
+                                  make_pratt_tables_t ());
+      leaf = _pratt_tables_map_search (_pratt_tables_map, pass_number);
+    }
+  pratt_tables_t value = leaf->value;
+  release_spinlock (&_pratt_tables_map_spinlock);
+  return value;
+}
+
+HIHA_VISIBLE void
+set_pratt_tables_for_pass (unsigned int pass_number,
+                           pratt_tables_t tables)
+{
+  acquire_spinlock (&_pratt_tables_map_spinlock);
+  _pratt_tables_map =
+    _pratt_tables_map_insert (_pratt_tables_map, pass_number, tables);
+  release_spinlock (&_pratt_tables_map_spinlock);
+}
+
 HIHA_VISIBLE void
 pratt_nud_put (pratt_tables_t data, string_t token_kind,
                nud_handler_t handler)
@@ -117,10 +163,22 @@ pratt_lbp_put (pratt_tables_t data, string_t token_kind,
     string_t_map_insert_or_replace (data->lbp, token_kind, bp);
 }
 
+static void
+passthrough_nud_handler (void *state, buffered_token_getter_t getter,
+                         pratt_tables_t tables, token_t tok, void **lhs,
+                         const char **error_message)
+{
+  if (*error_message == NULL)
+    *lhs = (void *) tok;
+}
+
 HIHA_VISIBLE nud_handler_t
 pratt_nud_get (pratt_tables_t data, string_t token_kind)
 {
-  return (nud_handler_t) string_t_map_search (data->nud, token_kind);
+  nud_handler_t handler = (nud_handler_t) string_t_map_search (data->nud, token_kind);
+  if (handler == NULL)
+    handler = &passthrough_nud_handler;
+  return handler;
 }
 
 HIHA_VISIBLE led_handler_t
@@ -151,23 +209,7 @@ execute_null_denotation (void *state, buffered_token_getter_t getter,
   if (*error_message == NULL)
     {
       nud_handler_t handler = pratt_nud_get (tables, tok->token_kind);
-      if (handler == NULL)
-        {
-          //
-          // There is no null denotation. Treat this as a lexical or
-          // syntax error.
-          //
-          char s[1000];
-          snprintf (s, 1000, UNEXPECTED_TEXT,
-                    text_location_string (tok->loc),
-                    make_str_nul (tok->token_value));
-          *error_message = xstrdup (s);
-        }
-      else
-        //
-        // Success.
-        //
-        handler (state, getter, tables, tok, lhs, error_message);
+      handler (state, getter, tables, tok, lhs, error_message);
     }
 }
 

@@ -88,19 +88,19 @@ BUILT_SOURCES += config.h
 #---------------------------------------------------------------------
 
 include gc-dist.am
-include 0.1000-eof.am
-include 0.1000-cp.am
-include 0.1000-sp.am
-include 0.1000-co.am
-include 0.1000-fsep.am
-include 0.1000-str.am
-include 0.1000-i10.am
-include 0.1000-id.am
-include 0.1000-f10.am
-include 0.1000-i.i10.am
-include 0.1000-r10.am
-include 0.1000-sy.am
-include 0.1000-kw.am
+#include 0.1000-eof.am
+#include 0.1000-cp.am
+#include 0.1000-sp.am
+#include 0.1000-co.am
+#include 0.1000-fsep.am
+#include 0.1000-str.am
+#include 0.1000-i10.am
+#include 0.1000-id.am
+#include 0.1000-f10.am
+#include 0.1000-i.i10.am
+#include 0.1000-r10.am
+#include 0.1000-sy.am
+#include 0.1000-kw.am
 include 10-string.am
 include 20-white_space.am
 include 30-decimal_integer.am

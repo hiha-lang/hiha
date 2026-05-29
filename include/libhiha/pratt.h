@@ -40,6 +40,10 @@ typedef struct pratt_tables *pratt_tables_t;
 
 pratt_tables_t make_pratt_tables_t (void);
 
+pratt_tables_t get_pratt_tables_for_pass (unsigned int pass_number);
+void set_pratt_tables_for_pass (unsigned int pass_number,
+                                pratt_tables_t tables);
+
 /* The ‘state’ argument is for whatever use the programmer wishes. The
    ‘*lhs’ argument would typically represent token_t for lexical
    analysis and a parse tree for syntactic analysis. */
@@ -69,8 +73,8 @@ void pratt_led_put (pratt_tables_t tables, string_t token_kind,
 void pratt_lbp_put (pratt_tables_t tables, string_t token_kind,
                     double binding_power);
 
-/* Get a null denotation handler from the Pratt tables, or return
-   NULL. */
+/* Get a null denotation handler from the Pratt tables, or return a
+   handler that simply passes the token through. */
 nud_handler_t pratt_nud_get (pratt_tables_t tables,
                              string_t token_kind);
 

@@ -1,0 +1,186 @@
+             hiha 90x150 hiha: an “orthogonal” programming language
+
+   I really, really do not like overcomplication, and so here will be hiha,
+   an “orthogonal” language with no formal report and just a Pratt parser.
+
+   This compiler is a work in progress. Coding began 6 April 2026.
+
+   Do not expect development speed. The programmer is medically retired and
+   disabled. Also he is likely to use this project to fulfill longstanding
+   desires, such as to have C implementations of things he implemented long
+   ago in ATS.
+
+   But let me sketch some of the current doings and future directions.
+
+   I have implemented lexical analysis via Pratt parser and plugins.
+
+   First all the input files are put together in sequence, rather than
+   compiled separately. This is done to be contrarian. The texts are all
+   converted to UTF-32 and NFC canonicalized. They are not NFKC
+   canonicalized, and thus you can use superscripts, subscripts, and so
+   forth, to convey meaning. But they are normalized, which likely is more
+   than a lot of compilers and interpreters do. Thus you can rely on “e”
+   followed by a joining acute accent being treated exactly the same as
+   “é”.^[1]
+
+   Then the Unicode code points of the files are individually made into
+   lexical tokens, and each end of file is also made into a lexical token.
+   However, each end of file token except the last is converted to a “file
+   separator” token whose value is a form feed character.
+
+   Thence, the tokens are run through the Pratt parser in multiple passes,
+   each time outputting tokens.
+
+   For example, on one pass, a run of digits may be collected into an
+   “integer” token. On the next pass an “integer” token, followed by a
+   decimal point, followed by an “integer”, may be collected into another
+   kind of token. Then, on a later pass, this token may be collected into a
+   “number with exponent” token.
+
+   At a later stage, reserved words are marked as such. Then actual parsing
+   begins. A plugin may construct and perhaps optimize a parse tree, but then
+   will flatten the parse tree into tokens. The flattening process can do
+   more than just flatten. It can put the code into continuation-passing
+   style. The parsing can take as many passes as needed, and the program
+   itself can perhaps add parsing rules. Thus, for instance, new infix
+   operators might be introduced, with given precedences and left or right
+   associativity.^[2]
+
+   ══════════════════════════════════════════════════════════════════════════
+
+   Regarding how branching probably will work—
+
+   Almost no one makes branching nondeterministic. Programmers these days do
+   not even know what it means for branching to be nondeterministic. How long
+   has it been since Edsger W. Dijkstra’s A Discipline of Programming, with
+   its nondeterministic constructs, has been in print? We intend to make
+   branching in hiha nondeterministic. There will, most likely, be two
+   constructs, do and while. The do construct will not be written “do…​od”
+   but “do…​end.” and the while construct “while…​end.” Guarded expressions
+   will be allowed anywhere, including in ordinary sequential constructs
+   “begin…​end.” A semicolon will be allowed in place of a period, but a
+   period is lot less dark on the page.^[3]
+
+   What is the advantage of nondeterminism? I had to scan through my wife’s
+   copy of A Discipline of Programming to remind myself what it was.^[4]
+   Nondeterminism lets you apply the weakest precondition when proving a
+   snippet of code.
+
+   ══════════════════════════════════════════════════════════════════════════
+
+   I intend to generate C code that has proper tail calls. I will do this
+   without trampolines and without Cheney-on-the-MTA.
+
+   Here is how.
+
+   The code will be threaded. Each subroutine is passed the entire program
+   state, by reference. It is called from an interpreter that is merely a
+   very tight loop. The subroutine returns the address of the next subroutine
+   to call. The interpreter then repeats the process with that subroutine.
+   This process goes on from beginning to end of the program.
+
+   ══════════════════════════════════════════════════════════════════════════
+
+   I will later describe how I intend to allocate memory in blocks and then
+   have variables that are entirely local and by reference. Variable names
+   will then be managed in a way that substitutes for linear types. Thus
+   syntax takes the place of a typechecker.
+
+   Also the type of data in hiha should probably belong to the data and not
+   to the variable. Thus variables probably will not need type declarations.
+   However, casts probably will be needed strictly. Being an ATS programmer,
+   I am not a big fan of loose typechecking.
+
+   ══════════════════════════════════════════════════════════════════════════
+
+   I am not a young person—not ancient, but old enough to be “old.” Should I
+   drop dead, feel free to take over the project. Or not. I might take over
+   such a thing from someone, but that does not mean someone else would. (And
+   I probably would lose interest quickly.)
+
+   Please try to understand why I am strict about structured programming in
+   C. It is related to why my C functions tend to be very small. People who
+   are not strict about structured programming in a language like C soon find
+   themselves losing track of how the program actually works. You have to
+   actually use structured programming to see what I mean.
+
+   Do not bother arguing with detractors. They are being unscientific,
+   arguing without first making observations. I am asking you to observe.
+
+   You may program however you wish, in a project you have taken over. When I
+   took over ANT and made kompostilo typesetter from it, I converted from
+   Revised Syntax for OCaml to standard syntax, simply so I could use Emacs
+   Tuareg mode. But I recommend using my style. You may like it, should you
+   actually try it. C is a difficult language to be disciplined in. OpenBSD
+   tries to be disciplined in it by using only a restricted set of functions,
+   and by flinging insults at everyone else. They write good code but theirs
+   is not my approach. I try to be disciplined in C by using “ancient”
+   methods of disciplined programming—and by keeping the cyclometric
+   complexity not only to a minimum, but visually obvious.^[5]
+
+   ══════════════════════════════════════════════════════════════════════════
+
+   Now that that bit of hubris is over with, let me say the core notion to
+   hiha is to do by simple means what others do by complicated means.
+
+   If Algol 68 requires a formal report too complex for Wirth, Dijkstra, and
+   Hoare to read it, then hiha requires only a reference implementation of
+   two sets of Pratt parser rules. One set handles lexical analysis and the
+   other syntactic analysis.
+
+   If Algol 68 supposedly can handle with syntax what other languages must do
+   via semantics, and ATS must use a separate sublanguage of proofs to make
+   reference variables safe via a typechecking pass, then hiha will make
+   reference variables safe by doing in syntax roughly what ATS does in
+   proofs. The safety will happen naturally via the language’s syntax, which
+   in turn is defined by Pratt parser rules.^[6]
+
+   If others use trampolines or Cheney-on-the-MTA to obtain proper tail calls
+   despite compiling to C, hiha instead goes very simple and uses threaded
+   code. This likely requires conversion of the program to
+   continuation-passing style, but we may have wanted this anyway (for
+   reasons not worth exploring now). Conversion to continuation-passing style
+   can be done as a syntactic operation.
+
+   Other matters start by seeming complicated, but then a path to simplicity
+   becomes apparent.
+
+   For example, Scheme lets one write “1.0+3.0i” for a complex number, but we
+   want to generalize that. A person should be able to write “1.0+3.0e₁e₂” to
+   mean roughly the same thing, but as geometric algebra. So at first we
+   think of adding a syntax of vector components, but to do so would be the
+   usual way in which people complicate a language. Instead we give the
+   language a general syntax of juxtaposition! You can juxtapose things, and
+   what the juxtaposition means depends on what is juxtaposed to what.
+
+   Thus one might write “1.0 + 3.0(e₁ e₂)”, and the juxtaposition of e₁ and
+   e₂ represents the geometric product we previously wrote as a precomputed
+   bivector e₁e₂. Or we might write
+
+     "this" " is " " a " "string"
+
+   and this will represent the concatenation of the string literals, much as
+   a similar notation does in C.
+
+   And so on.
+
+   ══════════════════════════════════════════════════════════════════════════
+
+   1. Ligatures, serving as esthetic or readability entities, rather than as
+   linguistic entities, are not treated similarly. The sequence “f” “i” is
+   not converted to the “fi” ligature.
+   2. Associativity can be controlled in a Pratt parser by manipulation of
+   left binding power (precedence value).
+   3. Actually the period or semicolon is not part of the construct, but
+   syntax that terminates an expression. Otherwise two adjacent constructs
+   would be interpreted as joined by the “juxtaposition operator.”
+   4. I read A Discipline of Programming circa 1981 from the copy in my
+   county college library. From 1981 to now is a long time. By the way I
+   studied electrical engineering, not computer science. There is not the
+   least regret. My TRS-80 was a soldering iron project.
+   5. Also, one must admit, there is the experience of writing memcpy calls
+   that satisfied proofs in ATS code.
+   6. There is thus likely to be no need for a garbage collector, but it also
+   may be that sometimes we mark either blocks of memory or the variables
+   that reference them as “free to leak.”
+   Last updated 2026-06-01 06:52:38 -0500

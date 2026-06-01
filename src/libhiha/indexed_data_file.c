@@ -110,8 +110,9 @@ _open_indexed_data_file (indexed_data_file_t df, const char *mode)
   CHECK_FILE_ERROR (df->f_index == NULL, df->filename_index);
 }
 
-HIHA_VISIBLE indexed_data_file_t
-create_indexed_data_file (const char *filename_root)
+static indexed_data_file_t
+_allocate_indexed_data_file (const char *filename_root,
+                             const char *mode)
 {
   size_t n_root = strlen (filename_root);
   char *filename_data = XCALLOC (n_root + 6, char);
@@ -127,9 +128,21 @@ create_indexed_data_file (const char *filename_root)
 
   df->f_data = NULL;
   df->f_index = NULL;
-  _open_indexed_data_file (df, "wb+");
+  _open_indexed_data_file (df, mode);
 
   return df;
+}
+
+HIHA_VISIBLE indexed_data_file_t
+create_indexed_data_file (const char *filename_root)
+{
+  return _allocate_indexed_data_file (filename_root, "wb+");
+}
+
+HIHA_VISIBLE indexed_data_file_t
+open_indexed_data_file (const char *filename_root)
+{
+  return _allocate_indexed_data_file (filename_root, "rb+");
 }
 
 HIHA_VISIBLE void

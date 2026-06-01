@@ -366,6 +366,12 @@ load_command_line_plugins (voidp_vector_t plugins)
     }
 }
 
+static bool
+pass_predicate (const char *pass)
+{
+  return true;
+}
+
 int
 main (int argc, char **argv)
 {
@@ -381,12 +387,32 @@ main (int argc, char **argv)
   check_usage (argc, argv);
 
   load_command_line_plugins (opts->plugins);
+
+  const char *final_filename_root;
+  const char *error_message;
+  do_pratt_passes (NULL, pass_predicate,
+                   argc - 1, ((const char **) argv) + 1,
+                   "program", &final_filename_root, &error_message);
+  abort ();
+  if (error_message != NULL)
+    {
+      error (exit_failure, 0, "%s", error_message);
+      exit (EXIT_FAILURE);
+    }
+
+#if 0                           ///////////////////////////////////////////////////////////////////////////
   //____scan_some_files (argc - 1, ((const char **) argv) + 1);
   const char *tokens;
   const char *error_message;
   scan_source_files_to_serialized_tokens (argc - 1,
                                           ((const char **) argv) + 1,
                                           &tokens, &error_message);
+  //  {                             ////////////////////////////////////////////////////////////////////////////////////////////////////
+  //    const char *err_message;
+  //    scan_source_files (argc - 1, ((const char **) argv) + 1,
+  //                       "filename_root", &err_message);
+  //    abort ();
+  //  }                             ////////////////////////////////////////////////////////////////////////////////////////////////////
   if (error_message != NULL)
     {
       error (exit_failure, 0, "%s", error_message);
@@ -404,6 +430,7 @@ main (int argc, char **argv)
     fwrite (buf, sizeof (char), n, stdout);
     fclose (f);
   }
+#endif ///////////////////////////////////////////////////////////////////////////
   exit (EXIT_SUCCESS);
 }
 

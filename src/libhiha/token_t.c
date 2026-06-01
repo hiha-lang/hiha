@@ -28,9 +28,14 @@
 #include <xalloc.h>
 #include <exitfail.h>
 #include <base64.h>
+#include <xstrerror.h>
 #include <libhiha/token_t.h>
+#include <libhiha/workspaces.h>
+#include <libhiha/string_t.h>
 #include <libhiha/str_nul.h>
 #include <libhiha/indexed_deque.h>
+#include <libhiha/persistent_integer_trie.h>
+#include <libhiha/indexed_data_file.h>
 
 #define _(msgid) HIHA_GETTEXT (msgid)
 
@@ -1078,6 +1083,439 @@ token_t_cmp (token_t tok1, token_t tok2)
     result = string_t_cmp (tok1->token_value, tok2->token_value);
   return result;
 }
+
+/**********************************************************************/
+
+static void
+set_token_files_names (const char *filename_root,
+                       const char **fn_root,
+                       const char **path_root, const char **fn_tokens)
+{
+  *fn_root = xstrdup (filename_root);
+
+  size_t nwdir = strlen (work_directory ());
+  size_t nroot = strlen (filename_root);
+  const char *toks = ".tokens";
+  size_t ntoks = strlen (toks);
+  size_t n = nwdir + 1 + nroot + ntoks + 1;
+  char *fn = XCALLOC (n, char);
+
+  memcpy (fn, work_directory (), nwdir * sizeof (char));
+  fn[nwdir] = '/';
+  memcpy (fn + nwdir + 1, filename_root, nroot * sizeof (char));
+  *path_root = xstrdup (fn);
+
+  memcpy (fn + nwdir + 1 + nroot, toks, ntoks * sizeof (char));
+  *fn_tokens = fn;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+HIHA_INT_TRIE_NODES_DECL (_df_str_nul_map_node, uint64_t, const char *);
+HIHA_INT_TRIE_INSERT_DEFN (_df_str_nul_map_insert,
+                           _df_str_nul_map_node, uint64_t,
+                           const char *);
+HIHA_INT_TRIE_SEARCH_DEFN (_df_str_nul_map_search, _df_str_nul_map_node,
+                           uint64_t);
+
+HIHA_INT_TRIE_NODES_DECL (_df_string_t_map_node, uint64_t, string_t);
+HIHA_INT_TRIE_INSERT_DEFN (_df_string_t_map_insert,
+                           _df_string_t_map_node, uint64_t, string_t);
+HIHA_INT_TRIE_SEARCH_DEFN (_df_string_t_map_search,
+                           _df_string_t_map_node, uint64_t);
+
+struct token_getter_from_files
+{
+  void (*get_token) (token_getter_t this_struct,
+                     token_t *tok, const char **error_message);
+
+  const char *filename_root;
+  const char *path_root;
+  const char *filename_tokens;
+  FILE *f_tokens;
+  indexed_data_file_t df;       /* Filenames, strings, extension fields. */
+  _df_str_nul_map_node_t filenames;
+  _df_string_t_map_node_t strings;
+  int64_t n_tokens;
+  int64_t i_token;
+};
+
+static void
+str_nul_from_data_file (indexed_data_file_t df, int64_t index,
+                        _df_str_nul_map_node_t *map,
+                        const char **s, const char **error_message)
+{
+  if (*error_message == NULL)
+    if (index < 0)
+      *s = NULL;
+    else
+      {
+        _df_str_nul_map_node_leaf_t leaf =
+          _df_str_nul_map_search (*map, index);
+        if (leaf != NULL)
+          *s = leaf->value;
+        else
+          {
+            void *data;
+            size_t n_data;
+            read_from_indexed_data_file (df, index, &data, &n_data);
+            char *p = data;
+            p[n_data - 1] = '\0';       /* Guarantee a terminating NUL. */
+            *s = p;
+            *map = _df_str_nul_map_insert (*map, index, *s);
+          }
+      }
+}
+
+static void
+string_t_from_data_file (indexed_data_file_t df, int64_t index,
+                         _df_string_t_map_node_t *map,
+                         string_t *str, const char **error_message)
+{
+  if (*error_message == NULL)
+    if (index < 0)
+      *str = NULL;
+    else
+      {
+        _df_string_t_map_node_leaf_t leaf =
+          _df_string_t_map_search (*map, index);
+        if (leaf != NULL)
+          *str = leaf->value;
+        else
+          {
+            void *data;
+            size_t n_data;
+            read_from_indexed_data_file (df, index, &data, &n_data);
+            char *p = data;
+
+            size_t n_u32;
+            uint32_t *u32 = u8_to_u32 (data, n_data, NULL, &n_u32);
+            int err_number = errno;
+            if (u32 == NULL)
+              *error_message = xstrerror (NULL, err_number);
+            else
+              {
+                struct string *st = XMALLOC (struct string);
+                st->s = u32;
+                st->n = n_u32;
+                *str = st;
+                *map = _df_string_t_map_insert (*map, index, *str);
+              }
+          }
+      }
+}
+
+static int64_t
+count_tokens_in_file (token_getter_from_files_t p)
+{
+  int retval = fseek (p->f_tokens, 0, SEEK_END);
+  int err_number = errno;
+  if (retval != 0)
+    {
+      error (exit_failure, err_number, "%s", p->filename_tokens);
+      abort ();
+    }
+  long offset = ftell (p->f_tokens);
+  err_number = errno;
+  if (offset == -1)
+    {
+      error (exit_failure, err_number, "%s", p->filename_tokens);
+      abort ();
+    }
+  return offset / (6 * sizeof (int64_t));
+}
+
+static void
+read_token_entry (int64_t buf[6], token_getter_from_files_t p)
+{
+  int retval =
+    fseek (p->f_tokens, p->i_token * 6 * sizeof (int64_t), SEEK_SET);
+  int err_number = errno;
+  if (retval != 0)
+    {
+      error (exit_failure, err_number, "%s", p->filename_tokens);
+      abort ();
+    }
+  int num_read = fread (buf, sizeof (int64_t), 6, p->f_tokens);
+  if (num_read != 6)
+    {
+      error (exit_failure, err_number, "%s", p->filename_tokens);
+      abort ();
+    }
+  if (p->i_token != p->n_tokens - 1)
+    p->i_token += 1;
+}
+
+static void
+get_token_from_files (token_getter_t this_struct, token_t *tok,
+                      const char **error_message)
+{
+  token_getter_from_files_t p = (token_getter_from_files_t) this_struct;
+
+  *error_message = NULL;
+
+  int64_t buf[6];
+
+  read_token_entry (buf, p);
+
+  const int64_t i_filename = buf[0];
+  const int64_t line_no = buf[1];
+  const int64_t code_point_no = buf[2];
+  const int64_t i_token_kind = buf[3];
+  const int64_t i_token_value = buf[4];
+  const int64_t i_extension = buf[5];
+
+  struct text_location *loc = XMALLOC (struct text_location);
+  str_nul_from_data_file (p->df, i_filename, &p->filenames,
+                          &loc->filename, error_message);
+  loc->line_no = line_no;
+  loc->code_point_no = code_point_no;
+
+  string_t token_kind;
+  string_t_from_data_file (p->df, i_token_kind, &p->strings,
+                           &token_kind, error_message);
+
+  string_t token_value;
+  string_t_from_data_file (p->df, i_token_value, &p->strings,
+                           &token_value, error_message);
+
+  if (*error_message == NULL && 0 <= i_extension)
+    *error_message =
+      _("token_t extension fields are not yet supported");
+
+  if (*error_message == NULL)
+    *tok = make_token_t (token_kind, token_value, loc);
+}
+
+HIHA_VISIBLE token_getter_from_files_t
+make_token_getter_from_files_t (const char *filename_root)
+{
+  token_getter_from_files_t p =
+    XMALLOC (struct token_getter_from_files);
+
+  set_token_files_names (filename_root, &p->filename_root,
+                         &p->path_root, &p->filename_tokens);
+
+  FILE *f = fopen (p->filename_tokens, "rb");
+  int err_number = errno;
+  if (f == NULL)
+    {
+      error (exit_failure, err_number, "%s", p->filename_tokens);
+      abort ();
+    }
+
+  p->get_token = &get_token_from_files;
+  p->f_tokens = f;
+  p->df = open_indexed_data_file (p->path_root);
+  p->filenames = NULL;
+  p->strings = NULL;
+  p->n_tokens = count_tokens_in_file (p);
+  p->i_token = 0;
+  return p;
+}
+
+static void
+close_getter_f_tokens (token_getter_from_files_t p)
+{
+  if (p->f_tokens != NULL)
+    {
+      int retval = fclose (p->f_tokens);
+      int err_number = errno;
+      if (retval != 0)
+        {
+          error (exit_failure, err_number, "%s", p->filename_tokens);
+          abort ();
+        }
+      p->f_tokens = NULL;
+    }
+}
+
+HIHA_VISIBLE void
+close_token_getter_files (token_getter_from_files_t p)
+{
+  close_indexed_data_file (p->df);
+  close_getter_f_tokens (p);
+}
+
+HIHA_VISIBLE void
+remove_token_getter_files (token_getter_from_files_t p)
+{
+  remove_indexed_data_file (p->df);
+  close_getter_f_tokens (p);
+  remove (p->filename_tokens);
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+struct token_putter_to_files
+{
+  void (*put_token) (token_putter_t this_struct,
+                     token_t tok, const char **error_message);
+
+  const char *filename_root;
+  const char *path_root;
+  const char *filename_tokens;
+  FILE *f_tokens;
+  indexed_data_file_t df;       /* Filenames, strings, extension fields. */
+  str_nul_map_t filenames;      /* Indices of filenames. */
+  string_t_map_t strings;       /* Indices of strings. */
+};
+
+static void
+str_nul_in_data_file (indexed_data_file_t df, str_nul_map_t *map,
+                      const char *s, int64_t *index,
+                      const char **error_message)
+{
+  if (*error_message == NULL)
+    {
+      *index = -1;
+      if (s != NULL)
+        {
+          const int64_t *p_index = str_nul_map_search (*map, s);
+          if (p_index != NULL)
+            *index = *p_index;
+          else
+            {
+              size_t *i_sz = XMALLOC (size_t);
+              write_to_indexed_data_file
+                (df, s, (strlen (s) + 1) * sizeof (char), i_sz);
+              *index = *i_sz;
+              *map = str_nul_map_insert_only (*map, s, i_sz);
+            }
+        }
+    }
+}
+
+static void
+string_t_in_data_file (indexed_data_file_t df, string_t_map_t *map,
+                       string_t str, int64_t *index,
+                       const char **error_message)
+{
+  /* To save space, write the string in UTF-8. */
+
+  if (*error_message == NULL)
+    {
+      *index = -1;
+      if (str != NULL)
+        {
+          const int64_t *p_index = string_t_map_search (*map, str);
+          if (p_index != NULL)
+            *index = *p_index;
+          else
+            {
+              size_t n_u8;
+              uint8_t *u8 = u32_to_u8 (str->s, str->n, NULL, &n_u8);
+              int err_number = errno;
+              if (u8 == NULL)
+                *error_message = xstrerror (NULL, err_number);
+              else
+                {
+                  size_t *i_sz = XMALLOC (size_t);
+                  write_to_indexed_data_file
+                    (df, u8, n_u8 * sizeof (uint8_t), i_sz);
+                  *index = *i_sz;
+                  *map = string_t_map_insert_only (*map, str, i_sz);
+                }
+            }
+        }
+    }
+}
+
+static void
+put_token_to_files (token_putter_t this_struct, token_t tok,
+                    const char **error_message)
+{
+  token_putter_to_files_t p = (token_putter_to_files_t) this_struct;
+  *error_message = NULL;
+
+  int64_t i_filename;
+  int64_t i_token_kind;
+  int64_t i_token_value;
+  int64_t i_extension;
+
+  str_nul_in_data_file (p->df, &p->filenames, tok->loc->filename,
+                        &i_filename, error_message);
+  string_t_in_data_file (p->df, &p->strings, tok->token_kind,
+                         &i_token_kind, error_message);
+  string_t_in_data_file (p->df, &p->strings, tok->token_value,
+                         &i_token_value, error_message);
+
+  /* Only NULL extensions are supported, currently. */
+  assert (tok->extension == NULL);
+  i_extension = -1;
+
+  if (*error_message == NULL)
+    {
+      int64_t buf[6];
+      buf[0] = i_filename;
+      buf[1] = tok->loc->line_no;
+      buf[2] = tok->loc->code_point_no;
+      buf[3] = i_token_kind;
+      buf[4] = i_token_value;
+      buf[5] = i_extension;
+      int num_written = fwrite (buf, sizeof (int64_t), 6, p->f_tokens);
+      int err_number = errno;
+      if (num_written != 6)
+        *error_message = xstrerror (NULL, err_number);
+    }
+}
+
+HIHA_VISIBLE token_putter_to_files_t
+make_token_putter_to_files_t (const char *filename_root)
+{
+  token_putter_to_files_t p = XMALLOC (struct token_putter_to_files);
+
+  set_token_files_names (filename_root, &p->filename_root,
+                         &p->path_root, &p->filename_tokens);
+
+  FILE *f = fopen (p->filename_tokens, "wb");
+  int err_number = errno;
+  if (f == NULL)
+    {
+      error (exit_failure, err_number, "%s", p->filename_tokens);
+      abort ();
+    }
+
+  p->put_token = &put_token_to_files;
+  p->f_tokens = f;
+  p->df = create_indexed_data_file (p->path_root);
+  p->filenames = NULL;
+  p->strings = NULL;
+  return p;
+}
+
+static void
+close_putter_f_tokens (token_putter_to_files_t p)
+{
+  if (p->f_tokens != NULL)
+    {
+      int retval = fclose (p->f_tokens);
+      int err_number = errno;
+      if (retval != 0)
+        {
+          error (exit_failure, err_number, "%s", p->filename_tokens);
+          abort ();
+        }
+      p->f_tokens = NULL;
+    }
+}
+
+HIHA_VISIBLE void
+close_token_putter_files (token_putter_to_files_t p)
+{
+  close_indexed_data_file (p->df);
+  close_putter_f_tokens (p);
+}
+
+HIHA_VISIBLE void
+remove_token_putter_files (token_putter_to_files_t p)
+{
+  remove_indexed_data_file (p->df);
+  close_putter_f_tokens (p);
+  remove (p->filename_tokens);
+}
+
+/**********************************************************************/
 
 /*
   local variables:

@@ -55,6 +55,8 @@ struct token_getter
                      token_t *tok, const char **error_message);
 };
 
+#define to_token_getter_t(p) ((token_getter_t) (p))
+
 token_getter_t make_token_getter_from_string (string_t);
 
 token_getter_t make_token_getter_from_source_file_t
@@ -119,12 +121,32 @@ struct token_putter
                      token_t tok, const char **error_message);
 };
 
+#define to_token_putter_t(p) ((token_putter_t) (p))
+
 token_putter_t make_token_putter_to_stream_serialized_t
   (const char *filename, FILE *f);
 
 token_putter_t make_token_putter_with_mismatch_check
   (token_putter_t input_putter, buffered_token_getter_t output_getter,
    bool (*check_for_mismatch) (buffered_token_getter_t, token_t));
+
+/*--------------------------------------------------------------------*/
+
+struct token_getter_from_files;
+typedef struct token_getter_from_files *token_getter_from_files_t;
+
+token_getter_from_files_t make_token_getter_from_files_t (const char
+                                                          *filename_root);
+void close_token_getter_files (token_getter_from_files_t);
+void remove_token_getter_files (token_getter_from_files_t);
+
+struct token_putter_to_files;
+typedef struct token_putter_to_files *token_putter_to_files_t;
+
+token_putter_to_files_t make_token_putter_to_files_t (const char
+                                                      *filename_root);
+void close_token_putter_files (token_putter_to_files_t);
+void remove_token_putter_files (token_putter_to_files_t);
 
 /*--------------------------------------------------------------------*/
 /* string_t_cmp first by token_kind, then by token_value. */

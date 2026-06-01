@@ -69,6 +69,8 @@
 #  uninorm/nfc \
 #  unistr/u32-check \
 #  unistr/u32-cmp2 \
+#  unistr/u32-to-u8 \
+#  unistr/u8-to-u32 \
 #  version-etc \
 #  xalloc \
 #  xstrerror
@@ -108,6 +110,8 @@ gl_MODULES([
   uninorm/nfc
   unistr/u32-check
   unistr/u32-cmp2
+  unistr/u32-to-u8
+  unistr/u8-to-u32
   version-etc
   xalloc
   xstrerror

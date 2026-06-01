@@ -38,11 +38,24 @@ make_pratt_handler_reference_t (size_t register_no, size_t handler_no);
 struct pratt_tables;
 typedef struct pratt_tables *pratt_tables_t;
 
+struct pratt_tables_entry
+{
+  const char *pass;
+  pratt_tables_t tables;
+};
+typedef struct pratt_tables_entry pratt_tables_entry_t;
+
+DECLARE_HIHA_PERSISTENT_VECTOR_DATATYPE (, pratt_tables_vector,
+                                         pratt_tables_entry_t, 5);
+
 pratt_tables_t make_pratt_tables_t (void);
 
-pratt_tables_t get_pratt_tables_for_pass (unsigned int pass_number);
-void set_pratt_tables_for_pass (unsigned int pass_number,
+void acquire_pratt_tables_lock (void);
+void release_pratt_tables_lock (void);
+pratt_tables_t get_pratt_tables_for_pass (const char *pass);
+void set_pratt_tables_for_pass (const char *pass,
                                 pratt_tables_t tables);
+pratt_tables_vector_t get_pratt_tables (void);
 
 /* The ‘state’ argument is for whatever use the programmer wishes. */
 void pratt_parse (void *state, buffered_token_getter_t getter,

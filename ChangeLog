@@ -1,5 +1,67 @@
 @  master
-|  2026-05-28 22:12 +0000
+|  2026-06-01 11:48 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:
+|  mercurial: a25fbba8014a0911de2d5debec9a2c72ec15a626
+|  revision:  216
+|  parents:   215
+|
+|    Update the syntax.
+|
+|
+o  2026-06-01 11:43 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       603bb6d256406778a17acb36889c105454c7c522
+|  mercurial: f1e62d605d4e44bcb2cf553c77b3e8dd6d1d6d0b
+|  revision:  215
+|  parents:   214
+|
+|    This was not supposed to be there.
+|
+|
+o  2026-06-01 11:41 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       dc47abbcdcbc623c202fb3c1149fa2c1a5da9973
+|  mercurial: 81b5f2a28080f22f4fc32c10b78465326a6eba2e
+|  revision:  214
+|  parents:   213
+|
+|    Update README
+|
+|
+o  2026-05-30 12:49 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       7d240503610e30b48a7342f095ddf09f670327fe
+|  mercurial: 81dfda5435e6b2c2902f938c743b38b22c7c37da
+|  revision:  213
+|  parents:   212
+|
+|    Add an extension field to token_t. Make the lhs of Pratt parsing
+|    token_t.
+|
+|
+o  2026-05-29 18:23 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       a8d5d33b7b0b1f5429afec145634a4d3fae3c5f9
+|  mercurial: 59bea1787a0261346b64ca187588f7e2b591b995
+|  revision:  212
+|  parents:   211
+|
+|    Prepare for Pratt parser passes. Make passthrough the default for
+|    NUD handling.
+|
+|
+o  2026-05-29 01:14 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       39edb79e3b58c1aa451df77b6a18ce7a75f95b35
+|  mercurial: fa8391492820036882a81c35b0da4dd089dc158b
+|  revision:  211
+|  parents:   210
+|
+|    Use r+ mode instead of a+ mode.
+|
+|
+o  2026-05-28 22:12 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       45a4ce2057381ae0efc0edf66eeab98a257944cc
 |  mercurial: 1ca6d1ce88e33d5a93d068d8b1ae58362ba2b045

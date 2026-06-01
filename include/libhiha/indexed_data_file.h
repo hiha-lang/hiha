@@ -27,6 +27,7 @@ typedef struct indexed_data_file *indexed_data_file_t;
 
 indexed_data_file_t create_indexed_data_file (const char
                                               *filename_root);
+indexed_data_file_t open_indexed_data_file (const char *filename_root);
 void close_indexed_data_file (indexed_data_file_t df);
 void reopen_indexed_data_file (indexed_data_file_t df);
 

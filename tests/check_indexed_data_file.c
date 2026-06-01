@@ -74,6 +74,22 @@ main (void)
   assert (n_data == 14);
   assert (strcmp ((const char *) data, "another entry") == 0);
 
+  close_indexed_data_file (df);
+
+  df = open_indexed_data_file (df_root);
+
+  read_from_indexed_data_file (df, i0, &data, &n_data);
+  assert (n_data == 12);
+  assert (strcmp ((const char *) data, "test data 0") == 0);
+
+  read_from_indexed_data_file (df, i1, &data, &n_data);
+  assert (n_data == 9);
+  assert (strcmp ((const char *) data, "tea time") == 0);
+
+  read_from_indexed_data_file (df, i2, &data, &n_data);
+  assert (n_data == 14);
+  assert (strcmp ((const char *) data, "another entry") == 0);
+
   remove_indexed_data_file (df);
 
   return 0;

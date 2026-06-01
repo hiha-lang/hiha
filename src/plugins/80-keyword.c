@@ -66,6 +66,12 @@ is_keyword (token_t tok)
   return (i != num_keywords);
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+nud_handler_t next_cpXX_handler;
+nud_handler_t next_idXX_handler;
+nud_handler_t next_syXX_handler;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 nud_handler_t next_cp_handler;
 nud_handler_t next_id_handler;
 nud_handler_t next_sy_handler;
@@ -91,21 +97,45 @@ DEFINE_HANDLER (cp);
 DEFINE_HANDLER (sy);
 DEFINE_HANDLER (id);
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+DEFINE_HANDLER (cpXX);
+DEFINE_HANDLER (syXX);
+DEFINE_HANDLER (idXX);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 HIHA_VISIBLE void
 plugin_init (void)
 {
   initialize_keywords ();
-  pratt_tables_t tables = lexical_pratt_tables ();
   str_KW = make_string_t ("KW");
   str_CP = string_t_CP ();
   str_SY = make_string_t ("SY");
   str_ID = make_string_t ("ID");
+
+  pratt_tables_t tables;
+
+  acquire_pratt_tables_lock ();
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  tables = lexical_pratt_tables ();
+  next_cpXX_handler = pratt_nud_get (tables, str_CP);
+  next_syXX_handler = pratt_nud_get (tables, str_SY);
+  next_idXX_handler = pratt_nud_get (tables, str_ID);
+  pratt_nud_put (tables, str_CP, &cpXX_handler);
+  pratt_nud_put (tables, str_SY, &syXX_handler);
+  pratt_nud_put (tables, str_ID, &idXX_handler);
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  tables = get_pratt_tables_for_pass ("500-mark-keywords");
   next_cp_handler = pratt_nud_get (tables, str_CP);
   next_sy_handler = pratt_nud_get (tables, str_SY);
   next_id_handler = pratt_nud_get (tables, str_ID);
   pratt_nud_put (tables, str_CP, &cp_handler);
   pratt_nud_put (tables, str_SY, &sy_handler);
   pratt_nud_put (tables, str_ID, &id_handler);
+  set_pratt_tables_for_pass ("500-mark-keywords", tables);
+
+  release_pratt_tables_lock ();
 }
 
 /*

@@ -27,13 +27,18 @@
 
 #define _(msgid) HIHA_GETTEXT (msgid)
 
-static void
-check_code_point_token (token_t tok)
+static bool
+token_is_white_space (token_t tok)
 {
-  if (tok->token_value->n != 1)
-    error (exit_failure, 0,
-           "CP token with a value of length other than 1: “%s”",
-           make_str_nul (tok->token_value));
+  return (tok->token_value->n == 1
+          && (uc_is_property
+              (tok->token_value->s[0], UC_PROPERTY_WHITE_SPACE)));
+}
+
+static bool
+token_is_percent_sign (token_t tok)
+{
+  return (tok->token_value->n == 1 && tok->token_value->s[0] == '%');
 }
 
 static void
@@ -49,11 +54,13 @@ scan_comment (buffered_token_getter_t getter, token_t tok, token_t *lhs,
         str = concat_string_t (str, t->token_value, NULL);
     }
   while (*error_message == NULL
+         && t->token_value->n == 1
          && 0 != string_t_cmp (t->token_value, make_string_t ("\n")));
   if (*error_message == NULL)
     *lhs = make_token_t (make_string_t ("CO"), str, tok->loc);
 }
 
+//////////////////////////////////////////////////////////////////////
 nud_handler_t next_handler;
 
 static void
@@ -63,25 +70,61 @@ code_point_handler (void *state, buffered_token_getter_t getter,
 {
   if (*error_message == NULL)
     {
-      check_code_point_token (tok);
-      if (uc_is_property
-          (tok->token_value->s[0], UC_PROPERTY_WHITE_SPACE))
+      if (token_is_white_space (tok))
         *lhs =
           make_token_t (make_string_t ("SP"), tok->token_value,
                         tok->loc);
-      else if (tok->token_value->s[0] == '%')
+      else if (token_is_percent_sign (tok))
         scan_comment (getter, tok, lhs, error_message);
       else
         next_handler (state, getter, tables, tok, lhs, error_message);
     }
 }
 
+//////////////////////////////////////////////////////////////////////
+
+nud_handler_t next_cp_handler;
+
+static void
+cp_handler (void *state, buffered_token_getter_t getter,
+            pratt_tables_t tables, token_t tok, token_t *lhs,
+            const char **error_message)
+{
+  if (*error_message == NULL)
+    {
+      if (token_is_white_space (tok))
+        *lhs =
+          make_token_t (make_string_t ("SP"), tok->token_value,
+                        tok->loc);
+      else if (token_is_percent_sign (tok))
+        scan_comment (getter, tok, lhs, error_message);
+      else
+        next_cp_handler (state, getter, tables, tok, lhs,
+                         error_message);
+    }
+}
+
 HIHA_VISIBLE void
 plugin_init (void)
 {
-  pratt_tables_t tables = lexical_pratt_tables ();
+  pratt_tables_t tables;
+
+  acquire_pratt_tables_lock ();
+
+  //////////////////////////////////////////////////////////////////////
+  tables = lexical_pratt_tables ();
   next_handler = pratt_nud_get (tables, string_t_CP ());
   pratt_nud_put (tables, string_t_CP (), &code_point_handler);
+  //////////////////////////////////////////////////////////////////////
+
+  tables =
+    get_pratt_tables_for_pass ("100-scan-white-space-and-comments");
+  next_cp_handler = pratt_nud_get (tables, string_t_CP ());
+  pratt_nud_put (tables, string_t_CP (), &cp_handler);
+  set_pratt_tables_for_pass ("100-scan-white-space-and-comments",
+                             tables);
+
+  release_pratt_tables_lock ();
 }
 
 /*

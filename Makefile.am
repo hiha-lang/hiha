@@ -88,19 +88,6 @@ BUILT_SOURCES += config.h
 #---------------------------------------------------------------------
 
 include gc-dist.am
-#include 0.1000-eof.am
-#include 0.1000-cp.am
-#include 0.1000-sp.am
-#include 0.1000-co.am
-#include 0.1000-fsep.am
-#include 0.1000-str.am
-#include 0.1000-i10.am
-#include 0.1000-id.am
-#include 0.1000-f10.am
-#include 0.1000-i.i10.am
-#include 0.1000-r10.am
-#include 0.1000-sy.am
-#include 0.1000-kw.am
 include 10-string.am
 include 20-white_space.am
 include 30-decimal_integer.am
@@ -249,6 +236,8 @@ libhiha_HDRS += include/libhiha/string_t.h
 libhiha_HDRS += include/libhiha/token_t.h
 libhiha_HDRS += include/libhiha/str_nul.h
 libhiha_HDRS += include/libhiha/pratt.h
+libhiha_HDRS += include/libhiha/token_processing.h
+########################################################################################### FIXME: REMOVE lexical.h
 libhiha_HDRS += include/libhiha/lexical.h
 libhiha_HDRS += include/libhiha/string_literal.h
 libhiha_HDRS += include/libhiha/gensym.h
@@ -273,6 +262,8 @@ libhiha_la_SOURCES += src/libhiha/str_nul.c
 libhiha_la_SOURCES += src/libhiha/str_nul_hash.c
 libhiha_la_SOURCES += src/libhiha/str_nul_vector.c
 libhiha_la_SOURCES += src/libhiha/pratt.c
+libhiha_la_SOURCES += src/libhiha/token_processing.c
+########################################################################################### FIXME: REMOVE lexical.c
 libhiha_la_SOURCES += src/libhiha/lexical.c
 libhiha_la_SOURCES += src/libhiha/string_literal.c
 libhiha_la_SOURCES += src/libhiha/gensym.c

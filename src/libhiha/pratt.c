@@ -33,10 +33,11 @@
 #include <assert.h>
 #include <math.h>
 #include <inttypes.h>
+#include <filevercmp.h>
 #include <libhiha/string_t.h>
 #include <libhiha/load_plugin.h>
 #include <libhiha/initialize_once.h>
-#include <libhiha/persistent_integer_trie.h>
+#include <libhiha/persistent_avl.h>
 #include <libhiha/spinlock.h>
 #include <libhiha/pratt.h>
 
@@ -51,6 +52,10 @@ struct pratt_tables
   string_t_map_t lbp;
 };
 typedef struct pratt_tables *pratt_tables_t;
+
+DEFINE_HIHA_PERSISTENT_VECTOR_DATATYPE (HIHA_VISIBLE,
+                                        pratt_tables_vector,
+                                        pratt_tables_entry_t, 5);
 
 typedef long int pratt_binding_power_t;
 #define PRATT_BINDING_POWER_MIN LONG_MIN
@@ -91,13 +96,20 @@ make_pratt_tables_t (void)
   return data;
 }
 
-HIHA_INT_TRIE_NODES_DECL (_pratt_tables_map_node, unsigned int,
-                          pratt_tables_t);
-HIHA_INT_TRIE_INSERT_DEFN (_pratt_tables_map_insert,
-                           _pratt_tables_map_node, unsigned int,
-                           pratt_tables_t);
-HIHA_INT_TRIE_SEARCH_DEFN (_pratt_tables_map_search,
-                           _pratt_tables_map_node, unsigned int);
+static int
+pratt_tables_entry_cmp (const pratt_tables_entry_t *a,
+                        const pratt_tables_entry_t *b)
+{
+  return filevercmp (a->pass, b->pass);
+}
+
+HIHA_AVL_NODE_DECL (_pratt_tables_map_node, pratt_tables_entry_t);
+HIHA_AVL_INSERT_DEFN (_pratt_tables_map_insert, _pratt_tables_map_node,
+                      pratt_tables_entry_t);
+HIHA_AVL_SEARCH_DEFN (_pratt_tables_map_search, _pratt_tables_map_node,
+                      pratt_tables_entry_t);
+HIHA_AVL_INORDER_DEFN (_pratt_tables_map_inorder,
+                       _pratt_tables_map_node);
 
 static initialize_once_t _pratt_tables_map_init1t =
   INITIALIZE_ONCE_T_INIT;
@@ -110,32 +122,71 @@ _initialize_pratt_tables_map (void)
   _pratt_tables_map = NULL;
 }
 
-HIHA_VISIBLE pratt_tables_t
-get_pratt_tables_for_pass (unsigned int pass_number)
+HIHA_VISIBLE void
+acquire_pratt_tables_lock (void)
 {
   acquire_spinlock (&_pratt_tables_map_spinlock);
-  _pratt_tables_map_node_leaf_t leaf =
-    _pratt_tables_map_search (_pratt_tables_map, pass_number);
-  if (leaf == NULL)
-    {
-      _pratt_tables_map =
-        _pratt_tables_map_insert (_pratt_tables_map, pass_number,
-                                  make_pratt_tables_t ());
-      leaf = _pratt_tables_map_search (_pratt_tables_map, pass_number);
-    }
-  pratt_tables_t value = leaf->value;
+}
+
+HIHA_VISIBLE void
+release_pratt_tables_lock (void)
+{
   release_spinlock (&_pratt_tables_map_spinlock);
+}
+
+HIHA_VISIBLE pratt_tables_t
+get_pratt_tables_for_pass (const char *pass)
+{
+  pratt_tables_entry_t contents = {
+    .pass = pass,
+    .tables = NULL
+  };
+  _pratt_tables_map_node_t node =
+    _pratt_tables_map_search (_pratt_tables_map, contents,
+                              &pratt_tables_entry_cmp);
+  if (node == NULL)
+    {
+      contents.tables = make_pratt_tables_t ();
+      _pratt_tables_map =
+        _pratt_tables_map_insert (_pratt_tables_map, contents,
+                                  &pratt_tables_entry_cmp);
+      node =
+        _pratt_tables_map_search (_pratt_tables_map, contents,
+                                  &pratt_tables_entry_cmp);
+    }
+  pratt_tables_t value = node->data.tables;
   return value;
 }
 
 HIHA_VISIBLE void
-set_pratt_tables_for_pass (unsigned int pass_number,
-                           pratt_tables_t tables)
+set_pratt_tables_for_pass (const char *pass, pratt_tables_t tables)
 {
-  acquire_spinlock (&_pratt_tables_map_spinlock);
+  pratt_tables_entry_t contents = {
+    .pass = pass,
+    .tables = tables
+  };
   _pratt_tables_map =
-    _pratt_tables_map_insert (_pratt_tables_map, pass_number, tables);
-  release_spinlock (&_pratt_tables_map_spinlock);
+    _pratt_tables_map_insert (_pratt_tables_map, contents,
+                              &pratt_tables_entry_cmp);
+}
+
+static void
+collect_pratt_tables (struct _pratt_tables_map_node *node, void *data)
+{
+  pratt_tables_vector_t vec = *((pratt_tables_vector_t *) data);
+  vec = pratt_tables_vector_push (vec, node->data);
+  *((pratt_tables_vector_t *) data) = vec;
+}
+
+HIHA_VISIBLE pratt_tables_vector_t
+get_pratt_tables (void)
+{
+  pratt_tables_vector_t vec = NULL;
+  acquire_pratt_tables_lock ();
+  _pratt_tables_map_inorder (_pratt_tables_map, 1, collect_pratt_tables,
+                             &vec);
+  release_pratt_tables_lock ();
+  return vec;
 }
 
 HIHA_VISIBLE void

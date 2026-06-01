@@ -66,7 +66,10 @@ not be written “*do*...*od*” but “*do*...*end*.” and the *while*
 construct “*while*...*end*.” Guarded expressions will be allowed
 anywhere, including in ordinary sequential constructs
 “*begin*...*end*.” A semicolon will be allowed in place of a period,
-but a period is lot less dark on the page.
+but a period is lot less dark on the page.footnote:[Actually the
+period or semicolon is not part of the construct, but syntax that
+terminates an expression. Otherwise two adjacent constructs would be
+interpreted as joined by the “juxtaposition operator.”]
 
 What is the advantage of nondeterminism? I had to scan through my
 wife’s copy of _A Discipline of Programming_ to remind myself what it

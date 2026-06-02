@@ -179,31 +179,6 @@ hiha_SOURCES += src/hiha/hiha.c
 
 #---------------------------------------------------------------------
 
-bin_PROGRAMS += hiha-tokens-print
-
-hiha_tokens_print_LDFLAGS =
-hiha_tokens_print_LDADD =
-hiha_tokens_print_CFLAGS =
-EXTRA_hiha_tokens_print_DEPENDENCIES =
-hiha_tokens_print_SOURCES =
-
-hiha_tokens_print_LDFLAGS += -export-dynamic
-
-hiha_tokens_print_LDADD += libhiha.la
-hiha_tokens_print_LDADD += $(GCVERS)/libhiha-gc.la
-hiha_tokens_print_LDADD += lib/libgnu.la
-hiha_tokens_print_LDADD += $(AM_LIBRS)
-
-hiha_tokens_print_CFLAGS += $(BASICCFLAGS)
-hiha_tokens_print_CFLAGS += $(CFLAGS)
-
-EXTRA_hiha_tokens_print_DEPENDENCIES += libhiha.la
-EXTRA_hiha_tokens_print_DEPENDENCIES += lib/libgnu.la
-
-hiha_tokens_print_SOURCES += src/hiha-tokens-print/hiha-tokens-print.c
-
-#---------------------------------------------------------------------
-
 lib_LTLIBRARIES += libhiha.la
 
 libhiha_la_LIBADD =
@@ -389,8 +364,6 @@ indent:
 			$(filter %.c %.h,$(libhiha_la_SOURCES))) \
 		$(addprefix $(top_srcdir)/, \
 			$(filter %.c %.h,$(hiha_SOURCES))) \
-		$(addprefix $(top_srcdir)/, \
-			$(filter %.c %.h,$(hiha_tokens_print_SOURCES))) \
 		$(top_srcdir)/src/plugins/*.c \
 		$(top_srcdir)/tests/*.c
 

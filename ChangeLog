@@ -1,5 +1,15 @@
 @  reworking-how-passes-function
-|  2026-06-02 19:23 +0000
+|  2026-06-02 19:32 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       a4438bcc44cb9ec517f70c934905ad1ae1ebe296
+|  mercurial: cac8217a60301de85c9997d033d18bbd6daabcee
+|  revision:  223
+|  parents:   222
+|
+|    Remove lexical.[ch]
+|
+|
+o  2026-06-02 19:23 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       ce33ce05b1298d5ac6bd8101e78f145fcc760775
 |  mercurial: b5aa19684bac9419cd35782250969b4700222bd5

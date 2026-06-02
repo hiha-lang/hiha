@@ -239,8 +239,6 @@ libhiha_HDRS += include/libhiha/token_t.h
 libhiha_HDRS += include/libhiha/str_nul.h
 libhiha_HDRS += include/libhiha/pratt.h
 libhiha_HDRS += include/libhiha/token_processing.h
-########################################################################################### FIXME: REMOVE lexical.h
-libhiha_HDRS += include/libhiha/lexical.h
 libhiha_HDRS += include/libhiha/string_literal.h
 libhiha_HDRS += include/libhiha/gensym.h
 libhiha_HDRS += include/libhiha/load_plugin.h
@@ -266,8 +264,6 @@ libhiha_la_SOURCES += src/libhiha/str_nul_hash.c
 libhiha_la_SOURCES += src/libhiha/str_nul_vector.c
 libhiha_la_SOURCES += src/libhiha/pratt.c
 libhiha_la_SOURCES += src/libhiha/token_processing.c
-########################################################################################### FIXME: REMOVE lexical.c
-libhiha_la_SOURCES += src/libhiha/lexical.c
 libhiha_la_SOURCES += src/libhiha/string_literal.c
 libhiha_la_SOURCES += src/libhiha/gensym.c
 libhiha_la_SOURCES += src/libhiha/load_plugin.c

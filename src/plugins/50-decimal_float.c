@@ -173,79 +173,6 @@ scan_exponent (buffered_token_getter_t getter, bool *is_a_match,
     }
 }
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-nud_handler_t next_i10_handler__;
-nud_handler_t next_i_i10_handler__;
-
-static void
-i10_handler__ (void *state, buffered_token_getter_t getter,
-               pratt_tables_t tables, token_t tok, token_t *lhs,
-               const char **error_message)
-{
-  bool done = (*error_message != NULL);
-  if (!done)
-    {
-      token_t t;
-      getter->look_at_token (getter, 0, &t, error_message);
-      done = (*error_message != NULL);
-      if (!done && token_is_decimal_point (t))
-        {
-          token_t u;
-          getter->look_at_token (getter, 1, &u, error_message);
-          done = (*error_message != NULL);
-          if (!done && token_is_i10 (u))
-            {
-              string_t str =
-                concat_string_t (tok->token_value, t->token_value,
-                                 u->token_value, NULL);
-              *lhs =
-                make_token_t (make_string_t ("I.I10"), str, tok->loc);
-              (void) getter->get_token (getter, &u, error_message);
-              if (*error_message == NULL)
-                (void) getter->get_token (getter, &u, error_message);
-              done = true;
-            }
-        }
-    }
-  if (!done)
-    next_i10_handler__ (state, getter, tables, tok, lhs, error_message);
-}
-
-static void
-i_i10_handler__ (void *state, buffered_token_getter_t getter,
-                 pratt_tables_t tables, token_t tok, token_t *lhs,
-                 const char **error_message)
-{
-  /* Convert notations such as 123_456.789E+30 to "F10" tokens. */
-
-  bool done = (*error_message != NULL);
-  if (!done)
-    {
-      bool is_a_match;
-      token_t tok_expstart;
-      token_t tok_exponent;
-      scan_exponent (getter, &is_a_match, &tok_expstart, &tok_exponent,
-                     error_message);
-      done = (*error_message != NULL);
-      if (!done && is_a_match)
-        {
-          string_t str = concat_string_t (tok->token_value,
-                                          tok_expstart->token_value,
-                                          tok_exponent->token_value,
-                                          NULL);
-          *lhs = make_token_t (make_string_t ("F10"), str, tok->loc);
-          done = true;
-        }
-    }
-  if (!done)
-    next_i_i10_handler__ (state, getter, tables, tok, lhs,
-                          error_message);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 nud_handler_t next_i10_handler;
 nud_handler_t next_i_i10_handler;
 
@@ -321,15 +248,6 @@ plugin_init (void)
   pratt_tables_t tables;
 
   acquire_pratt_tables_lock ();
-
-  ////////////////////////////////////////////////////////////////////////////////////////////////////
-  tables = lexical_pratt_tables ();
-  next_i10_handler__ = pratt_nud_get (tables, make_string_t ("I10"));
-  pratt_nud_put (tables, make_string_t ("I10"), &i10_handler__);
-  next_i_i10_handler__ =
-    pratt_nud_get (tables, make_string_t ("I.I10"));
-  pratt_nud_put (tables, make_string_t ("I.I10"), &i_i10_handler__);
-  ////////////////////////////////////////////////////////////////////////////////////////////////////
 
   tables =
     get_pratt_tables_for_pass

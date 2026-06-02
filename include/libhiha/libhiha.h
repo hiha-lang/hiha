@@ -37,7 +37,6 @@
 #include <libhiha/str_nul.h>
 #include <libhiha/pratt.h>
 #include <libhiha/token_processing.h>
-#include <libhiha/lexical.h>
 #include <libhiha/string_literal.h>
 #include <libhiha/gensym.h>
 #include <libhiha/load_plugin.h>

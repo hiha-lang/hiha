@@ -64,48 +64,6 @@ token_is_i10 (token_t tok)
   return (string_t_cmp (tok->token_kind, make_string_t ("I10")) == 0);
 }
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-nud_handler_t next_i10_handler__;
-
-static void
-i10_handler__ (void *state, buffered_token_getter_t getter,
-               pratt_tables_t tables, token_t tok, token_t *lhs,
-               const char **error_message)
-{
-  bool done = (*error_message != NULL);
-  if (!done)
-    {
-      token_t t;
-      getter->look_at_token (getter, 0, &t, error_message);
-      done = (*error_message != NULL);
-      if (!done && token_is_fraction_slash (t))
-        {
-          token_t u;
-          getter->look_at_token (getter, 1, &u, error_message);
-          done = (*error_message != NULL);
-          if (!done && token_is_i10 (u))
-            {
-              string_t str =
-                concat_string_t (tok->token_value, t->token_value,
-                                 u->token_value, NULL);
-              *lhs =
-                make_token_t (make_string_t ("R10"), str, tok->loc);
-              (void) getter->get_token (getter, &u, error_message);
-              if (*error_message == NULL)
-                (void) getter->get_token (getter, &u, error_message);
-              done = true;
-            }
-        }
-    }
-  if (!done)
-    next_i10_handler__ (state, getter, tables, tok, lhs, error_message);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
 nud_handler_t next_i10_handler;
 
 static void
@@ -148,12 +106,6 @@ plugin_init (void)
   pratt_tables_t tables;
 
   acquire_pratt_tables_lock ();
-
-  ////////////////////////////////////////////////////////////////////////////////////////////////////
-  tables = lexical_pratt_tables ();
-  next_i10_handler__ = pratt_nud_get (tables, make_string_t ("I10"));
-  pratt_nud_put (tables, make_string_t ("I10"), &i10_handler__);
-  ////////////////////////////////////////////////////////////////////////////////////////////////////
 
   tables = get_pratt_tables_for_pass ("200-scan-exact-rationals");
   next_i10_handler = pratt_nud_get (tables, make_string_t ("I10"));

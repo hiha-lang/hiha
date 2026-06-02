@@ -1,7 +1,69 @@
-@  master
-|  2026-06-01 11:48 +0000
+@  reworking-how-passes-function
+|  2026-06-02 19:23 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
-|  git:
+|  git:       ce33ce05b1298d5ac6bd8101e78f145fcc760775
+|  mercurial: b5aa19684bac9419cd35782250969b4700222bd5
+|  revision:  222
+|  parents:   221
+|
+|    Add a --dump-tokens option and remove the fixed-point options.
+|
+|
+o  2026-06-02 17:53 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       20c3c84a6bea7a2d2df63b7df61a257b40599c15
+|  mercurial: 7a32c9aeec0e53c35885580392fc8257d9120d2e
+|  revision:  221
+|  parents:   220
+|
+|    Most of the functionality of a token-dumping plugin.
+|
+|
+o  2026-06-01 20:13 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       f1fda542d198fc4e4dd834a015fbf3a8bd36ab0f
+|  mercurial: c3702e1b3c08776fd8b2863f6f8247912d60f757
+|  revision:  220
+|  parents:   219
+|
+|    Passes through the Pratt parser are working, using the binary token
+|    files.
+|
+|
+o  master
+|  2026-06-01 14:03 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       a82e869aa4a8e646c603a786344815ae66f29b5c
+|  mercurial: b37ee196d785e02a366ff1fb59739334ab84b1dd
+|  revision:  219
+|  parents:   217
+|
+|    README was supposed to be there, after all.
+|
+|
+| o  2026-06-01 14:02 +0000
+|/   Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|    git:       2be46ce0ef38eb3008d86cdf37431c4c141c3d23
+|    mercurial: 87315107553b60c65bc89a6979e753026be42695
+|    revision:  218
+|    parents:   217
+|
+|      I guess README was supposed to be there.
+|
+|
+o  2026-06-01 11:52 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       9d0b25d344d901aaa0a0c377b44012126dacce01
+|  mercurial: 10e6cd6a8a2dbb5e7b6585d66ab64390b9e81982
+|  revision:  217
+|  parents:   216
+|
+|    Add a footnote.
+|
+|
+o  2026-06-01 11:48 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       dfff9fd9bb581292f1a144db0d823fbfb61c1fe0
 |  mercurial: a25fbba8014a0911de2d5debec9a2c72ec15a626
 |  revision:  216
 |  parents:   215

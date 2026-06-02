@@ -60,29 +60,6 @@ scan_comment (buffered_token_getter_t getter, token_t tok, token_t *lhs,
     *lhs = make_token_t (make_string_t ("CO"), str, tok->loc);
 }
 
-//////////////////////////////////////////////////////////////////////
-nud_handler_t next_handler;
-
-static void
-code_point_handler (void *state, buffered_token_getter_t getter,
-                    pratt_tables_t tables, token_t tok, token_t *lhs,
-                    const char **error_message)
-{
-  if (*error_message == NULL)
-    {
-      if (token_is_white_space (tok))
-        *lhs =
-          make_token_t (make_string_t ("SP"), tok->token_value,
-                        tok->loc);
-      else if (token_is_percent_sign (tok))
-        scan_comment (getter, tok, lhs, error_message);
-      else
-        next_handler (state, getter, tables, tok, lhs, error_message);
-    }
-}
-
-//////////////////////////////////////////////////////////////////////
-
 nud_handler_t next_cp_handler;
 
 static void
@@ -110,12 +87,6 @@ plugin_init (void)
   pratt_tables_t tables;
 
   acquire_pratt_tables_lock ();
-
-  //////////////////////////////////////////////////////////////////////
-  tables = lexical_pratt_tables ();
-  next_handler = pratt_nud_get (tables, string_t_CP ());
-  pratt_nud_put (tables, string_t_CP (), &code_point_handler);
-  //////////////////////////////////////////////////////////////////////
 
   tables =
     get_pratt_tables_for_pass ("100-scan-white-space-and-comments");

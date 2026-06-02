@@ -158,27 +158,6 @@ scan_decimal_integer (void *state, buffered_token_getter_t getter,
     }
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////
-nud_handler_t next_code_point_handler;
-
-static void
-code_point_handler (void *state, buffered_token_getter_t getter,
-                    pratt_tables_t tables, token_t tok, token_t *lhs,
-                    const char **error_message)
-{
-  if (*error_message == NULL)
-    {
-      if (token_is_ascii_digit (tok))
-        scan_decimal_integer (state, getter, tables, tok, lhs,
-                              error_message);
-      else
-        next_code_point_handler (state, getter, tables, tok, lhs,
-                                 error_message);
-    }
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////
-
 nud_handler_t next_cp_handler;
 
 static void
@@ -203,12 +182,6 @@ plugin_init (void)
   pratt_tables_t tables;
 
   acquire_pratt_tables_lock ();
-
-  //////////////////////////////////////////////////////////////////////////////////////////
-  tables = lexical_pratt_tables ();
-  next_code_point_handler = pratt_nud_get (tables, string_t_CP ());
-  pratt_nud_put (tables, string_t_CP (), &code_point_handler);
-  //////////////////////////////////////////////////////////////////////////////////////////
 
   tables =
     get_pratt_tables_for_pass ("100-scan-decimal-integer-without-sign");

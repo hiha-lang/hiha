@@ -43,19 +43,6 @@ static string_t str_KW;
 
 static string_t strings[13];
 
-///////nud_handler_t next_cp_handler;
-///////nud_handler_t next_eof_handler;
-///////nud_handler_t next_fsep_handler;
-///////nud_handler_t next_sp_handler;
-///////nud_handler_t next_co_handler;
-///////nud_handler_t next_sy_handler;
-///////nud_handler_t next_id_handler;
-///////nud_handler_t next_i10_handler;
-///////nud_handler_t next_i_i10_handler;
-///////nud_handler_t next_f10_handler;
-///////nud_handler_t next_r10_handler;
-///////nud_handler_t next_kw_handler;
-
 static void
 initialize_strings (void)
 {
@@ -114,12 +101,17 @@ quoted_string_t (string_t str)
 static void
 dump_token (token_t tok)
 {
-  fprintf (stderr, "%-*s %*zu %*zu   %-*s %s\n",
-           20, quoted_str_nul (tok->loc->filename),
-           5, tok->loc->line_no, 5, tok->loc->code_point_no,
-           5, make_str_nul (tok->token_kind),
-           quoted_string_t (tok->token_value));
-  fflush (stderr);
+  if (dump_tokens_stream != NULL)
+    {
+      fprintf (dump_tokens_stream, "%*s %*zu %*zu   %*s %s\n",
+               dump_tokens_widths[0],
+               quoted_str_nul (tok->loc->filename),
+               dump_tokens_widths[1], tok->loc->line_no,
+               dump_tokens_widths[2], tok->loc->code_point_no,
+               dump_tokens_widths[3], make_str_nul (tok->token_kind),
+               quoted_string_t (tok->token_value));
+      fflush (dump_tokens_stream);
+    }
 }
 
 static void

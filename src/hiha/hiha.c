@@ -49,7 +49,7 @@
 #define GETOPT_VERSION_CHAR (CHAR_MIN - 3)
 #define GETOPT_PLUGIN_CHAR (CHAR_MAX + 1)
 #define GETOPT_PLUGINDIR_CHAR (CHAR_MAX + 2)
-#define GETOPT_LEXICAL_MAX_CHAR (CHAR_MAX + 3)
+#define GETOPT_DUMP_TOKENS_CHAR (CHAR_MAX + 3)
 
 enum hiha_plugin_tag_t
 {
@@ -68,6 +68,7 @@ typedef struct hiha_plugin *hiha_plugin_t;
 struct hiha_options
 {
   voidp_vector_t plugins;
+  const char *dump_tokens_filename;
 };
 typedef struct hiha_options *hiha_options_t;
 
@@ -80,42 +81,6 @@ static const char *authors[] = {
   "Barry Schwartz",
   NULL
 };
-
-static void
-____scan_some_files (size_t n, const char *filenames[n])
-{
-  buffered_token_getter_t input_getter =
-    make_buffered_token_getter_from_source_files (n, filenames);
-  buffered_token_getter_t getter;
-  const bool (*check_for_mismatch) (buffered_token_getter_t, token_t);
-  make_token_getter_with_mismatch_check (input_getter, &getter,
-                                         &check_for_mismatch);
-
-  const char *fn[2] = { "hiha_tokens0", "hiha_tokens1" };
-  size_t ifn = 0;
-  FILE *h = fopen (fn[ifn], "w");
-  token_putter_t input_putter =
-    make_token_putter_to_stream_serialized_t (fn[ifn], h);
-  token_putter_t putter =
-    make_token_putter_with_mismatch_check (input_putter, getter,
-                                           check_for_mismatch);
-
-  const char *error_message;
-  scan_tokens (NULL, getter, putter, &error_message);
-  if (error_message != NULL)
-    {
-      error (exit_failure, 0, "%s", error_message);
-      abort ();
-    }
-  fclose (h);
-  if (error_message != 0)
-    error (exit_failure, 0, "%s", error_message);
-  scan_serialized_tokens_until_fixed_point (fn, &ifn, &error_message);
-  if (error_message != 0)
-    error (exit_failure, 0, "%s", error_message);
-  //printf ("FIXED POINT? %s\n",
-  //check_for_mismatch (getter, NULL) ? "no" : "yes");
-}
 
 static void
 print_version (void)
@@ -150,16 +115,8 @@ print_usage (void)
   usage_puts (_("  --plugin=PLUGIN      load a plugin\n"));
   usage_puts (_("  --plugindir=DIR      "
                 "load plugins from a directory\n"));
-  usage_puts (_("  --lexical-max=NUM    "
-                "maximum number of passes through lexical\n"
-                "                       "
-                "  analysis to reach a fixed point ["));
-  {
-    char s[100];
-    snprintf (s, 100, "%zu", lexical_max);
-    usage_puts (s);
-  }
-  usage_puts (_("]\n"));
+  usage_puts (_("  --dump-tokens=FILE   dump tokens "
+                "(“-” for standard output)\n"));
   usage_puts (_("  --help               "
                 "display this help and exit\n"));
   usage_puts (_("  --version            "
@@ -186,7 +143,7 @@ check_usage (int argc, MAYBE_UNUSED char **argv)
 static struct option const long_opts[] = {
   {"plugin", required_argument, NULL, GETOPT_PLUGIN_CHAR},
   {"plugindir", required_argument, NULL, GETOPT_PLUGINDIR_CHAR},
-  {"lexical-max", required_argument, NULL, GETOPT_LEXICAL_MAX_CHAR},
+  {"dump-tokens", required_argument, NULL, GETOPT_DUMP_TOKENS_CHAR},
   {"help", no_argument, NULL, GETOPT_HELP_CHAR},
   {"version", no_argument, NULL, GETOPT_VERSION_CHAR},
   {NULL, 0, NULL, 0}
@@ -222,37 +179,11 @@ require_a_digit_and_only_digits (const char *option, const char *s)
 }
 
 static void
-set_lexical_max (const char *s)
-{
-  const char *option = "--lexical-max";
-  require_a_digit_and_only_digits (option, s);
-  errno = 0;
-  uintmax_t umax = strtoumax (s, NULL, 10);
-  int err_number = errno;
-  if (umax == UINTMAX_MAX && err_number != 0)
-    {
-      error (exit_failure, err_number, "%s: %s", option, s);
-      abort ();
-    }
-  else if (SIZE_MAX < umax)
-    {
-      error (exit_failure, ERANGE, "%s: %s", option, s);
-      abort ();
-    }
-  else if (umax == 0)
-    {
-      error (exit_failure, 0, _("%s: there must be at least one pass"),
-             option);
-      abort ();
-    }
-  lexical_max = (size_t) umax;
-}
-
-static void
 get_options (int argc, char **argv, hiha_options_t *opts)
 {
   *opts = XMALLOC (struct hiha_options);
   (*opts)->plugins = NULL;
+  (*opts)->dump_tokens_filename = NULL;
 
   int c = getopt_for_this_program (argc, argv);
   while (c != -1)
@@ -272,8 +203,8 @@ get_options (int argc, char **argv, hiha_options_t *opts)
                                                    optarg));
           break;
 
-        case GETOPT_LEXICAL_MAX_CHAR:
-          set_lexical_max (optarg);
+        case GETOPT_DUMP_TOKENS_CHAR:
+          (*opts)->dump_tokens_filename = xstrdup (optarg);
           break;
 
         case GETOPT_VERSION_CHAR:
@@ -366,6 +297,34 @@ load_command_line_plugins (voidp_vector_t plugins)
     }
 }
 
+static void
+open_dump_tokens_stream (const char *filename)
+{
+  if (filename == NULL)
+    dump_tokens_stream = NULL;
+  else if (strcmp (filename, "-") == 0)
+    dump_tokens_stream = stdout;
+  else
+    {
+      dump_tokens_stream = fopen (filename, "w");
+      int err_number = errno;
+      if (dump_tokens_stream == NULL)
+        {
+          error (exit_failure, err_number, "%s", filename);
+          abort ();
+        }
+    }
+}
+
+static void
+close_dump_tokens_stream (void)
+{
+  if (dump_tokens_stream != NULL)
+    if (dump_tokens_stream != stdout)
+      if (dump_tokens_stream != stderr)
+        fclose (dump_tokens_stream);
+}
+
 static bool
 pass_predicate (const char *pass)
 {
@@ -387,49 +346,22 @@ main (int argc, char **argv)
   check_usage (argc, argv);
 
   load_command_line_plugins (opts->plugins);
+  open_dump_tokens_stream (opts->dump_tokens_filename);
 
   const char *final_filename_root;
   const char *error_message;
   do_pratt_passes (NULL, pass_predicate,
                    argc - 1, ((const char **) argv) + 1,
-                   "program", &final_filename_root, &error_message);
+                   "pass", &final_filename_root, &error_message);
+
+  close_dump_tokens_stream ();
+
   if (error_message != NULL)
     {
       error (exit_failure, 0, "%s", error_message);
       exit (EXIT_FAILURE);
     }
 
-#if 0                           ///////////////////////////////////////////////////////////////////////////
-  //____scan_some_files (argc - 1, ((const char **) argv) + 1);
-  const char *tokens;
-  const char *error_message;
-  scan_source_files_to_serialized_tokens (argc - 1,
-                                          ((const char **) argv) + 1,
-                                          &tokens, &error_message);
-  //  {                             ////////////////////////////////////////////////////////////////////////////////////////////////////
-  //    const char *err_message;
-  //    scan_source_files (argc - 1, ((const char **) argv) + 1,
-  //                       "filename_root", &err_message);
-  //    abort ();
-  //  }                             ////////////////////////////////////////////////////////////////////////////////////////////////////
-  if (error_message != NULL)
-    {
-      error (exit_failure, 0, "%s", error_message);
-      exit (EXIT_FAILURE);
-    }
-  {
-    char buf[2048];
-    FILE *f = fopen (tokens, "rb");
-    size_t n = fread (buf, sizeof (char), 2048, f);
-    while (n == 2048)
-      {
-        fwrite (buf, sizeof (char), 2048, stdout);
-        n = fread (buf, sizeof (char), 2048, f);
-      }
-    fwrite (buf, sizeof (char), n, stdout);
-    fclose (f);
-  }
-#endif ///////////////////////////////////////////////////////////////////////////
   exit (EXIT_SUCCESS);
 }
 

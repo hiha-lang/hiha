@@ -19,31 +19,14 @@
 
 */
 
-#ifndef __LIBHAHA__LIBHIHA_H__INCLUDED__
-#define __LIBHAHA__LIBHIHA_H__INCLUDED__
-
+#include <config.h>
 #include <libhiha/options.h>
-#include <libhiha/spookyhash.h>
-#include <libhiha/persistent_avl.h>
-#include <libhiha/persistent_integer_trie.h>
-#include <libhiha/persistent_hash_map.h>
-#include <libhiha/persistent_vector.h>
-#include <libhiha/indexed_deque.h>
-#include <libhiha/workspaces.h>
-#include <libhiha/spinlock.h>
-#include <libhiha/initialize_once.h>
-#include <libhiha/string_t.h>
-#include <libhiha/token_t.h>
-#include <libhiha/str_nul.h>
-#include <libhiha/pratt.h>
-#include <libhiha/token_processing.h>
-#include <libhiha/lexical.h>
-#include <libhiha/string_literal.h>
-#include <libhiha/gensym.h>
-#include <libhiha/load_plugin.h>
-#include <libhiha/indexed_data_file.h>
 
-#endif /* __LIBHAHA__LIBHIHA_H__INCLUDED__ */
+#define _(msgid) HIHA_GETTEXT (msgid)
+
+HIHA_VISIBLE FILE *dump_tokens_stream = NULL;
+HIHA_VISIBLE int dump_tokens_widths[4] = { -20, 5, 5, -5 };
+
 
 /*
   local variables:

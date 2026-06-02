@@ -189,9 +189,10 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/printf.m4 $(top_srcdir)/m4/pthread-once.m4 \
 	$(top_srcdir)/m4/pthread-spin.m4 $(top_srcdir)/m4/pthread_h.m4 \
 	$(top_srcdir)/m4/pthread_rwlock_rdlock.m4 \
-	$(top_srcdir)/m4/readdir.m4 $(top_srcdir)/m4/realloc.m4 \
-	$(top_srcdir)/m4/reallocarray.m4 $(top_srcdir)/m4/scandir.m4 \
-	$(top_srcdir)/m4/sched_h.m4 $(top_srcdir)/m4/secure_getenv.m4 \
+	$(top_srcdir)/m4/quotearg.m4 $(top_srcdir)/m4/readdir.m4 \
+	$(top_srcdir)/m4/realloc.m4 $(top_srcdir)/m4/reallocarray.m4 \
+	$(top_srcdir)/m4/scandir.m4 $(top_srcdir)/m4/sched_h.m4 \
+	$(top_srcdir)/m4/secure_getenv.m4 \
 	$(top_srcdir)/m4/setlocale_null.m4 \
 	$(top_srcdir)/m4/size_max.m4 $(top_srcdir)/m4/ssize_t.m4 \
 	$(top_srcdir)/m4/stat-time.m4 $(top_srcdir)/m4/stat.m4 \

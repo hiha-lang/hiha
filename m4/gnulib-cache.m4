@@ -51,6 +51,7 @@
 #  getopt-gnu \
 #  mkdtemp \
 #  progname \
+#  quotearg \
 #  scandir \
 #  tmpdir \
 #  unicase/u32-casecoll \
@@ -92,6 +93,7 @@ gl_MODULES([
   getopt-gnu
   mkdtemp
   progname
+  quotearg
   scandir
   tmpdir
   unicase/u32-casecoll

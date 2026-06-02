@@ -1,0 +1,23 @@
+pkg_plugins_lib_LTLIBRARIES += 90-dump_tokens.la
+
+90_dump_tokens_la_LIBADD =
+90_dump_tokens_la_LDFLAGS =
+90_dump_tokens_la_CFLAGS =
+EXTRA_90_dump_tokens_la_DEPENDENCIES =
+90_dump_tokens_la_SOURCES =
+
+90_dump_tokens_la_LIBADD += libhiha.la
+90_dump_tokens_la_LIBADD += lib/libgnu.la
+90_dump_tokens_la_LIBADD += $(GCVERS)/libhiha-gc.la
+
+90_dump_tokens_la_LDFLAGS += $(LIBS)
+90_dump_tokens_la_LDFLAGS += $(LTLIBICONV)
+90_dump_tokens_la_LDFLAGS += $(LTLIBINTL)
+90_dump_tokens_la_LDFLAGS += $(LTLIBUNISTRING)
+90_dump_tokens_la_LDFLAGS += -avoid-version -module
+90_dump_tokens_la_LDFLAGS += -shared
+
+90_dump_tokens_la_CFLAGS += $(BASICCFLAGS)
+90_dump_tokens_la_CFLAGS += $(CFLAGS)
+
+90_dump_tokens_la_SOURCES += src/plugins/90-dump_tokens.c

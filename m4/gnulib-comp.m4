@@ -167,6 +167,8 @@ AC_DEFUN([gl_EARLY],
   # Code from module pthread-h:
   gl_ANYTHREADLIB_EARLY
   # Code from module pthread-once:
+  # Code from module quotearg:
+  # Code from module quotearg-simple:
   # Code from module readdir:
   # Code from module realloc-posix:
   # Code from module reallocarray:
@@ -746,6 +748,7 @@ AC_DEFUN([gl_INIT],
   gl_CONDITIONAL([GL_COND_OBJ_PTHREAD_ONCE],
                  [test $HAVE_PTHREAD_ONCE = 0 || test $REPLACE_PTHREAD_ONCE = 1])
   gl_PTHREAD_MODULE_INDICATOR([pthread-once])
+  gl_QUOTEARG
   gl_FUNC_READDIR
   gl_CONDITIONAL([GL_COND_OBJ_READDIR],
                  [test $HAVE_READDIR = 0 || test $REPLACE_READDIR = 1])
@@ -1430,6 +1433,9 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/progname.h
   lib/pthread-once.c
   lib/pthread.in.h
+  lib/quote.h
+  lib/quotearg.c
+  lib/quotearg.h
   lib/readdir.c
   lib/realloc.c
   lib/reallocarray.c
@@ -1753,6 +1759,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/pthread-spin.m4
   m4/pthread_h.m4
   m4/pthread_rwlock_rdlock.m4
+  m4/quotearg.m4
   m4/readdir.m4
   m4/realloc.m4
   m4/reallocarray.m4

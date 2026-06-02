@@ -60,6 +60,7 @@
 #  getopt-gnu \
 #  mkdtemp \
 #  progname \
+#  quotearg \
 #  scandir \
 #  tmpdir \
 #  unicase/u32-casecoll \
@@ -349,9 +350,10 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/printf.m4 $(top_srcdir)/m4/pthread-once.m4 \
 	$(top_srcdir)/m4/pthread-spin.m4 $(top_srcdir)/m4/pthread_h.m4 \
 	$(top_srcdir)/m4/pthread_rwlock_rdlock.m4 \
-	$(top_srcdir)/m4/readdir.m4 $(top_srcdir)/m4/realloc.m4 \
-	$(top_srcdir)/m4/reallocarray.m4 $(top_srcdir)/m4/scandir.m4 \
-	$(top_srcdir)/m4/sched_h.m4 $(top_srcdir)/m4/secure_getenv.m4 \
+	$(top_srcdir)/m4/quotearg.m4 $(top_srcdir)/m4/readdir.m4 \
+	$(top_srcdir)/m4/realloc.m4 $(top_srcdir)/m4/reallocarray.m4 \
+	$(top_srcdir)/m4/scandir.m4 $(top_srcdir)/m4/sched_h.m4 \
+	$(top_srcdir)/m4/secure_getenv.m4 \
 	$(top_srcdir)/m4/setlocale_null.m4 \
 	$(top_srcdir)/m4/size_max.m4 $(top_srcdir)/m4/ssize_t.m4 \
 	$(top_srcdir)/m4/stat-time.m4 $(top_srcdir)/m4/stat.m4 \
@@ -407,8 +409,8 @@ am__libgnu_la_SOURCES_DIST = amemxfrm.c base64.h base64.c \
 	mbrtoc32.c mbrtowc.c mbsinit.c mbsnlen.c mbszero.c memchr.c \
 	memcmp2.c memeq.c minmax.h mkdir.c mkdtemp.c msvc-inval.c \
 	msvc-nothrow.c glthread/once.h glthread/once.c open.c \
-	opendir.c progname.h progname.c pthread-once.c readdir.c \
-	realloc.c reallocarray.c scandir.c secure_getenv.c \
+	opendir.c progname.h progname.c pthread-once.c quotearg.c \
+	readdir.c realloc.c reallocarray.c scandir.c secure_getenv.c \
 	setlocale_null.c setlocale-lock.c setlocale_null-unlocked.c \
 	size_max.h stat.c stat-time.c stdc_memreverse8u.c stdio-read.c \
 	stdio-write.c stdio-consolesafe.c stdlib.c streq.c strerror.c \
@@ -611,18 +613,18 @@ am_libgnu_la_OBJECTS = libgnu_la-amemxfrm.lo libgnu_la-base64.lo \
 	libgnu_la-memcmp2.lo libgnu_la-memeq.lo $(am__objects_33) \
 	$(am__objects_34) $(am__objects_35) $(am__objects_36) \
 	glthread/libgnu_la-once.lo $(am__objects_37) $(am__objects_38) \
-	libgnu_la-progname.lo $(am__objects_39) $(am__objects_40) \
-	$(am__objects_41) $(am__objects_42) $(am__objects_43) \
-	$(am__objects_44) libgnu_la-setlocale_null.lo \
-	$(am__objects_45) libgnu_la-setlocale_null-unlocked.lo \
-	$(am__objects_46) libgnu_la-stat-time.lo $(am__objects_47) \
-	$(am__objects_48) $(am__objects_49) $(am__objects_50) \
-	libgnu_la-stdlib.lo libgnu_la-streq.lo $(am__objects_51) \
-	$(am__objects_52) libgnu_la-striconveh.lo \
-	libgnu_la-striconveha.lo libgnu_la-strnul.lo \
-	libgnu_la-tempname.lo glthread/libgnu_la-threadlib.lo \
-	libgnu_la-tmpdir.lo unicase/libgnu_la-cased.lo \
-	$(am__objects_53) $(am__objects_54) \
+	libgnu_la-progname.lo $(am__objects_39) libgnu_la-quotearg.lo \
+	$(am__objects_40) $(am__objects_41) $(am__objects_42) \
+	$(am__objects_43) $(am__objects_44) \
+	libgnu_la-setlocale_null.lo $(am__objects_45) \
+	libgnu_la-setlocale_null-unlocked.lo $(am__objects_46) \
+	libgnu_la-stat-time.lo $(am__objects_47) $(am__objects_48) \
+	$(am__objects_49) $(am__objects_50) libgnu_la-stdlib.lo \
+	libgnu_la-streq.lo $(am__objects_51) $(am__objects_52) \
+	libgnu_la-striconveh.lo libgnu_la-striconveha.lo \
+	libgnu_la-strnul.lo libgnu_la-tempname.lo \
+	glthread/libgnu_la-threadlib.lo libgnu_la-tmpdir.lo \
+	unicase/libgnu_la-cased.lo $(am__objects_53) $(am__objects_54) \
 	unicase/libgnu_la-ignorable.lo \
 	unicase/libgnu_la-special-casing.lo \
 	unicase/libgnu_la-tocasefold.lo $(am__objects_55) \
@@ -760,6 +762,7 @@ am__depfiles_remade = ./$(DEPDIR)/libgnu_la-amemxfrm.Plo \
 	./$(DEPDIR)/libgnu_la-printf-parse.Plo \
 	./$(DEPDIR)/libgnu_la-progname.Plo \
 	./$(DEPDIR)/libgnu_la-pthread-once.Plo \
+	./$(DEPDIR)/libgnu_la-quotearg.Plo \
 	./$(DEPDIR)/libgnu_la-readdir.Plo \
 	./$(DEPDIR)/libgnu_la-realloc.Plo \
 	./$(DEPDIR)/libgnu_la-reallocarray.Plo \
@@ -2564,8 +2567,8 @@ EXTRA_DIST = alloca.in.h amemxfrm.h array-mergesort.h assert.in.h \
 	lc-charset-dispatch.c lc-charset-dispatch.h \
 	mbrtowc-impl-utf8.h mbrtowc-impl.h mbtowc-lock.c mbtowc-lock.h \
 	windows-initguard.h memchr.valgrind memcmp2.h msvc-inval.h \
-	msvc-nothrow.h dirent-private.h pathmax.h pthread.in.h \
-	dirent-private.h sched.in.h setlocale_null.h \
+	msvc-nothrow.h dirent-private.h pathmax.h pthread.in.h quote.h \
+	quotearg.h dirent-private.h sched.in.h setlocale_null.h \
 	windows-initguard.h setlocale_null.h _Noreturn.h arg-nonnull.h \
 	c++defs.h warn-on-use.h stat-w32.c stat-w32.h stat-time.h \
 	stdarg.in.h stdbit.in.h intprops-internal.h stdckdint.in.h \
@@ -2691,40 +2694,41 @@ libgnu_la_SOURCES = amemxfrm.c base64.h base64.c basename-lgpl.c \
 	memcmp2.c memeq.c minmax.h $(am__append_33) $(am__append_34) \
 	$(am__append_35) $(am__append_36) glthread/once.h \
 	glthread/once.c $(am__append_37) $(am__append_38) progname.h \
-	progname.c $(am__append_39) $(am__append_40) $(am__append_41) \
-	$(am__append_42) $(am__append_43) $(am__append_44) \
-	setlocale_null.c $(am__append_45) setlocale_null-unlocked.c \
-	size_max.h $(am__append_46) stat-time.c $(am__append_47) \
-	$(am__append_48) $(am__append_49) $(am__append_50) stdlib.c \
-	streq.c $(am__append_51) $(am__append_52) striconveh.h \
-	striconveh.c striconveha.h striconveha.c strnul.c tempname.c \
-	glthread/threadlib.c tmpdir.h tmpdir.c unicase/cased.c \
-	$(am__append_53) $(am__append_54) unicase/ignorable.c \
-	unicase/special-casing.c unicase/tocasefold.c $(am__append_55) \
-	$(am__append_56) $(am__append_57) unicase/u32-casemap.c \
-	$(am__append_58) $(am__append_59) $(am__append_60) \
-	$(am__append_61) $(am__append_62) $(am__append_63) \
-	$(am__append_64) $(am__append_65) $(am__append_66) \
-	$(am__append_67) $(am__append_68) $(am__append_69) \
-	$(am__append_70) $(am__append_71) $(am__append_72) \
-	$(am__append_73) $(am__append_74) $(am__append_75) \
-	$(am__append_76) $(am__append_77) $(am__append_78) \
-	$(am__append_79) $(am__append_80) $(am__append_81) \
-	$(am__append_82) $(am__append_83) $(am__append_84) \
-	$(am__append_85) $(am__append_86) $(am__append_87) \
-	$(am__append_88) $(am__append_89) uninorm/decompose-internal.c \
-	$(am__append_90) uninorm/decomposition-table.c \
-	$(am__append_91) $(am__append_92) $(am__append_93) unistd.c \
-	$(am__append_94) $(am__append_95) $(am__append_96) \
-	$(am__append_97) $(am__append_98) $(am__append_99) \
-	$(am__append_100) $(am__append_101) $(am__append_102) \
-	$(am__append_103) $(am__append_104) $(am__append_105) \
-	$(am__append_106) $(am__append_107) $(am__append_108) \
-	$(am__append_109) $(am__append_110) vaszprintf.c aszprintf.c \
-	version-etc.h version-etc.c wctype-h.c $(am__append_111) \
-	$(am__append_112) $(am__append_113) $(am__append_114) \
-	$(am__append_115) xmalloc.c xalloc-die.c xsize.h xsize.c \
-	xstrerror.c xvasprintf.h xvasprintf.c xasprintf.c
+	progname.c $(am__append_39) quotearg.c $(am__append_40) \
+	$(am__append_41) $(am__append_42) $(am__append_43) \
+	$(am__append_44) setlocale_null.c $(am__append_45) \
+	setlocale_null-unlocked.c size_max.h $(am__append_46) \
+	stat-time.c $(am__append_47) $(am__append_48) $(am__append_49) \
+	$(am__append_50) stdlib.c streq.c $(am__append_51) \
+	$(am__append_52) striconveh.h striconveh.c striconveha.h \
+	striconveha.c strnul.c tempname.c glthread/threadlib.c \
+	tmpdir.h tmpdir.c unicase/cased.c $(am__append_53) \
+	$(am__append_54) unicase/ignorable.c unicase/special-casing.c \
+	unicase/tocasefold.c $(am__append_55) $(am__append_56) \
+	$(am__append_57) unicase/u32-casemap.c $(am__append_58) \
+	$(am__append_59) $(am__append_60) $(am__append_61) \
+	$(am__append_62) $(am__append_63) $(am__append_64) \
+	$(am__append_65) $(am__append_66) $(am__append_67) \
+	$(am__append_68) $(am__append_69) $(am__append_70) \
+	$(am__append_71) $(am__append_72) $(am__append_73) \
+	$(am__append_74) $(am__append_75) $(am__append_76) \
+	$(am__append_77) $(am__append_78) $(am__append_79) \
+	$(am__append_80) $(am__append_81) $(am__append_82) \
+	$(am__append_83) $(am__append_84) $(am__append_85) \
+	$(am__append_86) $(am__append_87) $(am__append_88) \
+	$(am__append_89) uninorm/decompose-internal.c $(am__append_90) \
+	uninorm/decomposition-table.c $(am__append_91) \
+	$(am__append_92) $(am__append_93) unistd.c $(am__append_94) \
+	$(am__append_95) $(am__append_96) $(am__append_97) \
+	$(am__append_98) $(am__append_99) $(am__append_100) \
+	$(am__append_101) $(am__append_102) $(am__append_103) \
+	$(am__append_104) $(am__append_105) $(am__append_106) \
+	$(am__append_107) $(am__append_108) $(am__append_109) \
+	$(am__append_110) vaszprintf.c aszprintf.c version-etc.h \
+	version-etc.c wctype-h.c $(am__append_111) $(am__append_112) \
+	$(am__append_113) $(am__append_114) $(am__append_115) \
+	xmalloc.c xalloc-die.c xsize.h xsize.c xstrerror.c \
+	xvasprintf.h xvasprintf.c xasprintf.c
 libgnu_la_CFLAGS = $(AM_CFLAGS) $(GL_CFLAG_GNULIB_WARNINGS) $(GL_CFLAG_ALLOW_WARNINGS)
 libgnu_la_LIBADD = $(gl_libgnu_LTLIBOBJS)
 libgnu_la_DEPENDENCIES = $(gl_libgnu_LTLIBOBJS)
@@ -3120,6 +3124,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-printf-parse.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-progname.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-pthread-once.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-quotearg.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-readdir.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-realloc.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgnu_la-reallocarray.Plo@am__quote@ # am--include-marker
@@ -3816,6 +3821,13 @@ libgnu_la-pthread-once.lo: pthread-once.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='pthread-once.c' object='libgnu_la-pthread-once.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -c -o libgnu_la-pthread-once.lo `test -f 'pthread-once.c' || echo '$(srcdir)/'`pthread-once.c
+
+libgnu_la-quotearg.lo: quotearg.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -MT libgnu_la-quotearg.lo -MD -MP -MF $(DEPDIR)/libgnu_la-quotearg.Tpo -c -o libgnu_la-quotearg.lo `test -f 'quotearg.c' || echo '$(srcdir)/'`quotearg.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgnu_la-quotearg.Tpo $(DEPDIR)/libgnu_la-quotearg.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='quotearg.c' object='libgnu_la-quotearg.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -c -o libgnu_la-quotearg.lo `test -f 'quotearg.c' || echo '$(srcdir)/'`quotearg.c
 
 libgnu_la-readdir.lo: readdir.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgnu_la_CFLAGS) $(CFLAGS) -MT libgnu_la-readdir.lo -MD -MP -MF $(DEPDIR)/libgnu_la-readdir.Tpo -c -o libgnu_la-readdir.lo `test -f 'readdir.c' || echo '$(srcdir)/'`readdir.c
@@ -4984,6 +4996,7 @@ distclean: distclean-recursive
 	-rm -f ./$(DEPDIR)/libgnu_la-printf-parse.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-progname.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-pthread-once.Plo
+	-rm -f ./$(DEPDIR)/libgnu_la-quotearg.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-readdir.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-realloc.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-reallocarray.Plo
@@ -5226,6 +5239,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f ./$(DEPDIR)/libgnu_la-printf-parse.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-progname.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-pthread-once.Plo
+	-rm -f ./$(DEPDIR)/libgnu_la-quotearg.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-readdir.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-realloc.Plo
 	-rm -f ./$(DEPDIR)/libgnu_la-reallocarray.Plo

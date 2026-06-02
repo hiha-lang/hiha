@@ -46,6 +46,7 @@
 #  getopt-gnu \
 #  mkdtemp \
 #  progname \
+#  quotearg \
 #  scandir \
 #  tmpdir \
 #  unicase/u32-casecoll \
@@ -1485,6 +1486,14 @@ libgnu_la_SOURCES += pthread-once.c
 endif
 
 ## end   gnulib module pthread-once
+
+## begin gnulib module quotearg
+
+libgnu_la_SOURCES += quotearg.c
+
+EXTRA_DIST += quote.h quotearg.h
+
+## end   gnulib module quotearg
 
 ## begin gnulib module readdir
 

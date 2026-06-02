@@ -393,7 +393,6 @@ main (int argc, char **argv)
   do_pratt_passes (NULL, pass_predicate,
                    argc - 1, ((const char **) argv) + 1,
                    "program", &final_filename_root, &error_message);
-  abort ();
   if (error_message != NULL)
     {
       error (exit_failure, 0, "%s", error_message);

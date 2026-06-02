@@ -1,5 +1,16 @@
-@  reworking-how-passes-function
-|  2026-06-02 19:32 +0000
+@  master reworking-how-passes-function
+|  2026-06-02 19:35 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       5ce50846ad4edda11a53ceff75352d6ec253eb89
+|  mercurial: f17a7fdc89db6bec48903fd6a3116aab183b842b
+|  revision:  224
+|  parents:   223
+|
+|    Remove hiha-tokens-print. It is now handled by the --dump-tokens
+|    option.
+|
+|
+o  2026-06-02 19:32 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       a4438bcc44cb9ec517f70c934905ad1ae1ebe296
 |  mercurial: cac8217a60301de85c9997d033d18bbd6daabcee
@@ -40,8 +51,7 @@ o  2026-06-01 20:13 +0000
 |    files.
 |
 |
-o  master
-|  2026-06-01 14:03 +0000
+o  2026-06-01 14:03 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       a82e869aa4a8e646c603a786344815ae66f29b5c
 |  mercurial: b37ee196d785e02a366ff1fb59739334ab84b1dd

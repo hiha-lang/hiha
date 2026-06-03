@@ -343,6 +343,7 @@ am_90_dump_tokens_la_OBJECTS =  \
 libhiha_la_DEPENDENCIES = lib/libgnu.la
 am__objects_1 =
 am_libhiha_la_OBJECTS = $(am__objects_1) \
+	src/libhiha/libhiha_la-xalloc.lo \
 	src/libhiha/libhiha_la-options.lo \
 	src/libhiha/libhiha_la-spookyhash.lo \
 	src/libhiha/libhiha_la-persistent_vector.lo \
@@ -431,6 +432,7 @@ am__depfiles_remade = src/hiha/$(DEPDIR)/hiha-hiha.Po \
 	src/libhiha/$(DEPDIR)/libhiha_la-token_t_omap.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-token_t_vector.Plo \
 	src/libhiha/$(DEPDIR)/libhiha_la-workspaces.Plo \
+	src/libhiha/$(DEPDIR)/libhiha_la-xalloc.Plo \
 	src/plugins/$(DEPDIR)/10_string_la-10-string.Plo \
 	src/plugins/$(DEPDIR)/20_white_space_la-20-white_space.Plo \
 	src/plugins/$(DEPDIR)/30_decimal_integer_la-30-decimal_integer.Plo \
@@ -2358,23 +2360,25 @@ libhiha_la_LIBADD = lib/libgnu.la
 libhiha_la_LDFLAGS = $(AM_LIBRS) -lm -ldl -export-dynamic
 libhiha_la_CFLAGS = $(BASICCFLAGS) $(CFLAGS)
 EXTRA_libhiha_la_DEPENDENCIES = 
-libhiha_la_SOURCES = $(libhiha_HDRS) src/libhiha/options.c \
-	src/libhiha/spookyhash.c src/libhiha/persistent_vector.c \
-	src/libhiha/workspaces.c src/libhiha/spinlock.c \
-	src/libhiha/indexed_deque.c src/libhiha/string_t.c \
-	src/libhiha/string_t_hash.c src/libhiha/string_t_vector.c \
-	src/libhiha/token_t.c src/libhiha/token_t_hash.c \
-	src/libhiha/token_t_vector.c src/libhiha/str_nul.c \
-	src/libhiha/str_nul_hash.c src/libhiha/str_nul_vector.c \
-	src/libhiha/pratt.c src/libhiha/token_processing.c \
-	src/libhiha/string_literal.c src/libhiha/gensym.c \
-	src/libhiha/load_plugin.c src/libhiha/indexed_data_file.c
+libhiha_la_SOURCES = $(libhiha_HDRS) src/libhiha/xalloc.c \
+	src/libhiha/options.c src/libhiha/spookyhash.c \
+	src/libhiha/persistent_vector.c src/libhiha/workspaces.c \
+	src/libhiha/spinlock.c src/libhiha/indexed_deque.c \
+	src/libhiha/string_t.c src/libhiha/string_t_hash.c \
+	src/libhiha/string_t_vector.c src/libhiha/token_t.c \
+	src/libhiha/token_t_hash.c src/libhiha/token_t_vector.c \
+	src/libhiha/str_nul.c src/libhiha/str_nul_hash.c \
+	src/libhiha/str_nul_vector.c src/libhiha/pratt.c \
+	src/libhiha/token_processing.c src/libhiha/string_literal.c \
+	src/libhiha/gensym.c src/libhiha/load_plugin.c \
+	src/libhiha/indexed_data_file.c
 nodist_libhiha_la_SOURCES = src/libhiha/string_t_map.c \
 	src/libhiha/string_t_omap.c src/libhiha/token_t_map.c \
 	src/libhiha/token_t_omap.c src/libhiha/str_nul_map.c \
 	src/libhiha/str_nul_omap.c
-libhiha_HDRS = include/libhiha/libhiha.h include/libhiha/options.h \
-	include/libhiha/spookyhash.h include/libhiha/persistent_avl.h \
+libhiha_HDRS = include/libhiha/libhiha.h include/libhiha/xalloc.h \
+	include/libhiha/options.h include/libhiha/spookyhash.h \
+	include/libhiha/persistent_avl.h \
 	include/libhiha/persistent_integer_trie.h \
 	include/libhiha/persistent_hash_map.h \
 	include/libhiha/persistent_vector.h \
@@ -2624,6 +2628,8 @@ src/libhiha/$(am__dirstamp):
 src/libhiha/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) src/libhiha/$(DEPDIR)
 	@: >>src/libhiha/$(DEPDIR)/$(am__dirstamp)
+src/libhiha/libhiha_la-xalloc.lo: src/libhiha/$(am__dirstamp) \
+	src/libhiha/$(DEPDIR)/$(am__dirstamp)
 src/libhiha/libhiha_la-options.lo: src/libhiha/$(am__dirstamp) \
 	src/libhiha/$(DEPDIR)/$(am__dirstamp)
 src/libhiha/libhiha_la-spookyhash.lo: src/libhiha/$(am__dirstamp) \
@@ -2737,6 +2743,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-token_t_omap.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-token_t_vector.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-workspaces.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/libhiha/$(DEPDIR)/libhiha_la-xalloc.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/10_string_la-10-string.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/20_white_space_la-20-white_space.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/plugins/$(DEPDIR)/30_decimal_integer_la-30-decimal_integer.Plo@am__quote@ # am--include-marker
@@ -2839,6 +2846,13 @@ src/plugins/90_dump_tokens_la-90-dump_tokens.lo: src/plugins/90-dump_tokens.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/plugins/90-dump_tokens.c' object='src/plugins/90_dump_tokens_la-90-dump_tokens.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(90_dump_tokens_la_CFLAGS) $(CFLAGS) -c -o src/plugins/90_dump_tokens_la-90-dump_tokens.lo `test -f 'src/plugins/90-dump_tokens.c' || echo '$(srcdir)/'`src/plugins/90-dump_tokens.c
+
+src/libhiha/libhiha_la-xalloc.lo: src/libhiha/xalloc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_la-xalloc.lo -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_la-xalloc.Tpo -c -o src/libhiha/libhiha_la-xalloc.lo `test -f 'src/libhiha/xalloc.c' || echo '$(srcdir)/'`src/libhiha/xalloc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/libhiha/$(DEPDIR)/libhiha_la-xalloc.Tpo src/libhiha/$(DEPDIR)/libhiha_la-xalloc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/libhiha/xalloc.c' object='src/libhiha/libhiha_la-xalloc.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -c -o src/libhiha/libhiha_la-xalloc.lo `test -f 'src/libhiha/xalloc.c' || echo '$(srcdir)/'`src/libhiha/xalloc.c
 
 src/libhiha/libhiha_la-options.lo: src/libhiha/options.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libhiha_la_CFLAGS) $(CFLAGS) -MT src/libhiha/libhiha_la-options.lo -MD -MP -MF src/libhiha/$(DEPDIR)/libhiha_la-options.Tpo -c -o src/libhiha/libhiha_la-options.lo `test -f 'src/libhiha/options.c' || echo '$(srcdir)/'`src/libhiha/options.c
@@ -3517,6 +3531,7 @@ distclean: distclean-recursive
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t_omap.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t_vector.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-workspaces.Plo
+	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-xalloc.Plo
 	-rm -f src/plugins/$(DEPDIR)/10_string_la-10-string.Plo
 	-rm -f src/plugins/$(DEPDIR)/20_white_space_la-20-white_space.Plo
 	-rm -f src/plugins/$(DEPDIR)/30_decimal_integer_la-30-decimal_integer.Plo
@@ -3604,6 +3619,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t_omap.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-token_t_vector.Plo
 	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-workspaces.Plo
+	-rm -f src/libhiha/$(DEPDIR)/libhiha_la-xalloc.Plo
 	-rm -f src/plugins/$(DEPDIR)/10_string_la-10-string.Plo
 	-rm -f src/plugins/$(DEPDIR)/20_white_space_la-20-white_space.Plo
 	-rm -f src/plugins/$(DEPDIR)/30_decimal_integer_la-30-decimal_integer.Plo

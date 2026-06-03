@@ -146,7 +146,7 @@ scan_identifier (void *state, buffered_token_getter_t getter,
   *lhs = NULL;
 
   voidp_vector_t characters = NULL;
-  uint32_t *c = XMALLOC (uint32_t);
+  uint32_t *c = XMALLOC_ATOMIC (uint32_t);
   *c = tok->token_value->s[0];
   characters = voidp_vector_push (characters, c);
 
@@ -159,12 +159,12 @@ scan_identifier (void *state, buffered_token_getter_t getter,
     {
       if (is_connector (separator))
         {
-          c = XMALLOC (uint32_t);
+          c = XMALLOC_ATOMIC (uint32_t);
           *c = separator;
           characters = voidp_vector_push (characters, c);
         }
 
-      c = XMALLOC (uint32_t);
+      c = XMALLOC_ATOMIC (uint32_t);
       *c = next_character;
       characters = voidp_vector_push (characters, c);
 
@@ -177,7 +177,7 @@ scan_identifier (void *state, buffered_token_getter_t getter,
     {
       struct string *str = XMALLOC (struct string);
       str->n = voidp_vector_length (characters);
-      str->s = XNMALLOC (str->n, uint32_t);
+      str->s = XNMALLOC_ATOMIC (str->n, uint32_t);
       for (size_t i = 0; i != str->n; i += 1)
         str->s[i] =
           *((const uint32_t *) voidp_vector_ref (characters, i));

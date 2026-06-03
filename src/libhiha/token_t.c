@@ -29,6 +29,7 @@
 #include <exitfail.h>
 #include <base64.h>
 #include <xstrerror.h>
+#include <libhiha/xalloc.h>
 #include <libhiha/token_t.h>
 #include <libhiha/workspaces.h>
 #include <libhiha/string_t.h>
@@ -195,7 +196,7 @@ get_token_from_string (token_getter_t getter, token_t *tok,
     {
       tokval = XMALLOC (struct string);
       tokval->n = 1;
-      tokval->s = XNMALLOC (1, uint32_t);
+      tokval->s = XNMALLOC_ATOMIC (1, uint32_t);
       tokval->s[0] = g->str->s[g->i];
       g->i += 1;
       if (tokval->s[0] == '\n')
@@ -243,7 +244,7 @@ make_token_getter_from_source_file_t (const char *filename, FILE *f)
   getter->f = f;
 
   getter->nbuf = 1000;
-  getter->buf = XNMALLOC (getter->nbuf, char);
+  getter->buf = XNMALLOC_ATOMIC (getter->nbuf, char);
   getter->n = 0;
 
   getter->sbuf = NULL;
@@ -291,7 +292,7 @@ get_token_from_source_file (token_getter_t getter, token_t *tok,
   if (!g->eof_reached)
     {
       struct string *str = XMALLOC (struct string);
-      str->s = XNMALLOC (1, uint32_t);
+      str->s = XNMALLOC_ATOMIC (1, uint32_t);
       str->s[0] = g->sbuf->s[g->i_code_point];
       str->n = 1;
       *tok =
@@ -310,7 +311,7 @@ get_token_from_source_file (token_getter_t getter, token_t *tok,
 static str_nul_map_t
 str_nul_insert_index (str_nul_map_t map, const char *str, size_t i)
 {
-  size_t *box = XMALLOC (size_t);
+  size_t *box = XMALLOC_ATOMIC (size_t);
   *box = i;
   return str_nul_map_insert_only (map, str, box);
 }
@@ -325,7 +326,7 @@ str_nul_retrieve_index (str_nul_map_t map, const char *str)
 static string_t_map_t
 string_t_insert_index (string_t_map_t map, string_t str, size_t i)
 {
-  size_t *box = XMALLOC (size_t);
+  size_t *box = XMALLOC_ATOMIC (size_t);
   *box = i;
   return string_t_map_insert_only (map, str, box);
 }
@@ -434,7 +435,7 @@ push_back_string_into_buffered_getter (buffered_token_getter_t getter,
     {
       struct string *cstr = XMALLOC (struct string);
       cstr->n = 1;
-      cstr->s = XNMALLOC (1, uint32_t);
+      cstr->s = XNMALLOC_ATOMIC (1, uint32_t);
       cstr->s[0] = str->s[str->n - 1 - i];
       token_t tok = make_token_t (string_t_CP (), cstr, loc);
       getter->push_back_token (getter, tok, error_message);
@@ -581,7 +582,7 @@ set_token_files_names (const char *filename_root,
   const char *toks = ".tokens";
   size_t ntoks = strlen (toks);
   size_t n = nwdir + 1 + nroot + ntoks + 1;
-  char *fn = XCALLOC (n, char);
+  char *fn = XCALLOC_ATOMIC (n, char);
 
   memcpy (fn, work_directory (), nwdir * sizeof (char));
   fn[nwdir] = '/';
@@ -859,7 +860,7 @@ str_nul_in_data_file (indexed_data_file_t df, str_nul_map_t *map,
             *index = *p_index;
           else
             {
-              size_t *i_sz = XMALLOC (size_t);
+              size_t *i_sz = XMALLOC_ATOMIC (size_t);
               write_to_indexed_data_file
                 (df, s, (strlen (s) + 1) * sizeof (char), i_sz);
               *index = *i_sz;
@@ -893,7 +894,7 @@ string_t_in_data_file (indexed_data_file_t df, string_t_map_t *map,
                 *error_message = xstrerror (NULL, err_number);
               else
                 {
-                  size_t *i_sz = XMALLOC (size_t);
+                  size_t *i_sz = XMALLOC_ATOMIC (size_t);
                   write_to_indexed_data_file
                     (df, u8, n_u8 * sizeof (uint8_t), i_sz);
                   *index = *i_sz;

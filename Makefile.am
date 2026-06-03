@@ -199,6 +199,7 @@ libhiha_la_CFLAGS += $(CFLAGS)
 
 libhiha_HDRS =
 libhiha_HDRS += include/libhiha/libhiha.h
+libhiha_HDRS += include/libhiha/xalloc.h
 libhiha_HDRS += include/libhiha/options.h
 libhiha_HDRS += include/libhiha/spookyhash.h
 libhiha_HDRS += include/libhiha/persistent_avl.h
@@ -222,6 +223,7 @@ libhiha_HDRS += include/libhiha/indexed_data_file.h
 pkg_libhiha_include_HEADERS += $(libhiha_HDRS)
 
 libhiha_la_SOURCES += $(libhiha_HDRS)
+libhiha_la_SOURCES += src/libhiha/xalloc.c
 libhiha_la_SOURCES += src/libhiha/options.c
 libhiha_la_SOURCES += src/libhiha/spookyhash.c
 libhiha_la_SOURCES += src/libhiha/persistent_vector.c

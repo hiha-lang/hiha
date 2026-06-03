@@ -122,7 +122,7 @@ scan_decimal_integer (void *state, buffered_token_getter_t getter,
   *lhs = NULL;
 
   voidp_vector_t digits = NULL;
-  uint32_t *d = XMALLOC (uint32_t);
+  uint32_t *d = XMALLOC_ATOMIC (uint32_t);
   *d = tok->token_value->s[0];
   digits = voidp_vector_push (digits, d);
 
@@ -133,12 +133,12 @@ scan_decimal_integer (void *state, buffered_token_getter_t getter,
     {
       if (uc_is_general_category (separator, UC_CATEGORY_Pc))
         {
-          d = XMALLOC (uint32_t);
+          d = XMALLOC_ATOMIC (uint32_t);
           *d = separator;
           digits = voidp_vector_push (digits, d);
         }
 
-      d = XMALLOC (uint32_t);
+      d = XMALLOC_ATOMIC (uint32_t);
       *d = next_digit;
       digits = voidp_vector_push (digits, d);
 
@@ -150,7 +150,7 @@ scan_decimal_integer (void *state, buffered_token_getter_t getter,
     {
       struct string *str = XMALLOC (struct string);
       str->n = voidp_vector_length (digits);
-      str->s = XNMALLOC (str->n, uint32_t);
+      str->s = XNMALLOC_ATOMIC (str->n, uint32_t);
       for (size_t i = 0; i != str->n; i += 1)
         str->s[i] = *((const uint32_t *) voidp_vector_ref (digits, i));
 

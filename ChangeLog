@@ -1,5 +1,15 @@
 @  master
-|  2026-06-03 16:28 +0000
+|  2026-06-03 17:13 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       887148dd3b397344ab2d1af0bb7e0001b9565d50
+|  mercurial: ba5190303fc94ebde58b0813ca569c9ce25fc55a
+|  revision:  230
+|  parents:   229
+|
+|    Now there is support for operators as tokens.
+|
+|
+o  2026-06-03 16:28 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       71a5d191375d1618380ab5cef8e3521be519efaf
 |  mercurial: 1a6fcad7806dfea6d3c2995152cfe3c7887874b4

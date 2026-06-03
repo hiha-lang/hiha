@@ -25,6 +25,7 @@
 #include <xalloc.h>
 #include <unistr.h>
 #include <unictype.h>
+#include <libhiha/xalloc.h>
 #include <libhiha/token_t.h>
 #include <libhiha/string_t.h>
 #include <libhiha/string_literal.h>
@@ -570,7 +571,7 @@ escape_x (buffered_token_getter_t getter, string_t *tokval,
         {
           struct string *str = XMALLOC (struct string);
           str->n = 1;
-          str->s = XNMALLOC (1, uint32_t);
+          str->s = XNMALLOC_ATOMIC (1, uint32_t);
           str->s[0] = code_point;
           *substring = str;
         }
@@ -597,7 +598,7 @@ escape_u (buffered_token_getter_t getter, string_t *tokval,
         {
           struct string *str = XMALLOC (struct string);
           str->n = 1;
-          str->s = XNMALLOC (1, uint32_t);
+          str->s = XNMALLOC_ATOMIC (1, uint32_t);
           str->s[0] = code_point;
           *substring = str;
         }

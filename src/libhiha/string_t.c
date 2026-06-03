@@ -27,6 +27,7 @@
 #include <xalloc.h>
 #include <exitfail.h>
 #include <libhiha/string_t.h>
+#include <libhiha/xalloc.h>
 #include <libhiha/initialize_once.h>
 
 #define _(msgid) HIHA_GETTEXT (msgid)
@@ -146,7 +147,7 @@ copy_string_t (string_t str)
 {
   struct string *s = XMALLOC (struct string);
   s->n = str->n;
-  s->s = XNMALLOC (s->n, uint32_t);
+  s->s = XNMALLOC_ATOMIC (s->n, uint32_t);
   memcpy (s->s, ((const struct string *) str)->s,
           s->n * sizeof (uint32_t));
   return s;
@@ -177,7 +178,7 @@ concat_string_t (...)
       str = string_t_vector_ref (lst, i);
       result->n += str->n;
     }
-  result->s = XNMALLOC (result->n, uint32_t);
+  result->s = XNMALLOC_ATOMIC (result->n, uint32_t);
 
   j = 0;
   for (i = 0; i != string_t_vector_length (lst); i += 1)
@@ -198,7 +199,7 @@ make_str_nul (string_t str)
   char *s;
   size_t n;
   str_len_from_string_t (str, &s, &n);
-  char *t = XNMALLOC (n + 1, char);
+  char *t = XNMALLOC_ATOMIC (n + 1, char);
   memcpy (t, s, n * sizeof (char));
   t[n] = '\0';
   return t;
@@ -215,12 +216,21 @@ string_t_from_str_len (const char *src, size_t srclen,
                                           NULL, &n);
   int err_number = errno;
 
-  /* An empty string requires no storage, but we want storage
-     anyway. Allocate an array of length one. */
-  if (u32 == NULL && err_number == 0)
-    u32 = XCALLOC (1, uint32_t);
-
-  if (u32 == NULL)
+  if (u32 != NULL)
+    {
+      /* Reallocate as atomic storage. */
+      uint32_t *u32_new = XNMALLOC_ATOMIC (n, uint32_t);
+      memcpy (u32_new, u32, n * sizeof (uint32_t));
+      u32 = u32_new;
+    }
+  else if (err_number == 0)
+    {
+      /* An empty string requires no storage, but we want storage
+         anyway. Allocate an array of length one. */
+      u32 = XNMALLOC_ATOMIC (1, uint32_t);
+      u32[0] = 0;
+    }
+  else
     {
       char *locstr = text_location_string (loc);
       error (exit_failure, err_number, "%s", locstr);
@@ -242,7 +252,21 @@ string_t_canonicalize (string_t src, text_location_t loc)
   uint32_t *u32 = u32_normalize (UNINORM_NFC, src->s, src->n,
                                  NULL, &n);
   int err_number = errno;
-  if (u32 == NULL)
+  if (u32 != NULL)
+    {
+      /* Reallocate as atomic storage. */
+      uint32_t *u32_new = XNMALLOC_ATOMIC (n, uint32_t);
+      memcpy (u32_new, u32, n * sizeof (uint32_t));
+      u32 = u32_new;
+    }
+  else if (err_number == 0)
+    {
+      /* An empty string requires no storage, but we want storage
+         anyway. Allocate an array of length one. */
+      u32 = XNMALLOC_ATOMIC (1, uint32_t);
+      u32[0] = 0;
+    }
+  else
     {
       char *locstr = text_location_string (loc);
       error (exit_failure, err_number, "%s", locstr);
@@ -294,7 +318,7 @@ text_location_string (text_location_t loc)
     snprintf (ln, 100, _(", line %zu"), loc->line_no);
   size_t ln_len = strlen (ln);
 
-  char *s = XCALLOC (fn_len + ln_len + 1, char);
+  char *s = XCALLOC_ATOMIC (fn_len + ln_len + 1, char);
   memcpy (s, fn, fn_len * sizeof (char));
   memcpy (s + (fn_len * sizeof (char)), ln, ln_len * sizeof (char));
 

@@ -19,31 +19,35 @@
 
 */
 
-#ifndef __LIBHAHA__LIBHIHA_H__INCLUDED__
-#define __LIBHAHA__LIBHIHA_H__INCLUDED__
-
+#include <config.h>
+#include <string.h>
+#include <gc/gc.h>
+#include <xalloc.h>
 #include <libhiha/xalloc.h>
-#include <libhiha/options.h>
-#include <libhiha/spookyhash.h>
-#include <libhiha/persistent_avl.h>
-#include <libhiha/persistent_integer_trie.h>
-#include <libhiha/persistent_hash_map.h>
-#include <libhiha/persistent_vector.h>
-#include <libhiha/indexed_deque.h>
-#include <libhiha/workspaces.h>
-#include <libhiha/spinlock.h>
-#include <libhiha/initialize_once.h>
-#include <libhiha/string_t.h>
-#include <libhiha/token_t.h>
-#include <libhiha/str_nul.h>
-#include <libhiha/pratt.h>
-#include <libhiha/token_processing.h>
-#include <libhiha/string_literal.h>
-#include <libhiha/gensym.h>
-#include <libhiha/load_plugin.h>
-#include <libhiha/indexed_data_file.h>
 
-#endif /* __LIBHAHA__LIBHIHA_H__INCLUDED__ */
+#define _(msgid) HIHA_GETTEXT (msgid)
+
+static void *
+check_nonnull (void *p)
+{
+  if (p == NULL)
+    xalloc_die ();
+  return p;
+}
+
+HIHA_VISIBLE void *
+xmalloc_atomic (size_t sz)
+{
+  return check_nonnull (GC_MALLOC_ATOMIC (sz));
+}
+
+HIHA_VISIBLE void *
+xzalloc_atomic (size_t sz)
+{
+  void *p = xmalloc_atomic (sz);
+  memset (p, 0, sz);
+  return p;
+}
 
 /*
   local variables:

@@ -35,9 +35,11 @@
 #include <inttypes.h>
 #include <filevercmp.h>
 #include <libhiha/string_t.h>
+#include <libhiha/token_t.h>
 #include <libhiha/load_plugin.h>
 #include <libhiha/initialize_once.h>
 #include <libhiha/persistent_avl.h>
+#include <libhiha/persistent_hash_map.h>
 #include <libhiha/spinlock.h>
 #include <libhiha/pratt.h>
 
@@ -45,11 +47,72 @@
 
 #define UNEXPECTED_TEXT _("unexpected text at %s: “%s”")
 
+struct _pratt_map_entry
+{
+  string_t token_kind;
+  string_t token_value;
+  union
+  {
+    nud_handler_t nud_handler;
+    led_handler_t led_handler;
+    double binding_power;
+  } u;
+};
+
+static bool
+_pratt_equals (const struct _pratt_map_entry *key,
+               const struct _pratt_map_entry *stored)
+{
+  bool equals =
+    (string_t_cmp (key->token_kind, stored->token_kind) == 0);
+  if (equals && string_t_cmp (key->token_kind, string_t_OP ()) == 0)
+    /* The token is for an operator. The token_value fields must also
+       be equal. */
+    equals =
+      (string_t_cmp (key->token_value, stored->token_value) == 0);
+  return equals;
+}
+
+static token_t_hash_context_t
+_pratt_init (const struct _pratt_map_entry *key)
+{
+  token_t t;
+  int cmp = (string_t_cmp (key->token_kind, string_t_OP ()) == 0);
+  if (cmp == 0)
+    /* The token is for an operator. The token_value must be hashed as
+       well. (It MUST be hashed, because the map never switches to a
+       search method other than hashing.) */
+    t = make_token_t (key->token_kind, key->token_value, NULL);
+  else
+    /* Any string as token_value, as long as it is the same for all
+       tokens of a particular token_kind. */
+    t = make_token_t (t->token_kind, empty_string_t (), NULL);
+  return token_t_hash_init (t);
+}
+
+static bool
+_pratt_bit (token_t_hash_context_t context, unsigned int i)
+{
+  const unsigned int j = i / 64;
+  const unsigned int k = i % 64;
+  const uint64_t hash = token_t_hash (context, j);
+  const uint64_t mask = ((uint64_t) 1) << k;
+  return ((hash & mask) != 0);
+}
+
+HIHA_HASH_MAP_NODES_DECL (_pratt_map, struct _pratt_map_entry);
+HIHA_HASH_MAP_SEARCH_DEFN (_pratt_map_search, _pratt_map,
+                           struct _pratt_map_entry, _pratt_init,
+                           _pratt_bit, _pratt_equals);
+HIHA_HASH_MAP_INSERT_DEFN (_pratt_map_insert, _pratt_map,
+                           struct _pratt_map_entry, _pratt_init,
+                           _pratt_bit, _pratt_equals);
+
 struct pratt_tables
 {
-  string_t_map_t nud;
-  string_t_map_t led;
-  string_t_map_t lbp;
+  _pratt_map_t nud;
+  _pratt_map_t led;
+  _pratt_map_t lbp;
   nud_handler_t nud_default;
 };
 typedef struct pratt_tables *pratt_tables_t;
@@ -204,8 +267,13 @@ HIHA_VISIBLE void
 pratt_nud_put (pratt_tables_t data, string_t token_kind,
                nud_handler_t handler)
 {
-  data->nud =
-    string_t_map_insert_or_replace (data->nud, token_kind, handler);
+  struct _pratt_map_entry element = {
+    .token_kind = token_kind,
+    .token_value = empty_string_t (),
+    .u.nud_handler = handler
+  };
+  _pratt_map_insert (data->nud, &element,
+                     hiha_hash_map_insert_or_replace, &data->nud, NULL);
 }
 
 HIHA_VISIBLE void
@@ -218,27 +286,40 @@ HIHA_VISIBLE void
 pratt_led_put (pratt_tables_t data, string_t token_kind,
                led_handler_t handler)
 {
-  data->led =
-    string_t_map_insert_or_replace (data->led, token_kind, handler);
+  struct _pratt_map_entry element = {
+    .token_kind = token_kind,
+    .token_value = empty_string_t (),
+    .u.led_handler = handler
+  };
+  _pratt_map_insert (data->led, &element,
+                     hiha_hash_map_insert_or_replace, &data->led, NULL);
 }
 
 HIHA_VISIBLE void
 pratt_lbp_put (pratt_tables_t data, string_t token_kind,
                double binding_power)
 {
-  double *bp = XMALLOC (double);
-  *bp = binding_power;
-  data->lbp =
-    string_t_map_insert_or_replace (data->lbp, token_kind, bp);
+  struct _pratt_map_entry element = {
+    .token_kind = token_kind,
+    .token_value = empty_string_t (),
+    .u.binding_power = binding_power
+  };
+  _pratt_map_insert (data->lbp, &element,
+                     hiha_hash_map_insert_or_replace, &data->lbp, NULL);
 }
 
 HIHA_VISIBLE nud_handler_t
 pratt_nud_get (pratt_tables_t data, string_t token_kind)
 {
-  nud_handler_t handler =
-    (nud_handler_t) string_t_map_search (data->nud, token_kind);
-  if (handler == NULL)
-    handler = data->nud_default;
+  nud_handler_t handler = data->nud_default;
+  struct _pratt_map_entry element = {
+    .token_kind = token_kind,
+    .token_value = empty_string_t ()
+  };
+  const struct _pratt_map_entry *entry =
+    _pratt_map_search (data->nud, &element);
+  if (entry != NULL)
+    handler = entry->u.nud_handler;
   return handler;
 }
 
@@ -251,14 +332,25 @@ pratt_nud_get_default (pratt_tables_t data)
 HIHA_VISIBLE led_handler_t
 pratt_led_get (pratt_tables_t data, string_t token_kind)
 {
-  return (led_handler_t) string_t_map_search (data->nud, token_kind);
+  struct _pratt_map_entry element = {
+    .token_kind = token_kind,
+    .token_value = empty_string_t ()
+  };
+  const struct _pratt_map_entry *entry =
+    _pratt_map_search (data->led, &element);
+  return (entry != NULL) ? entry->u.led_handler : NULL;
 }
 
 HIHA_VISIBLE double
 pratt_lbp_get (pratt_tables_t data, string_t token_kind)
 {
-  const void *p = string_t_map_search (data->lbp, token_kind);
-  return (p == NULL) ? -HUGE_VAL : *((const double *) p);
+  struct _pratt_map_entry element = {
+    .token_kind = token_kind,
+    .token_value = empty_string_t ()
+  };
+  const struct _pratt_map_entry *entry =
+    _pratt_map_search (data->lbp, &element);
+  return (entry != NULL) ? entry->u.binding_power : -HUGE_VAL;
 }
 
 static void

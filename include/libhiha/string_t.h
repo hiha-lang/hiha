@@ -57,6 +57,7 @@ typedef const struct text_location *text_location_t;
 HIHA_PURE string_t empty_string_t (void);       //  “”
 HIHA_PURE string_t string_t_EOF (void); //////////  “EOF”
 HIHA_PURE string_t string_t_CP (void);  //////////  “CP”
+HIHA_PURE string_t string_t_OP (void);  //////////  “OP”
 HIHA_PURE string_t string_t_space (void);       //  " "
 HIHA_PURE string_t string_t_tab (void); //////////  "\t"
 HIHA_PURE string_t string_t_newline (void);     //  "\n"

@@ -28,52 +28,6 @@
 
 #define _(msgid) HIHA_GETTEXT (msgid)
 
-static string_t str_CP;
-static string_t str_EOF;
-static string_t str_FSEP;
-static string_t str_SP;
-static string_t str_CO;
-static string_t str_SY;
-static string_t str_ID;
-static string_t str_I10;
-static string_t str_I_I10;
-static string_t str_F10;
-static string_t str_R10;
-static string_t str_KW;
-
-static string_t strings[13];
-
-static void
-initialize_strings (void)
-{
-  str_CP = string_t_CP ();
-  str_EOF = string_t_EOF ();
-  str_FSEP = make_string_t ("FSEP");
-  str_SP = make_string_t ("SP");
-  str_CO = make_string_t ("CO");
-  str_SY = make_string_t ("SY");
-  str_ID = make_string_t ("ID");
-  str_I10 = make_string_t ("I10");
-  str_I_I10 = make_string_t ("I.I10");
-  str_F10 = make_string_t ("F10");
-  str_R10 = make_string_t ("R10");
-  str_KW = make_string_t ("KW");
-
-  strings[0] = str_CP;
-  strings[1] = str_EOF;
-  strings[2] = str_FSEP;
-  strings[3] = str_SP;
-  strings[4] = str_CO;
-  strings[5] = str_SY;
-  strings[6] = str_ID;
-  strings[7] = str_I10;
-  strings[8] = str_I_I10;
-  strings[9] = str_F10;
-  strings[10] = str_R10;
-  strings[11] = str_KW;
-  strings[12] = NULL;
-}
-
 static const char *
 quoted_str_nul (const char *s)
 {
@@ -129,16 +83,13 @@ handler (void *state, buffered_token_getter_t getter,
 HIHA_VISIBLE void
 plugin_init (void)
 {
-  initialize_strings ();
-
   pratt_tables_t tables;
 
   acquire_pratt_tables_lock ();
 
-  tables = get_pratt_tables_for_pass ("600-dump-tokens");
-  for (string_t *p = strings; *p != NULL; p += 1)
-    pratt_nud_put (tables, *p, &handler);
-  set_pratt_tables_for_pass ("600-dump-tokens", tables);
+  tables = get_pratt_tables_for_pass ("1000-dump-tokens");
+  pratt_nud_put_default (tables, &handler);
+  set_pratt_tables_for_pass ("1000-dump-tokens", tables);
 
   release_pratt_tables_lock ();
 }

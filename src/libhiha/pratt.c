@@ -50,6 +50,7 @@ struct pratt_tables
   string_t_map_t nud;
   string_t_map_t led;
   string_t_map_t lbp;
+  nud_handler_t nud_default;
 };
 typedef struct pratt_tables *pratt_tables_t;
 
@@ -86,6 +87,15 @@ binding_powers_lt (double a, double b)
   return (a < b);
 }
 
+static void
+passthrough_nud_handler (void *state, buffered_token_getter_t getter,
+                         pratt_tables_t tables, token_t tok,
+                         token_t *lhs, const char **error_message)
+{
+  if (*error_message == NULL)
+    *lhs = tok;
+}
+
 HIHA_VISIBLE pratt_tables_t
 make_pratt_tables_t (void)
 {
@@ -93,6 +103,7 @@ make_pratt_tables_t (void)
   data->nud = NULL;
   data->led = NULL;
   data->lbp = NULL;
+  data->nud_default = &passthrough_nud_handler;
   return data;
 }
 
@@ -198,6 +209,12 @@ pratt_nud_put (pratt_tables_t data, string_t token_kind,
 }
 
 HIHA_VISIBLE void
+pratt_nud_put_default (pratt_tables_t data, nud_handler_t handler)
+{
+  data->nud_default = handler;
+}
+
+HIHA_VISIBLE void
 pratt_led_put (pratt_tables_t data, string_t token_kind,
                led_handler_t handler)
 {
@@ -215,23 +232,20 @@ pratt_lbp_put (pratt_tables_t data, string_t token_kind,
     string_t_map_insert_or_replace (data->lbp, token_kind, bp);
 }
 
-static void
-passthrough_nud_handler (void *state, buffered_token_getter_t getter,
-                         pratt_tables_t tables, token_t tok,
-                         token_t *lhs, const char **error_message)
-{
-  if (*error_message == NULL)
-    *lhs = tok;
-}
-
 HIHA_VISIBLE nud_handler_t
 pratt_nud_get (pratt_tables_t data, string_t token_kind)
 {
   nud_handler_t handler =
     (nud_handler_t) string_t_map_search (data->nud, token_kind);
   if (handler == NULL)
-    handler = &passthrough_nud_handler;
+    handler = data->nud_default;
   return handler;
+}
+
+HIHA_VISIBLE nud_handler_t
+pratt_nud_get_default (pratt_tables_t data)
+{
+  return data->nud_default;
 }
 
 HIHA_VISIBLE led_handler_t

@@ -76,6 +76,11 @@ typedef led_handler *led_handler_t;
 void pratt_nud_put (pratt_tables_t tables, string_t token_kind,
                     nud_handler_t);
 
+/* Set the default null denotation handler for a set of tables. (If
+   you do not use this function to set the default, then the preset
+   default simply passes the token through.) */
+void pratt_nud_put_default (pratt_tables_t data, nud_handler_t);
+
 /* Add a left denotation handler, or replace an existing one. */
 void pratt_led_put (pratt_tables_t tables, string_t token_kind,
                     led_handler_t);
@@ -84,10 +89,14 @@ void pratt_led_put (pratt_tables_t tables, string_t token_kind,
 void pratt_lbp_put (pratt_tables_t tables, string_t token_kind,
                     double binding_power);
 
-/* Get a null denotation handler from the Pratt tables, or return a
-   handler that simply passes the token through. */
+/* Get a null denotation handler from the Pratt tables, or get the
+   default handler that goes along with this set of tables. Usually
+   this just passes the token through. */
 nud_handler_t pratt_nud_get (pratt_tables_t tables,
                              string_t token_kind);
+
+/* Get the default null denotation handler for a set of tables. */
+nud_handler_t pratt_nud_get_default (pratt_tables_t data);
 
 /* Get a left denotation handler from the Pratt tables, or return
    NULL. */

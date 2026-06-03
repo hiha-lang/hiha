@@ -265,11 +265,12 @@ get_pratt_tables (void)
 
 HIHA_VISIBLE void
 pratt_nud_put (pratt_tables_t data, string_t token_kind,
-               nud_handler_t handler)
+               string_t token_value, nud_handler_t handler)
 {
   struct _pratt_map_entry element = {
     .token_kind = token_kind,
-    .token_value = empty_string_t (),
+    .token_value =
+      (token_value != NULL) ? token_value : empty_string_t (),
     .u.nud_handler = handler
   };
   _pratt_map_insert (data->nud, &element,
@@ -284,11 +285,12 @@ pratt_nud_put_default (pratt_tables_t data, nud_handler_t handler)
 
 HIHA_VISIBLE void
 pratt_led_put (pratt_tables_t data, string_t token_kind,
-               led_handler_t handler)
+               string_t token_value, led_handler_t handler)
 {
   struct _pratt_map_entry element = {
     .token_kind = token_kind,
-    .token_value = empty_string_t (),
+    .token_value =
+      (token_value != NULL) ? token_value : empty_string_t (),
     .u.led_handler = handler
   };
   _pratt_map_insert (data->led, &element,
@@ -297,11 +299,12 @@ pratt_led_put (pratt_tables_t data, string_t token_kind,
 
 HIHA_VISIBLE void
 pratt_lbp_put (pratt_tables_t data, string_t token_kind,
-               double binding_power)
+               string_t token_value, double binding_power)
 {
   struct _pratt_map_entry element = {
     .token_kind = token_kind,
-    .token_value = empty_string_t (),
+    .token_value =
+      (token_value != NULL) ? token_value : empty_string_t (),
     .u.binding_power = binding_power
   };
   _pratt_map_insert (data->lbp, &element,
@@ -309,12 +312,14 @@ pratt_lbp_put (pratt_tables_t data, string_t token_kind,
 }
 
 HIHA_VISIBLE nud_handler_t
-pratt_nud_get (pratt_tables_t data, string_t token_kind)
+pratt_nud_get (pratt_tables_t data, string_t token_kind,
+               string_t token_value)
 {
   nud_handler_t handler = data->nud_default;
   struct _pratt_map_entry element = {
     .token_kind = token_kind,
-    .token_value = empty_string_t ()
+    .token_value =
+      (token_value != NULL) ? token_value : empty_string_t ()
   };
   const struct _pratt_map_entry *entry =
     _pratt_map_search (data->nud, &element);
@@ -330,11 +335,13 @@ pratt_nud_get_default (pratt_tables_t data)
 }
 
 HIHA_VISIBLE led_handler_t
-pratt_led_get (pratt_tables_t data, string_t token_kind)
+pratt_led_get (pratt_tables_t data, string_t token_kind,
+               string_t token_value)
 {
   struct _pratt_map_entry element = {
     .token_kind = token_kind,
-    .token_value = empty_string_t ()
+    .token_value =
+      (token_value != NULL) ? token_value : empty_string_t ()
   };
   const struct _pratt_map_entry *entry =
     _pratt_map_search (data->led, &element);
@@ -342,11 +349,13 @@ pratt_led_get (pratt_tables_t data, string_t token_kind)
 }
 
 HIHA_VISIBLE double
-pratt_lbp_get (pratt_tables_t data, string_t token_kind)
+pratt_lbp_get (pratt_tables_t data, string_t token_kind,
+               string_t token_value)
 {
   struct _pratt_map_entry element = {
     .token_kind = token_kind,
-    .token_value = empty_string_t ()
+    .token_value =
+      (token_value != NULL) ? token_value : empty_string_t ()
   };
   const struct _pratt_map_entry *entry =
     _pratt_map_search (data->lbp, &element);
@@ -367,7 +376,8 @@ execute_null_denotation (void *state, buffered_token_getter_t getter,
   getter->get_token (getter, &tok, error_message);
   if (*error_message == NULL)
     {
-      nud_handler_t handler = pratt_nud_get (tables, tok->token_kind);
+      nud_handler_t handler =
+        pratt_nud_get (tables, tok->token_kind, tok->token_value);
       assert (handler != NULL);
       handler (state, getter, tables, tok, lhs, error_message);
     }
@@ -387,7 +397,8 @@ peek_at_next_token (void *state, buffered_token_getter_t getter,
       getter->look_at_token (getter, 0, &tok, error_message);
 
       if (*error_message == NULL)
-        *left_binding_power = pratt_lbp_get (tables, tok->token_kind);
+        *left_binding_power =
+          pratt_lbp_get (tables, tok->token_kind, tok->token_value);
     }
 }
 
@@ -404,7 +415,8 @@ execute_left_denotation (void *state, buffered_token_getter_t getter,
   getter->get_token (getter, &tok, error_message);
   if (error_message == NULL)
     {
-      led_handler_t handler = pratt_led_get (tables, tok->token_kind);
+      led_handler_t handler =
+        pratt_led_get (tables, tok->token_kind, tok->token_value);
       if (handler == NULL)
         {
           //

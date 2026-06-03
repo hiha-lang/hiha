@@ -1,4 +1,56 @@
-@  master reworking-how-passes-function
+@  master
+|  2026-06-03 16:28 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       71a5d191375d1618380ab5cef8e3521be519efaf
+|  mercurial: 1a6fcad7806dfea6d3c2995152cfe3c7887874b4
+|  revision:  229
+|  parents:   228
+|
+|    Prepare for putting operators in the Pratt tables so they can have
+|    their token_value fields looked at by Pratt parsing.
+|
+|
+o  2026-06-03 14:36 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       1197691a19ae09a610598af384c3753b3a7c7428
+|  mercurial: 10b8655f5d0bfacb794d385686bdae90dbb999b8
+|  revision:  228
+|  parents:   227
+|
+|    Fixed a parameter name.
+|
+|
+o  2026-06-03 13:50 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       aa3d6301676b849546ba5aeb28a31ed545aaa940
+|  mercurial: 96e00afe50b8d074bcd5305b6561c7fe4eaceee2
+|  revision:  227
+|  parents:   226
+|
+|    A slightly better code for the NUD handler in token dumping.
+|
+|
+o  2026-06-03 13:45 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       41a059ae18ac031462078bd121c74099add55ada
+|  mercurial: dc72e71fcd0f30c2e9cebd05d3be14925bd7fbf5
+|  revision:  226
+|  parents:   225
+|
+|    Make default NUD handlers settable.
+|
+|
+o  2026-06-02 19:54 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       95deb1da32f1d07aa6bfaf220ec3b4c6a8628da4
+|  mercurial: 4c7eb827786e7eae7343a62e7700bae28b79e851
+|  revision:  225
+|  parents:   224
+|
+|    Remove serialized tokens and fixed-point code.
+|
+|
+o  reworking-how-passes-function
 |  2026-06-02 19:35 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       5ce50846ad4edda11a53ceff75352d6ec253eb89

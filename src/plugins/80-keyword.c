@@ -105,12 +105,12 @@ plugin_init (void)
   acquire_pratt_tables_lock ();
 
   tables = get_pratt_tables_for_pass ("500-mark-keywords");
-  next_cp_handler = pratt_nud_get (tables, str_CP);
-  next_sy_handler = pratt_nud_get (tables, str_SY);
-  next_id_handler = pratt_nud_get (tables, str_ID);
-  pratt_nud_put (tables, str_CP, &cp_handler);
-  pratt_nud_put (tables, str_SY, &sy_handler);
-  pratt_nud_put (tables, str_ID, &id_handler);
+  next_cp_handler = pratt_nud_get (tables, str_CP, NULL);
+  next_sy_handler = pratt_nud_get (tables, str_SY, NULL);
+  next_id_handler = pratt_nud_get (tables, str_ID, NULL);
+  pratt_nud_put (tables, str_CP, NULL, &cp_handler);
+  pratt_nud_put (tables, str_SY, NULL, &sy_handler);
+  pratt_nud_put (tables, str_ID, NULL, &id_handler);
   set_pratt_tables_for_pass ("500-mark-keywords", tables);
 
   release_pratt_tables_lock ();

@@ -108,8 +108,9 @@ plugin_init (void)
   acquire_pratt_tables_lock ();
 
   tables = get_pratt_tables_for_pass ("200-scan-exact-rationals");
-  next_i10_handler = pratt_nud_get (tables, make_string_t ("I10"));
-  pratt_nud_put (tables, make_string_t ("I10"), &i10_handler);
+  next_i10_handler =
+    pratt_nud_get (tables, make_string_t ("I10"), NULL);
+  pratt_nud_put (tables, make_string_t ("I10"), NULL, &i10_handler);
   set_pratt_tables_for_pass ("200-scan-exact-rationals", tables);
 
   release_pratt_tables_lock ();

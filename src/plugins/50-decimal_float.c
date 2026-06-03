@@ -252,16 +252,18 @@ plugin_init (void)
   tables =
     get_pratt_tables_for_pass
     ("200-scan-decimal-with-point-without-sign");
-  next_i10_handler = pratt_nud_get (tables, make_string_t ("I10"));
-  pratt_nud_put (tables, make_string_t ("I10"), &i10_handler);
+  next_i10_handler =
+    pratt_nud_get (tables, make_string_t ("I10"), NULL);
+  pratt_nud_put (tables, make_string_t ("I10"), NULL, &i10_handler);
   set_pratt_tables_for_pass ("200-scan-decimal-with-point-without-sign",
                              tables);
 
   tables =
     get_pratt_tables_for_pass
     ("300-scan-decimal-floating-without-sign");
-  next_i_i10_handler = pratt_nud_get (tables, make_string_t ("I.I10"));
-  pratt_nud_put (tables, make_string_t ("I.I10"), &i_i10_handler);
+  next_i_i10_handler =
+    pratt_nud_get (tables, make_string_t ("I.I10"), NULL);
+  pratt_nud_put (tables, make_string_t ("I.I10"), NULL, &i_i10_handler);
   set_pratt_tables_for_pass ("300-scan-decimal-floating-without-sign",
                              tables);
 

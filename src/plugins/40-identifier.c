@@ -212,8 +212,8 @@ plugin_init (void)
   acquire_pratt_tables_lock ();
 
   tables = get_pratt_tables_for_pass ("100-scan-identifiers");
-  next_cp_handler = pratt_nud_get (tables, string_t_CP ());
-  pratt_nud_put (tables, string_t_CP (), &cp_handler);
+  next_cp_handler = pratt_nud_get (tables, string_t_CP (), NULL);
+  pratt_nud_put (tables, string_t_CP (), NULL, &cp_handler);
   set_pratt_tables_for_pass ("100-scan-identifiers", tables);
 
   release_pratt_tables_lock ();

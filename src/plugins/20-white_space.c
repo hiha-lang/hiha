@@ -90,8 +90,8 @@ plugin_init (void)
 
   tables =
     get_pratt_tables_for_pass ("100-scan-white-space-and-comments");
-  next_cp_handler = pratt_nud_get (tables, string_t_CP ());
-  pratt_nud_put (tables, string_t_CP (), &cp_handler);
+  next_cp_handler = pratt_nud_get (tables, string_t_CP (), NULL);
+  pratt_nud_put (tables, string_t_CP (), NULL, &cp_handler);
   set_pratt_tables_for_pass ("100-scan-white-space-and-comments",
                              tables);
 

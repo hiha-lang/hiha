@@ -74,7 +74,7 @@ typedef led_handler *led_handler_t;
 
 /* Add a null denotation handler, or replace an existing one. */
 void pratt_nud_put (pratt_tables_t tables, string_t token_kind,
-                    nud_handler_t);
+                    string_t token_value, nud_handler_t);
 
 /* Set the default null denotation handler for a set of tables. (If
    you do not use this function to set the default, then the preset
@@ -83,17 +83,17 @@ void pratt_nud_put_default (pratt_tables_t data, nud_handler_t);
 
 /* Add a left denotation handler, or replace an existing one. */
 void pratt_led_put (pratt_tables_t tables, string_t token_kind,
-                    led_handler_t);
+                    string_t token_value, led_handler_t);
 
 /* Add a left binding power, or replace an existing one. */
 void pratt_lbp_put (pratt_tables_t tables, string_t token_kind,
-                    double binding_power);
+                    string_t token_value, double binding_power);
 
 /* Get a null denotation handler from the Pratt tables, or get the
    default handler that goes along with this set of tables. Usually
    this just passes the token through. */
 nud_handler_t pratt_nud_get (pratt_tables_t tables,
-                             string_t token_kind);
+                             string_t token_kind, string_t token_value);
 
 /* Get the default null denotation handler for a set of tables. */
 nud_handler_t pratt_nud_get_default (pratt_tables_t data);
@@ -101,11 +101,12 @@ nud_handler_t pratt_nud_get_default (pratt_tables_t data);
 /* Get a left denotation handler from the Pratt tables, or return
    NULL. */
 led_handler_t pratt_led_get (pratt_tables_t tables,
-                             string_t token_kind);
+                             string_t token_kind, string_t token_value);
 
 /* Get a left binding power from the Pratt tables, or return
    -HUGE_VAL. */
-double pratt_lbp_get (pratt_tables_t tables, string_t token_kind);
+double pratt_lbp_get (pratt_tables_t tables, string_t token_kind,
+                      string_t token_value);
 
 #endif /* __LIBHAHA__PRATT_H__INCLUDED__ */
 

@@ -139,7 +139,7 @@ DECLARE_HIHA_PERSISTENT_VECTOR_DATATYPE (, token_t_keyval_vector,
 struct token_t_hash_context;
 typedef struct token_t_hash_context *token_t_hash_context_t;
 
-token_t_hash_context_t token_t_hash_init (token_t str);
+token_t_hash_context_t token_t_hash_init (token_t tok);
 uint64_t token_t_hash (token_t_hash_context_t context, unsigned int i);
 
 /*--------------------------------------------------------------------*/

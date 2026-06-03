@@ -68,6 +68,8 @@ dump_token (token_t tok)
     }
 }
 
+nud_handler_t next_handler;
+
 static void
 handler (void *state, buffered_token_getter_t getter,
          pratt_tables_t tables, token_t tok,
@@ -76,7 +78,7 @@ handler (void *state, buffered_token_getter_t getter,
   if (*error_message == NULL)
     {
       dump_token (tok);
-      *lhs = tok;
+      next_handler (state, getter, tables, tok, lhs, error_message);
     }
 }
 
@@ -88,6 +90,7 @@ plugin_init (void)
   acquire_pratt_tables_lock ();
 
   tables = get_pratt_tables_for_pass ("1000-dump-tokens");
+  next_handler = pratt_nud_get_default (tables);
   pratt_nud_put_default (tables, &handler);
   set_pratt_tables_for_pass ("1000-dump-tokens", tables);
 

@@ -97,6 +97,7 @@ include 60-decimal_fraction.am
 include 70-symbol.am
 include 80-keyword.am
 include 90-dump_tokens.am
+include 100-remove_spaces.am
 
 BUILT_SOURCES += $(GCVERS)/libhiha-gc.la
 

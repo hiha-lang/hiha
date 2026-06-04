@@ -235,6 +235,7 @@ EOF
     plugin_automake 70 symbol
     plugin_automake 80 keyword
     plugin_automake 90 dump_tokens
+    plugin_automake 100 remove_spaces
 
     need_sortsmill_tig && require_sortsmill_tig
     need_pkg_config && require_pkg_config

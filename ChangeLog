@@ -1,5 +1,16 @@
 @  master
-|  2026-06-03 17:13 +0000
+|  2026-06-03 19:22 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       9d2d7b8d3f5857916646ee97147b2eaad903967c
+|  mercurial: ddae10f572ad3f3d233a22ffb2f5362f1ef11a92
+|  revision:  231
+|  parents:   230
+|
+|    Support atomic-types allocation (which do not need Boehm GC scanning
+|    for pointers).
+|
+|
+o  2026-06-03 17:13 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       887148dd3b397344ab2d1af0bb7e0001b9565d50
 |  mercurial: ba5190303fc94ebde58b0813ca569c9ce25fc55a

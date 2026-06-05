@@ -37,6 +37,7 @@ static initialize_once_t _string_constants_init1t =
 static string_t _empty_string_t;
 static string_t _string_t_EOF;
 static string_t _string_t_CP;
+static string_t _string_t_KW;
 static string_t _string_t_OP;
 static string_t _string_t_space;
 static string_t _string_t_tab;
@@ -50,6 +51,7 @@ _initialize_string_constants (void)
   _empty_string_t = make_string_t ("");
   _string_t_EOF = make_string_t ("EOF");
   _string_t_CP = make_string_t ("CP");
+  _string_t_KW = make_string_t ("KW");
   _string_t_OP = make_string_t ("OP");
   _string_t_space = make_string_t (" ");
   _string_t_tab = make_string_t ("\t");
@@ -80,6 +82,14 @@ string_t_CP (void)
   INITIALIZE_ONCE (_string_constants_init1t,
                    _initialize_string_constants);
   return _string_t_CP;
+}
+
+HIHA_VISIBLE HIHA_PURE string_t
+string_t_KW (void)
+{
+  INITIALIZE_ONCE (_string_constants_init1t,
+                   _initialize_string_constants);
+  return _string_t_KW;
 }
 
 HIHA_VISIBLE HIHA_PURE string_t
@@ -318,9 +328,17 @@ text_location_string (text_location_t loc)
     snprintf (ln, 100, _(", line %zu"), loc->line_no);
   size_t ln_len = strlen (ln);
 
-  char *s = XCALLOC_ATOMIC (fn_len + ln_len + 1, char);
+  char cp[100];
+  if (loc == NULL || loc->code_point_no == 0)
+    cp[0] = '\0';
+  else
+    snprintf (cp, 100, _(", code point %zu"), loc->code_point_no);
+  size_t cp_len = strlen (cp);
+
+  char *s = XCALLOC_ATOMIC (fn_len + ln_len + cp_len + 1, char);
   memcpy (s, fn, fn_len * sizeof (char));
-  memcpy (s + (fn_len * sizeof (char)), ln, ln_len * sizeof (char));
+  memcpy (s + fn_len, ln, ln_len * sizeof (char));
+  memcpy (s + fn_len + ln_len, cp, cp_len * sizeof (char));
 
   return s;
 }

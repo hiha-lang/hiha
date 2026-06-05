@@ -29,9 +29,12 @@ static const char *kw[] = {
   "end",
   "begin",
   "do",
-  "while",
-  ".",
-  ";"
+  "infix_left",
+  "infix_right",
+  "postfix",
+  "prefix",
+  "procedure",
+  "while"
 };
 
 static string_t str_KW;
@@ -95,7 +98,7 @@ HIHA_VISIBLE void
 plugin_init (void)
 {
   initialize_keywords ();
-  str_KW = make_string_t ("KW");
+  str_KW = string_t_KW ();
   str_CP = string_t_CP ();
   str_SY = make_string_t ("SY");
   str_ID = make_string_t ("ID");

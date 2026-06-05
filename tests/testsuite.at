@@ -34,6 +34,11 @@ AT_KEYWORDS([string_t_map string_t map])
 AT_CHECK([check_string_t_map])
 AT_CLEANUP
 
+AT_SETUP([string_t unordered set])
+AT_KEYWORDS([string_t_set string_t set])
+AT_CHECK([check_string_t_set])
+AT_CLEANUP
+
 AT_SETUP([string_t ordered map])
 AT_KEYWORDS([string_t_omap string_t map omap ordered])
 AT_CHECK([check_string_t_omap])

@@ -141,6 +141,7 @@ AM_CPPFLAGS += -DABS_TOP_BUILDDIR='$(abs_top_builddir)'
 
 check_PROGRAMS += check_string_t_hash
 check_PROGRAMS += check_string_t_map
+check_PROGRAMS += check_string_t_set
 check_PROGRAMS += check_string_t_omap
 check_PROGRAMS += check_token_t_hash
 check_PROGRAMS += check_token_t_map

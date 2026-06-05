@@ -98,6 +98,7 @@ include 70-symbol.am
 include 80-keyword.am
 include 90-dump_tokens.am
 include 100-remove_spaces.am
+include 110-parse_tree.am
 
 BUILT_SOURCES += $(GCVERS)/libhiha-gc.la
 
@@ -216,6 +217,7 @@ libhiha_HDRS += include/libhiha/token_t.h
 libhiha_HDRS += include/libhiha/str_nul.h
 libhiha_HDRS += include/libhiha/pratt.h
 libhiha_HDRS += include/libhiha/token_processing.h
+libhiha_HDRS += include/libhiha/parsing.h
 libhiha_HDRS += include/libhiha/string_literal.h
 libhiha_HDRS += include/libhiha/gensym.h
 libhiha_HDRS += include/libhiha/load_plugin.h
@@ -242,11 +244,13 @@ libhiha_la_SOURCES += src/libhiha/str_nul_hash.c
 libhiha_la_SOURCES += src/libhiha/str_nul_vector.c
 libhiha_la_SOURCES += src/libhiha/pratt.c
 libhiha_la_SOURCES += src/libhiha/token_processing.c
+libhiha_la_SOURCES += src/libhiha/parsing.c
 libhiha_la_SOURCES += src/libhiha/string_literal.c
 libhiha_la_SOURCES += src/libhiha/gensym.c
 libhiha_la_SOURCES += src/libhiha/load_plugin.c
 libhiha_la_SOURCES += src/libhiha/indexed_data_file.c
 nodist_libhiha_la_SOURCES += src/libhiha/string_t_map.c
+nodist_libhiha_la_SOURCES += src/libhiha/string_t_set.c
 nodist_libhiha_la_SOURCES += src/libhiha/string_t_omap.c
 nodist_libhiha_la_SOURCES += src/libhiha/token_t_map.c
 nodist_libhiha_la_SOURCES += src/libhiha/token_t_omap.c
@@ -256,6 +260,16 @@ nodist_libhiha_la_SOURCES += src/libhiha/str_nul_omap.c
 BUILT_SOURCES += src/libhiha/string_t_map.c
 DISTCLEANFILES += src/libhiha/string_t_map.c
 src/libhiha/string_t_map.c: src/libhiha/typed_map.c.in Makefile.am
+	$(call v,GEN)mkdir -p $(@D) && \
+	$(SED) -e 's|@INCLUDES@|#include <libhiha/string_t.h>|g' \
+           -e 's|@TYPENAME@|string_t|g' \
+           -e 's|@TYPE@|string_t|g' \
+           -e 's|@EQUALS@|do { return (string_t_cmp (key->key, stored->key) == 0); } while (0)|' \
+           $(<) > $(@).tmp && mv $(@){.tmp,}
+
+BUILT_SOURCES += src/libhiha/string_t_set.c
+DISTCLEANFILES += src/libhiha/string_t_set.c
+src/libhiha/string_t_set.c: src/libhiha/typed_set.c.in Makefile.am
 	$(call v,GEN)mkdir -p $(@D) && \
 	$(SED) -e 's|@INCLUDES@|#include <libhiha/string_t.h>|g' \
            -e 's|@TYPENAME@|string_t|g' \

@@ -21,8 +21,10 @@
 
 #include <config.h>
 #include <math.h>
+#include <float.h>
 #include <libhiha/token_processing.h>
 
+#define _(msgid) HIHA_GETTEXT (msgid)
 
 static void
 scan_tokens (buffered_token_getter_t getter, token_putter_t putter,
@@ -67,13 +69,14 @@ do_pratt_pass (void *state, buffered_token_getter_t getter,
 
   *error_message = NULL;
 
-  pratt_parse (state, getter, tables, -HUGE_VAL, &tok, error_message);
+  pratt_parse (state, getter, tables, minimum_binding_power (), &tok,
+               error_message);
   while (*error_message == NULL && !token_t_is_eof_eof (tok))
     {
       putter->put_token (putter, tok, error_message);
       if (*error_message == NULL)
-        pratt_parse (state, getter, tables, -HUGE_VAL, &tok,
-                     error_message);
+        pratt_parse (state, getter, tables, minimum_binding_power (),
+                     &tok, error_message);
     }
   if (*error_message == NULL)
     putter->put_token (putter, tok, error_message);

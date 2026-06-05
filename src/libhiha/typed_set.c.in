@@ -1,0 +1,363 @@
+/*
+
+  The hiha programming language
+
+  Copyright © 2026 Barry Schwartz
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+*/
+
+#include <config.h>
+#include <stdarg.h>
+#include <string.h>
+#include <xalloc.h>
+#include <libhiha/persistent_hash_map.h>
+@INCLUDES@
+
+#define _(msgid) HIHA_GETTEXT (msgid)
+
+@TYPENAME@_hash_context_t
+@TYPENAME@_set_hash_init (const struct @TYPENAME@_keyval *element)
+{
+  return @TYPENAME@_hash_init (element->key);
+}
+
+static bool
+@TYPENAME@_set_hash_bit (@TYPENAME@_hash_context_t context, unsigned int i)
+{
+  const unsigned int j = i / 64;
+  const unsigned int k = i % 64;
+  const uint64_t hash = @TYPENAME@_hash (context, j);
+  const uint64_t mask = ((uint64_t) 1) << k;
+  return ((hash & mask) != 0);
+}
+
+static bool
+@TYPENAME@_keyval_equals (const struct @TYPENAME@_keyval *key,
+                          const struct @TYPENAME@_keyval *stored)
+{
+  @EQUALS@;
+}
+
+HIHA_HASH_MAP_NODES_DECL (@TYPENAME@_set_node, struct @TYPENAME@_keyval);
+HIHA_HASH_MAP_SEARCH_DEFN (@TYPENAME@_set_node_search, @TYPENAME@_set_node,
+                           struct @TYPENAME@_keyval,
+                           @TYPENAME@_set_hash_init,
+                           @TYPENAME@_set_hash_bit, @TYPENAME@_keyval_equals);
+HIHA_HASH_MAP_INSERT_DEFN (@TYPENAME@_set_node_insert, @TYPENAME@_set_node,
+                           struct @TYPENAME@_keyval,
+                           @TYPENAME@_set_hash_init,
+                           @TYPENAME@_set_hash_bit, @TYPENAME@_keyval_equals);
+HIHA_HASH_MAP_DELETE_DEFN (@TYPENAME@_set_node_delete, @TYPENAME@_set_node,
+                           struct @TYPENAME@_keyval,
+                           @TYPENAME@_set_hash_init,
+                           @TYPENAME@_set_hash_bit, @TYPENAME@_keyval_equals);
+HIHA_HASH_MAP_WALK_DEFN (@TYPENAME@_set_node_walk, @TYPENAME@_set_node,
+                         struct @TYPENAME@_keyval);
+
+struct @TYPENAME@_set
+{
+  @TYPENAME@_set_node_t _trie;
+  size_t _size;
+};
+
+static struct @TYPENAME@_set _@TYPENAME@_set_end_address;
+HIHA_VISIBLE @TYPENAME@_set_t const @TYPENAME@_set_end =
+  &_@TYPENAME@_set_end_address;
+
+HIHA_VISIBLE size_t
+@TYPENAME@_set_size (@TYPENAME@_set_t set)
+{
+  return (set == NULL) ? 0 : set->_size;
+}
+
+HIHA_VISIBLE bool
+@TYPENAME@_set_contains (@TYPENAME@_set_t set, @TYPE@ element)
+{
+  bool result = false;
+  if (set != NULL)
+    {
+      struct @TYPENAME@_keyval elem = {
+        .key = element
+      };
+      const struct @TYPENAME@_keyval *contents =
+        @TYPENAME@_set_node_search (set->_trie, &elem);
+      result = (contents != NULL);
+    }
+  return result;
+}
+
+static @TYPENAME@_set_t
+@TYPENAME@_set_insert (@TYPENAME@_set_t set, @TYPE@ element,
+                       hiha_hash_map_mode_t mode)
+{
+  struct @TYPENAME@_set *result = XZALLOC (struct @TYPENAME@_set);
+  if (set != NULL)
+    {
+      result->_trie = set->_trie;
+      result->_size = set->_size;
+    }
+  struct @TYPENAME@_keyval elem = {
+    .key = element
+  };
+  ssize_t size_change;
+  @TYPENAME@_set_node_insert (result->_trie, &elem, mode,
+                              &result->_trie, &size_change);
+  result->_size += size_change;
+  return result;
+}
+
+HIHA_VISIBLE @TYPENAME@_set_t
+@TYPENAME@_set_adjoin (@TYPENAME@_set_t set, @TYPE@ element)
+{
+  return @TYPENAME@_set_insert (set, element,
+                                hiha_hash_map_insert_only);
+}
+
+HIHA_VISIBLE @TYPENAME@_set_t
+@TYPENAME@_set_delete (@TYPENAME@_set_t set, @TYPE@ element)
+{
+  struct @TYPENAME@_set *result = NULL;
+  if (set != NULL)
+    {
+      assert (set->_size != 0);
+      struct @TYPENAME@_keyval elem = {
+        .key = element
+      };
+      @TYPENAME@_set_node_t trie = set->_trie;
+      size_t size = set->_size;
+      ssize_t size_change;
+      @TYPENAME@_set_node_delete (trie, &elem, &trie, &size_change);
+      size += size_change;
+      assert ((trie == NULL) == (size == 0));
+      if (size != 0)
+        {
+          result = XZALLOC (struct @TYPENAME@_set);
+          result->_trie = trie;
+          result->_size = size;
+        }
+    }
+  return result;
+}
+
+static void
+adjoin_another_element (const struct @TYPENAME@_keyval *elem,
+                        void *data)
+{
+  @TYPENAME@_set_t set = *((@TYPENAME@_set_t *) data);
+  *((@TYPENAME@_set_t *) data) =
+    @TYPENAME@_set_adjoin (set, elem->key);
+}
+
+static void
+delete_another_element (const struct @TYPENAME@_keyval *elem,
+                        void *data)
+{
+  @TYPENAME@_set_t set = *((@TYPENAME@_set_t *) data);
+  *((@TYPENAME@_set_t *) data) =
+    @TYPENAME@_set_delete (set, elem->key);
+}
+
+HIHA_VISIBLE @TYPENAME@_set_t
+@TYPENAME@_set_union (...)
+{  
+  va_list args;
+  va_start (args);
+  @TYPENAME@_set_t result = NULL;
+  @TYPENAME@_set_t set = va_arg (args, @TYPENAME@_set_t);
+  while (set != string_t_set_end)
+    {
+      @TYPENAME@_set_node_walk (set->_trie, adjoin_another_element,
+                                &result);
+      set = va_arg (args, @TYPENAME@_set_t);
+    }
+  va_end (args);
+  return result;
+}
+
+HIHA_VISIBLE @TYPENAME@_set_t
+@TYPENAME@_set_difference (@TYPENAME@_set_t set, ...)
+{  
+  va_list args;
+  va_start (args);
+  @TYPENAME@_set_t result = set;
+  @TYPENAME@_set_t set1 = va_arg (args, @TYPENAME@_set_t);
+  while (set1 != string_t_set_end)
+    {
+      @TYPENAME@_set_node_walk (set1->_trie, delete_another_element,
+                                &result);
+      set1 = va_arg (args, @TYPENAME@_set_t);
+    }
+  va_end (args);
+  return result;
+}
+
+HIHA_VISIBLE @TYPENAME@_set_t
+@TYPENAME@_set_intersection (...)
+{  
+  va_list args;
+
+  @TYPENAME@_set_t result;
+
+  /* Find the smallest set. */
+  va_start (args);
+  @TYPENAME@_set_t set = va_arg (args, @TYPENAME@_set_t);
+  size_t sz_smallest =
+    (set == NULL) ? 0 : @TYPENAME@_set_size (set);
+  @TYPENAME@_set_t smallest = set;
+  size_t i_smallest = 0;
+  size_t i = 0;
+  while (set != string_t_set_end)
+    {
+      size_t sz = @TYPENAME@_set_size (set);
+      if (sz < sz_smallest)
+        {
+          sz_smallest = sz;
+          smallest = set;
+          i_smallest = i;
+        }
+      set = va_arg (args, @TYPENAME@_set_t);
+      i += 1;
+    }
+  size_t i_end = i;
+  va_end (args);
+
+  switch (i_end)
+    {
+    case 0:
+      result = NULL;
+      break;
+    case 1:
+      result = smallest;
+      break;
+    default:
+      {
+        /* Check each other set for each element of the smallest
+           set. */
+        result = NULL;
+        @TYPENAME@_vector_t elems = @TYPENAME@_set_elements (smallest);
+        size_t num_elems = @TYPENAME@_vector_length (elems);
+        for (size_t j = 0; j != num_elems; j += 1)
+          {
+            va_start (args);
+            @TYPENAME@ element = @TYPENAME@_vector_ref (elems, j);
+            i = 0;
+            bool missing = false;
+            while (i != i_end && !missing)
+              {
+                set = va_arg (args, @TYPENAME@_set_t);
+                if (i != i_smallest)
+                  missing = !(@TYPENAME@_set_contains (set, element));
+                i += 1;
+              }
+            if (!missing)
+              result = @TYPENAME@_set_adjoin (result, element);
+            va_end (args);
+          }
+      }
+      break;
+    }
+
+  return result;
+}
+
+HIHA_VISIBLE bool
+@TYPENAME@_set_equal (string_t_set_t set, ...)
+{
+    va_list args;
+
+    /* See whether all the sets have equal size. */
+    size_t num_sets = 1;
+    size_t sz = string_t_set_size (set);
+    va_start (args);
+    string_t_set_t set1 = va_arg (args, @TYPENAME@_set_t);
+    bool mismatch = false;
+    while (set1 != string_t_set_end && !mismatch)
+      {
+        size_t sz1 = string_t_set_size (set1);
+        mismatch = (sz != sz1);
+        if (!mismatch)
+          {
+            set1 = va_arg (args, @TYPENAME@_set_t);
+            num_sets += 1;
+          }
+      }
+    va_end (args);
+
+    bool result;
+
+    if (mismatch)
+      result = false;
+    else
+      switch (num_sets)
+        {
+        case 1:
+          result = true;
+          break;
+        default:
+          {
+            /* FIXME: This could be rewritten to use the walk callback
+               directly. Such an implementation would be more
+               efficient. */
+            @TYPENAME@_vector_t elems = @TYPENAME@_set_elements (set);
+            size_t num_elems = @TYPENAME@_vector_length (elems);
+            bool missing = false;
+            size_t j = 0;
+            while (j != num_elems && !missing)
+              {
+                @TYPENAME@ element = @TYPENAME@_vector_ref (elems, j);
+                va_start (args);
+                set1 = va_arg (args, @TYPENAME@_set_t);
+                while (set1 != string_t_set_end && !missing)
+                  {
+                    missing = !@TYPENAME@_set_contains (set1, element);
+                    set1 = va_arg (args, @TYPENAME@_set_t);
+                  }
+                va_end (args);
+                j += 1;
+              }
+            result = !missing;
+          }
+          break;
+        }
+
+    return result;
+}
+
+static void
+list_another_element (const struct @TYPENAME@_keyval *element,
+                      void *data)
+{
+  @TYPENAME@_vector_t vec = *((@TYPENAME@_vector_t *) data);
+  *((@TYPENAME@_vector_t *) data) =
+    @TYPENAME@_vector_push (vec, element->key);
+}
+
+HIHA_VISIBLE @TYPENAME@_vector_t
+@TYPENAME@_set_elements (@TYPENAME@_set_t set)
+{
+  @TYPENAME@_vector_t result = NULL;
+  if (set != NULL)
+    @TYPENAME@_set_node_walk (set->_trie, list_another_element,
+                              &result);
+  return result;
+}
+
+/*
+  local variables:
+  mode: c
+  coding: utf-8
+  end:
+*/

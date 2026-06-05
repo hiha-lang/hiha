@@ -42,11 +42,11 @@
 #endif
 
 typedef enum
-  {
-    hiha_hash_map_insert_or_replace = 0,
-    hiha_hash_map_insert_only = 1,
-    hiha_hash_map_replace_only = 2
-  } hiha_hash_map_mode_t;
+{
+  hiha_hash_map_insert_or_replace = 0,
+  hiha_hash_map_insert_only = 1,
+  hiha_hash_map_replace_only = 2
+} hiha_hash_map_mode_t;
 
 #define HIHA_HASH_MAP_NODE_DECL(NAME)           \
   typedef const struct NAME                     \

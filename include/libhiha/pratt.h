@@ -22,8 +22,16 @@
 #ifndef __LIBHAHA__PRATT_H__INCLUDED__
 #define __LIBHAHA__PRATT_H__INCLUDED__
 
+#include <math.h>
+#include <float.h>
 #include <libhiha/string_t.h>
 #include <libhiha/token_t.h>
+
+inline double
+minimum_binding_power (void)
+{
+  return -HUGE_VAL;
+}
 
 struct pratt_handler_reference
 {

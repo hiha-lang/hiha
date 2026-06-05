@@ -31,7 +31,6 @@
 
 #include <config.h>
 #include <assert.h>
-#include <math.h>
 #include <inttypes.h>
 #include <filevercmp.h>
 #include <libhiha/string_t.h>
@@ -46,6 +45,8 @@
 #define _(msgid) HIHA_GETTEXT (msgid)
 
 #define UNEXPECTED_TEXT _("unexpected text at %s: “%s”")
+
+HIHA_VISIBLE double minimum_binding_power (void);
 
 struct _pratt_map_entry
 {
@@ -359,7 +360,8 @@ pratt_lbp_get (pratt_tables_t data, string_t token_kind,
   };
   const struct _pratt_map_entry *entry =
     _pratt_map_search (data->lbp, &element);
-  return (entry != NULL) ? entry->u.binding_power : -HUGE_VAL;
+  return ((entry != NULL)
+          ? entry->u.binding_power : minimum_binding_power ());
 }
 
 static void

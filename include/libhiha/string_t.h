@@ -57,6 +57,7 @@ typedef const struct text_location *text_location_t;
 HIHA_PURE string_t empty_string_t (void);       //  “”
 HIHA_PURE string_t string_t_EOF (void); //////////  “EOF”
 HIHA_PURE string_t string_t_CP (void);  //////////  “CP”
+HIHA_PURE string_t string_t_KW (void);  //////////  “KW”
 HIHA_PURE string_t string_t_OP (void);  //////////  “OP”
 HIHA_PURE string_t string_t_space (void);       //  " "
 HIHA_PURE string_t string_t_tab (void); //////////  "\t"
@@ -132,6 +133,30 @@ string_t_map_t string_t_map_delete (string_t_map_t map, string_t key);
 string_t_vector_t string_t_map_keys (string_t_map_t map);
 voidp_vector_t string_t_map_values (string_t_map_t map);
 string_t_keyval_vector_t string_t_map_associations (string_t_map_t map);
+
+/*--------------------------------------------------------------------*/
+/* Persistent unordered sets. */
+
+struct string_t_set;
+typedef const struct string_t_set *string_t_set_t;
+
+size_t string_t_set_size (string_t_set_t set);
+
+bool string_t_set_contains (string_t_set_t set, string_t element);
+string_t_set_t string_t_set_adjoin (string_t_set_t set,
+                                    string_t element);
+string_t_set_t string_t_set_delete (string_t_set_t set,
+                                    string_t element);
+
+extern string_t_set_t const string_t_set_end;   /* Sentinel for “...” */
+
+string_t_set_t string_t_set_union (...);
+string_t_set_t string_t_set_intersection (...);
+string_t_set_t string_t_set_difference (string_t_set_t set, ...);
+
+bool string_t_set_equal (string_t_set_t set, ...);
+
+string_t_vector_t string_t_set_elements (string_t_set_t set);
 
 /*--------------------------------------------------------------------*/
 /* Persistent ordered maps. */

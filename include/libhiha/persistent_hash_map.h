@@ -42,28 +42,28 @@
 #endif
 
 typedef enum
-{
-  hiha_hash_map_insert_or_replace = 0,
-  hiha_hash_map_insert_only = 1,
-  hiha_hash_map_replace_only = 2
-} hiha_hash_map_mode_t;
+  {
+    hiha_hash_map_insert_or_replace = 0,
+    hiha_hash_map_insert_only = 1,
+    hiha_hash_map_replace_only = 2
+  } hiha_hash_map_mode_t;
 
 #define HIHA_HASH_MAP_NODE_DECL(NAME)           \
-  typedef struct NAME                           \
+  typedef const struct NAME                     \
   {                                             \
     bool is_leaf;                               \
   } *NAME##_t
 
 #define HIHA_HASH_MAP_INTERNAL_DECL(NAME)       \
-  typedef struct NAME##_internal                \
+  typedef const struct NAME##_internal          \
   {                                             \
     bool is_leaf;                               \
-    struct NAME *left;                          \
-    struct NAME *right;                         \
+    const struct NAME *left;                    \
+    const struct NAME *right;                   \
   } *NAME##_internal_t
 
 #define HIHA_HASH_MAP_LEAF_DECL(NAME, ELEMTYPE) \
-  typedef struct NAME##_leaf                    \
+  typedef const struct NAME##_leaf              \
   {                                             \
     bool is_leaf;                               \
     ELEMTYPE element;                           \
@@ -82,7 +82,7 @@ typedef enum
       _NEW_ND__->is_leaf = false;                                       \
       _NEW_ND__->left = (LEFT);                                         \
       _NEW_ND__->right = (RIGHT);                                       \
-      NEW_NODE = (NAME##_t) _NEW_ND__;                                  \
+      NEW_NODE = (struct NAME *) _NEW_ND__;                             \
     }                                                                   \
   while (0)
 
@@ -93,7 +93,7 @@ typedef enum
         HIHA_HASH_MAP_ALLOC (struct NAME##_leaf);               \
       _NEW_ND__->is_leaf = true;                                \
       _NEW_ND__->element = (ELEMENT);                           \
-      NEW_NODE = (NAME##_t) _NEW_ND__;                          \
+      NEW_NODE = (struct NAME *) _NEW_ND__;                     \
     }                                                           \
   while (0)
 
@@ -102,7 +102,7 @@ typedef enum
                              EQUALS)                            \
   do                                                            \
     {                                                           \
-      NAME##_t _SOUGHT_ND__ = (NODE);                           \
+      const struct NAME *_SOUGHT_ND__ = (NODE);                 \
       const ELEMTYPE *_KEY__ = (KEY);                           \
       uint64_t _BIT_NUMBER__ = 0;                               \
       while (_SOUGHT_ND__ != NULL && !_SOUGHT_ND__->is_leaf)    \
@@ -118,7 +118,7 @@ typedef enum
               (_KEY__,                                          \
                &((NAME##_leaf_t) _SOUGHT_ND__)->element)))      \
           _SOUGHT_ND__ = NULL;                                  \
-      SOUGHT_NODE = (NAME##_leaf_t) _SOUGHT_ND__;               \
+      SOUGHT_NODE = (struct NAME##_leaf *) _SOUGHT_ND__;        \
     }                                                           \
   while (0)
 
@@ -153,7 +153,7 @@ typedef enum
   FUNC (NAME##_t _Node, const ELEMTYPE *_Key)                   \
   {                                                             \
     void *__context_ = (HASHINIT) (_Key);                       \
-    NAME##_leaf_t __sought_node_;                               \
+    struct NAME##_leaf *__sought_node_;                         \
     HIHA_HASH_MAP_SEARCH (__sought_node_, NAME, ELEMTYPE,       \
                           _Node, _Key, __context_,              \
                           (HASHBIT), (EQUALS));                 \
@@ -166,13 +166,13 @@ typedef enum
 #define HIHA_HASH_MAP_INSERT_DEFN(FUNC, NAME, ELEMTYPE,                 \
                                   HASHINIT, HASHBIT, EQUALS)            \
                                                                         \
-  NAME##_t                                                              \
+  struct NAME *                                                         \
   FUNC##_55f1d2b8_3cbe_4f5b_91e1_05fb2ce17fd7                           \
   (NAME##_t _Node, const ELEMTYPE *_Element,                            \
    void *_Key_context, unsigned int _Bit_number)                        \
   {                                                                     \
-    NAME##_t _result;                                                   \
-    NAME##_t _nd;                                                       \
+    struct NAME *_result;                                               \
+    struct NAME *_nd;                                                   \
     if (_Node == NULL)                                                  \
       /* A new leaf. */                                                 \
       HIHA_HASH_MAP_MAKE_LEAF (_result, NAME, *_Element);               \
@@ -305,14 +305,14 @@ typedef enum
 #define HIHA_HASH_MAP_DELETE_DEFN(FUNC, NAME, ELEMTYPE,                 \
                                   HASHINIT, HASHBIT, EQUALS)            \
                                                                         \
-  NAME##_t                                                              \
+  const struct NAME *                                                   \
   FUNC##_49436463_853f_4e2e_8c23_97e67636e7d8                           \
   (NAME##_t _Node, const ELEMTYPE *_Key,                                \
    void *_Key_context, unsigned int _Bit_number)                        \
   {                                                                     \
     assert (_Node != NULL);                                             \
-    NAME##_t _nd;                                                       \
-    NAME##_t _result = NULL;                                            \
+    const struct NAME *_nd;                                             \
+    const struct NAME *_result = NULL;                                  \
     if (!_Node->is_leaf)                                                \
       {                                                                 \
         NAME##_internal_t _Internal = (NAME##_internal_t) _Node;        \
@@ -358,8 +358,8 @@ typedef enum
   FUNC (NAME##_t _Node, const ELEMTYPE *_Key,                           \
         NAME##_t *_Result_node, ssize_t *_Size_change)                  \
   {                                                                     \
-    NAME##_t _result = _Node;                                           \
-    NAME##_leaf_t _leaf;                                                \
+    const struct NAME *_result = _Node;                                 \
+    struct NAME##_leaf *_leaf;                                          \
     void *_key_context = (HASHINIT) (_Key);                             \
     HIHA_HASH_MAP_SEARCH (_leaf, NAME, ELEMTYPE,                        \
                           _Node, _Key, _key_context,                    \

@@ -155,6 +155,10 @@ string_t_set_t string_t_set_intersection (...);
 string_t_set_t string_t_set_difference (string_t_set_t set, ...);
 
 bool string_t_set_equal (string_t_set_t set, ...);
+bool string_t_set_subset (string_t_set_t set, ...);
+bool string_t_set_proper_subset (string_t_set_t set, ...);
+bool string_t_set_superset (string_t_set_t set, ...);
+bool string_t_set_proper_superset (string_t_set_t set, ...);
 
 string_t_vector_t string_t_set_elements (string_t_set_t set);
 

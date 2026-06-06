@@ -1,5 +1,16 @@
 @  master
-|  2026-06-06 09:52 +0000
+|  2026-06-06 10:45 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       00e5f7ee556213ff49a5e3ee949ed1559c540fe0
+|  mercurial: 2ffc22df1a22c9a0259753732017efd7698ec6d8
+|  revision:  238
+|  parents:   237
+|
+|    Do intersection by deletions rather than by adjoining. (Which is
+|    better, I do not know.)
+|
+|
+o  2026-06-06 09:52 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       6f19c29770d2c2a8d9150e01872a50258981ef90
 |  mercurial: df9b917f80ed1c0afb48c5de58d8020467c963f7

@@ -224,7 +224,11 @@ HIHA_VISIBLE @TYPENAME@_set_t
 
 HIHA_VISIBLE @TYPENAME@_set_t
 @TYPENAME@_set_intersection (...)
-{  
+{
+  /* FIXME: Implement a version for two sets that does not use
+     vectors. In fact, maybe start with that and do a version that
+     always works with two sets at a time. */
+
   va_list args;
 
   @TYPENAME@_set_t result;
@@ -340,6 +344,10 @@ HIHA_VISIBLE bool
                 @TYPENAME@_set_node_walk
                   (set1->_trie, @TYPENAME@_check_another_element,
                    &struc);
+                /* Compare adjacent sets (rather than all sets against
+                   one of them), because comparing adjacent sets is
+                   what is done when performing subset tests. */
+                struc.set = set1;
                 set1 = va_arg (args, @TYPENAME@_set_t);
               }
             va_end (args);
@@ -348,6 +356,214 @@ HIHA_VISIBLE bool
           break;
         }
 
+    return result;
+}
+
+#ifndef HIHA_TYPED_SET_SUBSET_LOOP
+#define HIHA_TYPED_SET_SUBSET_LOOP(TYPENAME)                            \
+  do                                                                    \
+    {                                                                   \
+      switch (num_sets)                                                 \
+        {                                                               \
+        case 1:                                                         \
+          result = true;                                                \
+          break;                                                        \
+        default:                                                        \
+          {                                                             \
+            set1 = set;                                                 \
+            struct TYPENAME##_elems_check struc = {                     \
+              .set = NULL,                                              \
+              .looking_for_contains = true,                             \
+              .contains = true                                          \
+            };                                                          \
+            va_start (args);                                            \
+            string_t_set_t set2 = va_arg (args, TYPENAME##_set_t);      \
+            while (set2 != string_t_set_end && struc.contains)          \
+              {                                                         \
+                if (set1 != NULL)                                       \
+                  {                                                     \
+                    struc.set = set2;                                   \
+                    TYPENAME##_set_node_walk                            \
+                      (set1->_trie, TYPENAME##_check_another_element,   \
+                       &struc);                                         \
+                  }                                                     \
+                set1 = set2;                                            \
+                set2 = va_arg (args, TYPENAME##_set_t);                 \
+              }                                                         \
+            va_end (args);                                              \
+            result = struc.contains;                                    \
+          }                                                             \
+          break;                                                        \
+        }                                                               \
+    }                                                                   \
+  while (0)
+#endif /* HIHA_TYPED_SET_SUBSET_LOOP */
+
+#ifndef HIHA_TYPED_SET_SUPERSET_LOOP
+#define HIHA_TYPED_SET_SUPERSET_LOOP(TYPENAME)                          \
+  do                                                                    \
+    {                                                                   \
+      switch (num_sets)                                                 \
+        {                                                               \
+        case 1:                                                         \
+          result = true;                                                \
+          break;                                                        \
+        default:                                                        \
+          {                                                             \
+            set1 = set;                                                 \
+            struct TYPENAME##_elems_check struc = {                     \
+              .set = NULL,                                              \
+              .looking_for_contains = true,                             \
+              .contains = true                                          \
+            };                                                          \
+            va_start (args);                                            \
+            string_t_set_t set2 = va_arg (args, TYPENAME##_set_t);      \
+            while (set2 != string_t_set_end && struc.contains)          \
+              {                                                         \
+                if (set2 != NULL)                                       \
+                  {                                                     \
+                    struc.set = set1;                                   \
+                    TYPENAME##_set_node_walk                            \
+                      (set2->_trie, TYPENAME##_check_another_element,   \
+                       &struc);                                         \
+                  }                                                     \
+                set1 = set2;                                            \
+                set2 = va_arg (args, TYPENAME##_set_t);                 \
+              }                                                         \
+            va_end (args);                                              \
+            result = struc.contains;                                    \
+          }                                                             \
+          break;                                                        \
+        }                                                               \
+    }                                                                   \
+  while (0)
+#endif /* HIHA_TYPED_SET_SUPERSET_LOOP */
+
+HIHA_VISIBLE bool
+@TYPENAME@_set_subset (string_t_set_t set, ...)
+{
+    va_list args;
+
+    /* See whether the sets have monotone nondecreasing size. */
+    size_t num_sets = 1;
+    size_t sz = string_t_set_size (set);
+    va_start (args);
+    string_t_set_t set1 = va_arg (args, @TYPENAME@_set_t);
+    bool nondecreasing = true;
+    while (set1 != string_t_set_end && nondecreasing)
+      {
+        size_t sz1 = string_t_set_size (set1);
+        nondecreasing = (sz <= sz1);
+        if (nondecreasing)
+          {
+            set1 = va_arg (args, @TYPENAME@_set_t);
+            sz = sz1;
+            num_sets += 1;
+          }
+      }
+    va_end (args);
+
+    bool result;
+    if (!nondecreasing)
+      result = false;
+    else
+      HIHA_TYPED_SET_SUBSET_LOOP (@TYPENAME@);
+    return result;
+}
+
+HIHA_VISIBLE bool
+@TYPENAME@_set_proper_subset (string_t_set_t set, ...)
+{
+    va_list args;
+
+    /* See whether the sets have monotone increasing size. */
+    size_t num_sets = 1;
+    size_t sz = string_t_set_size (set);
+    va_start (args);
+    string_t_set_t set1 = va_arg (args, @TYPENAME@_set_t);
+    bool increasing = true;
+    while (set1 != string_t_set_end && increasing)
+      {
+        size_t sz1 = string_t_set_size (set1);
+        increasing = (sz < sz1);
+        if (increasing)
+          {
+            set1 = va_arg (args, @TYPENAME@_set_t);
+            sz = sz1;
+            num_sets += 1;
+          }
+      }
+    va_end (args);
+
+    bool result;
+    if (!increasing)
+      result = false;
+    else
+      HIHA_TYPED_SET_SUBSET_LOOP (@TYPENAME@);
+    return result;
+}
+
+HIHA_VISIBLE bool
+@TYPENAME@_set_superset (string_t_set_t set, ...)
+{
+    va_list args;
+
+    /* See whether the sets have monotone nonincreasing size. */
+    size_t num_sets = 1;
+    size_t sz = string_t_set_size (set);
+    va_start (args);
+    string_t_set_t set1 = va_arg (args, @TYPENAME@_set_t);
+    bool nonincreasing = true;
+    while (set1 != string_t_set_end && nonincreasing)
+      {
+        size_t sz1 = string_t_set_size (set1);
+        nonincreasing = (sz1 <= sz);
+        if (nonincreasing)
+          {
+            set1 = va_arg (args, @TYPENAME@_set_t);
+            sz = sz1;
+            num_sets += 1;
+          }
+      }
+    va_end (args);
+
+    bool result;
+    if (!nonincreasing)
+      result = false;
+    else
+      HIHA_TYPED_SET_SUPERSET_LOOP (@TYPENAME@);
+    return result;
+}
+
+HIHA_VISIBLE bool
+@TYPENAME@_set_proper_superset (string_t_set_t set, ...)
+{
+    va_list args;
+
+    /* See whether the sets have monotone decreasing size. */
+    size_t num_sets = 1;
+    size_t sz = string_t_set_size (set);
+    va_start (args);
+    string_t_set_t set1 = va_arg (args, @TYPENAME@_set_t);
+    bool decreasing = true;
+    while (set1 != string_t_set_end && decreasing)
+      {
+        size_t sz1 = string_t_set_size (set1);
+        decreasing = (sz1 < sz);
+        if (decreasing)
+          {
+            set1 = va_arg (args, @TYPENAME@_set_t);
+            sz = sz1;
+            num_sets += 1;
+          }
+      }
+    va_end (args);
+
+    bool result;
+    if (!decreasing)
+      result = false;
+    else
+      HIHA_TYPED_SET_SUPERSET_LOOP (@TYPENAME@);
     return result;
 }
 

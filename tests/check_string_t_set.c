@@ -123,7 +123,94 @@ main (void)
                                     (NULL, int_is_anything, -10, 50),
                                     string_t_set_end),
            adjoin_interval_contents (NULL, int_is_anything, 51, 70),
-           string_t_set_end));           
+           string_t_set_end));
+
+  assert (string_t_set_subset (NULL, NULL, NULL, NULL,
+                               string_t_set_end));
+  assert (string_t_set_subset (NULL, NULL, NULL, NULL,
+                               adjoin_interval_contents
+                               (NULL, int_is_anything, 1, 10),
+                               adjoin_interval_contents
+                               (NULL, int_is_anything, 1, 10),
+                               adjoin_interval_contents
+                               (NULL, int_is_anything, 1, 20),
+                               adjoin_interval_contents
+                               (NULL, int_is_anything, 1, 30),
+                               string_t_set_end));
+  assert (!string_t_set_subset (NULL, NULL, NULL, NULL,
+                                adjoin_interval_contents
+                                (NULL, int_is_anything, 1, 10),
+                                adjoin_interval_contents
+                                (NULL, int_is_anything, 1, 10),
+                                adjoin_interval_contents
+                                (NULL, int_is_anything, 1, 20),
+                                adjoin_interval_contents
+                                (NULL, int_is_anything, 2, 30),
+                                string_t_set_end));
+
+  assert (!string_t_set_proper_subset (NULL, NULL, NULL, NULL,
+                                       string_t_set_end));
+  assert (!string_t_set_proper_subset (NULL, NULL, NULL, NULL,
+                                       adjoin_interval_contents
+                                       (NULL, int_is_anything, 1, 10),
+                                       adjoin_interval_contents
+                                       (NULL, int_is_anything, 1, 10),
+                                       adjoin_interval_contents
+                                       (NULL, int_is_anything, 1, 20),
+                                       adjoin_interval_contents
+                                       (NULL, int_is_anything, 1, 30),
+                                       string_t_set_end));
+  assert (string_t_set_proper_subset (NULL,
+                                      adjoin_interval_contents
+                                      (NULL, int_is_anything, 1, 10),
+                                      adjoin_interval_contents
+                                      (NULL, int_is_anything, 1, 20),
+                                      adjoin_interval_contents
+                                      (NULL, int_is_anything, 1, 30),
+                                      string_t_set_end));
+
+  assert (string_t_set_superset (NULL, NULL, NULL, NULL,
+                                 string_t_set_end));
+  assert (string_t_set_superset (adjoin_interval_contents
+                                 (NULL, int_is_anything, 1, 30),
+                                 adjoin_interval_contents
+                                 (NULL, int_is_anything, 1, 20),
+                                 adjoin_interval_contents
+                                 (NULL, int_is_anything, 1, 10),
+                                 adjoin_interval_contents
+                                 (NULL, int_is_anything, 1, 10),
+                                 NULL, NULL, NULL, NULL,
+                                 string_t_set_end));
+  assert (!string_t_set_superset (adjoin_interval_contents
+                                  (NULL, int_is_anything, 2, 30),
+                                  adjoin_interval_contents
+                                  (NULL, int_is_anything, 1, 20),
+                                  adjoin_interval_contents
+                                  (NULL, int_is_anything, 1, 10),
+                                  adjoin_interval_contents
+                                  (NULL, int_is_anything, 1, 10),
+                                  NULL, NULL, NULL, NULL,
+                                  string_t_set_end));
+
+  assert (!string_t_set_proper_superset (NULL, NULL, NULL, NULL,
+                                         string_t_set_end));
+  assert (!string_t_set_proper_superset (adjoin_interval_contents
+                                         (NULL, int_is_anything, 1, 30),
+                                         adjoin_interval_contents
+                                         (NULL, int_is_anything, 1, 20),
+                                         adjoin_interval_contents
+                                         (NULL, int_is_anything, 1, 10),
+                                         adjoin_interval_contents
+                                         (NULL, int_is_anything, 1, 10),
+                                         NULL, NULL, NULL, NULL,
+                                         string_t_set_end));
+  assert (string_t_set_proper_superset (adjoin_interval_contents
+                                        (NULL, int_is_anything, 1, 30),
+                                        adjoin_interval_contents
+                                        (NULL, int_is_anything, 1, 20),
+                                        adjoin_interval_contents
+                                        (NULL, int_is_anything, 1, 10),
+                                        NULL, string_t_set_end));
 
   return 0;
 }

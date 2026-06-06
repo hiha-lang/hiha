@@ -170,7 +170,8 @@ HIHA_VISIBLE @TYPENAME@_map_t
 }
 
 static void
-list_another_key (const struct @TYPENAME@_keyval *element, void *data)
+@TYPENAME@_list_another_key (const struct @TYPENAME@_keyval *element,
+                             void *data)
 {
   @TYPENAME@_vector_t vec = *((@TYPENAME@_vector_t *) data);
   *((@TYPENAME@_vector_t *) data) =
@@ -178,15 +179,17 @@ list_another_key (const struct @TYPENAME@_keyval *element, void *data)
 }
 
 static void
-list_another_value (const struct @TYPENAME@_keyval *element, void *data)
+@TYPENAME@_list_another_value (const struct @TYPENAME@_keyval *element,
+                               void *data)
 {
   voidp_vector_t vec = *((voidp_vector_t *) data);
   *((voidp_vector_t *) data) = voidp_vector_push (vec, element->value);
 }
 
 static void
-list_another_association (const struct @TYPENAME@_keyval *element,
-                          void *data)
+@TYPENAME@_list_another_association (const struct @TYPENAME@_keyval
+                                     *element,
+                                     void *data)
 {
   @TYPENAME@_keyval_vector_t vec = *((@TYPENAME@_keyval_vector_t *) data);
   *((@TYPENAME@_keyval_vector_t *) data) =
@@ -198,7 +201,8 @@ HIHA_VISIBLE @TYPENAME@_vector_t
 {
   @TYPENAME@_vector_t result = NULL;
   if (map != NULL)
-    @TYPENAME@_map_node_walk (map->_trie, list_another_key, &result);
+    @TYPENAME@_map_node_walk (map->_trie,
+                              @TYPENAME@_list_another_key, &result);
   return result;
 }
 
@@ -207,7 +211,8 @@ HIHA_VISIBLE voidp_vector_t
 {
   voidp_vector_t result = NULL;
   if (map != NULL)
-    @TYPENAME@_map_node_walk (map->_trie, list_another_value, &result);
+    @TYPENAME@_map_node_walk (map->_trie,
+                              @TYPENAME@_list_another_value, &result);
   return result;
 }
 
@@ -216,7 +221,8 @@ HIHA_VISIBLE @TYPENAME@_keyval_vector_t
 {
   @TYPENAME@_keyval_vector_t result = NULL;
   if (map != NULL)
-    @TYPENAME@_map_node_walk (map->_trie, list_another_association,
+    @TYPENAME@_map_node_walk (map->_trie,
+                              @TYPENAME@_list_another_association,
                               &result);
   return result;
 }

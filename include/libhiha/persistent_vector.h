@@ -79,6 +79,11 @@
 #define HIHA_VECTOR_ZALLOCSZ(sz) xzalloc (sz)
 #endif
 
+#ifndef HIHA_VECTOR_ZALLOC_ATOMICSZ
+#include <libhiha/xalloc.h>
+#define HIHA_VECTOR_ZALLOC_ATOMICSZ(sz) xzalloc_atomic (sz)
+#endif
+
 /*--------------------------------------------------------------------*/
 
 /* Returns the length of a persistent vector of any entry type. */
@@ -1151,15 +1156,13 @@ hiha_persistent_vector_length (void *pvect)
                                                  HIHA_VECTOR_ZALLOCSZ,  \
                                                  true)
 
-/*
- * #define DEFINE_HIHA_PERSISTENT_VECTOR_DATATYPE_ATOMIC(MODIFIER, TNAME, \
- *                                                     ENTRY_T, BITS)     \
- *  DEFINE_HIHA_PERSISTENT_VECTOR_DATATYPE_GENERAL(MODIFIER, TNAME,       \
- *                                                ENTRY_T, BITS,          \
- *                                                HIHA_VECTOR_ZALLOCSZ, \
- *                                                x_gc_malloc_atomic,     \
- *                                                false)
- */
+#define DEFINE_HIHA_PERSISTENT_VECTOR_DATATYPE_ATOMIC(MODIFIER, TNAME,  \
+                                                      ENTRY_T, BITS)    \
+  DEFINE_HIHA_PERSISTENT_VECTOR_DATATYPE_GENERAL(MODIFIER, TNAME,       \
+                                                 ENTRY_T, BITS,         \
+                                                 HIHA_VECTOR_ZALLOCSZ,  \
+                                                 HIHA_VECTOR_ZALLOC_ATOMICSZ, \
+                                                 false)
 
 /*--------------------------------------------------------------------*/
 /* Persistent vectors of const void pointers. */

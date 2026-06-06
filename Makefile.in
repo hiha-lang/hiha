@@ -2299,7 +2299,8 @@ EXTRA_DIST = m4/gnulib-cache.m4 silent-rules.mk COPYING README.adoc \
 	gc-8.2.12/include/gc_mark.h gc-8.2.12/gc_dlopen.c \
 	gc-8.2.12/gc_badalc.cpp gc-8.2.12/pthread_support.c \
 	gc-8.2.12/reclaim.c gc-8.2.12/configure.ac \
-	src/libhiha/typed_map.c.in src/libhiha/typed_omap.c.in
+	src/libhiha/typed_map.c.in src/libhiha/typed_set.c.in \
+	src/libhiha/typed_omap.c.in
 EXTRA_SCRIPTS = 
 
 #---------------------------------------------------------------------

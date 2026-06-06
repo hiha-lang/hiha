@@ -77,6 +77,40 @@ static struct @TYPENAME@_set _@TYPENAME@_set_end_address;
 HIHA_VISIBLE @TYPENAME@_set_t const @TYPENAME@_set_end =
   &_@TYPENAME@_set_end_address;
 
+static void
+@TYPENAME@_adjoin_another_element (const struct @TYPENAME@_keyval *elem,
+                                   void *data)
+{
+  @TYPENAME@_set_t set = *((@TYPENAME@_set_t *) data);
+  *((@TYPENAME@_set_t *) data) =
+    @TYPENAME@_set_adjoin (set, elem->key);
+}
+
+static void
+@TYPENAME@_delete_another_element (const struct @TYPENAME@_keyval *elem,
+                                   void *data)
+{
+  @TYPENAME@_set_t set = *((@TYPENAME@_set_t *) data);
+  *((@TYPENAME@_set_t *) data) =
+    @TYPENAME@_set_delete (set, elem->key);
+}
+
+struct @TYPENAME@_elems_check
+{
+  @TYPENAME@_set_t set;
+  bool looking_for_contains;
+  bool contains;
+};
+
+static void
+@TYPENAME@_check_another_element (const struct @TYPENAME@_keyval *elem,
+                                  void *data)
+{
+  struct @TYPENAME@_elems_check *p = data;
+  if (p->contains == p->looking_for_contains)
+    p->contains = @TYPENAME@_set_contains (p->set, elem->key);
+}
+
 HIHA_VISIBLE size_t
 @TYPENAME@_set_size (@TYPENAME@_set_t set)
 {
@@ -150,40 +184,6 @@ HIHA_VISIBLE @TYPENAME@_set_t
         }
     }
   return result;
-}
-
-static void
-@TYPENAME@_adjoin_another_element (const struct @TYPENAME@_keyval *elem,
-                                   void *data)
-{
-  @TYPENAME@_set_t set = *((@TYPENAME@_set_t *) data);
-  *((@TYPENAME@_set_t *) data) =
-    @TYPENAME@_set_adjoin (set, elem->key);
-}
-
-static void
-@TYPENAME@_delete_another_element (const struct @TYPENAME@_keyval *elem,
-                                   void *data)
-{
-  @TYPENAME@_set_t set = *((@TYPENAME@_set_t *) data);
-  *((@TYPENAME@_set_t *) data) =
-    @TYPENAME@_set_delete (set, elem->key);
-}
-
-struct @TYPENAME@_elems_check
-{
-  @TYPENAME@_set_t set;
-  bool looking_for_contains;
-  bool contains;
-};
-
-static void
-@TYPENAME@_check_another_element (const struct @TYPENAME@_keyval *elem,
-                                  void *data)
-{
-  struct @TYPENAME@_elems_check *p = data;
-  if (p->contains == p->looking_for_contains)
-    p->contains = @TYPENAME@_set_contains (p->set, elem->key);
 }
 
 HIHA_VISIBLE @TYPENAME@_set_t
@@ -264,7 +264,7 @@ HIHA_VISIBLE @TYPENAME@_set_t
       {
         /* Check each other set for each element of the smallest
            set. */
-        result = NULL;
+        result = smallest;
         @TYPENAME@_vector_t elems = @TYPENAME@_set_elements (smallest);
         size_t num_elems = @TYPENAME@_vector_length (elems);
         for (size_t j = 0; j != num_elems; j += 1)
@@ -280,8 +280,8 @@ HIHA_VISIBLE @TYPENAME@_set_t
                   missing = !(@TYPENAME@_set_contains (set, element));
                 i += 1;
               }
-            if (!missing)
-              result = @TYPENAME@_set_adjoin (result, element);
+            if (missing)
+              result = @TYPENAME@_set_delete (result, element);
             va_end (args);
           }
       }

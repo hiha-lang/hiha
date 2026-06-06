@@ -1,5 +1,66 @@
 @  master
-|  2026-06-03 19:22 +0000
+|  2026-06-06 09:52 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       6f19c29770d2c2a8d9150e01872a50258981ef90
+|  mercurial: df9b917f80ed1c0afb48c5de58d8020467c963f7
+|  revision:  237
+|  parents:   236
+|
+|    A better definition of set equal.
+|
+|
+o  2026-06-06 09:20 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       67a9d3c52275f7f7e05c718b5f8c6faff3893deb
+|  mercurial: 15e26d831f711668ac9496631807c6b2f5e28998
+|  revision:  236
+|  parents:   235
+|
+|    Change the names of some static functions.
+|
+|
+o  2026-06-06 09:17 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       5b4260d73fca665ec584ae5f06a0788b27fa47fe
+|  mercurial: 613bab4d62986e048087067026319a53f49a0a48
+|  revision:  235
+|  parents:   234
+|
+|    Change the names of some static functions.
+|
+|
+o  2026-06-05 23:21 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       b012a8f6a8e75eb5915487fd78637aaa839211f2
+|  mercurial: 226b8d5561463410f3f50f4f4b7d5ae0a1187b49
+|  revision:  234
+|  parents:   233
+|
+|    Some start of parsing. Part of implementation of unordered sets.
+|
+|
+o  2026-06-05 12:27 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       f5a492ffd4b93e27a8e2fb6b052a3195b3bc2e6d
+|  mercurial: 9e5ffa0713c8fe1202b91a2532905a87b76cf5a5
+|  revision:  233
+|  parents:   232
+|
+|    Make persistent hash maps const pointers instead of non-const
+|    pointers.
+|
+|
+o  2026-06-04 15:36 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       b2dd52d9944b06906bb23fe847c68955fb5953e9
+|  mercurial: 042f2eafb865a66fc9c17b0a7671dc66d1efcdf7
+|  revision:  232
+|  parents:   231
+|
+|    A plugin to remove white space, file separators, and comments.
+|
+|
+o  2026-06-03 19:22 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       9d2d7b8d3f5857916646ee97147b2eaad903967c
 |  mercurial: ddae10f572ad3f3d233a22ffb2f5362f1ef11a92

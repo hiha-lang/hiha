@@ -328,6 +328,7 @@ src/libhiha/str_nul_omap.c: src/libhiha/typed_omap.c.in Makefile.am
            $(<) > $(@).tmp && mv $(@){.tmp,}
 
 EXTRA_DIST += src/libhiha/typed_map.c.in
+EXTRA_DIST += src/libhiha/typed_set.c.in
 EXTRA_DIST += src/libhiha/typed_omap.c.in
 
 #---------------------------------------------------------------------

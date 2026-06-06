@@ -98,5 +98,32 @@ main (void)
   assert (2 * string_t_set_size (difference_2_3) == HOW_MANY);
   assert (string_t_set_equal (set2, difference_2_3, string_t_set_end));
 
+  assert (string_t_set_equal
+          (string_t_set_intersection (adjoin_interval_contents
+                                      (NULL, int_is_anything, 1, 70),
+                                      adjoin_interval_contents
+                                      (NULL, int_is_anything, 51, 100),
+                                      adjoin_interval_contents
+                                      (NULL, int_is_anything, -99, 200),
+                                      string_t_set_end),
+           string_t_set_union (adjoin_interval_contents
+                               (NULL, int_is_anything, 51, 55),
+                               adjoin_interval_contents
+                               (NULL, int_is_anything, 53, 62),
+                               adjoin_interval_contents
+                               (NULL, int_is_anything, 61, 70),
+                               string_t_set_end),
+           string_t_set_difference (adjoin_interval_contents
+                                    (NULL, int_is_anything, -99, 200),
+                                    adjoin_interval_contents
+                                    (NULL, int_is_anything, -99, 0),
+                                    adjoin_interval_contents
+                                    (NULL, int_is_anything, 71, 300),
+                                    adjoin_interval_contents
+                                    (NULL, int_is_anything, -10, 50),
+                                    string_t_set_end),
+           adjoin_interval_contents (NULL, int_is_anything, 51, 70),
+           string_t_set_end));           
+
   return 0;
 }

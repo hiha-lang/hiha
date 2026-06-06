@@ -153,6 +153,8 @@ extern string_t_set_t const string_t_set_end;   /* Sentinel for “...” */
 string_t_set_t string_t_set_union (...);
 string_t_set_t string_t_set_intersection (...);
 string_t_set_t string_t_set_difference (string_t_set_t set, ...);
+string_t_set_t string_t_set_symmetric_difference (string_t_set_t set1,
+                                                  string_t_set_t set2);
 
 bool string_t_set_equal (string_t_set_t set, ...);
 bool string_t_set_subset (string_t_set_t set, ...);

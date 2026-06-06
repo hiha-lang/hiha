@@ -237,6 +237,17 @@ HIHA_VISIBLE @TYPENAME@_set_t
   return result;
 }
 
+HIHA_VISIBLE string_t_set_t
+@TYPENAME@_set_symmetric_difference (string_t_set_t set1,
+                                     string_t_set_t set2)
+{
+  @TYPENAME@_set_t diff1 =
+    @TYPENAME@_set_difference (set1, set2, string_t_set_end);
+  @TYPENAME@_set_t diff2 =
+    @TYPENAME@_set_difference (set2, set1, string_t_set_end);
+  return @TYPENAME@_set_union (diff1, diff2, string_t_set_end);
+}
+
 static @TYPENAME@_set_t
 @TYPENAME@_set_intersection_of_two (@TYPENAME@_set_t set1,
                                     @TYPENAME@_set_t set2)

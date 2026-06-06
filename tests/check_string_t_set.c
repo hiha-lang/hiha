@@ -70,17 +70,20 @@ main (void)
 
   assert ((HOW_MANY % 2) == 0);
 
-  string_t_set_t set = NULL;
+  string_t_set_t set;
+  string_t_set_t set1;
+  string_t_set_t set2;
+  string_t_set_t set3;
+  string_t_set_t set4;
+
+  set = NULL;
   assert (string_t_set_size (set) == 0);
 
-  string_t_set_t set1 =
-    adjoin_interval_contents (set, int_is_anything, 1, HOW_MANY);
+  set1 = adjoin_interval_contents (set, int_is_anything, 1, HOW_MANY);
   assert (string_t_set_size (set1) == HOW_MANY);
-  string_t_set_t set2 =
-    adjoin_interval_contents (set, int_is_odd, 1, HOW_MANY);
+  set2 = adjoin_interval_contents (set, int_is_odd, 1, HOW_MANY);
   assert (2 * string_t_set_size (set2) == HOW_MANY);
-  string_t_set_t set3 =
-    adjoin_interval_contents (set, int_is_even, 1, HOW_MANY);
+  set3 = adjoin_interval_contents (set, int_is_even, 1, HOW_MANY);
   assert (2 * string_t_set_size (set3) == HOW_MANY);
   assert (!string_t_set_equal (set2, set3, string_t_set_end));
 
@@ -211,6 +214,19 @@ main (void)
                                         adjoin_interval_contents
                                         (NULL, int_is_anything, 1, 10),
                                         NULL, string_t_set_end));
+
+  set1 = adjoin_interval_contents (NULL, int_is_anything, 1, 100);
+  set2 = adjoin_interval_contents (NULL, int_is_anything, 21, 120);
+  set3 = string_t_set_symmetric_difference (set1, set2);
+  set4 = string_t_set_symmetric_difference (set2, set1);
+  assert (string_t_set_equal
+          (set3, set4,
+           string_t_set_union (adjoin_interval_contents
+                               (NULL, int_is_anything, 1, 20),
+                               adjoin_interval_contents
+                               (NULL, int_is_anything, 101, 120),
+                               string_t_set_end),
+           string_t_set_end));
 
   return 0;
 }

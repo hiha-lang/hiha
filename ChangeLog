@@ -1,5 +1,15 @@
 @  master
-|  2026-06-06 10:45 +0000
+|  2026-06-06 12:16 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       30e63f17cf2c27b7ed5dd92caa9672acc962077e
+|  mercurial: 592dab2cc9ab70d89086892c5ccd9d548f0b1136
+|  revision:  239
+|  parents:   238
+|
+|    Subsets and supersets.
+|
+|
+o  2026-06-06 10:45 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       00e5f7ee556213ff49a5e3ee949ed1559c540fe0
 |  mercurial: 2ffc22df1a22c9a0259753732017efd7698ec6d8

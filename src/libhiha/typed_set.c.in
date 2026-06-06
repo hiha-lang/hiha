@@ -111,6 +111,21 @@ static void
     p->contains = @TYPENAME@_set_contains (p->set, elem->key);
 }
 
+struct @TYPENAME@_delete_missing_struc
+{
+  @TYPENAME@_set_t result;
+  @TYPENAME@_set_t set2;
+};
+
+static void
+@TYPENAME@_delete_missing (const struct @TYPENAME@_keyval *elem,
+                           void *data)
+{
+  struct @TYPENAME@_delete_missing_struc *p = data;
+  if (!@TYPENAME@_set_contains (p->set2, elem->key))
+    p->result = @TYPENAME@_set_delete (p->result, elem->key);
+}
+
 HIHA_VISIBLE size_t
 @TYPENAME@_set_size (@TYPENAME@_set_t set)
 {
@@ -222,6 +237,27 @@ HIHA_VISIBLE @TYPENAME@_set_t
   return result;
 }
 
+static @TYPENAME@_set_t
+@TYPENAME@_set_intersection_of_two (@TYPENAME@_set_t set1,
+                                    @TYPENAME@_set_t set2)
+{
+  assert (@TYPENAME@_set_size (set1) <= @TYPENAME@_set_size (set2));
+  @TYPENAME@_set_t result;
+  if (set1 == NULL)
+    result = NULL;
+  else
+    {
+      struct @TYPENAME@_delete_missing_struc struc = {
+        .result = set1,
+        .set2 = set2
+      };
+      @TYPENAME@_set_node_walk
+        (set1->_trie, @TYPENAME@_delete_missing, &struc);
+      result = struc.result;
+    }
+  return result;
+}
+
 HIHA_VISIBLE @TYPENAME@_set_t
 @TYPENAME@_set_intersection (...)
 {
@@ -266,28 +302,15 @@ HIHA_VISIBLE @TYPENAME@_set_t
       break;
     default:
       {
-        /* Check each other set for each element of the smallest
-           set. */
         result = smallest;
-        @TYPENAME@_vector_t elems = @TYPENAME@_set_elements (smallest);
-        size_t num_elems = @TYPENAME@_vector_length (elems);
-        for (size_t j = 0; j != num_elems; j += 1)
+        va_start (args);
+        for (i = 0; i != i_end; i += 1)
           {
-            va_start (args);
-            @TYPENAME@ element = @TYPENAME@_vector_ref (elems, j);
-            i = 0;
-            bool missing = false;
-            while (i != i_end && !missing)
-              {
-                set = va_arg (args, @TYPENAME@_set_t);
-                if (i != i_smallest)
-                  missing = !(@TYPENAME@_set_contains (set, element));
-                i += 1;
-              }
-            if (missing)
-              result = @TYPENAME@_set_delete (result, element);
-            va_end (args);
+            set = va_arg (args, @TYPENAME@_set_t);
+            if (i != i_smallest)
+              result = @TYPENAME@_set_intersection_of_two (result, set);
           }
+        va_end (args);
       }
       break;
     }

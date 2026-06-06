@@ -54,6 +54,11 @@ AT_KEYWORDS([token_t_map token_t map])
 AT_CHECK([check_token_t_map])
 AT_CLEANUP
 
+AT_SETUP([token_t unordered set])
+AT_KEYWORDS([token_t_set token_t set])
+AT_CHECK([check_token_t_set])
+AT_CLEANUP
+
 AT_SETUP([token_t ordered map])
 AT_KEYWORDS([token_t_omap token_t map omap ordered])
 AT_CHECK([check_token_t_omap])
@@ -67,6 +72,11 @@ AT_CLEANUP
 AT_SETUP([str_nul unordered map])
 AT_KEYWORDS([str_nul_map str_nul map char string nul NUL])
 AT_CHECK([check_str_nul_map])
+AT_CLEANUP
+
+AT_SETUP([str_nul unordered set])
+AT_KEYWORDS([str_nul_set str_nul set char string nul NUL])
+AT_CHECK([check_str_nul_set])
 AT_CLEANUP
 
 AT_SETUP([str_nul ordered map])

@@ -1,5 +1,26 @@
 @  master
-|  2026-06-06 13:13 +0000
+|  2026-06-06 14:09 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       9fa7163bda101d0170d93b0aeb513cff49f95301
+|  mercurial: dc862ec3394038881a5e26d2d39cb292662bb9df
+|  revision:  242
+|  parents:   241
+|
+|    Fixes for typed_set.c.in. Implementations for tokens and NUL-
+|    terminated strings.
+|
+|
+o  2026-06-06 13:47 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       76a3228cb157d7398fce200d47ae27baa8f0db69
+|  mercurial: 734acc1ba66120be509b01e0da059c726e32102c
+|  revision:  241
+|  parents:   240
+|
+|    Added set symmetric difference.
+|
+|
+o  2026-06-06 13:13 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       345f77bb59ebc57f40b98a98a001cab90e63ee93
 |  mercurial: 6fbd947a890c1b8683a57f7c7dcd6d927326dd45

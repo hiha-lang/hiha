@@ -111,8 +111,9 @@ EXTRA_PROGRAMS = SpookyV2-reference$(EXEEXT)
 check_PROGRAMS = check_string_t_hash$(EXEEXT) \
 	check_string_t_map$(EXEEXT) check_string_t_set$(EXEEXT) \
 	check_string_t_omap$(EXEEXT) check_token_t_hash$(EXEEXT) \
-	check_token_t_map$(EXEEXT) check_token_t_omap$(EXEEXT) \
-	check_str_nul_hash$(EXEEXT) check_str_nul_map$(EXEEXT) \
+	check_token_t_map$(EXEEXT) check_token_t_set$(EXEEXT) \
+	check_token_t_omap$(EXEEXT) check_str_nul_hash$(EXEEXT) \
+	check_str_nul_map$(EXEEXT) check_str_nul_set$(EXEEXT) \
 	check_str_nul_omap$(EXEEXT) check_persistent_avl$(EXEEXT) \
 	check_persistent_integer_trie$(EXEEXT) \
 	check_persistent_hash_map$(EXEEXT) \
@@ -305,6 +306,12 @@ check_str_nul_omap_LDADD = $(LDADD)
 check_str_nul_omap_DEPENDENCIES = $(top_builddir)/libhiha.la \
 	$(top_builddir)/$(GCVERS)/libhiha-gc.la \
 	$(top_builddir)/lib/libgnu.la $(am__DEPENDENCIES_2)
+check_str_nul_set_SOURCES = check_str_nul_set.c
+check_str_nul_set_OBJECTS = check_str_nul_set.$(OBJEXT)
+check_str_nul_set_LDADD = $(LDADD)
+check_str_nul_set_DEPENDENCIES = $(top_builddir)/libhiha.la \
+	$(top_builddir)/$(GCVERS)/libhiha-gc.la \
+	$(top_builddir)/lib/libgnu.la $(am__DEPENDENCIES_2)
 check_string_literal_SOURCES = check_string_literal.c
 check_string_literal_OBJECTS = check_string_literal.$(OBJEXT)
 check_string_literal_LDADD = $(LDADD)
@@ -353,6 +360,12 @@ check_token_t_omap_LDADD = $(LDADD)
 check_token_t_omap_DEPENDENCIES = $(top_builddir)/libhiha.la \
 	$(top_builddir)/$(GCVERS)/libhiha-gc.la \
 	$(top_builddir)/lib/libgnu.la $(am__DEPENDENCIES_2)
+check_token_t_set_SOURCES = check_token_t_set.c
+check_token_t_set_OBJECTS = check_token_t_set.$(OBJEXT)
+check_token_t_set_LDADD = $(LDADD)
+check_token_t_set_DEPENDENCIES = $(top_builddir)/libhiha.la \
+	$(top_builddir)/$(GCVERS)/libhiha-gc.la \
+	$(top_builddir)/lib/libgnu.la $(am__DEPENDENCIES_2)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -380,6 +393,7 @@ am__depfiles_remade =  \
 	./$(DEPDIR)/check_str_nul_hash.Po \
 	./$(DEPDIR)/check_str_nul_map.Po \
 	./$(DEPDIR)/check_str_nul_omap.Po \
+	./$(DEPDIR)/check_str_nul_set.Po \
 	./$(DEPDIR)/check_string_literal.Po \
 	./$(DEPDIR)/check_string_t_hash.Po \
 	./$(DEPDIR)/check_string_t_map.Po \
@@ -387,7 +401,8 @@ am__depfiles_remade =  \
 	./$(DEPDIR)/check_string_t_set.Po \
 	./$(DEPDIR)/check_token_t_hash.Po \
 	./$(DEPDIR)/check_token_t_map.Po \
-	./$(DEPDIR)/check_token_t_omap.Po
+	./$(DEPDIR)/check_token_t_omap.Po \
+	./$(DEPDIR)/check_token_t_set.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -429,20 +444,20 @@ SOURCES = $(SpookyV2_reference_SOURCES) check_indexed_data_file.c \
 	check_indexed_deque.c check_persistent_avl.c \
 	check_persistent_hash_map.c check_persistent_integer_trie.c \
 	$(check_spookyhash_SOURCES) check_str_nul_hash.c \
-	check_str_nul_map.c check_str_nul_omap.c \
+	check_str_nul_map.c check_str_nul_omap.c check_str_nul_set.c \
 	check_string_literal.c check_string_t_hash.c \
 	check_string_t_map.c check_string_t_omap.c \
 	check_string_t_set.c check_token_t_hash.c check_token_t_map.c \
-	check_token_t_omap.c
+	check_token_t_omap.c check_token_t_set.c
 DIST_SOURCES = $(SpookyV2_reference_SOURCES) check_indexed_data_file.c \
 	check_indexed_deque.c check_persistent_avl.c \
 	check_persistent_hash_map.c check_persistent_integer_trie.c \
 	$(check_spookyhash_SOURCES) check_str_nul_hash.c \
-	check_str_nul_map.c check_str_nul_omap.c \
+	check_str_nul_map.c check_str_nul_omap.c check_str_nul_set.c \
 	check_string_literal.c check_string_t_hash.c \
 	check_string_t_map.c check_string_t_omap.c \
 	check_string_t_set.c check_token_t_hash.c check_token_t_map.c \
-	check_token_t_omap.c
+	check_token_t_omap.c check_token_t_set.c
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -2123,6 +2138,10 @@ check_str_nul_omap$(EXEEXT): $(check_str_nul_omap_OBJECTS) $(check_str_nul_omap_
 	@rm -f check_str_nul_omap$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(check_str_nul_omap_OBJECTS) $(check_str_nul_omap_LDADD) $(LIBS)
 
+check_str_nul_set$(EXEEXT): $(check_str_nul_set_OBJECTS) $(check_str_nul_set_DEPENDENCIES) $(EXTRA_check_str_nul_set_DEPENDENCIES) 
+	@rm -f check_str_nul_set$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(check_str_nul_set_OBJECTS) $(check_str_nul_set_LDADD) $(LIBS)
+
 check_string_literal$(EXEEXT): $(check_string_literal_OBJECTS) $(check_string_literal_DEPENDENCIES) $(EXTRA_check_string_literal_DEPENDENCIES) 
 	@rm -f check_string_literal$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(check_string_literal_OBJECTS) $(check_string_literal_LDADD) $(LIBS)
@@ -2155,6 +2174,10 @@ check_token_t_omap$(EXEEXT): $(check_token_t_omap_OBJECTS) $(check_token_t_omap_
 	@rm -f check_token_t_omap$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(check_token_t_omap_OBJECTS) $(check_token_t_omap_LDADD) $(LIBS)
 
+check_token_t_set$(EXEEXT): $(check_token_t_set_OBJECTS) $(check_token_t_set_DEPENDENCIES) $(EXTRA_check_token_t_set_DEPENDENCIES) 
+	@rm -f check_token_t_set$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(check_token_t_set_OBJECTS) $(check_token_t_set_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -2172,6 +2195,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_str_nul_hash.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_str_nul_map.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_str_nul_omap.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_str_nul_set.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_string_literal.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_string_t_hash.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_string_t_map.Po@am__quote@ # am--include-marker
@@ -2180,6 +2204,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_token_t_hash.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_token_t_map.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_token_t_omap.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_token_t_set.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -2407,6 +2432,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/check_str_nul_hash.Po
 	-rm -f ./$(DEPDIR)/check_str_nul_map.Po
 	-rm -f ./$(DEPDIR)/check_str_nul_omap.Po
+	-rm -f ./$(DEPDIR)/check_str_nul_set.Po
 	-rm -f ./$(DEPDIR)/check_string_literal.Po
 	-rm -f ./$(DEPDIR)/check_string_t_hash.Po
 	-rm -f ./$(DEPDIR)/check_string_t_map.Po
@@ -2415,6 +2441,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/check_token_t_hash.Po
 	-rm -f ./$(DEPDIR)/check_token_t_map.Po
 	-rm -f ./$(DEPDIR)/check_token_t_omap.Po
+	-rm -f ./$(DEPDIR)/check_token_t_set.Po
 	-rm -f GNUmakefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -2471,6 +2498,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/check_str_nul_hash.Po
 	-rm -f ./$(DEPDIR)/check_str_nul_map.Po
 	-rm -f ./$(DEPDIR)/check_str_nul_omap.Po
+	-rm -f ./$(DEPDIR)/check_str_nul_set.Po
 	-rm -f ./$(DEPDIR)/check_string_literal.Po
 	-rm -f ./$(DEPDIR)/check_string_t_hash.Po
 	-rm -f ./$(DEPDIR)/check_string_t_map.Po
@@ -2479,6 +2507,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/check_token_t_hash.Po
 	-rm -f ./$(DEPDIR)/check_token_t_map.Po
 	-rm -f ./$(DEPDIR)/check_token_t_omap.Po
+	-rm -f ./$(DEPDIR)/check_token_t_set.Po
 	-rm -f GNUmakefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

@@ -98,6 +98,45 @@ str_nul_keyval_vector_t str_nul_map_associations (str_nul_map_t map);
 /*--------------------------------------------------------------------*/
 /*
 
+  Persistent unordered sets.
+
+  Be sure strings you insert are not ephemeral or volatile. For
+  instance they may be global constants or copies made with xstrdup().
+
+  The NULL pointer IS allowed as an element.
+
+*/
+
+struct str_nul_set;
+typedef const struct str_nul_set *str_nul_set_t;
+
+size_t str_nul_set_size (str_nul_set_t set);
+
+bool str_nul_set_contains (str_nul_set_t set, const char *element);
+str_nul_set_t str_nul_set_adjoin (str_nul_set_t set,
+                                  const char *element);
+str_nul_set_t str_nul_set_delete (str_nul_set_t set,
+                                  const char *element);
+
+extern str_nul_set_t const str_nul_set_end;     /* Sentinel for “...” */
+
+str_nul_set_t str_nul_set_union (...);
+str_nul_set_t str_nul_set_intersection (...);
+str_nul_set_t str_nul_set_difference (str_nul_set_t set, ...);
+str_nul_set_t str_nul_set_symmetric_difference (str_nul_set_t set1,
+                                                str_nul_set_t set2);
+
+bool str_nul_set_equal (str_nul_set_t set, ...);
+bool str_nul_set_subset (str_nul_set_t set, ...);
+bool str_nul_set_proper_subset (str_nul_set_t set, ...);
+bool str_nul_set_superset (str_nul_set_t set, ...);
+bool str_nul_set_proper_superset (str_nul_set_t set, ...);
+
+str_nul_vector_t str_nul_set_elements (str_nul_set_t set);
+
+/*--------------------------------------------------------------------*/
+/*
+
   Persistent ordered maps.
 
   Be sure string keys you insert are not ephemeral or volatile. For

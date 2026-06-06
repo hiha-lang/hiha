@@ -35,7 +35,8 @@
 }
 
 static bool
-@TYPENAME@_set_hash_bit (@TYPENAME@_hash_context_t context, unsigned int i)
+@TYPENAME@_set_hash_bit (@TYPENAME@_hash_context_t context,
+                         unsigned int i)
 {
   const unsigned int j = i / 64;
   const unsigned int k = i % 64;
@@ -51,20 +52,28 @@ static bool
   @EQUALS@;
 }
 
-HIHA_HASH_MAP_NODES_DECL (@TYPENAME@_set_node, struct @TYPENAME@_keyval);
-HIHA_HASH_MAP_SEARCH_DEFN (@TYPENAME@_set_node_search, @TYPENAME@_set_node,
+HIHA_HASH_MAP_NODES_DECL (@TYPENAME@_set_node,
+                          struct @TYPENAME@_keyval);
+HIHA_HASH_MAP_SEARCH_DEFN (@TYPENAME@_set_node_search,
+                           @TYPENAME@_set_node,
                            struct @TYPENAME@_keyval,
                            @TYPENAME@_set_hash_init,
-                           @TYPENAME@_set_hash_bit, @TYPENAME@_keyval_equals);
-HIHA_HASH_MAP_INSERT_DEFN (@TYPENAME@_set_node_insert, @TYPENAME@_set_node,
+                           @TYPENAME@_set_hash_bit,
+                           @TYPENAME@_keyval_equals);
+HIHA_HASH_MAP_INSERT_DEFN (@TYPENAME@_set_node_insert,
+                           @TYPENAME@_set_node,
                            struct @TYPENAME@_keyval,
                            @TYPENAME@_set_hash_init,
-                           @TYPENAME@_set_hash_bit, @TYPENAME@_keyval_equals);
-HIHA_HASH_MAP_DELETE_DEFN (@TYPENAME@_set_node_delete, @TYPENAME@_set_node,
+                           @TYPENAME@_set_hash_bit,
+                           @TYPENAME@_keyval_equals);
+HIHA_HASH_MAP_DELETE_DEFN (@TYPENAME@_set_node_delete,
+                           @TYPENAME@_set_node,
                            struct @TYPENAME@_keyval,
                            @TYPENAME@_set_hash_init,
-                           @TYPENAME@_set_hash_bit, @TYPENAME@_keyval_equals);
-HIHA_HASH_MAP_WALK_DEFN (@TYPENAME@_set_node_walk, @TYPENAME@_set_node,
+                           @TYPENAME@_set_hash_bit,
+                           @TYPENAME@_keyval_equals);
+HIHA_HASH_MAP_WALK_DEFN (@TYPENAME@_set_node_walk,
+                         @TYPENAME@_set_node,
                          struct @TYPENAME@_keyval);
 
 struct @TYPENAME@_set
@@ -208,7 +217,7 @@ HIHA_VISIBLE @TYPENAME@_set_t
   va_start (args);
   @TYPENAME@_set_t result = NULL;
   @TYPENAME@_set_t set = va_arg (args, @TYPENAME@_set_t);
-  while (set != string_t_set_end)
+  while (set != @TYPENAME@_set_end)
     {
       @TYPENAME@_set_node_walk (set->_trie,
                                 @TYPENAME@_adjoin_another_element,
@@ -226,7 +235,7 @@ HIHA_VISIBLE @TYPENAME@_set_t
   va_start (args);
   @TYPENAME@_set_t result = set;
   @TYPENAME@_set_t set1 = va_arg (args, @TYPENAME@_set_t);
-  while (set1 != string_t_set_end)
+  while (set1 != @TYPENAME@_set_end)
     {
       @TYPENAME@_set_node_walk (set1->_trie,
                                 @TYPENAME@_delete_another_element,
@@ -237,15 +246,15 @@ HIHA_VISIBLE @TYPENAME@_set_t
   return result;
 }
 
-HIHA_VISIBLE string_t_set_t
-@TYPENAME@_set_symmetric_difference (string_t_set_t set1,
-                                     string_t_set_t set2)
+HIHA_VISIBLE @TYPENAME@_set_t
+@TYPENAME@_set_symmetric_difference (@TYPENAME@_set_t set1,
+                                     @TYPENAME@_set_t set2)
 {
   @TYPENAME@_set_t diff1 =
-    @TYPENAME@_set_difference (set1, set2, string_t_set_end);
+    @TYPENAME@_set_difference (set1, set2, @TYPENAME@_set_end);
   @TYPENAME@_set_t diff2 =
-    @TYPENAME@_set_difference (set2, set1, string_t_set_end);
-  return @TYPENAME@_set_union (diff1, diff2, string_t_set_end);
+    @TYPENAME@_set_difference (set2, set1, @TYPENAME@_set_end);
+  return @TYPENAME@_set_union (diff1, diff2, @TYPENAME@_set_end);
 }
 
 static @TYPENAME@_set_t
@@ -288,7 +297,7 @@ HIHA_VISIBLE @TYPENAME@_set_t
   @TYPENAME@_set_t smallest = set;
   size_t i_smallest = 0;
   size_t i = 0;
-  while (set != string_t_set_end)
+  while (set != @TYPENAME@_set_end)
     {
       size_t sz = @TYPENAME@_set_size (set);
       if (sz < sz_smallest)
@@ -330,67 +339,67 @@ HIHA_VISIBLE @TYPENAME@_set_t
 }
 
 HIHA_VISIBLE bool
-@TYPENAME@_set_equal (string_t_set_t set, ...)
+@TYPENAME@_set_equal (@TYPENAME@_set_t set, ...)
 {
-    va_list args;
+  va_list args;
 
-    /* See whether all the sets have equal size. */
-    size_t num_sets = 1;
-    size_t sz = string_t_set_size (set);
-    va_start (args);
-    string_t_set_t set1 = va_arg (args, @TYPENAME@_set_t);
-    bool mismatch = false;
-    while (set1 != string_t_set_end && !mismatch)
-      {
-        size_t sz1 = string_t_set_size (set1);
-        mismatch = (sz != sz1);
-        if (!mismatch)
-          {
-            set1 = va_arg (args, @TYPENAME@_set_t);
-            num_sets += 1;
-          }
-      }
-    va_end (args);
-
-    bool result;
-
-    if (mismatch)
-      result = false;
-    else if (set == NULL)
-      result = true;            /* All the sets are empty. */
-    else
-      switch (num_sets)
+  /* See whether all the sets have equal size. */
+  size_t num_sets = 1;
+  size_t sz = @TYPENAME@_set_size (set);
+  va_start (args);
+  @TYPENAME@_set_t set1 = va_arg (args, @TYPENAME@_set_t);
+  bool mismatch = false;
+  while (set1 != @TYPENAME@_set_end && !mismatch)
+    {
+      size_t sz1 = @TYPENAME@_set_size (set1);
+      mismatch = (sz != sz1);
+      if (!mismatch)
         {
-        case 1:
-          result = true;
-          break;
-        default:
-          {
-            struct @TYPENAME@_elems_check struc = {
-              .set = set,
-              .looking_for_contains = true,
-              .contains = true
-            };
-            va_start (args);
-            set1 = va_arg (args, @TYPENAME@_set_t);
-            while (set1 != string_t_set_end && struc.contains)
-              {
-                @TYPENAME@_set_node_walk
-                  (set1->_trie, @TYPENAME@_check_another_element,
-                   &struc);
-                /* Compare adjacent sets (rather than all sets against
-                   one of them), because comparing adjacent sets is
-                   what is done when performing subset tests. */
-                struc.set = set1;
-                set1 = va_arg (args, @TYPENAME@_set_t);
-              }
-            va_end (args);
-            result = struc.contains;
-          }
-          break;
+          set1 = va_arg (args, @TYPENAME@_set_t);
+          num_sets += 1;
         }
+    }
+  va_end (args);
 
-    return result;
+  bool result;
+
+  if (mismatch)
+    result = false;
+  else if (set == NULL)
+    result = true;            /* All the sets are empty. */
+  else
+    switch (num_sets)
+      {
+      case 1:
+        result = true;
+        break;
+      default:
+        {
+          struct @TYPENAME@_elems_check struc = {
+            .set = set,
+            .looking_for_contains = true,
+            .contains = true
+          };
+          va_start (args);
+          set1 = va_arg (args, @TYPENAME@_set_t);
+          while (set1 != @TYPENAME@_set_end && struc.contains)
+            {
+              @TYPENAME@_set_node_walk
+                (set1->_trie, @TYPENAME@_check_another_element,
+                 &struc);
+              /* Compare adjacent sets (rather than all sets against
+                 one of them), because comparing adjacent sets is
+                 what is done when performing subset tests. */
+              struc.set = set1;
+              set1 = va_arg (args, @TYPENAME@_set_t);
+            }
+          va_end (args);
+          result = struc.contains;
+        }
+        break;
+      }
+
+  return result;
 }
 
 #ifndef HIHA_TYPED_SET_SUBSET_LOOP
@@ -411,8 +420,8 @@ HIHA_VISIBLE bool
               .contains = true                                          \
             };                                                          \
             va_start (args);                                            \
-            string_t_set_t set2 = va_arg (args, TYPENAME##_set_t);      \
-            while (set2 != string_t_set_end && struc.contains)          \
+            @TYPENAME@_set_t set2 = va_arg (args, TYPENAME##_set_t);    \
+            while (set2 != @TYPENAME@_set_end && struc.contains)        \
               {                                                         \
                 if (set1 != NULL)                                       \
                   {                                                     \
@@ -451,8 +460,8 @@ HIHA_VISIBLE bool
               .contains = true                                          \
             };                                                          \
             va_start (args);                                            \
-            string_t_set_t set2 = va_arg (args, TYPENAME##_set_t);      \
-            while (set2 != string_t_set_end && struc.contains)          \
+            @TYPENAME@_set_t set2 = va_arg (args, TYPENAME##_set_t);    \
+            while (set2 != @TYPENAME@_set_end && struc.contains)        \
               {                                                         \
                 if (set2 != NULL)                                       \
                   {                                                     \
@@ -474,131 +483,131 @@ HIHA_VISIBLE bool
 #endif /* HIHA_TYPED_SET_SUPERSET_LOOP */
 
 HIHA_VISIBLE bool
-@TYPENAME@_set_subset (string_t_set_t set, ...)
+@TYPENAME@_set_subset (@TYPENAME@_set_t set, ...)
 {
-    va_list args;
+  va_list args;
 
-    /* See whether the sets have monotone nondecreasing size. */
-    size_t num_sets = 1;
-    size_t sz = string_t_set_size (set);
-    va_start (args);
-    string_t_set_t set1 = va_arg (args, @TYPENAME@_set_t);
-    bool nondecreasing = true;
-    while (set1 != string_t_set_end && nondecreasing)
-      {
-        size_t sz1 = string_t_set_size (set1);
-        nondecreasing = (sz <= sz1);
-        if (nondecreasing)
-          {
-            set1 = va_arg (args, @TYPENAME@_set_t);
-            sz = sz1;
-            num_sets += 1;
-          }
-      }
-    va_end (args);
+  /* See whether the sets have monotone nondecreasing size. */
+  size_t num_sets = 1;
+  size_t sz = @TYPENAME@_set_size (set);
+  va_start (args);
+  @TYPENAME@_set_t set1 = va_arg (args, @TYPENAME@_set_t);
+  bool nondecreasing = true;
+  while (set1 != @TYPENAME@_set_end && nondecreasing)
+    {
+      size_t sz1 = @TYPENAME@_set_size (set1);
+      nondecreasing = (sz <= sz1);
+      if (nondecreasing)
+        {
+          set1 = va_arg (args, @TYPENAME@_set_t);
+          sz = sz1;
+          num_sets += 1;
+        }
+    }
+  va_end (args);
 
-    bool result;
-    if (!nondecreasing)
-      result = false;
-    else
-      HIHA_TYPED_SET_SUBSET_LOOP (@TYPENAME@);
-    return result;
+  bool result;
+  if (!nondecreasing)
+    result = false;
+  else
+    HIHA_TYPED_SET_SUBSET_LOOP (@TYPENAME@);
+  return result;
 }
 
 HIHA_VISIBLE bool
-@TYPENAME@_set_proper_subset (string_t_set_t set, ...)
+@TYPENAME@_set_proper_subset (@TYPENAME@_set_t set, ...)
 {
-    va_list args;
+  va_list args;
 
-    /* See whether the sets have monotone increasing size. */
-    size_t num_sets = 1;
-    size_t sz = string_t_set_size (set);
-    va_start (args);
-    string_t_set_t set1 = va_arg (args, @TYPENAME@_set_t);
-    bool increasing = true;
-    while (set1 != string_t_set_end && increasing)
-      {
-        size_t sz1 = string_t_set_size (set1);
-        increasing = (sz < sz1);
-        if (increasing)
-          {
-            set1 = va_arg (args, @TYPENAME@_set_t);
-            sz = sz1;
-            num_sets += 1;
-          }
-      }
-    va_end (args);
+  /* See whether the sets have monotone increasing size. */
+  size_t num_sets = 1;
+  size_t sz = @TYPENAME@_set_size (set);
+  va_start (args);
+  @TYPENAME@_set_t set1 = va_arg (args, @TYPENAME@_set_t);
+  bool increasing = true;
+  while (set1 != @TYPENAME@_set_end && increasing)
+    {
+      size_t sz1 = @TYPENAME@_set_size (set1);
+      increasing = (sz < sz1);
+      if (increasing)
+        {
+          set1 = va_arg (args, @TYPENAME@_set_t);
+          sz = sz1;
+          num_sets += 1;
+        }
+    }
+  va_end (args);
 
-    bool result;
-    if (!increasing)
-      result = false;
-    else
-      HIHA_TYPED_SET_SUBSET_LOOP (@TYPENAME@);
-    return result;
+  bool result;
+  if (!increasing)
+    result = false;
+  else
+    HIHA_TYPED_SET_SUBSET_LOOP (@TYPENAME@);
+  return result;
 }
 
 HIHA_VISIBLE bool
-@TYPENAME@_set_superset (string_t_set_t set, ...)
+@TYPENAME@_set_superset (@TYPENAME@_set_t set, ...)
 {
-    va_list args;
+  va_list args;
 
-    /* See whether the sets have monotone nonincreasing size. */
-    size_t num_sets = 1;
-    size_t sz = string_t_set_size (set);
-    va_start (args);
-    string_t_set_t set1 = va_arg (args, @TYPENAME@_set_t);
-    bool nonincreasing = true;
-    while (set1 != string_t_set_end && nonincreasing)
-      {
-        size_t sz1 = string_t_set_size (set1);
-        nonincreasing = (sz1 <= sz);
-        if (nonincreasing)
-          {
-            set1 = va_arg (args, @TYPENAME@_set_t);
-            sz = sz1;
-            num_sets += 1;
-          }
-      }
-    va_end (args);
+  /* See whether the sets have monotone nonincreasing size. */
+  size_t num_sets = 1;
+  size_t sz = @TYPENAME@_set_size (set);
+  va_start (args);
+  @TYPENAME@_set_t set1 = va_arg (args, @TYPENAME@_set_t);
+  bool nonincreasing = true;
+  while (set1 != @TYPENAME@_set_end && nonincreasing)
+    {
+      size_t sz1 = @TYPENAME@_set_size (set1);
+      nonincreasing = (sz1 <= sz);
+      if (nonincreasing)
+        {
+          set1 = va_arg (args, @TYPENAME@_set_t);
+          sz = sz1;
+          num_sets += 1;
+        }
+    }
+  va_end (args);
 
-    bool result;
-    if (!nonincreasing)
-      result = false;
-    else
-      HIHA_TYPED_SET_SUPERSET_LOOP (@TYPENAME@);
-    return result;
+  bool result;
+  if (!nonincreasing)
+    result = false;
+  else
+    HIHA_TYPED_SET_SUPERSET_LOOP (@TYPENAME@);
+  return result;
 }
 
 HIHA_VISIBLE bool
-@TYPENAME@_set_proper_superset (string_t_set_t set, ...)
+@TYPENAME@_set_proper_superset (@TYPENAME@_set_t set, ...)
 {
-    va_list args;
+  va_list args;
 
-    /* See whether the sets have monotone decreasing size. */
-    size_t num_sets = 1;
-    size_t sz = string_t_set_size (set);
-    va_start (args);
-    string_t_set_t set1 = va_arg (args, @TYPENAME@_set_t);
-    bool decreasing = true;
-    while (set1 != string_t_set_end && decreasing)
-      {
-        size_t sz1 = string_t_set_size (set1);
-        decreasing = (sz1 < sz);
-        if (decreasing)
-          {
-            set1 = va_arg (args, @TYPENAME@_set_t);
-            sz = sz1;
-            num_sets += 1;
-          }
-      }
-    va_end (args);
+  /* See whether the sets have monotone decreasing size. */
+  size_t num_sets = 1;
+  size_t sz = @TYPENAME@_set_size (set);
+  va_start (args);
+  @TYPENAME@_set_t set1 = va_arg (args, @TYPENAME@_set_t);
+  bool decreasing = true;
+  while (set1 != @TYPENAME@_set_end && decreasing)
+    {
+      size_t sz1 = @TYPENAME@_set_size (set1);
+      decreasing = (sz1 < sz);
+      if (decreasing)
+        {
+          set1 = va_arg (args, @TYPENAME@_set_t);
+          sz = sz1;
+          num_sets += 1;
+        }
+    }
+  va_end (args);
 
-    bool result;
-    if (!decreasing)
-      result = false;
-    else
-      HIHA_TYPED_SET_SUPERSET_LOOP (@TYPENAME@);
-    return result;
+  bool result;
+  if (!decreasing)
+    result = false;
+  else
+    HIHA_TYPED_SET_SUPERSET_LOOP (@TYPENAME@);
+  return result;
 }
 
 static void

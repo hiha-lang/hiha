@@ -167,6 +167,34 @@ voidp_vector_t token_t_map_values (token_t_map_t map);
 token_t_keyval_vector_t token_t_map_associations (token_t_map_t map);
 
 /*--------------------------------------------------------------------*/
+/* Persistent unordered sets. */
+
+struct token_t_set;
+typedef const struct token_t_set *token_t_set_t;
+
+size_t token_t_set_size (token_t_set_t set);
+
+bool token_t_set_contains (token_t_set_t set, token_t element);
+token_t_set_t token_t_set_adjoin (token_t_set_t set, token_t element);
+token_t_set_t token_t_set_delete (token_t_set_t set, token_t element);
+
+extern token_t_set_t const token_t_set_end;     /* Sentinel for “...” */
+
+token_t_set_t token_t_set_union (...);
+token_t_set_t token_t_set_intersection (...);
+token_t_set_t token_t_set_difference (token_t_set_t set, ...);
+token_t_set_t token_t_set_symmetric_difference (token_t_set_t set1,
+                                                token_t_set_t set2);
+
+bool token_t_set_equal (token_t_set_t set, ...);
+bool token_t_set_subset (token_t_set_t set, ...);
+bool token_t_set_proper_subset (token_t_set_t set, ...);
+bool token_t_set_superset (token_t_set_t set, ...);
+bool token_t_set_proper_superset (token_t_set_t set, ...);
+
+token_t_vector_t token_t_set_elements (token_t_set_t set);
+
+/*--------------------------------------------------------------------*/
 /* Persistent ordered maps. */
 
 struct token_t_omap;

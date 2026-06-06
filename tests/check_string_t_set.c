@@ -220,12 +220,12 @@ main (void)
   set3 = string_t_set_symmetric_difference (set1, set2);
   set4 = string_t_set_symmetric_difference (set2, set1);
   assert (string_t_set_equal
-          (set3, set4,
-           string_t_set_union (adjoin_interval_contents
-                               (NULL, int_is_anything, 1, 20),
-                               adjoin_interval_contents
-                               (NULL, int_is_anything, 101, 120),
-                               string_t_set_end),
+          (set3, set4, (string_t_set_union (adjoin_interval_contents
+                                            (NULL, int_is_anything, 1,
+                                             20),
+                                            adjoin_interval_contents
+                                            (NULL, int_is_anything, 101,
+                                             120), string_t_set_end)),
            string_t_set_end));
 
   return 0;

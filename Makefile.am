@@ -253,8 +253,10 @@ nodist_libhiha_la_SOURCES += src/libhiha/string_t_map.c
 nodist_libhiha_la_SOURCES += src/libhiha/string_t_set.c
 nodist_libhiha_la_SOURCES += src/libhiha/string_t_omap.c
 nodist_libhiha_la_SOURCES += src/libhiha/token_t_map.c
+nodist_libhiha_la_SOURCES += src/libhiha/token_t_set.c
 nodist_libhiha_la_SOURCES += src/libhiha/token_t_omap.c
 nodist_libhiha_la_SOURCES += src/libhiha/str_nul_map.c
+nodist_libhiha_la_SOURCES += src/libhiha/str_nul_set.c
 nodist_libhiha_la_SOURCES += src/libhiha/str_nul_omap.c
 
 BUILT_SOURCES += src/libhiha/string_t_map.c
@@ -297,6 +299,16 @@ src/libhiha/token_t_map.c: src/libhiha/typed_map.c.in Makefile.am
            -e 's|@EQUALS@|do { return (token_t_cmp (key->key, stored->key) == 0); } while (0)|' \
            $(<) > $(@).tmp && mv $(@){.tmp,}
 
+BUILT_SOURCES += src/libhiha/token_t_set.c
+DISTCLEANFILES += src/libhiha/token_t_set.c
+src/libhiha/token_t_set.c: src/libhiha/typed_set.c.in Makefile.am
+	$(call v,GEN)mkdir -p $(@D) && \
+	$(SED) -e 's|@INCLUDES@|#include <libhiha/token_t.h>|g' \
+           -e 's|@TYPENAME@|token_t|g' \
+           -e 's|@TYPE@|token_t|g' \
+           -e 's|@EQUALS@|do { return (token_t_cmp (key->key, stored->key) == 0); } while (0)|' \
+           $(<) > $(@).tmp && mv $(@){.tmp,}
+
 BUILT_SOURCES += src/libhiha/token_t_omap.c
 DISTCLEANFILES += src/libhiha/token_t_omap.c
 src/libhiha/token_t_omap.c: src/libhiha/typed_omap.c.in Makefile.am
@@ -310,6 +322,16 @@ src/libhiha/token_t_omap.c: src/libhiha/typed_omap.c.in Makefile.am
 BUILT_SOURCES += src/libhiha/str_nul_map.c
 DISTCLEANFILES += src/libhiha/str_nul_map.c
 src/libhiha/str_nul_map.c: src/libhiha/typed_map.c.in Makefile.am
+	$(call v,GEN)mkdir -p $(@D) && \
+	$(SED) -e 's|@INCLUDES@|#include <libhiha/str_nul.h>|g' \
+           -e 's|@TYPENAME@|str_nul|g' \
+           -e 's|@TYPE@|const char *|g' \
+           -e 's|@EQUALS@|do { return str_nul_equal (key->key, stored->key); } while (0)|' \
+           $(<) > $(@).tmp && mv $(@){.tmp,}
+
+BUILT_SOURCES += src/libhiha/str_nul_set.c
+DISTCLEANFILES += src/libhiha/str_nul_set.c
+src/libhiha/str_nul_set.c: src/libhiha/typed_set.c.in Makefile.am
 	$(call v,GEN)mkdir -p $(@D) && \
 	$(SED) -e 's|@INCLUDES@|#include <libhiha/str_nul.h>|g' \
            -e 's|@TYPENAME@|str_nul|g' \

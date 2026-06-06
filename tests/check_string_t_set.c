@@ -82,6 +82,7 @@ main (void)
   string_t_set_t set3 =
     adjoin_interval_contents (set, int_is_even, 1, HOW_MANY);
   assert (2 * string_t_set_size (set3) == HOW_MANY);
+  assert (!string_t_set_equal (set2, set3, string_t_set_end));
 
   string_t_set_t union_2_3 =
     string_t_set_union (set2, set3, string_t_set_end);

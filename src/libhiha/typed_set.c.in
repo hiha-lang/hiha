@@ -153,8 +153,8 @@ HIHA_VISIBLE @TYPENAME@_set_t
 }
 
 static void
-adjoin_another_element (const struct @TYPENAME@_keyval *elem,
-                        void *data)
+@TYPENAME@_adjoin_another_element (const struct @TYPENAME@_keyval *elem,
+                                   void *data)
 {
   @TYPENAME@_set_t set = *((@TYPENAME@_set_t *) data);
   *((@TYPENAME@_set_t *) data) =
@@ -162,12 +162,28 @@ adjoin_another_element (const struct @TYPENAME@_keyval *elem,
 }
 
 static void
-delete_another_element (const struct @TYPENAME@_keyval *elem,
-                        void *data)
+@TYPENAME@_delete_another_element (const struct @TYPENAME@_keyval *elem,
+                                   void *data)
 {
   @TYPENAME@_set_t set = *((@TYPENAME@_set_t *) data);
   *((@TYPENAME@_set_t *) data) =
     @TYPENAME@_set_delete (set, elem->key);
+}
+
+struct @TYPENAME@_elems_check
+{
+  @TYPENAME@_set_t set;
+  bool looking_for_contains;
+  bool contains;
+};
+
+static void
+@TYPENAME@_check_another_element (const struct @TYPENAME@_keyval *elem,
+                                  void *data)
+{
+  struct @TYPENAME@_elems_check *p = data;
+  if (p->contains == p->looking_for_contains)
+    p->contains = @TYPENAME@_set_contains (p->set, elem->key);
 }
 
 HIHA_VISIBLE @TYPENAME@_set_t
@@ -179,7 +195,8 @@ HIHA_VISIBLE @TYPENAME@_set_t
   @TYPENAME@_set_t set = va_arg (args, @TYPENAME@_set_t);
   while (set != string_t_set_end)
     {
-      @TYPENAME@_set_node_walk (set->_trie, adjoin_another_element,
+      @TYPENAME@_set_node_walk (set->_trie,
+                                @TYPENAME@_adjoin_another_element,
                                 &result);
       set = va_arg (args, @TYPENAME@_set_t);
     }
@@ -196,7 +213,8 @@ HIHA_VISIBLE @TYPENAME@_set_t
   @TYPENAME@_set_t set1 = va_arg (args, @TYPENAME@_set_t);
   while (set1 != string_t_set_end)
     {
-      @TYPENAME@_set_node_walk (set1->_trie, delete_another_element,
+      @TYPENAME@_set_node_walk (set1->_trie,
+                                @TYPENAME@_delete_another_element,
                                 &result);
       set1 = va_arg (args, @TYPENAME@_set_t);
     }
@@ -300,6 +318,8 @@ HIHA_VISIBLE bool
 
     if (mismatch)
       result = false;
+    else if (set == NULL)
+      result = true;            /* All the sets are empty. */
     else
       switch (num_sets)
         {
@@ -308,27 +328,22 @@ HIHA_VISIBLE bool
           break;
         default:
           {
-            /* FIXME: This could be rewritten to use the walk callback
-               directly. Such an implementation would be more
-               efficient. */
-            @TYPENAME@_vector_t elems = @TYPENAME@_set_elements (set);
-            size_t num_elems = @TYPENAME@_vector_length (elems);
-            bool missing = false;
-            size_t j = 0;
-            while (j != num_elems && !missing)
+            struct @TYPENAME@_elems_check struc = {
+              .set = set,
+              .looking_for_contains = true,
+              .contains = true
+            };
+            va_start (args);
+            set1 = va_arg (args, @TYPENAME@_set_t);
+            while (set1 != string_t_set_end && struc.contains)
               {
-                @TYPENAME@ element = @TYPENAME@_vector_ref (elems, j);
-                va_start (args);
+                @TYPENAME@_set_node_walk
+                  (set1->_trie, @TYPENAME@_check_another_element,
+                   &struc);
                 set1 = va_arg (args, @TYPENAME@_set_t);
-                while (set1 != string_t_set_end && !missing)
-                  {
-                    missing = !@TYPENAME@_set_contains (set1, element);
-                    set1 = va_arg (args, @TYPENAME@_set_t);
-                  }
-                va_end (args);
-                j += 1;
               }
-            result = !missing;
+            va_end (args);
+            result = struc.contains;
           }
           break;
         }
@@ -337,8 +352,9 @@ HIHA_VISIBLE bool
 }
 
 static void
-list_another_element (const struct @TYPENAME@_keyval *element,
-                      void *data)
+@TYPENAME@_list_another_element (const struct @TYPENAME@_keyval
+                                 *element,
+                                 void *data)
 {
   @TYPENAME@_vector_t vec = *((@TYPENAME@_vector_t *) data);
   *((@TYPENAME@_vector_t *) data) =
@@ -350,7 +366,8 @@ HIHA_VISIBLE @TYPENAME@_vector_t
 {
   @TYPENAME@_vector_t result = NULL;
   if (set != NULL)
-    @TYPENAME@_set_node_walk (set->_trie, list_another_element,
+    @TYPENAME@_set_node_walk (set->_trie,
+                              @TYPENAME@_list_another_element,
                               &result);
   return result;
 }

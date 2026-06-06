@@ -1,5 +1,25 @@
 @  master
-|  2026-06-06 14:09 +0000
+|  2026-06-06 15:20 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       692cf7586ba7afdfd4c79355d29304e0196b361d
+|  mercurial: 9a9f7d1ebbc1afcd01e11fa4265a9edf4082d9b0
+|  revision:  244
+|  parents:   243
+|
+|    Support vectors of atomic types.
+|
+|
+o  2026-06-06 14:27 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       023f432b720612aa8d8da8f870fbf5b656fa53c4
+|  mercurial: bb577d69a84f6885f3a92f6be0deeaf1e48c0d88
+|  revision:  243
+|  parents:   242
+|
+|    Tests for sets.
+|
+|
+o  2026-06-06 14:09 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       9fa7163bda101d0170d93b0aeb513cff49f95301
 |  mercurial: dc862ec3394038881a5e26d2d39cb292662bb9df

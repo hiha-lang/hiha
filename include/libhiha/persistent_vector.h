@@ -365,17 +365,17 @@ hiha_persistent_vector_length (void *pvect)
   MODIFIER void NAME (T, size_t, size_t n, ENTRY_T x[n]);
 #define DEFINE_HIHA_PERSISTENT_VECTOR_REFS(MODIFIER, NAME, T,           \
                                            ENTRY_T, BITS,               \
-                                           IVECT_PTR, IVECT_NEXT)       \
+                                           PVECT_PTR, PVECT_NEXT)       \
   MODIFIER void                                                         \
   NAME (T vec, size_t i, size_t n, ENTRY_T x[n])                        \
   {                                                                     \
     assert ((vec == NULL) ? (i + n == 0) : (i + n <= vec->length));     \
-    const ENTRY_T *p = IVECT_PTR (vec, i);                              \
+    const ENTRY_T *p = PVECT_PTR (vec, i);                              \
     size_t k = 0;                                                       \
     while (k < n)                                                       \
       {                                                                 \
         x[k] = *p;                                                      \
-        p = IVECT_NEXT (vec, i + k, p);                                 \
+        p = PVECT_NEXT (vec, i + k, p);                                 \
         k++;                                                            \
       }                                                                 \
   }
@@ -1045,6 +1045,87 @@ hiha_persistent_vector_length (void *pvect)
     return v1;                                                          \
   }
 
+#define DECLARE_HIHA_PERSISTENT_VECTOR_MERGE(MODIFIER, NAME,            \
+                                             T, ENTRY_T, BITS)          \
+  MODIFIER T NAME (T, T,                                                \
+                   int (*) (const ENTRY_T *, const ENTRY_T *, void *),  \
+                   void *);
+#define DEFINE_HIHA_PERSISTENT_VECTOR_MERGE(MODIFIER, NAME,             \
+                                            T, ENTRY_T, BITS,           \
+                                            PVECT_PTR, PVECT_NEXT,      \
+                                            PUSHES)                     \
+  MODIFIER T                                                            \
+  NAME (T v1, T v2,                                                     \
+        int (*cmp) (const ENTRY_T *, const ENTRY_T *, void *),          \
+        void *data)                                                     \
+  {                                                                     \
+    T vec_;                                                             \
+    if (v1 == (T) 0)                                                    \
+      vec_ = v2;                                                        \
+    else if (v2 == (T) 0)                                               \
+      vec_ = v1;                                                        \
+    else                                                                \
+      {                                                                 \
+        const size_t buffer_size = ((size_t) 1) << (BITS);              \
+        ENTRY_T buffer[buffer_size];                                    \
+                                                                        \
+        vec_ = (T) 0;                                                   \
+        size_t i1 = 0;                                                  \
+        size_t i2 = 0;                                                  \
+        const ENTRY_T *p1 = PVECT_PTR (v1, i1);                         \
+        const ENTRY_T *p2 = PVECT_PTR (v2, i2);                         \
+        size_t j = 0;                                                   \
+        while (p1 != NULL && p2 != NULL)                                \
+          {                                                             \
+            const int c = cmp (p1, p2, data);                           \
+            if (c <= 0)                                                 \
+              {                                                         \
+                buffer[j] = *p1;                                        \
+                p1 = PVECT_NEXT (v1, i1, p1);                           \
+                i1 += 1;                                                \
+              }                                                         \
+            else                                                        \
+              {                                                         \
+                buffer[j] = *p2;                                        \
+                p2 = PVECT_NEXT (v2, i2, p2);                           \
+                i2 += 1;                                                \
+              }                                                         \
+            j += 1;                                                     \
+            if (j == buffer_size)                                       \
+              {                                                         \
+                vec_ = PUSHES (vec_, buffer_size, buffer);              \
+                j = 0;                                                  \
+              }                                                         \
+          }                                                             \
+        while (p1 != NULL)                                              \
+          {                                                             \
+            buffer[j] = *p1;                                            \
+            j += 1;                                                     \
+            if (j == buffer_size)                                       \
+              {                                                         \
+                vec_ = PUSHES (vec_, buffer_size, buffer);              \
+                j = 0;                                                  \
+              }                                                         \
+            p1 = PVECT_NEXT (v1, i1, p1);                               \
+            i1 += 1;                                                    \
+          }                                                             \
+        while (p2 != NULL)                                              \
+          {                                                             \
+            buffer[j] = *p2;                                            \
+            j += 1;                                                     \
+            if (j == buffer_size)                                       \
+              {                                                         \
+                vec_ = PUSHES (vec_, buffer_size, buffer);              \
+                j = 0;                                                  \
+              }                                                         \
+            p2 = PVECT_NEXT (v2, i2, p2);                               \
+            i2 += 1;                                                    \
+          }                                                             \
+        vec_ = PUSHES (vec_, j, buffer);                                \
+      }                                                                 \
+    return vec_;                                                        \
+  }
+
 /*--------------------------------------------------------------------*/
 
 /*
@@ -1082,7 +1163,9 @@ hiha_persistent_vector_length (void *pvect)
   DECLARE_HIHA_PERSISTENT_VECTOR_SLICE (MODIFIER, TNAME##_slice,        \
                                         TNAME##_t, ENTRY_T, BITS);      \
   DECLARE_HIHA_PERSISTENT_VECTOR_APPEND (MODIFIER, TNAME##_append,      \
-                                         TNAME##_t, ENTRY_T, BITS)
+                                         TNAME##_t, ENTRY_T, BITS);     \
+  DECLARE_HIHA_PERSISTENT_VECTOR_MERGE (MODIFIER, TNAME##_merge,        \
+                                        TNAME##_t, ENTRY_T, BITS)
 
 /*
 
@@ -1146,7 +1229,11 @@ hiha_persistent_vector_length (void *pvect)
                                        TNAME##_pops);                   \
   DEFINE_HIHA_PERSISTENT_VECTOR_APPEND (MODIFIER, TNAME##_append,       \
                                         TNAME##_t, ENTRY_T, BITS,       \
-                                        TNAME##_refs, TNAME##_pushes)
+                                        TNAME##_refs, TNAME##_pushes);  \
+  DEFINE_HIHA_PERSISTENT_VECTOR_MERGE (MODIFIER, TNAME##_merge,         \
+                                        TNAME##_t, ENTRY_T, BITS,       \
+                                       TNAME##_ptr, TNAME##_next,       \
+                                       TNAME##_pushes)
 
 #define DEFINE_HIHA_PERSISTENT_VECTOR_DATATYPE(MODIFIER, TNAME,         \
                                                ENTRY_T, BITS)           \

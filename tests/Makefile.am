@@ -154,6 +154,7 @@ check_PROGRAMS += check_str_nul_omap
 check_PROGRAMS += check_persistent_avl
 check_PROGRAMS += check_persistent_integer_trie
 check_PROGRAMS += check_persistent_hash_map
+check_PROGRAMS += check_persistent_vector
 check_PROGRAMS += check_indexed_deque
 check_PROGRAMS += check_string_literal
 check_PROGRAMS += check_indexed_data_file

@@ -629,9 +629,10 @@ at_help_all="1;testsuite.at:22;SpookyHash;spookyhash hash;
 14;testsuite.at:87;persistent AVL tree;persistent avl tree;
 15;testsuite.at:92;persistent integer trie;trie persistent radix tree;
 16;testsuite.at:97;persistent hash map;persistent hash map hashmap;
-17;testsuite.at:102;indexed deque;indexed deque queue stack;
-18;testsuite.at:107;string literal;string_literal string literal;
-19;testsuite.at:112;indexed data file;indexed_data_file indexed data random access;
+17;testsuite.at:102;persistent vector;persistent vector array list stack;
+18;testsuite.at:107;indexed deque;indexed deque queue stack;
+19;testsuite.at:112;string literal;string_literal string literal;
+20;testsuite.at:117;indexed data file;indexed_data_file indexed data random access;
 "
 # List of the all the test groups.
 at_groups_all=`printf "%s\n" "$at_help_all" | sed 's/;.*//'`
@@ -645,7 +646,7 @@ at_fn_validate_ranges ()
   for at_grp
   do
     eval at_value=\$$at_grp
-    if test $at_value -lt 1 || test $at_value -gt 19; then
+    if test $at_value -lt 1 || test $at_value -gt 20; then
       printf "%s\n" "invalid test group: $at_value" >&2
       exit 1
     fi
@@ -2436,7 +2437,7 @@ read at_status <"$at_status_file"
 #AT_STOP_16
 #AT_START_17
 at_fn_group_banner 17 'testsuite.at:102' \
-  "indexed deque" "                                  "
+  "persistent vector" "                              "
 at_xfail=no
 (
   printf "%s\n" "17. $at_setup_line: testing $at_desc ..."
@@ -2444,9 +2445,9 @@ at_xfail=no
 
 
 { set +x
-printf "%s\n" "$at_srcdir/testsuite.at:104: check_indexed_deque"
+printf "%s\n" "$at_srcdir/testsuite.at:104: check_persistent_vector"
 at_fn_check_prepare_trace "testsuite.at:104"
-( $at_check_trace; check_indexed_deque
+( $at_check_trace; check_persistent_vector
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2463,7 +2464,7 @@ read at_status <"$at_status_file"
 #AT_STOP_17
 #AT_START_18
 at_fn_group_banner 18 'testsuite.at:107' \
-  "string literal" "                                 "
+  "indexed deque" "                                  "
 at_xfail=no
 (
   printf "%s\n" "18. $at_setup_line: testing $at_desc ..."
@@ -2471,9 +2472,9 @@ at_xfail=no
 
 
 { set +x
-printf "%s\n" "$at_srcdir/testsuite.at:109: check_string_literal"
+printf "%s\n" "$at_srcdir/testsuite.at:109: check_indexed_deque"
 at_fn_check_prepare_trace "testsuite.at:109"
-( $at_check_trace; check_string_literal
+( $at_check_trace; check_indexed_deque
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2490,7 +2491,7 @@ read at_status <"$at_status_file"
 #AT_STOP_18
 #AT_START_19
 at_fn_group_banner 19 'testsuite.at:112' \
-  "indexed data file" "                              "
+  "string literal" "                                 "
 at_xfail=no
 (
   printf "%s\n" "19. $at_setup_line: testing $at_desc ..."
@@ -2498,9 +2499,9 @@ at_xfail=no
 
 
 { set +x
-printf "%s\n" "$at_srcdir/testsuite.at:114: check_indexed_data_file"
+printf "%s\n" "$at_srcdir/testsuite.at:114: check_string_literal"
 at_fn_check_prepare_trace "testsuite.at:114"
-( $at_check_trace; check_indexed_data_file
+( $at_check_trace; check_string_literal
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2515,3 +2516,30 @@ $at_traceon; }
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
 #AT_STOP_19
+#AT_START_20
+at_fn_group_banner 20 'testsuite.at:117' \
+  "indexed data file" "                              "
+at_xfail=no
+(
+  printf "%s\n" "20. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+{ set +x
+printf "%s\n" "$at_srcdir/testsuite.at:119: check_indexed_data_file"
+at_fn_check_prepare_trace "testsuite.at:119"
+( $at_check_trace; check_indexed_data_file
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/testsuite.at:119"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_20

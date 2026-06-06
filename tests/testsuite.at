@@ -99,6 +99,11 @@ AT_KEYWORDS([persistent hash map hashmap])
 AT_CHECK([check_persistent_hash_map])
 AT_CLEANUP
 
+AT_SETUP([persistent vector])
+AT_KEYWORDS([persistent vector array list stack])
+AT_CHECK([check_persistent_vector])
+AT_CLEANUP
+
 AT_SETUP([indexed deque])
 AT_KEYWORDS([indexed deque queue stack])
 AT_CHECK([check_indexed_deque])

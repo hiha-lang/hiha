@@ -117,8 +117,9 @@ check_PROGRAMS = check_string_t_hash$(EXEEXT) \
 	check_str_nul_omap$(EXEEXT) check_persistent_avl$(EXEEXT) \
 	check_persistent_integer_trie$(EXEEXT) \
 	check_persistent_hash_map$(EXEEXT) \
-	check_indexed_deque$(EXEEXT) check_string_literal$(EXEEXT) \
-	check_indexed_data_file$(EXEEXT) check_spookyhash$(EXEEXT)
+	check_persistent_vector$(EXEEXT) check_indexed_deque$(EXEEXT) \
+	check_string_literal$(EXEEXT) check_indexed_data_file$(EXEEXT) \
+	check_spookyhash$(EXEEXT)
 subdir = tests
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
@@ -282,6 +283,12 @@ check_persistent_integer_trie_DEPENDENCIES =  \
 	$(top_builddir)/libhiha.la \
 	$(top_builddir)/$(GCVERS)/libhiha-gc.la \
 	$(top_builddir)/lib/libgnu.la $(am__DEPENDENCIES_2)
+check_persistent_vector_SOURCES = check_persistent_vector.c
+check_persistent_vector_OBJECTS = check_persistent_vector.$(OBJEXT)
+check_persistent_vector_LDADD = $(LDADD)
+check_persistent_vector_DEPENDENCIES = $(top_builddir)/libhiha.la \
+	$(top_builddir)/$(GCVERS)/libhiha-gc.la \
+	$(top_builddir)/lib/libgnu.la $(am__DEPENDENCIES_2)
 am_check_spookyhash_OBJECTS = check_spookyhash.$(OBJEXT)
 check_spookyhash_OBJECTS = $(am_check_spookyhash_OBJECTS)
 check_spookyhash_LDADD = $(LDADD)
@@ -389,6 +396,7 @@ am__depfiles_remade =  \
 	./$(DEPDIR)/check_persistent_avl.Po \
 	./$(DEPDIR)/check_persistent_hash_map.Po \
 	./$(DEPDIR)/check_persistent_integer_trie.Po \
+	./$(DEPDIR)/check_persistent_vector.Po \
 	./$(DEPDIR)/check_spookyhash.Po \
 	./$(DEPDIR)/check_str_nul_hash.Po \
 	./$(DEPDIR)/check_str_nul_map.Po \
@@ -443,21 +451,23 @@ am__v_CXXLD_1 =
 SOURCES = $(SpookyV2_reference_SOURCES) check_indexed_data_file.c \
 	check_indexed_deque.c check_persistent_avl.c \
 	check_persistent_hash_map.c check_persistent_integer_trie.c \
-	$(check_spookyhash_SOURCES) check_str_nul_hash.c \
-	check_str_nul_map.c check_str_nul_omap.c check_str_nul_set.c \
-	check_string_literal.c check_string_t_hash.c \
-	check_string_t_map.c check_string_t_omap.c \
-	check_string_t_set.c check_token_t_hash.c check_token_t_map.c \
-	check_token_t_omap.c check_token_t_set.c
+	check_persistent_vector.c $(check_spookyhash_SOURCES) \
+	check_str_nul_hash.c check_str_nul_map.c check_str_nul_omap.c \
+	check_str_nul_set.c check_string_literal.c \
+	check_string_t_hash.c check_string_t_map.c \
+	check_string_t_omap.c check_string_t_set.c \
+	check_token_t_hash.c check_token_t_map.c check_token_t_omap.c \
+	check_token_t_set.c
 DIST_SOURCES = $(SpookyV2_reference_SOURCES) check_indexed_data_file.c \
 	check_indexed_deque.c check_persistent_avl.c \
 	check_persistent_hash_map.c check_persistent_integer_trie.c \
-	$(check_spookyhash_SOURCES) check_str_nul_hash.c \
-	check_str_nul_map.c check_str_nul_omap.c check_str_nul_set.c \
-	check_string_literal.c check_string_t_hash.c \
-	check_string_t_map.c check_string_t_omap.c \
-	check_string_t_set.c check_token_t_hash.c check_token_t_map.c \
-	check_token_t_omap.c check_token_t_set.c
+	check_persistent_vector.c $(check_spookyhash_SOURCES) \
+	check_str_nul_hash.c check_str_nul_map.c check_str_nul_omap.c \
+	check_str_nul_set.c check_string_literal.c \
+	check_string_t_hash.c check_string_t_map.c \
+	check_string_t_omap.c check_string_t_set.c \
+	check_token_t_hash.c check_token_t_map.c check_token_t_omap.c \
+	check_token_t_set.c
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -2122,6 +2132,10 @@ check_persistent_integer_trie$(EXEEXT): $(check_persistent_integer_trie_OBJECTS)
 	@rm -f check_persistent_integer_trie$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(check_persistent_integer_trie_OBJECTS) $(check_persistent_integer_trie_LDADD) $(LIBS)
 
+check_persistent_vector$(EXEEXT): $(check_persistent_vector_OBJECTS) $(check_persistent_vector_DEPENDENCIES) $(EXTRA_check_persistent_vector_DEPENDENCIES) 
+	@rm -f check_persistent_vector$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(check_persistent_vector_OBJECTS) $(check_persistent_vector_LDADD) $(LIBS)
+
 check_spookyhash$(EXEEXT): $(check_spookyhash_OBJECTS) $(check_spookyhash_DEPENDENCIES) $(EXTRA_check_spookyhash_DEPENDENCIES) 
 	@rm -f check_spookyhash$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(check_spookyhash_OBJECTS) $(check_spookyhash_LDADD) $(LIBS)
@@ -2191,6 +2205,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_persistent_avl.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_persistent_hash_map.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_persistent_integer_trie.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_persistent_vector.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_spookyhash.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_str_nul_hash.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_str_nul_map.Po@am__quote@ # am--include-marker
@@ -2428,6 +2443,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/check_persistent_avl.Po
 	-rm -f ./$(DEPDIR)/check_persistent_hash_map.Po
 	-rm -f ./$(DEPDIR)/check_persistent_integer_trie.Po
+	-rm -f ./$(DEPDIR)/check_persistent_vector.Po
 	-rm -f ./$(DEPDIR)/check_spookyhash.Po
 	-rm -f ./$(DEPDIR)/check_str_nul_hash.Po
 	-rm -f ./$(DEPDIR)/check_str_nul_map.Po
@@ -2494,6 +2510,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/check_persistent_avl.Po
 	-rm -f ./$(DEPDIR)/check_persistent_hash_map.Po
 	-rm -f ./$(DEPDIR)/check_persistent_integer_trie.Po
+	-rm -f ./$(DEPDIR)/check_persistent_vector.Po
 	-rm -f ./$(DEPDIR)/check_spookyhash.Po
 	-rm -f ./$(DEPDIR)/check_str_nul_hash.Po
 	-rm -f ./$(DEPDIR)/check_str_nul_map.Po

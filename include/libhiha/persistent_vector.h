@@ -1047,7 +1047,7 @@ hiha_persistent_vector_length (void *pvect)
 
 #define DECLARE_HIHA_PERSISTENT_VECTOR_MERGE(MODIFIER, NAME,            \
                                              T, ENTRY_T, BITS)          \
-  MODIFIER T NAME (T, T,                                                \
+  MODIFIER T NAME (T, size_t, size_t, T, size_t, size_t,                \
                    int (*) (const ENTRY_T *, const ENTRY_T *, void *),  \
                    void *);
 #define DEFINE_HIHA_PERSISTENT_VECTOR_MERGE(MODIFIER, NAME,             \
@@ -1055,74 +1055,74 @@ hiha_persistent_vector_length (void *pvect)
                                             PVECT_PTR, PVECT_NEXT,      \
                                             PUSHES)                     \
   MODIFIER T                                                            \
-  NAME (T v1, T v2,                                                     \
+  NAME (T v1, size_t i1, size_t n1,                                     \
+        T v2, size_t i2, size_t n2,                                     \
         int (*cmp) (const ENTRY_T *, const ENTRY_T *, void *),          \
         void *data)                                                     \
   {                                                                     \
-    T vec_;                                                             \
-    if (v1 == (T) 0)                                                    \
-      vec_ = v2;                                                        \
-    else if (v2 == (T) 0)                                               \
-      vec_ = v1;                                                        \
-    else                                                                \
-      {                                                                 \
-        const size_t buffer_size = ((size_t) 1) << (BITS);              \
-        ENTRY_T buffer[buffer_size];                                    \
+    assert (i1 + n1 <= hiha_persistent_vector_length (v1));             \
+    assert (i2 + n2 <= hiha_persistent_vector_length (v2));             \
                                                                         \
-        vec_ = (T) 0;                                                   \
-        size_t i1 = 0;                                                  \
-        size_t i2 = 0;                                                  \
-        const ENTRY_T *p1 = PVECT_PTR (v1, i1);                         \
-        const ENTRY_T *p2 = PVECT_PTR (v2, i2);                         \
-        size_t j = 0;                                                   \
-        while (p1 != NULL && p2 != NULL)                                \
-          {                                                             \
-            const int c = cmp (p1, p2, data);                           \
-            if (c <= 0)                                                 \
-              {                                                         \
-                buffer[j] = *p1;                                        \
-                p1 = PVECT_NEXT (v1, i1, p1);                           \
-                i1 += 1;                                                \
-              }                                                         \
-            else                                                        \
-              {                                                         \
-                buffer[j] = *p2;                                        \
-                p2 = PVECT_NEXT (v2, i2, p2);                           \
-                i2 += 1;                                                \
-              }                                                         \
-            j += 1;                                                     \
-            if (j == buffer_size)                                       \
-              {                                                         \
-                vec_ = PUSHES (vec_, buffer_size, buffer);              \
-                j = 0;                                                  \
-              }                                                         \
-          }                                                             \
-        while (p1 != NULL)                                              \
+    const size_t buffer_size = ((size_t) 1) << (BITS);                  \
+    ENTRY_T buffer[buffer_size];                                        \
+                                                                        \
+    T vec_ = (T) 0;                                                     \
+                                                                        \
+    const ENTRY_T *p1 = PVECT_PTR (v1, i1);                             \
+    const ENTRY_T *p2 = PVECT_PTR (v2, i2);                             \
+    size_t j = 0;                                                       \
+    while (n1 != 0 && n2 != 0)                                          \
+      {                                                                 \
+        const int c = cmp (p1, p2, data);                               \
+        if (c <= 0)                                                     \
           {                                                             \
             buffer[j] = *p1;                                            \
-            j += 1;                                                     \
-            if (j == buffer_size)                                       \
-              {                                                         \
-                vec_ = PUSHES (vec_, buffer_size, buffer);              \
-                j = 0;                                                  \
-              }                                                         \
             p1 = PVECT_NEXT (v1, i1, p1);                               \
             i1 += 1;                                                    \
+            n1 -= 1;                                                    \
           }                                                             \
-        while (p2 != NULL)                                              \
+        else                                                            \
           {                                                             \
             buffer[j] = *p2;                                            \
-            j += 1;                                                     \
-            if (j == buffer_size)                                       \
-              {                                                         \
-                vec_ = PUSHES (vec_, buffer_size, buffer);              \
-                j = 0;                                                  \
-              }                                                         \
             p2 = PVECT_NEXT (v2, i2, p2);                               \
             i2 += 1;                                                    \
+            n2 -= 1;                                                    \
           }                                                             \
-        vec_ = PUSHES (vec_, j, buffer);                                \
+        j += 1;                                                         \
+        if (j == buffer_size)                                           \
+          {                                                             \
+            vec_ = PUSHES (vec_, buffer_size, buffer);                  \
+            j = 0;                                                      \
+          }                                                             \
       }                                                                 \
+    while (n1 != 0)                                                     \
+      {                                                                 \
+        buffer[j] = *p1;                                                \
+        j += 1;                                                         \
+        if (j == buffer_size)                                           \
+          {                                                             \
+            vec_ = PUSHES (vec_, buffer_size, buffer);                  \
+            j = 0;                                                      \
+          }                                                             \
+        p1 = PVECT_NEXT (v1, i1, p1);                                   \
+        i1 += 1;                                                        \
+        n1 -= 1;                                                        \
+      }                                                                 \
+    while (n2 != 0)                                                     \
+      {                                                                 \
+        buffer[j] = *p2;                                                \
+        j += 1;                                                         \
+        if (j == buffer_size)                                           \
+          {                                                             \
+            vec_ = PUSHES (vec_, buffer_size, buffer);                  \
+            j = 0;                                                      \
+          }                                                             \
+        p2 = PVECT_NEXT (v2, i2, p2);                                   \
+        i2 += 1;                                                        \
+        n2 -= 1;                                                        \
+      }                                                                 \
+    vec_ = PUSHES (vec_, j, buffer);                                    \
+                                                                        \
     return vec_;                                                        \
   }
 

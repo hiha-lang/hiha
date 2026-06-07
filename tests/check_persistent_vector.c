@@ -45,7 +45,8 @@ test_small_merge (void)
   assert (int_vector_length (v1) == 4);
   assert (int_vector_length (v2) == 6);
 
-  int_vector_t v3 = int_vector_merge (v1, v2, &int_cmp, NULL);
+  int_vector_t v3 = int_vector_merge (v1, 0, 4, v2, 0, 6,
+                                      &int_cmp, NULL);
   assert (int_vector_length (v3) == 10);
   assert (int_vector_ref (v3, 0) == 1);
   assert (int_vector_ref (v3, 1) == 2);
@@ -58,7 +59,8 @@ test_small_merge (void)
   assert (int_vector_ref (v3, 8) == 12);
   assert (int_vector_ref (v3, 9) == 13);
 
-  int_vector_t v4 = int_vector_merge (v2, v1, &int_cmp, NULL);
+  int_vector_t v4 = int_vector_merge (v2, 0, 6, v1, 0, 4,
+                                      &int_cmp, NULL);
   assert (int_vector_length (v4) == 10);
   assert (int_vector_ref (v4, 0) == 1);
   assert (int_vector_ref (v4, 1) == 2);
@@ -70,6 +72,36 @@ test_small_merge (void)
   assert (int_vector_ref (v4, 7) == 11);
   assert (int_vector_ref (v4, 8) == 12);
   assert (int_vector_ref (v4, 9) == 13);
+
+  int buf12[10] = { 1, 5, 7, 12, 2, 3, 8, 10, 11, 13 };
+  int_vector_t v12 = int_vector_pushes (NULL, 10, buf12);
+  assert (int_vector_length (v12) == 10);
+
+  v3 = int_vector_merge (v12, 0, 4, v12, 4, 6, &int_cmp, NULL);
+  assert (int_vector_length (v3) == 10);
+  assert (int_vector_ref (v3, 0) == 1);
+  assert (int_vector_ref (v3, 1) == 2);
+  assert (int_vector_ref (v3, 2) == 3);
+  assert (int_vector_ref (v3, 3) == 5);
+  assert (int_vector_ref (v3, 4) == 7);
+  assert (int_vector_ref (v3, 5) == 8);
+  assert (int_vector_ref (v3, 6) == 10);
+  assert (int_vector_ref (v3, 7) == 11);
+  assert (int_vector_ref (v3, 8) == 12);
+  assert (int_vector_ref (v3, 9) == 13);
+
+  v4 = int_vector_merge (v12, 4, 6, v12, 0, 4, &int_cmp, NULL);
+  assert (int_vector_length (v3) == 10);
+  assert (int_vector_ref (v3, 0) == 1);
+  assert (int_vector_ref (v3, 1) == 2);
+  assert (int_vector_ref (v3, 2) == 3);
+  assert (int_vector_ref (v3, 3) == 5);
+  assert (int_vector_ref (v3, 4) == 7);
+  assert (int_vector_ref (v3, 5) == 8);
+  assert (int_vector_ref (v3, 6) == 10);
+  assert (int_vector_ref (v3, 7) == 11);
+  assert (int_vector_ref (v3, 8) == 12);
+  assert (int_vector_ref (v3, 9) == 13);
 }
 
 static void
@@ -84,12 +116,30 @@ test_large_merge (void)
   assert (int_vector_length (v1) == 500);
   assert (int_vector_length (v2) == 500);
 
-  int_vector_t v3 = int_vector_merge (v1, v2, &int_cmp, NULL);
+  int_vector_t v3 = int_vector_merge (v1, 0, 500, v2, 0, 500,
+                                      &int_cmp, NULL);
   assert (int_vector_length (v3) == 1000);
   for (size_t i = 0; i != 1000; i += 1)
     assert (int_vector_ref (v3, i) == i);
 
-  int_vector_t v4 = int_vector_merge (v2, v1, &int_cmp, NULL);
+  int_vector_t v4 = int_vector_merge (v2, 0, 500, v1, 0, 500,
+                                      &int_cmp, NULL);
+  assert (int_vector_length (v4) == 1000);
+  for (size_t i = 0; i != 1000; i += 1)
+    assert (int_vector_ref (v4, i) == i);
+
+  v1 = NULL;
+  for (size_t i = 0; i != 1000; i += 2)
+    v1 = int_vector_push (v1, i);
+  for (size_t i = 1; i != 1001; i += 2)
+    v1 = int_vector_push (v1, i);
+
+  v3 = int_vector_merge (v1, 0, 500, v1, 500, 500, &int_cmp, NULL);
+  assert (int_vector_length (v3) == 1000);
+  for (size_t i = 0; i != 1000; i += 1)
+    assert (int_vector_ref (v3, i) == i);
+
+  v4 = int_vector_merge (v1, 500, 500, v1, 0, 500, &int_cmp, NULL);
   assert (int_vector_length (v4) == 1000);
   for (size_t i = 0; i != 1000; i += 1)
     assert (int_vector_ref (v4, i) == i);

@@ -1134,6 +1134,69 @@ hiha_persistent_vector_length (void *pvect)
     return vec_;                                                        \
   }
 
+#define DECLARE_HIHA_PERSISTENT_VECTOR_SORT(MODIFIER, NAME,             \
+                                            T, ENTRY_T, BITS)           \
+  MODIFIER T NAME (T, size_t, size_t,                                   \
+                   int (*) (const ENTRY_T *, const ENTRY_T *, void *),  \
+                   void *);
+#define DEFINE_HIHA_PERSISTENT_VECTOR_SORT(MODIFIER, NAME,              \
+                                           T, ENTRY_T, BITS,            \
+                                           REFS, PUSHES, MERGE)         \
+  MODIFIER T                                                            \
+  NAME (T vec, size_t start, size_t end,                                \
+        int (*cmp) (const ENTRY_T *, const ENTRY_T *, void *),          \
+        void *data)                                                     \
+  {                                                                     \
+    /* A stable sort. */                                                \
+                                                                        \
+    assert (start <= end);                                              \
+    assert (end <= hiha_persistent_vector_length (vec));                \
+                                                                        \
+    T result;                                                           \
+                                                                        \
+    const size_t cutoff =                                               \
+      (((size_t) 12) <  (((size_t) 1) << (BITS)))                       \
+      ? ((size_t) 12) : (((size_t) 1) << (BITS));                       \
+    const size_t slice_size = end - start;                              \
+                                                                        \
+    if (slice_size == 0)                                                \
+      result = (T) 0;                                                   \
+    else if (slice_size < cutoff)                                       \
+      {                                                                 \
+        ENTRY_T buffer[slice_size];                                     \
+        (REFS) (vec, start, slice_size, buffer);                        \
+                                                                        \
+        /* Do an in-place insertion sort. */                            \
+        for (size_t i = 1; i != slice_size; i += 1)                     \
+          {                                                             \
+            size_t j = i;                                               \
+            while (j != 0                                               \
+                   && cmp (&buffer[i], &buffer[j - 1], data) < 0)       \
+              j -= 1;                                                   \
+            if (i != j)                                                 \
+              {                                                         \
+                ENTRY_T x = buffer[i];                                  \
+                memmove (buffer + (j + 1), buffer + j,                  \
+                         (i - j) * sizeof (ENTRY_T));                   \
+                buffer[j] = x;                                          \
+              }                                                         \
+          }                                                             \
+                                                                        \
+        result = (PUSHES) ((T) 0, slice_size, buffer);                  \
+      }                                                                 \
+    else                                                                \
+      {                                                                 \
+        /* Mergesort */                                                 \
+        const size_t middle = start + (slice_size / 2);                 \
+        T vec1 = (NAME) (vec, start, middle, cmp, data);                \
+        T vec2 = (NAME) (vec, middle, end, cmp, data);                  \
+        result = (MERGE) (vec1, 0, middle - start,                      \
+                          vec2, 0, end - middle, cmp, data);            \
+      }                                                                 \
+                                                                        \
+    return result;                                                      \
+  }
+
 /*--------------------------------------------------------------------*/
 
 /*
@@ -1173,7 +1236,9 @@ hiha_persistent_vector_length (void *pvect)
   DECLARE_HIHA_PERSISTENT_VECTOR_APPEND (MODIFIER, TNAME##_append,      \
                                          TNAME##_t, ENTRY_T, BITS);     \
   DECLARE_HIHA_PERSISTENT_VECTOR_MERGE (MODIFIER, TNAME##_merge,        \
-                                        TNAME##_t, ENTRY_T, BITS)
+                                        TNAME##_t, ENTRY_T, BITS);      \
+  DECLARE_HIHA_PERSISTENT_VECTOR_SORT (MODIFIER, TNAME##_sort,          \
+                                       TNAME##_t, ENTRY_T, BITS)
 
 /*
 
@@ -1239,9 +1304,13 @@ hiha_persistent_vector_length (void *pvect)
                                         TNAME##_t, ENTRY_T, BITS,       \
                                         TNAME##_refs, TNAME##_pushes);  \
   DEFINE_HIHA_PERSISTENT_VECTOR_MERGE (MODIFIER, TNAME##_merge,         \
-                                        TNAME##_t, ENTRY_T, BITS,       \
+                                       TNAME##_t, ENTRY_T, BITS,        \
                                        TNAME##_ptr, TNAME##_next,       \
-                                       TNAME##_pushes)
+                                       TNAME##_pushes);                 \
+  DEFINE_HIHA_PERSISTENT_VECTOR_SORT (MODIFIER, TNAME##_sort,           \
+                                      TNAME##_t, ENTRY_T, BITS,         \
+                                      TNAME##_refs, TNAME##_pushes,     \
+                                      TNAME##_merge)
 
 #define DEFINE_HIHA_PERSISTENT_VECTOR_DATATYPE(MODIFIER, TNAME,         \
                                                ENTRY_T, BITS)           \

@@ -29,6 +29,20 @@ HIHA_VISIBLE const char version_etc_copyright[] =
 DECLARE_HIHA_PERSISTENT_VECTOR_DATATYPE (static, int_vector, int, 5);
 DEFINE_HIHA_PERSISTENT_VECTOR_DATATYPE (static, int_vector, int, 5);
 
+static void
+shuffle (size_t n, int buf[n])
+{
+  for (size_t i = n - 1; i != 0; i -= 1)
+    {
+      /* Dividing the big random integer is good enough. */
+      size_t j = (size_t) (random () % ((long) i) + 1);
+
+      int tmp = buf[i];
+      buf[i] = buf[j];
+      buf[j] = tmp;
+    }
+}
+
 static int
 int_cmp (const int *p1, const int *p2, void *data)
 {
@@ -145,11 +159,61 @@ test_large_merge (void)
     assert (int_vector_ref (v4, i) == i);
 }
 
+static void
+test_small_sort (void)
+{
+  int buf1[9] = { 52, 23, 38, 10, 1, 13, 12, 77, 5 };
+  int_vector_t v1 = NULL;
+  for (size_t i = 0; i != 9; i += 1)
+    v1 = int_vector_push (v1, buf1[i]);
+  assert (int_vector_length (v1) == 9);
+
+  int_vector_t v2 = int_vector_sort (v1, 0, 9, int_cmp, NULL);
+  assert (int_vector_length (v2) == 9);
+  assert (int_vector_ref (v2, 0) == 1);
+  assert (int_vector_ref (v2, 1) == 5);
+  assert (int_vector_ref (v2, 2) == 10);
+  assert (int_vector_ref (v2, 3) == 12);
+  assert (int_vector_ref (v2, 4) == 13);
+  assert (int_vector_ref (v2, 5) == 23);
+  assert (int_vector_ref (v2, 6) == 38);
+  assert (int_vector_ref (v2, 7) == 52);
+  assert (int_vector_ref (v2, 8) == 77);
+
+  int_vector_t v3 = int_vector_sort (v1, 3, 6, int_cmp, NULL);
+  assert (int_vector_length (v3) == 3);
+  assert (int_vector_ref (v3, 0) == 1);
+  assert (int_vector_ref (v3, 1) == 10);
+  assert (int_vector_ref (v3, 2) == 13);
+}
+
+static void
+test_large_sort (void)
+{
+  const size_t n = 10000;
+
+  int buf1[n];
+  for (size_t i = 0; i != n; i += 1)
+    buf1[i] = i + 1;
+  shuffle (n, buf1);
+  int_vector_t v1 = NULL;
+  for (size_t i = 0; i != n; i += 1)
+    v1 = int_vector_push (v1, buf1[i]);
+  assert (int_vector_length (v1) == n);
+
+  int_vector_t v2 = int_vector_sort (v1, 0, n, int_cmp, NULL);
+  assert (int_vector_length (v2) == n);
+  for (size_t i = 0; i != n; i += 1)
+    assert (int_vector_ref (v2, i) == i + 1);
+}
+
 int
 main (void)
 {
   GC_INIT ();
   test_small_merge ();
   test_large_merge ();
+  test_small_sort ();
+  test_large_sort ();
   return 0;
 }

@@ -1,5 +1,15 @@
 @  master
-|  2026-06-07 00:34 +0000
+|  2026-06-07 12:49 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       025574cd3517ff0f3ce624d023ffebfafb937fbb
+|  mercurial: 317facffc9a6bee3efd5d5dcbb65c5b664cf3d04
+|  revision:  247
+|  parents:   246
+|
+|    Change the interface of vector merge to resemble that of slice.
+|
+|
+o  2026-06-07 00:34 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       f4f4b31e9da01dc3ca09c1293f77213ae0feccc0
 |  mercurial: db133d8915fc19c573af4a3b1fbfcf3ea85d25c8

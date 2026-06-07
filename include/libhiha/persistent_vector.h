@@ -1055,11 +1055,19 @@ hiha_persistent_vector_length (void *pvect)
                                             PVECT_PTR, PVECT_NEXT,      \
                                             PUSHES)                     \
   MODIFIER T                                                            \
-  NAME (T v1, size_t i1, size_t n1,                                     \
-        T v2, size_t i2, size_t n2,                                     \
+  NAME (T v1, size_t start1, size_t end1,                               \
+        T v2, size_t start2, size_t end2,                               \
         int (*cmp) (const ENTRY_T *, const ENTRY_T *, void *),          \
         void *data)                                                     \
   {                                                                     \
+    assert (start1 <= end1);                                            \
+    assert (start2 <= end2);                                            \
+                                                                        \
+    size_t i1 = start1;                                                 \
+    size_t n1 = end1 - start1;                                          \
+    size_t i2 = start2;                                                 \
+    size_t n2 = end2 - start2;                                          \
+                                                                        \
     assert (i1 + n1 <= hiha_persistent_vector_length (v1));             \
     assert (i2 + n2 <= hiha_persistent_vector_length (v2));             \
                                                                         \

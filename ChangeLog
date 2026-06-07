@@ -1,5 +1,15 @@
 @  master
-|  2026-06-06 23:59 +0000
+|  2026-06-07 00:34 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       f4f4b31e9da01dc3ca09c1293f77213ae0feccc0
+|  mercurial: db133d8915fc19c573af4a3b1fbfcf3ea85d25c8
+|  revision:  246
+|  parents:   245
+|
+|    Modify vector merge to be able to merge subvectors.
+|
+|
+o  2026-06-06 23:59 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       d704ec6e2fdc8f6d2d33f66c725fefc3c6974380
 |  mercurial: 8a2c095abca9b9f9c7160691bfaddc083530cade

@@ -24,6 +24,7 @@
 
 #include <libhiha/xalloc.h>
 #include <libhiha/options.h>
+#include <libhiha/parsing.h>
 #include <libhiha/spookyhash.h>
 #include <libhiha/persistent_avl.h>
 #include <libhiha/persistent_integer_trie.h>

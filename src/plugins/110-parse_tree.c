@@ -31,13 +31,18 @@
 static string_t str_KW;
 static string_t str_I10;
 
+static string_t str_open_paren;
+static string_t str_close_paren;
 static string_t str_begin;
-static string_t str_do;
+static string_t str_if;
 static string_t str_while;
 static string_t str_end;
 
+static token_t tok_close_paren;
+static token_t tok_end;
+
 static bool
-token_is_breaks_up_juxtaposition (token_t tok)
+token_breaks_up_juxtaposition (token_t tok)
 {
   bool b = (tok->token_value->n == 1);
   if (b)
@@ -49,10 +54,11 @@ token_is_breaks_up_juxtaposition (token_t tok)
 }
 
 static bool
-kw_token_is_begin_like (token_t tok)
+kw_token_is_parenthetic (token_t tok)
 {
-  return (string_t_cmp (tok->token_value, str_begin) == 0
-          || string_t_cmp (tok->token_value, str_do) == 0
+  return (string_t_cmp (tok->token_value, str_open_paren) == 0
+          || string_t_cmp (tok->token_value, str_begin) == 0
+          || string_t_cmp (tok->token_value, str_if) == 0
           || string_t_cmp (tok->token_value, str_while) == 0);
 };
 
@@ -86,11 +92,35 @@ default_handler (void *state, buffered_token_getter_t getter,
 }
 
 static void
-begin_like_handler (void *state, buffered_token_getter_t getter,
-                    pratt_tables_t tables, token_t tok,
-                    token_t *lhs, const char **error_message)
+parenthetic_handler (void *state, buffered_token_getter_t getter,
+                     pratt_tables_t tables, token_t tok,
+                     token_t *lhs, const char **error_message)
 {
-  // FIXME: PUT “end” as close paren in parse context.
+  token_t parenthetic_lhs;
+  pratt_parse (state, getter, tables, minimum_binding_power (),
+               &parenthetic_lhs, error_message);
+  if (*error_message == NULL)
+    {
+      token_t closing =
+        (string_t_cmp (tok->token_value, str_open_paren) == 0)
+        ? tok_close_paren : tok_end;
+      token_t t;
+      getter->get_token (getter, &t, error_message);
+      if (*error_message == NULL)
+        if (token_t_cmp (t, closing) == 0)
+          {
+            // FIXME: BUILD OUR OWN TOKEN BASED ON parenthetic_lhs.
+            *lhs = parenthetic_lhs;
+          }
+        else
+          {
+            char buf[1000];
+            snprintf (buf, 1000, _("%s: expected “%s”"),
+                      text_location_string (t->loc),
+                      make_str_nul (closing->token_value));
+            *error_message = xstrdup (buf);
+          }
+    }
 }
 
 static void
@@ -98,8 +128,8 @@ kw_handler (void *state, buffered_token_getter_t getter,
             pratt_tables_t tables, token_t tok,
             token_t *lhs, const char **error_message)
 {
-  if (kw_token_is_begin_like (tok))
-    begin_like_handler (state, getter, tables, tok, lhs, error_message);
+  if (kw_token_is_parenthetic (tok))
+    parenthetic_handler (state, getter, tables, tok, lhs, error_message);
   else
     default_handler (state, getter, tables, tok, lhs, error_message);
 }
@@ -121,21 +151,26 @@ kw_handler (void *state, buffered_token_getter_t getter,
 //// }
 
 static void
-initialize_strings (void)
+initialize_strings_and_tokens (void)
 {
   str_KW = string_t_KW ();
   str_I10 = make_string_t ("I10");
 
+  str_open_paren = make_string_t ("(");
+  str_close_paren = make_string_t (")");
   str_begin = make_string_t ("begin");
-  str_do = make_string_t ("do");
+  str_if = make_string_t ("if");
   str_while = make_string_t ("while");
   str_end = make_string_t ("end");
+
+  tok_close_paren = make_token_t (str_KW, str_close_paren, NULL);
+  tok_end = make_token_t (str_KW, str_end, NULL);
 }
 
 HIHA_VISIBLE void
 plugin_init (void)
 {
-  initialize_strings ();
+  initialize_strings_and_tokens ();
 
   pratt_tables_t tables;
 

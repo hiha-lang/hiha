@@ -26,7 +26,7 @@
 
 struct parsing_state
 {
-  token_t_set_t closing_parentheses;
+  int there_is_nothing_here_yet;
 };
 typedef struct parsing_state *parsing_state_t;
 

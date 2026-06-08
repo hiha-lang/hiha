@@ -41,6 +41,8 @@ token_t make_token_t (string_t token_kind, string_t token_value,
 token_t make_token_t_eof_eof (text_location_t loc);
 bool token_t_is_eof_eof (token_t tok);
 
+/*--------------------------------------------------------------------*/
+
 struct token_getter;
 typedef struct token_getter *token_getter_t;
 struct token_getter
@@ -55,6 +57,18 @@ token_getter_t make_token_getter_from_string (string_t);
 
 token_getter_t make_token_getter_from_source_file_t
   (const char *filename, FILE *f);
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+
+struct token_getter_from_files;
+typedef struct token_getter_from_files *token_getter_from_files_t;
+
+token_getter_from_files_t make_token_getter_from_files_t (const char
+                                                          *filename_root);
+void close_token_getter_files (token_getter_from_files_t);
+void remove_token_getter_files (token_getter_from_files_t);
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 
 struct buffered_token_getter;
 typedef struct buffered_token_getter *buffered_token_getter_t;
@@ -88,6 +102,8 @@ buffered_token_getter_t make_buffered_token_getter_t
 buffered_token_getter_t make_buffered_token_getter_from_source_files
   (size_t n, const char *filenames[n]);
 
+/*--------------------------------------------------------------------*/
+
 struct token_putter;
 typedef struct token_putter *token_putter_t;
 struct token_putter
@@ -98,15 +114,7 @@ struct token_putter
 
 #define to_token_putter_t(p) ((token_putter_t) (p))
 
-/*--------------------------------------------------------------------*/
-
-struct token_getter_from_files;
-typedef struct token_getter_from_files *token_getter_from_files_t;
-
-token_getter_from_files_t make_token_getter_from_files_t (const char
-                                                          *filename_root);
-void close_token_getter_files (token_getter_from_files_t);
-void remove_token_getter_files (token_getter_from_files_t);
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 
 struct token_putter_to_files;
 typedef struct token_putter_to_files *token_putter_to_files_t;

@@ -31,7 +31,7 @@ HIHA_VISIBLE parsing_state_t
 make_parsing_state_t (void)
 {
   parsing_state_t p = XMALLOC (struct parsing_state);
-  p->closing_parentheses = NULL;
+  return p;
 };
 
 

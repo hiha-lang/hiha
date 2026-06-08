@@ -350,7 +350,8 @@ main (int argc, char **argv)
 
   const char *final_filename_root;
   const char *error_message;
-  do_pratt_passes (NULL, pass_predicate,
+  parsing_state_t parsing_state = make_parsing_state_t ();
+  do_pratt_passes (parsing_state, pass_predicate,
                    argc - 1, ((const char **) argv) + 1,
                    "pass", &final_filename_root, &error_message);
 

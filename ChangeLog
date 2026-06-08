@@ -1,5 +1,26 @@
 @  master
-|  2026-06-07 12:49 +0000
+|  2026-06-08 15:36 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       8edb9f20db3aa86716d1d6b0a65d289f41337b2f
+|  mercurial: a28bc156a5bdea12786a0e347352e7b79499c4bc
+|  revision:  249
+|  parents:   248
+|
+|    Make persistent AVL trees thread-safe. A few things for preparation
+|    for parsing.
+|
+|
+o  2026-06-07 15:01 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       93b5fda47e230830d9463172a8ab07a1a37bb865
+|  mercurial: fc80d15e87c285d338805abaa4ac07526117c76f
+|  revision:  248
+|  parents:   247
+|
+|    Vector sorting.
+|
+|
+o  2026-06-07 12:49 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       025574cd3517ff0f3ce624d023ffebfafb937fbb
 |  mercurial: 317facffc9a6bee3efd5d5dcbb65c5b664cf3d04

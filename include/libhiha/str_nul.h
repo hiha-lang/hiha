@@ -153,26 +153,29 @@ typedef const struct str_nul_omap *str_nul_omap_t;
 
 size_t str_nul_omap_size (str_nul_omap_t omap);
 
-const void *str_nul_omap_search (str_nul_omap_t omap, const char *key);
+const void *str_nul_omap_search (str_nul_omap_t omap, const char *key,
+                                 void *);
 
 /* str_nul_omap_init creates a new empty map with a custom order. (The
    default order, which is strcmp(3) applied to the keys, is obtained
    by using NULL as the empty map.) */
 str_nul_omap_t str_nul_omap_init (int (*compare) (str_nul_keyval_t,
-                                                  str_nul_keyval_t));
+                                                  str_nul_keyval_t,
+                                                  void *));
 
 str_nul_omap_t str_nul_omap_insert_or_replace (str_nul_omap_t omap,
                                                const char *key,
-                                               const void *value);
+                                               const void *value,
+                                               void *);
 str_nul_omap_t str_nul_omap_insert_only (str_nul_omap_t omap,
                                          const char *key,
-                                         const void *value);
+                                         const void *value, void *);
 str_nul_omap_t str_nul_omap_replace_only (str_nul_omap_t omap,
                                           const char *key,
-                                          const void *value);
+                                          const void *value, void *);
 
 str_nul_omap_t str_nul_omap_delete (str_nul_omap_t omap,
-                                    const char *key);
+                                    const char *key, void *);
 
 /* direction = 1 forwards, -1 backwards */
 str_nul_vector_t str_nul_omap_keys (str_nul_omap_t omap, int direction);

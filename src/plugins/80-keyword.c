@@ -26,9 +26,13 @@
 #define _(msgid) HIHA_GETTEXT (msgid)
 
 static const char *kw[] = {
+  ".",
+  ";",
+  "(",
+  ")",
   "end",
   "begin",
-  "do",
+  "if",
   "infix_left",
   "infix_right",
   "postfix",

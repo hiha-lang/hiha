@@ -41,12 +41,12 @@ struct @TYPENAME@_omap
 {
   @TYPENAME@_omap_node_t _tree;
   size_t _size;
-  int (*_compare) (@TYPENAME@_keyval_t, @TYPENAME@_keyval_t);
+  int (*_compare) (@TYPENAME@_keyval_t, @TYPENAME@_keyval_t, void *);
 };
 
 static int
 @TYPENAME@_default_compare (@TYPENAME@_keyval_t kv1,
-                            @TYPENAME@_keyval_t kv2)
+                            @TYPENAME@_keyval_t kv2, void *)
 {
   @COMPARE@;
 }
@@ -83,7 +83,8 @@ HIHA_VISIBLE size_t
 }
 
 HIHA_VISIBLE const void *
-@TYPENAME@_omap_search (@TYPENAME@_omap_t omap, @TYPE@ key)
+@TYPENAME@_omap_search (@TYPENAME@_omap_t omap, @TYPE@ key,
+                        void *extra_data)
 {
   const void *retval = NULL;
   if (omap != NULL && omap->_size != 0)
@@ -93,7 +94,8 @@ HIHA_VISIBLE const void *
         .value = NULL
       };
       @TYPENAME@_omap_node_t p =
-        @TYPENAME@_omap_node_search (omap->_tree, kv, omap->_compare);
+        @TYPENAME@_omap_node_search (omap->_tree, kv, omap->_compare,
+                                     extra_data);
       if (p != NULL)
         retval = p->data.value;
     }
@@ -102,7 +104,7 @@ HIHA_VISIBLE const void *
 
 HIHA_VISIBLE @TYPENAME@_omap_t
 @TYPENAME@_omap_init (int (*compare) (@TYPENAME@_keyval_t,
-                                      @TYPENAME@_keyval_t))
+                                      @TYPENAME@_keyval_t, void *))
 {
   struct @TYPENAME@_omap *result = XMALLOC (struct @TYPENAME@_omap);
   result->_tree = NULL;
@@ -113,7 +115,8 @@ HIHA_VISIBLE @TYPENAME@_omap_t
 
 HIHA_VISIBLE @TYPENAME@_omap_t
 @TYPENAME@_omap_insert_or_replace (@TYPENAME@_omap_t omap,
-                                   @TYPE@ key, const void *value)
+                                   @TYPE@ key, const void *value,
+                                   void *extra_data)
 {
   @TYPENAME@_omap_t om = allocated_omap (omap);
   struct @TYPENAME@_keyval kv = {
@@ -121,11 +124,13 @@ HIHA_VISIBLE @TYPENAME@_omap_t
     .value = value
   };
   @TYPENAME@_omap_node_t p =
-    @TYPENAME@_omap_node_search (om->_tree, kv, om->_compare);
+    @TYPENAME@_omap_node_search (om->_tree, kv, om->_compare,
+                                 extra_data);
   ssize_t size_change = (p == NULL) ? 1 : 0;
   struct @TYPENAME@_omap *result = XMALLOC (struct @TYPENAME@_omap);
   result->_tree =
-    @TYPENAME@_omap_node_insert (om->_tree, kv, om->_compare);
+    @TYPENAME@_omap_node_insert (om->_tree, kv, om->_compare,
+                                 extra_data);
   result->_size = om->_size + size_change;
   result->_compare = om->_compare;
   return result;
@@ -133,7 +138,8 @@ HIHA_VISIBLE @TYPENAME@_omap_t
 
 HIHA_VISIBLE @TYPENAME@_omap_t
 @TYPENAME@_omap_insert_only (@TYPENAME@_omap_t omap,
-                             @TYPE@ key, const void *value)
+                             @TYPE@ key, const void *value,
+                             void *extra_data)
 {
   @TYPENAME@_omap_t om = allocated_omap (omap);
   struct @TYPENAME@_keyval kv = {
@@ -141,7 +147,8 @@ HIHA_VISIBLE @TYPENAME@_omap_t
     .value = value
   };
   @TYPENAME@_omap_node_t p =
-    @TYPENAME@_omap_node_search (om->_tree, kv, om->_compare);
+    @TYPENAME@_omap_node_search (om->_tree, kv, om->_compare,
+                                 extra_data);
   @TYPENAME@_omap_t retval;
   if (p != NULL)
     retval = omap;
@@ -149,7 +156,8 @@ HIHA_VISIBLE @TYPENAME@_omap_t
     {
       struct @TYPENAME@_omap *result = XMALLOC (struct @TYPENAME@_omap);
       result->_tree =
-        @TYPENAME@_omap_node_insert (om->_tree, kv, om->_compare);
+        @TYPENAME@_omap_node_insert (om->_tree, kv, om->_compare,
+                                     extra_data);
       result->_size = om->_size + 1;
       result->_compare = om->_compare;
       retval = result;
@@ -159,7 +167,8 @@ HIHA_VISIBLE @TYPENAME@_omap_t
 
 HIHA_VISIBLE @TYPENAME@_omap_t
 @TYPENAME@_omap_replace_only (@TYPENAME@_omap_t omap,
-                              @TYPE@ key, const void *value)
+                              @TYPE@ key, const void *value,
+                              void *extra_data)
 {
   @TYPENAME@_omap_t retval;
   if (omap == NULL || omap->_size == 0)
@@ -171,14 +180,16 @@ HIHA_VISIBLE @TYPENAME@_omap_t
         .value = value
       };
       @TYPENAME@_omap_node_t p =
-        @TYPENAME@_omap_node_search (omap->_tree, kv, omap->_compare);
+        @TYPENAME@_omap_node_search (omap->_tree, kv, omap->_compare,
+                                     extra_data);
       if (p == NULL)
         retval = omap;
       else
         {
           struct @TYPENAME@_omap *result = XMALLOC (struct @TYPENAME@_omap);
           result->_tree =
-            @TYPENAME@_omap_node_insert (omap->_tree, kv, omap->_compare);
+            @TYPENAME@_omap_node_insert (omap->_tree, kv, omap->_compare,
+                                         extra_data);
           result->_size = omap->_size;
           result->_compare = omap->_compare;
           retval = result;
@@ -188,7 +199,8 @@ HIHA_VISIBLE @TYPENAME@_omap_t
 }
 
 HIHA_VISIBLE @TYPENAME@_omap_t
-@TYPENAME@_omap_delete (@TYPENAME@_omap_t omap, @TYPE@ key)
+@TYPENAME@_omap_delete (@TYPENAME@_omap_t omap, @TYPE@ key,
+                        void *extra_data)
 {
   @TYPENAME@_omap_t retval;
   if (omap == NULL || omap->_size == 0)
@@ -200,14 +212,16 @@ HIHA_VISIBLE @TYPENAME@_omap_t
         .value = NULL
       };
       @TYPENAME@_omap_node_t p =
-        @TYPENAME@_omap_node_search (omap->_tree, kv, omap->_compare);
+        @TYPENAME@_omap_node_search (omap->_tree, kv, omap->_compare,
+                                     extra_data);
       if (p == NULL)
         retval = omap;
       else if (omap->_size != 1)
         {
           struct @TYPENAME@_omap *result = XMALLOC (struct @TYPENAME@_omap);
           result->_tree =
-            @TYPENAME@_omap_node_delete (omap->_tree, kv, omap->_compare);
+            @TYPENAME@_omap_node_delete (omap->_tree, kv, omap->_compare,
+                                         extra_data);
           result->_size = omap->_size - 1;
           result->_compare = omap->_compare;
           retval = result;

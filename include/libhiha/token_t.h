@@ -202,25 +202,29 @@ typedef const struct token_t_omap *token_t_omap_t;
 
 size_t token_t_omap_size (token_t_omap_t omap);
 
-const void *token_t_omap_search (token_t_omap_t omap, token_t key);
+const void *token_t_omap_search (token_t_omap_t omap, token_t key,
+                                 void *);
 
 /* token_t_omap_init creates a new empty map with a custom order.
    (The default order, which is token_t_cmp applied to the keys, is
    obtained by using NULL as the empty map.) */
 token_t_omap_t token_t_omap_init (int (*compare) (token_t_keyval_t,
-                                                  token_t_keyval_t));
+                                                  token_t_keyval_t,
+                                                  void *));
 
 token_t_omap_t token_t_omap_insert_or_replace (token_t_omap_t omap,
                                                token_t key,
-                                               const void *value);
+                                               const void *value,
+                                               void *);
 token_t_omap_t token_t_omap_insert_only (token_t_omap_t omap,
                                          token_t key,
-                                         const void *value);
+                                         const void *value, void *);
 token_t_omap_t token_t_omap_replace_only (token_t_omap_t omap,
                                           token_t key,
-                                          const void *value);
+                                          const void *value, void *);
 
-token_t_omap_t token_t_omap_delete (token_t_omap_t omap, token_t key);
+token_t_omap_t token_t_omap_delete (token_t_omap_t omap, token_t key,
+                                    void *);
 
 /* direction = 1 forwards, -1 backwards */
 token_t_vector_t token_t_omap_keys (token_t_omap_t omap, int direction);

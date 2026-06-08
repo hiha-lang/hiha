@@ -76,7 +76,7 @@ insert_into_omap (str_nul_omap_t omap, int (*f) (int))
       const char *key = xstrdup (buf);
       int *value = XMALLOC (int);
       *value = f (i);
-      result = str_nul_omap_insert_only (result, key, value);
+      result = str_nul_omap_insert_only (result, key, value, NULL);
     }
   return result;
 }
@@ -92,7 +92,7 @@ replace_in_omap (str_nul_omap_t omap, int (*f) (int))
       const char *key = xstrdup (buf);
       int *value = XMALLOC (int);
       *value = f (i);
-      result = str_nul_omap_replace_only (result, key, value);
+      result = str_nul_omap_replace_only (result, key, value, NULL);
     }
   return result;
 }
@@ -108,7 +108,8 @@ insert_into_or_replace_in_omap (str_nul_omap_t omap, int (*f) (int))
       const char *key = xstrdup (buf);
       int *value = XMALLOC (int);
       *value = f (i);
-      result = str_nul_omap_insert_or_replace (result, key, value);
+      result =
+        str_nul_omap_insert_or_replace (result, key, value, NULL);
     }
   return result;
 }
@@ -123,7 +124,7 @@ delete_from_omap (str_nul_omap_t omap, bool (*pred) (int))
         char buf[100];
         snprintf (buf, 100, "key%06d", i);
         const char *key = xstrdup (buf);
-        result = str_nul_omap_delete (result, key);
+        result = str_nul_omap_delete (result, key, NULL);
       }
   return result;
 }
@@ -137,7 +138,7 @@ check_omap (str_nul_omap_t omap, bool (*pred) (int), int (*f) (int))
         char buf[100];
         snprintf (buf, 100, "key%06d", i);
         const char *key = xstrdup (buf);
-        const void *value = str_nul_omap_search (omap, key);
+        const void *value = str_nul_omap_search (omap, key, NULL);
         assert (value != NULL);
         assert (*((const int *) value) == f (i));
       }
@@ -146,7 +147,7 @@ check_omap (str_nul_omap_t omap, bool (*pred) (int), int (*f) (int))
       char buf[100];
       snprintf (buf, 100, "no-such-key-%06d", i);
       const char *key = xstrdup (buf);
-      const void *value = str_nul_omap_search (omap, key);
+      const void *value = str_nul_omap_search (omap, key, NULL);
       assert (value == NULL);
     }
 }
@@ -160,7 +161,7 @@ check_missing (str_nul_omap_t omap, bool (*pred) (int))
         char buf[100];
         snprintf (buf, 100, "key%06d", i);
         const char *key = xstrdup (buf);
-        const void *value = str_nul_omap_search (omap, key);
+        const void *value = str_nul_omap_search (omap, key, NULL);
         assert (value == NULL);
       }
 }
@@ -224,14 +225,14 @@ main (void)
   str_nul_omap_t omap4a = omap4;
   for (size_t i = 0; i != str_nul_vector_length (vec4k); i += 1)
     omap4a =
-      str_nul_omap_delete (omap4a, str_nul_vector_ref (vec4k, i));
+      str_nul_omap_delete (omap4a, str_nul_vector_ref (vec4k, i), NULL);
   assert (omap4a == NULL);
 
   voidp_vector_t vec4v = str_nul_omap_values (omap4, 1);
   for (size_t i = 0; i != str_nul_vector_length (vec4k); i += 1)
     {
       const char *key = str_nul_vector_ref (vec4k, i);
-      const void *value = str_nul_omap_search (omap4, key);
+      const void *value = str_nul_omap_search (omap4, key, NULL);
       const size_t n = voidp_vector_length (vec4v);
       size_t j = 0;
       while (j != n && (*((const int *) voidp_vector_ref (vec4v, j))
@@ -252,7 +253,8 @@ main (void)
       const char *key = str_nul_keyval_vector_ref (vec4kv, i)->key;
       const void *value = str_nul_keyval_vector_ref (vec4kv, i)->value;
       int val1 = *((const int *) value);
-      int val2 = *((const int *) str_nul_omap_search (omap4, key));
+      int val2 =
+        *((const int *) str_nul_omap_search (omap4, key, NULL));
       assert (val1 == val2);
     }
 

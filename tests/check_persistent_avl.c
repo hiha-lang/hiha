@@ -47,7 +47,7 @@ fisher_yates (void)
 }
 
 static int
-int_cmp (const int *a, const int *b)
+int_cmp (const int *a, const int *b, void *data)
 {
   return (*a < *b) ? -1 : ((*b < *a) ? 1 : 0);
 }
@@ -88,14 +88,14 @@ avl_test (void)
   assert (0 <= (avl_int_verify) (tree));
   for (i = 0; i != (BUFSIZE); i += 1)
     {
-      tree = (avl_int_insert) (tree, buf[i], (int_cmp));
+      tree = (avl_int_insert) (tree, buf[i], (int_cmp), NULL);
       assert (0 <= (avl_int_verify) (tree));
     }
 
   /* Search in random order. */
   fisher_yates ();
   for (i = 0; i != (BUFSIZE); i += 1)
-    assert ((avl_int_search) (tree, buf[i], (int_cmp)) != NULL);
+    assert ((avl_int_search) (tree, buf[i], (int_cmp), NULL) != NULL);
 
   /* In-order walk backwards. */
   i = BUFSIZE;
@@ -109,12 +109,14 @@ avl_test (void)
   fisher_yates ();
   for (i = 0; i != (BUFSIZE); i += 1)
     {
-      tree = (avl_int_delete) (tree, buf[i], (int_cmp));
+      tree = (avl_int_delete) (tree, buf[i], (int_cmp), NULL);
       assert (0 <= (avl_int_verify) (tree));
       for (j = 0; j != i + 1; j += 1)
-        assert ((avl_int_search) (tree, buf[j], (int_cmp)) == NULL);
+        assert ((avl_int_search) (tree, buf[j], (int_cmp), NULL) ==
+                NULL);
       for (j = i + 1; j != (BUFSIZE); j += 1)
-        assert ((avl_int_search) (tree, buf[j], (int_cmp)) != NULL);
+        assert ((avl_int_search) (tree, buf[j], (int_cmp), NULL) !=
+                NULL);
     }
   assert (tree == NULL);
 
@@ -124,7 +126,7 @@ avl_test (void)
   assert (0 <= (avl_int_verify) (tree));
   for (i = 0; i != (BUFSIZE); i += 1)
     {
-      tree = (avl_int_insert) (tree, buf[i], (int_cmp));
+      tree = (avl_int_insert) (tree, buf[i], (int_cmp), NULL);
       assert (0 <= (avl_int_verify) (tree));
     }
 
@@ -132,12 +134,12 @@ avl_test (void)
   fisher_yates ();
   for (i = 0; i != (BUFSIZE); i += 1)
     {
-      tree = (avl_int_delete) (tree, i, (int_cmp));
+      tree = (avl_int_delete) (tree, i, (int_cmp), NULL);
       assert (0 <= (avl_int_verify) (tree));
       for (j = 0; j != i + 1; j += 1)
-        assert ((avl_int_search) (tree, j, (int_cmp)) == NULL);
+        assert ((avl_int_search) (tree, j, (int_cmp), NULL) == NULL);
       for (j = i + 1; j != (BUFSIZE); j += 1)
-        assert ((avl_int_search) (tree, j, (int_cmp)) != NULL);
+        assert ((avl_int_search) (tree, j, (int_cmp), NULL) != NULL);
     }
   assert (tree == NULL);
 }

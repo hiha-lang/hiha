@@ -172,26 +172,29 @@ typedef const struct string_t_omap *string_t_omap_t;
 
 size_t string_t_omap_size (string_t_omap_t omap);
 
-const void *string_t_omap_search (string_t_omap_t omap, string_t key);
+const void *string_t_omap_search (string_t_omap_t omap, string_t key,
+                                  void *);
 
 /* string_t_omap_init creates a new empty map with a custom order.
    (The default order, which is string_t_cmp applied to the keys, is
    obtained by using NULL as the empty map.) */
 string_t_omap_t string_t_omap_init (int (*compare) (string_t_keyval_t,
-                                                    string_t_keyval_t));
+                                                    string_t_keyval_t,
+                                                    void *));
 
 string_t_omap_t string_t_omap_insert_or_replace (string_t_omap_t omap,
                                                  string_t key,
-                                                 const void *value);
+                                                 const void *value,
+                                                 void *);
 string_t_omap_t string_t_omap_insert_only (string_t_omap_t omap,
                                            string_t key,
-                                           const void *value);
+                                           const void *value, void *);
 string_t_omap_t string_t_omap_replace_only (string_t_omap_t omap,
                                             string_t key,
-                                            const void *value);
+                                            const void *value, void *);
 
 string_t_omap_t string_t_omap_delete (string_t_omap_t omap,
-                                      string_t key);
+                                      string_t key, void *);
 
 /* direction = 1 forwards, -1 backwards */
 string_t_vector_t string_t_omap_keys (string_t_omap_t omap,

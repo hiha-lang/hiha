@@ -26,10 +26,11 @@
 
 struct parsing_state
 {
-
+  token_t_set_t closing_parentheses;
 };
-
 typedef struct parsing_state *parsing_state_t;
+
+parsing_state_t make_parsing_state_t (void);
 
 #endif /* __LIBHAHA__PARSING_H__INCLUDED__ */
 

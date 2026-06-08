@@ -173,7 +173,7 @@ make_pratt_tables_t (void)
 
 static int
 pratt_tables_entry_cmp (const pratt_tables_entry_t *a,
-                        const pratt_tables_entry_t *b)
+                        const pratt_tables_entry_t *b, void *data)
 {
   return filevercmp (a->pass, b->pass);
 }
@@ -218,16 +218,16 @@ get_pratt_tables_for_pass (const char *pass)
   };
   _pratt_tables_map_node_t node =
     _pratt_tables_map_search (_pratt_tables_map, contents,
-                              &pratt_tables_entry_cmp);
+                              &pratt_tables_entry_cmp, NULL);
   if (node == NULL)
     {
       contents.tables = make_pratt_tables_t ();
       _pratt_tables_map =
         _pratt_tables_map_insert (_pratt_tables_map, contents,
-                                  &pratt_tables_entry_cmp);
+                                  &pratt_tables_entry_cmp, NULL);
       node =
         _pratt_tables_map_search (_pratt_tables_map, contents,
-                                  &pratt_tables_entry_cmp);
+                                  &pratt_tables_entry_cmp, NULL);
     }
   pratt_tables_t value = node->data.tables;
   return value;
@@ -242,7 +242,7 @@ set_pratt_tables_for_pass (const char *pass, pratt_tables_t tables)
   };
   _pratt_tables_map =
     _pratt_tables_map_insert (_pratt_tables_map, contents,
-                              &pratt_tables_entry_cmp);
+                              &pratt_tables_entry_cmp, NULL);
 }
 
 static void

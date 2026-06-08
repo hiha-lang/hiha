@@ -77,7 +77,7 @@ insert_into_omap (token_t_omap_t omap, int (*f) (int))
         make_token_t (make_string_t (buf), make_string_t (buf), NULL);
       int *value = XMALLOC (int);
       *value = f (i);
-      result = token_t_omap_insert_only (result, key, value);
+      result = token_t_omap_insert_only (result, key, value, NULL);
     }
   return result;
 }
@@ -94,7 +94,7 @@ replace_in_omap (token_t_omap_t omap, int (*f) (int))
         make_token_t (make_string_t (buf), make_string_t (buf), NULL);
       int *value = XMALLOC (int);
       *value = f (i);
-      result = token_t_omap_replace_only (result, key, value);
+      result = token_t_omap_replace_only (result, key, value, NULL);
     }
   return result;
 }
@@ -111,7 +111,8 @@ insert_into_or_replace_in_omap (token_t_omap_t omap, int (*f) (int))
         make_token_t (make_string_t (buf), make_string_t (buf), NULL);
       int *value = XMALLOC (int);
       *value = f (i);
-      result = token_t_omap_insert_or_replace (result, key, value);
+      result =
+        token_t_omap_insert_or_replace (result, key, value, NULL);
     }
   return result;
 }
@@ -127,7 +128,7 @@ delete_from_omap (token_t_omap_t omap, bool (*pred) (int))
         snprintf (buf, 100, "key%06d", i);
         token_t key =
           make_token_t (make_string_t (buf), make_string_t (buf), NULL);
-        result = token_t_omap_delete (result, key);
+        result = token_t_omap_delete (result, key, NULL);
       }
   return result;
 }
@@ -142,7 +143,7 @@ check_omap (token_t_omap_t omap, bool (*pred) (int), int (*f) (int))
         snprintf (buf, 100, "key%06d", i);
         token_t key =
           make_token_t (make_string_t (buf), make_string_t (buf), NULL);
-        const void *value = token_t_omap_search (omap, key);
+        const void *value = token_t_omap_search (omap, key, NULL);
         assert (value != NULL);
         assert (*((const int *) value) == f (i));
       }
@@ -152,7 +153,7 @@ check_omap (token_t_omap_t omap, bool (*pred) (int), int (*f) (int))
       snprintf (buf, 100, "no-such-key-%06d", i);
       token_t key =
         make_token_t (make_string_t (buf), make_string_t (buf), NULL);
-      const void *value = token_t_omap_search (omap, key);
+      const void *value = token_t_omap_search (omap, key, NULL);
       assert (value == NULL);
     }
 }
@@ -167,7 +168,7 @@ check_missing (token_t_omap_t omap, bool (*pred) (int))
         snprintf (buf, 100, "key%06d", i);
         token_t key =
           make_token_t (make_string_t (buf), make_string_t (buf), NULL);
-        const void *value = token_t_omap_search (omap, key);
+        const void *value = token_t_omap_search (omap, key, NULL);
         assert (value == NULL);
       }
 }
@@ -231,14 +232,14 @@ main (void)
   token_t_omap_t omap4a = omap4;
   for (size_t i = 0; i != token_t_vector_length (vec4k); i += 1)
     omap4a =
-      token_t_omap_delete (omap4a, token_t_vector_ref (vec4k, i));
+      token_t_omap_delete (omap4a, token_t_vector_ref (vec4k, i), NULL);
   assert (omap4a == NULL);
 
   voidp_vector_t vec4v = token_t_omap_values (omap4, 1);
   for (size_t i = 0; i != token_t_vector_length (vec4k); i += 1)
     {
       token_t key = token_t_vector_ref (vec4k, i);
-      const void *value = token_t_omap_search (omap4, key);
+      const void *value = token_t_omap_search (omap4, key, NULL);
       const size_t n = voidp_vector_length (vec4v);
       size_t j = 0;
       while (j != n && (*((const int *) voidp_vector_ref (vec4v, j))
@@ -259,7 +260,8 @@ main (void)
       token_t key = token_t_keyval_vector_ref (vec4kv, i)->key;
       const void *value = token_t_keyval_vector_ref (vec4kv, i)->value;
       int val1 = *((const int *) value);
-      int val2 = *((const int *) token_t_omap_search (omap4, key));
+      int val2 =
+        *((const int *) token_t_omap_search (omap4, key, NULL));
       assert (val1 == val2);
     }
 

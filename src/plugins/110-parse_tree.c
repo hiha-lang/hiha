@@ -37,14 +37,13 @@ static string_t str_while;
 static string_t str_end;
 
 static bool
-token_is_vertical_bar (token_t tok)
+token_is_breaks_up_juxtaposition (token_t tok)
 {
   bool b = (tok->token_value->n == 1);
   if (b)
     {
       uint32_t u = tok->token_value->s[0];
-      b = (u == '|'             // U+007C VERTICAL LINE
-           || u == 0xFF5C);     // FULLWIDTH VERTICAL LINE
+      b = (u == '.' || u == ';');
     }
   return b;
 }

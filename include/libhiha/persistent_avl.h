@@ -153,18 +153,21 @@
 #define HIHA_AVL_SEARCH_DEFN(FUNC, NAME, T)                     \
   struct NAME *                                                 \
   FUNC (struct NAME *_Node, T _Data,                            \
-        int (*_Compare) (const T *, const T *))                 \
+        int (*_Compare) (const T *, const T *, void *),         \
+        void *_Extra)                                           \
   {                                                             \
     struct NAME *_Result = NULL;                                \
     if (_Node != NULL)                                          \
       {                                                         \
-        int _Cmp = (_Compare) (&_Data, &_Node->data);           \
+        int _Cmp = (_Compare) (&_Data, &_Node->data, _Extra);   \
         if (_Cmp < 0)                                           \
-          _Result = (FUNC) (_Node->left, _Data, (_Compare));    \
+          _Result =                                             \
+            (FUNC) (_Node->left, _Data, (_Compare), _Extra);    \
         else if (_Cmp == 0)                                     \
           _Result = _Node;                                      \
         else                                                    \
-          _Result = (FUNC) (_Node->right, _Data, (_Compare));   \
+          _Result =                                             \
+            (FUNC) (_Node->right, _Data, (_Compare), _Extra);   \
       }                                                         \
     return _Result;                                             \
   }
@@ -173,14 +176,15 @@
 #define HIHA_AVL_INSERT_DEFN(FUNC, NAME, T)                             \
   struct NAME *                                                         \
   FUNC (struct NAME *_Node, T _Data,                                    \
-        int (*_Compare) (const T *, const T *))                         \
+        int (*_Compare) (const T *, const T *, void *),                 \
+        void *_Extra)                                                   \
   {                                                                     \
     struct NAME *_Result;                                               \
     if (_Node == NULL)                                                  \
       HIHA_AVL_MAKE_NODE (_Result, NAME, _Data, NULL, NULL);            \
     else                                                                \
       {                                                                 \
-        int _Cmp = (_Compare) (&_Data, &_Node->data);                   \
+        int _Cmp = (_Compare) (&_Data, &_Node->data, _Extra);           \
         if (_Cmp == 0)                                                  \
           /* Same key, different value. */                              \
           HIHA_AVL_MAKE_NODE (_Result, NAME, _Data, _Node->left,        \
@@ -190,19 +194,20 @@
             if (_Cmp < 0)                                               \
               HIHA_AVL_MAKE_NODE (_Result, NAME, _Node->data,           \
                                   (FUNC) (_Node->left, _Data,           \
-                                          (_Compare)),                  \
+                                          (_Compare), _Extra),          \
                                   _Node->right);                        \
             else                                                        \
               HIHA_AVL_MAKE_NODE (_Result, NAME, _Node->data,           \
                                   _Node->left,                          \
                                   (FUNC) (_Node->right, _Data,          \
-                                          (_Compare)));                 \
+                                          (_Compare), _Extra));         \
                                                                         \
             /* Rebalance. */                                            \
             int _Bal = HIHA_AVL_NODE_BALANCE (NAME, _Result);           \
             if (_Bal < -1)                                              \
               {                                                         \
-                _Cmp = (_Compare) (&_Data, &_Result->right->data);      \
+                _Cmp =                                                  \
+                  (_Compare) (&_Data, &_Result->right->data, _Extra);   \
                 if (_Cmp < 0)                                           \
                   {                                                     \
                     struct NAME *_nd;                                   \
@@ -216,7 +221,8 @@
               }                                                         \
             else if (1 < _Bal)                                          \
               {                                                         \
-                _Cmp = (_Compare) (&_Data, &_Result->left->data);       \
+                _Cmp =                                                  \
+                  (_Compare) (&_Data, &_Result->left->data, _Extra);    \
                 if (_Cmp < 0)                                           \
                   HIHA_AVL_ROTATE_RIGHT (_Result, NAME, _Result);       \
                 else if (0 < _Cmp)                                      \
@@ -237,18 +243,19 @@
 #define HIHA_AVL_DELETE_DEFN(FUNC, NAME, T)                             \
   struct NAME *                                                         \
   FUNC (struct NAME *_Node, T _Data,                                    \
-        int (*_Compare) (const T *, const T *))                         \
+        int (*_Compare) (const T *, const T *, void *),                 \
+        void *_Extra)                                                   \
   {                                                                     \
     struct NAME *_Result = NULL;                                        \
     if (_Node != NULL)                                                  \
       {                                                                 \
         bool needs_rebalancing = false;                                 \
-        int _Cmp = (_Compare) (&_Data, &_Node->data);                   \
+        int _Cmp = (_Compare) (&_Data, &_Node->data, _Extra);           \
         if (_Cmp < 0)                                                   \
           {                                                             \
             HIHA_AVL_MAKE_NODE (_Result, NAME, _Node->data,             \
                                 (FUNC) (_Node->left, _Data,             \
-                                        (_Compare)),                    \
+                                        (_Compare), _Extra),            \
                                 _Node->right);                          \
             needs_rebalancing = true;                                   \
           }                                                             \
@@ -257,7 +264,7 @@
             HIHA_AVL_MAKE_NODE (_Result, NAME, _Node->data,             \
                                 _Node->left,                            \
                                 (FUNC) (_Node->right, _Data,            \
-                                        (_Compare)));                   \
+                                        (_Compare), _Extra));           \
             needs_rebalancing = true;                                   \
           }                                                             \
         else                                                            \
@@ -281,7 +288,7 @@
                 HIHA_AVL_MAKE_NODE (_Result, NAME, _succ->data,         \
                                     _Node->left,                        \
                                     (FUNC) (_Node->right, _succ->data,  \
-                                            (_Compare)));               \
+                                            (_Compare), _Extra));       \
                 needs_rebalancing = true;                               \
               }                                                         \
           }                                                             \

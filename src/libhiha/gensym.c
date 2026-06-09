@@ -90,6 +90,8 @@ gensym_given_unlikely_text (const char *prefix,
   char scounter[100];
   snprintf (scounter, 100, "%zu", gensym_counter ());
   size_t ncounter = strlen (scounter);
+  if (prefix == NULL || prefix[0] == '\0')
+    prefix = "g";       /* So the symbol starts with an alphabetic. */
   size_t nprefix = strlen (prefix);
   size_t nunlikely = strlen (unlikely_text);
   size_t n = ncounter + nprefix + nunlikely;
@@ -115,13 +117,23 @@ static char *
 gensym_by_getentropy_method (const char *prefix)
 {
   //
-  // 32 bytes is 256 bits, which is twice as many bits as a UUID.
-  // However, we do compromise a slightly on + and / characters in the
-  // BASE64 encoding.
+  // Generate 32 random bytes. 32 bytes is 256 bits, which is twice as
+  // many bits as a UUID.
+  //
+  // Then encode these bytes in BASE64, which takes less space than
+  // hex. BASE64 has characters '+', '/', and '=', which are not
+  // allowed in C identifiers, so replace them with digraphs. The
+  // digraphs are:
+  //
+  //      "x0" 'x'
+  //      "x1" '+'
+  //      "x2" '/'
+  //      "x3" '='
   //
 
   char inbuf[32];
-  char outbuf[BASE64_LENGTH (32) + 1];
+  char tempbuf[BASE64_LENGTH (32) + 1];
+  char outbuf[(2 * BASE64_LENGTH (32)) + 1];
   char *s;
 
   int retval = getentropy (inbuf, 32);
@@ -130,10 +142,37 @@ gensym_by_getentropy_method (const char *prefix)
   else
     {
       base64_encode (inbuf, sizeof inbuf / sizeof (char),
-                     outbuf, sizeof outbuf / sizeof (char));
-      for (size_t i = 0; outbuf[i] != '\0'; i += 1)
-        if (outbuf[i] == '+' || outbuf[i] == '/' || outbuf[i] == '=')
-          outbuf[i] = alphanum[random () % 62];
+                     tempbuf, sizeof tempbuf / sizeof (char));
+      size_t j = 0;
+      for (size_t i = 0; tempbuf[i] != '\0'; i += 1)
+        switch (tempbuf[i])
+          {
+          case 'x':
+            outbuf[j] = 'x';
+            outbuf[j + 1] = '0';
+            j += 2;
+            break;
+          case '+':
+            outbuf[j] = 'x';
+            outbuf[j + 1] = '1';
+            j += 2;
+            break;
+          case '/':
+            outbuf[j] = 'x';
+            outbuf[j + 1] = '2';
+            j += 2;
+            break;
+          case '=':
+            outbuf[j] = 'x';
+            outbuf[j + 1] = '3';
+            j += 2;
+            break;
+          default:
+            outbuf[j] = tempbuf[i];
+            j += 1;
+            break;
+          }
+      outbuf[j] = '\0';
       s = gensym_given_unlikely_text (prefix, outbuf);
     }
   return s;

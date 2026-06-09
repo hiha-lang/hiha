@@ -20,6 +20,10 @@
 */
 
 #include <config.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <limits.h>
 #include <errno.h>
 #include <error.h>
 #include <exitfail.h>
@@ -28,8 +32,11 @@
 
 #define _(msgid) HIHA_GETTEXT (msgid)
 
+int64_t node_counter = 0;
+
 static string_t str_KW;
 static string_t str_I10;
+static string_t str_SEQ;
 
 static string_t str_open_paren;
 static string_t str_close_paren;
@@ -38,8 +45,64 @@ static string_t str_if;
 static string_t str_while;
 static string_t str_end;
 
+static token_t tok_SEQ;
 static token_t tok_close_paren;
 static token_t tok_end;
+
+bool use_getentropy;
+
+static bool
+getentropy_works (void)
+{
+  char buf[256];
+  int retval = getentropy (buf, 256);
+  return (retval == 0);
+}
+
+static size_t
+random_by_getentropy (void)
+{
+  unsigned long n;
+  uint8_t buf[sizeof (unsigned long)];
+
+  getentropy (buf, sizeof (unsigned long));
+  memcpy (&n, buf, sizeof (unsigned long));
+  double x = ((double) n) / ((double) ULONG_MAX);
+  return x;
+}
+
+static size_t
+random_by_portable_method (void)
+{
+  long n = random ();
+  double x = ((double) n) / ((double) LONG_MAX);
+  return x;
+}
+
+static size_t
+random_size_t (size_t modulus)
+{
+  double x;
+  if (use_getentropy)
+    x = random_by_getentropy ();
+  else
+    x = random_by_portable_method ();
+  size_t n = (size_t) (x * modulus);
+
+  /* Let the random number generator be one that might return a random
+     floating point number equal to 1. */
+  if (n == modulus)
+    n -= 1;
+
+  return n;
+}
+
+static int64_t
+next_node_number (void)
+{
+  node_counter += 1;
+  return node_counter;
+}
 
 static bool
 token_breaks_up_juxtaposition (token_t tok)
@@ -60,6 +123,14 @@ kw_token_is_parenthetic (token_t tok)
           || string_t_cmp (tok->token_value, str_begin) == 0
           || string_t_cmp (tok->token_value, str_if) == 0
           || string_t_cmp (tok->token_value, str_while) == 0);
+};
+
+static bool
+kw_token_is_nondeterministic (token_t tok)
+{
+  return (!deterministic
+          && (string_t_cmp (tok->token_value, str_if) == 0
+              || string_t_cmp (tok->token_value, str_while) == 0));
 };
 
 static void
@@ -92,6 +163,30 @@ default_handler (void *state, buffered_token_getter_t getter,
 }
 
 static void
+shuffle_SEQ (struct token_extension_for_parse_tree *extension)
+{
+  /* Shuffle the order of execution, to enforce nondeterminism.
+     Otherwise programmers might start to rely on fortuitous
+     deterministic behavior and thereby introduce bugs. */
+
+  /* A Fisher-Yates shuffle. */
+  for (size_t i = extension->num_children - 1; i != 0; i -= 1)
+    {
+      size_t j = random_size_t (i + 1);
+      int64_t tmp = extension->children[i];
+      extension->children[i] = extension->children[j];
+      extension->children[j] = tmp;
+    }
+}
+
+static token_t
+closing_paren (string_t tokval)
+{
+  return ((string_t_cmp (tokval, str_open_paren) == 0)
+          ? tok_close_paren : tok_end);
+}
+
+static void
 parenthetic_handler (void *state, buffered_token_getter_t getter,
                      pratt_tables_t tables, token_t tok,
                      token_t *lhs, const char **error_message)
@@ -101,16 +196,29 @@ parenthetic_handler (void *state, buffered_token_getter_t getter,
                &parenthetic_lhs, error_message);
   if (*error_message == NULL)
     {
-      token_t closing =
-        (string_t_cmp (tok->token_value, str_open_paren) == 0)
-        ? tok_close_paren : tok_end;
+      token_t closing = closing_paren (tok->token_value);
       token_t t;
       getter->get_token (getter, &t, error_message);
       if (*error_message == NULL)
         if (token_t_cmp (t, closing) == 0)
           {
-            // FIXME: BUILD OUR OWN TOKEN BASED ON parenthetic_lhs.
-            *lhs = parenthetic_lhs;
+            getter->push_back_token (getter, parenthetic_lhs,
+                                     error_message);
+            int64_t node_number = next_node_number ();
+            struct token_extension_for_parse_tree *p =
+              (struct token_extension_for_parse_tree *)
+              parenthetic_lhs->extension;
+            p->parent = node_number;
+            if (*error_message == NULL)
+              {
+                int64_t *children = XNMALLOC (1, int64_t);
+                ((struct token *) lhs)->extension =
+                  make_token_extension_for_parse_tree
+                  (1, children, node_number);
+                if (token_t_cmp (*lhs, tok_SEQ) == 0
+                    && kw_token_is_nondeterministic (tok))
+                  shuffle_SEQ (p);
+              }
           }
         else
           {
@@ -129,7 +237,8 @@ kw_handler (void *state, buffered_token_getter_t getter,
             token_t *lhs, const char **error_message)
 {
   if (kw_token_is_parenthetic (tok))
-    parenthetic_handler (state, getter, tables, tok, lhs, error_message);
+    parenthetic_handler (state, getter, tables, tok, lhs,
+                         error_message);
   else
     default_handler (state, getter, tables, tok, lhs, error_message);
 }
@@ -155,6 +264,7 @@ initialize_strings_and_tokens (void)
 {
   str_KW = string_t_KW ();
   str_I10 = make_string_t ("I10");
+  str_SEQ = make_string_t ("seq");
 
   str_open_paren = make_string_t ("(");
   str_close_paren = make_string_t (")");
@@ -165,12 +275,14 @@ initialize_strings_and_tokens (void)
 
   tok_close_paren = make_token_t (str_KW, str_close_paren, NULL);
   tok_end = make_token_t (str_KW, str_end, NULL);
+  tok_SEQ = make_token_t (str_SEQ, str_SEQ, NULL);
 }
 
 HIHA_VISIBLE void
 plugin_init (void)
 {
   initialize_strings_and_tokens ();
+  use_getentropy = getentropy_works ();
 
   pratt_tables_t tables;
 

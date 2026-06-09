@@ -27,19 +27,52 @@
 
 /*--------------------------------------------------------------------*/
 
+enum token_extension_tag
+{
+  token_extension_for_parse_tree
+};
+typedef enum token_extension_tag token_extension_tag_t;
+
+struct token_extension
+{
+  token_extension_tag_t tag;
+};
+typedef const struct token_extension *token_extension_t;
+
+struct token_extension_for_parse_tree
+{
+  token_extension_tag_t tag;
+  size_t num_children;
+  int64_t *children;
+  int64_t this;
+  int64_t parent;
+};
+
 struct token
 {
   string_t token_kind;
   string_t token_value;
   text_location_t loc;
-  void *extension;              /* NULL for simple lexical tokens. */
+  token_extension_t extension;  /* NULL for simple lexical tokens. */
 };
 typedef const struct token *token_t;
 
 token_t make_token_t (string_t token_kind, string_t token_value,
                       text_location_t loc);
+token_t make_extended_token_t (string_t token_kind,
+                               string_t token_value,
+                               text_location_t loc,
+                               token_extension_t extension);
 token_t make_token_t_eof_eof (text_location_t loc);
 bool token_t_is_eof_eof (token_t tok);
+
+token_extension_t
+make_token_extension_for_parse_tree (size_t num_children,
+                                     int64_t children[num_children],
+                                     int64_t this);
+void
+token_extension_for_parse_tree__set_parent (token_extension_t extension,
+                                            int64_t parent);
 
 /*--------------------------------------------------------------------*/
 

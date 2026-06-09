@@ -91,7 +91,7 @@ gensym_given_unlikely_text (const char *prefix,
   snprintf (scounter, 100, "%zu", gensym_counter ());
   size_t ncounter = strlen (scounter);
   if (prefix == NULL || prefix[0] == '\0')
-    prefix = "g";       /* So the symbol starts with an alphabetic. */
+    prefix = "g";               /* So the symbol starts with an alphabetic. */
   size_t nprefix = strlen (prefix);
   size_t nunlikely = strlen (unlikely_text);
   size_t n = ncounter + nprefix + nunlikely;

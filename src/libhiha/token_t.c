@@ -133,12 +133,36 @@ HIHA_VISIBLE token_t
 make_token_t (string_t token_kind, string_t token_value,
               text_location_t loc)
 {
+  return make_extended_token_t (token_kind, token_value, loc, NULL);
+}
+
+HIHA_VISIBLE token_t
+make_extended_token_t (string_t token_kind,
+                       string_t token_value,
+                       text_location_t loc, token_extension_t extension)
+{
   struct token *tok = XMALLOC (struct token);
   tok->token_kind = token_kind;
   tok->token_value = token_value;
   tok->loc = loc;
-  tok->extension = NULL;
+  tok->extension = extension;
   return tok;
+}
+
+HIHA_VISIBLE token_extension_t
+make_token_extension_for_parse_tree (size_t num_children,
+                                     int64_t children[num_children],
+                                     int64_t this)
+{
+  struct token_extension_for_parse_tree *p =
+    XMALLOC (struct token_extension_for_parse_tree);
+  p->tag = token_extension_for_parse_tree;
+  p->num_children = num_children;
+  p->children = XNMALLOC (num_children, int64_t);
+  memcpy (p->children, children, num_children * sizeof (int64_t));
+  p->this;
+  p->parent = -1;
+  return (token_extension_t) p;
 }
 
 static token_t

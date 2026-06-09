@@ -50,6 +50,7 @@
 #define GETOPT_PLUGIN_CHAR (CHAR_MAX + 1)
 #define GETOPT_PLUGINDIR_CHAR (CHAR_MAX + 2)
 #define GETOPT_DUMP_TOKENS_CHAR (CHAR_MAX + 3)
+#define GETOPT_DETERMINISTIC_CHAR (CHAR_MAX + 4)
 
 enum hiha_plugin_tag_t
 {
@@ -69,6 +70,7 @@ struct hiha_options
 {
   voidp_vector_t plugins;
   const char *dump_tokens_filename;
+  bool deterministic;
 };
 typedef struct hiha_options *hiha_options_t;
 
@@ -117,6 +119,8 @@ print_usage (void)
                 "load plugins from a directory\n"));
   usage_puts (_("  --dump-tokens=FILE   dump tokens "
                 "(“-” for standard output)\n"));
+  usage_puts (_("  --deterministic      make “if” and "
+                "“while” go top to bottom (for debugging)\n"));
   usage_puts (_("  --help               "
                 "display this help and exit\n"));
   usage_puts (_("  --version            "
@@ -144,6 +148,7 @@ static struct option const long_opts[] = {
   {"plugin", required_argument, NULL, GETOPT_PLUGIN_CHAR},
   {"plugindir", required_argument, NULL, GETOPT_PLUGINDIR_CHAR},
   {"dump-tokens", required_argument, NULL, GETOPT_DUMP_TOKENS_CHAR},
+  {"deterministic", no_argument, NULL, GETOPT_DETERMINISTIC_CHAR},
   {"help", no_argument, NULL, GETOPT_HELP_CHAR},
   {"version", no_argument, NULL, GETOPT_VERSION_CHAR},
   {NULL, 0, NULL, 0}
@@ -184,6 +189,7 @@ get_options (int argc, char **argv, hiha_options_t *opts)
   *opts = XMALLOC (struct hiha_options);
   (*opts)->plugins = NULL;
   (*opts)->dump_tokens_filename = NULL;
+  (*opts)->deterministic = false;
 
   int c = getopt_for_this_program (argc, argv);
   while (c != -1)
@@ -205,6 +211,10 @@ get_options (int argc, char **argv, hiha_options_t *opts)
 
         case GETOPT_DUMP_TOKENS_CHAR:
           (*opts)->dump_tokens_filename = xstrdup (optarg);
+          break;
+
+        case GETOPT_DETERMINISTIC_CHAR:
+          (*opts)->deterministic = true;
           break;
 
         case GETOPT_VERSION_CHAR:
@@ -347,6 +357,7 @@ main (int argc, char **argv)
 
   load_command_line_plugins (opts->plugins);
   open_dump_tokens_stream (opts->dump_tokens_filename);
+  deterministic = opts->deterministic;
 
   const char *final_filename_root;
   const char *error_message;

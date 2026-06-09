@@ -27,6 +27,8 @@
 HIHA_VISIBLE FILE *dump_tokens_stream = NULL;
 HIHA_VISIBLE int dump_tokens_widths[4] = { -20, 5, 5, -5 };
 
+HIHA_VISIBLE bool deterministic = false;
+
 /*
   local variables:
   mode: c

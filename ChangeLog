@@ -1,5 +1,25 @@
 @  master
-|  2026-06-08 15:36 +0000
+|  2026-06-09 12:35 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       db10aa5f252b197254a368d3a3d436478f10e5df
+|  mercurial: 8cf27baec0f265a33efe2f23c1dc6d3ef48746a3
+|  revision:  251
+|  parents:   250
+|
+|    Improved gensym implementation.
+|
+|
+o  2026-06-08 21:51 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       2f83f9db1db36c84cb1c7ddc69b3e0d8a21f2a45
+|  mercurial: bb72e107de03ee2ba8a342ed51e49e7bfec3f2fc
+|  revision:  250
+|  parents:   249
+|
+|    A few minor changes.
+|
+|
+o  2026-06-08 15:36 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       8edb9f20db3aa86716d1d6b0a65d289f41337b2f
 |  mercurial: a28bc156a5bdea12786a0e347352e7b79499c4bc

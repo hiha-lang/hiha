@@ -1,5 +1,17 @@
 @  master
-|  2026-06-09 12:35 +0000
+|  2026-06-09 19:59 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       60e561dbafb97e36c818d04b6f0ceb2bc2e7e2fe
+|  mercurial: 165f509622b3eed23e63f66da69036285c2aaf81
+|  revision:  252
+|  parents:   251
+|
+|    Code for parenthetic constructs, assuming there will already be code
+|    for sequences separated by . and ; markers. If the parentheses are
+|    if...end or while...end then the sequences will be shuffled.
+|
+|
+o  2026-06-09 12:35 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       db10aa5f252b197254a368d3a3d436478f10e5df
 |  mercurial: 8cf27baec0f265a33efe2f23c1dc6d3ef48746a3

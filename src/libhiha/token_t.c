@@ -155,10 +155,10 @@ make_token_extension_for_parse_tree (size_t num_children,
                                      int64_t this)
 {
   struct token_extension_for_parse_tree *p =
-    XMALLOC (struct token_extension_for_parse_tree);
+    xmalloc_atomic (sizeof (struct token_extension_for_parse_tree)
+                    + (num_children * sizeof (int64_t)));
   p->tag = token_extension_for_parse_tree;
   p->num_children = num_children;
-  p->children = XNMALLOC (num_children, int64_t);
   memcpy (p->children, children, num_children * sizeof (int64_t));
   p->this;
   p->parent = -1;
@@ -930,6 +930,42 @@ string_t_in_data_file (indexed_data_file_t df, string_t_map_t *map,
 }
 
 static void
+put_extension_to_files_for_parse_tree (token_putter_to_files_t p,
+                                       token_extension_t extension,
+                                       int64_t *i_extension,
+                                       const char **error_message)
+{
+  struct token_extension_for_parse_tree *ext =
+    (struct token_extension_for_parse_tree *) extension;
+  size_t sz =
+    (sizeof (struct token_extension_for_parse_tree) +
+     (ext->num_children * sizeof (int64_t)));
+  write_to_indexed_data_file (p->df, ext, sz, i_extension);
+}
+
+static void
+put_extension_to_files (token_putter_to_files_t p,
+                        token_extension_t extension,
+                        int64_t *i_extension,
+                        const char **error_message)
+{
+  if (*error_message == NULL)
+    {
+      switch (extension->tag)
+        {
+        case token_extension_for_parse_tree:
+          put_extension_to_files_for_parse_tree
+            (p, extension, i_extension, error_message);
+          break;
+        default:
+          assert (false);
+          abort ();
+          break;
+        }
+    }
+}
+
+static void
 put_token_to_files (token_putter_t this_struct, token_t tok,
                     const char **error_message)
 {
@@ -948,9 +984,11 @@ put_token_to_files (token_putter_t this_struct, token_t tok,
   string_t_in_data_file (p->df, &p->strings, tok->token_value,
                          &i_token_value, error_message);
 
-  /* Only NULL extensions are supported, currently. */
-  assert (tok->extension == NULL);
-  i_extension = -1;
+  if (tok->extension != NULL)
+    put_extension_to_files (p, tok->extension, &i_extension,
+                            error_message);
+  else
+    i_extension = -1;
 
   if (*error_message == NULL)
     {

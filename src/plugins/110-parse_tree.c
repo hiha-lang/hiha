@@ -204,17 +204,19 @@ parenthetic_handler (void *state, buffered_token_getter_t getter,
           {
             getter->push_back_token (getter, parenthetic_lhs,
                                      error_message);
-            int64_t node_number = next_node_number ();
+            int64_t this_node = next_node_number ();
             struct token_extension_for_parse_tree *p =
               (struct token_extension_for_parse_tree *)
               parenthetic_lhs->extension;
-            p->parent = node_number;
+            p->parent = this_node;
             if (*error_message == NULL)
               {
-                int64_t *children = XNMALLOC (1, int64_t);
+                int64_t children[1] = {
+                  [0] = p->this
+                };
                 ((struct token *) lhs)->extension =
                   make_token_extension_for_parse_tree
-                  (1, children, node_number);
+                  (1, children, this_node);
                 if (token_t_cmp (*lhs, tok_SEQ) == 0
                     && kw_token_is_nondeterministic (tok))
                   shuffle_SEQ (p);

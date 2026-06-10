@@ -42,10 +42,10 @@ typedef const struct token_extension *token_extension_t;
 struct token_extension_for_parse_tree
 {
   token_extension_tag_t tag;
-  size_t num_children;
-  int64_t *children;
   int64_t this;
   int64_t parent;
+  size_t num_children;
+  int64_t children[];
 };
 
 struct token

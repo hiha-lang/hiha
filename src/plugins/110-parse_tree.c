@@ -36,6 +36,7 @@ int64_t node_counter = 0;
 
 static string_t str_KW;
 static string_t str_I10;
+static string_t str_NJUX;
 static string_t str_SEQ;
 
 static string_t str_open_paren;
@@ -107,13 +108,17 @@ next_node_number (void)
 static bool
 token_breaks_up_juxtaposition (token_t tok)
 {
-  bool b = (tok->token_value->n == 1);
-  if (b)
-    {
-      uint32_t u = tok->token_value->s[0];
-      b = (u == '.' || u == ';');
-    }
-  return b;
+  return (tok->token_value->n == 1
+          && tok->token_value->s[0] == ';'
+          && string_t_cmp (tok->token_kind, str_KW) == 0);
+}
+
+static bool
+token_ends_sequence (token_t tok)
+{
+  return (string_t_cmp (tok->token_kind, string_t_EOF ()) == 0
+          && token_t_cmp (tok, tok_close_paren) == 0
+          && token_t_cmp (tok, tok_end) == 0);
 }
 
 static bool
@@ -214,9 +219,11 @@ parenthetic_handler (void *state, buffered_token_getter_t getter,
                 int64_t children[1] = {
                   [0] = p->this
                 };
-                ((struct token *) lhs)->extension =
-                  make_token_extension_for_parse_tree
-                  (1, children, this_node);
+                *lhs =
+                  make_extended_token_t
+                  ((*lhs)->token_kind, (*lhs)->token_kind, (*lhs)->loc,
+                   make_token_extension_for_parse_tree (1, children,
+                                                        this_node));
                 if (token_t_cmp (*lhs, tok_SEQ) == 0
                     && kw_token_is_nondeterministic (tok))
                   shuffle_SEQ (p);
@@ -234,9 +241,84 @@ parenthetic_handler (void *state, buffered_token_getter_t getter,
 }
 
 static void
-kw_handler (void *state, buffered_token_getter_t getter,
-            pratt_tables_t tables, token_t tok,
-            token_t *lhs, const char **error_message)
+start_sequence (void *state, buffered_token_getter_t getter,
+                pratt_tables_t tables, token_t tok,
+                token_t *lhs, const char **error_message)
+{
+  token_t rhs;
+  pratt_parse (state, getter, tables, minimum_binding_power (),
+               &rhs, error_message);
+  if (*error_message == NULL)
+    {
+      struct token_extension_for_parse_tree *p =
+        (struct token_extension_for_parse_tree *) rhs->extension;
+      struct token_extension_for_parse_tree *q =
+        (struct token_extension_for_parse_tree *) (*lhs)->extension;
+      int64_t children[2] = {
+        [0] = q->this,
+        [1] = p->this
+      };
+      int64_t this_node = next_node_number ();
+      token_extension_t ext =
+        make_token_extension_for_parse_tree (2, children, this_node);
+      q->parent = this_node;
+      p->parent = this_node;
+      *lhs =
+        make_extended_token_t ((*lhs)->token_kind, (*lhs)->token_kind,
+                               (*lhs)->loc, ext);
+    }
+}
+
+static void
+extend_sequence (void *state, buffered_token_getter_t getter,
+                 pratt_tables_t tables, token_t tok,
+                 token_t *lhs, const char **error_message)
+{
+  token_t rhs;
+  pratt_parse (state, getter, tables, minimum_binding_power (),
+               &rhs, error_message);
+  if (*error_message == NULL)
+    {
+      struct token_extension_for_parse_tree *p =
+        (struct token_extension_for_parse_tree *) rhs->extension;
+      struct token_extension_for_parse_tree *q =
+        (struct token_extension_for_parse_tree *) (*lhs)->extension;
+      p->parent = q->this;
+      size_t num_children = q->num_children + 1;
+      int64_t *children = XNMALLOC (num_children, int64_t);
+      memcpy (children, q->children,
+              q->num_children * sizeof (int64_t));
+      children[num_children - 1] = p->this;
+      token_extension_t ext =
+        make_token_extension_for_parse_tree (num_children, children,
+                                             q->this);
+      *lhs =
+        make_extended_token_t ((*lhs)->token_kind, (*lhs)->token_kind,
+                               (*lhs)->loc, ext);
+    }
+}
+
+static void
+njux_handler (void *state, buffered_token_getter_t getter,
+              pratt_tables_t tables, token_t tok,
+              token_t *lhs, const char **error_message)
+{
+  token_t t;
+  getter->look_at_token (getter, 0, &t, error_message);
+  if (*error_message == NULL)
+    {
+      if (token_t_cmp (*lhs, tok_SEQ) == 0)
+        extend_sequence (state, getter, tables, tok, lhs,
+                         error_message);
+      else
+        start_sequence (state, getter, tables, tok, lhs, error_message);
+    }
+}
+
+static void
+kw_handler_200 (void *state, buffered_token_getter_t getter,
+                pratt_tables_t tables, token_t tok,
+                token_t *lhs, const char **error_message)
 {
   if (kw_token_is_parenthetic (tok))
     parenthetic_handler (state, getter, tables, tok, lhs,
@@ -261,12 +343,55 @@ kw_handler (void *state, buffered_token_getter_t getter,
 ////     }
 //// }
 
+
+nud_handler_t next_kw_handler_100;
+
+static void
+kw_handler_100 (void *state, buffered_token_getter_t getter,
+                pratt_tables_t tables, token_t tok,
+                token_t *lhs, const char **error_message)
+{
+  /* This pass lets programmers put lots of semicolons in their
+     code. */
+
+  if (token_breaks_up_juxtaposition (tok))
+    {
+      /* Consume any run of non-juxtaposition tokens. */
+      token_t t;
+      getter->look_at_token (getter, 0, &t, error_message);
+      while (*error_message == NULL
+             && token_breaks_up_juxtaposition (t))
+        {
+          getter->get_token (getter, &t, error_message);
+          if (*error_message)
+            getter->look_at_token (getter, 0, &t, error_message);
+        }
+      if (*error_message == NULL)
+        if (token_ends_sequence (t))
+          {
+            getter->get_token (getter, &t, error_message);
+            if (*error_message == NULL)
+              /* Return the end of sequence token, instead of a
+                 non-juxtaposition. */
+              *lhs = t;
+          }
+        else
+          /* Return a single non-juxtaposition token, instead of a run
+             of them. */
+          *lhs = make_token_t (str_NJUX, tok->token_value, tok->loc);
+    }
+  else
+    next_kw_handler_100 (state, getter, tables, tok, lhs,
+                         error_message);
+}
+
 static void
 initialize_strings_and_tokens (void)
 {
   str_KW = string_t_KW ();
   str_I10 = make_string_t ("I10");
-  str_SEQ = make_string_t ("seq");
+  str_NJUX = make_string_t ("NJUX");
+  str_SEQ = make_string_t ("SEQ");
 
   str_open_paren = make_string_t ("(");
   str_close_paren = make_string_t (")");
@@ -290,11 +415,18 @@ plugin_init (void)
 
   acquire_pratt_tables_lock ();
 
-  tables = get_pratt_tables_for_pass ("2000-parse-tree");
+  tables = get_pratt_tables_for_pass ("2000.100-non-juxtaposition");
+  next_kw_handler_100 = pratt_nud_get (tables, str_KW, NULL);
+  pratt_nud_put (tables, str_KW, NULL, &kw_handler_100);
+  set_pratt_tables_for_pass ("2000.100-non-juxtaposition", tables);
+
+  tables = get_pratt_tables_for_pass ("2000.200-parse-tree");
   pratt_nud_put_default (tables, &default_handler);
-  pratt_nud_put (tables, str_KW, NULL, &kw_handler);
+  pratt_nud_put (tables, str_KW, NULL, &kw_handler_200);
   ////////pratt_nud_put (tables, str_I10, NULL, &reference_handler);
-  set_pratt_tables_for_pass ("2000-parse-tree", tables);
+  pratt_led_put (tables, str_NJUX, NULL, &njux_handler);
+  pratt_lbp_put (tables, str_NJUX, NULL, minimum_binding_power ());
+  set_pratt_tables_for_pass ("2000.200-parse-tree", tables);
 
   release_pratt_tables_lock ();
 }

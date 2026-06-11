@@ -1,5 +1,16 @@
 @  master
-|  2026-06-09 19:59 +0000
+|  2026-06-10 01:12 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       590a663c4db18d144d755d529cb26fb031f06c3a
+|  mercurial: 44fb444c846601ef44748d4d93ebf98c73357a58
+|  revision:  253
+|  parents:   252
+|
+|    Some bug fixes. Implemented the writing of extension fields to
+|    files.
+|
+|
+o  2026-06-09 19:59 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       60e561dbafb97e36c818d04b6f0ceb2bc2e7e2fe
 |  mercurial: 165f509622b3eed23e63f66da69036285c2aaf81

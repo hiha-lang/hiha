@@ -26,7 +26,6 @@
 #define _(msgid) HIHA_GETTEXT (msgid)
 
 static const char *kw[] = {
-  ".",
   ";",
   "(",
   ")",
@@ -38,6 +37,7 @@ static const char *kw[] = {
   "postfix",
   "prefix",
   "procedure",
+  "then",
   "while"
 };
 
@@ -73,30 +73,19 @@ is_keyword (token_t tok)
   return (i != num_keywords);
 }
 
-nud_handler_t next_cp_handler;
-nud_handler_t next_id_handler;
-nud_handler_t next_sy_handler;
+nud_handler_t next_handler;
 
-#define DEFINE_HANDLER(XX)                                      \
-  static void                                                   \
-  XX##_handler (void *state, buffered_token_getter_t getter,    \
-                pratt_tables_t tables, token_t tok,             \
-                token_t *lhs, const char **error_message)       \
-  {                                                             \
-    if (*error_message == NULL)                                 \
-      {                                                         \
-        if (is_keyword (tok))                                   \
-          *lhs =                                                \
-            make_token_t (str_KW, tok->token_value, tok->loc);  \
-        else                                                    \
-          next_##XX##_handler (state, getter, tables, tok, lhs, \
-                               error_message);                  \
-      }                                                         \
-  }
-
-DEFINE_HANDLER (cp);
-DEFINE_HANDLER (sy);
-DEFINE_HANDLER (id);
+static void
+handler (void *state, buffered_token_getter_t getter,
+         pratt_tables_t tables, token_t tok,
+         token_t *lhs, const char **error_message)
+{
+  *error_message = NULL;
+  if (is_keyword (tok))
+    *lhs = make_token_t (str_KW, tok->token_value, tok->loc);
+  else
+    next_handler (state, getter, tables, tok, lhs, error_message);
+}
 
 HIHA_VISIBLE void
 plugin_init (void)
@@ -111,14 +100,20 @@ plugin_init (void)
 
   acquire_pratt_tables_lock ();
 
-  tables = get_pratt_tables_for_pass ("500-mark-keywords");
-  next_cp_handler = pratt_nud_get (tables, str_CP, NULL);
-  next_sy_handler = pratt_nud_get (tables, str_SY, NULL);
-  next_id_handler = pratt_nud_get (tables, str_ID, NULL);
-  pratt_nud_put (tables, str_CP, NULL, &cp_handler);
-  pratt_nud_put (tables, str_SY, NULL, &sy_handler);
-  pratt_nud_put (tables, str_ID, NULL, &id_handler);
-  set_pratt_tables_for_pass ("500-mark-keywords", tables);
+  tables = get_pratt_tables_for_pass ("500.100-mark-keywords");
+  next_handler = pratt_nud_get (tables, str_CP, NULL);
+  pratt_nud_put (tables, str_CP, NULL, &handler);
+  set_pratt_tables_for_pass ("500.100-mark-keywords", tables);
+
+  tables = get_pratt_tables_for_pass ("500.200-mark-keywords");
+  next_handler = pratt_nud_get (tables, str_SY, NULL);
+  pratt_nud_put (tables, str_SY, NULL, &handler);
+  set_pratt_tables_for_pass ("500.200-mark-keywords", tables);
+
+  tables = get_pratt_tables_for_pass ("500.300-mark-keywords");
+  next_handler = pratt_nud_get (tables, str_ID, NULL);
+  pratt_nud_put (tables, str_ID, NULL, &handler);
+  set_pratt_tables_for_pass ("500.300-mark-keywords", tables);
 
   release_pratt_tables_lock ();
 }

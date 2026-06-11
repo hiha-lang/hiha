@@ -70,9 +70,6 @@ token_extension_t
 make_token_extension_for_parse_tree (size_t num_children,
                                      int64_t children[num_children],
                                      int64_t this);
-void
-token_extension_for_parse_tree__set_parent (token_extension_t extension,
-                                            int64_t parent);
 
 /*--------------------------------------------------------------------*/
 

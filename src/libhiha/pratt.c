@@ -78,8 +78,7 @@ static token_t_hash_context_t
 _pratt_init (const struct _pratt_map_entry *key)
 {
   token_t t;
-  int cmp = (string_t_cmp (key->token_kind, string_t_OP ()) == 0);
-  if (cmp == 0)
+  if (string_t_cmp (key->token_kind, string_t_OP ()) == 0)
     /* The token is for an operator. The token_value must be hashed as
        well. (It MUST be hashed, because the map never switches to a
        search method other than hashing.) */

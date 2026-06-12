@@ -29,6 +29,8 @@ extern int dump_tokens_widths[4];
 
 extern bool deterministic;
 
+extern double njux_binding_power;
+
 #endif /* __LIBHAHA__OPTIONS_H__INCLUDED__ */
 
 /*

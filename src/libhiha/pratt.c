@@ -414,7 +414,7 @@ execute_left_denotation (void *state, buffered_token_getter_t getter,
   // Consume the next token.
   //
   getter->get_token (getter, &tok, error_message);
-  if (error_message == NULL)
+  if (*error_message == NULL)
     {
       led_handler_t handler =
         pratt_led_get (tables, tok->token_kind, tok->token_value);
@@ -450,7 +450,13 @@ pratt_parse (void *state, buffered_token_getter_t getter,
                       error_message);
   while (*error_message == NULL
          && binding_powers_lt (min_power, binding_power))
-    execute_left_denotation (state, getter, tables, lhs, error_message);
+    {
+      execute_left_denotation (state, getter, tables, lhs,
+                               error_message);
+      if (*error_message == NULL)
+        peek_at_next_token (state, getter, tables, &binding_power,
+                            error_message);
+    }
 }
 
 HIHA_VISIBLE pratt_handler_reference_t

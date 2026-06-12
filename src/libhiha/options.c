@@ -29,6 +29,8 @@ HIHA_VISIBLE int dump_tokens_widths[4] = { -20, 5, 5, -5 };
 
 HIHA_VISIBLE bool deterministic = false;
 
+HIHA_VISIBLE double njux_binding_power = 0.0;
+
 /*
   local variables:
   mode: c

@@ -1,5 +1,45 @@
 @  master
-|  2026-06-10 01:12 +0000
+|  2026-06-12 14:27 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       0f0aa6d7a6c28f0721b07e16d470ec3d2d334c56
+|  mercurial: 8761fd402bd9829f4cef892f7820617add7f3ccf
+|  revision:  257
+|  parents:   256
+|
+|    Take advantage of the previous bug fixes.
+|
+|
+o  2026-06-12 14:21 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       3910b47a167279144013746a5ac21175fe50ab9b
+|  mercurial: 8f27010d4746e2a473c7a4b61c080697766c0dc4
+|  revision:  256
+|  parents:   255
+|
+|    Another bug fix.
+|
+|
+o  2026-06-12 14:18 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       990dba7e8a7245aa4b7ed2b078bfdccdb8d14645
+|  mercurial: 339cc60ea09a0ae5e99e564816efaf599cc5f157
+|  revision:  255
+|  parents:   254
+|
+|    Bug fix in hashing.
+|
+|
+o  2026-06-11 23:15 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       2f9f26c4dd0dc79a5d18c8c4469e783cb7948d34
+|  mercurial: 2b0b6da1e73a283f269d85991fd032572308b2be
+|  revision:  254
+|  parents:   253
+|
+|    Some work on the parsing.
+|
+|
+o  2026-06-10 01:12 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       590a663c4db18d144d755d529cb26fb031f06c3a
 |  mercurial: 44fb444c846601ef44748d4d93ebf98c73357a58

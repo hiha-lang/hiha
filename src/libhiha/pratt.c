@@ -86,7 +86,7 @@ _pratt_init (const struct _pratt_map_entry *key)
   else
     /* Any string as token_value, as long as it is the same for all
        tokens of a particular token_kind. */
-    t = make_token_t (t->token_kind, empty_string_t (), NULL);
+    t = make_token_t (key->token_kind, empty_string_t (), NULL);
   return token_t_hash_init (t);
 }
 

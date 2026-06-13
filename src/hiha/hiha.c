@@ -50,7 +50,8 @@
 #define GETOPT_PLUGIN_CHAR (CHAR_MAX + 1)
 #define GETOPT_PLUGINDIR_CHAR (CHAR_MAX + 2)
 #define GETOPT_DUMP_TOKENS_CHAR (CHAR_MAX + 3)
-#define GETOPT_DETERMINISTIC_CHAR (CHAR_MAX + 4)
+#define GETOPT_DUMP_PARSE_CHAR (CHAR_MAX + 4)
+#define GETOPT_DETERMINISTIC_CHAR (CHAR_MAX + 5)
 
 enum hiha_plugin_tag_t
 {
@@ -70,6 +71,7 @@ struct hiha_options
 {
   voidp_vector_t plugins;
   const char *dump_tokens_filename;
+  const char *dump_parse_filename;
   bool deterministic;
 };
 typedef struct hiha_options *hiha_options_t;
@@ -114,16 +116,19 @@ print_usage (void)
   usage_puts (_("Do something not yet implemented "
                 "with hiha source FILES...\n"));
   usage_puts ("\n");
-  usage_puts (_("  --plugin=PLUGIN      load a plugin\n"));
-  usage_puts (_("  --plugindir=DIR      "
+  usage_puts (_("  --plugin=PLUGIN        load a plugin\n"));
+  usage_puts (_("  --plugindir=DIR        "
                 "load plugins from a directory\n"));
-  usage_puts (_("  --dump-tokens=FILE   dump tokens "
+  usage_puts (_("  --dump-lexical=FILE    dump lexical tokens "
                 "(“-” for standard output)\n"));
-  usage_puts (_("  --deterministic      make “if” and "
-                "“while” go top to bottom (for debugging)\n"));
-  usage_puts (_("  --help               "
+  usage_puts (_("  --dump-syntactic=FILE  dump syntactic"
+                " tokens (“-” for standard output)\n"));
+  usage_puts (_("  --deterministic        make “if” and "
+                "“while” go top to bottom\n"
+                "                         (for debugging)\n\n"));
+  usage_puts (_("  --help                 "
                 "display this help and exit\n"));
-  usage_puts (_("  --version            "
+  usage_puts (_("  --version              "
                 "output version information and exit\n"));
   usage_puts ("\n");
   usage_puts (_("hiha homepage: "
@@ -147,7 +152,8 @@ check_usage (int argc, MAYBE_UNUSED char **argv)
 static struct option const long_opts[] = {
   {"plugin", required_argument, NULL, GETOPT_PLUGIN_CHAR},
   {"plugindir", required_argument, NULL, GETOPT_PLUGINDIR_CHAR},
-  {"dump-tokens", required_argument, NULL, GETOPT_DUMP_TOKENS_CHAR},
+  {"dump-lexical", required_argument, NULL, GETOPT_DUMP_TOKENS_CHAR},
+  {"dump-syntactic", required_argument, NULL, GETOPT_DUMP_PARSE_CHAR},
   {"deterministic", no_argument, NULL, GETOPT_DETERMINISTIC_CHAR},
   {"help", no_argument, NULL, GETOPT_HELP_CHAR},
   {"version", no_argument, NULL, GETOPT_VERSION_CHAR},
@@ -211,6 +217,10 @@ get_options (int argc, char **argv, hiha_options_t *opts)
 
         case GETOPT_DUMP_TOKENS_CHAR:
           (*opts)->dump_tokens_filename = xstrdup (optarg);
+          break;
+
+        case GETOPT_DUMP_PARSE_CHAR:
+          (*opts)->dump_parse_filename = xstrdup (optarg);
           break;
 
         case GETOPT_DETERMINISTIC_CHAR:
@@ -308,17 +318,17 @@ load_command_line_plugins (voidp_vector_t plugins)
 }
 
 static void
-open_dump_tokens_stream (const char *filename)
+open_stream (FILE **stream, const char *filename)
 {
   if (filename == NULL)
-    dump_tokens_stream = NULL;
+    *stream = NULL;
   else if (strcmp (filename, "-") == 0)
-    dump_tokens_stream = stdout;
+    *stream = stdout;
   else
     {
-      dump_tokens_stream = fopen (filename, "w");
+      *stream = fopen (filename, "w");
       int err_number = errno;
-      if (dump_tokens_stream == NULL)
+      if (*stream == NULL)
         {
           error (exit_failure, err_number, "%s", filename);
           abort ();
@@ -327,12 +337,36 @@ open_dump_tokens_stream (const char *filename)
 }
 
 static void
+open_dump_tokens_stream (const char *filename)
+{
+  open_stream (&dump_tokens_stream, filename);
+}
+
+static void
+open_dump_parse_stream (const char *filename)
+{
+  open_stream (&dump_parse_stream, filename);
+}
+
+static void
+close_stream (FILE *stream)
+{
+  if (stream != NULL)
+    if (stream != stdout)
+      if (stream != stderr)
+        fclose (stream);
+}
+
+static void
 close_dump_tokens_stream (void)
 {
-  if (dump_tokens_stream != NULL)
-    if (dump_tokens_stream != stdout)
-      if (dump_tokens_stream != stderr)
-        fclose (dump_tokens_stream);
+  close_stream (dump_tokens_stream);
+}
+
+static void
+close_dump_parse_stream (void)
+{
+  close_stream (dump_parse_stream);
 }
 
 static bool
@@ -357,6 +391,7 @@ main (int argc, char **argv)
 
   load_command_line_plugins (opts->plugins);
   open_dump_tokens_stream (opts->dump_tokens_filename);
+  open_dump_parse_stream (opts->dump_parse_filename);
   deterministic = opts->deterministic;
 
   const char *final_filename_root;
@@ -367,6 +402,7 @@ main (int argc, char **argv)
                    "pass", &final_filename_root, &error_message);
 
   close_dump_tokens_stream ();
+  close_dump_parse_stream ();
 
   if (error_message != NULL)
     {

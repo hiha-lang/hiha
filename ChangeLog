@@ -1,5 +1,15 @@
 @  master
-|  2026-06-12 19:21 +0000
+|  2026-06-13 16:51 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       6eabf4814203e25e8c9c89c8ad35b82d2a82351f
+|  mercurial: c8c0756c1cca846a9b3d5d95e08ac2c89eee1ce7
+|  revision:  259
+|  parents:   258
+|
+|    Now excess semicolons are working.
+|
+|
+o  2026-06-12 19:21 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       8dd6fb747aa56ffd6842fea5e0b9119fcf197611
 |  mercurial: fab9ff8a93257fefa3651ec061fbac15c058114d

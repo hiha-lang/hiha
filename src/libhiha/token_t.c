@@ -632,6 +632,14 @@ HIHA_INT_TRIE_INSERT_DEFN (_df_string_t_map_insert,
 HIHA_INT_TRIE_SEARCH_DEFN (_df_string_t_map_search,
                            _df_string_t_map_node, uint64_t);
 
+HIHA_INT_TRIE_NODES_DECL (_df_tokext_map_node, uint64_t,
+                          token_extension_t);
+HIHA_INT_TRIE_INSERT_DEFN (_df_tokext_map_insert,
+                           _df_tokext_map_node, uint64_t,
+                           token_extension_t);
+HIHA_INT_TRIE_SEARCH_DEFN (_df_tokext_map_search,
+                           _df_tokext_map_node, uint64_t);
+
 struct token_getter_from_files
 {
   void (*get_token) (token_getter_t this_struct,
@@ -644,6 +652,7 @@ struct token_getter_from_files
   indexed_data_file_t df;       /* Filenames, strings, extension fields. */
   _df_str_nul_map_node_t filenames;
   _df_string_t_map_node_t strings;
+  _df_tokext_map_node_t extensions;
   int64_t n_tokens;
   int64_t i_token;
 };
@@ -709,6 +718,32 @@ string_t_from_data_file (indexed_data_file_t df, int64_t index,
                 *str = st;
                 *map = _df_string_t_map_insert (*map, index, *str);
               }
+          }
+      }
+}
+
+static void
+extension_from_data_file (indexed_data_file_t df, int64_t index,
+                          _df_tokext_map_node_t *map,
+                          token_extension_t *ext,
+                          const char **error_message)
+{
+  if (*error_message == NULL)
+    if (index < 0)
+      *ext = NULL;
+    else
+      {
+        _df_tokext_map_node_leaf_t leaf =
+          _df_tokext_map_search (*map, index);
+        if (leaf != NULL)
+          *ext = leaf->value;
+        else
+          {
+            void *data;
+            size_t n_data;
+            read_from_indexed_data_file (df, index, &data, &n_data);
+            *ext = data;
+            *map = _df_tokext_map_insert (*map, index, *ext);
           }
       }
 }
@@ -787,12 +822,12 @@ get_token_from_files (token_getter_t this_struct, token_t *tok,
   string_t_from_data_file (p->df, i_token_value, &p->strings,
                            &token_value, error_message);
 
-  if (*error_message == NULL && 0 <= i_extension)
-    *error_message =
-      _("token_t extension fields are not yet supported");
+  token_extension_t ext;
+  extension_from_data_file (p->df, i_extension, &p->extensions, &ext,
+                            error_message);
 
   if (*error_message == NULL)
-    *tok = make_token_t (token_kind, token_value, loc);
+    *tok = make_extended_token_t (token_kind, token_value, loc, ext);
 }
 
 HIHA_VISIBLE token_getter_from_files_t

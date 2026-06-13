@@ -152,8 +152,9 @@ binding_powers_lt (double a, double b)
 
 static void
 passthrough_nud_handler (void *state, buffered_token_getter_t getter,
-                         pratt_tables_t tables, token_t tok,
-                         token_t *lhs, const char **error_message)
+                         token_putter_t putter, pratt_tables_t tables,
+                         token_t tok, token_t *lhs,
+                         const char **error_message)
 {
   if (*error_message == NULL)
     *lhs = tok;
@@ -365,8 +366,8 @@ pratt_lbp_get (pratt_tables_t data, string_t token_kind,
 
 static void
 execute_null_denotation (void *state, buffered_token_getter_t getter,
-                         pratt_tables_t tables, token_t *lhs,
-                         const char **error_message)
+                         token_putter_t putter, pratt_tables_t tables,
+                         token_t *lhs, const char **error_message)
 {
   token_t tok;
 
@@ -380,13 +381,14 @@ execute_null_denotation (void *state, buffered_token_getter_t getter,
       nud_handler_t handler =
         pratt_nud_get (tables, tok->token_kind, tok->token_value);
       assert (handler != NULL);
-      handler (state, getter, tables, tok, lhs, error_message);
+      handler (state, getter, putter, tables, tok, lhs, error_message);
     }
 }
 
 static void
 peek_at_next_token (void *state, buffered_token_getter_t getter,
-                    pratt_tables_t tables, double *left_binding_power,
+                    token_putter_t putter, pratt_tables_t tables,
+                    double *left_binding_power,
                     const char **error_message)
 {
   if (*error_message == NULL)
@@ -405,8 +407,8 @@ peek_at_next_token (void *state, buffered_token_getter_t getter,
 
 static void
 execute_left_denotation (void *state, buffered_token_getter_t getter,
-                         pratt_tables_t tables, token_t *lhs,
-                         const char **error_message)
+                         token_putter_t putter, pratt_tables_t tables,
+                         token_t *lhs, const char **error_message)
 {
   token_t tok;
 
@@ -434,28 +436,30 @@ execute_left_denotation (void *state, buffered_token_getter_t getter,
         //
         // Success.
         //
-        handler (state, getter, tables, tok, lhs, error_message);
+        handler (state, getter, putter, tables, tok, lhs,
+                 error_message);
     }
 }
 
 HIHA_VISIBLE void
 pratt_parse (void *state, buffered_token_getter_t getter,
-             pratt_tables_t tables, double min_power,
-             token_t *lhs, const char **error_message)
+             token_putter_t putter, pratt_tables_t tables,
+             double min_power, token_t *lhs, const char **error_message)
 {
   double binding_power;
 
-  execute_null_denotation (state, getter, tables, lhs, error_message);
-  peek_at_next_token (state, getter, tables, &binding_power,
+  execute_null_denotation (state, getter, putter, tables, lhs,
+                           error_message);
+  peek_at_next_token (state, getter, putter, tables, &binding_power,
                       error_message);
   while (*error_message == NULL
          && binding_powers_lt (min_power, binding_power))
     {
-      execute_left_denotation (state, getter, tables, lhs,
+      execute_left_denotation (state, getter, putter, tables, lhs,
                                error_message);
       if (*error_message == NULL)
-        peek_at_next_token (state, getter, tables, &binding_power,
-                            error_message);
+        peek_at_next_token (state, getter, putter, tables,
+                            &binding_power, error_message);
     }
 }
 

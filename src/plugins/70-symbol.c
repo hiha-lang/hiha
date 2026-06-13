@@ -77,15 +77,15 @@ nud_handler_t next_cp_handler;
 
 static void
 cp_handler (void *state, buffered_token_getter_t getter,
-            pratt_tables_t tables, token_t tok, token_t *lhs,
-            const char **error_message)
+            token_putter_t putter, pratt_tables_t tables, token_t tok,
+            token_t *lhs, const char **error_message)
 {
   if (*error_message == NULL)
     {
       if (is_symbol_part (tok))
         scan_symbol (state, getter, tables, tok, lhs, error_message);
       else
-        next_cp_handler (state, getter, tables, tok, lhs,
+        next_cp_handler (state, getter, putter, tables, tok, lhs,
                          error_message);
     }
 }
@@ -96,12 +96,10 @@ plugin_init (void)
   pratt_tables_t tables;
 
   acquire_pratt_tables_lock ();
-
   tables = get_pratt_tables_for_pass ("100-scan-symbols");
   next_cp_handler = pratt_nud_get (tables, string_t_CP (), NULL);
   pratt_nud_put (tables, string_t_CP (), NULL, &cp_handler);
   set_pratt_tables_for_pass ("100-scan-symbols", tables);
-
   release_pratt_tables_lock ();
 }
 

@@ -53,18 +53,20 @@ quoted_string_t (string_t str)
 }
 
 static void
-dump_token (token_t tok)
+dump_token (token_t tok, FILE *stream)
 {
-  if (dump_tokens_stream != NULL)
+  if (stream != NULL)
     {
-      fprintf (dump_tokens_stream, "%*s %*zu %*zu   %*s %s\n",
+      fprintf (stream, "%*s %*zu %*zu   %*s %s\n",
                dump_tokens_widths[0],
                quoted_str_nul (tok->loc->filename),
                dump_tokens_widths[1], tok->loc->line_no,
                dump_tokens_widths[2], tok->loc->code_point_no,
                dump_tokens_widths[3], make_str_nul (tok->token_kind),
                quoted_string_t (tok->token_value));
-      fflush (dump_tokens_stream);
+      if (tok->extension != NULL)
+        fprintf (stream, "                   extension goes here\n");
+      fflush (stream);
     }
 }
 
@@ -72,14 +74,36 @@ nud_handler_t next_handler;
 
 static void
 handler (void *state, buffered_token_getter_t getter,
-         pratt_tables_t tables, token_t tok,
-         token_t *lhs, const char **error_message)
+         token_putter_t putter, pratt_tables_t tables, token_t tok,
+         token_t *lhs, const char **error_message, FILE *stream,
+         void (*dump) (token_t, FILE *))
 {
   if (*error_message == NULL)
     {
-      dump_token (tok);
-      next_handler (state, getter, tables, tok, lhs, error_message);
+      dump (tok, stream);
+      next_handler (state, getter, putter, tables, tok, lhs,
+                    error_message);
     }
+}
+
+static void
+dump_token_handler (void *state, buffered_token_getter_t getter,
+                    token_putter_t putter, pratt_tables_t tables,
+                    token_t tok, token_t *lhs,
+                    const char **error_message)
+{
+  handler (state, getter, putter, tables, tok, lhs, error_message,
+           dump_tokens_stream, &dump_token);
+}
+
+static void
+dump_parse_handler (void *state, buffered_token_getter_t getter,
+                    token_putter_t putter, pratt_tables_t tables,
+                    token_t tok, token_t *lhs,
+                    const char **error_message)
+{
+  handler (state, getter, putter, tables, tok, lhs, error_message,
+           dump_parse_stream, &dump_token);
 }
 
 HIHA_VISIBLE void
@@ -88,12 +112,17 @@ plugin_init (void)
   pratt_tables_t tables;
 
   acquire_pratt_tables_lock ();
-
   tables = get_pratt_tables_for_pass ("1000-dump-tokens");
   next_handler = pratt_nud_get_default (tables);
-  pratt_nud_put_default (tables, &handler);
+  pratt_nud_put_default (tables, &dump_token_handler);
   set_pratt_tables_for_pass ("1000-dump-tokens", tables);
+  release_pratt_tables_lock ();
 
+  acquire_pratt_tables_lock ();
+  tables = get_pratt_tables_for_pass ("2500-dump-parse");
+  next_handler = pratt_nud_get_default (tables);
+  pratt_nud_put_default (tables, &dump_parse_handler);
+  set_pratt_tables_for_pass ("2500-dump-parse", tables);
   release_pratt_tables_lock ();
 }
 

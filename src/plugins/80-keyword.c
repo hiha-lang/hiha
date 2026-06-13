@@ -79,7 +79,7 @@ nud_handler_t next_id_handler;
 
 static void
 handler (void *state, buffered_token_getter_t getter,
-         pratt_tables_t tables, token_t tok,
+         token_putter_t putter, pratt_tables_t tables, token_t tok,
          token_t *lhs, const char **error_message,
          nud_handler_t *next_handler)
 {
@@ -87,33 +87,34 @@ handler (void *state, buffered_token_getter_t getter,
   if (is_keyword (tok))
     *lhs = make_token_t (str_KW, tok->token_value, tok->loc);
   else
-    (*next_handler) (state, getter, tables, tok, lhs, error_message);
+    (*next_handler) (state, getter, putter, tables, tok, lhs,
+                     error_message);
 }
 
 static void
 cp_handler (void *state, buffered_token_getter_t getter,
-            pratt_tables_t tables, token_t tok,
+            token_putter_t putter, pratt_tables_t tables, token_t tok,
             token_t *lhs, const char **error_message)
 {
-  handler (state, getter, tables, tok, lhs, error_message,
+  handler (state, getter, putter, tables, tok, lhs, error_message,
            &next_cp_handler);
 }
 
 static void
 sy_handler (void *state, buffered_token_getter_t getter,
-            pratt_tables_t tables, token_t tok,
+            token_putter_t putter, pratt_tables_t tables, token_t tok,
             token_t *lhs, const char **error_message)
 {
-  handler (state, getter, tables, tok, lhs, error_message,
+  handler (state, getter, putter, tables, tok, lhs, error_message,
            &next_sy_handler);
 }
 
 static void
 id_handler (void *state, buffered_token_getter_t getter,
-            pratt_tables_t tables, token_t tok,
+            token_putter_t putter, pratt_tables_t tables, token_t tok,
             token_t *lhs, const char **error_message)
 {
-  handler (state, getter, tables, tok, lhs, error_message,
+  handler (state, getter, putter, tables, tok, lhs, error_message,
            &next_id_handler);
 }
 
@@ -129,7 +130,6 @@ plugin_init (void)
   pratt_tables_t tables;
 
   acquire_pratt_tables_lock ();
-
   tables = get_pratt_tables_for_pass ("500-mark-keywords");
   next_cp_handler = pratt_nud_get (tables, str_CP, NULL);
   pratt_nud_put (tables, str_CP, NULL, &cp_handler);
@@ -138,7 +138,6 @@ plugin_init (void)
   next_id_handler = pratt_nud_get (tables, str_ID, NULL);
   pratt_nud_put (tables, str_ID, NULL, &id_handler);
   set_pratt_tables_for_pass ("500-mark-keywords", tables);
-
   release_pratt_tables_lock ();
 }
 

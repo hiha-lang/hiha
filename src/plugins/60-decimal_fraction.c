@@ -68,8 +68,8 @@ nud_handler_t next_i10_handler;
 
 static void
 i10_handler (void *state, buffered_token_getter_t getter,
-             pratt_tables_t tables, token_t tok, token_t *lhs,
-             const char **error_message)
+             token_putter_t putter, pratt_tables_t tables, token_t tok,
+             token_t *lhs, const char **error_message)
 {
   bool done = (*error_message != NULL);
   if (!done)
@@ -97,7 +97,8 @@ i10_handler (void *state, buffered_token_getter_t getter,
         }
     }
   if (!done)
-    next_i10_handler (state, getter, tables, tok, lhs, error_message);
+    next_i10_handler (state, getter, putter, tables, tok, lhs,
+                      error_message);
 }
 
 HIHA_VISIBLE void
@@ -106,13 +107,11 @@ plugin_init (void)
   pratt_tables_t tables;
 
   acquire_pratt_tables_lock ();
-
   tables = get_pratt_tables_for_pass ("200-scan-exact-rationals");
   next_i10_handler =
     pratt_nud_get (tables, make_string_t ("I10"), NULL);
   pratt_nud_put (tables, make_string_t ("I10"), NULL, &i10_handler);
   set_pratt_tables_for_pass ("200-scan-exact-rationals", tables);
-
   release_pratt_tables_lock ();
 }
 

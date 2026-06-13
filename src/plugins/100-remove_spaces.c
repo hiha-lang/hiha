@@ -40,14 +40,14 @@ nud_handler_t next_handler;
 
 static void
 handler (void *state, buffered_token_getter_t getter,
-         pratt_tables_t tables, token_t tok,
+         token_putter_t putter, pratt_tables_t tables, token_t tok,
          token_t *lhs, const char **error_message)
 {
   /* Consume any run of spaces. */
   token_t t = tok;
   while (*error_message == NULL && token_is_space (t))
     getter->get_token (getter, &t, error_message);
-  next_handler (state, getter, tables, t, lhs, error_message);
+  next_handler (state, getter, putter, tables, t, lhs, error_message);
 }
 
 HIHA_VISIBLE void
@@ -60,12 +60,10 @@ plugin_init (void)
   pratt_tables_t tables;
 
   acquire_pratt_tables_lock ();
-
   tables = get_pratt_tables_for_pass ("1500-remove-spaces");
   next_handler = pratt_nud_get_default (tables);
   pratt_nud_put_default (tables, &handler);
   set_pratt_tables_for_pass ("1500-remove-spaces", tables);
-
   release_pratt_tables_lock ();
 }
 

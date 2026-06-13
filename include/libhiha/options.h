@@ -25,6 +25,7 @@
 #include <stdio.h>
 
 extern FILE *dump_tokens_stream;
+extern FILE *dump_parse_stream;
 extern int dump_tokens_widths[4];
 
 extern bool deterministic;

@@ -118,8 +118,8 @@ static bool
 token_ends_sequence (token_t tok)
 {
   return (string_t_cmp (tok->token_kind, string_t_EOF ()) == 0
-          && token_t_cmp (tok, tok_close_paren) == 0
-          && token_t_cmp (tok, tok_end) == 0);
+          || token_t_cmp (tok, tok_close_paren) == 0
+          || token_t_cmp (tok, tok_end) == 0);
 }
 
 static bool
@@ -273,7 +273,9 @@ start_sequence (void *state, buffered_token_getter_t getter,
         make_token_extension_for_parse_tree (2, children, this_node);
       q->parent = this_node;
       p->parent = this_node;
-      *lhs = make_extended_token_t (str_SEQ, str_SEQ, (*lhs)->loc, ext);
+      *lhs =
+        make_extended_token_t (str_SEQ, (*lhs)->token_value,
+                               (*lhs)->loc, ext);
     }
 }
 
@@ -307,15 +309,33 @@ extend_sequence (void *state, buffered_token_getter_t getter,
 }
 
 static void
+end_sequence (void *state, buffered_token_getter_t getter,
+              pratt_tables_t tables, token_t tok,
+              token_t *lhs, const char **error_message)
+{
+  *error_message = NULL;
+}
+
+static void
 njux_handler (void *state, buffered_token_getter_t getter,
               pratt_tables_t tables, token_t tok,
               token_t *lhs, const char **error_message)
 {
+  /* Consume extra non-juxtaposition tokens. */
   token_t t;
   getter->look_at_token (getter, 0, &t, error_message);
+  while (string_t_cmp (t->token_kind, str_NJUX) == 0)
+    {
+      getter->get_token (getter, &t, error_message);
+      if (*error_message == NULL)
+        getter->look_at_token (getter, 0, &t, error_message);
+    }
+
   if (*error_message == NULL)
     {
-      if (token_t_cmp (*lhs, tok_SEQ) == 0)
+      if (token_ends_sequence (t))
+        end_sequence (state, getter, tables, tok, lhs, error_message);
+      else if (token_t_cmp (*lhs, tok_SEQ) == 0)
         extend_sequence (state, getter, tables, tok, lhs,
                          error_message);
       else
@@ -356,35 +376,8 @@ kw_handler_100 (void *state, buffered_token_getter_t getter,
                 pratt_tables_t tables, token_t tok,
                 token_t *lhs, const char **error_message)
 {
-  /* This pass lets programmers put lots of semicolons in their
-     code. */
-
   if (token_breaks_up_juxtaposition (tok))
-    {
-      /* Consume any run of non-juxtaposition tokens. */
-      token_t t;
-      getter->look_at_token (getter, 0, &t, error_message);
-      while (*error_message == NULL
-             && token_breaks_up_juxtaposition (t))
-        {
-          getter->get_token (getter, &t, error_message);
-          if (*error_message)
-            getter->look_at_token (getter, 0, &t, error_message);
-        }
-      if (*error_message == NULL)
-        if (token_ends_sequence (t))
-          {
-            getter->get_token (getter, &t, error_message);
-            if (*error_message == NULL)
-              /* Return the end of sequence token, instead of a
-                 non-juxtaposition. */
-              *lhs = t;
-          }
-        else
-          /* Return a single non-juxtaposition token, instead of a run
-             of them. */
-          *lhs = make_token_t (str_NJUX, tok->token_value, tok->loc);
-    }
+    *lhs = make_token_t (str_NJUX, tok->token_value, tok->loc);
   else
     next_kw_handler_100 (state, getter, tables, tok, lhs,
                          error_message);

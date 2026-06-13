@@ -1,5 +1,16 @@
 @  master
-|  2026-06-12 14:27 +0000
+|  2026-06-12 19:21 +0000
+|  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
+|  git:       8dd6fb747aa56ffd6842fea5e0b9119fcf197611
+|  mercurial: fab9ff8a93257fefa3651ec061fbac15c058114d
+|  revision:  258
+|  parents:   257
+|
+|    Some parsing of sequences is working. But batches of semicolons are
+|    not working.
+|
+|
+o  2026-06-12 14:27 +0000
 |  Barry Schwartz <150643+chemoelectric@users.noreply.github.com>
 |  git:       0f0aa6d7a6c28f0721b07e16d470ec3d2d334c56
 |  mercurial: 8761fd402bd9829f4cef892f7820617add7f3ccf
